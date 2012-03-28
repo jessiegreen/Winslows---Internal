@@ -1,0 +1,113 @@
+/* 
+    Document   : test
+    Created on : Feb 27, 2012, 2:10:58 PM
+    Author     : Jessie
+    Description:
+        Purpose of the stylesheet follows.
+*/
+.map_region:hover{
+    background-color: #222222;
+}
+
+#builder_container{
+    padding: 20px;
+}
+
+#builder_container #builder_left_pane{
+    float:left;
+    width:450px;
+    height:1200px;
+    border:solid 1px #E5E5E5;
+    position: relative;
+}
+
+#builder_container #builder_right_pane{
+    border: solid 1px #E5E5E5;
+    padding: 5px;
+    float:right;
+    width:450px;
+}
+
+#builder_container h4{
+    color: #4297d7;
+}
+
+#builder_container #builder_price{
+    color: #222222;
+}
+
+#builder_container #builder_code{
+    color: #222222;
+    font-size: 12px;
+}
+
+#builder_container #builder_options_bar{
+    border:solid 1px #E5E5E5;
+    padding:3px;
+    margin-bottom:5px;
+}
+
+#builder_container #tabs_messenger{
+    float:right;
+}
+
+#builder_container #builder_hints{
+    position: absolute;
+    right: -0px;
+    top:2px;
+    width: 200px;
+}
+
+#builder_container #builder_hints div{
+    background-image: url("/img/orange_bg.png");
+    color: #222222;
+    padding: 3px;
+    border: solid 1px #ff9933;
+    border-right: none;
+    border-radius: 10px 0px 0px 10px; 
+    -moz-border-radius: 10px 0px 0px 10px; 
+    -webkit-border-radius: 10px 0px 0px 10px;
+    margin: 2px;;
+}
+
+#builder_container #builder_hints div img{
+    margin-right:3px;
+}
+#builder_container #builder_hints .messenger_success{
+    padding-left: 8px;
+}
+
+#builder_details{
+    position: absolute;
+    left:0;
+    top:285px;
+}
+
+#price_details{
+    position: absolute;
+    right:0;
+    top:305px;
+}
+
+#builder_colorpicker{
+    
+}
+
+#builder_colorpicker area{
+    cursor: pointer;
+}
+
+#builder_colorpicker h4{
+    margin: 2px;
+    padding: 2px;
+}
+
+/*****Forms******/
+.radio_test{
+    clear: both;
+    margin-right: 500px;
+    padding-right: 500px;
+    border: solid 1px green;
+}
+
+

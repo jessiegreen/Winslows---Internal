@@ -1,0 +1,210 @@
+/* 
+    Document   : global
+    Created on : Nov 28, 2010, 9:47:10 PM
+    Author     : Jessie
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/*Reset CSS*/
+html, body, a, img, legend{
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+div{
+    width: auto;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+/**** Messenger ****/
+.messenger_success{
+    padding: 4px;
+    background-color: #00cc66;
+    color: #FFF;
+}
+
+.messenger_error{
+    padding: 4px;
+    background-color: #ff6666;
+    color: #FFF;
+}
+
+.messenger_warning{
+    padding: 4px;
+    background-color: #cccc00;
+    color: #FFF;
+}
+/**** Frames ****/
+.blue_frame{
+    border: solid 1px #BDDFFF;
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    box-shadow: 0 1px 2px rgba(0,0,0,.2);
+}
+
+.blue_frame legend{
+    color: #0069E5;
+    padding: 3px;
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    box-shadow: 0 1px 2px rgba(0,0,0,.2);
+}
+
+.padded_frame{
+    margin: 20px;
+    padding: 10px;
+}
+
+.no_border{
+    border: none;
+}
+
+.centered_frame{
+    margin-left: auto;
+    margin-right: auto;
+}
+/**** Buttons ****/
+.button_blue {
+    border: solid 1px #7C8AFC;
+    background-color: #BACEFE;
+    color: #0069E5; 
+    display: inline-block;
+    outline: none;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    font: 13px/100% Arial, Helvetica, sans-serif;
+    padding: .2em 1em .35em;
+    text-shadow: 0 1px 1px rgba(0,0,0,.3);
+    -webkit-border-radius: .5em; 
+    -moz-border-radius: .5em;
+    border-radius: .5em;
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    box-shadow: 0 1px 2px rgba(0,0,0,.2);
+}
+.button_blue:hover {
+	text-decoration: none;
+	background-color: #BDDFFF;
+}
+.button_blue:active {
+	position: relative;
+	top: 1px;
+}
+
+.button_icon{
+    cursor: pointer;
+}
+
+/**** Colors ****/
+.gray{
+    color: silver;
+}
+
+/**** Sizes ****/
+.small{
+    font-size: 10px;
+}
+
+/***** Forms ***/
+.form_div{
+    margin-left: 0px;
+    padding-left: 0px;
+    font-size: 12px;
+}
+
+.form_div fieldset{
+    
+}
+
+.form_div legend{
+    color: #0069E5;
+    font-weight: 600;
+}
+
+.form_div dd{
+    text-indent: 0px;
+    text-transform: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+.form_div dt{
+    text-indent: 0px;
+    text-transform: none;
+    padding: 0px;
+    margin: 0px;
+    font-weight: 600;
+}
+
+.form_div input{
+    text-indent: 0px;
+    text-transform: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+.form_div label{
+    text-indent: 0px;
+    text-transform: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+.form_list{
+    margin-left: 0px;
+    padding-left: 0px;
+    list-style: none;
+    font-size: 12px;
+}
+
+.form_list li{
+    margin-left: 0px;
+    padding-left: 0px;
+}
+
+.form_list_inline{
+    margin-left: 0px;
+    padding-left: 0px;
+    list-style: none;
+    font-size: 12px;
+    display: inline;
+}
+
+.form_list_inline li{
+    margin-left: 0px;
+    padding-left: 0px;
+}
+
+.form_list_inline li label{
+    margin-left: 0px;
+    padding-left: 0px;
+    display: inline;
+    float: left;
+    background-color: #00cc66;
+}

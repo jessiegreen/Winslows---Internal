@@ -1,0 +1,50 @@
+<h4 style="color: #0052CC;">
+    Choose Color Options
+</h4>
+<div style="clear: both;" id="builder_colorpicker">
+    <h4>Roof: <span style="color:black;"><?php echo $this->selected_array["roof"]["details"]["name"];?></span></h4>
+    <img class="colorpicker_images" src="/img/builder/colorpicker.png" width="404" height="51" border="0" usemap="#colorpicker_roof" />
+    <h4>Trim: <span style="color:black;"><?php echo $this->selected_array["trim"]["details"]["name"];?></span></h4>
+    <img class="colorpicker_images"  src="/img/builder/colorpicker.png" width="404" height="51" border="0" usemap="#colorpicker_trim" />
+    <h4>Ends: <span style="color:black;"><?php echo $this->selected_array["ends"]["details"]["name"];?></span></h4>
+    <img class="colorpicker_images"  src="/img/builder/colorpicker.png" width="404" height="51" border="0" usemap="#colorpicker_ends" />
+    <h4>Sides: <span style="color:black;"><?php echo $this->selected_array["sides"]["details"]["name"];?></span></h4>
+    <img class="colorpicker_images"  src="/img/builder/colorpicker.png" width="404" height="51" border="0" usemap="#colorpicker_sides" />
+    <?php
+    foreach(array("roof", "trim", "ends", "sides") as $location){
+	?>
+	<map name="colorpicker_<?php echo $location;?>" side="<?php echo $location;?>">
+	<!-- #$-:Image map file created by GIMP Image Map plug-in -->
+	<!-- #$-:GIMP Image Map plug-in by Maurits Rijk -->
+	<!-- #$-:Please do not edit lines starting with "#$" -->
+	<!-- #$VERSION:2.3 -->
+	<!-- #$AUTHOR:Jessie -->
+	<?php 
+	$selected_string = "data-maphilight='{\"alwaysOn\":true,\"strokeColor\":\"FFD76E\",\"stroke\":true}'";
+	$selected_code   = $this->selected_array[$location]["code"];
+	?>
+	<area <?php echo $selected_code == "BR" ? $selected_string : "";?> shape="rect" coords="12,5,40,46"   alt="Barn Red"	target="BR" title="Barn Red" nohref="nohref" />
+	<area <?php echo $selected_code == "BL" ? $selected_string : "";?> shape="rect" coords="40,5,70,46"   alt="Black"		target="BL" title="Black" nohref="nohref" />
+	<area <?php echo $selected_code == "PG" ? $selected_string : "";?> shape="rect" coords="70,5,98,46"   alt="Pewter Grey"	target="PG" title="Pewter Grey"  nohref="nohref" />
+	<area <?php echo $selected_code == "SS" ? $selected_string : "";?> shape="rect" coords="98,5,127,46"  alt="Sandstone"	target="SS" title="Sandstone"  nohref="nohref" />
+	<area <?php echo $selected_code == "WH" ? $selected_string : "";?> shape="rect" coords="127,5,157,46" alt="White"		target="WH" title="White"  nohref="nohref" />
+	<area <?php echo $selected_code == "CL" ? $selected_string : "";?> shape="rect" coords="157,5,185,46" alt="Clay"		target="CL" title="Clay"  nohref="nohref" />
+	<area <?php echo $selected_code == "BY" ? $selected_string : "";?> shape="rect" coords="185,5,216,46" alt="Burgundy"	target="BY" title="Burgundy"  nohref="nohref" />
+	<area <?php echo $selected_code == "EG" ? $selected_string : "";?> shape="rect" coords="216,5,245,46" alt="Evergreen"	target="EG" title="Evergreen" nohref="nohref" />
+	<area <?php echo $selected_code == "QG" ? $selected_string : "";?> shape="rect" coords="245,5,273,46" alt="Quaker Grey"	target="QG" title="Quaker Grey"  nohref="nohref" />
+	<area <?php echo $selected_code == "TN" ? $selected_string : "";?> shape="rect" coords="273,5,303,46" alt="Tan"		target="TN" title="Tan"  nohref="nohref" />
+	<area <?php echo $selected_code == "EB" ? $selected_string : "";?> shape="rect" coords="303,5,333,46" alt="Earth Brown"	target="EB" title="Earth Brown"  nohref="nohref" />
+	<area <?php echo $selected_code == "SB" ? $selected_string : "";?> shape="rect" coords="333,5,362,46" alt="Slate Blue"	target="SB" title="Slate Blue"  nohref="nohref" />
+	<area <?php echo $selected_code == "PB" ? $selected_string : "";?> shape="rect" coords="363,5,391,46" alt="Pebble Beige"	target="PB" title="Pebble Beige"  nohref="nohref" />
+	</map>
+	<?php
+    }
+    ?>
+    <div style="clear: both;"></div>
+</div>
+<script type="text/javascript">
+$('.colorpicker_images').maphilight({strokeWidth: 3,fill:false});
+b = new Builder();
+b.colors_click_bind();
+b.update('<?php echo $this->code;?>','<?php echo $this->price;?>', <?php echo $this->hints;?>, <?php echo json_encode($this->details);?>, <?php echo json_encode($this->price_details);?>);
+</script>

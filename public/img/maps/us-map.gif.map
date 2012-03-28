@@ -1,0 +1,10 @@
+<img src="us-map.gif" width="550" height="404" border="0" usemap="#map" />
+
+<map name="map">
+<!-- #$-:Image map file created by GIMP Image Map plug-in -->
+<!-- #$-:GIMP Image Map plug-in by Maurits Rijk -->
+<!-- #$-:Please do not edit lines starting with "#$" -->
+<!-- #$VERSION:2.3 -->
+<!-- #$AUTHOR:Jessie  -->
+<area shape="poly" coords="374,121,383,119,405,115,415,116,422,120,437,110,445,104,450,90,461,88,473,81,471,77,481,60,494,59,497,72,501,81,502,94,505,106,500,115,503,118,500,133,491,129,500,146,489,145,487,131,484,142,486,150,478,148,476,138,468,132,456,134,444,137,440,131,425,154,404,150,388,166,374,167,377,155,375,135" onmouseover="MM_swapImage(&apos;NorthEast&apos;,&apos;&apos;,&apos;us-map-ne.gif&apos;,1)" onmouseout="MM_swapImgRestore()" href="/builder/state/set/ne" />
+</map>

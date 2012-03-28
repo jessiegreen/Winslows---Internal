@@ -1,0 +1,34 @@
+<!DOCTYPE>
+<html>
+<head>
+    <?php 
+    echo $this->headTitle();
+    $this->headLink()->prependStylesheet('/css/global.css');
+    echo $this->headLink();
+    
+    echo $this->headMeta();
+    $this->headScript()->prependFile('/javascript/common.js');
+    $this->headScript()->prependFile('/javascript/jquery.js');
+    
+    echo $this->headScript();
+    ?>
+</head>
+<body>
+	<?php
+	#--Get Auth Instance
+        $auth = Zend_Auth::getInstance();
+
+	#--Check if user logged in
+        if (!$auth->hasIdentity()){
+	    if($_SERVER["REQUEST_URI"] != "/login/index"){
+		echo "Please Log In";
+		exit;
+	    }
+	}
+	else
+	{
+	echo $this->layout()->content;
+	}
+	?>
+</body>
+</html>

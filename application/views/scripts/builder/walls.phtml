@@ -1,0 +1,24 @@
+<script type="text/javascript">
+    $(function() {
+	$( ".jquery_radio" ).buttonset();
+    });
+</script>
+<h4 style="color: #0052CC;">
+    Choose Wall Options <br /><span style="color:silver;font-size: 12px;"> (Required if you want any doors, windows, etc.).</span>
+</h4>
+<div style="clear: both;">
+    <?php
+	echo $this->form;
+    ?>
+    <div style="clear: both;"></div>
+</div>
+<script type="text/javascript">
+$('#walls_next').button();
+$('#walls_next').click(function(){
+    $("#example").tabs("select" , "Colors" );
+});
+
+b = new Builder();
+b.walls_click_bind();
+b.update('<?php echo $this->code;?>','<?php echo $this->price;?>', <?php echo $this->hints;?>, <?php echo json_encode($this->details);?>, <?php echo json_encode($this->price_details);?>);
+</script>
