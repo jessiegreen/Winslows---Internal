@@ -8,14 +8,14 @@ Builder.prototype.update = function(code,price,hints,details,price_details){
     $('#builder_details').html(details);
     $('#price_details').html(price_details);
     //Any ajax must be done after this
-    $("#builder_hints").hide("slide", { direction: "right" }, 500, function(){
+    $("#builder_hints").hide("slide", { direction: "up" }, 500, function(){
 	$("#builder_hints").html("");
 	    if(hints.length > 0){
 	    jQuery.each(hints, function() {
 		$("#builder_hints").append("<div><img style='position:relative;top:3px;' src='/img/icons/lightbulb.png' />"+this+"</div>");
 	    });
 	}
-	$("#builder_hints").show("slide", { direction: "right" }, 500);
+	$("#builder_hints").show("slide", { direction: "up" }, 500);
 	b = new Builder;
 	b.add_flash_message_from_messenger();
     });
@@ -38,9 +38,9 @@ Builder.prototype.add_flash_message_from_messenger = function(){
 
 Builder.prototype.add_flash_message = function(data,index){
     message = $("<div id='message_"+index+"'><img style='position:relative;top:3px;float:left;' src='/img/icons/exclamation.png' />"+data+"</div>");
-    message.hide().appendTo("#builder_hints").show("slide", { direction: "right" }, 500,function(){
+    message.hide().appendTo("#builder_hints").show("slide", { direction: "up" }, 500,function(){
 	    setTimeout(function(){
-		    $("#message_"+index).hide("slide", { direction: "right" }, 500, function(){$("#message_"+index).remove()});
+		    $("#message_"+index).hide("slide", { direction: "up" }, 500, function(){$("#message_"+index).remove()});
 	    }, 2000);
 	});
 }

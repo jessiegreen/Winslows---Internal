@@ -102,6 +102,22 @@
     padding: 2px;
 }
 
+#builder_doors_current{
+    
+}
+
+#builder_doors_current h5{
+    margin: 0;
+    padding: 0;
+    margin-bottom: 3px;
+    padding-bottom: 2px;
+    border-bottom: solid 1px #E5E5E5;
+}
+
+#builder_doors_form area{
+    cursor: pointer;
+}
+
 /*****Forms******/
 .radio_test{
     clear: both;

@@ -275,6 +275,8 @@ class BuilderController extends Zend_Controller_Action
     public function doorsAction()
     {	
         $this->_helper->layout->disableLayout();
+	
+	$this->view->doors = $this->_getCurrentDoors();
     }
     
     public function windowsAction()
@@ -418,6 +420,11 @@ class BuilderController extends Zend_Controller_Action
 	    $this->_hints[] = "Choose a Size &raquo;";
 	    return;
 	}
+	if(!$this->_mapper->getLegHeightCode($this->_session_builder->builder["values"]))
+	{
+	    $this->_hints[] = "Choose a Leg Height &raquo;";
+	    return;
+	}
 	$this->_hints[] = "Customize your building with walls, doors, windows, colors, etc.  &raquo;";
     }
     
@@ -538,6 +545,25 @@ class BuilderController extends Zend_Controller_Action
 	$return .= "</ol>";
 	$return .= "</div><div style='clear:both'></div>";
 	return $return;
+    }
+    
+    private function _getCurrentDoors(){
+	$doors_array = array();
+	$doors_count = $this->_mapper->getDoorsCount($this->_session_builder->builder["values"]);
+	if($doors_count>0){
+	    for($i=$doors_count;$i>0;$i--){
+		$type_array	= $this->_codebuilder->getValueOptionDetailsFromCode("doors", "type", $this->_mapper->getDoorTypeCode($this->_session_builder->builder["values"], $i));
+		$door_size	= $this->_mapper->getDoorSize($this->_session_builder->builder["values"], $i);
+		$location	= $this->_codebuilder->getValueOptionDetailsFromCode("doors", "location", $this->_mapper->getDoorLocationCode($this->_session_builder->builder["values"], $i));
+		
+		$doors_array[$i] = array(
+		    "type"	=> $type_array["type"],
+		    "size"	=> $door_size,
+		    "location"	=> $location["name"]
+		);
+	    }
+	}
+	return $doors_array;
     }
 }
 

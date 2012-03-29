@@ -1109,6 +1109,45 @@ class Data
 				)
 			    );
     
+    public $doors_array = array(
+	"type" => array(
+	    "MC" => array(
+		"certified" => array(
+		    "uncertified" => array(
+			"door_type" => array(
+			    "OS" => array(
+				"32X72" => 175,
+				"36X80" => 200
+			    ),
+			    "RU" => array(
+				"6X6"	=> 250,
+				"8X8"	=> 300,
+				"9X8"	=> 350,
+				"10X8"	=> 400,
+				"10X10"	=> 450
+			    )
+			)
+		    ),
+		    "certified" => array(
+			"door_type" => array(
+			    "OS" => array(
+				"32X72" => 275,
+				"36X80" => 300
+			    ),
+			    "RU" => array(
+				"6X6"	=> 450,
+				"8X8"	=> 500,
+				"9X8"	=> 700,
+				"10X8"	=> 750,
+				"10X10"	=> 800
+			    )
+			)
+		    ),
+		)
+	    ),	    
+	)
+    );
+    
     public function __construct() {
 	
     }

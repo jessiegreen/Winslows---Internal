@@ -466,6 +466,19 @@ class BuilderArrayMapper
 	return '';
     }
     
+    public function addDoor($size = "",$location = "", $type = ""){
+	
+    }
+    
+    public function getDoorSize($builder_values_array){
+	$width	= (int)$this->getDoorWidthCode($builder_values_array);
+	$length = (int)$this->getDoorHeightCode($builder_values_array);
+	if($width && $length){
+	    return $width."X".$length;
+	}
+	return '';
+    }
+    
     public function getDoorLocationCode($builder_values_array, $door_number){
 	$index = $door_number-1;
 	
