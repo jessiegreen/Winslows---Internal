@@ -276,6 +276,39 @@ class BuilderController extends Zend_Controller_Action
     {	
         $this->_helper->layout->disableLayout();
 	
+	if($this->_request->isPost())
+	{
+	    if(isset($this->_params["delete"])){
+		$this->_session_builder->builder["values"] = 
+			$this->_mapper->removeDoor(
+				$this->_params["delete"],
+				$this->_session_builder->builder["values"]
+				);
+	    }
+	    if(
+		isset($this->_params["type"])
+		&& isset($this->_params["size"])
+		&& isset($this->_params["location"])
+	    ){
+		$size_array	= explode("X", $this->_params["size"]);
+		if($this->_params["type"] == "RU"){		    
+		    $size_array[0] = $size_array[0]*12;
+		    $size_array[1] = $size_array[1]*12;
+		}
+		$size_array[0]	= str_pad($size_array[0], 3, 0, STR_PAD_LEFT);
+		$size_array[1]	= str_pad($size_array[1], 3, 0, STR_PAD_LEFT);
+		$size		= implode("X", $size_array);
+		$this->_session_builder->builder["values"] = 
+			$this->_mapper->addDoor(
+				$size, 
+				$this->_params["location"], 
+				$this->_params["type"],
+				"",
+				$this->_session_builder->builder["values"]
+				);
+	    }
+	}
+	
 	$this->view->doors = $this->_getCurrentDoors();
     }
     
@@ -550,19 +583,23 @@ class BuilderController extends Zend_Controller_Action
     private function _getCurrentDoors(){
 	$doors_array = array();
 	$doors_count = $this->_mapper->getDoorsCount($this->_session_builder->builder["values"]);
+	
 	if($doors_count>0){
-	    for($i=$doors_count;$i>0;$i--){
-		$type_array	= $this->_codebuilder->getValueOptionDetailsFromCode("doors", "type", $this->_mapper->getDoorTypeCode($this->_session_builder->builder["values"], $i));
+	    for($i=0;$i<$doors_count;$i++)
+	    {
+		$type_array	= $this->_codebuilder->getValueOptionDetailsFromCode("door", "type", $this->_mapper->getDoorTypeCode($this->_session_builder->builder["values"], $i));
 		$door_size	= $this->_mapper->getDoorSize($this->_session_builder->builder["values"], $i);
-		$location	= $this->_codebuilder->getValueOptionDetailsFromCode("doors", "location", $this->_mapper->getDoorLocationCode($this->_session_builder->builder["values"], $i));
+		$location	= $this->_codebuilder->getValueOptionDetailsFromCode("door", "location", $this->_mapper->getDoorLocationCode($this->_session_builder->builder["values"], $i));
 		
 		$doors_array[$i] = array(
-		    "type"	=> $type_array["type"],
-		    "size"	=> $door_size,
-		    "location"	=> $location["name"]
+		    "display_num"   => $i+1,
+		    "type"	    => $type_array["name"],
+		    "size"	    => $door_size,
+		    "location"	    => $location["name"]
 		);
 	    }
 	}
+	
 	return $doors_array;
     }
 }

@@ -88,6 +88,7 @@ class Codebuilder
     public function getCodeFromBuilderArray($array)
     {//foreach($values_array as $index => $value_array)
 	$code_array = array();
+	
 	foreach ($array as $option => $values_array) {
 	    if(is_array($values_array)){
 		switch ($option) {
@@ -164,6 +165,16 @@ class Codebuilder
 		    case "color_ends":
 			if($values_array[0]["color"])
 			    $code_array[] = "AH".$this->_getNa($values_array[0]["color"],2);
+			break;
+		    case "door":
+			foreach($values_array as $door_number => $door){
+			    $location	    = $values_array[$door_number]["location"];
+			    $type	    = $values_array[$door_number]["type"];
+			    $width	    = $values_array[$door_number]["width"];
+			    $height	    = $values_array[$door_number]["height"];
+			    $from_left	    = $this->_getNa($values_array[$door_number]["from_left"], 3);
+			    $code_array[]   = "AV".$location.$type.$width.$height.$from_left;
+			}
 			break;
 		    default:
 			throw new \Exception($option." is not a valid parameter for getting building code");
@@ -330,7 +341,10 @@ class Codebuilder
      * @return array 
      */
     public function getValueOptionDetailsFromCode($option_index, $value_index, $valueoption_code){
-	return $this->_getValueOptionObjectFromCode($option_index, $value_index, $valueoption_code)->toArray();
+	$value_object = $this->_getValueOptionObjectFromCode($option_index, $value_index, $valueoption_code);
+	if(is_object($value_object))return $value_object->toArray();
+
+	return array();
     }
 }
 

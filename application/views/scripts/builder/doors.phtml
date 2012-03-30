@@ -5,7 +5,7 @@
     ?>
 </h4>
 <div id="builder_doors_form" class="form_div">
-    <form id="doors_form" method="POST">
+    <form id="doors_form" name="doors_form" method="POST">
 	<div style="font-weight:600;padding:0px;padding-left:0px;line-height: 30px; ">Door Type:</div>
 	<img class="colorpicker_images" src="/img/builder/door_types_1.png" alt="door types" title="Door types" style="margin: 0px;padding: 0px;"border="0" usemap="#doors_map" />
 	<div style="text-align: center;" id="size_utility" style="display: none;">
@@ -22,7 +22,7 @@
 	    <input class="doors_form" type="radio" value="10X10" id="size_1010" name="size" /><label for="size_1010">&nbsp;&nbsp;&nbsp;10'X10'&nbsp;&nbsp;&nbsp;</label>
 	</div>
 	<div style="text-align: center;" id="location_radios">
-	    <input type="hidden" value="" id="door_type" />
+	    <input type="hidden" value="" id="door_type" name="type"/>
 	    <div style="font-weight:600;padding:0px;padding-left:0px;line-height: 30px;text-align: left;">Location on Building:</div><br />
 	    <input class="doors_form" type="radio" value="L" id="location_l" name="location" /><label for="location_l">&nbsp;&nbsp;&nbsp;Left&nbsp;&nbsp;&nbsp;</label>
 	    <input class="doors_form" type="radio" value="R" id="location_r" name="location" /><label for="location_r">&nbsp;&nbsp;&nbsp;Right&nbsp;&nbsp;&nbsp;</label>
@@ -40,62 +40,22 @@
 	<area shape="rect" coords="219,9,356,102" alt="Outswing Utility Door" target="utility"  nohref="nohref" code="OS"/>
 	</map>
     </form>
-    <?php
-	echo $this->form;
-    ?>
 </div>
-<script type="text/javascript">
-    $(function() {
-	$( "#location_radios" ).buttonset();
-	$( "#size_utility" ).buttonset();
-	$( "#size_utility" ).hide();
-	$( "#size_rollup" ).buttonset();
-	$("#size_rollup").hide();
-	$( "#door_add" ).button();
-    });
-    $('.colorpicker_images').maphilight({strokeWidth: 3,fillColor:"C0A55E",strokeColor:"F9E482"});
-    $('#doors_map').children("area").click(function(e){
-      //AREAS LOOP:
-       $(".tabs area").each(function(){
-           var d = $(this).data('maphilight') || {};
-           if(d.alwaysOn == true){
-             d.alwaysOn = false;  
-           }
-         });
-	 
-	//This block is what creates highlighting by trigger the "alwaysOn",
-	var data = $(this).data('maphilight') || {};
-	data.alwaysOn = true;  //NOTICE I MADE THIS ALWAYS TRUE
-	$(this).data('maphilight', data).trigger('alwaysOn.maphilight');
-	//there is also "neverOn" in the docs, but not sure how to get it to work
-
-
-	if ($(this).hasClass("current") == false)
-	{
-	    value = $(this).attr("code");
-	    if(value == "OS"){
-		$("#size_utility").show();
-		$("#size_rollup").hide();
-	    }
-	    else if(value == "RU"){
-		$("#size_rollup").show();
-		$("#size_utility").hide();
-	    }
-	    $("#door_type").val(value);
-	}
-	return false;
-
-    });
-</script>
 <h4 style="color: #0052CC;">
     <?php echo "Remove a door from your building";
     ?>
 </h4>
 <?php
 if(count($this->doors)>0){
+    echo "<table>";
     foreach ($this->doors as $number => $door) {
-	echo $number."-".$door["location"]."-".$door["size"]."-".$door["type"]."<br />";
+	echo "<tr>";
+	echo "<td>".HTML::buttonIcon("delete.png", $number, "Delete", "current_doors_list", "")." </td><td>".
+		$door["display_num"]."</td><td> - ".$door["location"]."</td><td> - ".$door["size"]."</td><td> - ".
+		$door["type"]."</td>";
+	echo "</tr>";
     }
+    echo "</table>";
 }
 else echo "No Doors Added Yet"
 ?>
@@ -106,6 +66,6 @@ $('#size_next').click(function(){
 });
 
 b = new Builder();
-b.doors_click_bind();
+b.doors_init();
 b.update('<?php echo $this->code;?>','<?php echo $this->price;?>',<?php echo $this->hints;?>, <?php echo json_encode($this->details);?>, <?php echo json_encode($this->price_details);?>);
 </script>

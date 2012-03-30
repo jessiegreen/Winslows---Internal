@@ -27,7 +27,7 @@ class Builder_View_Helper_Header // extends Zend_View_Helper_Abstract
 			<div style="clear:both"></div>
 		    </div>
 		    <div id="builder_left_pane">
-			<img src="/img/builder/renderings/4.jpg" style="width:100%" />
+			<img src="/img/builder/renderings/5.jpg" style="width:100%" />
 			<div id="builder_hints"></div>
 			<div id="builder_details"></div>
 			<div id="price_details"></div>

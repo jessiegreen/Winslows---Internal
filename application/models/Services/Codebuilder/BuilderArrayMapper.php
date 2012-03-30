@@ -466,60 +466,97 @@ class BuilderArrayMapper
 	return '';
     }
     
-    public function addDoor($size = "",$location = "", $type = ""){
-	
+    public function addDoor($size, $location, $type, $from_left, $builder_values_array){
+	$door_number = $this->getDoorsCount($builder_values_array);
+	$builder_values_array = $this->setDoorSize($size, $builder_values_array, $door_number);
+	$builder_values_array = $this->setDoorLocation($location, $builder_values_array, $door_number);
+	$builder_values_array = $this->setDoorType($type, $builder_values_array, $door_number);
+	$builder_values_array = $this->setDoorInchesFromLeft($from_left, $builder_values_array, $door_number);
+	return $builder_values_array;
     }
     
-    public function getDoorSize($builder_values_array){
-	$width	= (int)$this->getDoorWidthCode($builder_values_array);
-	$length = (int)$this->getDoorHeightCode($builder_values_array);
+    public function removeDoor($door_number, $builder_values_array) {
+	$doors_array = $builder_values_array['door'];
+	unset($doors_array[$door_number]);
+	$doors_array = array_values($doors_array);
+	$builder_values_array['door'] = $doors_array;
+	return $builder_values_array;
+    }
+    
+    public function setDoorSize($size, $builder_values_array, $door_number){
+	$size_array		= explode("X", $size);
+	$width			= $size_array[0];
+	$height			= $size_array[1];
+	$builder_values_array	= $this->setDoorWidth($width, $builder_values_array, $door_number);
+	$builder_values_array	= $this->setDoorHeight($height, $builder_values_array, $door_number);
+	return $builder_values_array;
+    }
+    
+    public function getDoorSize($builder_values_array, $door_number){
+	$width	= (int)$this->getDoorWidthCode($builder_values_array, $door_number);
+	$length = (int)$this->getDoorHeightCode($builder_values_array, $door_number);
 	if($width && $length){
 	    return $width."X".$length;
 	}
 	return '';
     }
     
+    public function setDoorLocation($value, $builder_values_array, $door_number){
+	$builder_values_array['door'][$door_number]['location']	= $value;
+	return $builder_values_array;
+    }
+    
     public function getDoorLocationCode($builder_values_array, $door_number){
-	$index = $door_number-1;
-	
-	if(isset($builder_values_array['door'][$index]['location'])){
-	    return $builder_values_array['door'][$index]['location'];
+	if(isset($builder_values_array['door'][$door_number]['location'])){
+	    return $builder_values_array['door'][$door_number]['location'];
 	}
 	return '';
     }
     
-    public function getDoorTypeCode($builder_values_array, $door_number){
-	$index = $door_number-1;
-	
-	if(isset($builder_values_array['door'][$index]['type'])){
-	    return $builder_values_array['door'][$index]['type'];
+    public function setDoorType($value, $builder_values_array, $door_number){
+	$builder_values_array['door'][$door_number]['type'] = $value;
+	return $builder_values_array;
+    }
+    
+    public function getDoorTypeCode($builder_values_array, $door_number){	
+	if(isset($builder_values_array['door'][$door_number]['type'])){
+	    return $builder_values_array['door'][$door_number]['type'];
 	}
 	return '';
     }
     
-    public function getDoorWidthCode($builder_values_array, $door_number){
-	$index = $door_number-1;
-	
-	if(isset($builder_values_array['door'][$index]['width'])){
-	    return $builder_values_array['door'][$index]['width'];
+    public function setDoorWidth($value, $builder_values_array, $door_number){
+	$builder_values_array['door'][$door_number]['width'] = $value;
+	return $builder_values_array;
+    }
+    
+    public function getDoorWidthCode($builder_values_array, $door_number){	
+	if(isset($builder_values_array['door'][$door_number]['width'])){
+	    return $builder_values_array['door'][$door_number]['width'];
 	}
 	return '';
     }
     
-    public function getDoorHeightCode($builder_values_array, $door_number){
-	$index = $door_number-1;
-	
-	if(isset($builder_values_array['door'][$index]['height'])){
-	    return $builder_values_array['door'][$index]['height'];
+    public function setDoorHeight($value, $builder_values_array, $door_number){
+	$builder_values_array['door'][$door_number]['height'] = $value;
+	return $builder_values_array;
+    }
+    
+    public function getDoorHeightCode($builder_values_array, $door_number){	
+	if(isset($builder_values_array['door'][$door_number]['height'])){
+	    return $builder_values_array['door'][$door_number]['height'];
 	}
 	return '';
+    }
+    
+    public function setDoorInchesFromLeft($value, $builder_values_array, $door_number){
+	$builder_values_array['door'][$door_number]['from_left'] = $value;
+	return $builder_values_array;
     }
     
     public function getDoorInchesFromLeftCode($builder_values_array, $door_number){
-	$index = $door_number-1;
-	
-	if(isset($builder_values_array['door'][$index]['from_left'])){
-	    return $builder_values_array['door'][$index]['from_left'];
+	if(isset($builder_values_array['door'][$door_number]['from_left'])){
+	    return $builder_values_array['door'][$door_number]['from_left'];
 	}
 	return '';
     }
@@ -532,55 +569,43 @@ class BuilderArrayMapper
     }
     
     public function getWindowLocationCode($builder_values_array, $window_number){
-	$index = $window_number-1;
-	
-	if(isset($builder_values_array['window'][$index]['location'])){
-	    return $builder_values_array['window'][$index]['location'];
+	if(isset($builder_values_array['window'][$window_number]['location'])){
+	    return $builder_values_array['window'][$window_number]['location'];
 	}
 	return '';
     }
     
     public function getWindowTypeCode($builder_values_array, $window_number){
-	$index = $window_number-1;
-	
-	if(isset($builder_values_array['window'][$index]['type'])){
-	    return $builder_values_array['window'][$index]['type'];
+	if(isset($builder_values_array['window'][$window_number]['type'])){
+	    return $builder_values_array['window'][$window_number]['type'];
 	}
 	return '';
     }
     
     public function getWindowWidthCode($builder_values_array, $window_number){
-	$index = $window_number-1;
-	
-	if(isset($builder_values_array['window'][$index]['width'])){
-	    return $builder_values_array['window'][$index]['width'];
+	if(isset($builder_values_array['window'][$window_number]['width'])){
+	    return $builder_values_array['window'][$window_number]['width'];
 	}
 	return '';
     }
     
     public function getWindowHeightCode($builder_values_array, $window_number){
-	$index = $window_number-1;
-	
-	if(isset($builder_values_array['window'][$index]['height'])){
-	    return $builder_values_array['window'][$index]['height'];
+	if(isset($builder_values_array['window'][$window_number]['height'])){
+	    return $builder_values_array['window'][$window_number]['height'];
 	}
 	return '';
     }
     
     public function getWindowInchesFromLeftCode($builder_values_array, $window_number){
-	$index = $window_number-1;
-	
-	if(isset($builder_values_array['window'][$index]['from_left'])){
-	    return $builder_values_array['window'][$index]['from_left'];
+	if(isset($builder_values_array['window'][$window_number]['from_left'])){
+	    return $builder_values_array['window'][$window_number]['from_left'];
 	}
 	return '';
     }
     
     public function getWindowInchesFromBottomCode($builder_values_array, $window_number){
-	$index = $window_number-1;
-	
-	if(isset($builder_values_array['window'][$index]['from_bottom'])){
-	    return $builder_values_array['window'][$index]['from_bottom'];
+	if(isset($builder_values_array['window'][$window_number]['from_bottom'])){
+	    return $builder_values_array['window'][$window_number]['from_bottom'];
 	}
 	return '';
     }

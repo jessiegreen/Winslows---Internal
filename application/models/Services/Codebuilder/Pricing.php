@@ -39,7 +39,8 @@ class Pricing {
 		$this->_getBasePrice($BuilderArrayMapper, $builder_values_array);
 		$this->_priceFrameGauge($BuilderArrayMapper, $builder_values_array);
 		$this->_priceWalls($BuilderArrayMapper, $builder_values_array);
-		$this->priceLegHeight($BuilderArrayMapper, $builder_values_array);
+		$this->_priceLegHeight($BuilderArrayMapper, $builder_values_array);
+		$this->_priceDoors($BuilderArrayMapper, $builder_values_array);
 	    break;
 	    #--Wood Structure
 	    case "WF":
@@ -171,7 +172,7 @@ class Pricing {
 	}
     }
     
-    public function priceLegHeight(BuilderArrayMapper $BuilderArrayMapper, $builder_values_array){
+    private function _priceLegHeight(BuilderArrayMapper $BuilderArrayMapper, $builder_values_array){
 	$leg_height		= (int)$BuilderArrayMapper->getLegHeightCode($builder_values_array);
 	$structure_type_code	= $BuilderArrayMapper->getStructureTypeCode($builder_values_array);
 	$model_code		= $BuilderArrayMapper->getModel($builder_values_array);
@@ -180,6 +181,25 @@ class Pricing {
 	$price			= $price_array["type"][$structure_type_code]["model"][$model_code]["leg_height"][$leg_height]["length"][$length];
 	$this->_price		+= $price;
 	$this->_addDetail("Leg Height", $price, $leg_height."ft");
+    }
+    
+    private function _priceDoors(BuilderArrayMapper $BuilderArrayMapper, $builder_values_array){
+	$doors_count	= $BuilderArrayMapper->getDoorsCount($builder_values_array);
+	if($doors_count>0){
+	    $price_array	= $this->_data->doors_array;
+	    $price		= 0;
+	    $type		= $BuilderArrayMapper->getStructureTypeCode($builder_values_array);
+	    $certified		= $BuilderArrayMapper->getCertifiedCode($builder_values_array);
+	    $certified		= $certified == "Y" ? "certified" : "uncertified"; 
+	    
+	    for($i=0;$i<$doors_count;$i++){
+		$door_type  = $BuilderArrayMapper->getDoorTypeCode($builder_values_array, $i);
+		$size	    = $BuilderArrayMapper->getDoorSize($builder_values_array, $i);
+		$price	    = $price_array["type"][$type]["certified"][$certified]["door_type"][$door_type][$size];
+		$this->_price += $price;
+		$this->_addDetail("Door ", $price, $size);
+	    }
+	}
     }
     
     private function _addDetail($name = "", $price = 0, $note = ""){
