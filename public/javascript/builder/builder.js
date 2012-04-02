@@ -275,3 +275,79 @@ Builder.prototype.doors_init = function(){
 
     });
 }
+
+Builder.prototype.windows_init = function(){
+
+    $( "#window_location_radios" ).buttonset();
+    $( "#window_add" ).button();
+    $( "#window_add" ).click(function(){
+	
+	data		= $('#windows_form').serialize();
+	var data_array	= {};
+	message		= "";
+	
+	$.each($('#windows_form').serializeArray(), function(i, field) {
+	    data_array[field.name] = field.value;
+	});
+	
+	if(!data_array["type"])message = message + "Please choose a type of window to add.";
+	else if(!data_array["size"])message = message + "Please choose the size of window to add.";
+	else if(!data_array["location"])message = message + "Please choose the location on the building you would like to add the window.";
+	if(message.length>0){
+	    dialog = $('<div></div>')
+		.html(message)
+		.dialog({
+		    resizable: false,
+		    height:170,
+		    modal: true,
+		    autoOpen:false,
+		    buttons: {
+			"Ok": function() {
+				$( this ).dialog( "close" );
+			}
+		    }
+		});
+		dialog.dialog('open');
+	}
+	else{
+	    $.ajax({
+		type: "POST",
+		data:data,
+		url:"/builder/windows/",
+		success:function(data){
+		    $("#Windows").html(data);
+		}
+	    });
+	}
+    });
+    
+    $(".current_windows_list").click(function(e){
+	element = $(e.target);
+	data	= {"delete" : element.attr("id")};
+	dialog = $('<div></div>')
+		.html('Are you sure you want to delete this window?')
+		.dialog({
+		    resizable: false,
+		    height:170,
+		    modal: true,
+		    autoOpen:false,
+		    buttons: {
+			"Delete Window": function() {
+				$( this ).dialog( "close" );
+				$.ajax({
+				    type: "POST",
+				    data:data,
+				    url:"/builder/windows/",
+				    success:function(data){
+					$("#Windows").html(data);
+				    }
+				});
+			},
+			Cancel: function() {
+				$( this ).dialog( "close" );
+			}
+		    }
+		});
+		dialog.dialog('open');
+    });
+}

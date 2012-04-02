@@ -36,6 +36,8 @@ class BuilderController extends Zend_Controller_Action
     
     private $_price_message = "";
     
+    private $_local_messages = array();
+    
     public function init(){
 	header("Cache-Control: no-cache, must-revalidate");
 	$this->_request		= $this->getRequest();
@@ -64,6 +66,7 @@ class BuilderController extends Zend_Controller_Action
 	    $this->view->code		= $this->_session_builder->builder["code"];
 	    $this->view->details	= $this->codeToHtml();
 	    $this->view->price_details	= $this->_price_message;
+	    $this->view->local_messages = $this->_local_messages;
 	}
     }
     
@@ -113,7 +116,7 @@ class BuilderController extends Zend_Controller_Action
 	    ){
 		$this->_session_builder->builder["values"] = 
 		    $this->_mapper->setLegHeight(str_pad($this->_params["leg_height"], 2, 0, STR_PAD_LEFT), $this->_session_builder->builder["values"]);
-		$this->addSuccessFlashMessage("Changed leg height.");
+		$this->_addSuccessFlashMessage("Changed leg height.");
 	    }
 	    
 	    if(
@@ -127,7 +130,7 @@ class BuilderController extends Zend_Controller_Action
 		$size = implode("X", $size_array);
 		$this->_session_builder->builder["values"] = 
 		    $this->_mapper->setSize($this->_params["builder_size"], $this->_session_builder->builder["values"]);
-		$this->addSuccessFlashMessage("Changed size.");
+		$this->_addSuccessFlashMessage("Changed size.");
 	    }
 	}
 	
@@ -158,7 +161,7 @@ class BuilderController extends Zend_Controller_Action
 				    $side, 
 				    $this->_session_builder->builder["values"]
 				    );
-		    $this->addSuccessFlashMessage("Changed ".$side." partial wall height.");
+		    $this->_addSuccessFlashMessage("Changed ".$side." partial wall height.");
 		}
 		
 		if(
@@ -173,7 +176,7 @@ class BuilderController extends Zend_Controller_Action
 				    $side, 
 				    $this->_session_builder->builder["values"]
 				    );
-		    $this->addSuccessFlashMessage("Changed ".$side." wall siding orientation.");
+		    $this->_addSuccessFlashMessage("Changed ".$side." wall siding orientation.");
 		}
 		
 		if(
@@ -208,7 +211,7 @@ class BuilderController extends Zend_Controller_Action
 				$this->_mapper->setCoveredWallsHeightFromSideString("", $side, $this->_session_builder->builder["values"]);
 			}
 		    }
-		    $this->addSuccessFlashMessage("Changed ".$side." wall style.");
+		    $this->_addSuccessFlashMessage("Changed ".$side." wall style.");
 		}
 	    }
 	}
@@ -284,6 +287,7 @@ class BuilderController extends Zend_Controller_Action
 				$this->_params["delete"],
 				$this->_session_builder->builder["values"]
 				);
+		$this->_addSuccessFlashMessage("Removed Door.");
 	    }
 	    if(
 		isset($this->_params["type"])
@@ -298,23 +302,52 @@ class BuilderController extends Zend_Controller_Action
 		$size_array[0]	= str_pad($size_array[0], 3, 0, STR_PAD_LEFT);
 		$size_array[1]	= str_pad($size_array[1], 3, 0, STR_PAD_LEFT);
 		$size		= implode("X", $size_array);
-		$this->_session_builder->builder["values"] = 
-			$this->_mapper->addDoor(
-				$size, 
-				$this->_params["location"], 
-				$this->_params["type"],
-				"",
-				$this->_session_builder->builder["values"]
-				);
+		
+		$this->_addDoor($size, $this->_params["location"], $this->_params["type"]);
 	    }
 	}
 	
-	$this->view->doors = $this->_getCurrentDoors();
+	$this->view->doors = $this->_getCurrentDoorsAsArray();
     }
     
     public function windowsAction()
     {	
         $this->_helper->layout->disableLayout();
+	
+	if($this->_request->isPost())
+	{
+	    if(isset($this->_params["delete"])){
+		$this->_session_builder->builder["values"] = 
+			$this->_mapper->removeWindow(
+				$this->_params["delete"],
+				$this->_session_builder->builder["values"]
+				);
+		$this->_addSuccessFlashMessage("Removed Window.");
+	    }
+	    if(
+		isset($this->_params["type"])
+		&& isset($this->_params["size"])
+		&& isset($this->_params["location"])
+	    ){
+		$size_array	= explode("X", $this->_params["size"]);
+
+		$size_array[0]	= str_pad($size_array[0], 2, 0, STR_PAD_LEFT);
+		$size_array[1]	= str_pad($size_array[1], 2, 0, STR_PAD_LEFT);
+		$size		= implode("X", $size_array);
+		$this->_session_builder->builder["values"] = 
+			$this->_mapper->addWindow(
+				$size, 
+				$this->_params["location"], 
+				$this->_params["type"],
+				"",
+				"",
+				$this->_session_builder->builder["values"]
+				);
+		$this->_addSuccessFlashMessage("Added Window.");
+	    }
+	}
+	
+	$this->view->windows = $this->_getCurrentWindowsAsArray();
     }
     
     public function messengerAction(){
@@ -325,7 +358,7 @@ class BuilderController extends Zend_Controller_Action
 	$this->_helper->layout->disableLayout();
 	$this->_session_builder->builder = array();
 	$this->_initializeSessionBuilder();
-	$this->addSuccessFlashMessage("Builder Reset");
+	$this->_addSuccessFlashMessage("Builder Reset");
     }
     
     private function _updateAndValidateBuilderSessionCodeAndPrice()
@@ -357,14 +390,14 @@ class BuilderController extends Zend_Controller_Action
 		$this->_hints[] = "Cannot price";
 	    }
 	} catch (Exception $exc) {
-	    $this->addErrorFlashMessage($exc->getMessage());
+	    $this->_addErrorFlashMessage($exc->getMessage());
 	}
     }
     
     private function _setLocation(){
 	if(isset($this->_params['set'])){
 	    $this->_session_builder->builder["location"] = $this->_params['set'];
-	    $this->addSuccessFlashMessage("Changed location");
+	    $this->_addSuccessFlashMessage("Changed location");
 	}
     }
     
@@ -372,7 +405,7 @@ class BuilderController extends Zend_Controller_Action
 	if(strlen($value)>0 && method_exists($this->_mapper, "set".$mapper_method)){
 	    $mapper_method_name = "set".$mapper_method;
 	    $this->_session_builder->builder["values"] = $this->_mapper->$mapper_method_name($value, $this->_session_builder->builder["values"]);
-	    $this->addSuccessFlashMessage("Changed ".$mapper_method);
+	    $this->_addSuccessFlashMessage("Changed ".$mapper_method);
 	}
     }
     
@@ -384,7 +417,7 @@ class BuilderController extends Zend_Controller_Action
 	else return false;
     }
     
-    private function addSuccessFlashMessage($message)
+    private function _addSuccessFlashMessage($message)
     {
 	$this->_flashMessenger->addMessage(
 		array(
@@ -395,7 +428,12 @@ class BuilderController extends Zend_Controller_Action
 		);	
     }
     
-    private function addErrorFlashMessage($message)
+    private function _addSuccessLocalMessage($message)
+    {
+	$this->_local_messages[] = "<div class='messenger_success'>$message</div>";
+    }
+    
+    private function _addErrorFlashMessage($message)
     {
 	$this->_flashMessenger->addMessage(
 		array(
@@ -404,6 +442,11 @@ class BuilderController extends Zend_Controller_Action
 		    "type" => "flash"
 		    )
 		);	
+    }
+    
+    private function _addErrorLocalMessage($message)
+    {
+	$this->_local_messages[] = "<div class='messenger_error'>$message</div>";
     }
     
     private function _initializeSessionBuilder()
@@ -580,7 +623,7 @@ class BuilderController extends Zend_Controller_Action
 	return $return;
     }
     
-    private function _getCurrentDoors(){
+    private function _getCurrentDoorsAsArray(){
 	$doors_array = array();
 	$doors_count = $this->_mapper->getDoorsCount($this->_session_builder->builder["values"]);
 	
@@ -601,6 +644,183 @@ class BuilderController extends Zend_Controller_Action
 	}
 	
 	return $doors_array;
+    }
+    
+    private function _getCurrentWindowsAsArray(){
+	$windows_array = array();
+	$windows_count = $this->_mapper->getWindowsCount($this->_session_builder->builder["values"]);
+	
+	if($windows_count>0){
+	    for($i=0;$i<$windows_count;$i++)
+	    {
+		$type_array	= $this->_codebuilder->getValueOptionDetailsFromCode("window", "type", $this->_mapper->getWindowTypeCode($this->_session_builder->builder["values"], $i));
+		$window_size	= $this->_mapper->getWindowSize($this->_session_builder->builder["values"], $i);
+		$location	= $this->_codebuilder->getValueOptionDetailsFromCode("window", "location", $this->_mapper->getWindowLocationCode($this->_session_builder->builder["values"], $i));
+		
+		$windows_array[$i] = array(
+		    "display_num"   => $i+1,
+		    "type"	    => $type_array["name"],
+		    "size"	    => $window_size,
+		    "location"	    => $location["name"]
+		);
+	    }
+	}
+	
+	return $windows_array;
+    }
+    
+    private function _addDoor($size, $location, $type)
+    {
+	$location_legend	= array("L" => "Left", "R" => "Right", "F" => "Front", "B" => "Back");
+	$building_length_feet	= (int) $this->_mapper->getFrameLengthCode($this->_session_builder->builder["values"]);
+	$building_length_inches	=  $building_length_feet * 12;
+	$building_width_feet	= (int) $this->_mapper->getFrameWidthCode($this->_session_builder->builder["values"]);
+	$building_width_inches	= $building_width_feet * 12;
+	$added_door_size_array	= explode("X", $size);
+	$added_door_width	= $added_door_size_array[0];
+	$ok_to_add		= true;
+	
+	#--Make sure the walls are closed
+	$this->_checkAndSetWallCoveredForDoor($location_legend[$location]);
+	#--Get the total width in inches of all doors and windows for each side of the building
+	$door_window_widths = $this->_getDoorWindowTotalWidthsArray();
+	#--Add the new door width to the total of the appropriate side
+	$door_window_widths[$location] += $added_door_width;
+	#--Add an extra 30 inches for frame legs etc
+	$total_width = (30 + $door_window_widths[$location]);
+	#--Length (Sides)
+	if(in_array($location, array("L", "R"))){
+	    if($building_length_inches < $total_width){
+		$new_length = $building_length_feet;
+		$max_width  = false;
+		
+		while (($total_width/12) > $new_length && $max_width == false) 
+		{
+		    if($building_length_feet >= 41){
+			$ok_to_add  = false;
+			$max_width  = true;
+		    }
+		    else{
+			$new_length += 5;
+		    }
+		}
+		if(($new_length*12) > $building_length_inches)
+		{
+		    $this->_session_builder->builder["values"] = 
+			$this->_mapper->setFrameLength(
+				$new_length, 
+				$this->_session_builder->builder["values"]
+				);
+		    $this->_addSuccessLocalMessage("Increased building length to accomodate door.");
+		}
+		else{
+		    $this->_addErrorLocalMessage("Maximum building length reached. You can not add any more doors to the ".$location_legend[$location]." side;");
+		    $ok_to_add = false;
+		}
+	    }
+	}
+	else #Width (Ends)
+	{
+	    if($building_width_inches < $total_width)
+	    {
+		$new_length = $building_width_feet;
+		$max_width  = false;
+		
+		while (($total_width/12) > $new_length && $max_width == false) 
+		{
+		    switch ($new_length)
+		    {
+			case "12":
+			    $new_length = 18;
+			    break;
+			case "18":
+			    $new_length = 20;
+			    break;
+			case "20":
+			    $new_length = 22;
+			    break;
+			case "22":
+			    $new_length = 24;
+			    break;
+			default:
+			    #--Cant make the building big enough to accomodate the door. Leave building at 
+			    #-- current width and just don't add the door.
+			    $new_length = $building_width_feet;
+			    $max_width	= true;
+			    break;
+		    }
+		}
+		
+		if(($new_length*12) > $building_width_inches)
+		{
+		    $this->_session_builder->builder["values"] = 
+			$this->_mapper->setFrameWidth(
+				$new_length, 
+				$this->_session_builder->builder["values"]
+				);
+		    $this->_addSuccessLocalMessage("Increased building width to accomodate door.");
+		}
+		else{
+		    $this->_addErrorLocalMessage("Maximum building width reached. You can not add any more doors to the ".$location_legend[$location]." side;");
+		    $ok_to_add = false;
+		}
+	    }
+	}
+	if($ok_to_add){
+	    $this->_session_builder->builder["values"] = 
+		$this->_mapper->addDoor(
+			$size, 
+			$location, 
+			$type,
+			"",
+			$this->_session_builder->builder["values"]
+			);
+		    
+	    $this->_addSuccessFlashMessage("Added Door.");
+	}
+    }
+    
+    private function _getDoorWindowTotalWidthsArray()
+    {
+	$doors_count		= $this->_mapper->getDoorsCount($this->_session_builder->builder["values"]);
+	$windows_count		= $this->_mapper->getWindowsCount($this->_session_builder->builder["values"]);
+	$widths_array		= array("L" => 0, "R" => 0, "F" => 0, "B" => 0);
+	if($doors_count>0){
+	    for($i=0;$i<$doors_count;$i++)
+	    {
+		$widths_array[$this->_mapper->getDoorLocationCode($this->_session_builder->builder["values"], $i)] 
+			+= (int) $this->_mapper->getDoorWidthCode($this->_session_builder->builder["values"], $i);
+	    }
+	}
+	
+	if($windows_count>0){
+	    for($i=0;$i<$windows_count;$i++)
+	    {
+		$widths_array[$this->_mapper->getWindowLocationCode($this->_session_builder->builder["values"], $i)] 
+			+= (int) $this->_mapper->getWindowWidthCode($this->_session_builder->builder["values"], $i);
+	    }
+	}
+	
+	return $widths_array;
+    }
+    
+    private function _checkAndSetWallCoveredForDoor($side_string)
+    {
+	if($this->_mapper->getCoveredWallsTypeCodeFromSideString($side_string, $this->_session_builder->builder["values"]) != "CL"){
+	    $this->_session_builder->builder["values"] = 
+		$this->_mapper->setCoveredWallsTypeFromSideString(
+			"CL", 
+			$side_string, 
+			$this->_session_builder->builder["values"]
+			);
+	    $this->_session_builder->builder["values"] = 
+		$this->_mapper->setCoveredWallsHeightFromSideString(
+			"", 
+			$side_string, 
+			$this->_session_builder->builder["values"]
+			);
+	    $this->_addSuccessLocalMessage("Updated the ".$side_string." side of the building to be covered to accomodate a door.");
+	}
     }
 }
 

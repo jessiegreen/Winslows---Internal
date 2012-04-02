@@ -167,13 +167,24 @@ class Codebuilder
 			    $code_array[] = "AH".$this->_getNa($values_array[0]["color"],2);
 			break;
 		    case "door":
-			foreach($values_array as $door_number => $door){
-			    $location	    = $values_array[$door_number]["location"];
-			    $type	    = $values_array[$door_number]["type"];
-			    $width	    = $values_array[$door_number]["width"];
-			    $height	    = $values_array[$door_number]["height"];
-			    $from_left	    = $this->_getNa($values_array[$door_number]["from_left"], 3);
+			foreach($values_array as $door){
+			    $location	    = $door["location"];
+			    $type	    = $door["type"];
+			    $width	    = $door["width"];
+			    $height	    = $door["height"];
+			    $from_left	    = $this->_getNa($door["from_left"], 3);
 			    $code_array[]   = "AV".$location.$type.$width.$height.$from_left;
+			}
+			break;
+		    case "window":
+			foreach($values_array as $window_number => $window){
+			    $location	    = $window["location"];
+			    $type	    = $window["type"];
+			    $width	    = $window["width"];
+			    $height	    = $window["height"];
+			    $from_left	    = $this->_getNa($window["from_left"], 3);
+			    $from_bottom    = $this->_getNa($window["from_bottom"], 3);
+			    $code_array[]   = "AW".$location.$type.$width.$height.$from_left.$from_bottom;
 			}
 			break;
 		    default:

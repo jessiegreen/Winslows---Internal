@@ -568,11 +568,57 @@ class BuilderArrayMapper
 	else return 0;
     }
     
+    public function addWindow($size, $location, $type, $from_left, $from_bottom, $builder_values_array){
+	$window_number = $this->getWindowsCount($builder_values_array);
+	$builder_values_array = $this->setWindowSize($size, $builder_values_array, $window_number);
+	$builder_values_array = $this->setWindowLocation($location, $builder_values_array, $window_number);
+	$builder_values_array = $this->setWindowType($type, $builder_values_array, $window_number);
+	$builder_values_array = $this->setWindowInchesFromLeft($from_left, $builder_values_array, $window_number);
+	$builder_values_array = $this->setWindowInchesFromBottom($from_bottom, $builder_values_array, $window_number);
+	return $builder_values_array;
+    }
+    
+    public function removeWindow($window_number, $builder_values_array) {
+	$windows_array = $builder_values_array['window'];
+	unset($windows_array[$window_number]);
+	$windows_array = array_values($windows_array);
+	$builder_values_array['window'] = $windows_array;
+	return $builder_values_array;
+    }
+    
+    public function setWindowSize($size, $builder_values_array, $window_number){
+	$size_array		= explode("X", $size);
+	$width			= $size_array[0];
+	$height			= $size_array[1];
+	$builder_values_array	= $this->setWindowWidth($width, $builder_values_array, $window_number);
+	$builder_values_array	= $this->setWindowHeight($height, $builder_values_array, $window_number);
+	return $builder_values_array;
+    }
+    
+    public function getWindowSize($builder_values_array, $window_number){
+	$width	= (int)$this->getWindowWidthCode($builder_values_array, $window_number);
+	$length = (int)$this->getWindowHeightCode($builder_values_array, $window_number);
+	if($width && $length){
+	    return $width."X".$length;
+	}
+	return '';
+    }
+    
+    public function setWindowLocation($value, $builder_values_array, $window_number){
+	$builder_values_array['window'][$window_number]['location']	= $value;
+	return $builder_values_array;
+    }
+    
     public function getWindowLocationCode($builder_values_array, $window_number){
 	if(isset($builder_values_array['window'][$window_number]['location'])){
 	    return $builder_values_array['window'][$window_number]['location'];
 	}
 	return '';
+    }
+    
+    public function setWindowType($value, $builder_values_array, $window_number){
+	$builder_values_array['window'][$window_number]['type'] = $value;
+	return $builder_values_array;
     }
     
     public function getWindowTypeCode($builder_values_array, $window_number){
@@ -582,11 +628,21 @@ class BuilderArrayMapper
 	return '';
     }
     
+    public function setWindowWidth($value, $builder_values_array, $window_number){
+	$builder_values_array['window'][$window_number]['width'] = $value;
+	return $builder_values_array;
+    }
+    
     public function getWindowWidthCode($builder_values_array, $window_number){
 	if(isset($builder_values_array['window'][$window_number]['width'])){
 	    return $builder_values_array['window'][$window_number]['width'];
 	}
 	return '';
+    }
+    
+    public function setWindowHeight($value, $builder_values_array, $window_number){
+	$builder_values_array['window'][$window_number]['height'] = $value;
+	return $builder_values_array;
     }
     
     public function getWindowHeightCode($builder_values_array, $window_number){
@@ -596,11 +652,21 @@ class BuilderArrayMapper
 	return '';
     }
     
+    public function setWindowInchesFromLeft($value, $builder_values_array, $window_number){
+	$builder_values_array['window'][$window_number]['from_left'] = $value;
+	return $builder_values_array;
+    }
+    
     public function getWindowInchesFromLeftCode($builder_values_array, $window_number){
 	if(isset($builder_values_array['window'][$window_number]['from_left'])){
 	    return $builder_values_array['window'][$window_number]['from_left'];
 	}
 	return '';
+    }
+    
+    public function setWindowInchesFromBottom($value, $builder_values_array, $window_number){
+	$builder_values_array['window'][$window_number]['from_bottom'] = $value;
+	return $builder_values_array;
     }
     
     public function getWindowInchesFromBottomCode($builder_values_array, $window_number){

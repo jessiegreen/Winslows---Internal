@@ -41,6 +41,7 @@ class Pricing {
 		$this->_priceWalls($BuilderArrayMapper, $builder_values_array);
 		$this->_priceLegHeight($BuilderArrayMapper, $builder_values_array);
 		$this->_priceDoors($BuilderArrayMapper, $builder_values_array);
+		$this->_priceWindows($BuilderArrayMapper, $builder_values_array);
 	    break;
 	    #--Wood Structure
 	    case "WF":
@@ -198,6 +199,25 @@ class Pricing {
 		$price	    = $price_array["type"][$type]["certified"][$certified]["door_type"][$door_type][$size];
 		$this->_price += $price;
 		$this->_addDetail("Door ", $price, $size);
+	    }
+	}
+    }
+    
+    private function _priceWindows(BuilderArrayMapper $BuilderArrayMapper, $builder_values_array){
+	$windows_count	= $BuilderArrayMapper->getWindowsCount($builder_values_array);
+	if($windows_count>0){
+	    $price_array	= $this->_data->windows_array;
+	    $price		= 0;
+	    $type		= $BuilderArrayMapper->getStructureTypeCode($builder_values_array);
+	    $certified		= $BuilderArrayMapper->getCertifiedCode($builder_values_array);
+	    $certified		= $certified == "Y" ? "certified" : "uncertified"; 
+	    
+	    for($i=0;$i<$windows_count;$i++){
+		$window_type  = $BuilderArrayMapper->getWindowTypeCode($builder_values_array, $i);
+		$size	    = $BuilderArrayMapper->getWindowSize($builder_values_array, $i);
+		$price	    = $price_array["type"][$type]["certified"][$certified]["window_type"][$window_type][$size];
+		$this->_price += $price;
+		$this->_addDetail("Window ", $price, $size);
 	    }
 	}
     }

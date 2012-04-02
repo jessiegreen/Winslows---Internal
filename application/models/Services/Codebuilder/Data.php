@@ -1148,6 +1148,29 @@ class Data
 	)
     );
     
+    public $windows_array = array(
+	"type" => array(
+	    "MC" => array(
+		"certified" => array(
+		    "uncertified" => array(
+			"window_type" => array(
+			    "SA" => array(
+				"30X30" => 150
+			    ),
+			)
+		    ),
+		    "certified" => array(
+			"window_type" => array(
+			    "SA" => array(
+				"30X30" => 150
+			    )
+			)
+		    ),
+		)
+	    ),	    
+	)
+    );
+    
     public function __construct() {
 	
     }
