@@ -124,12 +124,13 @@ class BuilderController extends Zend_Controller_Action
 		&& $this->_params["builder_size"] 
 		    != $this->_mapper->getSize($this->_session_builder->builder["values"])
 	    ){
-		$size_array = explode("X", $this->_params["builder_size"]);
-		$size_array[0] = str_pad($size_array[0], 2, 0, STR_PAD_LEFT);
-		$size_array[1] = str_pad($size_array[1], 2, 0, STR_PAD_LEFT);
-		$size = implode("X", $size_array);
+		$total_widths_array = $this->_getDoorWindowTotalWidthsArray();
+		$total_width	    = $total_widths_array["F"] + 30;
+		$total_length	    = $total_widths_array["L"] + 30;
+		$size = $this->_sizeToCode($this->_params["builder_size"], 2);
+		
 		$this->_session_builder->builder["values"] = 
-		    $this->_mapper->setSize($this->_params["builder_size"], $this->_session_builder->builder["values"]);
+		    $this->_mapper->setSize($size, $this->_session_builder->builder["values"]);
 		$this->_addSuccessFlashMessage("Changed size.");
 	    }
 	}
@@ -294,14 +295,12 @@ class BuilderController extends Zend_Controller_Action
 		&& isset($this->_params["size"])
 		&& isset($this->_params["location"])
 	    ){
-		$size_array	= explode("X", $this->_params["size"]);
 		if($this->_params["type"] == "RU"){		    
-		    $size_array[0] = $size_array[0]*12;
-		    $size_array[1] = $size_array[1]*12;
+		    $size = $this->_sizeToInches($this->_params["size"]);
 		}
-		$size_array[0]	= str_pad($size_array[0], 3, 0, STR_PAD_LEFT);
-		$size_array[1]	= str_pad($size_array[1], 3, 0, STR_PAD_LEFT);
-		$size		= implode("X", $size_array);
+		else $size = $this->_params["size"];
+		
+		$size = $this->_sizeToCode($size, 3);
 		
 		$this->_addDoor($size, $this->_params["location"], $this->_params["type"]);
 	    }
@@ -329,21 +328,7 @@ class BuilderController extends Zend_Controller_Action
 		&& isset($this->_params["size"])
 		&& isset($this->_params["location"])
 	    ){
-		$size_array	= explode("X", $this->_params["size"]);
-
-		$size_array[0]	= str_pad($size_array[0], 2, 0, STR_PAD_LEFT);
-		$size_array[1]	= str_pad($size_array[1], 2, 0, STR_PAD_LEFT);
-		$size		= implode("X", $size_array);
-		$this->_session_builder->builder["values"] = 
-			$this->_mapper->addWindow(
-				$size, 
-				$this->_params["location"], 
-				$this->_params["type"],
-				"",
-				"",
-				$this->_session_builder->builder["values"]
-				);
-		$this->_addSuccessFlashMessage("Added Window.");
+		$this->_addWindow($this->_params["size"], $this->_params["location"], $this->_params["type"]);
 	    }
 	}
 	
@@ -630,9 +615,17 @@ class BuilderController extends Zend_Controller_Action
 	if($doors_count>0){
 	    for($i=0;$i<$doors_count;$i++)
 	    {
-		$type_array	= $this->_codebuilder->getValueOptionDetailsFromCode("door", "type", $this->_mapper->getDoorTypeCode($this->_session_builder->builder["values"], $i));
+		$type_array	= $this->_codebuilder->getValueOptionDetailsFromCode(
+					"door", 
+					"type", 
+					$this->_mapper->getDoorTypeCode($this->_session_builder->builder["values"], $i)
+				    );
 		$door_size	= $this->_mapper->getDoorSize($this->_session_builder->builder["values"], $i);
-		$location	= $this->_codebuilder->getValueOptionDetailsFromCode("door", "location", $this->_mapper->getDoorLocationCode($this->_session_builder->builder["values"], $i));
+		$location	= $this->_codebuilder->getValueOptionDetailsFromCode(
+					"door", 
+					"location", 
+					$this->_mapper->getDoorLocationCode($this->_session_builder->builder["values"], $i)
+				    );
 		
 		$doors_array[$i] = array(
 		    "display_num"   => $i+1,
@@ -650,12 +643,21 @@ class BuilderController extends Zend_Controller_Action
 	$windows_array = array();
 	$windows_count = $this->_mapper->getWindowsCount($this->_session_builder->builder["values"]);
 	
-	if($windows_count>0){
+	if($windows_count>0)
+	{
 	    for($i=0;$i<$windows_count;$i++)
 	    {
-		$type_array	= $this->_codebuilder->getValueOptionDetailsFromCode("window", "type", $this->_mapper->getWindowTypeCode($this->_session_builder->builder["values"], $i));
+		$type_array	= $this->_codebuilder->getValueOptionDetailsFromCode(
+					    "window", 
+					    "type", 
+					    $this->_mapper->getWindowTypeCode($this->_session_builder->builder["values"], $i)
+					);
 		$window_size	= $this->_mapper->getWindowSize($this->_session_builder->builder["values"], $i);
-		$location	= $this->_codebuilder->getValueOptionDetailsFromCode("window", "location", $this->_mapper->getWindowLocationCode($this->_session_builder->builder["values"], $i));
+		$location	= $this->_codebuilder->getValueOptionDetailsFromCode(
+					    "window", 
+					    "location", 
+					    $this->_mapper->getWindowLocationCode($this->_session_builder->builder["values"], $i)
+					);
 		
 		$windows_array[$i] = array(
 		    "display_num"   => $i+1,
@@ -669,19 +671,142 @@ class BuilderController extends Zend_Controller_Action
 	return $windows_array;
     }
     
+    private function _getLocationLegend()
+    {
+	return array("L" => "Left", "R" => "Right", "F" => "Front", "B" => "Back");
+    }
+    
+    private function _addWindow($size, $location, $type)
+    {
+	$location_legend	= $this->_getLocationLegend();
+	$ok_to_add		= true;
+
+	#--Make sure the walls are closed
+	$this->_checkAndSetWallCoveredForDoorOrWindow("window", $location_legend[$location]);
+	$ok_to_add = $this->_checkAndSetFrameWidthLengthForDoorOrWindow("window", $size, $location, $type);
+	
+	if($ok_to_add)
+	{	    
+	    $size = $this->_sizeToCode($size, 2);
+	    $this->_session_builder->builder["values"] = 
+		    $this->_mapper->addWindow(
+			    $size, 
+			    $location, 
+			    $type,
+			    "",
+			    "",
+			    $this->_session_builder->builder["values"]
+			    );
+	    $this->_addSuccessFlashMessage("Added Window.");
+	}
+    }
+    
     private function _addDoor($size, $location, $type)
     {
-	$location_legend	= array("L" => "Left", "R" => "Right", "F" => "Front", "B" => "Back");
+	$location_legend	= $this->_getLocationLegend();
+	$ok_to_add		= true;
+	
+	#--Make sure the walls are closed
+	$this->_checkAndSetWallCoveredForDoorOrWindow("door", $location_legend[$location]);
+	$this->_checkAndSetLegHeightForDoor($size);
+	$ok_to_add = $this->_checkAndSetFrameWidthLengthForDoorOrWindow("door", $size, $location, $type);
+	
+	if($ok_to_add){
+	    $this->_session_builder->builder["values"] = 
+		$this->_mapper->addDoor(
+			$size, 
+			$location, 
+			$type,
+			"",
+			$this->_session_builder->builder["values"]
+			);
+		    
+	    $this->_addSuccessFlashMessage("Added Door.");
+	}
+    }
+    
+    private function _getDoorWindowTotalWidthsArray()
+    {
+	$doors_count		= $this->_mapper->getDoorsCount($this->_session_builder->builder["values"]);
+	$windows_count		= $this->_mapper->getWindowsCount($this->_session_builder->builder["values"]);
+	$widths_array		= array("L" => 0, "R" => 0, "F" => 0, "B" => 0);
+	if($doors_count>0){
+	    for($i=0;$i<$doors_count;$i++)
+	    {
+		$widths_array[$this->_mapper->getDoorLocationCode($this->_session_builder->builder["values"], $i)] 
+			+= (int) $this->_mapper->getDoorWidthCode($this->_session_builder->builder["values"], $i);
+	    }
+	}
+	
+	if($windows_count>0){
+	    for($i=0;$i<$windows_count;$i++)
+	    {
+		$widths_array[$this->_mapper->getWindowLocationCode($this->_session_builder->builder["values"], $i)] 
+			+= (int) $this->_mapper->getWindowWidthCode($this->_session_builder->builder["values"], $i);
+	    }
+	}
+	
+	return $widths_array;
+    }
+    
+    private function _checkAndSetLegHeightForDoor($size)
+    {
+	$leg_height		= $this->_mapper->getLegHeightCode($this->_session_builder->builder["values"]);
+	$leg_height_inches	= $leg_height * 12;
+	$new_leg_height_inches	= $leg_height_inches;
+	$added_door_size_array	= explode("X", $size);
+	$added_door_height	= $added_door_size_array[1];
+	
+	if(($added_door_height + 8) > $leg_height_inches)
+	{
+	    while($new_leg_height_inches < ($added_door_height+8)){
+		$new_leg_height_inches += 12;
+	    }
+		
+	    $new_leg_height = $new_leg_height_inches/12;
+	    
+	    if($new_leg_height != $leg_height){
+		$this->_session_builder->builder["values"] = 
+		    $this->_mapper->setLegHeight(
+			    str_pad($new_leg_height, 2, 0, STR_PAD_LEFT), 
+			    $this->_session_builder->builder["values"]
+			    );
+		$this->_addSuccessLocalMessage("Increased building leg height to accomodate a door.");
+	    }
+	}	
+    }
+    
+    private function _checkAndSetWallCoveredForDoorOrWindow($door_or_window, $side_string)
+    {
+	if($this->_mapper->getCoveredWallsTypeCodeFromSideString($side_string, $this->_session_builder->builder["values"]) != "CL"){
+	    $this->_session_builder->builder["values"] = 
+		$this->_mapper->setCoveredWallsTypeFromSideString(
+			"CL", 
+			$side_string, 
+			$this->_session_builder->builder["values"]
+			);
+	    $this->_session_builder->builder["values"] = 
+		$this->_mapper->setCoveredWallsHeightFromSideString(
+			"", 
+			$side_string, 
+			$this->_session_builder->builder["values"]
+			);
+	    $this->_addSuccessLocalMessage("Updated the ".$side_string." side of the building to be covered to accomodate a ".$door_or_window.".");
+	}
+    }
+    
+    private function _checkAndSetFrameWidthLengthForDoorOrWindow($door_or_window, $size, $location, $type)
+    {
+	$location_legend	= $this->_getLocationLegend();
 	$building_length_feet	= (int) $this->_mapper->getFrameLengthCode($this->_session_builder->builder["values"]);
 	$building_length_inches	=  $building_length_feet * 12;
 	$building_width_feet	= (int) $this->_mapper->getFrameWidthCode($this->_session_builder->builder["values"]);
 	$building_width_inches	= $building_width_feet * 12;
 	$added_door_size_array	= explode("X", $size);
 	$added_door_width	= $added_door_size_array[0];
+	$size_message		= $type == "RU" ? $this->_sizeToFeet($size) : $this->_sizeCodeToSize($size);
 	$ok_to_add		= true;
 	
-	#--Make sure the walls are closed
-	$this->_checkAndSetWallCoveredForDoor($location_legend[$location]);
 	#--Get the total width in inches of all doors and windows for each side of the building
 	$door_window_widths = $this->_getDoorWindowTotalWidthsArray();
 	#--Add the new door width to the total of the appropriate side
@@ -711,10 +836,13 @@ class BuilderController extends Zend_Controller_Action
 				$new_length, 
 				$this->_session_builder->builder["values"]
 				);
-		    $this->_addSuccessLocalMessage("Increased building length to accomodate door.");
+		    $this->_addSuccessLocalMessage("Increased building length to accomodate ".$door_or_window.".");
 		}
 		else{
-		    $this->_addErrorLocalMessage("Maximum building length reached. You can not add any more doors to the ".$location_legend[$location]." side;");
+		    $this->_addErrorLocalMessage(
+			    "Maximum building length reached. You can not add any more ".$size_message.
+			    " ".$door_or_window."s to the ".$location_legend[$location]." side;"
+			    );
 		    $ok_to_add = false;
 		}
 	    }
@@ -758,69 +886,62 @@ class BuilderController extends Zend_Controller_Action
 				$new_length, 
 				$this->_session_builder->builder["values"]
 				);
-		    $this->_addSuccessLocalMessage("Increased building width to accomodate door.");
+		    $this->_addSuccessLocalMessage("Increased building width to accomodate ".$door_or_window.".");
 		}
 		else{
-		    $this->_addErrorLocalMessage("Maximum building width reached. You can not add any more doors to the ".$location_legend[$location]." side;");
+		    $this->_addErrorLocalMessage(
+			    "Maximum building width reached. You can not add any more ".$size_message.
+			    " ".$door_or_window."s to the ".$location_legend[$location]." side;"
+			    );
 		    $ok_to_add = false;
 		}
 	    }
 	}
-	if($ok_to_add){
-	    $this->_session_builder->builder["values"] = 
-		$this->_mapper->addDoor(
-			$size, 
-			$location, 
-			$type,
-			"",
-			$this->_session_builder->builder["values"]
-			);
-		    
-	    $this->_addSuccessFlashMessage("Added Door.");
-	}
+	
+	return $ok_to_add;
     }
     
-    private function _getDoorWindowTotalWidthsArray()
+    private function _sizeToInches($size)
     {
-	$doors_count		= $this->_mapper->getDoorsCount($this->_session_builder->builder["values"]);
-	$windows_count		= $this->_mapper->getWindowsCount($this->_session_builder->builder["values"]);
-	$widths_array		= array("L" => 0, "R" => 0, "F" => 0, "B" => 0);
-	if($doors_count>0){
-	    for($i=0;$i<$doors_count;$i++)
-	    {
-		$widths_array[$this->_mapper->getDoorLocationCode($this->_session_builder->builder["values"], $i)] 
-			+= (int) $this->_mapper->getDoorWidthCode($this->_session_builder->builder["values"], $i);
-	    }
-	}
+	$size_array	= explode("X", $size);	    
+	$size_array[0]	= $size_array[0]*12;
+	$size_array[1]	= $size_array[1]*12;
 	
-	if($windows_count>0){
-	    for($i=0;$i<$windows_count;$i++)
-	    {
-		$widths_array[$this->_mapper->getWindowLocationCode($this->_session_builder->builder["values"], $i)] 
-			+= (int) $this->_mapper->getWindowWidthCode($this->_session_builder->builder["values"], $i);
-	    }
-	}
-	
-	return $widths_array;
+	return implode("X", $size_array);
     }
     
-    private function _checkAndSetWallCoveredForDoor($side_string)
+    private function _sizeToFeet($size)
     {
-	if($this->_mapper->getCoveredWallsTypeCodeFromSideString($side_string, $this->_session_builder->builder["values"]) != "CL"){
-	    $this->_session_builder->builder["values"] = 
-		$this->_mapper->setCoveredWallsTypeFromSideString(
-			"CL", 
-			$side_string, 
-			$this->_session_builder->builder["values"]
-			);
-	    $this->_session_builder->builder["values"] = 
-		$this->_mapper->setCoveredWallsHeightFromSideString(
-			"", 
-			$side_string, 
-			$this->_session_builder->builder["values"]
-			);
-	    $this->_addSuccessLocalMessage("Updated the ".$side_string." side of the building to be covered to accomodate a door.");
-	}
+	$size_array	= explode("X", $size);	    
+	$size_array[0]	= round(($size_array[0]/12), 0, PHP_ROUND_HALF_UP);
+	$size_array[1]	=  round(($size_array[1]/12), 0, PHP_ROUND_HALF_UP);
+	
+	return implode("X", $size_array);
+    }
+    
+    private function _sizeToCode($size, $length)
+    {
+	$size_array	= explode("X", $size);
+	$size_array[0]	= str_pad($size_array[0], $length, 0, STR_PAD_LEFT);
+	$size_array[1]	= str_pad($size_array[1], $length, 0, STR_PAD_LEFT);
+	$size		= implode("X", $size_array);
+	
+	return $size;
+    }
+    
+    private function _sizeCodeToSize($size)
+    {
+	$size_array	= explode("X", $size);
+	$size_array[0]	= number_format($size_array[0]);
+	$size_array[1]	= number_format($size_array[1]);
+	$size		= implode("X", $size_array);
+	
+	return $size;
+    }
+    
+    private function getWidthFromSize($size)
+    {
+	
     }
 }
 

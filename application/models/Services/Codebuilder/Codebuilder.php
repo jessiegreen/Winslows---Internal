@@ -44,11 +44,6 @@ class Codebuilder
     private $_builder_array_mapper;
     
     /**
-     * @var OptionsMapper $_optionsmapper
-     */
-    private $_optionsmapper;
-    
-    /**
      * @var \Repositories\CbOption  $_option_repos
      */
     private $_option_repos;
