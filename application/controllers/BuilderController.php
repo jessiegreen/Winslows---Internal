@@ -114,9 +114,21 @@ class BuilderController extends Zend_Controller_Action
 		&& $this->_params["leg_height"] 
 		    != $this->_mapper->getLegHeightCode($this->_session_builder->builder["values"])
 	    ){
-		$this->_session_builder->builder["values"] = 
-		    $this->_mapper->setLegHeight(str_pad($this->_params["leg_height"], 2, 0, STR_PAD_LEFT), $this->_session_builder->builder["values"]);
-		$this->_addSuccessFlashMessage("Changed leg height.");
+		$tallest_door_height	= $this->_getTallestDoorHeight() + 12;
+		$new_leg_height_inches	= $this->_params["leg_height"] * 12;
+		$ok_to_change		= true;
+		
+		if($tallest_door_height > $new_leg_height_inches)
+		{
+		    $ok_to_change = false;
+		    $this->_addErrorLocalMessage("Cannot reduce leg height to ".$this->_params["leg_height"]."' because of doors");
+		}
+		if($ok_to_change)
+		{
+		    $this->_session_builder->builder["values"] = 
+			$this->_mapper->setLegHeight(str_pad($this->_params["leg_height"], 2, 0, STR_PAD_LEFT), $this->_session_builder->builder["values"]);
+		    $this->_addSuccessFlashMessage("Changed leg height.");
+		}
 	    }
 	    
 	    if(
@@ -127,11 +139,28 @@ class BuilderController extends Zend_Controller_Action
 		$total_widths_array = $this->_getDoorWindowTotalWidthsArray();
 		$total_width	    = $total_widths_array["F"] + 30;
 		$total_length	    = $total_widths_array["L"] + 30;
-		$size = $this->_sizeToCode($this->_params["builder_size"], 2);
+		$new_width	    = $this->_getWidthFromSize($this->_params["builder_size"]);
+		$new_width_inches   = $new_width * 12;
+		$new_length	    = $this->_getLengthFromSize($this->_params["builder_size"]);
+		$new_length_inches  = $new_length * 12;
+		$ok_to_change	    = true;
 		
-		$this->_session_builder->builder["values"] = 
-		    $this->_mapper->setSize($size, $this->_session_builder->builder["values"]);
-		$this->_addSuccessFlashMessage("Changed size.");
+		if($new_width_inches < ($total_widths_array["F"] + 30) || $new_width_inches < ($total_widths_array["B"] + 30)){
+		    $this->_addErrorLocalMessage("Cannot reduce width to ".$new_width." because of doors and/or windows");
+		    $ok_to_change = false;
+		}
+		if($new_length_inches < ($total_widths_array["L"]+30) || $new_length_inches < ($total_widths_array["R"]+30)){
+		    $this->_addErrorLocalMessage("Cannot reduce length to ".$new_length." because of doors and/or windows");
+		    $ok_to_change = false;
+		}
+		
+		if($ok_to_change){
+		    $size = $this->_sizeToCode($this->_params["builder_size"], 2);
+
+		    $this->_session_builder->builder["values"] = 
+			$this->_mapper->setSize($size, $this->_session_builder->builder["values"]);
+		    $this->_addSuccessFlashMessage("Changed size.");
+		}
 	    }
 	}
 	
@@ -147,73 +176,12 @@ class BuilderController extends Zend_Controller_Action
 	{
 	    foreach (array("left", "right", "front", "back") as $side) 
 	    {
-		$covered_walls_type	    = $this->_mapper->getCoveredWallsTypeCodeFromSideString($side, $this->_session_builder->builder["values"]);
-		$covered_walls_height	    = $this->_mapper->getCoveredWallsHeightCodeFromSideString($side, $this->_session_builder->builder["values"]);
-		$covered_walls_orientation  = $this->_mapper->getOrientationCodeFromSideString($side, $this->_session_builder->builder["values"]);
-		
-		if(
-		    isset($this->_params["builder_walls_height_".$side])
-		    && $this->_params["builder_walls_height_".$side] != $covered_walls_height		    
-		)
-		{
-		    $this->_session_builder->builder["values"] = 
-			$this->_mapper->setCoveredWallsHeightFromSideString(
-				    $this->_params["builder_walls_height_".$side], 
-				    $side, 
-				    $this->_session_builder->builder["values"]
-				    );
-		    $this->_addSuccessFlashMessage("Changed ".$side." partial wall height.");
-		}
-		
-		if(
-		    isset($this->_params["builder_walls_orientation_".$side])
-		    && $this->_params["builder_walls_orientation_".$side] != "null"
-		    && $this->_params["builder_walls_orientation_".$side] != $covered_walls_orientation		    
-		)
-		{
-		    $this->_session_builder->builder["values"] = 
-			$this->_mapper->setOrientationFromSideString(
-				    $this->_params["builder_walls_orientation_".$side], 
-				    $side, 
-				    $this->_session_builder->builder["values"]
-				    );
-		    $this->_addSuccessFlashMessage("Changed ".$side." wall siding orientation.");
-		}
-		
-		if(
-		    isset($this->_params["builder_walls_type_".$side])
-		    && $this->_params["builder_walls_type_".$side] != $covered_walls_type		    
-		)
-		{
-		    $this->_session_builder->builder["values"] = 
-			    $this->_mapper->setCoveredWallsTypeFromSideString(
-				    $this->_params["builder_walls_type_".$side], 
-				    $side, 
-				    $this->_session_builder->builder["values"]
-				    );
-		    if(in_array($this->_params["builder_walls_type_".$side], array("", "NO")))
-		    {#--If the wall is not covered then clear any orientation or height values for that side
-			$this->_session_builder->builder["values"] = 
-			    $this->_mapper->setOrientationFromSideString("", $side, $this->_session_builder->builder["values"]);
-			$this->_session_builder->builder["values"] = 
-			    $this->_mapper->setCoveredWallsHeightFromSideString("", $side, $this->_session_builder->builder["values"]);
-		    }
-		    else
-		    { #--Wall is covered so set defaults
-			$this->_session_builder->builder["values"] = 
-			    $this->_mapper->setOrientationFromSideString("H", $side, $this->_session_builder->builder["values"]);
-			if(in_array($this->_params["builder_walls_type_".$side], array("PB", "PT"))){
-			    $this->_session_builder->builder["values"] = 
-				$this->_mapper->setCoveredWallsHeightFromSideString("1", $side, $this->_session_builder->builder["values"]);
-			}
-			else
-			{
-			    $this->_session_builder->builder["values"] = 
-				$this->_mapper->setCoveredWallsHeightFromSideString("", $side, $this->_session_builder->builder["values"]);
-			}
-		    }
-		    $this->_addSuccessFlashMessage("Changed ".$side." wall style.");
-		}
+		$this->_setCoveredWalls(
+			$side, 
+			isset($this->_params["builder_walls_orientation_".$side]) ? $this->_params["builder_walls_orientation_".$side] : "", 
+			isset($this->_params["builder_walls_type_".$side]) ? $this->_params["builder_walls_type_".$side] : "", 
+			isset($this->_params["builder_walls_height_".$side]) ? $this->_params["builder_walls_height_".$side] : ""
+			);
 	    }
 	}
 	
@@ -333,6 +301,10 @@ class BuilderController extends Zend_Controller_Action
 	}
 	
 	$this->view->windows = $this->_getCurrentWindowsAsArray();
+    }
+    
+    public function optionsAction(){
+	$this->_helper->layout->disableLayout();
     }
     
     public function messengerAction(){
@@ -749,6 +721,21 @@ class BuilderController extends Zend_Controller_Action
 	return $widths_array;
     }
     
+    private function _getTallestDoorHeight(){
+	$doors_count	= $this->_mapper->getDoorsCount($this->_session_builder->builder["values"]);
+	$tallest_door	= 0;
+	
+	if($doors_count>0){
+	    for($i=0;$i<$doors_count;$i++)
+	    {
+		$door_height = $this->_mapper->getDoorHeightCode($this->_session_builder->builder["values"], $i);
+		if($door_height > $tallest_door)$tallest_door = $door_height;
+	    }
+	}
+	
+	return $tallest_door;
+    }
+    
     private function _checkAndSetLegHeightForDoor($size)
     {
 	$leg_height		= $this->_mapper->getLegHeightCode($this->_session_builder->builder["values"]);
@@ -777,20 +764,9 @@ class BuilderController extends Zend_Controller_Action
     }
     
     private function _checkAndSetWallCoveredForDoorOrWindow($door_or_window, $side_string)
-    {
+    {	
 	if($this->_mapper->getCoveredWallsTypeCodeFromSideString($side_string, $this->_session_builder->builder["values"]) != "CL"){
-	    $this->_session_builder->builder["values"] = 
-		$this->_mapper->setCoveredWallsTypeFromSideString(
-			"CL", 
-			$side_string, 
-			$this->_session_builder->builder["values"]
-			);
-	    $this->_session_builder->builder["values"] = 
-		$this->_mapper->setCoveredWallsHeightFromSideString(
-			"", 
-			$side_string, 
-			$this->_session_builder->builder["values"]
-			);
+	    $this->_setCoveredWalls($side_string, "", "CL", "");
 	    $this->_addSuccessLocalMessage("Updated the ".$side_string." side of the building to be covered to accomodate a ".$door_or_window.".");
 	}
     }
@@ -939,9 +915,86 @@ class BuilderController extends Zend_Controller_Action
 	return $size;
     }
     
-    private function getWidthFromSize($size)
+    private function _getWidthFromSize($size)
     {
-	
+	$size_array	= explode("X", $size);
+	return number_format($size_array[0]);
+    }
+    
+    private function _getLengthFromSize($size)
+    {
+	$size_array	= explode("X", $size);
+	return number_format($size_array[1]);
+    }
+    
+    private function _setCoveredWalls($side, $orientation, $type, $height)
+    {
+	$locations_legend	    = $this->_getLocationLegend();
+	$door_window_widths_array   = $this->_getDoorWindowTotalWidthsArray();
+	$covered_walls_type	    = $this->_mapper->getCoveredWallsTypeCodeFromSideString($side, $this->_session_builder->builder["values"]);
+	$covered_walls_height	    = $this->_mapper->getCoveredWallsHeightCodeFromSideString($side, $this->_session_builder->builder["values"]);
+	$covered_walls_orientation  = $this->_mapper->getOrientationCodeFromSideString($side, $this->_session_builder->builder["values"]);
+
+	if($type != "CL" && $door_window_widths_array[array_search(ucfirst(strtolower($side)), $locations_legend)] > 0){
+	    $this->_addErrorLocalMessage(
+		    "Can not change the wall type from closed on the ".$side." side because of doors/windows"
+		    );
+	}
+	else{
+	    if($height != $covered_walls_height)
+	    {
+		$this->_session_builder->builder["values"] = 
+		    $this->_mapper->setCoveredWallsHeightFromSideString(
+				$height, 
+				$side, 
+				$this->_session_builder->builder["values"]
+				);
+		$this->_addSuccessFlashMessage("Changed ".$side." partial wall height.");
+	    }
+
+	    if($orientation != "null" && $orientation != $covered_walls_orientation)
+	    {
+		$this->_session_builder->builder["values"] = 
+		    $this->_mapper->setOrientationFromSideString(
+				$orientation, 
+				$side, 
+				$this->_session_builder->builder["values"]
+				);
+		$this->_addSuccessFlashMessage("Changed ".$side." wall siding orientation.");
+	    }
+
+	    if($type != $covered_walls_type)
+	    {
+		$this->_session_builder->builder["values"] = 
+			$this->_mapper->setCoveredWallsTypeFromSideString(
+				$type, 
+				$side, 
+				$this->_session_builder->builder["values"]
+				);
+		if(in_array($type, array("", "NO")))
+		{#--If the wall is not covered then clear any orientation or height values for that side
+		    $this->_session_builder->builder["values"] = 
+			$this->_mapper->setOrientationFromSideString("", $side, $this->_session_builder->builder["values"]);
+		    $this->_session_builder->builder["values"] = 
+			$this->_mapper->setCoveredWallsHeightFromSideString("", $side, $this->_session_builder->builder["values"]);
+		}
+		else
+		{ #--Wall is covered so set defaults
+		    $this->_session_builder->builder["values"] = 
+			$this->_mapper->setOrientationFromSideString("H", $side, $this->_session_builder->builder["values"]);
+		    if(in_array($type, array("PB", "PT"))){
+			$this->_session_builder->builder["values"] = 
+			    $this->_mapper->setCoveredWallsHeightFromSideString("1", $side, $this->_session_builder->builder["values"]);
+		    }
+		    else
+		    {
+			$this->_session_builder->builder["values"] = 
+			    $this->_mapper->setCoveredWallsHeightFromSideString("", $side, $this->_session_builder->builder["values"]);
+		    }
+		}
+		$this->_addSuccessFlashMessage("Changed ".$side." wall style.");
+	    }
+	}
     }
 }
 

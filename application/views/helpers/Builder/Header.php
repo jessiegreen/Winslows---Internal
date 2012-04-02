@@ -43,6 +43,7 @@ class Builder_View_Helper_Header // extends Zend_View_Helper_Abstract
 			    <li><a href="/builder/colors" title="Colors">Colors</a></li>
 			    <li><a href="/builder/doors" title="Doors">Doors</a></li>
 			    <li><a href="/builder/windows" title="Windows">Windows</a></li>
+			    <li><a href="/builder/options" title="Options">Options</a></li>
 			</ul>
 			    <div id="Location" class="tab_conts"></div>
 			    <div id="Type" class="tab_conts"></div>
@@ -52,6 +53,7 @@ class Builder_View_Helper_Header // extends Zend_View_Helper_Abstract
 			    <div id="Colors" class="tab_conts"></div>
 			    <div id="Doors" class="tab_conts"></div>
 			    <div id="Windows" class="tab_conts"></div>
+			    <div id="Options" class="tab_conts"></div>
 		    </div>';
 	
 	return $return;

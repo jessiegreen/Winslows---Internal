@@ -351,3 +351,7 @@ Builder.prototype.windows_init = function(){
 		dialog.dialog('open');
     });
 }
+
+Builder.prototype.option_click_bind = function(){
+
+}

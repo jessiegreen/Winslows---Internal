@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Builder Header helper
+ * Builder Local Header helper
  *
  */
 class Builder_View_Helper_LocalHeader // extends Zend_View_Helper_Abstract

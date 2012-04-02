@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Builder Footer helper
+ * Builder Local Footer helper
  *
  */
-class Builder_View_Helper_Footer // extends Zend_View_Helper_Abstract
+class Builder_View_Helper_LocalFooter // extends Zend_View_Helper_Abstract
 {
     public $view;
 
@@ -13,13 +13,13 @@ class Builder_View_Helper_Footer // extends Zend_View_Helper_Abstract
         $this->view = $view;
     }
 
-    public function footer()
+    public function localFooter()
     {
-        $return = '</div></div><div id="dirty" style=""></div>';
-	$return.= "<script type='text/javascript'>$('#example').tabs({ cache: false });</script>";
-	$return.= "<script type='text/javascript'>
-			B = new Builder;
-			B.reset_click_bind();
+        $return = '';
+	$return.= "<script type='text/javascript'>";
+	$return.= "b = new Builder();
+		    b.update(
+			'".$this->view->code."','".$this->view->price."', ".$this->view->hints.", ".json_encode($this->view->details).", ".json_encode($this->view->price_details).");
 		    </script>";
 	return $return;
     }

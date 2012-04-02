@@ -1,3 +1,4 @@
+<?php echo $this->localHeader();?>
 <script type="text/javascript">
     $(function() {
 	$( ".jquery_radio" ).buttonset();
@@ -20,5 +21,5 @@ $('#walls_next').click(function(){
 
 b = new Builder();
 b.walls_click_bind();
-b.update('<?php echo $this->code;?>','<?php echo $this->price;?>', <?php echo $this->hints;?>, <?php echo json_encode($this->details);?>, <?php echo json_encode($this->price_details);?>);
 </script>
+<?php echo $this->localFooter();?>

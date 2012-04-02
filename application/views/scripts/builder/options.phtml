@@ -1,0 +1,14 @@
+<?php echo $this->localHeader();?>
+<h4 style="color: #0052CC;">
+    <?php echo "Choose your options.";?>
+</h4>
+<div>
+    <?php
+	echo $this->form;
+    ?>
+</div>
+<script type="text/javascript">
+b = new Builder();
+b.option_click_bind();
+</script>
+<?php echo $this->localFooter();?>
