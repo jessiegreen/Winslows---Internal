@@ -42,7 +42,7 @@ class LoginController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        $this->view->form = $this->getForm();
+        //$this->view->form = $this->getForm();
     }
 
     public function processAction()
