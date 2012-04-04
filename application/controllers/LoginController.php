@@ -25,19 +25,19 @@ class LoginController extends Zend_Controller_Action
 
     public function preDispatch()
     {
-        if (Zend_Auth::getInstance()->hasIdentity()) {
-            // If the user is logged in, we don't want to show the login form;
-            // however, the logout action should still be available
-            if ('logout' != $this->getRequest()->getActionName()) {
-                $this->_helper->redirector('index', 'index');
-            }
-        } else {
-            // If they aren't, they can't logout, so that action should
-            // redirect to the login form
-            if ('logout' == $this->getRequest()->getActionName()) {
-                $this->_helper->redirector('index');
-            }
-        }
+//        if (Zend_Auth::getInstance()->hasIdentity()) {
+//            // If the user is logged in, we don't want to show the login form;
+//            // however, the logout action should still be available
+//            if ('logout' != $this->getRequest()->getActionName()) {
+//                $this->_helper->redirector('index', 'index');
+//            }
+//        } else {
+//            // If they aren't, they can't logout, so that action should
+//            // redirect to the login form
+//            if ('logout' == $this->getRequest()->getActionName()) {
+//                $this->_helper->redirector('index');
+//            }
+//        }
     }
 
     public function indexAction()
