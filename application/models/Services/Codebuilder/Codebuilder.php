@@ -187,7 +187,7 @@ class Codebuilder
 		}
 	    }
 	}
-	asort($code_array);
+	ksort($code_array);
 	return implode("", $code_array);
     }
     
