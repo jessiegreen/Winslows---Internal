@@ -32,19 +32,23 @@
     color: #4297d7;
 }
 
-#builder_container #builder_price{
+#builder_container #builder_options_bar{
     color: #222222;
+    position: absolute;
+    left: -0px;
+    top:275px;
+    padding: 5px;
+    background-color: lightblue;
+    width:440px;
+}
+
+#builder_container #builder_options_bar #builder_price_container{
+    
 }
 
 #builder_container #builder_code{
     color: #222222;
     font-size: 12px;
-}
-
-#builder_container #builder_options_bar{
-    border:solid 1px #E5E5E5;
-    padding:3px;
-    margin-bottom:5px;
 }
 
 #builder_container #tabs_messenger{

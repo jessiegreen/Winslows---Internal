@@ -20,17 +20,22 @@ class Builder_View_Helper_Header // extends Zend_View_Helper_Abstract
         $return = '<div id="builder_container">
 		    <h4>Welcome to the building wizard!</h4>
 		    <h4>Current Code: <span id="builder_code"></span></h4>
-		    <h4>Price: <span id="builder_price"></span></h4>
-		    <div id="builder_options_bar">
-			<input id="reset" type="button" class="blue_button" value="Reset"/>
-			<div id="tabs_messenger"></div>
-			<div style="clear:both"></div>
-		    </div>
 		    <div id="builder_left_pane">
+			<div id="builder_options_bar">
+			    <div id="builder_price_container" class="blue_button ui-button ui-widget ui-state-default ui-corner-all" style="float:left;padding:2px;">
+				Price:<span id="builder_price"></span>
+			    </div>
+			    <div style="float:right">
+				<input id="reset" type="button" class="blue_button" value="Reset"/>
+				<input id="buy_now_button" type="button" class="blue_button" value="Buy Now!"/>
+			    </div>
+			</div>
 			<img src="/img/builder/renderings/5.jpg" style="width:100%" />
 			<div id="builder_hints"></div>
+			<div id="builder_details_container">
 			<div id="builder_details"></div>
 			<div id="price_details"></div>
+			</div>
 		    </div>
 		    <div id="builder_right_pane">';
 	$return .= '<div id="example">

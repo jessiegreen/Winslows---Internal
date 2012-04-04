@@ -133,6 +133,7 @@ Builder.prototype.walls_click_bind = function(){
 
 Builder.prototype.reset_click_bind = function(){
     $('#reset').button();
+    $('#buy_now_button').button();
     $('#reset').click(function(){
 	$('#dirty').load('/builder/clear',function(){
 		setTimeout(function(){
