@@ -4,7 +4,7 @@ namespace Entities;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /** 
- * @Entity (repositoryClass="Repositories\WebAccount") 
+ * @Entity (repositoryClass="Repositories\Webaccount") 
  * @Table(name="webaccounts") 
  * @HasLifecycleCallbacks
  */

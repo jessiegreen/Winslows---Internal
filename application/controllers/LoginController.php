@@ -58,6 +58,7 @@ class LoginController extends Zend_Controller_Action
         $form = $this->getForm();
         if (!$form->isValid($request->getPost())) {
             // Invalid entries
+	    $form->populate($request->getPost());
             $this->view->form = $form;
 	    Zend_Auth::getInstance()->clearIdentity();
             return $this->render('index'); // re-render the login form
