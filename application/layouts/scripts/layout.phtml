@@ -39,12 +39,12 @@
         $auth = Zend_Auth::getInstance();
 
 	#--Check if user logged in
-        if (!$auth->hasIdentity()){
-	    if($_SERVER["REQUEST_URI"] != "/login/index")
-	    header('Location: /login/index');
-	}
-	else
-	{
+//        if (!$auth->hasIdentity()){
+//	    if($_SERVER["REQUEST_URI"] != "/login/index")
+//	    header('Location: /login/index');
+//	}
+//	else
+//	{
 	    ?>
 	    <div id="nav_container">
 		<?php
@@ -99,7 +99,7 @@
 		<div id="nav_filler"></div>
 	    </div>
 	    <?php 
-	}
+//	}
 	echo $this->layout()->content 
 	?>
 	<div style="height: 5px;"></div>
