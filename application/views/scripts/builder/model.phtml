@@ -5,14 +5,10 @@
 	    : "Choose the model of building you would like.";
     ?>
 </h4>
-<div>
+<div id="model_form_cont">
+    <img src="/img/builder/types.png" style="width: 350px;height: 80px;"/>
     <?php
 	echo $this->form;
-	if($this->selected){
-	    ?>
-	    
-	    <?php
-	}
     ?>
 </div>
 <script type="text/javascript">
@@ -20,7 +16,7 @@ $('#model_next').button();
 $('#model_next').click(function(){
     $("#example").tabs("select" , "Size" );
 });
-
+$( "#model_form_cont" ).buttonset();
 b = new Builder();
 b.model_click_bind();
 </script>

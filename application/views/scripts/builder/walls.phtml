@@ -1,9 +1,4 @@
 <?php echo $this->localHeader();?>
-<script type="text/javascript">
-    $(function() {
-	$( ".jquery_radio" ).buttonset();
-    });
-</script>
 <h4 style="color: #0052CC;">
     Choose Wall Options <br /><span style="color:silver;font-size: 12px;"> (Required if you want any doors, windows, etc.).</span>
 </h4>
@@ -18,7 +13,7 @@ $('#walls_next').button();
 $('#walls_next').click(function(){
     $("#example").tabs("select" , "Colors" );
 });
-
+$( ".jquery_radio" ).buttonset();
 b = new Builder();
 b.walls_click_bind();
 </script>

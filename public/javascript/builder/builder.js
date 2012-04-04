@@ -63,7 +63,7 @@ Builder.prototype.map_click_bind = function(){
 }
 
 Builder.prototype.type_click_bind = function(){
-    $("#form_type > *").click(function(e){
+    $("#type_form_cont :input").click(function(e){
 	//Get the value of the clicked area
 	var selected = $(e.target).val();
 	if(selected != "undefined"){
@@ -80,7 +80,7 @@ Builder.prototype.type_click_bind = function(){
 }
 
 Builder.prototype.model_click_bind = function(){
-    $("#form_model > *").click(function(e){
+    $("#model_form_cont :input").click(function(e){
 	//Get the value of the clicked area
 	var selected = $(e.target).val();
 	if(selected != "undefined"){

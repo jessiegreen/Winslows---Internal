@@ -72,6 +72,7 @@ class BuilderController extends Zend_Controller_Action
     
     public function indexAction()
     {	
+	$this->_helper->layout->setLayout("basic");
 	$session		= new Zend_Session_Namespace('Dataservice');
 	$session->redirect	= $_SERVER['REQUEST_URI'];
     }

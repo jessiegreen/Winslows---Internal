@@ -5,7 +5,7 @@
 	    : "Choose the type of building you would like.";
     ?>
 </h4>
-<div>
+<div id="type_form_cont">
     <?php
 	echo $this->form;
     ?>
@@ -15,6 +15,7 @@ $('#type_next').button();
 $('#type_next').click(function(){
     $("#example").tabs("select" , "Model" );
 });
+$("#type_form_cont").buttonset();
 
 b = new Builder();
 b.type_click_bind();

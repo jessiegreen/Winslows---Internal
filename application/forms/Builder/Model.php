@@ -25,12 +25,13 @@ class Form_Builder_Model extends Zend_Form
 	$this->setAttrib("id", "form_model");
 	$options = array();
 	foreach ($this->_localmodels as $model) {
-	    $options[$model["code"]] = $model['name']."<br /><div style='color:silver;margin-left:20px'>".$model['description']."</div>"; 
+	    $options[$model["code"]] = "<div style='width:110px;'>".$model['name']."</div>"; 
 	}
 	$builder_type = $this->addElement('radio', 'builder_type', array(
             'required'	    => true,
 	    'escape'	    => false,
 	    'multioptions'  => $options,
+	    'separator'	    => '',
 	    'value'	    => $this->_localselected ? $this->_localselected : ""
         ));
 	
