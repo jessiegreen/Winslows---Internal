@@ -47,8 +47,9 @@
 }
 
 #builder_container #builder_code{
-    color: #222222;
+    color: #FFF;
     font-size: 12px;
+    padding-bottom: 2px;
 }
 
 #builder_container #tabs_messenger{
@@ -84,13 +85,13 @@
 #builder_details{
     position: absolute;
     left:0;
-    top:285px;
+    top:310px;
 }
 
 #price_details{
     position: absolute;
     right:0;
-    top:305px;
+    top:310px;
 }
 
 #builder_colorpicker{

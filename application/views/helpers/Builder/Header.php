@@ -19,7 +19,7 @@ class Builder_View_Helper_Header // extends Zend_View_Helper_Abstract
 	$this->view->headLink()->appendStylesheet('/css/jquery-ui/redmond/jquery-ui.custom.css');
         $return = '<div id="builder_container">
 		    <h4>Welcome to the building wizard!</h4>
-		    <h4>Current Code: <span id="builder_code"></span></h4>
+		    <div id="builder_code"></div>
 		    <div id="builder_left_pane">
 			<div id="builder_options_bar">
 			    <div id="builder_price_container" class="blue_button ui-button ui-widget ui-state-default ui-corner-all" style="float:left;padding:2px;">

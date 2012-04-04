@@ -548,7 +548,7 @@ class BuilderController extends Zend_Controller_Action
 	} catch (Exception $exc) {
 	    $errors[] = $exc->getMessage();
 	}
-	$return .= "<div style='clear:both'><h4 style='background-color:red;margin-top:0px;padding-top:0px;'>".implode("<br />", $errors)."</h4>";
+	
 	if(!$errors){
 	    //$return .= print_r($options,true);
 	    foreach($options as $option_code => $option_array)
