@@ -18,6 +18,16 @@ html, body, a, img, legend{
 div{
     width: auto;
 }
+iframe{
+    border:0pt none; 
+    font-family:inherit; 
+    font-size: 100%; 
+    font-style:inherit; 
+    font-weight:inherit; 
+    margin:0pt; 
+    padding:0pt; 
+    vertical-align:baseline;
+}
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section {

@@ -25,12 +25,13 @@ class Form_Builder_Type extends Zend_Form
 	$this->setAttrib("id", "form_type");
 	$options = array();
 	foreach ($this->_localtypes as $type) {
-	    $options[$type["code"]] = $type['name']."<br /><div style='color:silver;margin-left:20px'>".$type['description']."</div>"; 
+	    $options[$type["code"]] = "<div style='width:180px;'>".$type['name']."</div>"; 
 	}
 	
 	$builder_type = $this->addElement('radio', 'builder_type', array(
             'required'	    => true,
 	    'escape'	    => false,
+	    'separator'	    => "",
 	    'multioptions'  => $options,
 	    'value'	    => $this->_localselected ? $this->_localselected : ""
         ));
