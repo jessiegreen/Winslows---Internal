@@ -15,13 +15,10 @@ class Builder_View_Helper_Header // extends Zend_View_Helper_Abstract
 
     public function header()
     {
-	$this->view->headScript()->appendFile("/javascript/jquery-ui.min.js");
-	$this->view->headLink()->appendStylesheet('/css/jquery-ui/redmond/jquery-ui.custom.css');
         $return = '<div id="builder_container">
-		    <h4>Welcome to the building wizard!</h4>
-		    <div id="builder_code"></div>
 		    <div id="builder_left_pane">
-			<div id="builder_options_bar">
+			<div id="builder_welcome" class="ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-top" style="padding-left:10px;">Welcome to the building wizard!</div>
+			<div id="builder_options_bar" class="ui-widget-header">
 			    <div id="builder_price_container" class="blue_button ui-button ui-widget ui-state-default ui-corner-all" style="float:left;padding:2px;">
 				Price:<span id="builder_price"></span>
 			    </div>

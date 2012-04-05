@@ -5,6 +5,10 @@
     Description:
         Purpose of the stylesheet follows.
 */
+html{
+    overflow: hidden;
+}
+
 .map_region:hover{
     background-color: #222222;
 }
@@ -19,6 +23,9 @@
     height:1200px;
     border:solid 1px #E5E5E5;
     position: relative;
+    border-radius: 10px 10px 10px 10px; 
+    -moz-border-radius: 10px 10px 10px 10px; 
+    -webkit-border-radius: 10px 10px 10px 10px;
 }
 
 #builder_container #builder_right_pane{
@@ -26,6 +33,9 @@
     padding: 5px;
     float:right;
     width:450px;
+    border-radius: 10px 10px 10px 10px; 
+    -moz-border-radius: 10px 10px 10px 10px; 
+    -webkit-border-radius: 10px 10px 10px 10px;
 }
 
 #builder_container h4{
@@ -36,20 +46,25 @@
     color: #222222;
     position: absolute;
     left: -0px;
-    top:275px;
+    top:290px;
     padding: 5px;
-    background-color: lightblue;
-    width:440px;
+    width:438px;
 }
 
 #builder_container #builder_options_bar #builder_price_container{
-    
+    cursor: default;
+}
+
+#builder_price{
+    cursor: default;
 }
 
 #builder_container #builder_code{
     color: #FFF;
-    font-size: 12px;
-    padding-bottom: 2px;
+    font-size: 1px;
+}
+
+#building_container #builder_welcome{
 }
 
 #builder_container #tabs_messenger{
@@ -59,7 +74,7 @@
 #builder_container #builder_hints{
     position: absolute;
     right: -0px;
-    top:2px;
+    top:20px;
     width: 200px;
 }
 
@@ -85,13 +100,13 @@
 #builder_details{
     position: absolute;
     left:0;
-    top:310px;
+    top:325px;
 }
 
 #price_details{
     position: absolute;
     right:0;
-    top:310px;
+    top:325px;
 }
 
 #builder_colorpicker{

@@ -15,7 +15,7 @@ class Builder_View_Helper_Footer // extends Zend_View_Helper_Abstract
 
     public function footer()
     {
-        $return = '</div>
+        $return = '<div id="builder_code"></div></div><div style="clear: both;"></div>
 		   </div>
 		   <div id="dirty" style=""></div>';
 	$return.= "<script type='text/javascript'>$('#example').tabs({ cache: false });</script>";

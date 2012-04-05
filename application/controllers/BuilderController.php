@@ -75,6 +75,17 @@ class BuilderController extends Zend_Controller_Action
 	$this->_helper->layout->setLayout("basic");
 	$session		= new Zend_Session_Namespace('Dataservice');
 	$session->redirect	= $_SERVER['REQUEST_URI'];
+	$this->view->headScript()->appendFile("/javascript/jquery-ui.min.js");
+	$css = isset($this->_params["color"]) ? $this->_params["color"] : "";
+	switch ($css) {
+	    case "green":
+		$this->view->headLink()->appendStylesheet('/css/jquery-ui/south-street/jquery-ui.custom.css');
+		$this->view->headLink()->appendStylesheet('/css/builder-green.css');
+		break;
+	    default:
+		$this->view->headLink()->appendStylesheet('/css/jquery-ui/redmond/jquery-ui.custom.css');
+		break;
+	}
     }
     
     public function locationAction() 
