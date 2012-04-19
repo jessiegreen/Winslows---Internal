@@ -76,6 +76,7 @@ class BuilderController extends Zend_Controller_Action
 	$session		= new Zend_Session_Namespace('Dataservice');
 	$session->redirect	= $_SERVER['REQUEST_URI'];
 	$this->view->headScript()->appendFile("/javascript/jquery-ui.min.js");
+	$this->view->headScript()->appendFile("/javascript/jquery.blockui.js");
 	$css = isset($this->_params["color"]) ? $this->_params["color"] : "";
 	switch ($css) {
 	    case "green":

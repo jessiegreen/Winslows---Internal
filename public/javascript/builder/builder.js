@@ -3,7 +3,7 @@ function Builder() {
 }
 
 Builder.prototype.update = function(code,price,hints,details,price_details){
-    //$('#builder_render').src = '/img/loading.gif';
+    $('#builder_right_pane').block({ message: "<img src='/img/loading.gif' />",overlayCSS: { backgroundColor: '#EAF4FD' } });
     randomnum = Math.floor((Math.random()*100000000000)+1);
     $('#builder_render').attr("src", 'builder/render?'+randomnum);
     $("#builder_code").html(code);
@@ -23,6 +23,7 @@ Builder.prototype.update = function(code,price,hints,details,price_details){
 	b = new Builder;
 	b.add_flash_message_from_messenger();
     });
+    $('#builder_right_pane').unblock();
 }
 
 Builder.prototype.add_flash_message_from_messenger = function(){
