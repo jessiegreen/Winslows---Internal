@@ -3,9 +3,8 @@ function Builder() {
 }
 
 Builder.prototype.update = function(code,price,hints,details,price_details){
-    $('#builder_right_pane').block({ message: "<img src='/img/loading.gif' />",overlayCSS: { backgroundColor: '#EAF4FD' } });
     randomnum = Math.floor((Math.random()*100000000000)+1);
-    $('#builder_render').attr("src", 'builder/render?'+randomnum);
+    $('#builder_render').attr("src", '/builder/render?'+randomnum);
     $("#builder_code").html(code);
     $("#builder_price").html("$"+price);
     $('#builder_details').html(details);
@@ -23,7 +22,6 @@ Builder.prototype.update = function(code,price,hints,details,price_details){
 	b = new Builder;
 	b.add_flash_message_from_messenger();
     });
-    $('#builder_right_pane').unblock();
 }
 
 Builder.prototype.add_flash_message_from_messenger = function(){
@@ -57,10 +55,12 @@ Builder.prototype.map_click_bind = function(){
 	var tab_area = $(e.target).attr("location_value");
 	if(tab_area != "undefined"){
 	    //Set the area
+	    $('#builder_right_pane').block({ message: null,overlayCSS: { backgroundColor: '#EAF4FD' } });
 	    $.ajax({
 		url:"/builder/location/set/"+tab_area,
 		success:function(data){
 		    $("#Location").html(data);
+		    $('#builder_right_pane').unblock();
 		}
 	    });
 	}
@@ -73,11 +73,13 @@ Builder.prototype.type_click_bind = function(){
 	var selected = $(e.target).val();
 	if(selected != "undefined"){
 	    //Set the area
+	    $('#builder_right_pane').block({ message: null,overlayCSS: { backgroundColor: '#EAF4FD' } });
 	    $.ajax({
 		url:"/builder/type/set/"+selected,
 		success:function(data){
 		    $("#Type").html(data);
 		    //$("#example").tabs( "select" , "Type" )
+		    $('#builder_right_pane').unblock();
 		}
 	    });
 	}
@@ -90,11 +92,13 @@ Builder.prototype.model_click_bind = function(){
 	var selected = $(e.target).val();
 	if(selected != "undefined"){
 	    //Set the area
+	    $('#builder_right_pane').block({ message: null,overlayCSS: { backgroundColor: '#EAF4FD' } });
 	    $.ajax({
 		url:"/builder/model/set/"+selected,
 		success:function(data){
 		    $("#Model").html(data);
 		    //$("#example").tabs( "select" , "Type" )
+		    $('#builder_right_pane').unblock();
 		}
 	    });
 	}
@@ -106,12 +110,14 @@ Builder.prototype.size_click_bind = function(){
 	var selected = $(e.target).val();
 	if(selected != "undefined"){
 	    //Set the area
+	    $('#builder_right_pane').block({ message: null,overlayCSS: { backgroundColor: '#EAF4FD' } });
 	    $.ajax({
 		type: "POST",
 		data:$('#form_size').serialize(),
 		url:"/builder/size/",
 		success:function(data){
 		    $("#Size").html(data);
+		    $('#builder_right_pane').unblock();
 		}
 	    });
 	}
@@ -124,12 +130,14 @@ Builder.prototype.walls_click_bind = function(){
 	var selected = $(e.target).val();
 	if(selected != "undefined"){
 	    //Set the area
+	    $('#builder_right_pane').block({ message: null,overlayCSS: { backgroundColor: '#EAF4FD' } });
 	    $.ajax({
 		type: "POST",
 		data:$('#form_walls').serialize(),
 		url:"/builder/walls/",
 		success:function(data){
 		    $("#Walls").html(data);
+		    $('#builder_right_pane').unblock();
 		}
 	    });
 	}
@@ -141,10 +149,12 @@ Builder.prototype.reset_click_bind = function(){
     $('#buy_now_button').button();
     $('#reset').click(function(){
 	$('#dirty').load('/builder/clear',function(){
+		$('#builder_right_pane').block({ message: null,overlayCSS: { backgroundColor: '#EAF4FD' } });
 		setTimeout(function(){
 		    selected = $('#example').tabs('option', 'selected');
 		    if(selected != 0)$('#example').tabs('select', 'Location');
 		    else $('#example').tabs('load', 0);
+		    $('#builder_right_pane').unblock();
 		}, 1500);
 	    }
 	);
@@ -159,10 +169,12 @@ Builder.prototype.colors_click_bind = function(){
 	var side = $(e.target).parent().attr("side");
 	if(color != "undefined"){
 	    //Set the area
+	    $('#builder_right_pane').block({ message: null,overlayCSS: { backgroundColor: '#EAF4FD' } });
 	    $.ajax({
 		url:"/builder/colors/side/"+side+"/set/"+color,
 		success:function(data){
 		    $("#Colors").html(data);
+		    $('#builder_right_pane').unblock();
 		}
 	    });
 	}
@@ -207,12 +219,14 @@ Builder.prototype.doors_init = function(){
 		dialog.dialog('open');
 	}
 	else{
+	    $('#builder_right_pane').block({ message: null,overlayCSS: { backgroundColor: '#EAF4FD' } });
 	    $.ajax({
 		type: "POST",
 		data:data,
 		url:"/builder/doors/",
 		success:function(data){
 		    $("#Doors").html(data);
+		    $('#builder_right_pane').unblock();
 		}
 	    });
 	}
@@ -231,12 +245,14 @@ Builder.prototype.doors_init = function(){
 		    buttons: {
 			"Delete Door": function() {
 				$( this ).dialog( "close" );
+				$('#builder_right_pane').block({ message: null,overlayCSS: { backgroundColor: '#EAF4FD' } });
 				$.ajax({
 				    type: "POST",
 				    data:data,
 				    url:"/builder/doors/",
 				    success:function(data){
 					$("#Doors").html(data);
+					$('#builder_right_pane').unblock();
 				    }
 				});
 			},
@@ -316,12 +332,14 @@ Builder.prototype.windows_init = function(){
 		dialog.dialog('open');
 	}
 	else{
+	    $('#builder_right_pane').block({ message: null,overlayCSS: { backgroundColor: '#EAF4FD' } });
 	    $.ajax({
 		type: "POST",
 		data:data,
 		url:"/builder/windows/",
 		success:function(data){
 		    $("#Windows").html(data);
+		    $('#builder_right_pane').unblock();
 		}
 	    });
 	}
@@ -340,12 +358,14 @@ Builder.prototype.windows_init = function(){
 		    buttons: {
 			"Delete Window": function() {
 				$( this ).dialog( "close" );
+				$('#builder_right_pane').block({ message: null,overlayCSS: { backgroundColor: '#EAF4FD' } });
 				$.ajax({
 				    type: "POST",
 				    data:data,
 				    url:"/builder/windows/",
 				    success:function(data){
 					$("#Windows").html(data);
+					$('#builder_right_pane').unblock();
 				    }
 				});
 			},
