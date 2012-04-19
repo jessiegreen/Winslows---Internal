@@ -27,7 +27,7 @@ class Builder_View_Helper_Header // extends Zend_View_Helper_Abstract
 				<input id="buy_now_button" type="button" class="blue_button" value="Buy Now!"/>
 			    </div>
 			</div>
-			<img src="/img/builder/renderings/5.jpg" style="width:100%" />
+			<img id="builder_render" src="/img/loading.gif">
 			<div id="builder_hints"></div>
 			<div id="builder_details_container">
 			<div id="builder_details"></div>

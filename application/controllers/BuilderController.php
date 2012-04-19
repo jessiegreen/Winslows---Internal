@@ -1008,5 +1008,201 @@ class BuilderController extends Zend_Controller_Action
 	    }
 	}
     }
+    
+    public function renderAction()
+    {
+	$render_array = array();
+	//Set the content type
+	header('content-type: image/png');
+	//Create our basic image stream 300x300 pixels
+	$image = imagecreatetruecolor(450, 267);
+	//Turn off alpha blending for background ?
+	imagealphablending($image, false);
+	$white = imagecolorallocate($image, 255, 255, 255);
+	imagefilledrectangle($image,0,0,450, 267,$white);
+	//Turn alpha blending back on
+	imagealphablending($image,true);
+
+	$render_array["color_key"] = array(
+				"BR" => "barnred",
+				"BL" => "black",
+				"PG" => "pewtergrey",
+				"SS" => "sandstone",
+				"WH" => "white",
+				"CL" => "clay",
+				"BY" => "burgandy",
+				"EG" => "evergreen",
+				"QG" => "quaker",
+				"TN" => "tan",
+				"EB" => "earth",
+				"SB" => "slate",
+				"PB" => "pebble",
+			);
+	$render_array["roof_type"]  = "regular";//Temporary. Will get from builder array
+	$render_array["model"]	    = "standard";//Temporary. Will get from builder array
+	$render_array["size"]	    = "122105";
+					str_replace("X", "", $this->_mapper->getSize($this->_session_builder->builder["values"])).
+					$this->_mapper->getLegHeightCode($this->_session_builder->builder["values"]);
+	$render_array["base_path"]  = $render_array["roof_type"]."/".$render_array["model"]."/".$render_array["size"]."/".$render_array["roof_type"]."-".$render_array["model"]."-".$render_array["size"];
+	
+	$this->_renderRoofBack($image, $render_array);
+	$this->_renderWallBack($image, $render_array);
+	$this->_renderWallLeft($image, $render_array);
+	$this->_renderFrame($image, $render_array);
+	$this->_renderWallRight($image, $render_array);
+	$this->_renderWallFront($image, $render_array);
+	$this->_renderRoofFront($image, $render_array);
+	$this->_renderRoofTrim($image, $render_array);
+	
+	imagesavealpha($image,true);
+	imagepng($image);
+	
+	imagedestroy($image);
+
+	exit;
+    }
+    
+    private function _renderFrame($image, $render_array){
+	foreach(array("rail", "rail copy") as $rail){
+	    $this->_renderPart($image, $render_array["base_path"]."-frame - $rail.png");
+	}
+	
+	foreach(array("back", "middle copy", "middle", "middle 1", "front") as $bow){
+	    $this->_renderPart($image, $render_array["base_path"]."-frame - bow - $bow.png");
+	}
+    }
+    
+    private function _renderRoofBack($image, $render_array){
+	$color_code = $this->_mapper->getRoofColorCode($this->_session_builder->builder["values"]);
+	$color	    = $render_array["color_key"][$color_code];
+	$this->_renderPart($image, $render_array["base_path"]."-roof - back - $color.png");
+    }
+    
+    private function _renderRoofFront($image, $render_array){
+	$color_code = $this->_mapper->getRoofColorCode($this->_session_builder->builder["values"]);
+	$color	    = $render_array["color_key"][$color_code];
+	$this->_renderPart($image, $render_array["base_path"]."-roof - color - $color.png");
+	$this->_renderPart($image, $render_array["base_path"]."-roof - lines.png");
+    }
+    
+    private function _renderRoofTrim($image, $render_array){
+	$color_code = $this->_mapper->getTrimColorCode($this->_session_builder->builder["values"]);
+	$color	    = $render_array["color_key"][$color_code];
+	$this->_renderPart($image, $render_array["base_path"]."-trim - roof - front - color - $color.png");
+	$this->_renderPart($image, $render_array["base_path"]."-trim - roof - back - color - $color.png");
+	$this->_renderPart($image, $render_array["base_path"]."-trim - roof - front - lines.png");
+    }
+    
+    private function _renderWallBack($image, $render_array){
+	$color_code = $this->_mapper->getEndsColorCode($this->_session_builder->builder["values"]);
+	$color	    = $render_array["color_key"][$color_code];
+	switch($this->_mapper->getCoveredBackTypeCode($this->_session_builder->builder["values"])){
+	    case "CL":
+		$this->_renderPart($image, $render_array["base_path"]."-wall - back - color - $color.png");
+		$orientation = $this->_mapper->getBackOrientationCode($this->_session_builder->builder["values"]);
+		if($orientation == "V"){
+		    $this->_renderPart($image, $render_array["base_path"]."-wall - back - vertical - lines.png");
+		}
+		else $this->_renderPart($image, $render_array["base_path"]."-wall - back - lines.png");
+		break;
+	    case "GB":
+		$this->_renderPart($image, $render_array["base_path"]."-wall - back - gable - color - $color.png");
+		$orientation = $this->_mapper->getFrontOrientationCode($this->_session_builder->builder["values"]);
+		if($orientation == "V"){
+		    $this->_renderPart($image, $render_array["base_path"]."-wall - back - gable - vertical - lines.png");
+		}
+		else $this->_renderPart($image, $render_array["base_path"]."-wall - back - gable - lines.png");
+		break;
+	    case "PB":
+		$this->_renderPart($image, $render_array["base_path"]."-wall - back - bottom - color - $color.png");
+		$this->_renderPart($image, $render_array["base_path"]."-wall - back - bottom - lines.png");
+		break;
+	}
+    }
+    
+    private function _renderWallFront($image, $render_array){
+	$color_code = $this->_mapper->getEndsColorCode($this->_session_builder->builder["values"]);
+	$color	    = $render_array["color_key"][$color_code];
+	$color_code = $this->_mapper->getTrimColorCode($this->_session_builder->builder["values"]);
+	$trim_color = $render_array["color_key"][$color_code];
+	switch($this->_mapper->getCoveredFrontTypeCode($this->_session_builder->builder["values"])){
+	    case "CL":
+		$this->_renderPart($image, $render_array["base_path"]."-wall - front - color - $color.png");
+		$orientation = $this->_mapper->getFrontOrientationCode($this->_session_builder->builder["values"]);
+		if($orientation == "V"){
+		    $this->_renderPart($image, $render_array["base_path"]."-wall - front - vertical - lines.png");
+		}
+		else $this->_renderPart($image, $render_array["base_path"]."-wall - front - lines.png");
+		$this->_renderPart($image, $render_array["base_path"]."-trim - wall - front - color - $trim_color.png");
+		$this->_renderPart($image, $render_array["base_path"]."-trim - wall - front - lines.png");
+		break;
+	    case "GB":
+		$this->_renderPart($image, $render_array["base_path"]."-wall - front - gable - color - $color.png");
+		$orientation = $this->_mapper->getFrontOrientationCode($this->_session_builder->builder["values"]);
+		if($orientation == "V"){
+		    $this->_renderPart($image, $render_array["base_path"]."-wall - front - gable - vertical - lines.png");
+		}
+		else $this->_renderPart($image, $render_array["base_path"]."-wall - front - gable - lines.png");
+		break;
+	    case "PB":
+		$this->_renderPart($image, $render_array["base_path"]."-wall - front - bottom - color - $color.png");
+		$this->_renderPart($image, $render_array["base_path"]."-wall - front - bottom - lines.png");
+		break;
+	}
+    }
+    
+    private function _renderWallLeft($image, $render_array){
+	$color_code = $this->_mapper->getSidesColorCode($this->_session_builder->builder["values"]);
+	$color	    = $render_array["color_key"][$color_code];
+	switch($this->_mapper->getCoveredLeftTypeCode($this->_session_builder->builder["values"])){
+	    case "CL":
+		$this->_renderPart($image, $render_array["base_path"]."-wall - side - left - color - $color.png");
+		$orientation = $this->_mapper->getLeftOrientationCode($this->_session_builder->builder["values"]);
+		if($orientation == "V"){
+		    $this->_renderPart($image, $render_array["base_path"]."-wall - side - left - vertical - lines.png");
+		}
+		else $this->_renderPart($image, $render_array["base_path"]."-wall - side - left - lines.png");
+		break;
+	    case "PT":
+		$this->_renderPart($image, $render_array["base_path"]."-wall - side - left - top - color - $color.png");
+		$this->_renderPart($image, $render_array["base_path"]."-wall - side - left - top - lines.png");
+		break;
+	    case "PB":
+		$this->_renderPart($image, $render_array["base_path"]."-wall - side - left - bottom - color - $color.png");
+		$this->_renderPart($image, $render_array["base_path"]."-wall - side - left - bottom - lines.png");
+		break;
+	}
+    }
+    
+    private function _renderWallRight($image, $render_array){
+	$color_code = $this->_mapper->getSidesColorCode($this->_session_builder->builder["values"]);
+	$color	    = $render_array["color_key"][$color_code];
+	switch($this->_mapper->getCoveredRightTypeCode($this->_session_builder->builder["values"])){
+	    case "CL":
+		$this->_renderPart($image, $render_array["base_path"]."-wall - side - right - color - $color.png");
+		$orientation = $this->_mapper->getRightOrientationCode($this->_session_builder->builder["values"]);
+		if($orientation == "V"){
+		    $this->_renderPart($image, $render_array["base_path"]."-wall - side - right - vertical - lines.png");
+		}
+		else $this->_renderPart($image, $render_array["base_path"]."-wall - side - right - lines.png");
+		break;
+	    case "PT":
+		$this->_renderPart($image, $render_array["base_path"]."-wall - side - right - top - color - $color.png");
+		$this->_renderPart($image, $render_array["base_path"]."-wall - side - right - top - lines.png");
+		break;
+	    case "PB":
+		$this->_renderPart($image, $render_array["base_path"]."-wall - side - right - bottom - color - $color.png");
+		$this->_renderPart($image, $render_array["base_path"]."-wall - side - right - bottom - lines.png");
+		break;
+	}
+    }
+    
+    private function _renderPart($image, $path){
+	$part		   = imagecreatefrompng("img/builder/render/".$path);
+	$part_image_width  = imagesx($part);
+	$part_image_height = imagesy($part);
+	imagecopyresampled($image, $part, 0, 0, 0, 0, $part_image_width, $part_image_height, $part_image_width, $part_image_height);
+	imagedestroy($part);
+    }
 }
 

@@ -3,10 +3,14 @@ function Builder() {
 }
 
 Builder.prototype.update = function(code,price,hints,details,price_details){
+    //$('#builder_render').src = '/img/loading.gif';
+    randomnum = Math.floor((Math.random()*100000000000)+1);
+    $('#builder_render').attr("src", 'builder/render?'+randomnum);
     $("#builder_code").html(code);
     $("#builder_price").html("$"+price);
     $('#builder_details').html(details);
     $('#price_details').html(price_details);
+    $('#builder_render').html();
     //Any ajax must be done after this
     $("#builder_hints").hide("slide", {direction: "up"}, 500, function(){
 	$("#builder_hints").html("");
