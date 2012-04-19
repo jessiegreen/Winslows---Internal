@@ -107,22 +107,22 @@ class Codebuilder
 			break;
 		    case "covered_left":
 			$type	= $values_array[0]["type"];
-			$height = $this->_getNa($values_array[0]["height"], 1);
+			$height = isset($values_array[0]["height"]) ? $this->_getNa($values_array[0]["height"],1) : "_";
 			$code_array[] = "AI".$type.$height;
 			break;
 		    case "covered_right":
 			$type	= $values_array[0]["type"];
-			$height = $this->_getNa($values_array[0]["height"], 1);
+			$height = isset($values_array[0]["height"]) ? $this->_getNa($values_array[0]["height"],1) : "_";
 			$code_array[] = "AJ".$type.$height;
 			break;
 		    case "covered_front":
 			$type	= $values_array[0]["type"];
-			$height = $this->_getNa($values_array[0]["height"], 1);
+			$height = isset($values_array[0]["height"]) ? $this->_getNa($values_array[0]["height"],1) : "_";
 			$code_array[] = "AK".$type.$height;
 			break;
 		    case "covered_back":
 			$type	= $this->_getNa($values_array[0]["type"], 2);
-			$height = $this->_getNa($values_array[0]["height"], 1);
+			$height = isset($values_array[0]["height"]) ? $this->_getNa($values_array[0]["height"],1) : "_";
 			$code_array[] = "AL".$type.$height;
 			break;
 		    case "orientation_left":
@@ -191,6 +191,10 @@ class Codebuilder
 	return implode("", $code_array);
     }
     
+    public function getBuilderArrayFromCode($code){
+	return $this->_parser->parseToArray($code);
+    }
+    
     private function _getNa($value, $length) {
 	if(!trim($value)){
 	    $na_code = "";
@@ -230,6 +234,7 @@ class Codebuilder
      */
     public function getPriceFromBuilderValuesArray($builder_values_array, $location) 
     {
+	$price_array = array();
 	$price	    = 0;
 	$details    = array();
 	try {

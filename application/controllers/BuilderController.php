@@ -424,13 +424,15 @@ class BuilderController extends Zend_Controller_Action
 	    $this->_session_builder->builder = array();
 	}
 	
+	if(!isset($this->_session_builder->builder["code"])){
+	    $this->_session_builder->builder["code"] = "AAMCCPRAAB12AC21AD05AINO_AJNO_AETNAFWHAGTNAHTNALNO_AKNO_";
+	    $this->_session_builder->builder["values"] = $this->_codebuilder->getBuilderArrayFromCode($this->_session_builder->builder["code"]);
+	}
+	
 	if(!isset($this->_session_builder->builder["values"]) || !is_array($this->_session_builder->builder["values"])){
 	    $this->_session_builder->builder["values"] = array();
 	}
 	
-	if(!isset($this->_session_builder->builder["code"])){
-	    $this->_session_builder->builder["code"] = "";
-	}
 	if(!isset($this->_session_builder->builder["price"])){
 	    $this->_session_builder->builder["price"] = 0;
 	}
@@ -559,10 +561,10 @@ class BuilderController extends Zend_Controller_Action
 	} catch (Exception $exc) {
 	    $errors[] = $exc->getMessage();
 	}
-	
+	print_r($errors);
 	if(!$errors){
 	    //$return .= print_r($options,true);
-	    foreach($options as $option_code => $option_array)
+	    foreach($options as $option_array)
 	    {
 		foreach($option_array as $option)
 		{

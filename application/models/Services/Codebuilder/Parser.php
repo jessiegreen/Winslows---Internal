@@ -118,7 +118,7 @@ class Parser
 		    throw new \Exception("Value Option '".$valueoption_code."' does not exist for ".$Option->getCode()."-".$Value->getName());
 		}
 
-		if(!$details)$option[$value_index][] = $ValueOption->getCode();
+		if(!$details)$option[$value_index] = $ValueOption->getCode();
 		else{
 		    $option["values"][$value_index]["optionvalue"]  = $ValueOption->toArray();
 		    $option["values"][$value_index]["details"]	    = $Value->toArray();
