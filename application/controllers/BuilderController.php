@@ -561,7 +561,7 @@ class BuilderController extends Zend_Controller_Action
 	} catch (Exception $exc) {
 	    $errors[] = $exc->getMessage();
 	}
-	print_r($errors);
+	
 	if(!$errors){
 	    //$return .= print_r($options,true);
 	    foreach($options as $option_array)
