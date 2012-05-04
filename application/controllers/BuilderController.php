@@ -51,6 +51,7 @@ class BuilderController extends Zend_Controller_Action
 	
 	$this->view->headLink()->appendStylesheet('/css/builder.css');
 	$this->view->headScript()->appendFile("/javascript/jquery.maphilight.js");
+	$this->view->headScript()->appendFile("/javascript/jquery.postMessage.js");
 	$this->view->headScript()->appendFile("/javascript/builder/builder.js");
     }
     
@@ -77,6 +78,7 @@ class BuilderController extends Zend_Controller_Action
 	$session->redirect	= $_SERVER['REQUEST_URI'];
 	$this->view->headScript()->appendFile("/javascript/jquery-ui.min.js");
 	$this->view->headScript()->appendFile("/javascript/jquery.blockui.js");
+	
 	$css = isset($this->_params["color"]) ? $this->_params["color"] : "";
 	switch ($css) {
 	    case "green":
@@ -86,6 +88,23 @@ class BuilderController extends Zend_Controller_Action
 	    default:
 		$this->view->headLink()->appendStylesheet('/css/jquery-ui/redmond/jquery-ui.custom.css');
 		break;
+	}
+	
+	if(isset($this->_params["code"]))
+	{
+	    if(trim($this->_params["code"]) != $this->_session_builder->builder["code"])
+	    {
+		$this->_session_builder->builder["code"]    = trim($this->_params["code"]);
+		$this->_session_builder->builder["values"]  = $this->_codebuilder->getBuilderArrayFromCode($this->_session_builder->builder["code"]);
+	    }
+	}
+	
+	if(isset($this->_params["location"]))
+	{
+	    if(trim($this->_params["location"]) != $this->_session_builder->builder["location"])
+	    {
+		$this->_session_builder->builder["location"]    = trim($this->_params["location"]);
+	    }
 	}
     }
     
@@ -1016,7 +1035,7 @@ class BuilderController extends Zend_Controller_Action
     {
 	$render_array = array();
 	//Set the content type
-	header('content-type: image/png');
+	//header('content-type: image/png');
 	//Create our basic image stream 300x300 pixels
 	$image = imagecreatetruecolor(450, 267);
 	//Turn off alpha blending for background ?
@@ -1041,11 +1060,11 @@ class BuilderController extends Zend_Controller_Action
 				"SB" => "slate",
 				"PB" => "pebble",
 			);
-	$render_array["roof_type"]  = "regular";//Temporary. Will get from builder array
+	$render_array["roof_type"]  = substr($this->_mapper->getModel($this->_session_builder->builder["values"]), 0, 1) == "R" ? "regular" : "boxed";//Temporary. Will get from builder array
 	$render_array["model"]	    = "standard";//Temporary. Will get from builder array
-	$render_array["size"]	    = "122105";
-					str_replace("X", "", $this->_mapper->getSize($this->_session_builder->builder["values"])).
-					$this->_mapper->getLegHeightCode($this->_session_builder->builder["values"]);
+	$render_array["size"]	    = "122105";//Temporary. Will get from builder array
+//					str_replace("X", "", $this->_mapper->getSize($this->_session_builder->builder["values"])).
+//					$this->_mapper->getLegHeightCode($this->_session_builder->builder["values"]);
 	$render_array["base_path"]  = $render_array["roof_type"]."/".$render_array["model"]."/".$render_array["size"]."/".$render_array["roof_type"]."-".$render_array["model"]."-".$render_array["size"];
 	
 	$this->_renderRoofBack($image, $render_array);
@@ -1076,24 +1095,46 @@ class BuilderController extends Zend_Controller_Action
     }
     
     private function _renderRoofBack($image, $render_array){
-	$color_code = $this->_mapper->getRoofColorCode($this->_session_builder->builder["values"]);
-	$color	    = $render_array["color_key"][$color_code];
-	$this->_renderPart($image, $render_array["base_path"]."-roof - back - $color.png");
+	if($render_array["roof_type"] == "regular"){
+	    $color_code = $this->_mapper->getRoofColorCode($this->_session_builder->builder["values"]);
+	    $color	    = $render_array["color_key"][$color_code];
+	    $this->_renderPart($image, $render_array["base_path"]."-roof - back - $color.png");
+	}
     }
     
     private function _renderRoofFront($image, $render_array){
 	$color_code = $this->_mapper->getRoofColorCode($this->_session_builder->builder["values"]);
 	$color	    = $render_array["color_key"][$color_code];
-	$this->_renderPart($image, $render_array["base_path"]."-roof - color - $color.png");
-	$this->_renderPart($image, $render_array["base_path"]."-roof - lines.png");
+	switch (substr($this->_mapper->getModel($this->_session_builder->builder["values"]), 0, 1)) {
+	    case "R":
+		$this->_renderPart($image, $render_array["base_path"]."-roof - color - $color.png");
+		$this->_renderPart($image, $render_array["base_path"]."-roof - lines.png");
+	    break;
+	    case "V":
+		$this->_renderPart($image, $render_array["base_path"]."-roof - boxed - color - $color.png");
+		$this->_renderPart($image, $render_array["base_path"]."-roof - boxed - lines - vertical.png");
+	    break;
+	    case "B":
+		$this->_renderPart($image, $render_array["base_path"]."-roof - boxed - color - $color.png");
+		$this->_renderPart($image, $render_array["base_path"]."-roof - boxed - lines.png");
+	    break;
+	}
+	    
+
     }
     
     private function _renderRoofTrim($image, $render_array){
 	$color_code = $this->_mapper->getTrimColorCode($this->_session_builder->builder["values"]);
 	$color	    = $render_array["color_key"][$color_code];
-	$this->_renderPart($image, $render_array["base_path"]."-trim - roof - front - color - $color.png");
-	$this->_renderPart($image, $render_array["base_path"]."-trim - roof - back - color - $color.png");
-	$this->_renderPart($image, $render_array["base_path"]."-trim - roof - front - lines.png");
+	
+	if($render_array["roof_type"] == "regular"){
+	    $this->_renderPart($image, $render_array["base_path"]."-trim - roof - front - color - $color.png");
+	    $this->_renderPart($image, $render_array["base_path"]."-trim - roof - back - color - $color.png");
+	    $this->_renderPart($image, $render_array["base_path"]."-trim - roof - front - lines.png");
+	}
+	else{
+	    $this->_renderPart($image, $render_array["base_path"]."-trim - roof - boxed - color - $color.png");
+	}
     }
     
     private function _renderWallBack($image, $render_array){
@@ -1136,8 +1177,14 @@ class BuilderController extends Zend_Controller_Action
 		    $this->_renderPart($image, $render_array["base_path"]."-wall - front - vertical - lines.png");
 		}
 		else $this->_renderPart($image, $render_array["base_path"]."-wall - front - lines.png");
-		$this->_renderPart($image, $render_array["base_path"]."-trim - wall - front - color - $trim_color.png");
-		$this->_renderPart($image, $render_array["base_path"]."-trim - wall - front - lines.png");
+		if($render_array["roof_type"] == "regular"){
+		    $this->_renderPart($image, $render_array["base_path"]."-trim - wall - front - color - $trim_color.png");
+		    $this->_renderPart($image, $render_array["base_path"]."-trim - wall - front - lines.png");
+		}
+		else{
+		    $this->_renderPart($image, $render_array["base_path"]."-trim - wall - front - boxed - color - $trim_color.png");
+		    $this->_renderPart($image, $render_array["base_path"]."-trim - wall - front - boxed - lines.png");
+		}
 		break;
 	    case "GB":
 		$this->_renderPart($image, $render_array["base_path"]."-wall - front - gable - color - $color.png");
@@ -1167,8 +1214,14 @@ class BuilderController extends Zend_Controller_Action
 		else $this->_renderPart($image, $render_array["base_path"]."-wall - side - left - lines.png");
 		break;
 	    case "PT":
-		$this->_renderPart($image, $render_array["base_path"]."-wall - side - left - top - color - $color.png");
-		$this->_renderPart($image, $render_array["base_path"]."-wall - side - left - top - lines.png");
+		if($render_array["roof_type"] == "regular"){
+		    $this->_renderPart($image, $render_array["base_path"]."-wall - side - left - top - color - $color.png");
+		    $this->_renderPart($image, $render_array["base_path"]."-wall - side - left - top - lines.png");
+		}
+		else{
+		    $this->_renderPart($image, $render_array["base_path"]."-wall - side - left - top - boxed - color - $color.png");
+		    $this->_renderPart($image, $render_array["base_path"]."-wall - side - left - top - boxed - lines.png");
+		}
 		break;
 	    case "PB":
 		$this->_renderPart($image, $render_array["base_path"]."-wall - side - left - bottom - color - $color.png");
@@ -1182,16 +1235,31 @@ class BuilderController extends Zend_Controller_Action
 	$color	    = $render_array["color_key"][$color_code];
 	switch($this->_mapper->getCoveredRightTypeCode($this->_session_builder->builder["values"])){
 	    case "CL":
-		$this->_renderPart($image, $render_array["base_path"]."-wall - side - right - color - $color.png");
 		$orientation = $this->_mapper->getRightOrientationCode($this->_session_builder->builder["values"]);
-		if($orientation == "V"){
-		    $this->_renderPart($image, $render_array["base_path"]."-wall - side - right - vertical - lines.png");
+		if($render_array["roof_type"] == "regular"){
+		    $this->_renderPart($image, $render_array["base_path"]."-wall - side - right - color - $color.png");
+		    if($orientation == "V"){
+			$this->_renderPart($image, $render_array["base_path"]."-wall - side - right - vertical - lines.png");
+		    }
+		    else $this->_renderPart($image, $render_array["base_path"]."-wall - side - right - lines.png");
 		}
-		else $this->_renderPart($image, $render_array["base_path"]."-wall - side - right - lines.png");
+		else{
+		    $this->_renderPart($image, $render_array["base_path"]."-wall - side - right - boxed - color - $color.png");
+		    if($orientation == "V"){
+			$this->_renderPart($image, $render_array["base_path"]."-wall - side - right - boxed - vertical - lines.png");
+		    }
+		    else $this->_renderPart($image, $render_array["base_path"]."-wall - side - right - boxed - lines.png");
+		}
 		break;
 	    case "PT":
-		$this->_renderPart($image, $render_array["base_path"]."-wall - side - right - top - color - $color.png");
-		$this->_renderPart($image, $render_array["base_path"]."-wall - side - right - top - lines.png");
+		if($render_array["roof_type"] == "regular"){
+		    $this->_renderPart($image, $render_array["base_path"]."-wall - side - right - top - color - $color.png");
+		    $this->_renderPart($image, $render_array["base_path"]."-wall - side - right - top - lines.png");
+		}
+		else{
+		    $this->_renderPart($image, $render_array["base_path"]."-wall - side - right - top - boxed - color - $color.png");
+		    $this->_renderPart($image, $render_array["base_path"]."-wall - side - right - top - boxed - lines.png");
+		}
 		break;
 	    case "PB":
 		$this->_renderPart($image, $render_array["base_path"]."-wall - side - right - bottom - color - $color.png");
@@ -1206,6 +1274,27 @@ class BuilderController extends Zend_Controller_Action
 	$part_image_height = imagesy($part);
 	imagecopyresampled($image, $part, 0, 0, 0, 0, $part_image_width, $part_image_height, $part_image_width, $part_image_height);
 	imagedestroy($part);
+    }
+    
+    public function getpricefromcodeAction(){
+	header('Content-type: application/json;Cache-Control: no-cache');
+	if($this->_request->isPost() && isset($this->_params["json"]))
+	{
+	    $params = (array) json_decode($this->_params["json"]);
+	    $code   = $params["code"];
+	    try {
+		$price_array	= $this->_codebuilder->getPriceFromCode($code, "ne");
+		$price		= $price_array["price"];
+		$message	= $price_array["details"];
+		//$message["code"] = $params["code"];
+		echo json_encode(array("price" => $price, "code" => $code, "error" => 0, "message" => $message));
+	    } catch (Exception $exc) {
+		echo json_encode(array("error" => 1, "message" => $exc->getMessage()));
+	    }
+	    exit;
+	}
+	else throw new Exception("test error", 400);
+	exit;
     }
 }
 

@@ -149,12 +149,14 @@ table {
 }
 
 .form_div fieldset{
-    
+    padding-bottom: 15px;
+    border: none;
 }
 
 .form_div legend{
     color: #0069E5;
     font-weight: 600;
+    margin-left: -20px;
 }
 
 .form_div dd{

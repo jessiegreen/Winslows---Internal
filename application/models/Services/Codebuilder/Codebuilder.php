@@ -167,7 +167,7 @@ class Codebuilder
 			    $type	    = $door["type"];
 			    $width	    = $door["width"];
 			    $height	    = $door["height"];
-			    $from_left	    = $this->_getNa($door["from_left"], 3);
+			    $from_left	    = isset($door["from_left"]) ? $this->_getNa($door["from_left"], 3) : "___";
 			    $code_array[]   = "AV".$location.$type.$width.$height.$from_left;
 			}
 			break;
@@ -177,8 +177,8 @@ class Codebuilder
 			    $type	    = $window["type"];
 			    $width	    = $window["width"];
 			    $height	    = $window["height"];
-			    $from_left	    = $this->_getNa($window["from_left"], 3);
-			    $from_bottom    = $this->_getNa($window["from_bottom"], 3);
+			    $from_left	    = isset($window["from_left"]) ? $this->_getNa($window["from_left"], 3) : "___";
+			    $from_bottom    = isset($window["from_bottom"]) ? $this->_getNa($window["from_bottom"], 3) : "___";
 			    $code_array[]   = "AW".$location.$type.$width.$height.$from_left.$from_bottom;
 			}
 			break;
@@ -207,7 +207,7 @@ class Codebuilder
 	return $value;
     }
     
-    public function getPriceFromCode($code){
+    public function getPriceFromCode($code, $location){
 	$builder_values_array = array();
 	
 	if(is_string($code) && strlen($code)>0){

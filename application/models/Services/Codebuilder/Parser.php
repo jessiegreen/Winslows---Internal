@@ -52,8 +52,8 @@ class Parser
     
     public function parseToArray($code, $details = false){
 	$this->validateCode($code);
-	$code	= $this->cleanCode($code);
-	
+	$code		= $this->cleanCode($code);
+	$this->_array	= array();
 	$this->parseCode($code, $details);
 	
 	return $this->_array;

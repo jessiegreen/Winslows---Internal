@@ -87,6 +87,9 @@ class TestController extends Zend_Controller_Action
     }
     
     public function testAction(){
+	$builder = new \Services\Codebuilder\Codebuilder;
+	$price_array = $builder->getPriceFromCode("AAMCCPRAAB12AC41AD05AINO_AJNO_AETNAFWHAGTNAHTNALNO_AKNO_", "ne");
+	echo "**".$price_array["price"]."**";
     }
     
     public function codetohtmlAction(){

@@ -19,8 +19,8 @@ Builder.prototype.update = function(code,price,hints,details,price_details){
 	    });
 	}
 	$("#builder_hints").show("slide", {direction: "up"}, 500);
-	b = new Builder;
-	b.add_flash_message_from_messenger();
+	//b = new Builder;
+	//b.add_flash_message_from_messenger();
     });
 }
 

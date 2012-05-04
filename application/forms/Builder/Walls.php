@@ -85,7 +85,7 @@ class Form_Builder_Walls extends Zend_Form
 	    
 	    $group->setDecorators(array(
                     'FormElements',
-                    array('Fieldset',array("style" => "margin-bottom:5px;border: solid 1px silver;padding-left:25px;")),
+                    array('Fieldset',array("style" => "margin-bottom:5px;padding-left:25px;")),
                     array('HtmlTag',array('tag'=>'div', "class" => "form_div"))
 	    ));
 	}

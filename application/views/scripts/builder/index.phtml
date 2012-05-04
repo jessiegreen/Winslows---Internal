@@ -5,3 +5,12 @@ echo $this->html;
 echo $this->footer();
 ?>
 <div style="clear: both;"></div>
+<script type="text/javascript">
+    $("#buy_now_button").click(function(){
+	$.postMessage(
+	$("#builder_code").html(),
+	'http://store.winslowsinc.local/buildings/us_florida/custom-carport-builder',
+	parent
+	);
+    });
+</script>
