@@ -23,17 +23,794 @@ class TestController extends Zend_Controller_Action
         $auth = Zend_Auth::getInstance();
 
 	#--Check if user logged in
-        if ($auth->hasIdentity()) {
-	    /* @var $person \Entities\Person */
-	    $person = $auth->getIdentity()->getPerson();
-	    echo "Person:<br />";
-	    echo $person->getFullName();
-	}
-	#--If not redirect to login
-	else {
+        if (!$auth->hasIdentity()) {
 	    $this->_helper->redirector('index', 'login');
 	    exit();
 	}
+	ini_set('max_execution_time', 123456);
+	set_time_limit(240);
+	
+	$cache_prices	= array();
+	$codebuilder	= new Services\Codebuilder\Codebuilder;
+	$widths		= array(12,18,20,22,24);
+	$lengths	= array(21,26,31,36,41);
+	//$leg_heights	= array("regular" => range(5, 12), "boxed_eave" => range(6, 12), "vertical" => range(6, 12));
+	$i		= 0;
+	$sku		= 1000;
+	$types		= array(
+				"carports" => array(
+				    "standard"	=> array(
+					"regular"   => array(
+					    "name"	    => "Standard Carport - Regular Roof",
+					    "url"	    => "standard-carport-regular-roof",
+					    "categories"    => "5,9,11,13,14,51,52,56",
+					    "code"	    => "AAMCCPRAAB%sAC%sAD%sAINO_AJNO_AE%sAF%sAG%sAH%sALNO_AKNO_",
+					    "short_description"	=> "A standard style carport to protect you or your things.",
+					    "description"   => "Carports are one of the easiest and most cost ".
+								"effective ways of protecting your car, truck, boat, or possessions".
+								"from the sun and weather. Our carports ".
+								"are made of steel and can stand the test of time. ".
+								"With free installation and delivery in our service areas you can't beat these deals.",
+					    "meta"	    => "carport, standard roof, cover, patio, car cover, boat cover, truck cover",
+					    "meta_desc"	    => "A standard style carport to protect you or your things.",
+					    "price_location" => "nt",
+					    "image"	    => "/standard_regular_1221.png",
+					    "doors"	    => 0,
+					    "windows"	    => 0,
+					    "garage_doors"  => 0,
+					    "visible_stores" => "us_ne_texas,us_central",
+					    "leg_heights"    => range(5, 12)
+					),
+					"boxed_eave"   => array(
+					    "name"	    => "Standard Carport - Boxed Eave Roof",
+					    "url"	    => "standard-carport-boxed-eave-roof",
+					    "categories"    => "5,9,12,13,14,51,52,57",
+					    "code"	    => "AAMCCPBAAB%sAC%sAD%sAINO_AJNO_AE%sAF%sAG%sAH%sALNO_AKNO_",
+					    "short_description"	=> "A boxed eave roof carport to protect you or your things.",
+					    "description"   => "Carports are one of the easiest and most cost ".
+								"effective ways of protecting your car, truck, boat, or possessions".
+								"from the sun and weather. Our carports ".
+								"are made of steel and can stand the test of time. ".
+								"With free installation and delivery in our service areas you can't beat these deals.",
+					    "meta"	    => "carport, standard roof, cover, patio, car cover, boat cover, truck cover",
+					    "meta_desc"	    => "A boxed eave roof carport to protect you or your things.",
+					    "price_location" => "nt",
+					    "image"	    => "/standard_boxed_eave_1221.png",
+					    "doors"	    => 0,
+					    "windows"	    => 0,
+					    "garage_doors"  => 0,
+					    "visible_stores" => "us_ne_texas,us_central",
+					    "leg_heights"    => range(6, 12)
+					),
+					"vertical"   => array(
+					    "name"	    => "Standard Carport - Vertical Roof",
+					    "url"	    => "standard-carport-vertical-roof",
+					    "categories"    => "5,9,61,13,14,51,52,62",
+					    "code"	    => "AAMCCPVAAB%sAC%sAD%sAINO_AJNO_AE%sAF%sAG%sAH%sALNO_AKNO_",
+					    "short_description"	=> "A vertical roof carport to protect you or your things.",
+					    "description"   => "Carports are one of the easiest and most cost ".
+								"effective ways of protecting your car, truck, boat, or possessions".
+								"from the sun and weather. Our carports ".
+								"are made of steel and can stand the test of time. ".
+								"With free installation and delivery in our service areas you can't beat these deals.",
+					    "meta"	    => "carport, standard roof, cover, patio, car cover, boat cover, truck cover",
+					    "meta_desc"	    => "A vertical roof carport to protect you or your things.",
+					    "price_location" => "nt",
+					    "image"	    => "/standard_vertical_1221.png",
+					    "doors"	    => 0,
+					    "windows"	    => 0,
+					    "garage_doors"  => 0,
+					    "visible_stores" => "us_ne_texas,us_central",
+					    "leg_heights"    => range(6, 12)
+					),
+				    ),
+				    "high_wind"	=> array(
+					"regular"   => array(
+					    "name"	    => "High Wind Carport - Regular Roof",
+					    "url"	    => "high-wind-carport-regular-roof",
+					    "categories"    => "16,17,18,21",
+					    "code"	    => "AAMCCPRWAB%sAC%sAD%sAINO_AJNO_AE%sAF%sAG%sAH%sALNO_AKNO_",
+					    "short_description"	=> "A standard style carport to protect you or your things.",
+					    "description"   => "Carports are one of the easiest and most cost ".
+								"effective ways of protecting your car, truck, boat, or possessions".
+								"from the sun and weather. Our carports ".
+								"are made of steel and can stand the test of time. ".
+								"Our high wind model is perfect for locations where damaging winds and rains can occur. ".
+								"With free installation and delivery in our service areas you can't beat these deals.",
+					    "meta"	    => "carport, standard roof, cover, patio, car cover, boat cover, truck cover",
+					    "meta_desc"	    => "A standard style carport to protect you or your things.",
+					    "price_location" => "fl",
+					    "image"	    => "/standard_regular_1221.png",
+					    "doors"	    => 0,
+					    "windows"	    => 0,
+					    "garage_doors"  => 0,
+					    "visible_stores" => "us_florida",
+					    "leg_heights"    => range(5, 12)
+					),
+					"boxed_eave"   => array(
+					    "name"	    => "High Wind Carport - Boxed Eave Roof",
+					    "url"	    => "high-wind-carport-boxed-eave-roof",
+					    "categories"    => "16,17,18,22",
+					    "code"	    => "AAMCCPBWAB%sAC%sAD%sAINO_AJNO_AE%sAF%sAG%sAH%sALNO_AKNO_",
+					    "short_description"	=> "A boxed eave roof carport to protect you or your things.",
+					    "description"   => "Carports are one of the easiest and most cost ".
+								"effective ways of protecting your car, truck, boat, or possessions".
+								"from the sun and weather. Our carports ".
+								"are made of steel and can stand the test of time. ".
+								"Our high wind model is perfect for locations where damaging winds and rains can occur. ".
+								"With free installation and delivery in our service areas you can't beat these deals.",
+					    "meta"	    => "carport, standard roof, cover, patio, car cover, boat cover, truck cover",
+					    "meta_desc"	    => "A boxed eave roof carport to protect you or your things.",
+					    "price_location" => "fl",
+					    "image"	    => "/standard_boxed_eave_1221.png",
+					    "doors"	    => 0,
+					    "windows"	    => 0,
+					    "garage_doors"  => 0,
+					    "visible_stores" => "us_florida",
+					    "leg_heights"    => range(6, 12)
+					),
+					"vertical"   => array(
+					    "name"	    => "High Wind Carport - Vertical Roof",
+					    "url"	    => "high-wind-carport-vertical-roof",
+					    "categories"    => "16,17,18,64",
+					    "code"	    => "AAMCCPVWAB%sAC%sAD%sAINO_AJNO_AE%sAF%sAG%sAH%sALNO_AKNO_",
+					    "short_description"	=> "A vertical roof carport to protect you or your things.",
+					    "description"   => "Carports are one of the easiest and most cost ".
+								"effective ways of protecting your car, truck, boat, or possessions".
+								"from the sun and weather. Our carports ".
+								"are made of steel and can stand the test of time. ".
+								"Our high wind model is perfect for locations where damaging winds and rains can occur. ".
+								"With free installation and delivery in our service areas you can't beat these deals.",
+					    "meta"	    => "carport, standard roof, cover, patio, car cover, boat cover, truck cover",
+					    "meta_desc"	    => "A vertical roof carport to protect you or your things.",
+					    "price_location" => "fl",
+					    "image"	    => "/standard_vertical_1221.png",
+					    "doors"	    => 0,
+					    "windows"	    => 0,
+					    "garage_doors"  => 0,
+					    "visible_stores" => "us_florida",
+					    "leg_heights"    => range(6, 12)
+					),
+				    ),
+				    "snow_wind"	=> array(
+					"regular"   => array(
+					    "name"	    => "Snow and Wind Carport - Regular Roof",
+					    "url"	    => "snow-wind-carport-regular-roof",
+					    "categories"    => "24,25,26,27",
+					    "code"	    => "AAMCCPRSAB%sAC%sAD%sAINO_AJNO_AE%sAF%sAG%sAH%sALNO_AKNO_",
+					    "short_description"	=> "A standard style carport to protect you or your things.",
+					    "description"   => "Carports are one of the easiest and most cost ".
+								"effective ways of protecting your car, truck, boat, or possessions".
+								"from the sun and weather. Our carports ".
+								"are made of steel and can stand the test of time. ".
+								"Our snow and wind model is constructed to sustain the damaging winds and snow loads of your area. ".
+								"With free installation and delivery in our service areas you can't beat these deals.",
+					    "meta"	    => "carport, standard roof, cover, patio, car cover, boat cover, truck cover",
+					    "meta_desc"	    => "A standard style carport to protect you or your things.",
+					    "price_location" => "ne",
+					    "image"	    => "/standard_regular_1221.png",
+					    "doors"	    => 0,
+					    "windows"	    => 0,
+					    "garage_doors"  => 0,
+					    "visible_stores" => "us_northeast",
+					    "leg_heights"    => range(5, 12)
+					),
+					"boxed_eave"   => array(
+					    "name"	    => "Snow and Wind Carport - Boxed Eave Roof",
+					    "url"	    => "snow-wind-carport-boxed-eave-roof",
+					    "categories"    => "24,25,26,28",
+					    "code"	    => "AAMCCPBSAB%sAC%sAD%sAINO_AJNO_AE%sAF%sAG%sAH%sALNO_AKNO_",
+					    "short_description"	=> "A boxed eave roof carport to protect you or your things.",
+					    "description"   => "Carports are one of the easiest and most cost ".
+								"effective ways of protecting your car, truck, boat, or possessions".
+								"from the sun and weather. Our carports ".
+								"are made of steel and can stand the test of time. ".
+								"Our snow and wind model is constructed to sustain the damaging winds and snow loads of your area. ".
+								"With free installation and delivery in our service areas you can't beat these deals.",
+					    "meta"	    => "carport, standard roof, cover, patio, car cover, boat cover, truck cover",
+					    "meta_desc"	    => "A boxed eave roof carport to protect you or your things.",
+					    "price_location" => "ne",
+					    "image"	    => "/standard_boxed_eave_1221.png",
+					    "doors"	    => 0,
+					    "windows"	    => 0,
+					    "garage_doors"  => 0,
+					    "visible_stores" => "us_northeast",
+					    "leg_heights"    => range(6, 12)
+					),
+					"vertical"   => array(
+					    "name"	    => "Snow and Wind Carport - Vertical Roof",
+					    "url"	    => "snow-wind-carport-vertical-roof",
+					    "categories"    => "24,25,26,65",
+					    "code"	    => "AAMCCPVSAB%sAC%sAD%sAINO_AJNO_AE%sAF%sAG%sAH%sALNO_AKNO_",
+					    "short_description"	=> "A vertical roof carport to protect you or your things.",
+					    "description"   => "Carports are one of the easiest and most cost ".
+								"effective ways of protecting your car, truck, boat, or possessions".
+								"from the sun and weather. Our carports ".
+								"are made of steel and can stand the test of time. ".
+								"Our snow and wind model is constructed to sustain the damaging winds and snow loads of your area. ".
+								"With free installation and delivery in our service areas you can't beat these deals.",
+					    "meta"	    => "carport, standard roof, cover, patio, car cover, boat cover, truck cover",
+					    "meta_desc"	    => "A vertical roof carport to protect you or your things.",
+					    "price_location" => "ne",
+					    "image"	    => "/standard_vertical_1221.png",
+					    "doors"	    => 0,
+					    "windows"	    => 0,
+					    "garage_doors"  => 0,
+					    "visible_stores" => "us_northeast",
+					    "leg_heights"    => range(6, 12)
+					),
+				    ),
+				    "high_snow_wind"	=> array(
+					"regular"   => array(
+					    "name"	    => "High Snow and Wind Carport - Regular Roof",
+					    "url"	    => "high-snow-wind-carport-regular-roof",
+					    "categories"    => "15,33,34,35",
+					    "code"	    => "AAMCCPRXAB%sAC%sAD%sAINO_AJNO_AE%sAF%sAG%sAH%sALNO_AKNO_",
+					    "short_description"	=> "A standard style carport to protect you or your things.",
+					    "description"   => "Carports are one of the easiest and most cost ".
+								"effective ways of protecting your car, truck, boat, or possessions".
+								"from the sun and weather. Our carports ".
+								"are made of steel and can stand the test of time. ".
+								"Our snow and wind model is constructed to sustain the damaging winds and snow loads of your area. ".
+								"With free installation and delivery in our service areas you can't beat these deals.",
+					    "meta"	    => "carport, standard roof, cover, patio, car cover, boat cover, truck cover",
+					    "meta_desc"	    => "A standard style carport to protect you or your things.",
+					    "price_location" => "mi",
+					    "image"	    => "/standard_regular_1221.png",
+					    "doors"	    => 0,
+					    "windows"	    => 0,
+					    "garage_doors"  => 0,
+					    "visible_stores" => "us_michigan",
+					    "leg_heights"    => range(5, 12)
+					),
+					"boxed_eave"   => array(
+					    "name"	    => "High Snow and Wind Carport - Boxed Eave Roof",
+					    "url"	    => "high-snow-wind-carport-boxed-eave-roof",
+					    "categories"    => "15,33,34,36",
+					    "code"	    => "AAMCCPBXAB%sAC%sAD%sAINO_AJNO_AE%sAF%sAG%sAH%sALNO_AKNO_",
+					    "short_description"	=> "A boxed eave roof carport to protect you or your things.",
+					    "description"   => "Carports are one of the easiest and most cost ".
+								"effective ways of protecting your car, truck, boat, or possessions".
+								"from the sun and weather. Our carports ".
+								"are made of steel and can stand the test of time. ".
+								"Our snow and wind model is constructed to sustain the damaging winds and snow loads of your area. ".
+								"With free installation and delivery in our service areas you can't beat these deals.",
+					    "meta"	    => "carport, standard roof, cover, patio, car cover, boat cover, truck cover",
+					    "meta_desc"	    => "A boxed eave roof carport to protect you or your things.",
+					    "price_location" => "mi",
+					    "image"	    => "/standard_boxed_eave_1221.png",
+					    "doors"	    => 0,
+					    "windows"	    => 0,
+					    "garage_doors"  => 0,
+					    "visible_stores" => "us_michigan",
+					    "leg_heights"    => range(6, 12)
+					),
+					"vertical"   => array(
+					    "name"	    => "High Snow and Wind Carport - Vertical Roof",
+					    "url"	    => "high-snow-wind-carport-vertical-roof",
+					    "categories"    => "15,33,34,63",
+					    "code"	    => "AAMCCPVXAB%sAC%sAD%sAINO_AJNO_AE%sAF%sAG%sAH%sALNO_AKNO_",
+					    "short_description"	=> "A vertical roof carport to protect you or your things.",
+					    "description"   => "Carports are one of the easiest and most cost ".
+								"effective ways of protecting your car, truck, boat, or possessions".
+								"from the sun and weather. Our carports ".
+								"are made of steel and can stand the test of time. ".
+								"Our snow and wind model is constructed to sustain the damaging winds and snow loads of your area. ".
+								"With free installation and delivery in our service areas you can't beat these deals.",
+					    "meta"	    => "carport, standard roof, cover, patio, car cover, boat cover, truck cover",
+					    "meta_desc"	    => "A vertical roof carport to protect you or your things.",
+					    "price_location" => "mi",
+					    "image"	    => "/standard_vertical_1221.png",
+					    "doors"	    => 0,
+					    "windows"	    => 0,
+					    "garage_doors"  => 0,
+					    "visible_stores" => "us_michigan",
+					    "leg_heights"    => range(6, 12)
+					),
+				    )
+				),
+				"garages" => array(
+				    "standard"	=> array(
+					"regular"   => array(
+					    "name"	    => "Standard Single Car Garage - Regular Roof",
+					    "url"	    => "standard-single-car-garage-regular-roof",
+					    "categories"    => "13,5,43,14,51,53,66,69",
+					    "code"	    => "AAMCCPRAAB%sAC%sAD%sAICL_AJCL_AE%sAF%sAG%sAH%sALCL_AKCL_AOHAPHAQHARHAVFRU096096___",
+					    "short_description"	=> "An all steel standard style garage to protect your car and possessions.",
+					    "description"   => "Keep your vehicles and stuff safe from the elements etc. with one of ".
+								"our all steel garages. Our garages are extremely durable and can be ".
+								"installed on your level land. Choose from the many colors and roof styles".
+								"that we offer today.",
+					    "meta"	    => "garage, car, standard roof, storage building, car cover, boat cover, truck cover, shed",
+					    "meta_desc"	    => "A standard style single car garage to protect your car, truck, boat or anything you want to keep safe.",
+					    "price_location" => "nt",
+					    "image"	    => "/standard_regular_garage_1221.png",
+					    "doors"	    => 0,
+					    "windows"	    => 0,
+					    "garage_doors"  => 1,
+					    "visible_stores" => "us_ne_texas,us_central",
+					    "leg_heights"    => range(9, 12)
+					),
+					"boxed_eave"   => array(
+					    "name"	    => "Standard Single Car Garage - Boxed Eave Roof",
+					    "url"	    => "standard-single-car-garage-boxed-eave-roof",
+					    "categories"    => "13,5,43,14,51,53,67,70",
+					    "code"	    => "AAMCCPBAAB%sAC%sAD%sAICL_AJCL_AE%sAF%sAG%sAH%sALCL_AKCL_AOHAPHAQHARHAVFRU096096___",
+					    "short_description"	=> "An all steel boxed eave roof garage to protect your car and possessions.",
+					    "description"   => "Keep your vehicles and stuff safe from the elements etc. with one of ".
+								"our all steel garages. Our garages are extremely durable and can be ".
+								"installed on your level land. Choose from the many colors and roof styles".
+								"that we offer today.",
+					    "meta"	    => "garage, car, boxed eave roof, storage building, car cover, boat cover, truck cover, shed",
+					    "meta_desc"	    => "A boxed eave roof single car garage to protect you or your things.",
+					    "price_location" => "nt",
+					    "image"	    => "/standard_boxed_eave_garage_1221.png",
+					    "doors"	    => 0,
+					    "windows"	    => 0,
+					    "garage_doors"  => 1,
+					    "visible_stores" => "us_ne_texas,us_central",
+					    "leg_heights"    => range(9, 12)
+					),
+					"vertical"   => array(
+					    "name"	    => "Standard Single Car Garage - Vertical Roof",
+					    "url"	    => "standard-single-car-garage-vertical-roof",
+					    "categories"    => "13,5,43,14,51,53,68,71",
+					    "code"	    => "AAMCCPVAAB%sAC%sAD%sAICL_AJCL_AE%sAF%sAG%sAH%sALCL_AKCL_AOHAPHAQHARHAVFRU096096___",
+					    "short_description"	=> "An all steel vertical roof garage to protect your car and possessions.",
+					    "description"   => "Keep your vehicles and stuff safe from the elements etc. with one of ".
+								"our all steel garages. Our garages are extremely durable and can be ".
+								"installed on your level land. Choose from the many colors and roof styles".
+								"that we offer today.",
+					    "meta"	    => "garage, car, vertical roof, storage building, car cover, boat cover, truck cover, shed",
+					    "meta_desc"	    => "A vertical roof single car garage to protect you or your things.",
+					    "price_location" => "nt",
+					    "image"	    => "/standard_vertical_garage_1221.png",
+					    "doors"	    => 0,
+					    "windows"	    => 0,
+					    "garage_doors"  => 1,
+					    "visible_stores" => "us_ne_texas,us_central",
+					    "leg_heights"    => range(9, 12)
+					),
+				    ),
+				    "high_wind"	=> array(
+					"regular"   => array(
+					    "name"	    => "High Wind Single Car Garage - Regular Roof",
+					    "url"	    => "high-wind-single-car-garage-regular-roof",
+					    "categories"    => "16,17,23,75",
+					    "code"	    => "AAMCCPRWAB%sAC%sAD%sAICL_AJCL_AE%sAF%sAG%sAH%sALCL_AKCL_AOHAPHAQHARHAVFRU096096___",
+					    "short_description"	=> "An all steel standard style garage to protect your car and possessions.",
+					    "description"   => "Keep your vehicles and stuff safe from the elements etc. with one of ".
+								"our all steel garages. Our garages are extremely durable and can be ".
+								"installed on your level land. Choose from the many colors and roof styles".
+								"that we offer today.",
+					    "meta"	    => "garage, car, standard roof, storage building, car cover, boat cover, truck cover, shed",
+					    "meta_desc"	    => "A standard style single car garage to protect you or your things.",
+					    "price_location" => "fl",
+					    "image"	    => "/standard_regular_garage_1221.png",
+					    "doors"	    => 0,
+					    "windows"	    => 0,
+					    "garage_doors"  => 1,
+					    "visible_stores" => "us_florida",
+					    "leg_heights"    => range(9, 12)
+					),
+					"boxed_eave"   => array(
+					    "name"	    => "High Wind Single Car Garage - Boxed Eave Roof",
+					    "url"	    => "high-wind-single-car-garage-boxed-eave-roof",
+					    "categories"    => "16,17,23,76",
+					    "code"	    => "AAMCCPBWAB%sAC%sAD%sAICL_AJCL_AE%sAF%sAG%sAH%sALCL_AKCL_AOHAPHAQHARHAVFRU096096___",
+					    "short_description"	=> "An all steel boxed eave garage to protect your car and possessions.",
+					    "description"   => "Keep your vehicles and stuff safe from the elements etc. with one of ".
+								"our all steel garages. Our garages are extremely durable and can be ".
+								"installed on your level land. Choose from the many colors and roof styles".
+								"that we offer today.",
+					    "meta"	    => "garage, car, boxed eave roof, storage building, car cover, boat cover, truck cover, shed",
+					    "meta_desc"	    => "A boxed eave roof single car garage to protect you or your things.",
+					    "price_location" => "fl",
+					    "image"	    => "/standard_boxed_eave_garage_1221.png",
+					    "doors"	    => 0,
+					    "windows"	    => 0,
+					    "garage_doors"  => 1,
+					    "visible_stores" => "us_florida",
+					    "leg_heights"    => range(9, 12)
+					),
+					"vertical"   => array(
+					    "name"	    => "High Wind Single Car Garage - Vertical Roof",
+					    "url"	    => "high-wind-single-car-garage-vertical-roof",
+					    "categories"    => "16,17,23,77",
+					    "code"	    => "AAMCCPVWAB%sAC%sAD%sAICL_AJCL_AE%sAF%sAG%sAH%sALCL_AKCL_AOHAPHAQHARHAVFRU096096___",
+					    "short_description"	=> "An all steel vertical roof garage to protect your car and possessions.",
+					    "description"   => "Keep your vehicles and stuff safe from the elements etc. with one of ".
+								"our all steel garages. Our garages are extremely durable and can be ".
+								"installed on your level land. Choose from the many colors and roof styles".
+								"that we offer today.",
+					    "meta"	    => "garage, car, vertical roof, storage building, car cover, boat cover, truck cover, shed",
+					    "meta_desc"	    => "A vertical roof single car garage to protect you or your things.",
+					    "price_location" => "fl",
+					    "image"	    => "/standard_vertical_garage_1221.png",
+					    "doors"	    => 0,
+					    "windows"	    => 0,
+					    "garage_doors"  => 1,
+					    "visible_stores" => "us_florida",
+					    "leg_heights"    => range(9, 12)
+					),
+				    ),
+				    "snow_wind"	=> array(
+					"regular"   => array(
+					    "name"	    => "Snow and Wind Single Car Garage - Regular Roof",
+					    "url"	    => "snow-wind-single-car-garage-regular-roof",
+					    "categories"    => "24,25,29,78",
+					    "code"	    => "AAMCCPRSAB%sAC%sAD%sAICL_AJCL_AE%sAF%sAG%sAH%sALCL_AKCL_AOHAPHAQHARHAVFRU096096___",
+					    "short_description"	=> "An all steel standard style garage to protect your car and possessions.",
+					    "description"   => "Keep your vehicles and stuff safe from the elements etc. with one of ".
+								"our all steel garages. Our garages are extremely durable and can be ".
+								"installed on your level land. Choose from the many colors and roof styles".
+								"that we offer today.",
+					    "meta"	    => "garage, car, standard roof, storage building, car cover, boat cover, truck cover, shed",
+					    "meta_desc"	    => "A standard style single car garage to protect you or your things.",
+					    "price_location" => "ne",
+					    "image"	    => "/standard_regular_garage_1221.png",
+					    "doors"	    => 0,
+					    "windows"	    => 0,
+					    "garage_doors"  => 1,
+					    "visible_stores" => "us_northeast",
+					    "leg_heights"    => range(9, 12)
+					),
+					"boxed_eave"   => array(
+					    "name"	    => "Snow and Wind Single Car Garage - Boxed Eave Roof",
+					    "url"	    => "snow-wind-boxed-single-car-garage-eave-roof",
+					    "categories"    => "24,25,29,79",
+					    "code"	    => "AAMCCPBSAB%sAC%sAD%sAICL_AJCL_AE%sAF%sAG%sAH%sALCL_AKCL_AOHAPHAQHARHAVFRU096096___",
+					    "short_description"	=> "An all steel boxed eave garage to protect your car and possessions.",
+					    "description"   => "Keep your vehicles and stuff safe from the elements etc. with one of ".
+								"our all steel garages. Our garages are extremely durable and can be ".
+								"installed on your level land. Choose from the many colors and roof styles".
+								"that we offer today.",
+					    "meta"	    => "garage, car, boxed eave roof, storage building, car cover, boat cover, truck cover, shed",
+					    "meta_desc"	    => "A boxed eave roof single car garage to protect you or your things.",
+					    "price_location" => "ne",
+					    "image"	    => "/standard_boxed_eave_garage_1221.png",
+					    "doors"	    => 0,
+					    "windows"	    => 0,
+					    "garage_doors"  => 1,
+					    "visible_stores" => "us_northeast",
+					    "leg_heights"    => range(9, 12)
+					),
+					"vertical"   => array(
+					    "name"	    => "Snow and Wind Single Car Garage - Vertical Roof",
+					    "url"	    => "snow-wind-single-car-garage-vertical-roof",
+					    "categories"    => "24,25,29,80",
+					    "code"	    => "AAMCCPVSAB%sAC%sAD%sAICL_AJCL_AE%sAF%sAG%sAH%sALCL_AKCL_AOHAPHAQHARHAVFRU096096___",
+					    "short_description"	=> "An all steel vertical roof garage to protect your car and possessions.",
+					    "description"   => "Keep your vehicles and stuff safe from the elements etc. with one of ".
+								"our all steel garages. Our garages are extremely durable and can be ".
+								"installed on your level land. Choose from the many colors and roof styles".
+								"that we offer today.",
+					    "meta"	    => "garage, car, vertical roof, storage building, car cover, boat cover, truck cover, shed",
+					    "meta_desc"	    => "A vertical roof single car garage to protect you or your things.",
+					    "price_location" => "ne",
+					    "image"	    => "/standard_vertical_garage_1221.png",
+					    "doors"	    => 0,
+					    "windows"	    => 0,
+					    "garage_doors"  => 1,
+					    "visible_stores" => "us_northeast",
+					    "leg_heights"    => range(9, 12)
+					),
+				    ),
+				    "high_snow_wind"	=> array(
+					"regular"   => array(
+					    "name"	    => "High Snow and Wind Single Car Garage - Regular Roof",
+					    "url"	    => "high-snow-wind-single-car-garage-regular-roof",
+					    "categories"    => "15,33,37,72",
+					    "code"	    => "AAMCCPRXAB%sAC%sAD%sAICL_AJCL_AE%sAF%sAG%sAH%sALCL_AKCL_AOHAPHAQHARHAVFRU096096___",
+					    "short_description"	=> "An all steel standard style garage to protect your car and possessions.",
+					    "description"   => "Keep your vehicles and stuff safe from the elements etc. with one of ".
+								"our all steel garages. Our garages are extremely durable and can be ".
+								"installed on your level land. Choose from the many colors and roof styles".
+								"that we offer today.",
+					    "meta"	    => "garage, car, standard roof, storage building, car cover, boat cover, truck cover, shed",
+					    "meta_desc"	    => "A standard style single car garage to protect you or your things.",
+					    "price_location" => "mi",
+					    "image"	    => "/standard_regular_garage_1221.png",
+					    "doors"	    => 0,
+					    "windows"	    => 0,
+					    "garage_doors"  => 1,
+					    "visible_stores" => "us_michigan",
+					    "leg_heights"    => range(9, 12)
+					),
+					"boxed_eave"   => array(
+					    "name"	    => "High Snow and Wind Single Car Garage - Boxed Eave Roof",
+					    "url"	    => "high-snow-wind-boxed-single-car-garage-eave-roof",
+					    "categories"    => "15,33,37,73",
+					    "code"	    => "AAMCCPBXAB%sAC%sAD%sAICL_AJCL_AE%sAF%sAG%sAH%sALCL_AKCL_AOHAPHAQHARHAVFRU096096___",
+					    "short_description"	=> "An all steel boxed eave garage to protect your car and possessions.",
+					    "description"   => "Keep your vehicles and stuff safe from the elements etc. with one of ".
+								"our all steel garages. Our garages are extremely durable and can be ".
+								"installed on your level land. Choose from the many colors and roof styles".
+								"that we offer today.",
+					    "meta"	    => "garage, car, boxed eave roof, storage building, car cover, boat cover, truck cover, shed",
+					    "meta_desc"	    => "A boxed eave roof single car garage to protect you or your things.",
+					    "price_location" => "mi",
+					    "image"	    => "/standard_boxed_eave_garage_1221.png",
+					    "doors"	    => 0,
+					    "windows"	    => 0,
+					    "garage_doors"  => 1,
+					    "visible_stores" => "us_michigan",
+					    "leg_heights"    => range(9, 12)
+					),
+					"vertical"   => array(
+					    "name"	    => "High Snow and Wind Single Car Garage - Vertical Roof",
+					    "url"	    => "high-snow-wind-single-car-garage-vertical-roof",
+					    "categories"    => "15,33,37,74",
+					    "code"	    => "AAMCCPVXAB%sAC%sAD%sAICL_AJCL_AE%sAF%sAG%sAH%sALCL_AKCL_AOHAPHAQHARHAVFRU096096___",
+					    "short_description"	=> "An all steel vertical roof garage to protect your car and possessions.",
+					    "description"   => "Keep your vehicles and stuff safe from the elements etc. with one of ".
+								"our all steel garages. Our garages are extremely durable and can be ".
+								"installed on your level land. Choose from the many colors and roof styles".
+								"that we offer today.",
+					    "meta"	    => "garage, car, vertical roof, storage building, car cover, boat cover, truck cover, shed",
+					    "meta_desc"	    => "A vertical roof single car garage to protect you or your things.",
+					    "price_location" => "mi",
+					    "image"	    => "/standard_vertical_garage_1221.png",
+					    "doors"	    => 0,
+					    "windows"	    => 0,
+					    "garage_doors"  => 1,
+					    "visible_stores" => "us_michigan",
+					    "leg_heights"    => range(9, 12)
+					),
+				    )
+				)
+			    );
+	
+	$metal_colors	= array(
+			    "BR" => "Barn Red",
+			    "BL" => "Black",
+			    "BY" => "Burgandy",
+			    "CL" => "Clay",
+			    "EB" => "Earth Brown",
+			    "EG" => "Evergreen",
+			    "PB" => "Pebble Beige",
+			    "PG" => "Pewter Grey",
+			    "QG" => "Quaker Grey",
+			    "TN" => "Sandstone",
+			    "SB" => "Slate Blue",
+			    "TN" => "Tan",
+			    "WH" => "White",
+			);  
+	
+	$trim_colors	= array(
+			    "BR" => "Barn Red",
+			    "BL" => "Black",
+			    "BY" => "Burgandy",
+			    "CL" => "Clay",
+			    "EB" => "Earth Brown",
+			    "EG" => "Evergreen",
+			    "PB" => "Pebble Beige",
+			    "PG" => "Pewter Grey",
+			    "QG" => "Quaker Grey",
+			    "TN" => "Sandstone",
+			    "SB" => "Slate Blue",
+			    "TN" => "Tan",
+			    "WH" => "White",
+			); 
+	
+	$fields		= array("store"				    => "admin",
+				"websites"			    => "2",
+				"attribute_set"			    => "Metal Buildings",
+				"type"				    => "simple",
+				"category_ids"			    => "",
+				"sku"				    => "",
+				"has_options"			    => "0",
+				"name"				    => "",
+				"url_key"			    => "",
+				"country_of_manufacture"	    => "United States",
+				"msrp_enabled"			    => "Use config",
+				"msrp_display_actual_price_type"    => "Use config",
+				"meta_title"			    => "",
+				"meta_description"		    => "",
+				"image"				    => "",
+				"small_image"			    => "",
+				"thumbnail"			    => "",
+				"custom_design"			    => "",
+				"page_layout"			    => "No layout updates",
+				"options_container"		    => "Block after Info Column",
+				"gift_message_available"	    => "No",
+				"url_path"			    => "",
+				"image_label"			    => "",
+				"small_image_label"		    => "",
+				"thumbnail_label"		    => "",
+				"price"				    => "",
+				"special_price"			    => "",
+				"weight"			    => "",
+				"msrp"				    => "",
+				"status"			    => "Enabled",
+				"visibility"			    => "Not Visible Individually",
+				"enable_googlecheckout"		    => "Yes",
+				"tax_class_id"			    => "Taxable Goods",
+				"is_recurring"			    => "No",
+				"featured"			    => "No",
+				"entry_doors"			    => "0",
+				"garage_doors"			    => "0",
+				"metal_building_windows"	    => "0",
+				"description"			    => "",
+				"short_description"		    => "",
+				"meta_keyword"			    => "",
+				"custom_layout_update"		    => "",
+				"news_from_date"		    => "",
+				"news_to_date"			    => "",
+				"special_from_date"		    => "",
+				"special_to_date"		    => "",
+				"custom_design_from"		    => "",
+				"custom_design_to"		    => "",
+				"qty"				    => "0",
+				"min_qty"			    => "0",
+				"use_config_min_qty"		    => "1",
+				"is_qty_decimal"		    => "0",
+				"backorders"			    => "0",
+				"use_config_backorders"		    => "1",
+				"min_sale_qty"			    => "1",
+				"use_config_min_sale_qty"	    => "1",
+				"max_sale_qty"			    => "0",
+				"use_config_max_sale_qty"	    => "1",
+				"is_in_stock"			    => "0",
+				"low_stock_date"		    => "05/07/12 04:39 PM",
+				"notify_stock_qty"		    => "",
+				"use_config_notify_stock_qty"	    => "1",
+				"manage_stock"			    => "0",
+				"use_config_manage_stock"	    => "1",
+				"stock_status_changed_auto"	    => "1",
+				"use_config_qty_increments"	    => "1",
+				"qty_increments"		    => "0",
+				"use_config_enable_qty_inc"	    => "1",
+				"enable_qty_increments"		    => "0",
+				"stock_status_changed_automatically"=> "1",
+				"use_config_enable_qty_increments"  => "1",
+				"product_name"			    => "",
+				"store_id"			    => "0",
+				"product_type_id"		    => "simple",
+				"product_status_changed"	    => "",
+				"product_changed_websites"	    => "",
+				"metal_building_code"		    => "",
+				"metal_building_metal_color"	    => "tan",
+				"metal_building_trim_color"	    => "white",
+				"metal_building_width"		    => "",
+				"metal_building_length"		    => "",
+				"metal_building_leg_height"	    => "",
+				"configurable_attributes"	    => "",
+				"simples_skus"			    => ""
+		);		    
+	
+	foreach($types as $type => $models){
+	    foreach($models as $model => $roof_types){		
+		foreach ($roof_types as $roof_type => $values){
+		$file_path	= "C:\\Users\\Jessie\\Documents\\SourceGit\\Store.Winslowsinc\\var\\import\\import_".$type."_".$model."_".$roof_type.".csv";
+		$fp		= fopen($file_path, 'w');
+		fwrite($fp, "\xEF\xBB\xBF");
+		fputcsv($fp, array_keys($fields), ",", '"');
+		    foreach($widths as $width){
+			foreach($lengths as $length){
+			    foreach($values["leg_heights"] as $leg_height){
+				$name			= $values["name"]." - ".$width."X".$length."X".$leg_height;
+				$url			= $values["url"]."-".$width.$length.str_pad($leg_height, 2, "0", STR_PAD_LEFT);
+				$temp_fields		= $fields;
+				$simple_skus		= array();
+				
+				foreach($metal_colors as $metal_color_key => $metal_color){
+				    foreach($trim_colors as $trim_color_key => $trim_color){
+					
+					$temp_fields		= $fields;
+					$code			= sprintf(
+								    $values["code"], 
+								    (string)$width, 
+								    (string) $length, 
+								    str_pad($leg_height, 2, "0", STR_PAD_LEFT),
+								    $metal_color_key,
+								    $trim_color_key,
+								    $metal_color_key,
+								    $metal_color_key
+								);
+					if(!isset($cache_prices[$type.$model.$roof_type.$width.$length.$leg_height])){
+					    $price_array = $codebuilder->getPriceFromCode($code, $values["price_location"]);
+					    $cache_prices[$type.$model.$roof_type.$width.$length.$leg_height] = str_replace(",", "", (string)$price_array["price"]);
+					}
+					
+					$temp_fields["category_ids"]	    = $values["categories"];
+					$temp_fields["sku"]		    = "W".$sku."_".$metal_color_key."_".$trim_color_key;
+					$temp_fields["name"]		    = $name;
+					$temp_fields["url_key"]		    = $name;
+					$temp_fields["description"]	    = $values["description"];
+					$temp_fields["short_description"]   = $values["short_description"];
+					$temp_fields["meta_description"]    = $name;
+					$temp_fields["meta_title"]	    = $values["meta_desc"];
+					$temp_fields["meta_keyword"]	    = $values["meta"];
+					$temp_fields["image"]		    = $values["image"];
+					$temp_fields["small_image"]	    = $values["image"];
+					$temp_fields["thumbnail"]	    = $values["image"];
+					$temp_fields["url_path"]	    = $url.".html";
+					$temp_fields["image_label"]	    = $name;
+					$temp_fields["small_image_label"]   = $name;
+					$temp_fields["thumbnail_label"]	    = $name;
+					$temp_fields["price"]		    = $cache_prices[$type.$model.$roof_type.$width.$length.$leg_height];
+					$temp_fields["product_name"]	    = $name;
+					$temp_fields["metal_building_code"] = $code;
+					$temp_fields["metal_building_width"]	    = $width;
+					$temp_fields["metal_building_length"]	    = $length;
+					$temp_fields["metal_building_leg_height"]   = $leg_height;
+					$temp_fields["metal_building_metal_color"]  = $metal_color;
+					$temp_fields["metal_building_trim_color"]   = $trim_color;
+
+					fputcsv($fp, $temp_fields, ",", '"');
+					//if($i<200)Zend_Debug::dump($temp_fields);
+					
+					$simple_skus[] = "W".$sku."_".$metal_color_key."_".$trim_color_key;
+					$i++;
+				    }
+				}
+				
+				foreach(array("admin", $values["visible_stores"]) as $store){
+				    $code = sprintf(
+						$values["code"], 
+						(string)$width, 
+						(string) $length, 
+						str_pad($leg_height, 2, "0", STR_PAD_LEFT),
+						"TN",
+						"WH",
+						"TN",
+						"TN"
+					    );
+				    if(!isset($cache_prices[$type.$model.$roof_type.$width.$length.$leg_height])){
+					$price_array = $codebuilder->getPriceFromCode($code, $values["price_location"]);
+					$cache_prices[$type.$model.$roof_type.$width.$length.$leg_height] = str_replace(",", "", (string) $price_array["price"]);
+				    }
+
+				    $temp_fields["category_ids"]			= $values["categories"];
+				    $temp_fields["sku"]					= "W".$sku;
+				    $temp_fields["name"]				= $name;
+				    $temp_fields["type"]				= "configurable";
+				    $temp_fields["url_key"]				= $name;
+				    $temp_fields["description"]				= $values["description"];
+				    $temp_fields["short_description"]			= $values["short_description"];
+				    $temp_fields["meta_description"]			= $name;
+				    $temp_fields["meta_title"]				= $values["meta_desc"];
+				    $temp_fields["meta_keyword"]			= $values["meta"];
+				    $temp_fields["image"]				= $values["image"];
+				    $temp_fields["small_image"]				= $values["image"];
+				    $temp_fields["thumbnail"]				= $values["image"];
+				    $temp_fields["url_path"]				= $url.".html";
+				    $temp_fields["image_label"]				= $name;
+				    $temp_fields["small_image_label"]			= $name;
+				    $temp_fields["thumbnail_label"]			= $name;
+				    $temp_fields["price"]				= $cache_prices[$type.$model.$roof_type.$width.$length.$leg_height];
+				    $temp_fields["product_name"]			= $name;
+				    $temp_fields["metal_building_code"]			= $code;
+				    $temp_fields["metal_building_width"]		= $width;
+				    $temp_fields["metal_building_length"]		= $length;
+				    $temp_fields["metal_building_leg_height"]		= $leg_height;
+				    $temp_fields["metal_building_metal_color"]		= "Tan";
+				    $temp_fields["metal_building_trim_color"]		= "White";
+				    $temp_fields["product_type_id"]			= "configurable";
+				    $temp_fields["configurable_attributes"]		= (string) "metal_building_metal_color,metal_building_trim_color";
+				    $temp_fields["simples_skus"]			= (string) implode(",",$simple_skus);
+				    $temp_fields["has_options"]				= "1";
+				    $temp_fields["stock_status_changed_auto"]		= "0";
+				    $temp_fields["stock_status_changed_automatically"]	= "0";
+				    $temp_fields["visibility"]				= $store == "admin" ? "Not Visible Individually" : "Catalog,Search";
+				    $temp_fields["store"]				= $store;
+
+				    fputcsv($fp, $temp_fields, ",", '"');
+				    //if($i<200)Zend_Debug::dump($temp_fields);
+				}
+				
+				$i++;
+				$sku++;
+			    }
+			}
+		    }
+		    fclose($fp);	
+		}	
+	    }
+	}
+	
+	echo "$i records";
     }
 
     public function addpersonAction(){
@@ -87,9 +864,10 @@ class TestController extends Zend_Controller_Action
     }
     
     public function testAction(){
-	$builder = new \Services\Codebuilder\Codebuilder;
-	$price_array = $builder->getPriceFromCode("AAMCCPRAAB12AC41AD05AINO_AJNO_AETNAFWHAGTNAHTNALNO_AKNO_", "ne");
-	echo "**".$price_array["price"]."**";
+//	$builder = new \Services\Codebuilder\Codebuilder;
+//	$price_array = $builder->getPriceFromCode("AAMCCPRAAB12AC41AD05AINO_AJNO_AETNAFWHAGTNAHTNALNO_AKNO_", "ne");
+//	echo "**".$price_array["price"]."**";
+	echo md5("testme");
     }
     
     public function codetohtmlAction(){

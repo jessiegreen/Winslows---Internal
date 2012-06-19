@@ -10,6 +10,63 @@ class BuilderController extends Zend_Controller_Action
     protected $_request;
     protected $_params;
     
+    private $_default_codes = array(
+				    "carport" => array(
+					    "nt" => array(
+						    "regular"	=> "AAMCCPRAAB12AC21AD05AINO_AJNO_AETNAFWHAGTNAHTNALNO_AKNO_",
+						    "boxed"	=> "AAMCCPBAAB12AC21AD06AINO_AJNO_AETNAFWHAGTNAHTNALNO_AKNO_",
+						    "vertical"	=> "AAMCCPVAAB12AC21AD06AINO_AJNO_AETNAFWHAGTNAHTNALNO_AKNO_",
+						),
+					    "ce" => array(
+						    "regular"	=> "AAMCCPRAAB12AC21AD05AINO_AJNO_AETNAFWHAGTNAHTNALNO_AKNO_",
+						    "boxed"	=> "AAMCCPBAAB12AC21AD06AINO_AJNO_AETNAFWHAGTNAHTNALNO_AKNO_",
+						    "vertical"	=> "AAMCCPVAAB12AC21AD06AINO_AJNO_AETNAFWHAGTNAHTNALNO_AKNO_",
+						),
+					    "ne" => array(
+						    "regular"	=> "AAMCCPRSAB12AC21AD05AINO_AJNO_AETNAFWHAGTNAHTNALNO_AKNO_",
+						    "boxed"	=> "AAMCCPBSAB12AC21AD06AINO_AJNO_AETNAFWHAGTNAHTNALNO_AKNO_",
+						    "vertical"	=> "AAMCCPVSAB12AC21AD06AINO_AJNO_AETNAFWHAGTNAHTNALNO_AKNO_",
+						),
+					    "fl" => array(
+						    "regular"	=> "AAMCCPRWAB12AC21AD05AINO_AJNO_AETNAFWHAGTNAHTNALNO_AKNO_",
+						    "boxed"	=> "AAMCCPBWAB12AC21AD06AINO_AJNO_AETNAFWHAGTNAHTNALNO_AKNO_",
+						    "vertical"	=> "AAMCCPVWAB12AC21AD06AINO_AJNO_AETNAFWHAGTNAHTNALNO_AKNO_",
+						),
+					    "mi" => array(
+						    "regular"	=> "AAMCCPRXAB12AC21AD05AINO_AJNO_AETNAFWHAGTNAHTNALNO_AKNO_",
+						    "boxed"	=> "AAMCCPBXAB12AC21AD06AINO_AJNO_AETNAFWHAGTNAHTNALNO_AKNO_",
+						    "vertical"	=> "AAMCCPVXAB12AC21AD06AINO_AJNO_AETNAFWHAGTNAHTNALNO_AKNO_",
+						),
+					),
+				    "garage" => array(
+					    "nt" => array(
+						    "regular"	=> "AAMCCPRAAB12AC21AD05AINO_AJNO_AETNAFWHAGTNAHTNALNO_AKNO_",
+						    "boxed"	=> "AAMCCPBAAB12AC21AD06AINO_AJNO_AETNAFWHAGTNAHTNALNO_AKNO_",
+						    "vertical"	=> "AAMCCPVAAB12AC21AD06AINO_AJNO_AETNAFWHAGTNAHTNALNO_AKNO_",
+						),
+					    "ce" => array(
+						    "regular"	=> "AAMCCPRAAB12AC21AD05AINO_AJNO_AETNAFWHAGTNAHTNALNO_AKNO_",
+						    "boxed"	=> "AAMCCPBAAB12AC21AD06AINO_AJNO_AETNAFWHAGTNAHTNALNO_AKNO_",
+						    "vertical"	=> "AAMCCPVAAB12AC21AD06AINO_AJNO_AETNAFWHAGTNAHTNALNO_AKNO_",
+						),
+					    "ne" => array(
+						    "regular"	=> "AAMCCPRSAB12AC21AD05AINO_AJNO_AETNAFWHAGTNAHTNALNO_AKNO_",
+						    "boxed"	=> "AAMCCPBSAB12AC21AD06AINO_AJNO_AETNAFWHAGTNAHTNALNO_AKNO_",
+						    "vertical"	=> "AAMCCPVSAB12AC21AD06AINO_AJNO_AETNAFWHAGTNAHTNALNO_AKNO_",
+						),
+					    "fl" => array(
+						    "regular"	=> "AAMCCPRWAB12AC21AD05AINO_AJNO_AETNAFWHAGTNAHTNALNO_AKNO_",
+						    "boxed"	=> "AAMCCPBWAB12AC21AD06AINO_AJNO_AETNAFWHAGTNAHTNALNO_AKNO_",
+						    "vertical"	=> "AAMCCPVWAB12AC21AD06AINO_AJNO_AETNAFWHAGTNAHTNALNO_AKNO_",
+						),
+					    "mi" => array(
+						    "regular"	=> "AAMCCPRXAB12AC21AD05AINO_AJNO_AETNAFWHAGTNAHTNALNO_AKNO_",
+						    "boxed"	=> "AAMCCPBXAB12AC21AD06AINO_AJNO_AETNAFWHAGTNAHTNALNO_AKNO_",
+						    "vertical"	=> "AAMCCPVXAB12AC21AD06AINO_AJNO_AETNAFWHAGTNAHTNALNO_AKNO_",
+						),
+					),
+				);
+    
     /**
      * @var Zend_Session_Namespace $_session_builder
      */
@@ -47,7 +104,7 @@ class BuilderController extends Zend_Controller_Action
 	$this->_session_builder	= new Zend_Session_Namespace('builder');
 	$this->_flashMessenger	= $this->_helper->getHelper('FlashMessenger');
 	
-	$this->_initializeSessionBuilder();
+	//$this->_initializeSessionBuilder();
 	
 	$this->view->headLink()->appendStylesheet('/css/builder.css');
 	$this->view->headScript()->appendFile("/javascript/jquery.maphilight.js");
@@ -73,17 +130,20 @@ class BuilderController extends Zend_Controller_Action
     
     public function indexAction()
     {	
-	$this->_helper->layout->setLayout("basic");
-	$session		= new Zend_Session_Namespace('Dataservice');
-	$session->redirect	= $_SERVER['REQUEST_URI'];
+	$session			= new Zend_Session_Namespace('Dataservice');
+	$session->redirect		= $_SERVER['REQUEST_URI'];
+	$this->_session_builder->params = array("color" => "", "code" => "", "type" => "", "location" => "");
+	$css				= isset($this->_params["color"]) ? $this->_params["color"] : "";
+	
 	$this->view->headScript()->appendFile("/javascript/jquery-ui.min.js");
 	$this->view->headScript()->appendFile("/javascript/jquery.blockui.js");
+	$this->_helper->layout->setLayout("basic");
 	
-	$css = isset($this->_params["color"]) ? $this->_params["color"] : "";
 	switch ($css) {
 	    case "green":
 		$this->view->headLink()->appendStylesheet('/css/jquery-ui/south-street/jquery-ui.custom.css');
 		$this->view->headLink()->appendStylesheet('/css/builder-green.css');
+		$this->_session_builder->params["color"] = $css;
 		break;
 	    default:
 		$this->view->headLink()->appendStylesheet('/css/jquery-ui/redmond/jquery-ui.custom.css');
@@ -92,18 +152,22 @@ class BuilderController extends Zend_Controller_Action
 	
 	if(isset($this->_params["code"]))
 	{
-	    if(trim($this->_params["code"]) != $this->_session_builder->builder["code"])
+	    $code = trim($this->_params["code"]);
+	    if($code != $this->_session_builder->builder["code"])
 	    {
-		$this->_session_builder->builder["code"]    = trim($this->_params["code"]);
-		$this->_session_builder->builder["values"]  = $this->_codebuilder->getBuilderArrayFromCode($this->_session_builder->builder["code"]);
+		$this->_session_builder->builder["code"]    = $code;
+		$this->_session_builder->builder["values"]  = $this->_codebuilder->getBuilderArrayFromCode($code);
+		$this->_session_builder->params["code"]	    = $code;
 	    }
 	}
 	
 	if(isset($this->_params["location"]))
 	{
-	    if(trim($this->_params["location"]) != $this->_session_builder->builder["location"])
+	    $location = trim($this->_params["location"]);
+	    if($location != $this->_session_builder->builder["location"])
 	    {
-		$this->_session_builder->builder["location"]    = trim($this->_params["location"]);
+		$this->_session_builder->params["location"]	= $location;
+		$this->_session_builder->builder["location"]    = $location;
 	    }
 	}
     }
@@ -129,7 +193,7 @@ class BuilderController extends Zend_Controller_Action
     {	
         $this->_helper->layout->disableLayout();
 
-	$this->_setValueArrayValueFromSetParam("Model");
+	$this->_setModel();
 	
 	$this->view->form	= $this->getFormModel();
 	$this->view->selected	= $this->_mapper->getModel($this->_session_builder->builder["values"]);
@@ -345,9 +409,16 @@ class BuilderController extends Zend_Controller_Action
     
     public function clearAction(){
 	$this->_helper->layout->disableLayout();
-	$this->_session_builder->builder = array();
-	$this->_initializeSessionBuilder();
+	$this->_resetCode();
 	$this->_addSuccessFlashMessage("Builder Reset");
+    }
+    
+    private function _resetCode(){
+	#--Don't clear location
+	$location					= $this->_session_builder->builder["location"];
+	$this->_session_builder->builder		= array();
+	$this->_session_builder->builder["location"]	= $location;
+	$this->_initializeSessionBuilder();
     }
     
     private function _updateAndValidateBuilderSessionCodeAndPrice()
@@ -386,6 +457,7 @@ class BuilderController extends Zend_Controller_Action
     private function _setLocation(){
 	if(isset($this->_params['set'])){
 	    $this->_session_builder->builder["location"] = $this->_params['set'];
+	    $this->_resetCode();
 	    $this->_addSuccessFlashMessage("Changed location");
 	}
     }
@@ -404,6 +476,18 @@ class BuilderController extends Zend_Controller_Action
 	    return true;
 	}
 	else return false;
+    }
+    
+    private function _setModel(){
+	if(isset($this->_params['set'])){
+	    $models					= array("R" => "regular", "B" => "boxed", "V" => "vertical");
+	    $selected_model				= substr($this->_params['set'], 0,1);
+	    $param_type					= $this->_session_builder->params["type"];
+	    $type					= $param_type && isset($param_type) ? $param_type : "carport";
+	    
+	    $this->_session_builder->builder["code"]	= $this->_default_codes[$this->_session_builder->builder["location"]][$type][$models[$selected_model]];
+	    $this->_session_builder->builder["values"]	= $this->_codebuilder->getBuilderArrayFromCode($this->_session_builder->builder["code"]);
+	}
     }
     
     private function _addSuccessFlashMessage($message)
@@ -443,10 +527,14 @@ class BuilderController extends Zend_Controller_Action
 	if(!is_array($this->_session_builder->builder)){
 	    $this->_session_builder->builder = array();
 	}
+	#--Location must be first because default setting of code uses it
+	if(!isset($this->_session_builder->builder["location"])){
+	    $this->_session_builder->builder["location"] = "nt";
+	}
 	
 	if(!isset($this->_session_builder->builder["code"])){
-	    $this->_session_builder->builder["code"] = "AAMCCPRAAB12AC21AD05AINO_AJNO_AETNAFWHAGTNAHTNALNO_AKNO_";
-	    $this->_session_builder->builder["values"] = $this->_codebuilder->getBuilderArrayFromCode($this->_session_builder->builder["code"]);
+	    $this->_session_builder->builder["code"]	= $this->_default_codes[$this->_session_builder->builder["location"]]["carport"]["regular"];
+	    $this->_session_builder->builder["values"]	= $this->_codebuilder->getBuilderArrayFromCode($this->_session_builder->builder["code"]);
 	}
 	
 	if(!isset($this->_session_builder->builder["values"]) || !is_array($this->_session_builder->builder["values"])){
@@ -455,10 +543,6 @@ class BuilderController extends Zend_Controller_Action
 	
 	if(!isset($this->_session_builder->builder["price"])){
 	    $this->_session_builder->builder["price"] = 0;
-	}
-	
-	if(!isset($this->_session_builder->builder["location"])){
-	    $this->_session_builder->builder["location"] = "nt";
 	}
     }
     
@@ -1075,6 +1159,7 @@ class BuilderController extends Zend_Controller_Action
 	$this->_renderWallFront($image, $render_array);
 	$this->_renderRoofFront($image, $render_array);
 	$this->_renderRoofTrim($image, $render_array);
+	$this->_renderDoors($image, $render_array);
 	
 	imagesavealpha($image,true);
 	imagepng($image);
@@ -1268,13 +1353,32 @@ class BuilderController extends Zend_Controller_Action
 	}
     }
     
+    private function _renderDoors($image, $render_array){
+	$doors_count	= $this->_mapper->getDoorsCount($this->_session_builder->builder["values"]);
+	
+	if($doors_count>0)
+	{
+	    for($i=0;$i<$doors_count;$i++)
+	    {
+		if($this->_mapper->getDoorTypeCode($this->_session_builder->builder["values"], $i) == "RU")
+		{
+		    if($this->_mapper->getCoveredFrontTypeCode($this->_session_builder->builder["values"]) == "CL")
+		    {
+			$this->_renderPart($image, $render_array["base_path"]."-door - front - garage.png");
+		    }
+		    break;
+		}
+	    }
+	}
+    }
+    
     private function _renderPart($image, $path){
 	$part		   = imagecreatefrompng("img/builder/render/".$path);
 	$part_image_width  = imagesx($part);
 	$part_image_height = imagesy($part);
 	imagecopyresampled($image, $part, 0, 0, 0, 0, $part_image_width, $part_image_height, $part_image_width, $part_image_height);
 	imagedestroy($part);
-    }
+    }    
     
     public function getpricefromcodeAction(){
 	header('Content-type: application/json;Cache-Control: no-cache');

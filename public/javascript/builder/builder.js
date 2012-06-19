@@ -55,14 +55,19 @@ Builder.prototype.map_click_bind = function(){
 	var tab_area = $(e.target).attr("location_value");
 	if(tab_area != "undefined"){
 	    //Set the area
-	    $('#builder_right_pane').block({ message: null,overlayCSS: { backgroundColor: '#EAF4FD' } });
-	    $.ajax({
-		url:"/builder/location/set/"+tab_area,
-		success:function(data){
-		    $("#Location").html(data);
-		    $('#builder_right_pane').unblock();
+	    if(tab_area != $("#map_selected_value").val())
+	    {
+		if(confirm("This will reset all options. Do you want to continue changing the location?")){
+		    $('#builder_right_pane').block({ message: null,overlayCSS: { backgroundColor: '#EAF4FD' } });
+		    $.ajax({
+			url:"/builder/location/set/"+tab_area,
+			success:function(data){
+			    $("#Location").html(data);
+			    $('#builder_right_pane').unblock();
+			}
+		    });
 		}
-	    });
+	    }
 	}
     });
 }
@@ -92,15 +97,20 @@ Builder.prototype.model_click_bind = function(){
 	var selected = $(e.target).val();
 	if(selected != "undefined"){
 	    //Set the area
-	    $('#builder_right_pane').block({ message: null,overlayCSS: { backgroundColor: '#EAF4FD' } });
-	    $.ajax({
-		url:"/builder/model/set/"+selected,
-		success:function(data){
-		    $("#Model").html(data);
-		    //$("#example").tabs( "select" , "Type" )
-		    $('#builder_right_pane').unblock();
+	    if(selected != $("#model_selected").val())
+	    {
+		if(confirm("This will reset all options. Do you want to continue changing the model?")){
+		    $('#builder_right_pane').block({ message: null,overlayCSS: { backgroundColor: '#EAF4FD' } });
+		    $.ajax({
+			url:"/builder/model/set/"+selected,
+			success:function(data){
+			    $("#Model").html(data);
+			    //$("#example").tabs( "select" , "Type" )
+			    $('#builder_right_pane').unblock();
+			}
+		    });
 		}
-	    });
+	    }
 	}
     });
 }

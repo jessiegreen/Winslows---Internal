@@ -11,7 +11,7 @@
  * @version    Release: @package_version@
  */
 
-class Form_Employee_AddComplete extends Form_PersonAddComplete
+class Form_Employee_AddComplete extends Form_Person_AddComplete
 {
     public function init($options = array())
     {
