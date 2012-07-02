@@ -50,6 +50,7 @@ class Webaccount
     public function __construct()
     {
 	$this->created	= $this->updated = new \DateTime("now");
+	$this->roles = new ArrayCollection();
     }
     
     /**

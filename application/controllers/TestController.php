@@ -864,10 +864,51 @@ class TestController extends Zend_Controller_Action
     }
     
     public function testAction(){
-//	$builder = new \Services\Codebuilder\Codebuilder;
-//	$price_array = $builder->getPriceFromCode("AAMCCPRAAB12AC41AD05AINO_AJNO_AETNAFWHAGTNAHTNALNO_AKNO_", "ne");
-//	echo "**".$price_array["price"]."**";
-	echo md5("testme");
+	/* @var $em \Doctrine\ORM\EntityManager */
+	$em	= $this->_helper->EntityManager();
+	$menu	= new Entities\Menu;
+	$name	= "Top";
+	$menu->setName($name);
+	
+	$menuitem = new \Entities\MenuItem;
+	$menuitem->setLabel("Home");
+	$menuitem->setLinkModule("default");
+	$menuitem->setLinkController("index");
+	$menuitem->setLinkAction("index");
+	$menuitem->setLinkParams("");
+	$menuitem->setNameIndex("home");
+	$menuitem->setIcon("house.png");
+	
+	$menu->addMenuItem($menuitem);
+	
+	$menuitem = new \Entities\MenuItem;
+	$menuitem->setLabel("Sales");
+	$menuitem->setLinkModule("default");
+	$menuitem->setLinkController("sales");
+	$menuitem->setLinkAction("index");
+	$menuitem->setLinkParams("");
+	$menuitem->setNameIndex("sales");
+	$menuitem->setIcon("money.png");
+	
+	$submenuitem = new \Entities\MenuItem;
+	$submenuitem->setLabel("Sales");
+	$submenuitem->setLinkModule("default");
+	$submenuitem->setLinkController("sales");
+	$submenuitem->setLinkAction("inventory");
+	$submenuitem->setLinkParams("");
+	$submenuitem->setNameIndex("inventory");
+	$submenuitem->setIcon("inventory.png");
+	
+	$menuitem->AddChild($submenuitem);	
+	$menu->addMenuItem($menuitem);
+	
+	$em->persist($menu);
+	$em->flush();
+	
+	/* @var $menu \Repositories\Men */
+	$menu   = $em->getRepository('Entities\Menu');
+	Zend_Debug::dump($menu->findAll());
+	exit;
     }
     
     public function codetohtmlAction(){

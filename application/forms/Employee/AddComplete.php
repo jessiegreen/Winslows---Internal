@@ -19,9 +19,7 @@ class Form_Employee_AddComplete extends Form_Person_AddComplete
 	unset($form1->submit);
         $this->addElements($form1->getElements());
 	
-	$this->addDisplayGroup(array(
-                    'title',    
-            ),'employee',array('legend' => 'Employment'));
+	$this->addDisplayGroup(array('title'),'employee',array('legend' => 'Employment'));
 	
 	parent::init($options);
     }

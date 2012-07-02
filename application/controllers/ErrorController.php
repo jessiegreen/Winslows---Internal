@@ -51,6 +51,8 @@ class ErrorController extends Zend_Controller_Action
         return $log;
     }
 
-
+    public function noauthAction(){
+	
+    }
 }
 

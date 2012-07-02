@@ -27,9 +27,18 @@ class Role
      */
     private $privileges;
     
+    /**
+     * @ManytoMany(targetEntity="Resource")
+     * @JoinTable(name="role_resources",
+     *      joinColumns={@JoinColumn(name="role_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@JoinColumn(name="resource_id", referencedColumnName="id")}
+     *      )
+     */
+    private $resources;
+    
     public function __construct()
     {
-	
+	$this->resources = new ArrayCollection();
     }
     
     /**
@@ -44,6 +53,11 @@ class Role
 
     public function getPrivileges(){
 	return $this->privileges;
+    }
+    
+    public function getResources()
+    {
+	return $this->resources;
     }
 
     /**

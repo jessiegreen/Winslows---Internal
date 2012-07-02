@@ -66,6 +66,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	realpath(Zend_Registry::get('config')->resources->entityManager->connection->entities), 'loadClass');
 
 	$autoloader->pushAutoloader(array($classLoader, 'loadClass'), 'Services');
+	
+	$classLoader = new \Doctrine\Common\ClassLoader('Classes',
+	realpath(Zend_Registry::get('config')->resources->entityManager->connection->classes), 'loadClass');
+
+	$autoloader->pushAutoloader(array($classLoader, 'loadClass'), 'Classes');
     }
   
     protected function _initAutoLoad() 
@@ -80,8 +85,14 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
 	$resourceLoader->addResourceType('form', 'forms/', 'Form_');
 	$resourceLoader->addResourceType('service', 'models/Services/', 'Service_');
+	$resourceLoader->addResourceType('class', 'classes/', 'Classes_');
 
 	$autoLoader->pushAutoloader($resourceLoader);
+    }
+    
+    protected function _initPlugins() {
+	$front = Zend_Controller_Front::getInstance();
+	$front->registerPlugin(new Dataservice_Controller_Plugin_ACL(), 1);
     }
   
 }

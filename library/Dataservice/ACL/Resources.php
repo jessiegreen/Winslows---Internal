@@ -14,7 +14,7 @@ class Dataservice_ACL_Resources {
     private $arrModules = array();
    private $arrControllers = array();
    private $arrActions = array();
-   private $arrIgnore = array('.','..','.svn');
+   private $arrIgnore = array('.','..','.svn','.git');
  
    public function __get($strVar) {
       return ( isset($this->$strVar) ) ? $this->$strVar : null;
@@ -26,16 +26,17 @@ class Dataservice_ACL_Resources {
  
    public function writeToDB(\Doctrine\ORM\EntityManager $em) {
       $this->checkForData();
- 
       foreach( $this->arrModules as $strModuleName ) {
          if( array_key_exists( $strModuleName, $this->arrControllers ) ) {
             foreach( $this->arrControllers[$strModuleName] as $strControllerName ) {
                if( array_key_exists( $strControllerName, $this->arrActions[$strModuleName] ) ) {
                   foreach( $this->arrActions[$strModuleName][$strControllerName] as $strActionName ) {
                      $resource = new \Entities\Resource;
+		     $resource->setName(ucwords($strControllerName." - ".$strActionName));
 		     $resource->setModule($strModuleName);
 		     $resource->setController($strControllerName);
 		     $resource->setAction($strActionName);
+		     $resource->setRouteName("$strModuleName/$strControllerName/$strActionName");
 		     $em->persist($resource);
 		     $em->flush();
                   }
@@ -53,26 +54,29 @@ class Dataservice_ACL_Resources {
    }
  
    public function buildAllArrays() {	
+       echo "starting";
       $this->buildModulesArray();
+      echo " === modules done";
       $this->buildControllerArrays();
       $this->buildActionArrays();
       return $this;
    }
  
    public function buildModulesArray() {	
-      $dstApplicationModules = opendir( APPLICATION_PATH . '/modules' );
-      while ( ($dstFile = readdir($dstApplicationModules) ) !== false ) {
-         if( ! in_array($dstFile, $this->arrIgnore) ) {
-            if( is_dir(APPLICATION_PATH . '/modules/' . $dstFile) ) { $this->arrModules[] = $dstFile; }
-         }
-         closedir($dstApplicationModules);
-      }
+       $this->arrModules[] = "default";
+//      $dstApplicationModules = opendir( APPLICATION_PATH . '/modules' );
+//      while ( ($dstFile = readdir($dstApplicationModules) ) !== false ) {
+//         if( ! in_array($dstFile, $this->arrIgnore) ) {
+//            if( is_dir(APPLICATION_PATH . '/modules/' . $dstFile) ) { $this->arrModules[] = $dstFile; }
+//         }
+//         closedir($dstApplicationModules);
+//      }
    }
    
    public function buildControllerArrays() {
       if( count($this->arrModules) > 0 ) {
          foreach( $this->arrModules as $strModuleName ) {
-            $datControllerFolder = opendir(APPLICATION_PATH . '/modules/' . $strModuleName . '/controllers' );
+            $datControllerFolder = opendir(APPLICATION_PATH .'/controllers' );
             while ( ($dstFile = readdir($datControllerFolder) ) !== false ) {
                if( ! in_array($dstFile, $this->arrIgnore)) {
                   if( preg_match( '/Controller/', $dstFile) ) { $this->arrControllers[$strModuleName][] = strtolower( substr( $dstFile,0,-14 ) ); }
@@ -87,10 +91,10 @@ class Dataservice_ACL_Resources {
       if( count($this->arrControllers) > 0 ) {
          foreach( $this->arrControllers as $strModule => $arrController ) {
             foreach( $arrController as $strController ) {
-               $strClassName = ucfirst( $strModule ).'_'.ucfirst( $strController . 'Controller' );
+               $strClassName = ucfirst( $strController . 'Controller' );
  
                if( ! class_exists( $strClassName ) ) {
-                  Zend_Loader::loadFile(APPLICATION_PATH . '/modules/'.$strModule.'/controllers/'.ucfirst( $strController ).'Controller.php');
+                  Zend_Loader::loadFile(APPLICATION_PATH . '/controllers/'.ucfirst( $strController ).'Controller.php');
                }
  
                $objReflection = new Zend_Reflection_Class( $strClassName ); 

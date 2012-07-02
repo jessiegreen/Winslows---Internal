@@ -1,0 +1,24 @@
+<?php echo($this->flashMessages()); ?>
+<fieldset class="padded_frame blue_frame">
+    <legend>Menu</legend>
+<?php
+echo HTML::buttonBlue("application_form_add.png", "Add Parent Item", "menuitem_add", "position:relative;");
+?>
+</fieldset>
+<fieldset class="padded_frame blue_frame">
+    <legend>Menu Items</legend>
+    <ol>
+    <?php
+    /* @var $MenuItem \Entities\MenuItem */
+    foreach($this->menu_items as $MenuItem){
+	$this->Maintenance_Menuitem($MenuItem);
+    }
+    ?>
+    </ol>
+</fieldset>
+<script type="text/javascript">
+    Navigation = new Navigation();
+    Navigation.AddOnclickBind($("#menuitem_add"));
+    Navigation.EditOnclickBind($(".menuitem_edit"));
+    Navigation.AddChildOnclickBind($(".child_add"));
+</script>

@@ -157,5 +157,129 @@ class MaintenanceController extends Zend_Controller_Action
 	$this->_redirect('/maintenance/groupsview');
 	$this->view->form = $form;
     }
+    
+    public function usersviewAction()
+    {
+	$this->view->headScript()->appendFile("/javascript/maintenance/users/user.js");
+	/* @var $em \Doctrine\ORM\EntityManager */
+	$em	 = $this->_helper->EntityManager();
+	/* @var $roles \Repositories\Role */
+	$users   = $em->getRepository('Entities\User')->findAll();
+	
+	$this->view->users = $users;
+    }
+    
+    public function navigationviewAction(){
+	$this->view->headScript()->appendFile("/javascript/maintenance/navigation/navigation.js");
+	
+	$MenuService = new \Services\Menu\Menu;
+	$this->view->menu_items = $MenuService->getMenuParentItems("Top");
+    }
+    
+    public function navigationeditAction()
+    {
+	/* @var $em \Doctrine\ORM\EntityManager */
+	$em = $this->_helper->EntityManager();
+	
+	if(isset($this->_params['id'])){
+	    /* @var $MenuItem \Entities\MenuItem */
+	    $MenuItem	= $em->getRepository("Entities\MenuItem")->findOneById($this->_params["id"]);
+	    $form	= new Form_Menu_Menuitem(array("method" => "post"), $MenuItem);
+	    if($this->_request->isPost())
+	    {
+		if($form->isValid($this->_params))
+		{
+		    $flashMessenger = $this->_helper->getHelper('FlashMessenger');
+		    try {
+			$this->setNavigationFields($MenuItem);
+			$em->persist($MenuItem);
+			$em->flush();
+			$flashMessenger->addMessage(array('message' => "Menu Item '".$MenuItem->getLabel()."' Edited", 'status' => 'success'));
+		    } catch (Exception $exc) {
+			$flashMessenger->addMessage(array('message' => $exc->getMessage(), 'status' => 'error'));
+		    }
+		    $this->_redirect('/maintenance/navigationview');
+		}
+		else $form->populate($this->_params);
+	    }
+	}
+	elseif (isset($this->_params['parent_id']))
+	{
+	    $MenuItem	    = new \Entities\MenuItem;
+	    $ParentMenuItem = $em->getRepository("Entities\MenuItem")->findOneById($this->_params['parent_id']);
+	    $MenuItem->setParent($ParentMenuItem);
+	    $form	    = new Form_Menu_Menuitem(array("method" => "post"), $MenuItem);
+	    if($this->_request->isPost())
+	    {
+		if($form->isValid($this->_params))
+		{
+		    $flashMessenger = $this->_helper->getHelper('FlashMessenger');
+		    try {
+			$MenuItem->setParent($ParentMenuItem);
+			$this->setNavigationFields($MenuItem);
+			$em->persist($MenuItem);
+			$em->flush();
+			$flashMessenger->addMessage(array('message' => "Menu Item '".$MenuItem->getLabel()."' Added", 'status' => 'success'));
+		    } catch (Exception $exc) {
+			$flashMessenger->addMessage(array('message' => $exc->getMessage(), 'status' => 'error'));
+		    }
+		    $this->_redirect('/maintenance/navigationview');
+		}
+		else $form->populate($this->_params);
+	    }
+	}
+	else
+	{
+	    $MenuItem	    = new \Entities\MenuItem;
+	    $MenuService    = new \Services\Menu\Menu;
+	    $Menu	    = $MenuService->getMenuByName("Top");
+	    $MenuItem->setMenu($Menu);
+	    $form	    = new Form_Menu_Menuitem(array("method" => "post"), $MenuItem);
+	    if($this->_request->isPost())
+	    {
+		if($form->isValid($this->_params))
+		{
+		    $flashMessenger = $this->_helper->getHelper('FlashMessenger');
+		    try {
+			$MenuItem->setMenu($Menu);
+			$this->setNavigationFields($MenuItem);
+			$em->persist($MenuItem);
+			$em->flush();
+			$flashMessenger->addMessage(array('message' => "Menu Item '".$MenuItem->getLabel()."' Added", 'status' => 'success'));
+		    } catch (Exception $exc) {
+			$flashMessenger->addMessage(array('message' => $exc->getMessage(), 'status' => 'error'));
+		    }
+		    $this->_redirect('/maintenance/navigationview');
+		}
+		else $form->populate($this->_params);
+	    }
+	}
+	
+	$this->view->form = $form;
+    }
+    
+    /**
+     *
+     * @param array $values
+     * @param \Entities\MenuItem $MenuItem 
+     */
+    private function setNavigationFields($MenuItem)
+    {
+	$MenuItem->setLabel($this->_params['menuitem']['label']);
+	$MenuItem->setNameIndex($this->_params['menuitem']['name_index']);
+	$MenuItem->setLinkModule($this->_params['menuitem']['link_module']);
+	$MenuItem->setLinkController($this->_params['menuitem']['link_controller']);
+	$MenuItem->setLinkAction($this->_params['menuitem']['link_action']);
+	$MenuItem->setLinkParams($this->_params['menuitem']['link_params']);
+	$MenuItem->setIcon($this->_params['menuitem']['icon']);
+    }
+    
+    public function resourcebuildAction(){
+	/* @var $em \Doctrine\ORM\EntityManager */
+	$em = $this->_helper->EntityManager();
+	$objResources = new Dataservice_ACL_Resources;
+	$objResources->buildAllArrays();
+	$objResources->writeToDB($em);
+    }
 }
 
