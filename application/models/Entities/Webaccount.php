@@ -32,14 +32,14 @@ class Webaccount
     private $updated;
 
     /**
-     * @OneToOne(targetEntity="Person", inversedBy="webaccount")
+     * @OneToOne(targetEntity="Person", inversedBy="webaccount", cascade={"ALL"})
      * @JoinColumn(name="person_id", referencedColumnName="id")
      * @var $person null | Person
      */
     private $person;
     
     /**
-     * @ManytoMany(targetEntity="Role")
+     * @ManytoMany(targetEntity="Role", cascade={"persist", "remove"})
      * @JoinTable(name="webaccounts_roles",
      *      joinColumns={@JoinColumn(name="webaccount_id", referencedColumnName="id")},
      *      inverseJoinColumns={@JoinColumn(name="role_id", referencedColumnName="id")}
@@ -55,11 +55,25 @@ class Webaccount
     
     /**
      * Associate Role with Webaccount
-     * @param Role $role
+     * @param Role $Role
      */
-    public function addRole(Role $role)
+    public function addRole(Role $Role)
     {
-        $this->roles[] = $role;
+	$Role->addWebaccount($this);
+        $this->roles[] = $Role;
+    }
+    
+    public function removeRole($role_id)
+    {
+	foreach ($this->roles as $key => $Role) {
+	    if($Role->getId() == $role_id){
+		$Role->removeWebAccount($this);
+		$removed = $this->roles[$key];
+		unset($this->roles[$key]);
+		return $removed;
+	    }
+	}
+	return false;
     }
 
     public function getRoles(){

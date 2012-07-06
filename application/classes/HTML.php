@@ -10,7 +10,10 @@
  *
  * @author Jessie
  */
-class HTML {
+class HTML 
+{
+    private static $_icon_url = "/img/icons/";
+    
     public static function blue_ribbon($content) {
 	?>
 	<table style="clear: both;width:100%;table-layout: fixed;" cellspacing="0" cellpadding="0">
@@ -62,7 +65,7 @@ class HTML {
     
     private static function superFish_icon($data_array, $float_left = true){
 	if(isset($data_array['icon'])){
-	    $icon_url = "/img/icons/".$data_array['icon'];
+	    $icon_url = self::$_icon_url.$data_array['icon'];
 	    if(file_exists(PUBLIC_PATH.$icon_url)){
 		return '<img src="'.$icon_url.'" style="'.($float_left ? 'float:left;' : '').'margin-right:5px;vertical-align:bottom;" />';
 	    }
@@ -76,6 +79,14 @@ class HTML {
     
     public static function buttonIcon($icon, $id = "", $title = "", $class = "", $style = "") {
 	return '<img src="/img/icons/'.$icon.'" class="button_icon '.$class.'" style="'.$style.'" id="'.$id.'" title="'.$title.'"/>';
+    }
+    
+    public static function anchorIcon($icon, $text, $href, $style = ""){
+	return '<a href="'.$href.'" style="border:none;'.$style.'"><img src="'.self::$_icon_url.'/'.$icon.'"/ style="margin-right:5px;vertical-align:bottom;">'.$text.'</a>';
+    }
+    
+    public static function backAnchorIcon($text, $href){
+	return self::anchorIcon("arrow_left.png", $text, $href);
     }
     
     public static function truncateString($string, $length){

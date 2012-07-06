@@ -1,16 +1,18 @@
 <?php
 class Dataservice_Controller_Plugin_ACL extends Zend_Controller_Plugin_Abstract {
- 
+    private $debug = false;
+    
     public function preDispatch(Zend_Controller_Request_Abstract $request) {
-        $objAuth = Zend_Auth::getInstance();
-	$clearACL = false;
-	$front			= \Zend_Controller_Front::getInstance();
-	$bootstrap		= $front->getParam("bootstrap");
-	$em		= $bootstrap->getResource('entityManager');
+        $objAuth    = Zend_Auth::getInstance();
+	$clearACL   = true;
+	$front	    = \Zend_Controller_Front::getInstance();
+	$bootstrap  = $front->getParam("bootstrap");
+	/* @var $em \Doctrine\ORM\EntityManager */
+	$em	    = $bootstrap->getResource('entityManager');
  
 	// initially treat the user as a guest so we can determine if the current
 	// resource is accessible by guest users
-	$role = 'guest';
+	$role = 'Guest';
  
 	// if its not accessible then we need to check for a user login
 	// if the user is logged in then we check if the role of the logged
@@ -18,6 +20,7 @@ class Dataservice_Controller_Plugin_ACL extends Zend_Controller_Plugin_Abstract 
  
         try {
 	    if($objAuth->hasIdentity()) {
+		if($this->debug)echo "Has Identity<br />";
 		/* @var $Webaccount \Entities\Webaccount */
 	        $Webaccount = $objAuth->getIdentity();
  
@@ -26,15 +29,22 @@ class Dataservice_Controller_Plugin_ACL extends Zend_Controller_Plugin_Abstract 
 	             $clearACL = true;
 	              unset($sess->clearACL);
 	         }
- 
-                 $objAcl = Dataservice_ACL_Factory::get($objAuth,$em,$clearACL);
- 
+		 if($this->debug)echo "<br /><u>Begin Factory::get()</u><br />";
+                 $objAcl = Dataservice_ACL_Factory::get($em, $clearACL);
+		 if($this->debug)echo "<br /><u>End Factory::get()</u><br />";
+		 
 		 $allowed = false;
 		 
+		 #--After hours of fighting I realized thanks to a podcast that I had to clear the $em as the 
+		 #--caching was screwing this up
+		 $webaccount_id = $Webaccount->getId();
+		 $em->clear();
+
+		 $Webaccount = $em->find("Entities\Webaccount", $webaccount_id);
+		 
 		 /* @var $Role \Entities\Role */
-		 echo $Webaccount->getPerson()->getId()."Roles:".count($Webaccount->getRoles());
 		 foreach($Webaccount->getRoles() as $Role){
-		     echo $Role->getName()."<br />";
+		     if($this->debug)echo "**".$Role->getName()."**<br />";
 		     if($objAcl->isAllowed($Role->getName(), $request->getModuleName() .'::' .$request->getControllerName() .'::' .$request->getActionName()))
 			     $allowed = true;
 		 }
@@ -45,12 +55,17 @@ class Dataservice_Controller_Plugin_ACL extends Zend_Controller_Plugin_Abstract 
 	         }
  
             } else {
-	        $objAcl = DJC_ACL_Factory::get($objAuth,$clearACL);
+		if($this->debug)echo "Does Not have Identity<br />";
+	        $objAcl = Dataservice_ACL_Factory::get($em, $clearACL);
 	        if(!$objAcl->isAllowed($role, $request->getModuleName() .'::' .$request->getControllerName() .'::' .$request->getActionName())) {
-	            return Zend_Controller_Action_HelperBroker::getStaticHelper('redirector')->setGotoRoute(array(),"login");
+	            return Zend_Controller_Action_HelperBroker::getStaticHelper('redirector')->setGotoRoute(array("controller" => "login","action" => "index"));
 	        }
 	    }
         } catch(Zend_Exception $e) {
+	    if($this->debug){
+		echo $e->getMessage().$e->getLine().$e->getFile();
+		exit;
+	    }
             $request->setModuleName('default');
             $request->setControllerName('error');
             $request->setActionName('noresource');

@@ -11,18 +11,60 @@
  * @version    Release: @package_version@
  */
 class Form_Webaccount_Webaccount extends Zend_Form{
+    private $_WebAccount;
+    private $_safe;
+    
+    public function __construct($options = null, Entities\Webaccount $WebAccount = null, $safe = true) {
+	$this->_WebAccount  = $WebAccount;
+	$this->_safe	    = $safe;
+	parent::__construct($options);
+    }
+    
     public function init($options = array()){
-	$this->addElement('text', 'username', array(
-            'required'	    => true,
-            'label'	    => 'Username:',
-	    'belongsTo'	    => 'webaccount'
-        ));
 	
-	$this->addElement('password', 'password', array(
-            'required'	    => true,
-            'label'	    => 'Password:',
-	    'belongsTo'	    => 'webaccount'
-        ));
+	if($this->_WebAccount){
+	    $this->addElement('text', 'id', array(
+		'disabled'  => true,
+		'ignore'    => true,
+		'label'	    => "Web Account Id",
+		'belongsTo' => 'webaccount',
+		'value'	    => $this->_WebAccount ? $this->_WebAccount->getId() : ""
+	    ));
+	}
+	
+	if($this->_safe){
+	    $this->addElement('text', 'username', array(
+		'required'	    => true,
+		'disable'	    => true,
+		'ignore'	    => true,
+		'label'		    => 'Username:',
+		'belongsTo'	    => 'webaccount',
+		'value'		    => $this->_WebAccount ? $this->_WebAccount->getUsername() : ""
+	    ));
+
+	    $this->addElement('text', 'password', array(
+		'disable'	    => true,
+		'ignore'	    => true,
+		'required'	    => true,
+		'label'		    => 'Password:',
+		'belongsTo'	    => 'webaccount',
+		'value'		    => "*******"
+	    ));
+	}
+	else{
+	    $this->addElement('text', 'username', array(
+		'required'	    => true,
+		'label'		    => 'Username:',
+		'belongsTo'	    => 'webaccount',
+		'value'		    => $this->_WebAccount ? $this->_WebAccount->getUsername() : ""
+	    ));
+
+	    $this->addElement('password', 'password', array(
+		'required'	    => true,
+		'label'		    => 'Password:',
+		'belongsTo'	    => 'webaccount'
+	    ));
+	}
 
         $this->addElement('submit', 'submit', array(
             'ignore'   => true,

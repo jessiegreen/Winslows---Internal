@@ -36,9 +36,15 @@ class Resource
     /** @Column(type="datetime") */
     private $updated;
     
+    /**
+     * @ManytoMany(targetEntity="Role", mappedBy="resources", cascade={"ALL"})
+     */
+    private $roles;
+    
     public function __construct()
     {
-      $this->created	= $this->updated = new \DateTime("now");
+	$this->created	= $this->updated = new \DateTime("now");
+	$this->roles    = new ArrayCollection();
     }
     
     /**
@@ -48,6 +54,29 @@ class Resource
     {
         $this->updated = new \DateTime("now");
     }
+    
+    public function getRoles(){
+	return $this->roles;
+    }
+    
+    public function addRole(\Entities\Role $Role){
+	$Role->addResource($this);
+	$this->roles[] = $Role;
+    }
+    
+    public function removeRole($role_id)
+    {
+	foreach ($this->roles as $key => $Role) {
+	    if($Role->getId() == $role_id){
+		$Role->removeResource($this);
+		$removed = $this->roles[$key];
+		unset($this->roles[$key]);
+		return $removed;
+	    }
+	}
+	return false;
+    }
+
 
     /**
      * Retrieve Role id
@@ -110,6 +139,10 @@ class Resource
     public function setCreated($created)
     {
         $this->created = $created;
+    }
+    
+    public function getCreated(){
+	return $this->created;
     }
 
     public function getUpdated()

@@ -158,17 +158,6 @@ class MaintenanceController extends Zend_Controller_Action
 	$this->view->form = $form;
     }
     
-    public function usersviewAction()
-    {
-	$this->view->headScript()->appendFile("/javascript/maintenance/users/user.js");
-	/* @var $em \Doctrine\ORM\EntityManager */
-	$em	 = $this->_helper->EntityManager();
-	/* @var $roles \Repositories\Role */
-	$users   = $em->getRepository('Entities\User')->findAll();
-	
-	$this->view->users = $users;
-    }
-    
     public function navigationviewAction(){
 	$this->view->headScript()->appendFile("/javascript/maintenance/navigation/navigation.js");
 	
@@ -180,6 +169,7 @@ class MaintenanceController extends Zend_Controller_Action
     {
 	/* @var $em \Doctrine\ORM\EntityManager */
 	$em = $this->_helper->EntityManager();
+	$MenuService    = new \Services\Menu\Menu;
 	
 	if(isset($this->_params['id'])){
 	    /* @var $MenuItem \Entities\MenuItem */
@@ -206,8 +196,10 @@ class MaintenanceController extends Zend_Controller_Action
 	elseif (isset($this->_params['parent_id']))
 	{
 	    $MenuItem	    = new \Entities\MenuItem;
+	    $Menu	    = $MenuService->getMenuByName("Top");
 	    $ParentMenuItem = $em->getRepository("Entities\MenuItem")->findOneById($this->_params['parent_id']);
 	    $MenuItem->setParent($ParentMenuItem);
+	    $MenuItem->setMenu($Menu);
 	    $form	    = new Form_Menu_Menuitem(array("method" => "post"), $MenuItem);
 	    if($this->_request->isPost())
 	    {
@@ -231,7 +223,6 @@ class MaintenanceController extends Zend_Controller_Action
 	else
 	{
 	    $MenuItem	    = new \Entities\MenuItem;
-	    $MenuService    = new \Services\Menu\Menu;
 	    $Menu	    = $MenuService->getMenuByName("Top");
 	    $MenuItem->setMenu($Menu);
 	    $form	    = new Form_Menu_Menuitem(array("method" => "post"), $MenuItem);
@@ -280,6 +271,383 @@ class MaintenanceController extends Zend_Controller_Action
 	$objResources = new Dataservice_ACL_Resources;
 	$objResources->buildAllArrays();
 	$objResources->writeToDB($em);
+    }
+    
+    public function resourcesviewAction(){
+	$this->view->headScript()->appendFile("/javascript/maintenance/resource/resource.js");
+	/* @var $em \Doctrine\ORM\EntityManager */
+	$em = $this->_helper->EntityManager();
+	$this->view->Resources = $em->getRepository("Entities\Resource")->findAll();
+    }
+    
+    public function resourceeditAction(){
+	$this->view->headScript()->appendFile("/javascript/maintenance/resource/resource.js");
+	
+	if(isset($this->_params["id"])){
+	    /* @var $em \Doctrine\ORM\EntityManager */
+	    $em			    = $this->_helper->EntityManager();
+	    /* @var $Resource \Entities\Resource */
+	    $Resource		    = $em->find("\Entities\Resource",$this->_params["id"]); 
+	    $this->view->Resource   = $Resource;
+	    $this->view->Roles	    = $em->getRepository("Entities\Role")->findAll();
+	}
+    }
+    
+    public function removeroleAction(){
+	$this->_helper->viewRenderer->setNoRender(true);
+	$ACL = new Dataservice_Controller_Plugin_ACL();
+	$ACL->preDispatch($this->_request);
+	$this->_helper->layout->disableLayout();
+	
+	$resource_id	= isset($this->_params["resource_id"]) ? $this->_params["resource_id"] : null;
+	$role_id	= isset($this->_params["role_id"]) ? $this->_params["role_id"] : null;
+	$flashMessenger = $this->_helper->getHelper('FlashMessenger');
+	
+	if($resource_id && $role_id){
+	    /* @var $em \Doctrine\ORM\EntityManager */
+	    $em		= $this->_helper->EntityManager();
+	    /* @var $Resource \Entities\Resource */
+	    $Resource	= $em->find("Entities\Resource", $resource_id);
+	    if($Resource){
+		if(!$Resource->removeRole($role_id)){
+		    $flashMessenger->addMessage(array('message' => "Could Not Remove Role", 'status' => 'error'));
+		    $this->_redirect('/maintenance/resourceedit/id/'.$resource_id);
+		}
+		$em->persist($Resource);
+		$em->flush();
+		$flashMessenger->addMessage(array('message' => "Role Removed", 'status' => 'success'));
+		$this->_redirect('/maintenance/resourceedit/id/'.$resource_id);
+	    }
+	    else{
+		$flashMessenger->addMessage(array('message' => "Error Removing Role - Resource or Role Not Found", 'status' => 'error'));
+		$this->_redirect('/maintenance/resourceedit/id/'.$resource_id);
+	    }
+	}
+	else{
+	    $flashMessenger->addMessage(array('message' => "Error Removing Role - Resource or Role Not Sent", 'status' => 'error'));
+	    $this->_redirect('/maintenance/resourcesview');
+	}
+    }
+    
+    public function addroleAction(){
+	$this->_helper->viewRenderer->setNoRender(true);
+	$ACL = new Dataservice_Controller_Plugin_ACL();
+	$ACL->preDispatch($this->_request);
+	$this->_helper->layout->disableLayout();
+	
+	$resource_id	= isset($this->_params["resource_id"]) ? $this->_params["resource_id"] : null;
+	$role_id	= isset($this->_params["role_id"]) ? $this->_params["role_id"] : null;
+	$flashMessenger = $this->_helper->getHelper('FlashMessenger');
+	
+	if($resource_id && $role_id){
+	    /* @var $em \Doctrine\ORM\EntityManager */
+	    $em		= $this->_helper->EntityManager();
+	    /* @var $Resource \Entities\Resource */
+	    $Resource	= $em->find("Entities\Resource", $resource_id);
+	    $Role	= $em->find("Entities\Role", $role_id);
+	    if($Resource && $Role){
+		$Resource->addRole($Role);
+		$em->persist($Resource);
+		$em->flush();
+		$flashMessenger->addMessage(array('message' => "Role Added", 'status' => 'success'));
+		$this->_redirect('/maintenance/resourceedit/id/'.$resource_id);
+	    }
+	    else{
+		$flashMessenger->addMessage(array('message' => "Error Adding Role - Resource or Role Not Available", 'status' => 'error'));
+		$this->_redirect('/maintenance/resourcesview');
+	    }
+	}
+	else{
+	    $flashMessenger->addMessage(array('message' => "Error Adding Role - Resource or Role Not Sent", 'status' => 'error'));
+	    $this->_redirect('/maintenance/resourcesview');
+	}
+    }
+    
+    public function employeesviewAction(){
+	$this->view->headScript()->appendFile("/javascript/maintenance/employee/employee.js");
+	
+	$em			= $this->_helper->EntityManager();
+	$EmployeeRepos		= $em->getRepository("Entities\Employee");
+	$this->view->Employees	= $EmployeeRepos->findAll();
+    }
+    
+    public function employeeeditAction(){
+	$em		= $this->_helper->EntityManager();
+	$Employee	= isset($this->_params["id"]) ? $em->find("Entities\Employee", $this->_params["id"]) :"";
+	$Employee	= $Employee ? $Employee : null;
+	$form		=  new Form_Employee_AddComplete(array("method" => "post"), $Employee);
+	$new		= false;
+
+	$form->addElement("button", "cancel", array("label" => "cancel", "onclick" => "location='/maintenance/employeesview'"));
+
+	if($this->_request->isPost())
+	{
+	    if($form->isValid($this->_params))
+	    {
+		$flashMessenger = $this->_helper->getHelper('FlashMessenger');
+		try {
+		    $new = false;
+		    if(!$Employee){
+			$Employee	= new Entities\Employee(); 
+			$new		= true;
+		    }
+		    $Employee->setTitle($this->_params['employee']['title']);
+		    $Employee->setFirstName($this->_params['person']['first_name']);
+		    $Employee->setMiddleName($this->_params['person']['middle_name']);
+		    $Employee->setLastName($this->_params['person']['last_name']);
+		    $Employee->setSuffix($this->_params['person']['suffix']);
+		    
+		    if(!$new){
+			$PersonAddresses    = $Employee->getPersonAddresses();
+			$address_count	    = count($PersonAddresses);
+			$address_i	    = 0;
+			if($address_count > 0){
+			    foreach($this->_params['address'] as $address_params){
+				/* @var $PersonAddress \Entities\PersonAddress */
+				$PersonAddress = $PersonAddresses[$address_i];
+				$PersonAddress->setName($address_params['name']);
+				$PersonAddress->setAddress1($address_params['address_1']);
+				$PersonAddress->setAddress2($address_params['address_2']);
+				$PersonAddress->setCity($address_params['city']);
+				$PersonAddress->setState($address_params['state']);
+				$PersonAddress->setZip1($address_params['zip_1']);
+				$PersonAddress->setZip2($address_params['zip_2']);
+				$address_i++;
+			    }
+			}
+		    }
+		    else{
+			$address_params = $this->_params["address"][1];
+			$PersonAddress = new \Entities\PersonAddress();
+			$PersonAddress->setName($address_params['name']);
+			$PersonAddress->setAddress1($address_params['address_1']);
+			$PersonAddress->setAddress2($address_params['address_2']);
+			$PersonAddress->setCity($address_params['city']);
+			$PersonAddress->setState($address_params['state']);
+			$PersonAddress->setZip1($address_params['zip_1']);
+			$PersonAddress->setZip2($address_params['zip_2']);
+			$Employee->addPersonAddress($PersonAddress);
+		    }
+		    
+		    $em->persist($Employee);
+		    $em->flush();
+		    $flashMessenger->addMessage(array('message' => "Employee '".$Employee->getFullName()."' ".($new ? "Added" : "Edited"), 'status' => 'success'));
+		} catch (Exception $exc) {
+		    $flashMessenger->addMessage(array('message' => $exc->getMessage(), 'status' => 'error'));
+		}
+		$this->_redirect('/maintenance/employeesview');
+	    }
+	    else $form->populate($this->_params);
+	}
+	$this->view->form = $form;
+    }
+    
+    public function addaddressAction(){
+	$em		= $this->_helper->EntityManager();
+	$flashMessenger = $this->_helper->getHelper('FlashMessenger');
+	
+	try {
+	    if(!isset($this->_params["id"]))throw new Exception("Can not edit web account. No Id");
+	    /* @var $Employee Entities\Employee */
+	    $Employee	= $em->find("Entities\Employee", $this->_params["id"]);
+	    
+	    if(!$Employee)throw new Exception("Can not add address. No Employee with that Id");
+	    
+	    $form = new Form_PersonAddress_PersonAddress(array("method" => "post"));
+	    
+	    $form->addElement(
+		    "button", 
+		    "cancel", 
+		    array(
+			"label" => "cancel", 
+			"onclick" => "location='/maintenance/employeesview/'"
+			)
+		    );
+	} catch (Exception $exc) {
+	    $flashMessenger->addMessage(array('message' => $exc->getMessage(), 'status' => 'error'));
+	    $this->_redirect('/maintenance/employeesview');
+	}
+	
+	if($this->_request->isPost())
+	{
+	    if($form->isValid($this->_params))
+	    {
+		try {
+		    $address_params = $this->_params["address"];
+		    $PersonAddress = new \Entities\PersonAddress();
+		    $PersonAddress->setName($address_params['name']);
+		    $PersonAddress->setAddress1($address_params['address_1']);
+		    $PersonAddress->setAddress2($address_params['address_2']);
+		    $PersonAddress->setCity($address_params['city']);
+		    $PersonAddress->setState($address_params['state']);
+		    $PersonAddress->setZip1($address_params['zip_1']);
+		    $PersonAddress->setZip2($address_params['zip_2']);
+		    $Employee->addPersonAddress($PersonAddress);
+		    
+		    $em->persist($Employee);
+		    $em->flush();
+		    $flashMessenger->addMessage(
+			    array(
+				'message' => "Employee Address '".$PersonAddress->getName()."' for '".
+						$Employee->getFullName()."' Added", 
+				'status' => 'success'
+				)
+			    );
+		} catch (Exception $exc) {
+		    $flashMessenger->addMessage(array('message' => $exc->getMessage(), 'status' => 'error'));
+		}
+		$this->_redirect('/maintenance/employeesview');
+	    }
+	    else $form->populate($this->_params);
+	}
+	$this->view->form	= $form;
+	$this->view->Employee	= $Employee;
+    }
+    
+    public function editwebaccountAction()
+    {
+	$em		= $this->_helper->EntityManager();
+	$flashMessenger = $this->_helper->getHelper('FlashMessenger');
+	$new		= false;
+	
+	try {
+	    if(!isset($this->_params["id"]))throw new Exception("Can not edit web account. No Id");
+	    /* @var $Employee Entities\Employee */
+	    $Employee	= $em->find("Entities\Employee", $this->_params["id"]);
+	    
+	    if(!$Employee)throw new Exception("Can not edit web account. No Employee with that Id");
+	    /* @var $Webaccount \Entities\Webaccount */
+	    $Webaccount = $Employee->getWebAccount();
+	    
+	    $form = new Form_Webaccount_Webaccount(array("method" => "post"), $Webaccount, false);
+	    
+	    $form->addElement(
+		    "button", 
+		    "cancel", 
+		    array(
+			"label" => "cancel", 
+			"onclick" => "location='/maintenance/employeesview'"
+			)
+		    );
+	} catch (Exception $exc) {
+	    $flashMessenger->addMessage(array('message' => $exc->getMessage(), 'status' => 'error'));
+	    $this->_redirect('/maintenance/employeesview');
+	}
+	
+	if($this->_request->isPost())
+	{
+	    if($form->isValid($this->_params))
+	    {
+		try {
+		    $new = false;
+		    if(!$Webaccount){
+			$Webaccount	= new Entities\Webaccount(); 
+			$new		= true;
+		    }
+		    
+		    $Webaccount->setUsername($this->_params['webaccount']['username']);
+		    $Webaccount->setPassword($this->_params['webaccount']['password']);
+		    $Employee->setWebaccount($Webaccount);
+		    
+		    $em->persist($Employee);
+		    $em->flush();
+		    $flashMessenger->addMessage(array('message' => "Employee Web Account for '".$Employee->getFullName()."' ".($new ? "Added" : "Edited"), 'status' => 'success'));
+		} catch (Exception $exc) {
+		    $flashMessenger->addMessage(array('message' => $exc->getMessage(), 'status' => 'error'));
+		}
+		$this->_redirect('/maintenance/employeesview');
+	    }
+	    else $form->populate($this->_params);
+	}
+	$this->view->form	= $form;
+	$this->view->Employee	= $Employee;
+    }
+    
+    public function editrolesAction(){
+	$this->view->headScript()->appendFile("/javascript/maintenance/employee/employee.js");
+	
+	if(isset($this->_params["id"])){
+	    /* @var $em \Doctrine\ORM\EntityManager */
+	    $em			    = $this->_helper->EntityManager();
+	    /* @var $Resource \Entities\Employee */
+	    $Employee		    = $em->find("\Entities\Employee",$this->_params["id"]); 
+	    
+	    $this->view->Employee   = $Employee;
+	    $this->view->Roles	    = $em->getRepository("Entities\Role")->findAll();
+	}
+    }
+    
+    public function employeeaddroleAction(){
+	$this->_helper->viewRenderer->setNoRender(true);
+	$ACL = new Dataservice_Controller_Plugin_ACL();
+	$ACL->preDispatch($this->_request);
+	$this->_helper->layout->disableLayout();
+	
+	$employee_id	= isset($this->_params["employee_id"]) ? $this->_params["employee_id"] : null;
+	$role_id	= isset($this->_params["role_id"]) ? $this->_params["role_id"] : null;
+	$flashMessenger = $this->_helper->getHelper('FlashMessenger');
+	
+	if($employee_id && $role_id){
+	    /* @var $em \Doctrine\ORM\EntityManager */
+	    $em		= $this->_helper->EntityManager();
+	    /* @var $Employee \Entities\Employee */
+	    $Employee	= $em->find("Entities\Employee", $employee_id);
+	    /* @var $Webaccount \Entities\Webaccount */
+	    $Webaccount = $Employee->getWebAccount();
+	    $Role	= $em->find("Entities\Role", $role_id);
+	    if($Webaccount && $Role){
+		$Webaccount->addRole($Role);
+		$em->persist($Webaccount);
+		$em->flush();
+		$flashMessenger->addMessage(array('message' => "Role Added", 'status' => 'success'));
+		$this->_redirect('/maintenance/editroles/id/'.$Employee->getId());
+	    }
+	    else{
+		$flashMessenger->addMessage(array('message' => "Error Adding Role - WebAccount or Role Not Available", 'status' => 'error'));
+		$this->_redirect('/maintenance/employeesview');
+	    }
+	}
+	else{
+	    $flashMessenger->addMessage(array('message' => "Error Adding Role - Employee or Role Not Sent", 'status' => 'error'));
+	    $this->_redirect('/maintenance/employeesview');
+	}
+    }
+    
+    public function employeeremoveroleAction(){
+	$this->_helper->viewRenderer->setNoRender(true);
+	$ACL = new Dataservice_Controller_Plugin_ACL();
+	$ACL->preDispatch($this->_request);
+	$this->_helper->layout->disableLayout();
+	
+	$employee_id	= isset($this->_params["employee_id"]) ? $this->_params["employee_id"] : null;
+	$role_id	= isset($this->_params["role_id"]) ? $this->_params["role_id"] : null;
+	$flashMessenger = $this->_helper->getHelper('FlashMessenger');
+	
+	if($employee_id && $role_id){
+	    /* @var $em \Doctrine\ORM\EntityManager */
+	    $em		= $this->_helper->EntityManager();
+	    /* @var $Resource \Entities\Employee */
+	    $Employee	= $em->find("Entities\Employee", $employee_id);
+	    $Webaccount = $Employee->getWebAccount();
+	    if($Webaccount){
+		if(!$Webaccount->removeRole($role_id)){
+		    $flashMessenger->addMessage(array('message' => "Could Not Remove Role", 'status' => 'error'));
+		    $this->_redirect('/maintenance/editroles/id/'.$employee_id);
+		}
+		$em->persist($Webaccount);
+		$em->flush();
+		$flashMessenger->addMessage(array('message' => "Role Removed", 'status' => 'success'));
+		$this->_redirect('/maintenance/editroles/id/'.$employee_id);
+	    }
+	    else{
+		$flashMessenger->addMessage(array('message' => "Error Removing Role - Resource or Role Not Found", 'status' => 'error'));
+		$this->_redirect('/maintenance/editroles/id/'.$employee_id);
+	    }
+	}
+	else{
+	    $flashMessenger->addMessage(array('message' => "Error Removing Role - Resource or Role Not Sent", 'status' => 'error'));
+	    $this->_redirect('/maintenance/editroles');
+	}
     }
 }
 

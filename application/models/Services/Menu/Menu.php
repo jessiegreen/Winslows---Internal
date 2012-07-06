@@ -19,13 +19,15 @@ class Menu {
      */
     public function getMenuHTML($menu_name)
     {
+	$AclService = new \Services\ACL\ACL;
+	
 	$parent_items = $this->getMenuParentItems($menu_name);
 	/* @var  $menu \Classes\Menu */
 	$menu		= \Classes\Menu::factory();
 	
 	/* @var $menu_item \Entities\MenuItem */
 	foreach($parent_items as $MenuItem){
-	    $menu   = $this->GetMenuHTMLAdd($MenuItem,$menu);
+	    $menu   = $this->GetMenuHTMLAdd($MenuItem, $menu, $AclService);
 	}
 	return $menu;
     }    
@@ -34,7 +36,7 @@ class Menu {
      *
      * @param \Entities\MenuItem $menu_item 
      */
-    private function GetMenuHTMLAdd(\Entities\MenuItem $MenuItem, \Classes\Menu $menu)
+    private function GetMenuHTMLAdd(\Entities\MenuItem $MenuItem, \Classes\Menu $menu, \Services\ACL\ACL $AclService)
     {
 	$children   = $MenuItem->getChildren();
 	
@@ -44,14 +46,16 @@ class Menu {
 	    /* @var $menu_item \Entities\MenuItem */
 	    foreach($children as $MenuItem2){
 		#--Add a children and/or child lists to the newly created list
-		$menu2   = $this->GetMenuHTMLAdd($MenuItem2,$menu2);
+		$menu2   = $this->GetMenuHTMLAdd($MenuItem2,$menu2, $AclService);
 	    }	    
 	    #--Add current parent menu with the child menu
-	    $menu = $menu->add($MenuItem->getLabel(), $this->getUrlString($MenuItem), $menu2);
+	    if($AclService->isUserAllowed($this->getUrlArray($MenuItem)))
+		$menu = $menu->add($MenuItem->getLabel(), $this->getUrlString($MenuItem), $menu2);
 	    return $menu;
 	}
 	else{
-	    $menu = $menu->add($MenuItem->getLabel(), $this->getUrlString($MenuItem));
+	    if($AclService->isUserAllowed($this->getUrlArray($MenuItem)))
+		$menu = $menu->add($MenuItem->getLabel(), $this->getUrlString($MenuItem));
 	    return $menu;
 	}
     }

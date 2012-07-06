@@ -17,37 +17,37 @@ class Person
      * @Id @Column(type="integer")
      * @GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /** @Column(type="string", length=255) */
-    private $first_name;
+    protected $first_name;
     
     /** @Column(type="string", length=255) */
-    private $middle_name;
+    protected $middle_name;
     
     /** @Column(type="string", length=255) */
-    private $last_name;
+    protected $last_name;
     
     /** @Column(type="string", length=255) */
-    private $suffix;
-
-    /** @Column(type="datetime") */
-    private $created;
+    protected $suffix;
 
     /** @Column(type="datetime") */
-    private $updated;
+    protected $created;
+
+    /** @Column(type="datetime") */
+    protected $updated;
 
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="PersonAddress", mappedBy="person", cascade={"persist", "remove"}, orphanRemoval=true)
      */
-    private $personaddresses;
+    protected $personaddresses;
     
     /**
-     * @OneToOne(targetEntity="Webaccount", mappedBy="person", cascade={"all"}, orphanRemoval=true)
+     * @OneToOne(targetEntity="Webaccount", mappedBy="person", cascade={"persist", "remove"}, orphanRemoval=true)
      */
-    private $webaccount;
+    protected $webaccount;
 
     public function __construct()
     {

@@ -49,51 +49,6 @@
 	    <div id="nav_container">
 		<div id="nav_list_cont">
 		    <?php
-		    $menu_array = array(
-			"home"  => array(
-			    "label"	=> "Home",
-			    "url"	=> "/index",
-			    "icon"	=> "house.png"
-			),
-			"sales"  => array(
-			    "label"	=> "Sales",
-			    "icon"	=> "money.png",
-			    "subs"	=> array(
-				"inventory" => array(
-				    "label"	=> "Inventory",
-				    "url"	=> "/inventory",
-    //				"subs"	=> array(
-    //				    "test" => array(
-    //					"label"	=> "Test",
-    //					"url"	=> "/test"
-    //				    )
-    //				)
-				),
-				"products" => array(
-				    "label"	=> "Products",
-				    "url"	=> "/products",
-				)
-			    )
-			),
-			"maintenance"  => array(
-			    "label"	=> "Maint.",
-			    "icon"	=> "page_gear.png",
-			    "subs"	=> array(
-				"users"	=> array(
-				    "label"	=> "Users",
-				    "url"	=> "/users/"
-				),
-				"privileges" => array(
-				    "label"	=> "Groups/Privileges",
-				    "url"	=> "/maintenance/groupsview"
-				),
-				"code_builder" => array(
-				    "label"	=> "Codebuilder",
-				    "url"	=> "/codebuilder/optionsview"
-				)
-			    )
-			),
-		    );
 		    $Menu = new \Services\Menu\Menu;
 		    /* @var $menu \Classes\Menu */
 		    $menu = $Menu->getMenuHTML("Top");
@@ -101,7 +56,6 @@
 			"class"	=> "sf-menu"
 		    );
 		    echo $menu->render();
-		    //HTML::superFish_menu($menu_array);
 		    ?>
 		</div>
 		<div id="nav_filler"></div>

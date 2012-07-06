@@ -54,5 +54,9 @@ class ErrorController extends Zend_Controller_Action
     public function noauthAction(){
 	
     }
+    
+    public function noresourceAction(){
+	
+    }
 }
 
