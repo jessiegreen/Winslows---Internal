@@ -56,6 +56,16 @@ class Menu
     {
       return $this->menuitems;
     }
+    
+    public function removeMenuItem(MenuItem $MenuItem){
+	foreach ($this->menuitems as $key => $MenuItem2) {
+	    if($MenuItem->getId() == $MenuItem2->getId()){
+		$removed = $this->menuitems[$key];
+		unset($this->menuitems[$key]);
+		return $removed;
+	    }
+	}
+    }
 
     /**
      * @PreUpdate

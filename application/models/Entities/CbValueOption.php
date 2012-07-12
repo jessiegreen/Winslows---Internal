@@ -4,7 +4,7 @@ namespace Entities;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /** 
- * @Entity (repositoryClass="Repositories\Privilege") 
+ * @Entity (repositoryClass="Repositories\CbValueOption") 
  * @Table(name="cb_value_options") 
  * @HasLifecycleCallbacks
  */

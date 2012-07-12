@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @Table(name="addresses") 
  * @InheritanceType("JOINED")
  * @DiscriminatorColumn(name="discr", type="string")
- * @DiscriminatorMap({"personaddress" = "PersonAddress", "supplieraddress" = "SupplierAddress"})
+ * @DiscriminatorMap({"personaddress" = "PersonAddress", "supplieraddress" = "SupplierAddress", "locationaddress" = "LocationAddress"})
  * @HasLifecycleCallbacks
  */
 class Address

@@ -11,26 +11,15 @@
  */
 namespace Entities;
 /** 
- * @Entity (repositoryClass="Repositories\Employee") 
- * @Table(name="employees") 
+ * @Entity (repositoryClass="Repositories\Customer") 
+ * @Table(name="customers") 
  */
 
-use Entities\Person as Person;
+use Entities\Lead as Lead;
 
-class Customer extends Person
+class Customer extends Lead
 {
-    /** @Column(type="string", length=255) */
-    private $title;
-    
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    public function setTitle($title)
-    {
-        $this->title = $title;
-    }    
+       
 }
 
 ?>

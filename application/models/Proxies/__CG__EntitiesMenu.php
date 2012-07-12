@@ -54,6 +54,12 @@ class Menu extends \Entities\Menu implements \Doctrine\ORM\Proxy\Proxy
         return parent::getMenuItems();
     }
 
+    public function removeMenuItem(\Entities\MenuItem $MenuItem)
+    {
+        $this->__load();
+        return parent::removeMenuItem($MenuItem);
+    }
+
     public function updated()
     {
         $this->__load();

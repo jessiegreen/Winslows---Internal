@@ -22,3 +22,14 @@ Navigation.prototype.AddChildOnclickBind = function(element){
     });
 }
 
+Navigation.prototype.RemoveOnclickBind = function(element){
+    element.click(function(e){
+	if(confirm("Are you sure you want to delete this menu item?")){
+	    button = $(e.target);
+	    menu_id = $("#menu_id").val();
+	    location='/maintenance/navigationremove/menu_id/'+menu_id+
+			'/menuitem_id/' + button.parent().attr("menuitem_id");
+	}
+    });
+}
+

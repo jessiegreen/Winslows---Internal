@@ -16,9 +16,11 @@ echo HTML::buttonBlue("application_form_add.png", "Add Parent Item", "menuitem_a
     ?>
     </ol>
 </fieldset>
+<input type="hidden" id="menu_id" value="<?php echo $MenuItem->getMenu()->getId();?>" />
 <script type="text/javascript">
     Navigation = new Navigation();
     Navigation.AddOnclickBind($("#menuitem_add"));
     Navigation.EditOnclickBind($(".menuitem_edit"));
     Navigation.AddChildOnclickBind($(".child_add"));
+    Navigation.RemoveOnclickBind($(".menuitem_remove"));
 </script>

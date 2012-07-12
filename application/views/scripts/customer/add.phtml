@@ -1,0 +1,30 @@
+<?php echo($this->flashMessages()); ?>
+<h1 class="header1">Add Customer</h1>
+<form action="<?php echo $this->form->getAction() ?>"
+      enctype="<?php echo $this->form->getEnctype() ?>"
+      method="<?php echo $this->form->getMethod() ?>"
+      id="<?php echo $this->form->getId() ?>"
+      class="<?php echo $this->form->getAttrib('class') ?>" >
+<div class="padded_frame" style="width: 250px;float: left;">
+    <?php
+    /* @var $form Zend_Form */
+    $form = $this->form;
+    echo $form->getDisplayGroup("customer");
+    ?>
+</div>
+<div class="padded_frame" style="width: 250px;float: left;">
+    <?php
+    /* @var $form Zend_Form */
+    $form = $this->form;
+    echo $form->getDisplayGroup("address");
+    ?>
+</div>
+<div class="padded_frame" style="width: 250px;float: left;">
+    <?php
+    /* @var $form Zend_Form */
+    $form = $this->form;
+    echo $form->getDisplayGroup("phonenumber");
+    ?>
+</div>
+<div style="clear: both;margin-bottom: 20px;"><?php echo $form->submit;?></div>
+</form>

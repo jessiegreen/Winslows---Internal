@@ -52,6 +52,24 @@ table {
 	border-spacing: 0;
 }
 
+.no_space{
+    padding: 0px;
+    margin: 0px;
+}
+
+.border_gray{
+    border: solid 1px #eeeded;
+}
+
+.border_blue{
+    border: solid 1px #0052CC;
+}
+
+.bg_blue_fade{
+    background-image: url('/img/main_bg_1.png');
+    background-repeat: repeat-x;
+}
+
 /*****Headers*******/
 h1.header1{
     font-size: 20px;

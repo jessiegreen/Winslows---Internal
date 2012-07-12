@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @Table(name="people") 
  * @InheritanceType("JOINED")
  * @DiscriminatorColumn(name="discr", type="string")
- * @DiscriminatorMap({"employee" = "Employee"})
+ * @DiscriminatorMap({"employee" = "Employee", "customer" = "Customer", "lead" = "Lead"})
  * @HasLifecycleCallbacks
  */
 class Person
@@ -45,15 +45,33 @@ class Person
     protected $personaddresses;
     
     /**
+     * @ManyToMany(targetEntity="Phonenumber", cascade={"persist", "remove"})
+     * @JoinTable(name="person_phonenumbers",
+     *      joinColumns={@JoinColumn(name="person_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@JoinColumn(name="phonenumber_id", referencedColumnName="id", unique=true)}
+     *      )
+     */
+    private $phonenumbers;
+    
+    /**
+     * @ManyToMany(targetEntity="Emailaddress", cascade={"persist", "remove"})
+     * @JoinTable(name="person_emailaddresses",
+     *      joinColumns={@JoinColumn(name="person_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@JoinColumn(name="emailaddress_id", referencedColumnName="id", unique=true)}
+     *      )
+     */
+    private $emailaddresses;
+    
+    /**
      * @OneToOne(targetEntity="Webaccount", mappedBy="person", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     protected $webaccount;
 
     public function __construct()
     {
-
       $this->personaddresses	= new ArrayCollection();
-      $this->created	= $this->updated = new \DateTime("now");
+      $this->phonenumbers	= new ArrayCollection();
+      $this->created		= $this->updated = new \DateTime("now");
     }
    
     /**
@@ -72,6 +90,42 @@ class Person
     public function getPersonAddresses()
     {
       return $this->personaddresses;
+    }
+    
+    /**
+     * Add phonenumber to person.
+     * @param Phonenumber $phonenumber
+     */
+    public function addPhoneNumber(Phonenumber $Phonenumber)
+    {
+	//$Phonenumber->setPerson($this);
+        $this->phonenumbers[] = $Phonenumber;
+    }
+    
+    /**
+     * Retrieve person's associated phonenumbers.
+     */
+    public function getPhoneNumbers()
+    {
+      return $this->phonenumbers;
+    }
+    
+    /**
+     * Add email to person.
+     * @param Emailaddress $EmailAddress
+     */
+    public function addEmailAddress(Emailaddress $EmailAddress)
+    {
+	//$Phonenumber->setPerson($this);
+        $this->emailaddresses[] = $EmailAddress;
+    }
+    
+    /**
+     * Retrieve person's associated email addresses.
+     */
+    public function getEmailAddresses()
+    {
+      return $this->emailaddresses;
     }
     
     /**

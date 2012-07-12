@@ -37,8 +37,9 @@ class Zend_View_Helper_Maintenance_Menuitem//  extends Zend_View_Helper_Abstract
 	<li menuitem_id="<?php echo $MenuItem->getId();?>"> 
 	    <?php 
 	    //HTML::buttonIcon($icon, $id, $title, $class, $style)
-	    echo HTML::buttonIcon("bullet_wrench.png", "menuitem_edit", "Edit Menu Item Details", "menuitem_edit", "padding-right:5px;");
-	    echo HTML::buttonIcon("bullet_add.png", "child_add", "Add Sub to Menu Item", "child_add", "padding-right:5px;");
+	    echo HTML::buttonIcon("bullet_wrench.png", "menuitem_edit", "Edit Menu Item Details", "menuitem_edit", "padding-right:3px;");
+	    echo HTML::buttonIcon("bullet_add.png", "child_add", "Add Sub to Menu Item", "child_add", "padding-right:3px;");
+	    echo HTML::buttonIcon("bullet_delete.png", "menuitem_remove", "Remove Menu Item", "menuitem_remove", "padding-right:3px;");
 	    echo $MenuItem->getLabel();
 	    ?>
 	</li>

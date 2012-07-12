@@ -249,6 +249,44 @@ class MaintenanceController extends Zend_Controller_Action
 	$this->view->form = $form;
     }
     
+    public function navigationremoveAction()
+    {
+	$this->_helper->viewRenderer->setNoRender(true);
+	$ACL = new Dataservice_Controller_Plugin_ACL();
+	$ACL->preDispatch($this->_request);
+	$this->_helper->layout->disableLayout();
+	
+	$menu_id	= isset($this->_params["menu_id"]) ? $this->_params["menu_id"] : null;
+	$menuitem_id	= isset($this->_params["menuitem_id"]) ? $this->_params["menuitem_id"] : null;
+	$flashMessenger = $this->_helper->getHelper('FlashMessenger');
+	
+	if($menuitem_id){
+	    /* @var $em \Doctrine\ORM\EntityManager */
+	    $em		= $this->_helper->EntityManager();
+	    /* @var $Resource \Entities\Menu */
+	    $Menu	= $em->find("Entities\Menu", $menu_id);
+	    $MenuItem	= $em->find("Entities\MenuItem", $menuitem_id);
+	    if($Menu && $MenuItem){
+		if(!$Menu->removeMenuItem($MenuItem)){
+		    $flashMessenger->addMessage(array('message' => "Could Not Remove MenuItem", 'status' => 'error'));
+		    $this->_redirect('/maintenance/navigationview/');
+		}
+		$em->persist($Menu);
+		$em->flush();
+		$flashMessenger->addMessage(array('message' => "Menu Item Removed", 'status' => 'success'));
+		$this->_redirect('/maintenance/navigationview');
+	    }
+	    else{
+		$flashMessenger->addMessage(array('message' => "Error Removing Menu Item - Not Found", 'status' => 'error'));
+		$this->_redirect('/maintenance/navigationview');
+	    }
+	}
+	else{
+	    $flashMessenger->addMessage(array('message' => "Error Removing Menu Item, Id Not Sent", 'status' => 'error'));
+	    $this->_redirect('/maintenance/resourcesview');
+	}
+    }
+    
     /**
      *
      * @param array $values

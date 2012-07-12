@@ -89,6 +89,12 @@ class HTML
 	return self::anchorIcon("arrow_left.png", $text, $href);
     }
     
+    /**
+     *
+     * @param string $string
+     * @param int $length
+     * @return string 
+     */
     public static function truncateString($string, $length){
 	if(is_string($string) && is_numeric($length)){
 	    return strlen($string) > $length ? substr($string, 0, $length)."..." : $string;

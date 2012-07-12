@@ -19,6 +19,10 @@ class Auth
 	return $objAuth->getIdentity();
     }
     
+    /**
+     *
+     * @return \Entities\Webaccount 
+     */
     public function getIdentityWebAccount(){
 	$IdentityWebAccount = $this->getIdentity();
 	$this->_em->clear();	

@@ -1,0 +1,223 @@
+<?php 
+echo($this->flashMessages()); 
+echo "<div>";
+echo HTML::backAnchorIcon("Lead Search", "/lead/search");
+echo "</div>";
+$lead	= $this->Lead;
+$lead_id	= $lead->getId();
+$addresses	= $lead->getPersonAddresses();
+$phones		= $lead->getPhoneNumbers();
+$emails		= $lead->getEmailAddresses();
+$contacts	= $lead->getContacts();
+?>
+<div class="padded_frame border_gray bg_blue_fade" style="width: 415px;float: left;padding-top: 0px;">
+    <div id="accordion">
+	<h3><a href="#">Information</a></h3>
+	<div>
+	    <label for="name">Name:</label>
+	    <div id="name" style="display: inline;"><?php echo $lead->getFullName(); ?></div><br />
+	    <label for="company">Company:</label>
+	    <div id="company" style="display: inline;"><?php echo $lead->getCompany(); ?></div><br />
+	</div>
+	<h3>
+	    <a href="#">Addresses</a>
+	</h3>
+	<div>
+	    <?php echo HTML::buttonBlue("building_add.png", "Add address", "address_add", "address_add");?>
+	    <hr />
+	    <?php
+	    /* @var $Address \Entities\Address */
+	    foreach ($addresses as $Address) {
+		?>
+		<h4 class="no_space" style="border-bottom: solid 1px #eeeded">
+		    <?php 
+		    echo $Address->getName();
+		    echo HTML::anchorIcon(
+			    "pencil.png", 
+			    "", 
+			    "/lead/editaddress/lead_id/".$lead_id."/address_id/".$Address->getId(),
+			    "margin-left:5px;"
+			    );
+		    ?>
+		</h4>
+		<label for="addr_1_addr1">Address 1:</label>
+		<div id="addr_1_addr1" style="display: inline;"><?php echo $Address->getAddress1(); ?></div><br />
+		<label for="addr_1_addr2">Address 2:</label>
+		<div id="addr_1_addr2" style="display: inline;"><?php echo $Address->getAddress2(); ?></div><br />
+		<label for="addr_1_csz">City/ST/Zip:</label>
+		<div id="addr_1_csz" style="display: inline;">
+		    <?php 
+		    echo $Address->getCity().", ".
+			    $Address->getState()." ".
+			    $Address->getZip1()."-".
+			    $Address->getZip2(); ?>
+		</div>
+		<?php
+	    }
+	    ?>
+	</div>
+	<h3>
+	    <a href="#">Phone</a>
+	</h3>
+	<div>
+	    <?php 
+	    echo HTML::buttonBlue(
+		    "phone_add.png", 
+		    "Add phone number", 
+		    "phone_add", 
+		    "phone_add", 
+		    "padding-left:3px;"
+		    );?>
+	    <hr />
+	    <?php
+	    /* @var $Phonenumber \Entities\Phonenumber */
+	    foreach ($phones as $Phonenumber) {
+		?>
+		<h4 class="no_space" style="border-bottom: solid 1px #eeeded">
+		    <?php 
+		    echo $Phonenumber->getType(); 
+		    echo HTML::anchorIcon(
+			    "pencil.png", 
+			    "", 
+			    "/lead/editphone/lead_id/".$lead_id."/phonenumber_id/".
+				$Phonenumber->getId(), 
+			    "margin-left:5px;"
+			    );
+		    ?>
+		</h4>
+		<label for="phone1">Num:</label>
+		<div id="phone1" style="display: inline;">
+		    <?php 
+		    echo "(".$Phonenumber->getAreaCode().") ".$Phonenumber->getNum1()."-".$Phonenumber->getNum2(); 
+		    ?>
+		</div><br />
+		<label for="ext1">Ext:</label>
+		<div id="ext1" style="display: inline;">
+		    <?php 
+		    echo $Phonenumber->getExtension(); 
+		    ?>
+		</div>
+		<?php
+	    }
+	    ?>
+	</div>
+	<h3>
+	    <a href="#">Email</a>
+	</h3>
+	<div>
+	    <?php 
+	    echo HTML::buttonBlue(
+		    "email_add.png", 
+		    "Add email address", 
+		    "email_add", 
+		    "email_add", 
+		    "padding-left:3px;"
+		    );?>
+	    <hr />
+	    <?php
+	    /* @var $Emailaddress \Entities\Emailaddress */
+	    foreach ($emails as $Emailaddress) {
+		?>
+		<h4 class="no_space" style="border-bottom: solid 1px #eeeded">
+		    <?php 
+		    echo $Emailaddress->getType(); 
+		    echo HTML::anchorIcon(
+			    "pencil.png", 
+			    "", 
+			    "/lead/editemail/lead_id/".$lead_id."/emailaddress_id/".
+				$Emailaddress->getId(), 
+			    "margin-left:5px;"
+			    );
+		    ?>
+		</h4>
+		<label for="emailaddress">Address:</label>
+		<div id="emailaddress" style="display: inline;">
+		    <?php 
+		    echo $Emailaddress->getAddress(); 
+		    ?>
+		</div>
+		<?php
+	    }
+	    ?>
+	</div>
+    </div>
+</div>
+<div class="padded_frame border_gray bg_blue_fade" style="width: 415px;float: right;padding-top: 0px;">
+    <h3><a href="#">Contacts</a></h3>
+    <div>
+	<select id="contact_type_id_select">
+	    <option class="gray small" value="">Please choose a contact medium to add</option>
+	    <?php 
+	    foreach($this->Locations as $Location){
+		echo "<option type_string='location' value='".$Location->getId()."'>Walk In: ".$Location->getName()."</option>";
+	    }
+	    foreach($phones as $Phonenumber){
+		echo "<option type_string='phone' value='".$Phonenumber->getId()."'>Phone: ".$Phonenumber->getNumberDisplay()."</option>";
+	    }
+	    foreach($emails as $Emailaddress){
+		echo "<option type_string='email' value='".$Emailaddress->getId()."'>Email: ".$Emailaddress->getAddress()."</option>";
+	    }
+	    ?>
+	</select>
+	<?php 
+	echo HTML::buttonBlue(
+		"phone_sound.png", 
+		"Add Contact", 
+		"contact_add", 
+		"contact_add", 
+		"padding-left:3px;"
+		);?>
+	<hr />
+	<div style="max-height: 300px;overflow: auto;">
+	    <?php
+	    /* @var $Contact \Entities\Contact */
+	    foreach ($contacts as $Contact) {
+		?>
+		<h4 class="no_space" style="border-bottom: solid 1px #eeeded">
+		    <?php 
+		    echo $Contact->getCreated()->format("m-d-Y, g:i a")." - ".$Contact->getPerson()->getFullName(); 
+		    echo HTML::anchorIcon(
+			    "pencil.png", 
+			    "", 
+			    "/lead/editcontact/lead_id/".$lead_id."/contact_id/".
+				$Contact->getId(), 
+			    "margin-left:5px;"
+			    );
+		    ?>
+		</h4>
+		<label for="contact_type">Type:</label>
+		<div id="contact_type" style="display: inline;">
+		    <?php 
+		    echo $Contact->getType()."-".$Contact->getTypeDetail(); 
+		    ?>
+		</div><br />
+		<label for="contact_note">Note:</label>
+		<div id="contact_note" style="display: inline;">
+		    <?php 
+		    echo HTML::truncateString($Contact->getNote(), 40);
+		    ?>
+		</div><br />
+		<label for="contact_result">Result:</label>
+		<div id="contact_result" style="display: inline;">
+		    <?php 
+		    echo $Contact->getResultDisplay();
+		    ?>
+		</div><br /><br />
+		<?php
+	    }
+	    ?>
+	</div>
+    </div>
+    <h3><a href="#">Orders</a></h3>
+    <div>Put Orders here</div>
+    <h3><a href="#">Documents</a></h3>
+    <div>Put Documents here</div>
+</div>
+<div style="clear: both;"><input type="hidden" id="lead_id" value="<?php echo $lead_id;?>" /></div>
+<script type="text/javascript">
+    Lead = new Lead();
+    Lead.AddPhoneClickBind("phone_add");
+    Lead.AddAddressClickBind("address_add");
+    Lead.AddEmailClickBind("email_add");
+    Lead.AddContactClickBind("contact_add");
+</script>

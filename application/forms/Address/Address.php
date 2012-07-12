@@ -26,7 +26,7 @@ class Form_Address_Address extends Zend_Form
 	    $this->addElement('text', 'id', array(
 		'label'	    => 'Address Id',
 		'disabled'  => true,
-		'required'  => true,
+		'ignore'    => true,
 		'belongsTo' => $this->_belongs_to,
 		'value'	    => $this->_Address ? $this->_Address->getId() : ""
 	    ));
