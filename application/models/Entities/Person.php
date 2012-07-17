@@ -45,6 +45,13 @@ class Person
     protected $personaddresses;
     
     /**
+     * Bidirectional - One-To-Many (INVERSE SIDE)
+     *
+     * @OneToMany(targetEntity="PersonDocument", mappedBy="person", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    protected $persondocuments;
+    
+    /**
      * @ManyToMany(targetEntity="Phonenumber", cascade={"persist", "remove"})
      * @JoinTable(name="person_phonenumbers",
      *      joinColumns={@JoinColumn(name="person_id", referencedColumnName="id")},
@@ -70,6 +77,7 @@ class Person
     public function __construct()
     {
       $this->personaddresses	= new ArrayCollection();
+      $this->persondocuments	= new ArrayCollection();
       $this->phonenumbers	= new ArrayCollection();
       $this->created		= $this->updated = new \DateTime("now");
     }
@@ -90,6 +98,28 @@ class Person
     public function getPersonAddresses()
     {
       return $this->personaddresses;
+    }
+    
+    /**
+     * Add person document to person.
+     * @param PersonDocument $address
+     */
+    public function addPersonDocument(PersonDocument $PersonDocument)
+    {
+	$PersonDocument->setPerson($this);
+        $this->persondocuments[] = $PersonDocument;
+    }
+    
+    /**
+     * Retrieve person's associated person documents.
+     */
+    public function getPersonDocuments()
+    {
+      return $this->persondocuments;
+    }
+    
+    public function getAllDocuments(){
+	return $this->getPersonDocuments();
     }
     
     /**

@@ -10,26 +10,23 @@ $phones		= $lead->getPhoneNumbers();
 $emails		= $lead->getEmailAddresses();
 $contacts	= $lead->getContacts();
 ?>
-<div class="padded_frame border_gray bg_blue_fade" style="width: 415px;float: left;padding-top: 0px;">
+<div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
+    <h3 class="no_space" style="color: #2000EE;">Lead Info</h4>
+    <div>Name:<?php echo $lead->getFullName(); ?> &nbsp;&nbsp;&nbsp; Company:<?php echo $lead->getCompany(); ?></div>
+</div>
+<div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">
     <div id="accordion">
-	<h3><a href="#">Information</a></h3>
-	<div>
-	    <label for="name">Name:</label>
-	    <div id="name" style="display: inline;"><?php echo $lead->getFullName(); ?></div><br />
-	    <label for="company">Company:</label>
-	    <div id="company" style="display: inline;"><?php echo $lead->getCompany(); ?></div><br />
-	</div>
 	<h3>
 	    <a href="#">Addresses</a>
+	    <?php echo HTML::buttonBlue("building_add.png", "Add address", "address_add", "float:right;width:110px;");?>
 	</h3>
 	<div>
-	    <?php echo HTML::buttonBlue("building_add.png", "Add address", "address_add", "address_add");?>
-	    <hr />
 	    <?php
+	    echo count($addresses)<1 ? "<span class='small gray'>No Addresses</span>" : "";
 	    /* @var $Address \Entities\Address */
 	    foreach ($addresses as $Address) {
 		?>
-		<h4 class="no_space" style="border-bottom: solid 1px #eeeded">
+		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
 		    <?php 
 		    echo $Address->getName();
 		    echo HTML::anchorIcon(
@@ -56,24 +53,23 @@ $contacts	= $lead->getContacts();
 	    }
 	    ?>
 	</div>
+	<hr />
 	<h3>
 	    <a href="#">Phone</a>
-	</h3>
-	<div>
 	    <?php 
 	    echo HTML::buttonBlue(
 		    "phone_add.png", 
-		    "Add phone number", 
-		    "phone_add", 
-		    "phone_add", 
-		    "padding-left:3px;"
+		    "Add Phone", 
+		    "phone_add", "float:right;width:110px;"
 		    );?>
-	    <hr />
+	</h3>
+	<div>
 	    <?php
+	    echo count($phones)<1 ? "<span class='small gray'>No Phones</span>" : "";
 	    /* @var $Phonenumber \Entities\Phonenumber */
 	    foreach ($phones as $Phonenumber) {
 		?>
-		<h4 class="no_space" style="border-bottom: solid 1px #eeeded">
+		<h4 class="no_space blue_frame bg_blue_fade" style="padding:3px;margin-bottom: 3px;">
 		    <?php 
 		    echo $Phonenumber->getType(); 
 		    echo HTML::anchorIcon(
@@ -101,24 +97,22 @@ $contacts	= $lead->getContacts();
 	    }
 	    ?>
 	</div>
+	<hr />
 	<h3>
 	    <a href="#">Email</a>
-	</h3>
-	<div>
 	    <?php 
 	    echo HTML::buttonBlue(
 		    "email_add.png", 
-		    "Add email address", 
-		    "email_add", 
-		    "email_add", 
-		    "padding-left:3px;"
+		    "Add Email", 
+		    "email_add", "float:right;width:110px;"
 		    );?>
-	    <hr />
+	</h3>
+	<div>
 	    <?php
 	    /* @var $Emailaddress \Entities\Emailaddress */
 	    foreach ($emails as $Emailaddress) {
 		?>
-		<h4 class="no_space" style="border-bottom: solid 1px #eeeded">
+		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
 		    <?php 
 		    echo $Emailaddress->getType(); 
 		    echo HTML::anchorIcon(
@@ -130,8 +124,8 @@ $contacts	= $lead->getContacts();
 			    );
 		    ?>
 		</h4>
-		<label for="emailaddress">Address:</label>
-		<div id="emailaddress" style="display: inline;">
+		<label>Address:</label>
+		<div style="display: inline;">
 		    <?php 
 		    echo $Emailaddress->getAddress(); 
 		    ?>
@@ -142,38 +136,41 @@ $contacts	= $lead->getContacts();
 	</div>
     </div>
 </div>
-<div class="padded_frame border_gray bg_blue_fade" style="width: 415px;float: right;padding-top: 0px;">
-    <h3><a href="#">Contacts</a></h3>
-    <div>
-	<select id="contact_type_id_select">
-	    <option class="gray small" value="">Please choose a contact medium to add</option>
+<div class="padded_frame" style="width: 415px;float: right;padding-top: 0px;">
+    <h3>
+	<a href="#">Contacts</a>
+	<span style="float:right;">
+	    <select id="contact_type_id_select">
+		<option class="gray small" value="">Choose contact medium</option>
+		<?php 
+		foreach($this->Locations as $Location){
+		    echo "<option type_string='location' value='".$Location->getId()."'>Walk In: ".$Location->getName()."</option>";
+		}
+		foreach($phones as $Phonenumber){
+		    echo "<option type_string='phone' value='".$Phonenumber->getId()."'>Phone: ".$Phonenumber->getNumberDisplay()."</option>";
+		}
+		foreach($emails as $Emailaddress){
+		    echo "<option type_string='email' value='".$Emailaddress->getId()."'>Email: ".$Emailaddress->getAddress()."</option>";
+		}
+		?>
+	    </select>
 	    <?php 
-	    foreach($this->Locations as $Location){
-		echo "<option type_string='location' value='".$Location->getId()."'>Walk In: ".$Location->getName()."</option>";
-	    }
-	    foreach($phones as $Phonenumber){
-		echo "<option type_string='phone' value='".$Phonenumber->getId()."'>Phone: ".$Phonenumber->getNumberDisplay()."</option>";
-	    }
-	    foreach($emails as $Emailaddress){
-		echo "<option type_string='email' value='".$Emailaddress->getId()."'>Email: ".$Emailaddress->getAddress()."</option>";
-	    }
-	    ?>
-	</select>
-	<?php 
-	echo HTML::buttonBlue(
-		"phone_sound.png", 
-		"Add Contact", 
-		"contact_add", 
-		"contact_add", 
-		"padding-left:3px;"
-		);?>
-	<hr />
+	    echo HTML::buttonBlue(
+		    "phone_sound.png", 
+		    "Add Contact", 
+		    "contact_add", 
+		    "contact_add", 
+		    "padding-left:3px;"
+		    );?>
+	</span>
+    </h3>
+    <div>
 	<div style="max-height: 300px;overflow: auto;">
 	    <?php
 	    /* @var $Contact \Entities\Contact */
 	    foreach ($contacts as $Contact) {
 		?>
-		<h4 class="no_space" style="border-bottom: solid 1px #eeeded">
+		<h4 class="no_space bg_blue_fade blue_frame" style="padding:3px;margin-bottom: 3px;">
 		    <?php 
 		    echo $Contact->getCreated()->format("m-d-Y, g:i a")." - ".$Contact->getPerson()->getFullName(); 
 		    echo HTML::anchorIcon(
@@ -185,20 +182,20 @@ $contacts	= $lead->getContacts();
 			    );
 		    ?>
 		</h4>
-		<label for="contact_type">Type:</label>
-		<div id="contact_type" style="display: inline;">
+		<label>Type:</label>
+		<div style="display: inline;">
 		    <?php 
-		    echo $Contact->getType()."-".$Contact->getTypeDetail(); 
+		    echo $Contact->getTypeDisplay()." - ".$Contact->getTypeDetail(); 
 		    ?>
 		</div><br />
-		<label for="contact_note">Note:</label>
-		<div id="contact_note" style="display: inline;">
+		<label>Note:</label>
+		<div style="display: inline;">
 		    <?php 
 		    echo HTML::truncateString($Contact->getNote(), 40);
 		    ?>
 		</div><br />
-		<label for="contact_result">Result:</label>
-		<div id="contact_result" style="display: inline;">
+		<label>Result:</label>
+		<div style="display: inline;">
 		    <?php 
 		    echo $Contact->getResultDisplay();
 		    ?>
@@ -208,8 +205,7 @@ $contacts	= $lead->getContacts();
 	    ?>
 	</div>
     </div>
-    <h3><a href="#">Orders</a></h3>
-    <div>Put Orders here</div>
+    <hr />
     <h3><a href="#">Documents</a></h3>
     <div>Put Documents here</div>
 </div>

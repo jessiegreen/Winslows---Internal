@@ -98,6 +98,14 @@ class Contact
 	$this->type = $type;
     }
     
+    public function getTypeDisplay(){
+	if(!$this->type)return "";
+	$array = $this->getTypeOptions();
+	if(!key_exists($this->type, $array))
+	    throw new Exception("Could not get Result Display. Key '".$this->type."' does not exist");
+	return $array[$this->type];
+    }
+    
     public function getType(){
 	return $this->type;
     }

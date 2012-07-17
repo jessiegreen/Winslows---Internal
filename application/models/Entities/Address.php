@@ -30,6 +30,9 @@ class Address
     
     /** @Column(type="string", length=255) */
     private $city;
+    
+    /** @Column(type="string", length=255) */
+    private $county;
 
     /** @Column(type="string", length=2) */
     private $state;
@@ -96,6 +99,16 @@ class Address
     public function setAddress2($address_2)
     {
         $this->address_2 = $address_2;
+    }
+    
+    public function getCounty()
+    {
+        return $this->county;
+    }
+
+    public function setCounty($county)
+    {
+        $this->county = $county;
     }
 
     public function getCity()

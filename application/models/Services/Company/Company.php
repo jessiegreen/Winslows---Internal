@@ -25,6 +25,10 @@ class Company {
     public function getCurrentCompany(){
 	return $this->_em->getRepository("Entities\Company")->findOneBy(array("name_index" => $this->_company));
     }
+    
+    public function getCompanies(){
+	return $this->_em->getRepository("Entities\Company")->findAll();
+    }
 }
 
 ?>

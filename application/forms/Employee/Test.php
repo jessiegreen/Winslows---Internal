@@ -10,13 +10,13 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_Employee_Employee extends Form_Person_Person
+class Form_Employee_Test extends Form_Person_Person
 {    
-    private $_Employee;
+    protected $_Employee;
     
-    public function __construct($options = null, Entities\Employee $Employee = null) {
+    public function __construct($options = null, $Employee = null) {
 	$this->_Employee = $Employee;
-	parent::__construct($options, $this->_Employee);
+	parent::__construct();
     }
     
     public function init($options = array())
@@ -27,7 +27,8 @@ class Form_Employee_Employee extends Form_Person_Person
 	    'belongsTo'	    => 'employee',
 	    'value'	    => $this->_Employee ? $this->_Employee->getTitle() : ""
         ));
-	parent::init($options);
+	
+	parent::init();
     }
 }
 

@@ -83,8 +83,8 @@ class CustomerController extends Zend_Controller_Action
 	    $flashMessenger->addMessage(array("message" => "Could not get Customer", "status" =>  "error"));
 	}
 	
-	$CompanyService	= new \Services\Company\Company();
-	$Company	= $CompanyService->getCurrentCompany();
+	$CompanyService		= new \Services\Company\Company();
+	$Company		= $CompanyService->getCurrentCompany();
 	$this->view->Customer	= $Customer;
 	$this->view->Locations	= $Company->getLocations();
     }
@@ -105,28 +105,8 @@ class CustomerController extends Zend_Controller_Action
 	$this->_helper->viewRenderer->setNoRender(true);
 	
 	$term		= $this->_autocompleteGetTerm();
-	$em		= $this->_helper->EntityManager();
-	$CustomerRepos	= $em->getRepository("Entities\Customer");
-	$max_results	= 20;
-	$results	= array();
-	
-	$Builder = $CustomerRepos->createQueryBuilder("c");
-	$Builder->select("c,p,a")
-		->leftJoin('c.phonenumbers', 'p')
-		->distinct()
-		->leftJoin('c.personaddresses', 'a')
-		->where("CONCAT(p.area_code,CONCAT(' ',CONCAT(p.num1,CONCAT(' ',CONCAT(p.num2,CONCAT(' ',CONCAT(c.first_name,CONCAT(' ',CONCAT(c.last_name,CONCAT(' ',CONCAT(c.company,CONCAT(' ',a.address_1)))))))))))) like :term")
-		->setParameter('term', "%".$term."%")
-		->orderBy("c.first_name, c.last_name", "ASC")
-		->getMaxResults($max_results);
-	$query = $Builder->getQuery();
-	$array = $query->getArrayResult();
-	$results = array_merge($results, $array);
-
-	$return = array();
-	foreach($results as $result){
-	    $return[] = array("id" => $result["id"],"value" => $result["first_name"]." ".$result["last_name"],"label" => $result["first_name"]." ".$result["last_name"]." :: (".$result["phonenumbers"][0]["area_code"].")".$result["phonenumbers"][0]["num1"]."-".$result["phonenumbers"][0]["num2"]." :: ".$result["personaddresses"][0]["address_1"]);
-	}
+	$LeadService	= new \Services\People\Lead();
+	$return		= $LeadService->getAutocompleteLeadsArrayFromTerm($term, "customer");
 	echo json_encode($return);
     }
 

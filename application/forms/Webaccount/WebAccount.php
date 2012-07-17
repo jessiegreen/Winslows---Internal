@@ -21,22 +21,10 @@ class Form_Webaccount_Webaccount extends Zend_Form{
     }
     
     public function init($options = array()){
-	
-	if($this->_WebAccount){
-	    $this->addElement('text', 'id', array(
-		'disabled'  => true,
-		'ignore'    => true,
-		'label'	    => "Web Account Id",
-		'belongsTo' => 'webaccount',
-		'value'	    => $this->_WebAccount ? $this->_WebAccount->getId() : ""
-	    ));
-	}
-	
 	if($this->_safe){
 	    $this->addElement('text', 'username', array(
-		'required'	    => true,
+		'required'	    => false,
 		'disable'	    => true,
-		'ignore'	    => true,
 		'label'		    => 'Username:',
 		'belongsTo'	    => 'webaccount',
 		'value'		    => $this->_WebAccount ? $this->_WebAccount->getUsername() : ""
@@ -44,8 +32,7 @@ class Form_Webaccount_Webaccount extends Zend_Form{
 
 	    $this->addElement('text', 'password', array(
 		'disable'	    => true,
-		'ignore'	    => true,
-		'required'	    => true,
+		'required'	    => false,
 		'label'		    => 'Password:',
 		'belongsTo'	    => 'webaccount',
 		'value'		    => "*******"

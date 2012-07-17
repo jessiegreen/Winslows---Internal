@@ -21,6 +21,9 @@ class Location
     
     /** @Column(type="string", length=255) */
     private $type;
+    
+    /** @Column(type="string", length=255) */
+    private $phone;
 
     /**
      * @OneToOne(targetEntity="LocationAddress", mappedBy="Location", cascade={"persist"}, orphanRemoval=true)
@@ -34,7 +37,6 @@ class Location
     
     public function __construct()
     {
-	parent::__construct();
     }
     
     public function getCompany(){
@@ -59,7 +61,23 @@ class Location
     {
         $this->name = $name;
     }
+    
+    public function getPhone()
+    {
+        return $this->phone;
+    }
 
+    public function setPhone($phone)
+    {
+        $this->phone = $phone;
+    }
+
+    public function setLocationAddress(LocationAddress $LocationAddress)
+    {
+	$LocationAddress->setLocation($this);
+        $this->locationaddress = $LocationAddress;
+    }
+    
     public function getLocationAddress()
     {
         return $this->locationaddress;
@@ -75,12 +93,6 @@ class Location
 	if(!key_exists($type, $this->getTypeOptions()))
 	    throw new Exception("Type option of ".htmlspecialchars ($type)." does not exist");
         $this->type = $type;
-    }
-
-    public function setAddress(LocationAddress $LocationAddress)
-    {
-	$LocationAddress->setLocationAddress($this);
-        $this->locationaddress = $LocationAddress;
     }
     
     public function getTypeOptions(){

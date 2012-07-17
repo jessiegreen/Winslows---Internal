@@ -30,7 +30,7 @@ class Form_Person_Phonenumber extends Zend_Form
 	    $type_options   = $Phonenumber->getTypeOptions();
 	}
 	
-	$this->addElement('select', 'type', array(
+	$this->addElement('select', 'test_type', array(
             'required'	    => true,
             'label'	    => 'Type:',
 	    'multioptions'  => $type_options,
@@ -53,7 +53,7 @@ class Form_Person_Phonenumber extends Zend_Form
 	$this->addElement($phone_number);
 
 
-        $this->addElement('text', 'extension', array(
+        $this->addElement('text', 'test_extension', array(
             'required'	    => false,
             'label'	    => 'Extension:',
 	    'size'	    => 7,

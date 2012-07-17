@@ -413,13 +413,16 @@ class MaintenanceController extends Zend_Controller_Action
 	$em		= $this->_helper->EntityManager();
 	$Employee	= isset($this->_params["id"]) ? $em->find("Entities\Employee", $this->_params["id"]) :"";
 	$Employee	= $Employee ? $Employee : null;
-	$form		=  new Form_Employee_AddComplete(array("method" => "post"), $Employee);
+	$form		=  new Form_Employee_AddComplete(array("method" => "post", "name" => "test"), $Employee);
 	$new		= false;
-
 	$form->addElement("button", "cancel", array("label" => "cancel", "onclick" => "location='/maintenance/employeesview'"));
 
 	if($this->_request->isPost())
 	{
+	    echo "<pre>";
+	    print_r($this->_params);
+	    echo "</pre>";
+	    echo $form->isValid($this->_params) ? "yes" : "no";
 	    if($form->isValid($this->_params))
 	    {
 		$flashMessenger = $this->_helper->getHelper('FlashMessenger');
@@ -429,38 +432,42 @@ class MaintenanceController extends Zend_Controller_Action
 			$Employee	= new Entities\Employee(); 
 			$new		= true;
 		    }
-		    $Employee->setTitle($this->_params['employee']['title']);
-		    $Employee->setFirstName($this->_params['person']['first_name']);
-		    $Employee->setMiddleName($this->_params['person']['middle_name']);
-		    $Employee->setLastName($this->_params['person']['last_name']);
-		    $Employee->setSuffix($this->_params['person']['suffix']);
+		    $Employee->setTitle($this->_params['form_employee']['title']);
+		    $Employee->setFirstName($this->_params['form_employee']['first_name']);
+		    $Employee->setMiddleName($this->_params['form_employee']['middle_name']);
+		    $Employee->setLastName($this->_params['form_employee']['last_name']);
+		    $Employee->setSuffix($this->_params['form_employee']['suffix']);
 		    
 		    if(!$new){
 			$PersonAddresses    = $Employee->getPersonAddresses();
 			$address_count	    = count($PersonAddresses);
-			$address_i	    = 0;
+			$address_i	    = 1;
 			if($address_count > 0){
-			    foreach($this->_params['address'] as $address_params){
+			    for($i = 0;$i<$address_count;$i++){
+				$address_params = $this->_params["form_address_".$i];
 				/* @var $PersonAddress \Entities\PersonAddress */
-				$PersonAddress = $PersonAddresses[$address_i];
+				$PersonAddress = $PersonAddresses[$i];
 				$PersonAddress->setName($address_params['name']);
 				$PersonAddress->setAddress1($address_params['address_1']);
 				$PersonAddress->setAddress2($address_params['address_2']);
+				$PersonAddress->setCounty($address_params['county']);
 				$PersonAddress->setCity($address_params['city']);
 				$PersonAddress->setState($address_params['state']);
 				$PersonAddress->setZip1($address_params['zip_1']);
 				$PersonAddress->setZip2($address_params['zip_2']);
 				$address_i++;
+				$em->persist($PersonAddress);
 			    }
 			}
 		    }
 		    else{
-			$address_params = $this->_params["address"][1];
+			$address_params = $this->_params["form_address"];
 			$PersonAddress = new \Entities\PersonAddress();
 			$PersonAddress->setName($address_params['name']);
 			$PersonAddress->setAddress1($address_params['address_1']);
 			$PersonAddress->setAddress2($address_params['address_2']);
 			$PersonAddress->setCity($address_params['city']);
+			$PersonAddress->setCounty($address_params['county']);
 			$PersonAddress->setState($address_params['state']);
 			$PersonAddress->setZip1($address_params['zip_1']);
 			$PersonAddress->setZip2($address_params['zip_2']);
@@ -475,9 +482,15 @@ class MaintenanceController extends Zend_Controller_Action
 		}
 		$this->_redirect('/maintenance/employeesview');
 	    }
-	    else $form->populate($this->_params);
+	    else{
+		echo "<pre>";
+		print_r($form->getValidValues($this->_params));
+		$form->populate($this->_params);
+		echo "</pre>";
+	    }
 	}
-	$this->view->form = $form;
+	$this->view->form	= $form;
+	$this->view->Employee	= $Employee;
     }
     
     public function addaddressAction(){
@@ -516,6 +529,7 @@ class MaintenanceController extends Zend_Controller_Action
 		    $PersonAddress->setName($address_params['name']);
 		    $PersonAddress->setAddress1($address_params['address_1']);
 		    $PersonAddress->setAddress2($address_params['address_2']);
+		    $PersonAddress->setCounty($address_params['county']);
 		    $PersonAddress->setCity($address_params['city']);
 		    $PersonAddress->setState($address_params['state']);
 		    $PersonAddress->setZip1($address_params['zip_1']);
@@ -686,6 +700,87 @@ class MaintenanceController extends Zend_Controller_Action
 	    $flashMessenger->addMessage(array('message' => "Error Removing Role - Resource or Role Not Sent", 'status' => 'error'));
 	    $this->_redirect('/maintenance/editroles');
 	}
+    }
+    
+    public function locationaddAction(){
+	$em		= $this->_helper->EntityManager();
+	$flashMessenger = $this->_helper->getHelper('FlashMessenger');
+	
+	try {
+	    if(!isset($this->_params["id"]))throw new Exception("Can not add Location. No Company Id");
+	    /* @var $Company Entities\Company */
+	    $Company	= $em->find("Entities\Company", $this->_params["id"]);
+	    
+	    if(!$Company)throw new Exception("Can not add location. No Company with that Id");
+	    
+	    $form = new Form_Location_Add(array("method" => "post"));
+	    
+	    $form->addElement(
+		    "button", 
+		    "cancel", 
+		    array(
+			"label" => "cancel", 
+			"onclick" => "location='/maintenance/locationsview/'"
+			)
+		    );
+	} catch (Exception $exc) {
+	    $flashMessenger->addMessage(array('message' => $exc->getMessage(), 'status' => 'error'));
+	    $this->_redirect('/maintenance/locationsview');
+	}
+	
+	if($this->_request->isPost())
+	{
+	    echo "<pre>";print_r($this->_params);echo "</pre>";
+	    if($form->isValid($this->_params))
+	    {
+		try {
+		    $location_params	= $this->_params["location"];
+		    $address_params	= $this->_params["locationaddress"];	
+		    $Location		= new \Entities\Location();
+		    $LocationAddress	= new Entities\LocationAddress;
+		    
+		    $Location->setName($location_params['name']);
+		    $Location->setPhone($location_params['phone']);
+		    $Location->setType($location_params['type']);
+		    
+		    $LocationAddress->setName($address_params['name']);
+		    $LocationAddress->setCounty($address_params['county']);
+		    $LocationAddress->setAddress1($address_params['address_1']);
+		    $LocationAddress->setAddress2($address_params['address_2']);
+		    $LocationAddress->setCity($address_params['city']);
+		    $LocationAddress->setState($address_params['state']);
+		    $LocationAddress->setZip1($address_params['zip_1']);
+		    $LocationAddress->setZip2($address_params['zip_2']);
+		    
+		    $Location->setLocationAddress($LocationAddress);
+		    
+		    $Company->addLocation($Location);
+		    
+		    $em->persist($Company);
+		    $em->flush();
+		    $flashMessenger->addMessage(
+			    array(
+				'message' => "Company Location '".$Location->getName()."' for '".
+						$Company->getName()."' Added", 
+				'status' => 'success'
+				)
+			    );
+		} catch (Exception $exc) {
+		    $flashMessenger->addMessage(array('message' => $exc->getMessage(), 'status' => 'error'));
+		}
+		$this->_redirect('/maintenance/companiesview');
+	    }
+	    else $form->populate($this->_params);
+	}
+	$this->view->form	= $form;
+	$this->view->Company	= $Company;
+    }
+    
+    public function companiesviewAction(){
+	$this->view->headScript()->appendFile("/javascript/maintenance/navigation/Company.js");
+	
+	$CompanyService		= new \Services\Company\Company();
+	$this->view->companies	= $CompanyService->getCompanies();
     }
 }
 

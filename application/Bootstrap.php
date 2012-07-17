@@ -67,6 +67,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
 	$autoloader->pushAutoloader(array($classLoader, 'loadClass'), 'Services');
 	
+	$classLoader = new \Doctrine\Common\ClassLoader('Interfaces',
+	realpath(Zend_Registry::get('config')->resources->entityManager->connection->entities), 'loadClass');
+
+	$autoloader->pushAutoloader(array($classLoader, 'loadClass'), 'Interfaces');
+	
 	$classLoader = new \Doctrine\Common\ClassLoader('Classes',
 	realpath(Zend_Registry::get('config')->resources->entityManager->connection->classes), 'loadClass');
 
@@ -85,6 +90,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
 	$resourceLoader->addResourceType('form', 'forms/', 'Form_');
 	$resourceLoader->addResourceType('service', 'models/Services/', 'Service_');
+	$resourceLoader->addResourceType('interface', 'models/Interfaces/', 'Interface_');
 	$resourceLoader->addResourceType('class', 'classes/', 'Classes_');
 
 	$autoLoader->pushAutoloader($resourceLoader);

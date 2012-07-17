@@ -1,11 +1,9 @@
-<h1 style="color: red;">Broken when multiple addresses! Fix!</h1>
-<h2 style="color:red;">Each form over writes the previous. 
-    <br />Take address out of addcomplete and do separate forms</h2>
+<?php echo($this->flashMessages()); ?>
 <fieldset class="padded_frame blue_frame center">
     <legend>
 	<?php 
-	    echo isset($this->form->first_name) ? 
-		"Edit '".$this->form->first_name->getValue()." ".$this->form->last_name->getValue()."' " : 
+	    echo ($this->Employee && $this->Employee->getId()) ? 
+		"Edit '".$this->Employee->getFirstName()." ".$this->Employee->getLastName()."' " : 
 		"Add"; ?> Employee</legend>
     <?php
     echo $this->form;

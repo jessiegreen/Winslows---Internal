@@ -21,20 +21,10 @@ class Form_Address_Address extends Zend_Form
 	parent::__construct($options);
     }
     
-    public function init($options = array()){
-	if($this->_Address){
-	    $this->addElement('text', 'id', array(
-		'label'	    => 'Address Id',
-		'disabled'  => true,
-		'ignore'    => true,
-		'belongsTo' => $this->_belongs_to,
-		'value'	    => $this->_Address ? $this->_Address->getId() : ""
-	    ));
-	}
-	
+    public function init($options = array()){	
 	$this->addElement('text', 'name', array(
             'required'	    => true,
-            'label'	    => 'Location Name:',
+            'label'	    => 'Address Name:',
 	    'belongsTo'	    => $this->_belongs_to,
 	    'description'   => '(Ex. Home)',
 	    'value'	    => $this->_Address ? $this->_Address->getName() : ""
@@ -52,6 +42,13 @@ class Form_Address_Address extends Zend_Form
             'label'	    => 'Address Line 2:',
 	    'belongsTo'	    => $this->_belongs_to,
 	    'value'	    => $this->_Address ? $this->_Address->getAddress2() : ""
+        ));
+	
+	$this->addElement('text', 'county', array(
+            'required'	    => false,
+            'label'	    => 'County:',
+	    'belongsTo'	    => $this->_belongs_to,
+	    'value'	    => $this->_Address ? $this->_Address->getCounty() : ""
         ));
 
         $this->addElement('text', 'city', array(

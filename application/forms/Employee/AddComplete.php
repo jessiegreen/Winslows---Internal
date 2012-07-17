@@ -13,7 +13,7 @@
 
 class Form_Employee_AddComplete extends Form_Person_AddComplete
 {
-    private $_Employee;
+    protected $_Employee;
     
     public function __construct($options = null, Entities\Employee $Employee = null) {
 	$this->_Employee = $Employee;
@@ -22,13 +22,21 @@ class Form_Employee_AddComplete extends Form_Person_AddComplete
     
     public function init($options = array())
     {
-        $form1 = new Form_Employee_Employee($options, $this->_Employee);
-	unset($form1->submit);
-        $this->addElements($form1->getElements());
-	
-	$this->addDisplayGroup(array('title'),'employee',array('legend' => 'Employment'));
-	
 	parent::init($options, $this->_Employee);
+	
+        $form = new Form_Employee_Employee($options, $this->_Employee);
+	$form->isArray(true);
+	$form->removeElement("submit");
+	$form->setLegend("Employee Info");
+	$form->setDecorators(array(
+	    "FormElements",
+	    "Fieldset",
+	    array("HtmlTag", array("tag" => "div"))
+	));
+	$form->setElementsBelongTo("form_employee");
+        $this->addSubForm($form, "form_employee", 0);
+	
+	parent::removeSubForm("form_person");
     }
 }
 
