@@ -1,0 +1,54 @@
+<?php echo($this->flashMessages()); ?>
+<fieldset class="padded_frame blue_frame">
+    <legend>Menu</legend>
+    <?php
+    echo HTML::buttonBlue("add.png", "Add Employee", "add_employee", "position:relative;");
+    ?>
+</fieldset>
+<fieldset class="padded_frame blue_frame">
+    <legend>Employees</legend>
+    <?php
+    /* @var $Employee \Entities\Employee */
+    foreach($this->Employees as $Employee){
+	echo "<div employee_id='".$Employee->getId()."'>";
+	echo HTML::buttonIcon(
+		"group.png", 
+		"editroles_".$Employee->getId(), 
+		"Edit Roles", 
+		"edit_roles", 
+		"padding-right:5px;"
+		);
+	echo HTML::buttonIcon(
+		"house.png", 
+		"addaddress_".$Employee->getId(), 
+		"Add Address", 
+		"add_address", 
+		"padding-right:5px;"
+		);
+	echo HTML::buttonIcon(
+		"key.png", 
+		"editwebaccount_".$Employee->getId(), 
+		"Edit Webaccount", 
+		"edit_webaccount", 
+		"padding-right:5px;"
+		);
+	echo HTML::buttonIcon(
+		"pencil.png", 
+		"editemployee_".$Employee->getId(), 
+		"Edit Employee", 
+		"edit_employee", 
+		"padding-right:5px;"
+		);
+	echo ":: ";
+	echo $Employee->getFullName();
+    }
+    ?>
+</fieldset>
+<script type="text/javascript">
+    Employee = new Employee();
+    Employee.AddOnclickBind($("#add_employee"));
+    Employee.EditOnclickBind($(".edit_employee"));
+    Employee.EditWebAccountOnclickBind($(".edit_webaccount"));
+    Employee.AddAddressOnclickBind($(".add_address"));
+    Employee.EditRolesOnclickBind($(".edit_roles"));
+</script>
