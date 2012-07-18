@@ -10,7 +10,8 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_Webaccount_Webaccount extends Zend_Form{
+class Form_Webaccount_Subform extends Zend_Form_SubForm
+{
     private $_WebAccount;
     private $_safe;
     
@@ -20,7 +21,7 @@ class Form_Webaccount_Webaccount extends Zend_Form{
 	parent::__construct($options);
     }
     
-    public function init($options = array()){
+    public function init(){
 	if($this->_safe){
 	    $this->addElement('text', 'username', array(
 		'required'	    => false,
@@ -52,11 +53,6 @@ class Form_Webaccount_Webaccount extends Zend_Form{
 		'belongsTo'	    => 'webaccount'
 	    ));
 	}
-
-        $this->addElement('submit', 'submit', array(
-            'ignore'   => true,
-        ));
-
     }
 }
 

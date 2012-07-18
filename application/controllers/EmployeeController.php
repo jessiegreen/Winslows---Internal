@@ -6,7 +6,7 @@
  *
  */
 
-class CustomerController extends Zend_Controller_Action
+class EmployeeController extends Zend_Controller_Action
 {
     protected $_request;
     protected $_params;
@@ -17,49 +17,33 @@ class CustomerController extends Zend_Controller_Action
     }
     
     public function addAction(){
-	$form = new Form_Customer_Add;
+	$form = new Form_Employee_Employee();
 	if($this->_request->isPost()){
 	    if($form->isValid($this->_params)){
 		$data		= $this->_params;
-		$Customer	= new Entities\Customer;
-		$Address	= new Entities\PersonAddress();
-		$Phonenumber	= new Entities\Phonenumber();
-		$person_data	= $data["person"];
-		$phone_data	= $data["phonenumber"];
-		$address_data	= $data["address"];
-		$customer_data	= $data["customer"];
+		$Employee	= new Entities\Employee;
+		
 		$em		= $this->_helper->EntityManager();
 		$flashMessenger = $this->_helper->getHelper('FlashMessenger');
+		$CompanyService	= new \Services\Company\Company();
+		$Company	= $CompanyService->getCurrentCompany();
+		$Locations	= $Company->getLocations();
+		$Location	= $Locations[0];
 		
-		$Customer->setCompany($customer_data["company"]);
-		$Customer->setFirstName($person_data["first_name"]);
-		$Customer->setMiddleName($person_data["middle_name"]);
-		$Customer->setLastName($person_data["last_name"]);
-		$Customer->setSuffix($person_data["suffix"]);
+		$Employee->setCompany($Company);
+		$Employee->setLocation($Location);
+		$Employee->setTitle($employee_data["title"]);
+		$Employee->setFirstName($person_data["first_name"]);
+		$Employee->setMiddleName($person_data["middle_name"]);
+		$Employee->setLastName($person_data["last_name"]);
+		$Employee->setSuffix($person_data["suffix"]);
 		
-		$Address->setName($address_data["name"]);
-		$Address->setAddress1($address_data["address_1"]);
-		$Address->setAddress2($address_data["address_2"]);
-		$Address->setCity($address_data["city"]);
-		$Address->setState($address_data["state"]);
-		$Address->setZip1($address_data["zip_1"]);
-		$Address->setZip2($address_data["zip_2"]);
-		
-		$Phonenumber->setType($phone_data["type"]);
-		$Phonenumber->setAreaCode($phone_data["phone_number"]["area"]);
-		$Phonenumber->setNum1($phone_data["phone_number"]["prefix"]);
-		$Phonenumber->setNum2($phone_data["phone_number"]["line"]);
-		$Phonenumber->setExtension($phone_data["extension"]);
-		
-		$Customer->addPersonAddress($Address);
-		$Customer->addPhoneNumber($Phonenumber);
-		
-		$em->persist($Customer);
+		$em->persist($Employee);
 		$em->flush();
 		
-		$message = "Customer '".htmlspecialchars($Customer->getFullName())."' saved";
+		$message = "Employee '".htmlspecialchars($Employee->getFullName())."' saved";
 		$flashMessenger->addMessage(array("message" => $message, "status" =>  "success"));
-		$this->_redirect('/customer/edit/id/'.$Customer->getId());
+		$this->_redirect('/humanresources/employeeview/id/'.$Employee->getId());
 	    }
 	    else $form->populate ($this->_params);
 	}
@@ -67,71 +51,64 @@ class CustomerController extends Zend_Controller_Action
     }
     
     public function editAction(){
-	$this->view->headScript()->appendFile("/javascript/customer/customer.js");
-	$this->view->headScript()->appendFile("/javascript/jquery-ui.min.js");
-	$this->view->headLink()->prependStylesheet('/css/jquery-ui/flick/jquery-ui.custom.css');
-	
+	$em		= $this->_helper->EntityManager();
 	$flashMessenger = $this->_helper->getHelper('FlashMessenger');
-	$redirect	= false;
 	
-	if(isset($this->_params["id"])){
-	    $Customer = $this->_helper->EntityManager()->find("Entities\Customer", $this->_params["id"]);
-	    if(!$Customer)$redirect = true;
-	}
-	else $redirect = true;
-	if($redirect){
-	    $flashMessenger->addMessage(array("message" => "Could not get Customer", "status" =>  "error"));
-	    $this->_redirect('/customer/search/');
-	}
+	$this->view->headScript()->appendFile("/javascript/employee/employee.js");
 	
-	$CompanyService		= new \Services\Company\Company();
-	$Company		= $CompanyService->getCurrentCompany();
-	$this->view->Customer	= $Customer;
-	$this->view->Locations	= $Company->getLocations();
-    }
-    
-    public function searchAction()
-    {	
-	$this->view->headScript()->appendFile("/javascript/customer/customer.js");
-	$this->view->headScript()->appendFile("/javascript/jquery-ui.min.js");
-	$this->view->headLink()->prependStylesheet('/css/jquery-ui/flick/jquery-ui.custom.css');
-    }
-    
-    public function searchautocompleteAction()
-    {
-	$ACL = new Dataservice_Controller_Plugin_ACL();
-	$ACL->preDispatch($this->_request);
-	
-	$this->_helper->layout->setLayout("blank");
-	$this->_helper->viewRenderer->setNoRender(true);
-	
-	$term		= $this->_autocompleteGetTerm();
-	$LeadService	= new \Services\People\Lead();
-	$return		= $LeadService->getAutocompleteLeadsArrayFromTerm($term, "customer");
-	echo json_encode($return);
-    }
+	try {
+	    if(!isset($this->_params["id"]))throw new Exception("Can not add address. No Id");
+	    /* @var $Employee Entities\Employee */
+	    $Employee	= $em->find("Entities\Employee", $this->_params["id"]);
+	    
+	    if(!$Employee)throw new Exception("Can not edit employee. No Employee with that Id");
+	    
+	    $form = new Form_Employee_Edit(array("method" => "post"), $Employee);
+	    
+	    if($this->_request->isPost()){
+		if($form->isValid($this->_params)){
+		    $data		= $this->_params;
+		    $employee_data	= $data["employee"];
+		    $person_data	= $data["person"];
+		    $Company		= $em->find("Entities\Company",$employee_data["company"]);
+		    if(!$Company)throw new Exception("Can not edit employee. No Company with that Id");
+		    $Location		= $em->find("Entities\Location",$employee_data["location"]);
+		    if(!$Location)throw new Exception("Can not edit employee. No Location with that Id");
+		    
+		    $Employee->setCompany($Company);
+		    $Employee->setLocation($Location);
+		    $Employee->setTitle($employee_data["title"]);
+		    $Employee->setFirstName($person_data["first_name"]);
+		    $Employee->setMiddleName($person_data["middle_name"]);
+		    $Employee->setLastName($person_data["last_name"]);
+		    $Employee->setSuffix($person_data["suffix"]);
 
-    private function _autocompleteGetTerm(){
-	$term = '';
-	if (isset($_GET['term'])) {
-	    $term = strtolower($_GET['term']);
+		    $em->persist($Employee);
+		    $em->flush();
+
+		    $message = "Employee '".htmlspecialchars($Employee->getFullName())."' saved";
+		    $flashMessenger->addMessage(array("message" => $message, "status" =>  "success"));
+		    $this->_redirect('/humanresources/employeeview/id/'.$Employee->getId());
+		}
+		else $form->populate ($this->_params);
+	    }
+	} catch (Exception $exc) {
+	    $flashMessenger->addMessage(array('message' => $exc->getMessage(), 'status' => 'error'));
+	    $this->_redirect('/humanresources/employeeview/id/'.$this->_params["id"]);
 	}
-	if (!$term) {
-	    exit;
-	}
-	return $term;
+	$this->view->form = $form;
     }
-    
+       
     public function addaddressAction(){
 	$em		= $this->_helper->EntityManager();
 	$flashMessenger = $this->_helper->getHelper('FlashMessenger');
 	
 	try {
 	    if(!isset($this->_params["id"]))throw new Exception("Can not add address. No Id");
-	    /* @var $Customer Entities\Customer */
-	    $Customer	= $em->find("Entities\Customer", $this->_params["id"]);
+	    /* @var $Employee Entities\Employee */
+	    $Employee	= $em->find("Entities\Employee", $this->_params["id"]);
 	    
-	    if(!$Customer)throw new Exception("Can not add address. No Customer with that Id");
+	    if(!$Employee)throw new Exception("Can not add address. No Employee with that Id");
 	    
 	    $form = new Form_PersonAddress_PersonAddress(array("method" => "post"));
 	    
@@ -140,12 +117,12 @@ class CustomerController extends Zend_Controller_Action
 		    "cancel", 
 		    array(
 			"label" => "cancel", 
-			"onclick" => "location='/customer/edit/id/".$this->_params["id"]."'"
+			"onclick" => "location='/humanresources/employeeview/id/".$this->_params["id"]."'"
 			)
 		    );
 	} catch (Exception $exc) {
 	    $flashMessenger->addMessage(array('message' => $exc->getMessage(), 'status' => 'error'));
-	    $this->_redirect('/customer/edit/id/'.$this->_params["id"]);
+	    $this->_redirect('/humanresources/employeeview/id/'.$this->_params["id"]);
 	}
 	
 	if($this->_request->isPost())
@@ -158,30 +135,31 @@ class CustomerController extends Zend_Controller_Action
 		    $PersonAddress->setName($address_params['name']);
 		    $PersonAddress->setAddress1($address_params['address_1']);
 		    $PersonAddress->setAddress2($address_params['address_2']);
+		    $PersonAddress->setCounty($address_params['county']);
 		    $PersonAddress->setCity($address_params['city']);
 		    $PersonAddress->setState($address_params['state']);
 		    $PersonAddress->setZip1($address_params['zip_1']);
 		    $PersonAddress->setZip2($address_params['zip_2']);
-		    $Customer->addPersonAddress($PersonAddress);
+		    $Employee->addPersonAddress($PersonAddress);
 		    
-		    $em->persist($Customer);
+		    $em->persist($Employee);
 		    $em->flush();
 		    $flashMessenger->addMessage(
 			    array(
-				'message' => "Customer Address '".$PersonAddress->getName()."' for '".
-						$Customer->getFullName()."' Added", 
+				'message' => "Employee Address '".$PersonAddress->getName()."' for '".
+						$Employee->getFullName()."' Added", 
 				'status' => 'success'
 				)
 			    );
 		} catch (Exception $exc) {
 		    $flashMessenger->addMessage(array('message' => $exc->getMessage(), 'status' => 'error'));
 		}
-		$this->_redirect('/customer/edit/id/'.$this->_params["id"]);
+		$this->_redirect('/humanresources/employeeview/id/'.$this->_params["id"]);
 	    }
 	    else $form->populate($this->_params);
 	}
 	$this->view->form	= $form;
-	$this->view->Customer	= $Customer;
+	$this->view->Employee	= $Employee;
     }
     
     public function addphoneAction(){
@@ -190,10 +168,10 @@ class CustomerController extends Zend_Controller_Action
 	
 	try {
 	    if(!isset($this->_params["id"]))throw new Exception("Can not add phone number. No Id");
-	    /* @var $Customer Entities\Customer */
-	    $Customer	= $em->find("Entities\Customer", $this->_params["id"]);
+	    /* @var $Employee Entities\Employee */
+	    $Employee	= $em->find("Entities\Employee", $this->_params["id"]);
 	    
-	    if(!$Customer)throw new Exception("Can not add phone number. No Customer with that Id");
+	    if(!$Employee)throw new Exception("Can not add phone number. No Employee with that Id");
 	    
 	    $form = new Form_Person_Phonenumber(array("method" => "post"));
 	    
@@ -202,12 +180,12 @@ class CustomerController extends Zend_Controller_Action
 		    "cancel", 
 		    array(
 			"label" => "cancel", 
-			"onclick" => "location='/customer/edit/id/".$this->_params["id"]."'"
+			"onclick" => "location='/humanresources/employeeview/id/".$this->_params["id"]."'"
 			)
 		    );
 	} catch (Exception $exc) {
 	    $flashMessenger->addMessage(array('message' => $exc->getMessage(), 'status' => 'error'));
-	    $this->_redirect('/customer/edit/id/'.$this->_params["id"]);
+	    $this->_redirect('/humanresources/employeeview/id/'.$this->_params["id"]);
 	}
 	
 	if($this->_request->isPost())
@@ -222,26 +200,26 @@ class CustomerController extends Zend_Controller_Action
 		    $Phonenumber->setNum1($phone_data["phone_number"]["prefix"]);
 		    $Phonenumber->setNum2($phone_data["phone_number"]["line"]);
 		    $Phonenumber->setExtension($phone_data["extension"]);
-		    $Customer->addPhoneNumber($Phonenumber);
+		    $Employee->addPhoneNumber($Phonenumber);
 		    
-		    $em->persist($Customer);
+		    $em->persist($Employee);
 		    $em->flush();
 		    $flashMessenger->addMessage(
 			    array(
-				'message' => "Customer Phone Number '".$Phonenumber->getType()."' for '".
-						$Customer->getFullName()."' Added", 
+				'message' => "Employee Phone Number '".$Phonenumber->getType()."' for '".
+						$Employee->getFullName()."' Added", 
 				'status' => 'success'
 				)
 			    );
 		} catch (Exception $exc) {
 		    $flashMessenger->addMessage(array('message' => $exc->getMessage(), 'status' => 'error'));
 		}
-		$this->_redirect('/customer/edit/id/'.$this->_params["id"]);
+		$this->_redirect('/humanresources/employeeview/id/'.$this->_params["id"]);
 	    }
 	    else $form->populate($this->_params);
 	}
 	$this->view->form	= $form;
-	$this->view->Customer	= $Customer;
+	$this->view->Employee	= $Employee;
     }
     
     public function editaddressAction(){
@@ -428,10 +406,10 @@ class CustomerController extends Zend_Controller_Action
 	
 	try {
 	    if(!isset($this->_params["id"]))throw new Exception("Can not add email address. No Id");
-	    /* @var $Customer Entities\Customer */
-	    $Customer	= $em->find("Entities\Customer", $this->_params["id"]);
+	    /* @var $Employee Entities\Employee */
+	    $Employee	= $em->find("Entities\Employee", $this->_params["id"]);
 	    
-	    if(!$Customer)throw new Exception("Can not add email address. No Customer with that Id");
+	    if(!$Employee)throw new Exception("Can not add email address. No Employee with that Id");
 	    
 	    $form = new Form_Person_Emailaddress(array("method" => "post"));
 	    
@@ -440,12 +418,12 @@ class CustomerController extends Zend_Controller_Action
 		    "cancel", 
 		    array(
 			"label" => "cancel", 
-			"onclick" => "location='/customer/edit/id/".$this->_params["id"]."'"
+			"onclick" => "location='/humanresources/employeeview/id/".$this->_params["id"]."'"
 			)
 		    );
 	} catch (Exception $exc) {
 	    $flashMessenger->addMessage(array('message' => $exc->getMessage(), 'status' => 'error'));
-	    $this->_redirect('/customer/edit/id/'.$this->_params["id"]);
+	    $this->_redirect('/humanresources/employeeview/id/'.$this->_params["id"]);
 	}
 	
 	if($this->_request->isPost())
@@ -457,176 +435,26 @@ class CustomerController extends Zend_Controller_Action
 		    $Emailaddress = new \Entities\Emailaddress();
 		    $Emailaddress->setType($email_data["type"]);
 		    $Emailaddress->setAddress($email_data["address"]);
-		    $Customer->addEmailAddress($Emailaddress);
+		    $Employee->addEmailAddress($Emailaddress);
 		    
-		    $em->persist($Customer);
+		    $em->persist($Employee);
 		    $em->flush();
 		    $flashMessenger->addMessage(
 			    array(
-				'message' => "Customer Email Address '".$Emailaddress->getType()."' for '".
-						$Customer->getFullName()."' Added", 
+				'message' => "Employee Email Address '".$Emailaddress->getType()."' for '".
+						$Employee->getFullName()."' Added", 
 				'status' => 'success'
 				)
 			    );
 		} catch (Exception $exc) {
 		    $flashMessenger->addMessage(array('message' => $exc->getMessage(), 'status' => 'error'));
 		}
-		$this->_redirect('/customer/edit/id/'.$this->_params["id"]);
+		$this->_redirect('/humanresources/employeeview/id/'.$this->_params["id"]);
 	    }
 	    else $form->populate($this->_params);
 	}
 	$this->view->form	= $form;
-	$this->view->Customer	= $Customer;
-    }
-    
-    public function editcontactAction(){
-	$em		= $this->_helper->EntityManager();
-	$flashMessenger = $this->_helper->getHelper('FlashMessenger');
-	
-	try {
-	    if(!isset($this->_params["customer_id"]))throw new Exception("Can not edit contact. No Id");
-	    /* @var $Customer Entities\Customer */
-	    $Customer  = $em->find("Entities\Customer", $this->_params["customer_id"]);
-	    /* @var $Customer Entities\Contact */
-	    $Contact   = $em->find("Entities\Contact", $this->_params["contact_id"]);
-	    
-	    if(!$Customer || !$Contact)throw new Exception("Can not edit contact. No Customer or Contact with that Id");
-	    
-	    $form = new Form_Person_Contact(array("method" => "post"), $Contact);
-	    
-	    $form->addElement(
-		    "button", 
-		    "cancel", 
-		    array(
-			"label" => "cancel", 
-			"onclick" => "location='/customer/edit/id/".$this->_params["customer_id"]."'"
-			)
-		    );
-	} catch (Exception $exc) {
-	    $flashMessenger->addMessage(array('message' => $exc->getMessage(), 'status' => 'error'));
-	    $this->_redirect('/customer/edit/id/'.$this->_params["customer_id"]);
-	}
-	
-	if($this->_request->isPost())
-	{
-	    if($form->isValid($this->_params))
-	    {
-		try {
-		    $contact_data = $this->_params["contact"];
-		    
-		    $Contact->setType($contact_data["type"]);
-		    $Contact->setTypeDetail($contact_data["type_detail"]);
-		    $Contact->setNote($contact_data["note"]);
-		    $Contact->setResult($contact_data["result"]);
-		    
-		    $em->persist($Contact);
-		    $em->flush();
-		    $flashMessenger->addMessage(
-			    array(
-				'message' => "Customer Contact on '".
-						$Contact->getCreated()->format("F j, Y, g:i a").
-						"' for '".$Customer->getFullName()."' Edited", 
-				'status' => 'success'
-				)
-			    );
-		} catch (Exception $exc) {
-		    $flashMessenger->addMessage(array('message' => $exc->getMessage(), 'status' => 'error'));
-		}
-		$this->_redirect('/customer/edit/id/'.$this->_params["customer_id"]);
-	    }
-	    else $form->populate($this->_params);
-	}
-	$this->view->form	= $form;
-	$this->view->Customer	= $Customer;
-    }
-    
-    public function addcontactAction(){
-	$Auth		= new Services\Auth\Auth();
-	$Person		= $Auth->getIdentityWebAccount()->getPerson();
-	$em		= $this->_helper->EntityManager();
-	$flashMessenger = $this->_helper->getHelper('FlashMessenger');
-	
-	try {
-	    if(!isset($this->_params["id"]))throw new Exception("Can not add contact. No Id");
-	    /* @var $Customer \Entities\Customer */
-	    $em->flush();
-	    $Customer	= $em->find("Entities\Customer", $this->_params["id"]);
-	    
-	    if(!$Customer)throw new Exception("Can not add contact. No Customer with that Id");
-	    
-	    $Contact	    = new \Entities\Contact();
-	    
-	    if(isset($this->_params["type"]) && key_exists($this->_params["type"], $Contact->getTypeOptions())){
-		$Contact->setType($this->_params["type"]);
-		if(isset($this->_params["type_id"])){
-		    switch ($this->_params["type"]) {
-			case "phone":
-			    $Phonenumber = $this->_helper->EntityManager()->find("Entities\Phonenumber", $this->_params["type_id"]);
-			    if($Phonenumber)$Contact->setTypeDetail ($Phonenumber->getNumberDisplay());
-			    break;
-			case "location":
-			    $Location = $this->_helper->EntityManager()->find("Entities\Location", $this->_params["type_id"]);
-			    if($Location)$Contact->setTypeDetail ($Location->getName());
-			    break;
-			case "email":
-			    $Email = $this->_helper->EntityManager()->find("Entities\Emailaddress", $this->_params["type_id"]);
-			    if($Email)$Contact->setTypeDetail ($Email->getAddress());
-			    break;
-		    }
-		}
-	    }
-	    
-	    $form = new Form_Person_Contact(array("method" => "post"), $Contact);
-	    
-	    $form->addElement(
-		    "button", 
-		    "cancel", 
-		    array(
-			"label" => "cancel", 
-			"onclick" => "location='/customer/edit/id/".$this->_params["id"]."'"
-			)
-		    );
-	} catch (Exception $exc) {
-	    $flashMessenger->addMessage(array('message' => $exc->getMessage(), 'status' => 'error'));
-	    $this->_redirect('/customer/edit/id/'.$this->_params["id"]);
-	}
-	
-	if($this->_request->isPost())
-	{
-	    if($form->isValid($this->_params))
-	    {
-		try {
-		    $contact_data   = $this->_params["contact"];
-		    $Contact	    = new \Entities\Contact();
-		    
-		    $Contact->setType($contact_data["type"]);
-		    $Contact->setTypeDetail($contact_data["type_detail"]);
-		    $Contact->setNote($contact_data["note"]);
-		    $Contact->setResult($contact_data["result"]);
-		    $Contact->setPerson($Person);
-		    
-		    $Customer->addContact($Contact);
-		    
-		    $em->persist($Customer);
-		    $em->flush();
-		    
-		    $flashMessenger->addMessage(
-			    array(
-				'message' => "Contact '".
-						$Contact->getCreated()->format("F j, Y, g:i a").
-						"' added to '".$Contact->getLead()->getFullName()."'", 
-				'status' => 'success'
-				)
-			    );
-		} catch (Exception $exc) {
-		    $flashMessenger->addMessage(array('message' => $exc->getMessage(), 'status' => 'error'));
-		}
-		$this->_redirect('/customer/edit/id/'.$this->_params["id"]);
-	    }
-	    else $form->populate($this->_params);
-	}
-	$this->view->form	= $form;
-	$this->view->Customer	= $Customer;
+	$this->view->Employee	= $Employee;
     }
 }
 

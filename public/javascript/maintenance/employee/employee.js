@@ -1,42 +1,42 @@
-function Employee() {
+function MN_Employee() {
     
 }
 
-Employee.prototype.EditOnclickBind = function(element){
+MN_Employee.prototype.EditOnclickBind = function(element){
     element.click(function(e){
 	button = $(e.target);
 	location='/maintenance/employeeedit/id/' + button.parent().attr("employee_id");
     });
 }
 
-Employee.prototype.EditWebAccountOnclickBind = function(element){
+MN_Employee.prototype.EditWebAccountOnclickBind = function(element){
     element.click(function(e){
 	button = $(e.target);
 	location='/maintenance/editwebaccount/id/' + button.parent().attr("employee_id");
     });
 }
 
-Employee.prototype.EditRolesOnclickBind = function(element){
+MN_Employee.prototype.EditRolesOnclickBind = function(element){
     element.click(function(e){
 	button = $(e.target);
 	location='/maintenance/editroles/id/' + button.parent().attr("employee_id");
     });
 }
 
-Employee.prototype.AddAddressOnclickBind = function(element){
+MN_Employee.prototype.AddAddressOnclickBind = function(element){
     element.click(function(e){
 	button = $(e.target);
 	location='/maintenance/addaddress/id/' + button.parent().attr("employee_id");
     });
 }
 
-Employee.prototype.AddOnclickBind = function(element){
+MN_Employee.prototype.AddOnclickBind = function(element){
     element.click(function(){
 	location    ='/maintenance/employeeedit/';
     });
 }
 
-Employee.prototype.RemoveOnclickBind = function(element){
+MN_Employee.prototype.RemoveOnclickBind = function(element){
     element.click(function(e){
 	button	    = $(e.target);
 	role_id	    = button.parent().attr("role_id");
@@ -45,7 +45,7 @@ Employee.prototype.RemoveOnclickBind = function(element){
     });
 }
 
-Employee.prototype.AddRoleOnclickBind = function(element){
+MN_Employee.prototype.AddRoleOnclickBind = function(element){
     element.click(function(e){
 	button	    = $(e.target);
 	role_id	    = $("#add_role_id").val();
@@ -56,7 +56,7 @@ Employee.prototype.AddRoleOnclickBind = function(element){
     });
 }
 
-Employee.prototype.RemoveRoleOnclickBind = function(element){
+MN_Employee.prototype.RemoveRoleOnclickBind = function(element){
     element.click(function(e){
 	button	    = $(e.target);
 	role_id	    = button.parent().attr("role_id");

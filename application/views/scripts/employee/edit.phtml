@@ -1,0 +1,9 @@
+<?php echo($this->flashMessages()); ?>
+<h1 class="header1">Edit Employee</h1>
+<div class="blue_frame padded_frame">
+    <?php echo $this->form;?>
+</div>
+<script type="text/javascript">
+    Employee = new Employee();
+    Employee.LocationSelectOnchangeBind("#employee-company");
+</script>

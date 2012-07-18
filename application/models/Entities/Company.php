@@ -25,18 +25,19 @@ class Company
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="Location", mappedBy="company", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @OneToMany(targetEntity="Location", mappedBy="company", cascade={"persist"})
      */
     private $locations;
     
     public function __construct()
     {
 	$this->locations = new ArrayCollection();
+	$this->employees = new ArrayCollection();
     }
     
     /**
      * Add Location to Company.
-     * @param Loaction $Location
+     * @param Location $Location
      */
     public function addLocation(Location $Location)
     {

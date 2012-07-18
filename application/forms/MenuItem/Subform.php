@@ -10,94 +10,90 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_Menu_Menuitem extends Zend_Form{
-    private $_menuitem;
+class Form_MenuItem_Subform extends Zend_Form_SubForm
+{
+    private $_MenuItem;
     
-    public function __construct($options = null, \Entities\MenuItem $menuitem = null) {
-	$this->_menuitem = $menuitem;
+    public function __construct($options = null, \Entities\MenuItem $MenuItem = null) {
+	$this->_MenuItem = $MenuItem;
 	parent::__construct($options);
     }
     
-    public function init($options = array()){
-	if($this->_menuitem !== null && $this->_menuitem->getId() > 0){
+    public function init(){
+	if($this->_MenuItem !== null && $this->_MenuItem->getId() > 0){
 	    $this->addElement('hidden', 'id', array(
 		'required'  => true,
 		'belongsTo' => 'menuitem',
-		'value'	    => $this->_menuitem ? $this->_menuitem->getId() : ""
+		'value'	    => $this->_MenuItem ? $this->_MenuItem->getId() : ""
 	    ));
 	}
 	
 	$this->addElement('text', 'menu_id', array(
             'required'	    => false,
 	    'disabled'	    => true,
-	    'description'   => $this->_menuitem && $this->_menuitem->getMenuId() ? $this->_menuitem->getMenu()->getName() : "",
+	    'description'   => $this->_MenuItem && $this->_MenuItem->getMenuId() ? $this->_MenuItem->getMenu()->getName() : "",
             'label'	    => 'Menu Id:',
 	    'belongsTo'	    => 'menuitem',
-	    'value'	    => $this->_menuitem ? $this->_menuitem->getMenuId() : ""
+	    'value'	    => $this->_MenuItem ? $this->_MenuItem->getMenuId() : ""
         ));
 	
 	$this->addElement('text', 'parent', array(
             'required'	    => false,
 	    'disabled'	    => true,
-	    'description'   => $this->_menuitem && $this->_menuitem->getParent() ? $this->_menuitem->getParent()->getLabel() : "",
+	    'description'   => $this->_MenuItem && $this->_MenuItem->getParent() ? $this->_MenuItem->getParent()->getLabel() : "",
             'label'	    => 'Parent:',
 	    'belongsTo'	    => 'menuitem',
-	    'value'	    => $this->_menuitem && $this->_menuitem->getParent()? $this->_menuitem->getParent()->getID() : ""
+	    'value'	    => $this->_MenuItem && $this->_MenuItem->getParent()? $this->_MenuItem->getParent()->getID() : ""
         ));
 	
 	$this->addElement('text', 'name_index', array(
             'required'	    => true,
             'label'	    => 'Name Index:',
 	    'belongsTo'	    => 'menuitem',
-	    'value'	    => $this->_menuitem ? $this->_menuitem->getNameIndex() : ""
+	    'value'	    => $this->_MenuItem ? $this->_MenuItem->getNameIndex() : ""
         ));
 	
 	$this->addElement('text', 'label', array(
             'required'	    => true,
             'label'	    => 'Label:',
 	    'belongsTo'	    => 'menuitem',
-	    'value'	    => $this->_menuitem ? $this->_menuitem->getLabel() : ""
+	    'value'	    => $this->_MenuItem ? $this->_MenuItem->getLabel() : ""
         ));
 	
 	$this->addElement('text', 'link_module', array(
             'required'	    => false,
             'label'	    => 'Link Module:',
 	    'belongsTo'	    => 'menuitem',
-	    'value'	    => $this->_menuitem ? $this->_menuitem->getLinkModule() : ""
+	    'value'	    => $this->_MenuItem ? $this->_MenuItem->getLinkModule() : ""
         ));
 	
 	$this->addElement('text', 'link_controller', array(
             'required'	    => false,
             'label'	    => 'Link Controller:',
 	    'belongsTo'	    => 'menuitem',
-	    'value'	    => $this->_menuitem ? $this->_menuitem->getLinkController() : ""
+	    'value'	    => $this->_MenuItem ? $this->_MenuItem->getLinkController() : ""
         ));
 	
 	$this->addElement('text', 'link_action', array(
             'required'	    => false,
             'label'	    => 'Link Action:',
 	    'belongsTo'	    => 'menuitem',
-	    'value'	    => $this->_menuitem ? $this->_menuitem->getLinkAction() : ""
+	    'value'	    => $this->_MenuItem ? $this->_MenuItem->getLinkAction() : ""
         ));
 	
 	$this->addElement('text', 'link_params', array(
             'required'	    => false,
             'label'	    => 'Link Params:',
 	    'belongsTo'	    => 'menuitem',
-	    'value'	    => $this->_menuitem ? $this->_menuitem->getLinkParams() : ""
+	    'value'	    => $this->_MenuItem ? $this->_MenuItem->getLinkParams() : ""
         ));
 	
 	$this->addElement('text', 'icon', array(
             'required'	    => false,
             'label'	    => 'Icon:',
 	    'belongsTo'	    => 'menuitem',
-	    'value'	    => $this->_menuitem ? $this->_menuitem->getIcon() : ""
+	    'value'	    => $this->_MenuItem ? $this->_MenuItem->getIcon() : ""
         ));
-
-        $this->addElement('submit', 'submit', array(
-            'ignore'   => true,
-        ));
-
     }
 }
 

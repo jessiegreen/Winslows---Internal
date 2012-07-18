@@ -10,7 +10,7 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_Lead_Lead extends Form_Person_Person
+class Form_Lead_Subform extends Form_Person_Subform
 {    
     private $_Lead;
     

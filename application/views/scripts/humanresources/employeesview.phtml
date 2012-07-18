@@ -12,28 +12,7 @@
     foreach($this->Employees as $Employee){
 	echo "<div employee_id='".$Employee->getId()."'>";
 	echo HTML::buttonIcon(
-		"group.png", 
-		"editroles_".$Employee->getId(), 
-		"Edit Roles", 
-		"edit_roles", 
-		"padding-right:5px;"
-		);
-	echo HTML::buttonIcon(
-		"house.png", 
-		"addaddress_".$Employee->getId(), 
-		"Add Address", 
-		"add_address", 
-		"padding-right:5px;"
-		);
-	echo HTML::buttonIcon(
-		"key.png", 
-		"editwebaccount_".$Employee->getId(), 
-		"Edit Webaccount", 
-		"edit_webaccount", 
-		"padding-right:5px;"
-		);
-	echo HTML::buttonIcon(
-		"pencil.png", 
+		"user_edit.png", 
 		"editemployee_".$Employee->getId(), 
 		"Edit Employee", 
 		"edit_employee", 
@@ -45,10 +24,7 @@
     ?>
 </fieldset>
 <script type="text/javascript">
-    Employee = new Employee();
-    Employee.AddOnclickBind($("#add_employee"));
-    Employee.EditOnclickBind($(".edit_employee"));
-    Employee.EditWebAccountOnclickBind($(".edit_webaccount"));
-    Employee.AddAddressOnclickBind($(".add_address"));
-    Employee.EditRolesOnclickBind($(".edit_roles"));
+    Hr_Employee = new Hr_Employee();
+    Hr_Employee.AddOnclickBind($("#add_employee"));
+    Hr_Employee.EditOnclickBind($(".edit_employee"));
 </script>

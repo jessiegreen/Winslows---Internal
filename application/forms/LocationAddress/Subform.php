@@ -10,13 +10,13 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_Location_LocationAddress extends Form_Address_Address
+class Form_Location_Subform extends Form_Address_Subform
 {    
     private $_LocationAddress;
     
-    public function __construct($options = null, Entities\LocationAddress $LocationAddress = null, $belongs_to = "locationaddress") {
+    public function __construct($options = null, Entities\LocationAddress $LocationAddress = null) {
 	$this->_LocationAddress = $LocationAddress;
-	parent::__construct($options, $this->_LocationAddress, $belongs_to);
+	parent::__construct($options, $this->_LocationAddress);
     }
     
     public function init($options = array())

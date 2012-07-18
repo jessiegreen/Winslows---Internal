@@ -1,1 +1,161 @@
-employeeview
+<?php 
+echo($this->flashMessages()); 
+echo "<div>";
+echo HTML::backAnchorIcon("Employees", "/humanresources/employeesview");
+echo "</div>";
+/* @var $Employee \Entities\Employee */
+$Employee	= $this->Employee;
+$employee_id	= $Employee->getId();
+$addresses	= $Employee->getPersonAddresses();
+$phones		= $Employee->getPhoneNumbers();
+$emails		= $Employee->getEmailAddresses();
+?>
+<div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
+    <h3 class="no_space" style="color: #2000EE;">
+	Customer Info
+	<?php
+	echo HTML::anchorIcon(
+		"pencil.png", 
+		"", 
+		"/employee/edit/id/".$employee_id,
+		"margin-left:5px;"
+		);
+	?>
+    </h4>
+    <div>
+	Name:<?php echo $Employee->getFullName(); ?> &nbsp;&nbsp;&nbsp; 
+	Company:<?php echo $Employee->getCompany()->getName(); ?> &nbsp;&nbsp;&nbsp; 
+	Location:<?php echo $Employee->getLocation()->getName(); ?>
+    </div>
+</div>
+<div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">
+    <div id="accordion">
+	<h3>
+	    <a href="#">Address</a>
+	    <?php echo HTML::buttonBlue("building_add.png", "Add Address", "address_add", "float:right;width:110px;");?>
+	</h3>
+	<div>
+	    <?php
+	    /* @var $Address \Entities\Address */
+	    foreach ($addresses as $Address) {
+		?>
+		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
+		    <?php 
+		    echo $Address->getName();
+		    echo HTML::anchorIcon(
+			    "pencil.png", 
+			    "", 
+			    "/employee/editaddress/employee_id/".$employee_id."/address_id/".$Address->getId(),
+			    "margin-left:5px;"
+			    );
+		    ?>
+		</h4>
+		<label for="addr_1_addr1">Address 1:</label>
+		<div id="addr_1_addr1" style="display: inline;"><?php echo $Address->getAddress1(); ?></div><br />
+		<label for="addr_1_addr2">Address 2:</label>
+		<div id="addr_1_addr2" style="display: inline;"><?php echo $Address->getAddress2(); ?></div><br />
+		<label for="addr_1_csz">City/ST/Zip:</label>
+		<div id="addr_1_csz" style="display: inline;">
+		    <?php 
+		    echo $Address->getCity().", ".
+			    $Address->getState()." ".
+			    $Address->getZip1()."-".
+			    $Address->getZip2(); ?>
+		</div>
+		<?php
+	    }
+	    ?>
+	</div>
+	<hr />
+	<h3>
+	    <a href="#">Phone</a>
+	    <?php 
+	    echo HTML::buttonBlue(
+		    "phone_add.png", 
+		    "Add Phone", 
+		    "phone_add", "float:right;width:110px;"
+		    );?>
+	</h3>
+	<div>
+	    <?php
+	    /* @var $Phonenumber \Entities\Phonenumber */
+	    foreach ($phones as $Phonenumber) {
+		?>
+		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
+		    <?php 
+		    echo $Phonenumber->getType(); 
+		    echo HTML::anchorIcon(
+			    "pencil.png", 
+			    "", 
+			    "/employee/editphone/employee_id/".$employee_id."/phonenumber_id/".
+				$Phonenumber->getId(), 
+			    "margin-left:5px;"
+			    );
+		    ?>
+		</h4>
+		<label for="phone1">Num:</label>
+		<div id="phone1" style="display: inline;">
+		    <?php 
+		    echo "(".$Phonenumber->getAreaCode().") ".$Phonenumber->getNum1()."-".$Phonenumber->getNum2(); 
+		    ?>
+		</div><br />
+		<label for="ext1">Ext:</label>
+		<div id="ext1" style="display: inline;">
+		    <?php 
+		    echo $Phonenumber->getExtension(); 
+		    ?>
+		</div>
+		<?php
+	    }
+	    ?>
+	</div>
+	<hr />
+	<h3>
+	    <a href="#">Email</a>
+	    <?php 
+	    echo HTML::buttonBlue(
+		    "email_add.png", 
+		    "Add Email", 
+		    "email_add", "float:right;width:110px;"
+		    );?>
+	</h3>
+	<div>
+	    <?php
+	    /* @var $Emailaddress \Entities\Emailaddress */
+	    foreach ($emails as $Emailaddress) {
+		?>
+		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
+		    <?php 
+		    echo $Emailaddress->getType(); 
+		    echo HTML::anchorIcon(
+			    "pencil.png", 
+			    "", 
+			    "/employee/editemail/employee_id/".$employee_id."/emailaddress_id/".
+				$Emailaddress->getId(), 
+			    "margin-left:5px;"
+			    );
+		    ?>
+		</h4>
+		<label for="emailaddress">Address:</label>
+		<div id="emailaddress" style="display: inline;">
+		    <?php 
+		    echo $Emailaddress->getAddress(); 
+		    ?>
+		</div>
+		<?php
+	    }
+	    ?>
+	</div>
+    </div>
+</div>
+<div class="padded_frame" style="width: 415px;float: right;padding-top: 0px;">
+    <h3><a href="#">Documents</a></h3>
+    <div>Put Documents here</div>
+</div>
+<div style="clear: both;"><input type="hidden" id="employee_id" value="<?php echo $employee_id;?>" /></div>
+<script type="text/javascript">
+    Hr_Employee = new Hr_Employee();
+    Hr_Employee.AddPhoneClickBind("phone_add");
+    Hr_Employee.AddAddressClickBind("address_add");
+    Hr_Employee.AddEmailClickBind("email_add");
+</script>

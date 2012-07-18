@@ -10,7 +10,7 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_Employee_Employee extends Form_Person_Person
+class Form_Employee extends Zend_Form
 {    
     private $_Employee;
     
@@ -21,13 +21,13 @@ class Form_Employee_Employee extends Form_Person_Person
     
     public function init($options = array())
     {	
-        $this->addElement('text', 'title', array(
-            'required'	    => false,
-            'label'	    => 'Title:',
-	    'belongsTo'	    => 'employee',
-	    'value'	    => $this->_Employee ? $this->_Employee->getTitle() : ""
+	$form = new Form_Employee_Subform($options, $this->_Employee);
+	
+        $this->addSubForm($form, "employee");
+
+        $this->addElement('submit', 'submit', array(
+            'ignore'	    => true,
         ));
-	parent::init($options);
     }
 }
 

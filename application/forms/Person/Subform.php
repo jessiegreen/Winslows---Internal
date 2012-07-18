@@ -10,9 +10,9 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_Person_Person extends Zend_Form
+class Form_Person_Subform extends Zend_Form_SubForm
 {
-    protected $_Person;
+    private $_Person;
     
     public function __construct($options = null, Entities\Person $Person = null) {
 	$this->_Person = $Person;
@@ -47,11 +47,6 @@ class Form_Person_Person extends Zend_Form
 	    'belongsTo'	    => 'person',
 	    'value'	    => $this->_Person ? $this->_Person->getSuffix() : ""
         ));
-
-        $this->addElement('submit', 'submit', array(
-            'ignore'	    => true,
-        ));
-
     }
 }
 

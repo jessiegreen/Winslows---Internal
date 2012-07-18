@@ -10,22 +10,20 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_Address_Address extends Zend_Form
+class Form_Address_Subform extends Zend_Form_SubForm
 {
     private $_Address;
-    private $_belongs_to;
     
-    public function __construct($options = null, Entities\Address $Address = null, $belongs_to = "address") {
+    public function __construct($options = null, Entities\Address $Address = null) {
 	$this->_Address	    = $Address;
-	$this->_belongs_to  = $belongs_to;
 	parent::__construct($options);
     }
     
-    public function init($options = array()){	
+    public function init(){	
 	$this->addElement('text', 'name', array(
             'required'	    => true,
             'label'	    => 'Address Name:',
-	    'belongsTo'	    => $this->_belongs_to,
+	    'belongsTo'	    => "address",
 	    'description'   => '(Ex. Home)',
 	    'value'	    => $this->_Address ? $this->_Address->getName() : ""
         ));
@@ -81,11 +79,6 @@ class Form_Address_Address extends Zend_Form
 	    'belongsTo'	    => $this->_belongs_to,
 	    'value'	    => $this->_Address ? $this->_Address->getZip2() : ""
         ));
-
-        $this->addElement('submit', 'submit', array(
-            'ignore'   => true,
-        ));
-
     }
 }
 

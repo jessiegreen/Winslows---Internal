@@ -10,13 +10,13 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_PersonAddress_PersonAddress extends Form_Address_Address
+class Form_PersonAddress_Subform extends Form_Address_Subform
 {    
     private $_PersonAddress;
     
-    public function __construct($options = null, Entities\PersonAddress $PersonAddress = null, $belongs_to = "address") {
+    public function __construct($options = null, Entities\PersonAddress $PersonAddress = null) {
 	$this->_PersonAddress = $PersonAddress;
-	parent::__construct($options, $this->_PersonAddress, $belongs_to);
+	parent::__construct($options, $this->_PersonAddress);
     }
     
     public function init($options = array())

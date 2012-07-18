@@ -22,6 +22,21 @@ class Employee extends Person
     /** @Column(type="string", length=255) */
     private $title;
     
+    /**
+     * @ManyToOne(targetEntity="Location", inversedBy="employees")
+     * @JoinColumn(name="location_id", referencedColumnName="id")
+     * @var Location $Location
+     */
+    private $Location;
+    
+    public function getLocation(){
+	return $this->Location;
+    }
+    
+    public function setLocation(Location $Location){
+	$this->Location = $Location;
+    }
+    
     public function getTitle()
     {
         return $this->title;
@@ -30,7 +45,7 @@ class Employee extends Person
     public function setTitle($title)
     {
         $this->title = $title;
-    }    
+    }  
 }
 
 ?>

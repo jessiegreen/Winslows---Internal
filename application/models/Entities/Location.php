@@ -35,8 +35,16 @@ class Location
      */     
     private $company;
     
+    /**
+     * Bidirectional - One-To-Many (INVERSE SIDE)
+     *
+     * @OneToMany(targetEntity="Employee", mappedBy="Location", cascade={"persist"})
+     */
+    private $employees;
+    
     public function __construct()
     {
+	$this->employees = new ArrayCollection();
     }
     
     public function getCompany(){
@@ -45,6 +53,24 @@ class Location
     
     public function setCompany(Company $Company){
 	$this->company = $Company;
+    }
+    
+    /**
+     * Add Employee to Location.
+     * @param Employee $Employee
+     */
+    public function addEmployee(Employee $Employee)
+    {
+	$Employee->setLocation($this);
+        $this->employees[] = $Employee;
+    }
+    
+    /**
+     * Retrieve location's associated employees.
+     */
+    public function getEmployees()
+    {
+      return $this->employees;
     }
 
     public function getId()

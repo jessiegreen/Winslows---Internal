@@ -22,7 +22,7 @@ class HumanresourcesController extends Zend_Controller_Action
     }
 
     public function employeesviewAction(){
-	$this->view->headScript()->appendFile("/javascript/maintenance/employee/employee.js");
+	$this->view->headScript()->appendFile("/javascript/humanresources/employee/employee.js");
 	
 	$em			= $this->_helper->EntityManager();
 	$EmployeeRepos		= $em->getRepository("Entities\Employee");
@@ -30,7 +30,24 @@ class HumanresourcesController extends Zend_Controller_Action
     }
     
     public function employeeviewAction(){
+	$this->view->headScript()->appendFile("/javascript/humanresources/employee/employee.js");
 	
+	$flashMessenger = $this->_helper->getHelper('FlashMessenger');
+	$redirect	= false;
+	
+	if(isset($this->_params["id"])){
+	    $Employee = $this->_helper->EntityManager()->find("Entities\Employee", $this->_params["id"]);
+	    if(!$Employee)$redirect = true;
+	}
+	else $redirect = true;
+	if($redirect){
+	    $flashMessenger->addMessage(array("message" => "Could not get Employee", "status" =>  "error"));
+	}
+	
+	$CompanyService		= new \Services\Company\Company();
+	$Company		= $CompanyService->getCurrentCompany();
+	$this->view->Employee	= $Employee;
+	$this->view->Locations	= $Company->getLocations();
     }
 }
 
