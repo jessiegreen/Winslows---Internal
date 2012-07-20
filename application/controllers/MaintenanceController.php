@@ -161,15 +161,14 @@ class MaintenanceController extends Zend_Controller_Action
     public function navigationviewAction(){
 	$this->view->headScript()->appendFile("/javascript/maintenance/navigation/navigation.js");
 	
-	$MenuService = new \Services\Menu\Menu;
-	$this->view->menu_items = $MenuService->getMenuParentItems("Top");
+	$this->view->menu_items = \Services\Menu::factory()->getMenuParentItems("Top");
     }
     
     public function navigationeditAction()
     {
 	/* @var $em \Doctrine\ORM\EntityManager */
-	$em = $this->_helper->EntityManager();
-	$MenuService    = new \Services\Menu\Menu;
+	$em	= $this->_helper->EntityManager();
+	$Menu   = \Services\Menu::factory()->getMenuByName("Top");
 	
 	if(isset($this->_params['id'])){
 	    /* @var $MenuItem \Entities\MenuItem */
@@ -196,7 +195,6 @@ class MaintenanceController extends Zend_Controller_Action
 	elseif (isset($this->_params['parent_id']))
 	{
 	    $MenuItem	    = new \Entities\MenuItem;
-	    $Menu	    = $MenuService->getMenuByName("Top");
 	    $ParentMenuItem = $em->getRepository("Entities\MenuItem")->findOneById($this->_params['parent_id']);
 	    $MenuItem->setParent($ParentMenuItem);
 	    $MenuItem->setMenu($Menu);
@@ -223,7 +221,6 @@ class MaintenanceController extends Zend_Controller_Action
 	else
 	{
 	    $MenuItem	    = new \Entities\MenuItem;
-	    $Menu	    = $MenuService->getMenuByName("Top");
 	    $MenuItem->setMenu($Menu);
 	    $form	    = new Form_Menu_Menuitem(array("method" => "post"), $MenuItem);
 	    if($this->_request->isPost())
@@ -568,10 +565,10 @@ class MaintenanceController extends Zend_Controller_Action
 	    $Employee	= $em->find("Entities\Employee", $this->_params["id"]);
 	    
 	    if(!$Employee)throw new Exception("Can not edit web account. No Employee with that Id");
-	    /* @var $Webaccount \Entities\Webaccount */
-	    $Webaccount = $Employee->getWebAccount();
+	    /* @var $WebAccount \Entities\WebAccount */
+	    $WebAccount = $Employee->getWebAccount();
 	    
-	    $form = new Form_Webaccount_Webaccount(array("method" => "post"), $Webaccount, false);
+	    $form = new Form_WebAccount_WebAccount(array("method" => "post"), $WebAccount, false);
 	    
 	    $form->addElement(
 		    "button", 
@@ -592,14 +589,14 @@ class MaintenanceController extends Zend_Controller_Action
 	    {
 		try {
 		    $new = false;
-		    if(!$Webaccount){
-			$Webaccount	= new Entities\Webaccount(); 
+		    if(!$WebAccount){
+			$WebAccount	= new Entities\WebAccount(); 
 			$new		= true;
 		    }
 		    
-		    $Webaccount->setUsername($this->_params['webaccount']['username']);
-		    $Webaccount->setPassword($this->_params['webaccount']['password']);
-		    $Employee->setWebaccount($Webaccount);
+		    $WebAccount->setUsername($this->_params['webaccount']['username']);
+		    $WebAccount->setPassword($this->_params['webaccount']['password']);
+		    $Employee->setWebAccount($WebAccount);
 		    
 		    $em->persist($Employee);
 		    $em->flush();
@@ -644,12 +641,12 @@ class MaintenanceController extends Zend_Controller_Action
 	    $em		= $this->_helper->EntityManager();
 	    /* @var $Employee \Entities\Employee */
 	    $Employee	= $em->find("Entities\Employee", $employee_id);
-	    /* @var $Webaccount \Entities\Webaccount */
-	    $Webaccount = $Employee->getWebAccount();
+	    /* @var $WebAccount \Entities\WebAccount */
+	    $WebAccount = $Employee->getWebAccount();
 	    $Role	= $em->find("Entities\Role", $role_id);
-	    if($Webaccount && $Role){
-		$Webaccount->addRole($Role);
-		$em->persist($Webaccount);
+	    if($WebAccount && $Role){
+		$WebAccount->addRole($Role);
+		$em->persist($WebAccount);
 		$em->flush();
 		$flashMessenger->addMessage(array('message' => "Role Added", 'status' => 'success'));
 		$this->_redirect('/maintenance/editroles/id/'.$Employee->getId());
@@ -680,13 +677,13 @@ class MaintenanceController extends Zend_Controller_Action
 	    $em		= $this->_helper->EntityManager();
 	    /* @var $Resource \Entities\Employee */
 	    $Employee	= $em->find("Entities\Employee", $employee_id);
-	    $Webaccount = $Employee->getWebAccount();
-	    if($Webaccount){
-		if(!$Webaccount->removeRole($role_id)){
+	    $WebAccount = $Employee->getWebAccount();
+	    if($WebAccount){
+		if(!$WebAccount->removeRole($role_id)){
 		    $flashMessenger->addMessage(array('message' => "Could Not Remove Role", 'status' => 'error'));
 		    $this->_redirect('/maintenance/editroles/id/'.$employee_id);
 		}
-		$em->persist($Webaccount);
+		$em->persist($WebAccount);
 		$em->flush();
 		$flashMessenger->addMessage(array('message' => "Role Removed", 'status' => 'success'));
 		$this->_redirect('/maintenance/editroles/id/'.$employee_id);
@@ -777,10 +774,9 @@ class MaintenanceController extends Zend_Controller_Action
     }
     
     public function companiesviewAction(){
-	$this->view->headScript()->appendFile("/javascript/maintenance/navigation/Company.js");
+	$this->view->headScript()->appendFile("/javascript/maintenance/navigation/company.js");
 	
-	$CompanyService		= new \Services\Company\Company();
-	$this->view->companies	= $CompanyService->getCompanies();
+	$this->view->companies	= Services\Company::factory()->getCompanies();
     }
 }
 

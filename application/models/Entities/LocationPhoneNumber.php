@@ -3,25 +3,28 @@
  * Name:
  * Location:
  *
+ * Description for class (if any)...
+ *
  * @author     Jessie Green <jessie.winslows@gmail.com>
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
 namespace Entities;
 /** 
- * @Entity (repositoryClass="Repositories\LocationAddress") 
- * @Table(name="location_addresses") 
+ * @Entity (repositoryClass="Repositories\LocationPhoneNumber") 
+ * @Table(name="location_phonenumbers") 
  */
 
-class LocationAddress extends Address
+class LocationPhoneNumber extends PhoneNumber
 {
     /** 
-     * @OneToOne(targetEntity="Location", inversedBy="LocationAddress")
+     * @OneToOne(targetEntity="Location", inversedBy="LocationPhoneNumber")
      */     
     private $Location;
     
+    
     /**
-     * Add Location to address.
+     * Set location for phone number.
      * @param Location $Location
      */
     public function setLocation(Location $Location)
@@ -30,7 +33,7 @@ class LocationAddress extends Address
     }
     
     /**
-     * Retrieve address's associated location.
+     * Retrieve Location associated to phone number.
      */
     public function getLocation()
     {

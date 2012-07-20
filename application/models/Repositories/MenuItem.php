@@ -32,7 +32,7 @@ class MenuItem extends EntityRepository
      * @return  array
      */
     public function getMenuParentItemsByMenuId($menu_id){
-	$MenuItemsArray = $this->findBy(array("parent" => null, "menu_id" => $menu_id), array("label" => "ASC"));
+	$MenuItemsArray = $this->findBy(array("parent" => null, "Menu_id" => $menu_id), array("label" => "ASC"));
 	return $MenuItemsArray;
     }
 

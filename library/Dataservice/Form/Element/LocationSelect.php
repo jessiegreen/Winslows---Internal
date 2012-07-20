@@ -4,12 +4,12 @@
  *
  * @author jgreen
  */
-class Dataservice_Form_Element_LocationSelect extends Zend_Form_Element_Select {
-    public function init() {
-        $LocationService = new Services\Location\Location();
-	
+class Dataservice_Form_Element_LocationSelect extends Zend_Form_Element_Select
+{
+    public function init()
+    {	
         $this->addMultiOption("", 'Please select...');
-        foreach ($LocationService->getLocations() as $Location) {
+        foreach (Services\Location::factory()->getLocations() as $Location) {
             $this->addMultiOption($Location->getId(), $Location->getName());
         }
     }

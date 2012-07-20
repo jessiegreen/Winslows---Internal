@@ -20,23 +20,22 @@ class Privilege
     private $name;
     
     /**
-     * @ManyToOne(targetEntity="Role", inversedBy="privileges")
-     * @JoinColumn(name="role_id", referencedColumnName="id")
-     * @var $person null | Person
+     * @ManyToOne(targetEntity="Role", inversedBy="Privileges")
+     * @var $Role null | Role
      */
-    private $role;
+    private $Role;
     
     public function __construct()
     {
 	
     }
     
-    public function setRole(Role $role){
-	$this->role = $role;
+    public function setRole(Role $Role){
+	$this->Role = $Role;
     }
     
     public function getRole(){
-	return $this->role;
+	return $this->Role;
     }
 
     /**
@@ -57,4 +56,11 @@ class Privilege
         $this->name = $name;
     }
 
+    public function populate(array $array){
+	foreach ($array as $key => $value) {
+	    if(property_exists($this, $key)){
+		$this->$key = $value;
+	    }
+	}
+    }
 }

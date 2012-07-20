@@ -12,15 +12,15 @@
 namespace Entities;
 /** 
  * @Entity (repositoryClass="Repositories\PersonDocument") 
- * @Table(name="persondocuments") 
+ * @Table(name="person_documents") 
  */
 
 class PersonDocument extends Document
 {
     /** 
-     * @ManyToOne(targetEntity="Person", inversedBy="persondocuments")
+     * @ManyToOne(targetEntity="Person", inversedBy="PersonDocuments")
      */     
-    private $person;
+    private $Person;
     
     protected $type_options = array(
 	"generic_person"    => "Generic Person"
@@ -31,9 +31,9 @@ class PersonDocument extends Document
      * Add person to document.
      * @param Person $person
      */
-    public function setPerson(Person $person)
+    public function setPerson(Person $Person)
     {
-        $this->person = $person;
+        $this->Person = $Person;
     }
     
     /**
@@ -41,10 +41,14 @@ class PersonDocument extends Document
      */
     public function getPerson()
     {
-	return $this->person;
+	return $this->Person;
     }
     
-    
+    public function populate(array $array){
+	foreach ($array as $key => $value) {
+	    if(property_exists($this, $key)){
+		$this->$key = $value;
+	    }
+	}
+    }
 }
-
-?>

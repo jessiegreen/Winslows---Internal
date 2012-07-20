@@ -1,5 +1,5 @@
 <?php
-namespace Services\Company;
+namespace Services;
 
 use Doctrine\ORM\EntityManager;
 
@@ -16,6 +16,10 @@ class Company {
         $front			= \Zend_Controller_Front::getInstance();
 	$bootstrap		= $front->getParam("bootstrap");
 	$this->_em		= $bootstrap->getResource('entityManager');
+    }
+    
+    public static function factory(){
+	return new Company;
     }
     
     /**

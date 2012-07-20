@@ -67,8 +67,8 @@ class Document  implements \Interfaces\Document
         $this->updated = new \DateTime("now");
     }
     
-    public function setWebAccountUploadedBy(Webaccount $Webaccount){
-	$this->WebAccount = $Webaccount;
+    public function setWebAccountUploadedBy(WebAccount $WebAccount){
+	$this->WebAccount = $WebAccount;
     }
     
     public function getWebAccountUploadedBy(){
@@ -162,4 +162,11 @@ class Document  implements \Interfaces\Document
 	return $this->typeoptions;
     }
 
+    public function populate(array $array){
+	foreach ($array as $key => $value) {
+	    if(property_exists($this, $key)){
+		$this->$key = $value;
+	    }
+	}
+    }
 }

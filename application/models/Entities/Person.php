@@ -40,45 +40,37 @@ class Person
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="PersonAddress", mappedBy="person", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @OneToMany(targetEntity="PersonAddress", mappedBy="Person", cascade={"persist", "remove"}, orphanRemoval=true)
      */
-    protected $personaddresses;
+    protected $PersonAddresses;
     
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="PersonDocument", mappedBy="person", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @OneToMany(targetEntity="PersonDocument", mappedBy="Person", cascade={"persist", "remove"}, orphanRemoval=true)
      */
-    protected $persondocuments;
+    protected $PersonDocuments;
     
     /**
-     * @ManyToMany(targetEntity="Phonenumber", cascade={"persist", "remove"})
-     * @JoinTable(name="person_phonenumbers",
-     *      joinColumns={@JoinColumn(name="person_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@JoinColumn(name="phonenumber_id", referencedColumnName="id", unique=true)}
-     *      )
+     * @OneToMany(targetEntity="PersonPhoneNumber", mappedBy="Person", cascade={"persist", "remove"}, orphanRemoval=true)
      */
-    private $phonenumbers;
+    private $PersonPhoneNumbers;
     
     /**
-     * @ManyToMany(targetEntity="Emailaddress", cascade={"persist", "remove"})
-     * @JoinTable(name="person_emailaddresses",
-     *      joinColumns={@JoinColumn(name="person_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@JoinColumn(name="emailaddress_id", referencedColumnName="id", unique=true)}
-     *      )
+     * @OneToMany(targetEntity="PersonEmailAddress", mappedBy="Person", cascade={"persist", "remove"}, orphanRemoval=true)
      */
-    private $emailaddresses;
+    private $PersonEmailAddresses;
     
     /**
-     * @OneToOne(targetEntity="Webaccount", mappedBy="person", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @OneToOne(targetEntity="WebAccount", mappedBy="Person", cascade={"persist", "remove"}, orphanRemoval=true)
      */
-    protected $webaccount;
+    protected $WebAccount;
 
     public function __construct()
     {
-      $this->personaddresses	= new ArrayCollection();
-      $this->persondocuments	= new ArrayCollection();
-      $this->phonenumbers	= new ArrayCollection();
+      $this->PersonAddresses	= new ArrayCollection();
+      $this->PersonDocuments	= new ArrayCollection();
+      $this->PersonPhoneNumbers	= new ArrayCollection();
       $this->created		= $this->updated = new \DateTime("now");
     }
    
@@ -86,10 +78,10 @@ class Person
      * Add address to person.
      * @param Address $address
      */
-    public function addPersonAddress(PersonAddress $personaddress)
+    public function addPersonAddress(PersonAddress $PersonAddress)
     {
-	$personaddress->setPerson($this);
-        $this->personaddresses[] = $personaddress;
+	$PersonAddress->setPerson($this);
+        $this->PersonAddresses[] = $PersonAddress;
     }
     
     /**
@@ -97,7 +89,7 @@ class Person
      */
     public function getPersonAddresses()
     {
-      return $this->personaddresses;
+      return $this->PersonAddresses;
     }
     
     /**
@@ -107,7 +99,7 @@ class Person
     public function addPersonDocument(PersonDocument $PersonDocument)
     {
 	$PersonDocument->setPerson($this);
-        $this->persondocuments[] = $PersonDocument;
+        $this->PersonDocuments[] = $PersonDocument;
     }
     
     /**
@@ -115,7 +107,7 @@ class Person
      */
     public function getPersonDocuments()
     {
-      return $this->persondocuments;
+      return $this->PersonDocuments;
     }
     
     public function getAllDocuments(){
@@ -124,54 +116,54 @@ class Person
     
     /**
      * Add phonenumber to person.
-     * @param Phonenumber $phonenumber
+     * @param PhoneNumber $phonenumber
      */
-    public function addPhoneNumber(Phonenumber $Phonenumber)
+    public function addPersonPhoneNumber(PersonPhoneNumber $PersonPhoneNumber)
     {
-	//$Phonenumber->setPerson($this);
-        $this->phonenumbers[] = $Phonenumber;
+	$PersonPhoneNumber->setPerson($this);
+        $this->PersonPhoneNumbers[] = $PhoneNumber;
     }
     
     /**
      * Retrieve person's associated phonenumbers.
      */
-    public function getPhoneNumbers()
+    public function getPersonPhoneNumbers()
     {
-      return $this->phonenumbers;
+      return $this->PersonPhoneNumbers;
     }
     
     /**
      * Add email to person.
      * @param Emailaddress $EmailAddress
      */
-    public function addEmailAddress(Emailaddress $EmailAddress)
+    public function addPersonEmailAddress(PersonEmailAddress $PersonEmailAddress)
     {
-	//$Phonenumber->setPerson($this);
-        $this->emailaddresses[] = $EmailAddress;
+	$PersonEmailAddress->setPerson($this);
+        $this->PersonEmailAddresses[] = $PersonEmailAddress;
     }
     
     /**
      * Retrieve person's associated email addresses.
      */
-    public function getEmailAddresses()
+    public function getPersonEmailAddresses()
     {
-      return $this->emailaddresses;
+      return $this->PersonEmailAddresses;
     }
     
     /**
      * Get Web Account
      */
-    public function getWebaccount() {
-	return $this->webaccount;
+    public function getWebAccount() {
+	return $this->WebAccount;
     }
     
-    public function setWebaccount(Webaccount $webaccount) {
-	$webaccount->setPerson($this);
-	$this->webaccount = $webaccount;
+    public function setWebAccount(WebAccount $WebAccount) {
+	$WebAccount->setPerson($this);
+	$this->WebAccount = $WebAccount;
     }
     
-    public function removeWebaccount(){
-	unset($this->webaccount);
+    public function removeWebAccount(){
+	unset($this->WebAccount);
     }
 
     /**
@@ -249,4 +241,11 @@ class Person
         return $this->updated;
     }
 
+    public function populate(array $array){
+	foreach ($array as $key => $value) {
+	    if(property_exists($this, $key)){
+		$this->$key = $value;
+	    }
+	}
+    }
 }

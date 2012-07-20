@@ -20,40 +20,54 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class Lead extends Person
 {
-    /** @Column(type="string", length=255) */
-    protected $company;
+    /** 
+     * @ManyToOne(targetEntity="Employee", inversedBy="Leads")
+     */     
+    protected $Employee;
     
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="Contact", mappedBy="lead", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @OneToMany(targetEntity="Contact", mappedBy="Lead", cascade={"persist"})
      */
-    protected $contacts;
+    protected $Contacts;
+    
+    /**
+     * Bidirectional - One-To-Many (INVERSE SIDE)
+     *
+     * @OneToMany(targetEntity="Employee", mappedBy="Employee", cascade={"persist"})
+     */
+    protected $Leads;
     
     public function __construct(){
-	$this->contacts = new ArrayCollection();
+	$this->Contacts = new ArrayCollection();
 	parent::__construct();
     }
     
     public function AddContact(Contact $Contact){
 	$Contact->setLead($this);
-	$this->contacts[] = $Contact;
+	$this->Contacts[] = $Contact;
     }
     
     public function getContacts(){
-	return $this->contacts;
+	return $this->Contacts;
     }
     
-    public function getCompany()
+    public function getEmployee()
     {
-        return $this->company;
+        return $this->Employee;
     }
 
-    public function setCompany($company)
+    public function setEmployee(Employee $Employee)
     {
-        $this->company = $company;
-    }
+        $this->Employee = $Employee;
+    }    
     
+    public function populate(array $array){
+	foreach ($array as $key => $value) {
+	    if(property_exists($this, $key)){
+		$this->$key = $value;
+	    }
+	}
+    }
 }
-
-?>

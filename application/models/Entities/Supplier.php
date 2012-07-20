@@ -28,32 +28,32 @@ class Supplier
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="SupplierAddress", mappedBy="supplier", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @OneToMany(targetEntity="SupplierAddress", mappedBy="Supplier", cascade={"persist", "remove"}, orphanRemoval=true)
      */
-    private $supplieraddresses;
+    private $SupplierAddresses;
     
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="Product", mappedBy="supplier", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @OneToMany(targetEntity="Product", mappedBy="Supplier", cascade={"persist", "remove"}, orphanRemoval=true)
      */
-    private $products;
+    private $Products;
     
     public function __construct()
     {
-      $this->supplieraddresses	= new ArrayCollection();
-      $this->products		= new ArrayCollection();
+      $this->SupplierAddresses	= new ArrayCollection();
+      $this->Products		= new ArrayCollection();
       $this->created		= $this->updated = new \DateTime("now");
     }
    
     /**
      * Add address to supplier.
-     * @param Supplier $supplieraddress
+     * @param Supplier $SupplierAddress
      */
-    public function addSupplierAddress(SupplierAddress $supplieraddress)
+    public function addSupplierAddress(SupplierAddress $SupplierAddress)
     {
-	$supplieraddress->setSupplier($this);
-        $this->supplieraddresses[] = $supplieraddress;
+	$SupplierAddress->setSupplier($this);
+        $this->SupplierAddresses[] = $SupplierAddress;
     }
     
     /**
@@ -61,17 +61,17 @@ class Supplier
      */
     public function getSupplierAddresses()
     {
-      return $this->supplieraddresses;
+      return $this->SupplierAddresses;
     }
     
     /**
      * Add product to supplier.
      * @param Product $product
      */
-    public function addProduct(Product $product)
+    public function addProduct(Product $Product)
     {
-	$product->setProduct($this);
-        $this->products[] = $product;
+	$Product->setProduct($this);
+        $this->Products[] = $Product;
     }
     
     /**
@@ -79,7 +79,7 @@ class Supplier
      */
     public function getProducts()
     {
-      return $this->products;
+      return $this->Products;
     }
 
     /**
@@ -123,4 +123,11 @@ class Supplier
         return $this->updated;
     }
 
+    public function populate(array $array){
+	foreach ($array as $key => $value) {
+	    if(property_exists($this, $key)){
+		$this->$key = $value;
+	    }
+	}
+    }
 }

@@ -19,10 +19,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class MenuItem
 {
-    /** 
-     * @ManyToOne(targetEntity="Menu", inversedBy="menuitems")
-     */     
-    private $menu;
     
     /**
      * @Id @Column(type="integer")
@@ -31,7 +27,7 @@ class MenuItem
     private $id;
     
     /** @Column(type="integer") */
-    private $menu_id;
+    private $Menu_id;
     
     /** @Column(type="string", length=255) */
     private $name_index;
@@ -59,6 +55,11 @@ class MenuItem
 
     /** @Column(type="datetime") */
     private $updated;
+    
+    /** 
+     * @ManyToOne(targetEntity="Menu", inversedBy="MenuItems")
+     */     
+    private $Menu;
     
     /**
      * @ManyToOne(targetEntity="MenuItem", inversedBy="children")
@@ -101,10 +102,9 @@ class MenuItem
      * Assign Menu to MenuItem.
      * @param Menu $menu
      */
-    public function setMenu(Menu $menu)
+    public function setMenu(Menu $Menu)
     {
-        $this->menu = $menu;
-	$this->menu_id = $menu->getId();
+        $this->Menu	= $Menu;
     }
     
     /**
@@ -112,7 +112,7 @@ class MenuItem
      */
     public function getMenu()
     {
-	return $this->menu;
+	return $this->Menu;
     }
     
     /**
@@ -220,6 +220,12 @@ class MenuItem
     {
         return $this->updated;
     }
+    
+    public function populate(array $array){
+	foreach ($array as $key => $value) {
+	    if(property_exists($this, $key)){
+		$this->$key = $value;
+	    }
+	}
+    }
 }
-
-?>

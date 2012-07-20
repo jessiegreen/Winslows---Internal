@@ -7,12 +7,12 @@ echo "</div>";
 $Employee	= $this->Employee;
 $employee_id	= $Employee->getId();
 $addresses	= $Employee->getPersonAddresses();
-$phones		= $Employee->getPhoneNumbers();
-$emails		= $Employee->getEmailAddresses();
+$phones		= $Employee->getPersonPhoneNumbers();
+$emails		= $Employee->getPersonEmailAddresses();
 ?>
 <div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
     <h3 class="no_space" style="color: #2000EE;">
-	Customer Info
+	Employee Info
 	<?php
 	echo HTML::anchorIcon(
 		"pencil.png", 
@@ -24,7 +24,7 @@ $emails		= $Employee->getEmailAddresses();
     </h4>
     <div>
 	Name:<?php echo $Employee->getFullName(); ?> &nbsp;&nbsp;&nbsp; 
-	Company:<?php echo $Employee->getCompany()->getName(); ?> &nbsp;&nbsp;&nbsp; 
+	Company:<?php echo $Employee->getLocation()->getCompany()->getName(); ?> &nbsp;&nbsp;&nbsp; 
 	Location:<?php echo $Employee->getLocation()->getName(); ?>
     </div>
 </div>
@@ -78,17 +78,17 @@ $emails		= $Employee->getEmailAddresses();
 	</h3>
 	<div>
 	    <?php
-	    /* @var $Phonenumber \Entities\Phonenumber */
-	    foreach ($phones as $Phonenumber) {
+	    /* @var $PhoneNumber \Entities\PersonPhoneNumber */
+	    foreach ($phones as $PhoneNumber) {
 		?>
 		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
 		    <?php 
-		    echo $Phonenumber->getType(); 
+		    echo $PhoneNumber->getType(); 
 		    echo HTML::anchorIcon(
 			    "pencil.png", 
 			    "", 
 			    "/employee/editphone/employee_id/".$employee_id."/phonenumber_id/".
-				$Phonenumber->getId(), 
+				$PhoneNumber->getId(), 
 			    "margin-left:5px;"
 			    );
 		    ?>
@@ -96,13 +96,13 @@ $emails		= $Employee->getEmailAddresses();
 		<label for="phone1">Num:</label>
 		<div id="phone1" style="display: inline;">
 		    <?php 
-		    echo "(".$Phonenumber->getAreaCode().") ".$Phonenumber->getNum1()."-".$Phonenumber->getNum2(); 
+		    echo "(".$PhoneNumber->getAreaCode().") ".$PhoneNumber->getNum1()."-".$PhoneNumber->getNum2(); 
 		    ?>
 		</div><br />
 		<label for="ext1">Ext:</label>
 		<div id="ext1" style="display: inline;">
 		    <?php 
-		    echo $Phonenumber->getExtension(); 
+		    echo $PhoneNumber->getExtension(); 
 		    ?>
 		</div>
 		<?php
@@ -121,17 +121,17 @@ $emails		= $Employee->getEmailAddresses();
 	</h3>
 	<div>
 	    <?php
-	    /* @var $Emailaddress \Entities\Emailaddress */
-	    foreach ($emails as $Emailaddress) {
+	    /* @var $Emailaddress \Entities\PersonEmailAddress */
+	    foreach ($emails as $EmailAddress) {
 		?>
 		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
 		    <?php 
-		    echo $Emailaddress->getType(); 
+		    echo $EmailAddress->getType(); 
 		    echo HTML::anchorIcon(
 			    "pencil.png", 
 			    "", 
 			    "/employee/editemail/employee_id/".$employee_id."/emailaddress_id/".
-				$Emailaddress->getId(), 
+				$EmailAddress->getId(), 
 			    "margin-left:5px;"
 			    );
 		    ?>
@@ -139,7 +139,7 @@ $emails		= $Employee->getEmailAddresses();
 		<label for="emailaddress">Address:</label>
 		<div id="emailaddress" style="display: inline;">
 		    <?php 
-		    echo $Emailaddress->getAddress(); 
+		    echo $EmailAddress->getAddress(); 
 		    ?>
 		</div>
 		<?php

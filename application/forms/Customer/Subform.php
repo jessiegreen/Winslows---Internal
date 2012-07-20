@@ -10,7 +10,7 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_Customer_Customer extends Form_Person_Person
+class Form_Customer_Subform extends Form_Person_Subform
 {    
     private $_Customer;
     
@@ -20,15 +20,7 @@ class Form_Customer_Customer extends Form_Person_Person
     }
     
     public function init($options = array())
-    {
-	if($this->_Customer){
-	    $this->addElement('hidden', 'id', array(
-		'required'  => true,
-		'belongsTo' => 'customer',
-		'value'	    => $this->_Customer ? $this->_Customer->getId() : ""
-	    ));
-	}
-	
+    {	
         $this->addElement('text', 'company', array(
             'required'	    => false,
             'label'	    => 'Company:',

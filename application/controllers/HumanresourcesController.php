@@ -44,8 +44,7 @@ class HumanresourcesController extends Zend_Controller_Action
 	    $flashMessenger->addMessage(array("message" => "Could not get Employee", "status" =>  "error"));
 	}
 	
-	$CompanyService		= new \Services\Company\Company();
-	$Company		= $CompanyService->getCurrentCompany();
+	$Company		= \Services\Company::factory()->getCurrentCompany();
 	$this->view->Employee	= $Employee;
 	$this->view->Locations	= $Company->getLocations();
     }

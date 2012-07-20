@@ -52,7 +52,6 @@ class Address
     public function __construct()
     {
 	$this->created	= $this->updated = new \DateTime("now");
-	$this->people	=  new ArrayCollection();
     }
    
     /**
@@ -165,5 +164,12 @@ class Address
     {
         return $this->updated;
     }
-
+    
+    public function populate(array $array){
+	foreach ($array as $key => $value) {
+	    if(property_exists($this, $key)){
+		$this->$key = $value;
+	    }
+	}
+    }
 }

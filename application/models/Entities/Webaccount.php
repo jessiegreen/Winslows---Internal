@@ -4,11 +4,11 @@ namespace Entities;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /** 
- * @Entity (repositoryClass="Repositories\Webaccount") 
+ * @Entity (repositoryClass="Repositories\WebAccount") 
  * @Table(name="webaccounts") 
  * @HasLifecycleCallbacks
  */
-class Webaccount
+class WebAccount
 {
     /**
      * @Id @Column(type="integer")
@@ -32,11 +32,11 @@ class Webaccount
     private $updated;
 
     /**
-     * @OneToOne(targetEntity="Person", inversedBy="webaccount", cascade={"ALL"})
+     * @OneToOne(targetEntity="Person", inversedBy="WebAccount", cascade={"ALL"})
      * @JoinColumn(name="person_id", referencedColumnName="id")
-     * @var $person null | Person
+     * @var $Person null | Person
      */
-    private $person;
+    private $Person;
     
     /**
      * @ManytoMany(targetEntity="Role", cascade={"persist", "remove"})
@@ -45,31 +45,31 @@ class Webaccount
      *      inverseJoinColumns={@JoinColumn(name="role_id", referencedColumnName="id")}
      *      )
      */
-    private $roles;
+    private $Roles;
 
     public function __construct()
     {
 	$this->created	= $this->updated = new \DateTime("now");
-	$this->roles = new ArrayCollection();
+	$this->Roles = new ArrayCollection();
     }
     
     /**
-     * Associate Role with Webaccount
+     * Associate Role with WebAccount
      * @param Role $Role
      */
     public function addRole(Role $Role)
     {
-	$Role->addWebaccount($this);
-        $this->roles[] = $Role;
+	$Role->addWebAccount($this);
+        $this->Roles[] = $Role;
     }
     
     public function removeRole($role_id)
     {
-	foreach ($this->roles as $key => $Role) {
+	foreach ($this->Roles as $key => $Role) {
 	    if($Role->getId() == $role_id){
 		$Role->removeWebAccount($this);
-		$removed = $this->roles[$key];
-		unset($this->roles[$key]);
+		$removed = $this->Roles[$key];
+		unset($this->Roles[$key]);
 		return $removed;
 	    }
 	}
@@ -77,7 +77,7 @@ class Webaccount
     }
 
     public function getRoles(){
-	return $this->roles;
+	return $this->Roles;
     }
     
     /**
@@ -87,11 +87,11 @@ class Webaccount
      */
     public function getPerson()
     {
-	return $this->person;
+	return $this->Person;
     }
     
-    public function setPerson(Person $person) {
-	$this->person = $person;
+    public function setPerson(Person $Person) {
+	$this->Person = $Person;
     }
 
     /**
@@ -103,7 +103,7 @@ class Webaccount
     }
 
     /**
-     * Retrieve Webaccount id
+     * Retrieve WebAccount id
      */
     public function getId()
     {
@@ -154,4 +154,11 @@ class Webaccount
         return $this->updated;
     }
 
+    public function populate(array $array){
+	foreach ($array as $key => $value) {
+	    if(property_exists($this, $key)){
+		$this->$key = $value;
+	    }
+	}
+    }
 }

@@ -10,12 +10,12 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_Webaccount_Subform extends Zend_Form_SubForm
+class Form_WebAccount_Subform extends Zend_Form_SubForm
 {
     private $_WebAccount;
     private $_safe;
     
-    public function __construct($options = null, Entities\Webaccount $WebAccount = null, $safe = true) {
+    public function __construct($options = null, Entities\WebAccount $WebAccount = null, $safe = true) {
 	$this->_WebAccount  = $WebAccount;
 	$this->_safe	    = $safe;
 	parent::__construct($options);

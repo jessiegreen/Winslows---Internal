@@ -21,8 +21,8 @@ class Dataservice_Controller_Plugin_ACL extends Zend_Controller_Plugin_Abstract 
         try {
 	    if($objAuth->hasIdentity()) {
 		if($this->debug)echo "Has Identity<br />";
-		/* @var $Webaccount \Entities\Webaccount */
-	        $Webaccount = $objAuth->getIdentity();
+		/* @var $WebAccount \Entities\WebAccount */
+	        $WebAccount = $objAuth->getIdentity();
  
 	         $sess = new Zend_Session_Namespace('Dataservice');
 	         if($sess->clearACL) {
@@ -37,13 +37,13 @@ class Dataservice_Controller_Plugin_ACL extends Zend_Controller_Plugin_Abstract 
 		 
 		 #--After hours of fighting I realized thanks to a podcast that I had to clear the $em as the 
 		 #--caching was screwing this up
-		 $webaccount_id = $Webaccount->getId();
+		 $webaccount_id = $WebAccount->getId();
 		 $em->clear();
 
-		 $Webaccount = $em->find("Entities\Webaccount", $webaccount_id);
+		 $WebAccount = $em->find("Entities\WebAccount", $webaccount_id);
 		 
 		 /* @var $Role \Entities\Role */
-		 foreach($Webaccount->getRoles() as $Role){
+		 foreach($WebAccount->getRoles() as $Role){
 		     if($this->debug)echo "**".$Role->getName()."**<br />";
 		     if($objAcl->isAllowed($Role->getName(), $request->getModuleName() .'::' .$request->getControllerName() .'::' .$request->getActionName()))
 			     $allowed = true;

@@ -13,7 +13,7 @@
  */
 namespace Classes;
 
-class Menu {
+class Service {
 
 	// Associative array of list items
 	public $items = array();
@@ -34,7 +34,7 @@ class Menu {
 	 */
 	public static function factory(array $items = NULL)
 	{
-	    return new menu($items);
+		return new menu($items);
 	}
 	
 	/**

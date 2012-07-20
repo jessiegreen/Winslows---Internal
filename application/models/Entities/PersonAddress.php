@@ -12,25 +12,25 @@
 namespace Entities;
 /** 
  * @Entity (repositoryClass="Repositories\PersonAddress") 
- * @Table(name="personaddress") 
+ * @Table(name="person_addresses") 
  */
 
 class PersonAddress extends Address
 {
     private $person_id;
     /** 
-     * @ManyToOne(targetEntity="Person", inversedBy="personaddresses")
+     * @ManyToOne(targetEntity="Person", inversedBy="PersonAddresses")
      */     
-    private $person;
+    private $Person;
     
     
     /**
      * Add person to address.
-     * @param Person $person
+     * @param Person $Person
      */
-    public function setPerson(Person $person)
+    public function setPerson(Person $Person)
     {
-        $this->person = $person;
+        $this->Person = $Person;
     }
     
     /**
@@ -38,7 +38,7 @@ class PersonAddress extends Address
      */
     public function getPerson()
     {
-	return $this->person;
+	return $this->Person;
     }
     
     /**
@@ -47,6 +47,12 @@ class PersonAddress extends Address
     public function getPersonId() {
 	return $this->person_id;
     }
+    
+    public function populate(array $array){
+	foreach ($array as $key => $value) {
+	    if(property_exists($this, $key)){
+		$this->$key = $value;
+	    }
+	}
+    }
 }
-
-?>

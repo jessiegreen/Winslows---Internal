@@ -6,13 +6,18 @@ echo "</div>";
 $lead	= $this->Lead;
 $lead_id	= $lead->getId();
 $addresses	= $lead->getPersonAddresses();
-$phones		= $lead->getPhoneNumbers();
-$emails		= $lead->getEmailAddresses();
+$phones		= $lead->getPersonPhoneNumbers();
+$emails		= $lead->getPersonEmailAddresses();
 $contacts	= $lead->getContacts();
 ?>
 <div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
     <h3 class="no_space" style="color: #2000EE;">Lead Info</h4>
-    <div>Name:<?php echo $lead->getFullName(); ?> &nbsp;&nbsp;&nbsp; Company:<?php echo $lead->getCompany(); ?></div>
+    <div>
+	Name:<?php echo $lead->getFullName(); ?> &nbsp;&nbsp;&nbsp; 
+	Sales Location:<?php echo $lead->getEmployee()->getLocation()->getName(); ?> &nbsp;&nbsp;&nbsp; 
+	Company:<?php echo $lead->getEmployee()->getLocation()->getCompany()->getName(); ?> &nbsp;&nbsp;&nbsp; 
+	Salesman:<?php echo $lead->getEmployee()->getFullName(); ?>
+    </div>
 </div>
 <div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">
     <div id="accordion">
@@ -66,17 +71,17 @@ $contacts	= $lead->getContacts();
 	<div>
 	    <?php
 	    echo count($phones)<1 ? "<span class='small gray'>No Phones</span>" : "";
-	    /* @var $Phonenumber \Entities\Phonenumber */
-	    foreach ($phones as $Phonenumber) {
+	    /* @var $PhoneNumber \Entities\PhoneNumber */
+	    foreach ($phones as $PhoneNumber) {
 		?>
 		<h4 class="no_space blue_frame bg_blue_fade" style="padding:3px;margin-bottom: 3px;">
 		    <?php 
-		    echo $Phonenumber->getType(); 
+		    echo $PhoneNumber->getType(); 
 		    echo HTML::anchorIcon(
 			    "pencil.png", 
 			    "", 
 			    "/lead/editphone/lead_id/".$lead_id."/phonenumber_id/".
-				$Phonenumber->getId(), 
+				$PhoneNumber->getId(), 
 			    "margin-left:5px;"
 			    );
 		    ?>
@@ -84,13 +89,13 @@ $contacts	= $lead->getContacts();
 		<label for="phone1">Num:</label>
 		<div id="phone1" style="display: inline;">
 		    <?php 
-		    echo "(".$Phonenumber->getAreaCode().") ".$Phonenumber->getNum1()."-".$Phonenumber->getNum2(); 
+		    echo "(".$PhoneNumber->getAreaCode().") ".$PhoneNumber->getNum1()."-".$PhoneNumber->getNum2(); 
 		    ?>
 		</div><br />
 		<label for="ext1">Ext:</label>
 		<div id="ext1" style="display: inline;">
 		    <?php 
-		    echo $Phonenumber->getExtension(); 
+		    echo $PhoneNumber->getExtension(); 
 		    ?>
 		</div>
 		<?php
@@ -146,8 +151,8 @@ $contacts	= $lead->getContacts();
 		foreach($this->Locations as $Location){
 		    echo "<option type_string='location' value='".$Location->getId()."'>Walk In: ".$Location->getName()."</option>";
 		}
-		foreach($phones as $Phonenumber){
-		    echo "<option type_string='phone' value='".$Phonenumber->getId()."'>Phone: ".$Phonenumber->getNumberDisplay()."</option>";
+		foreach($phones as $PhoneNumber){
+		    echo "<option type_string='phone' value='".$PhoneNumber->getId()."'>Phone: ".$PhoneNumber->getNumberDisplay()."</option>";
 		}
 		foreach($emails as $Emailaddress){
 		    echo "<option type_string='email' value='".$Emailaddress->getId()."'>Email: ".$Emailaddress->getAddress()."</option>";

@@ -11,33 +11,33 @@
  */
 namespace Entities;
 /** 
- * @Entity (repositoryClass="Repositories\SupplierAddress") 
- * @Table(name="supplier_addresses") 
+ * @Entity (repositoryClass="Repositories\PersonEmailAddress") 
+ * @Table(name="person_emailaddresses") 
  */
 
-class SupplierAddress extends Address
+class PersonEmailAddress extends EmailAddress
 {
     /** 
-     * @ManyToOne(targetEntity="Supplier", inversedBy="SupplierAddresses")
+     * @ManyToOne(targetEntity="Person", inversedBy="PersonEmailAddresses")
      */     
-    private $Supplier;
+    private $Person;
     
     
     /**
-     * Add supplier to address.
-     * @param Supplier $Supplier
+     * Set person for email address.
+     * @param Person $Person
      */
-    public function setSupplier(Supplier $Supplier)
+    public function setPerson(Person $Person)
     {
-        $this->Supplier = $Supplier;
+        $this->Person = $Person;
     }
     
     /**
-     * Retrieve address's associated supplier.
+     * Retrieve email address's associated person.
      */
-    public function getSupplier()
+    public function getPerson()
     {
-	return $this->Supplier;
+	return $this->Person;
     }
     
     public function populate(array $array){

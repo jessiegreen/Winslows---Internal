@@ -824,7 +824,7 @@ class TestController extends Zend_Controller_Action
 		    $em		    = $this->_helper->EntityManager();
 		    $employee	    = new \Entities\Employee;
 		    $personaddress  = new \Entities\PersonAddress;
-		    $webaccount	    = new \Entities\Webaccount;
+		    $webaccount	    = new \Entities\WebAccount;
 
 		    if(isset($data['webaccount']['username']))$webaccount->setUsername($data['webaccount']['username']);
 		    if(isset($data['webaccount']['username']))$webaccount->setPassword ($data['webaccount']['password']);
@@ -844,7 +844,7 @@ class TestController extends Zend_Controller_Action
 		    if(isset($data['address']['zip_2']))$personaddress->setZip2($data['address']['zip_2']);
 
 		    $employee->addPersonAddress($personaddress);
-		    $employee->setWebaccount($webaccount);
+		    $employee->setWebAccount($webaccount);
 		    $em->persist($employee);
 		    $em->flush();
 

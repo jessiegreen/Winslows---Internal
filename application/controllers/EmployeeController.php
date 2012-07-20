@@ -25,8 +25,7 @@ class EmployeeController extends Zend_Controller_Action
 		
 		$em		= $this->_helper->EntityManager();
 		$flashMessenger = $this->_helper->getHelper('FlashMessenger');
-		$CompanyService	= new \Services\Company\Company();
-		$Company	= $CompanyService->getCurrentCompany();
+		$Company	= \Services\Company::factory()->getCurrentCompany();
 		$Locations	= $Company->getLocations();
 		$Location	= $Locations[0];
 		
@@ -63,25 +62,17 @@ class EmployeeController extends Zend_Controller_Action
 	    
 	    if(!$Employee)throw new Exception("Can not edit employee. No Employee with that Id");
 	    
-	    $form = new Form_Employee_Edit(array("method" => "post"), $Employee);
+	    $form = new Form_Employee(array("method" => "post"), $Employee);
 	    
 	    if($this->_request->isPost()){
 		if($form->isValid($this->_params)){
 		    $data		= $this->_params;
 		    $employee_data	= $data["employee"];
-		    $person_data	= $data["person"];
-		    $Company		= $em->find("Entities\Company",$employee_data["company"]);
-		    if(!$Company)throw new Exception("Can not edit employee. No Company with that Id");
 		    $Location		= $em->find("Entities\Location",$employee_data["location"]);
 		    if(!$Location)throw new Exception("Can not edit employee. No Location with that Id");
 		    
-		    $Employee->setCompany($Company);
+		    $Employee->populate($employee_data);
 		    $Employee->setLocation($Location);
-		    $Employee->setTitle($employee_data["title"]);
-		    $Employee->setFirstName($person_data["first_name"]);
-		    $Employee->setMiddleName($person_data["middle_name"]);
-		    $Employee->setLastName($person_data["last_name"]);
-		    $Employee->setSuffix($person_data["suffix"]);
 
 		    $em->persist($Employee);
 		    $em->flush();
@@ -173,7 +164,7 @@ class EmployeeController extends Zend_Controller_Action
 	    
 	    if(!$Employee)throw new Exception("Can not add phone number. No Employee with that Id");
 	    
-	    $form = new Form_Person_Phonenumber(array("method" => "post"));
+	    $form = new Form_Person_PhoneNumber(array("method" => "post"));
 	    
 	    $form->addElement(
 		    "button", 
@@ -194,19 +185,19 @@ class EmployeeController extends Zend_Controller_Action
 	    {
 		try {
 		    $phone_data = $this->_params["phonenumber"];
-		    $Phonenumber = new \Entities\Phonenumber();
-		    $Phonenumber->setType($phone_data["type"]);
-		    $Phonenumber->setAreaCode($phone_data["phone_number"]["area"]);
-		    $Phonenumber->setNum1($phone_data["phone_number"]["prefix"]);
-		    $Phonenumber->setNum2($phone_data["phone_number"]["line"]);
-		    $Phonenumber->setExtension($phone_data["extension"]);
-		    $Employee->addPhoneNumber($Phonenumber);
+		    $PhoneNumber = new \Entities\PhoneNumber();
+		    $PhoneNumber->setType($phone_data["type"]);
+		    $PhoneNumber->setAreaCode($phone_data["phone_number"]["area"]);
+		    $PhoneNumber->setNum1($phone_data["phone_number"]["prefix"]);
+		    $PhoneNumber->setNum2($phone_data["phone_number"]["line"]);
+		    $PhoneNumber->setExtension($phone_data["extension"]);
+		    $Employee->addPhoneNumber($PhoneNumber);
 		    
 		    $em->persist($Employee);
 		    $em->flush();
 		    $flashMessenger->addMessage(
 			    array(
-				'message' => "Employee Phone Number '".$Phonenumber->getType()."' for '".
+				'message' => "Employee Phone Number '".$PhoneNumber->getType()."' for '".
 						$Employee->getFullName()."' Added", 
 				'status' => 'success'
 				)
@@ -291,11 +282,11 @@ class EmployeeController extends Zend_Controller_Action
 	    if(!isset($this->_params["customer_id"]))throw new Exception("Can not edit phone. No Id");
 	    /* @var $Customer Entities\Customer */
 	    $Customer	    = $em->find("Entities\Customer", $this->_params["customer_id"]);
-	    $Phonenumber    = $em->find("Entities\Phonenumber", $this->_params["phonenumber_id"]);
+	    $PhoneNumber    = $em->find("Entities\PhoneNumber", $this->_params["phonenumber_id"]);
 	    
-	    if(!$Customer || !$Phonenumber)throw new Exception("Can not edit phone. No Customer or Phonenumber with that Id");
+	    if(!$Customer || !$PhoneNumber)throw new Exception("Can not edit phone. No Customer or PhoneNumber with that Id");
 	    
-	    $form = new Form_Person_Phonenumber(array("method" => "post"), $Phonenumber);
+	    $form = new Form_Person_PhoneNumber(array("method" => "post"), $PhoneNumber);
 	    
 	    $form->addElement(
 		    "button", 
@@ -317,17 +308,17 @@ class EmployeeController extends Zend_Controller_Action
 		try {
 		    $phone_data = $this->_params["phonenumber"];
 		    
-		    $Phonenumber->setType($phone_data["type"]);
-		    $Phonenumber->setAreaCode($phone_data["phone_number"]["area"]);
-		    $Phonenumber->setNum1($phone_data["phone_number"]["prefix"]);
-		    $Phonenumber->setNum2($phone_data["phone_number"]["line"]);
-		    $Phonenumber->setExtension($phone_data["extension"]);
+		    $PhoneNumber->setType($phone_data["type"]);
+		    $PhoneNumber->setAreaCode($phone_data["phone_number"]["area"]);
+		    $PhoneNumber->setNum1($phone_data["phone_number"]["prefix"]);
+		    $PhoneNumber->setNum2($phone_data["phone_number"]["line"]);
+		    $PhoneNumber->setExtension($phone_data["extension"]);
 		    
-		    $em->persist($Phonenumber);
+		    $em->persist($PhoneNumber);
 		    $em->flush();
 		    $flashMessenger->addMessage(
 			    array(
-				'message' => "Customer Phone Number '".$Phonenumber->getType()."' for '".
+				'message' => "Customer Phone Number '".$PhoneNumber->getType()."' for '".
 						$Customer->getFullName()."' Edited", 
 				'status' => 'success'
 				)

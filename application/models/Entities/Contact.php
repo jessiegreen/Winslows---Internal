@@ -4,7 +4,7 @@ namespace Entities;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /** 
- * @Entity (repositoryClass="Repositories\Privilege") 
+ * @Entity (repositoryClass="Repositories\Contact") 
  * @Table(name="contacts") 
  * @HasLifecycleCallbacks
  */
@@ -29,17 +29,17 @@ class Contact
     private $result;
     
     /**
-     * @ManyToOne(targetEntity="Lead", inversedBy="contacts")
+     * @ManyToOne(targetEntity="Lead", inversedBy="Contacts")
      * @JoinColumn(name="lead_id", referencedColumnName="id")
      * @var $lead Lead
      */
-    private $lead;
+    private $Lead;
     
     /** 
      * @ManyToOne(targetEntity="Person", cascade="persist")
      * @JoinColumn(name="person_id", referencedColumnName="id")
      */     
-    private $person;
+    private $Person;
 
     /** @Column(type="datetime") */
     private $created;
@@ -61,19 +61,19 @@ class Contact
     }
 
     public function setLead(Lead $Lead){
-	$this->lead = $Lead;
+	$this->Lead = $Lead;
     }
     
     public function getLead(){
-	return $this->lead;
+	return $this->Lead;
     }
     
     public function setPerson(Person $Person){
-	$this->person = $Person;
+	$this->Person = $Person;
     }
     
     public function getPerson(){
-	return $this->person;
+	return $this->Person;
     }
     
     /**
@@ -164,5 +164,13 @@ class Contact
 	    "information"   => "Information",
 	    "sale"	    => "Sale"
 	);
+    }
+    
+    public function populate(array $array){
+	foreach ($array as $key => $value) {
+	    if(property_exists($this, $key)){
+		$this->$key = $value;
+	    }
+	}
     }
 }

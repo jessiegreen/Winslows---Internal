@@ -87,16 +87,16 @@ class Location extends \Entities\Location implements \Doctrine\ORM\Proxy\Proxy
         return parent::setName($name);
     }
 
-    public function getPhone()
+    public function setLocationPhoneNumber(\Entities\LocationPhoneNumber $LocationPhoneNumber)
     {
         $this->__load();
-        return parent::getPhone();
+        return parent::setLocationPhoneNumber($LocationPhoneNumber);
     }
 
-    public function setPhone($phone)
+    public function getLocationPhoneNumber()
     {
         $this->__load();
-        return parent::setPhone($phone);
+        return parent::getLocationPhoneNumber();
     }
 
     public function setLocationAddress(\Entities\LocationAddress $LocationAddress)
@@ -129,10 +129,16 @@ class Location extends \Entities\Location implements \Doctrine\ORM\Proxy\Proxy
         return parent::getTypeOptions();
     }
 
+    public function populate(array $array)
+    {
+        $this->__load();
+        return parent::populate($array);
+    }
+
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'name', 'type', 'phone', 'locationaddress', 'company', 'employees');
+        return array('__isInitialized__', 'id', 'name', 'type', 'LocationAddress', 'LocationPhoneNumber', 'Company', 'Employees');
     }
 
     public function __clone()

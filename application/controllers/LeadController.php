@@ -45,7 +45,7 @@ class LeadController extends Zend_Controller_Action
 	$this->view->form = $form;
     }
     
-    public function editAction(){
+    public function viewAction(){
 	$this->view->headScript()->appendFile("/javascript/lead/lead.js");
 	$this->view->headScript()->appendFile("/javascript/jquery-ui.min.js");
 	$this->view->headLink()->prependStylesheet('/css/jquery-ui/flick/jquery-ui.custom.css');
@@ -62,8 +62,7 @@ class LeadController extends Zend_Controller_Action
 	    $flashMessenger->addMessage(array("message" => "Could not get Lead", "status" =>  "error"));
 	}
 	
-	$CompanyService	= new \Services\Company\Company();
-	$Company	= $CompanyService->getCurrentCompany();
+	$Company	= \Services\Company::factory()->getCurrentCompany();
 	$this->view->Lead	= $Lead;
 	$this->view->Locations	= $Company->getLocations();
     }
@@ -84,8 +83,7 @@ class LeadController extends Zend_Controller_Action
 	$this->_helper->viewRenderer->setNoRender(true);
 	
 	$term		= $this->_autocompleteGetTerm();
-	$LeadService	= new \Services\People\Lead();
-	$return		= $LeadService->getAutocompleteLeadsArrayFromTerm($term);
+	$return		= \Services\Lead::factory()->getAutocompleteLeadsArrayFromTerm($term);
 	echo json_encode($return);
     }
 
@@ -173,7 +171,7 @@ class LeadController extends Zend_Controller_Action
 	    
 	    if(!$Lead)throw new Exception("Can not add phone number. No Lead with that Id");
 	    
-	    $form = new Form_Person_Phonenumber(array("method" => "post"));
+	    $form = new Form_Person_PhoneNumber(array("method" => "post"));
 	    
 	    $form->addElement(
 		    "button", 
@@ -194,19 +192,19 @@ class LeadController extends Zend_Controller_Action
 	    {
 		try {
 		    $phone_data = $this->_params["phonenumber"];
-		    $Phonenumber = new \Entities\Phonenumber();
-		    $Phonenumber->setType($phone_data["type"]);
-		    $Phonenumber->setAreaCode($phone_data["phone_number"]["area"]);
-		    $Phonenumber->setNum1($phone_data["phone_number"]["prefix"]);
-		    $Phonenumber->setNum2($phone_data["phone_number"]["line"]);
-		    $Phonenumber->setExtension($phone_data["extension"]);
-		    $Lead->addPhoneNumber($Phonenumber);
+		    $PhoneNumber = new \Entities\PhoneNumber();
+		    $PhoneNumber->setType($phone_data["type"]);
+		    $PhoneNumber->setAreaCode($phone_data["phone_number"]["area"]);
+		    $PhoneNumber->setNum1($phone_data["phone_number"]["prefix"]);
+		    $PhoneNumber->setNum2($phone_data["phone_number"]["line"]);
+		    $PhoneNumber->setExtension($phone_data["extension"]);
+		    $Lead->addPhoneNumber($PhoneNumber);
 		    
 		    $em->persist($Lead);
 		    $em->flush();
 		    $flashMessenger->addMessage(
 			    array(
-				'message' => "Lead Phone Number '".$Phonenumber->getType()."' for '".
+				'message' => "Lead Phone Number '".$PhoneNumber->getType()."' for '".
 						$Lead->getFullName()."' Added", 
 				'status' => 'success'
 				)
@@ -291,11 +289,11 @@ class LeadController extends Zend_Controller_Action
 	    if(!isset($this->_params["lead_id"]))throw new Exception("Can not edit phone. No Id");
 	    /* @var $Lead Entities\Lead */
 	    $Lead	    = $em->find("Entities\Lead", $this->_params["lead_id"]);
-	    $Phonenumber    = $em->find("Entities\Phonenumber", $this->_params["phonenumber_id"]);
+	    $PhoneNumber    = $em->find("Entities\PhoneNumber", $this->_params["phonenumber_id"]);
 	    
-	    if(!$Lead || !$Phonenumber)throw new Exception("Can not edit phone. No Lead or Phonenumber with that Id");
+	    if(!$Lead || !$PhoneNumber)throw new Exception("Can not edit phone. No Lead or PhoneNumber with that Id");
 	    
-	    $form = new Form_Person_Phonenumber(array("method" => "post"), $Phonenumber);
+	    $form = new Form_Person_PhoneNumber(array("method" => "post"), $PhoneNumber);
 	    
 	    $form->addElement(
 		    "button", 
@@ -317,17 +315,17 @@ class LeadController extends Zend_Controller_Action
 		try {
 		    $phone_data = $this->_params["phonenumber"];
 		    
-		    $Phonenumber->setType($phone_data["type"]);
-		    $Phonenumber->setAreaCode($phone_data["phone_number"]["area"]);
-		    $Phonenumber->setNum1($phone_data["phone_number"]["prefix"]);
-		    $Phonenumber->setNum2($phone_data["phone_number"]["line"]);
-		    $Phonenumber->setExtension($phone_data["extension"]);
+		    $PhoneNumber->setType($phone_data["type"]);
+		    $PhoneNumber->setAreaCode($phone_data["phone_number"]["area"]);
+		    $PhoneNumber->setNum1($phone_data["phone_number"]["prefix"]);
+		    $PhoneNumber->setNum2($phone_data["phone_number"]["line"]);
+		    $PhoneNumber->setExtension($phone_data["extension"]);
 		    
-		    $em->persist($Phonenumber);
+		    $em->persist($PhoneNumber);
 		    $em->flush();
 		    $flashMessenger->addMessage(
 			    array(
-				'message' => "Lead Phone Number '".$Phonenumber->getType()."' for '".
+				'message' => "Lead Phone Number '".$PhoneNumber->getType()."' for '".
 						$Lead->getFullName()."' Edited", 
 				'status' => 'success'
 				)
@@ -519,8 +517,7 @@ class LeadController extends Zend_Controller_Action
     }
     
     public function addcontactAction(){
-	$Auth		= new Services\Auth\Auth();
-	$Person		= $Auth->getIdentityWebAccount()->getPerson();
+	$Person		= Services\Auth::factory()->getIdentityWebAccount()->getPerson();
 	$em		= $this->_helper->EntityManager();
 	$flashMessenger = $this->_helper->getHelper('FlashMessenger');
 	
@@ -539,8 +536,8 @@ class LeadController extends Zend_Controller_Action
 		if(isset($this->_params["type_id"])){
 		    switch ($this->_params["type"]) {
 			case "phone":
-			    $Phonenumber = $this->_helper->EntityManager()->find("Entities\Phonenumber", $this->_params["type_id"]);
-			    if($Phonenumber)$Contact->setTypeDetail ($Phonenumber->getNumberDisplay());
+			    $PhoneNumber = $this->_helper->EntityManager()->find("Entities\PhoneNumber", $this->_params["type_id"]);
+			    if($PhoneNumber)$Contact->setTypeDetail ($PhoneNumber->getNumberDisplay());
 			    break;
 			case "location":
 			    $Location = $this->_helper->EntityManager()->find("Entities\Location", $this->_params["type_id"]);

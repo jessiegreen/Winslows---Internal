@@ -1,5 +1,5 @@
 <?php
-namespace Services\People;
+namespace Services;
 
 use Doctrine\ORM\EntityManager;
 
@@ -13,6 +13,10 @@ class Lead {
 	$this->_em		= $bootstrap->getResource('entityManager');
     }
     
+    public static function factory() {
+	return new Lead;
+    }
+    
     public function getAutocompleteLeadsArrayFromTerm($term = "", $descriminator = "lead", $max_results = 20){
 	$max_results	= 20;
 	$results	= array();
@@ -22,7 +26,6 @@ class Lead {
 			p0_.id AS id,
 			p0_.first_name AS first_name,
 			p0_.last_name AS last_name,
-			l1_.company AS company,
 			p3_.area_code AS area_code, 
 			p3_.num1 AS num1, 
 			p3_.num2 AS num2,
@@ -31,11 +34,11 @@ class Lead {
 		INNER JOIN people p0_ ON l1_.id = p0_.id 
 		LEFT JOIN leads c2_ ON l1_.id = c2_.id 
 		LEFT JOIN person_phonenumbers p6_ ON p0_.id = p6_.person_id 
-		LEFT JOIN phonenumbers p3_ ON p3_.id = p6_.phonenumber_id 
-		LEFT JOIN personaddress p5_ ON p0_.id = p5_.person_id 
+		LEFT JOIN phonenumbers p3_ ON p3_.id = p6_.id 
+		LEFT JOIN person_addresses p5_ ON p0_.id = p5_.person_id 
 		LEFT JOIN addresses a4_ ON p5_.id = a4_.id 
 		WHERE 
-		    CONCAT(CONCAT(IFNULL(p0_.first_name,''), ' ', IFNULL(p0_.last_name,'')), ' ' , CONCAT(IFNULL(p3_.area_code,''), ' ', IFNULL(p3_.num1,''), ' ', IFNULL(p3_.num2,'')), ' ', IFNULL(l1_.company,''), ' ', IFNULL(a4_.address_1,''))
+		    CONCAT(CONCAT(IFNULL(p0_.first_name,''), ' ', IFNULL(p0_.last_name,'')), ' ' , CONCAT(IFNULL(p3_.area_code,''), ' ', IFNULL(p3_.num1,''), ' ', IFNULL(p3_.num2,'')), ' ', IFNULL(a4_.address_1,''))
 		    LIKE :term  
 		    and 
 		    p0_.discr='$descriminator' 

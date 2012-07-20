@@ -23,7 +23,7 @@ class Employee extends Person
     private $title;
     
     /**
-     * @ManyToOne(targetEntity="Location", inversedBy="employees")
+     * @ManyToOne(targetEntity="Location", inversedBy="Employees")
      * @JoinColumn(name="location_id", referencedColumnName="id")
      * @var Location $Location
      */
@@ -46,6 +46,12 @@ class Employee extends Person
     {
         $this->title = $title;
     }  
+    
+    public function populate(array $array){
+	foreach ($array as $key => $value) {
+	    if(property_exists($this, $key)){
+		$this->$key = $value;
+	    }
+	}
+    }
 }
-
-?>

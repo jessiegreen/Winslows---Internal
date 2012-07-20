@@ -25,14 +25,13 @@ class Company
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="Location", mappedBy="company", cascade={"persist"})
+     * @OneToMany(targetEntity="Location", mappedBy="Company", cascade={"persist"})
      */
-    private $locations;
+    private $Locations;
     
     public function __construct()
     {
-	$this->locations = new ArrayCollection();
-	$this->employees = new ArrayCollection();
+	$this->Locations = new ArrayCollection();
     }
     
     /**
@@ -42,7 +41,7 @@ class Company
     public function addLocation(Location $Location)
     {
 	$Location->setCompany($this);
-        $this->locations[] = $Location;
+        $this->Locations[] = $Location;
     }
     
     /**
@@ -50,7 +49,7 @@ class Company
      */
     public function getLocations()
     {
-      return $this->locations;
+      return $this->Locations;
     }
 
     /**
@@ -91,4 +90,11 @@ class Company
         $this->description = $description;
     }    
     
+    public function populate(array $array){
+	foreach ($array as $key => $value) {
+	    if(property_exists($this, $key)){
+		$this->$key = $value;
+	    }
+	}
+    }
 }

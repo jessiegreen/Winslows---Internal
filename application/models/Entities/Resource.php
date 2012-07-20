@@ -37,7 +37,7 @@ class Resource
     private $updated;
     
     /**
-     * @ManytoMany(targetEntity="Role", mappedBy="resources", cascade={"ALL"})
+     * @ManytoMany(targetEntity="Role", mappedBy="Resources", cascade={"ALL"})
      */
     private $roles;
     
@@ -150,4 +150,11 @@ class Resource
         return $this->updated;
     }
 
+    public function populate(array $array){
+	foreach ($array as $key => $value) {
+	    if(property_exists($this, $key)){
+		$this->$key = $value;
+	    }
+	}
+    }
 }

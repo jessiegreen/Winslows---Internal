@@ -1,5 +1,5 @@
 <?php
-namespace Services\Menu;
+namespace Services;
 
 use Doctrine\ORM\EntityManager;
 
@@ -13,30 +13,32 @@ class Menu {
 	$this->_em		= $bootstrap->getResource('entityManager');
     }
     
+    public static function factory() {
+	return new Menu;
+    }
+    
     /**
      * @param type $menu_name 
      * @return \Classes\Menu
      */
     public function getMenuHTML($menu_name)
     {
-	$AclService = new \Services\ACL\ACL;
-	
-	$parent_items = $this->getMenuParentItems($menu_name);
-	/* @var  $menu \Classes\Menu */
-	$menu		= \Classes\Menu::factory();
+	$parent_items	= $this->getMenuParentItems($menu_name);
+	$AclService	= \Services\ACL::factory();
+	$Menu		= \Classes\Menu::factory();
 	
 	/* @var $menu_item \Entities\MenuItem */
 	foreach($parent_items as $MenuItem){
-	    $menu   = $this->GetMenuHTMLAdd($MenuItem, $menu, $AclService);
+	    $Menu   = $this->GetMenuHTMLAdd($MenuItem, $Menu, $AclService);
 	}
-	return $menu;
+	return $Menu;
     }    
     
     /**
      *
      * @param \Entities\MenuItem $menu_item 
      */
-    private function GetMenuHTMLAdd(\Entities\MenuItem $MenuItem, \Classes\Menu $menu, \Services\ACL\ACL $AclService)
+    private function GetMenuHTMLAdd(\Entities\MenuItem $MenuItem, \Classes\Menu $menu, \Services\ACL $AclService)
     {
 	$children   = $MenuItem->getChildren();
 	

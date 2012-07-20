@@ -28,14 +28,14 @@ class Menu
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="MenuItem", mappedBy="menu", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @OneToMany(targetEntity="MenuItem", mappedBy="Menu", cascade={"persist", "remove"}, orphanRemoval=true)
      */
-    private $menuitems;
+    private $MenuItems;
 
     public function __construct()
     {
 
-      $this->menuitems	= new ArrayCollection();
+      $this->MenuItems	= new ArrayCollection();
       $this->created	= $this->updated = new \DateTime("now");
     }
    
@@ -43,10 +43,10 @@ class Menu
      * Add menuitem to menu.
      * @param MenuItem $menuitem
      */
-    public function addMenuItem(MenuItem $menuitem)
+    public function addMenuItem(MenuItem $MenuItem)
     {
-	$menuitem->setMenu($this);
-        $this->menuitems[] = $menuitem;
+	$MenuItem->setMenu($this);
+        $this->MenuItems[] = $MenuItem;
     }
     
     /**
@@ -54,14 +54,14 @@ class Menu
      */
     public function getMenuItems()
     {
-      return $this->menuitems;
+      return $this->MenuItems;
     }
     
     public function removeMenuItem(MenuItem $MenuItem){
-	foreach ($this->menuitems as $key => $MenuItem2) {
+	foreach ($this->MenuItems as $key => $MenuItem2) {
 	    if($MenuItem->getId() == $MenuItem2->getId()){
-		$removed = $this->menuitems[$key];
-		unset($this->menuitems[$key]);
+		$removed = $this->MenuItems[$key];
+		unset($this->MenuItems[$key]);
 		return $removed;
 	    }
 	}
@@ -108,4 +108,11 @@ class Menu
         return $this->updated;
     }
 
+    public function populate(array $array){
+	foreach ($array as $key => $value) {
+	    if(property_exists($this, $key)){
+		$this->$key = $value;
+	    }
+	}
+    }
 }

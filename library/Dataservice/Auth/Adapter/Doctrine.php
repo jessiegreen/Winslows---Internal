@@ -67,10 +67,10 @@ class Dataservice_Auth_Adapter_Doctrine implements Zend_Auth_Adapter_Interface
     public function authenticate()
     {
         $this->_authenticateSetup();
-
+	
         // get details of the user from table
-	/* @var $webaccount Entities\Webaccount */
-        $webaccount = $this->_em->getRepository('Entities\Webaccount')->findOneByUsername($this->identity);
+	/* @var $webaccount Entities\WebAccount */
+        $webaccount = $this->_em->getRepository('Entities\WebAccount')->findOneByUsername($this->identity);
 
         $authResult = array(
             'code' => Zend_Auth_Result::FAILURE,
@@ -97,7 +97,7 @@ class Dataservice_Auth_Adapter_Doctrine implements Zend_Auth_Adapter_Interface
                     $authResult['identity'] = $this->identity;
                     $authResult['messages'][] = 'Authentication successful.';
 
-                    $this->setWebaccount($webaccount);
+                    $this->setWebAccount($webaccount);
 
                 }
             }
@@ -153,7 +153,7 @@ class Dataservice_Auth_Adapter_Doctrine implements Zend_Auth_Adapter_Interface
     {
         $qb = $this->_em->createQueryBuilder()
             ->select('e')
-            ->from('\entities\Webaccount', 'e')
+            ->from('\entities\WebAccount', 'e')
             ->where('e.username=:username')
             ->setParameter('username', $this->identity);
         return $qb->getQuery();
@@ -164,11 +164,11 @@ class Dataservice_Auth_Adapter_Doctrine implements Zend_Auth_Adapter_Interface
           $this->credentialTreatment = (SHA1($credential . $salt));
     } 
     
-    public function setWebaccount(Entities\Webaccount $webaccount){
+    public function setWebAccount(Entities\WebAccount $webaccount){
 	$this->webaccount = $webaccount;
     }
     
-    public function getWebaccount(){
+    public function getWebAccount(){
 	return $this->webaccount;
     }
 }

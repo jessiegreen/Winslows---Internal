@@ -1,5 +1,5 @@
 <?php
-namespace Services\ACL;
+namespace Services;
 
 class ACL {
     /* @var \Doctrine\ORM\EntityManager $_em */
@@ -10,6 +10,10 @@ class ACL {
 	$bootstrap  = $front->getParam("bootstrap");
 
 	$this->_em  = $bootstrap->getResource('entityManager');
+    }
+    
+    public static function factory() {
+	return new Menu;
     }
     
     /**
@@ -40,12 +44,11 @@ class ACL {
 	}
 	else throw new Exception("param sent to isUserAllowed is invalid");
 	
-	$AuthService	= new \Services\Auth\Auth;
-	$Webaccount	= $AuthService->getIdentityWebAccount();
+	$WebAccount	= \Services\Auth::factory()->getIdentityWebAccount();
 	$objAcl		= \Dataservice_ACL_Factory::get($this->_em);
 	
 	/* @var $Role \Entities\Role */
-	foreach($Webaccount->getRoles() as $Role){
+	foreach($WebAccount->getRoles() as $Role){
 	    if($objAcl->isAllowed($Role->getName(), $module .'::' .$controller .'::' .$action)){
 		return true;
 	    }

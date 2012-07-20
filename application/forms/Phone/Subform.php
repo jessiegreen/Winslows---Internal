@@ -14,8 +14,8 @@ class Form_Phone_Subform extends Zend_Form_SubForm
 {
     private $_Phone;
     
-    public function __construct($options = null, Entities\Phonenumber $Phonenumber = null) {
-	$this->_Phone = $Phonenumber;
+    public function __construct($options = null, Entities\PhoneNumber $PhoneNumber = null) {
+	$this->_Phone = $PhoneNumber;
 	parent::__construct($options);
     }
   
@@ -24,8 +24,8 @@ class Form_Phone_Subform extends Zend_Form_SubForm
 	    $type_options   = $this->_Phone->getTypeOptions();
 	}
 	else{
-	    $Phonenumber    = new \Entities\Phonenumber();
-	    $type_options   = $Phonenumber->getTypeOptions();
+	    $PhoneNumber    = new \Entities\PhoneNumber();
+	    $type_options   = $PhoneNumber->getTypeOptions();
 	}
 	
 	$this->addElement('select', 'type', array(

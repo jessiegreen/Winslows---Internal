@@ -49,9 +49,8 @@
 	    <div id="nav_container">
 		<div id="nav_list_cont">
 		    <?php
-		    $Menu = new \Services\Menu\Menu;
 		    /* @var $menu \Classes\Menu */
-		    $menu = $Menu->getMenuHTML("Top");
+		    $menu = \Services\Menu::factory()->getMenuHTML("Top");
 		    $menu->attrs = array(
 			"class"	=> "sf-menu"
 		    );

@@ -10,18 +10,16 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_Person_Contact extends Zend_Form
+class Form_Contact_Subform extends Zend_Form_SubForm
 {
     private $_Contact;
-    private $_belongs_to;
     
-    public function __construct($options = null, Entities\Contact $Contact = null, $belongs_to = "contact") {
+    public function __construct($options = null, Entities\Contact $Contact = null) {
 	$this->_Contact	    = $Contact;
-	$this->_belongs_to  = $belongs_to;
 	parent::__construct($options);
     }
   
-    public function init($options = array()){
+    public function init(){
 	if($this->_Contact){
 	    $type_options   = $this->_Contact->getTypeOptions();
 	    $type_options   = $this->_Contact->getTypeOptions();
@@ -37,14 +35,14 @@ class Form_Person_Contact extends Zend_Form
             'required'	    => true,
             'label'	    => 'Type:',
 	    'multioptions'  => $type_options,
-	    'belongsTo'	    => $this->_belongs_to,
+	    'belongsTo'	    => "contact",
 	    'value'	    => $this->_Contact ? $this->_Contact->getType() : ""
         ));
 	
 	$this->addElement('text', 'type_detail', array(
             'required'	    => true,
 	    'label'	    => "Type Detail:",
-	    'belongsTo'	    => $this->_belongs_to,
+	    'belongsTo'	    => "contact",
 	    "description"   => "214-555-5555, example@gmail.com, or Will Point (Location name)",
 	    'value'	    => $this->_Contact ? $this->_Contact->getTypeDetail() : ""
         ));
@@ -53,7 +51,7 @@ class Form_Person_Contact extends Zend_Form
             'required'	    => false,
 	    'label'	    => "Note:",
 	    'rows'	    => 10,
-	    'belongsTo'	    => $this->_belongs_to,
+	    'belongsTo'	    => "contact",
 	    'value'	    => $this->_Contact ? $this->_Contact->getNote() : ""
         ));
 	
@@ -61,14 +59,9 @@ class Form_Person_Contact extends Zend_Form
             'required'	    => true,
             'label'	    => 'Result:',
 	    'multioptions'  => $result_options,
-	    'belongsTo'	    => $this->_belongs_to,
+	    'belongsTo'	    => "contact",
 	    'value'	    => $this->_Contact ? $this->_Contact->getType() : ""
         ));
-
-        $this->addElement('submit', 'submit', array(
-            'ignore'   => true,
-        ));
-
     }
 }
 

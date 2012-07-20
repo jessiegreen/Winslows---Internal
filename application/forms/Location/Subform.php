@@ -10,23 +10,18 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_Location_Location extends Zend_Form{
+class Form_Location_Subform extends Zend_Form_SubForm
+{
     private $_location;
     
-    public function __construct($options = null, \Entities\Location $Location = null) {
+    public function __construct($options = null, \Entities\Location $Location = null)
+    {
 	$this->_location = $Location;
 	parent::__construct($options);
     }
     
-    public function init($options = array()){
-	if($this->_location !== null && $this->_location->getId() > 0){
-	    $this->addElement('hidden', 'id', array(
-		'required'  => true,
-		'belongsTo' => 'location',
-		'value'	    => $this->_location ? $this->_location->getId() : ""
-	    ));
-	}
-	
+    public function init()
+    {	
 	if($this->_location){
 	    $type_options   = $this->_location->getTypeOptions();
 	}
@@ -56,11 +51,6 @@ class Form_Location_Location extends Zend_Form{
 	    'belongsTo'	    => "location",
 	    'value'	    => $this->_location ? $this->_location->getType() : ""
         ));
-
-        $this->addElement('submit', 'submit', array(
-            'ignore'   => true,
-        ));
-
     }
 }
 

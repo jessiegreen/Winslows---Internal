@@ -21,38 +21,40 @@ class Location
     
     /** @Column(type="string", length=255) */
     private $type;
-    
-    /** @Column(type="string", length=255) */
-    private $phone;
 
     /**
      * @OneToOne(targetEntity="LocationAddress", mappedBy="Location", cascade={"persist"}, orphanRemoval=true)
      */
-    protected $locationaddress;
+    protected $LocationAddress;
+    
+    /**
+     * @OneToOne(targetEntity="LocationPhoneNumber", mappedBy="Location", cascade={"persist"}, orphanRemoval=true)
+     */
+    protected $LocationPhoneNumber;
     
     /** 
      * @ManyToOne(targetEntity="Company", inversedBy="locations")
      */     
-    private $company;
+    private $Company;
     
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="Employee", mappedBy="Location", cascade={"persist"})
      */
-    private $employees;
+    private $Employees;
     
     public function __construct()
     {
-	$this->employees = new ArrayCollection();
+	$this->Employees = new ArrayCollection();
     }
     
     public function getCompany(){
-	return $this->company;
+	return $this->Company;
     }
     
     public function setCompany(Company $Company){
-	$this->company = $Company;
+	$this->Company = $Company;
     }
     
     /**
@@ -62,7 +64,7 @@ class Location
     public function addEmployee(Employee $Employee)
     {
 	$Employee->setLocation($this);
-        $this->employees[] = $Employee;
+        $this->Employees[] = $Employee;
     }
     
     /**
@@ -70,7 +72,7 @@ class Location
      */
     public function getEmployees()
     {
-      return $this->employees;
+	return $this->Employees;
     }
 
     public function getId()
@@ -88,25 +90,26 @@ class Location
         $this->name = $name;
     }
     
-    public function getPhone()
+    public function setLocationPhoneNumber(LocationPhoneNumber $LocationPhoneNumber)
     {
-        return $this->phone;
+	$LocationPhoneNumber->setLocation($this);
+        $this->LocationPhoneNumber = $LocationPhoneNumber;
     }
-
-    public function setPhone($phone)
+    
+    public function getLocationPhoneNumber()
     {
-        $this->phone = $phone;
+        return $this->LocationPhoneNumber;
     }
 
     public function setLocationAddress(LocationAddress $LocationAddress)
     {
 	$LocationAddress->setLocation($this);
-        $this->locationaddress = $LocationAddress;
+        $this->LocationAddress = $LocationAddress;
     }
     
     public function getLocationAddress()
     {
-        return $this->locationaddress;
+        return $this->LocationAddress;
     }
     
     public function getType()
@@ -125,5 +128,13 @@ class Location
 	return array(
 	    "sales" => "Sales",
 	);
+    }
+    
+    public function populate(array $array){
+	foreach ($array as $key => $value) {
+	    if(property_exists($this, $key)){
+		$this->$key = $value;
+	    }
+	}
     }
 }

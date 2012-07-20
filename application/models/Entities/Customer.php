@@ -19,7 +19,11 @@ use Entities\Lead as Lead;
 
 class Customer extends Lead
 {
-       
+    public function populate(array $array){
+	foreach ($array as $key => $value) {
+	    if(property_exists($this, $key)){
+		$this->$key = $value;
+	    }
+	}
+    }
 }
-
-?>

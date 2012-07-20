@@ -4,10 +4,14 @@ namespace Entities;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /** 
- * @Entity (repositoryClass="Repositories\Phonenumber") 
- * @Table(name="phonenumbers")
+ * @Entity (repositoryClass="Repositories\PhoneNumber") 
+ * @Table(name="phonenumbers") 
+ * @InheritanceType("JOINED")
+ * @DiscriminatorColumn(name="discr", type="string")
+ * @DiscriminatorMap({"personphonenumber" = "PersonPhoneNumber", "locationphonenumber" = "LocationPhoneNumber"})
+ * @HasLifecycleCallbacks
  */
-class Phonenumber
+class PhoneNumber
 {
     /**
      * @Id @Column(type="integer")
@@ -135,4 +139,11 @@ class Phonenumber
 	);
     }
 
+    public function populate(array $array){
+	foreach ($array as $key => $value) {
+	    if(property_exists($this, $key)){
+		$this->$key = $value;
+	    }
+	}
+    }
 }

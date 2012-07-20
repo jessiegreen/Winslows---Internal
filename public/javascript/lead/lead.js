@@ -7,7 +7,7 @@ Lead.prototype.LeadLookupInit = function(element_id){
 	    source: "/lead/searchautocomplete",
 	    minLength: 2,
 	    select: function( event, ui ) {
-		    location="/lead/edit/id/" + ui.item.id;
+		    location="/lead/view/id/" + ui.item.id;
 	    }
     });
 }

@@ -17,13 +17,13 @@ class CustomerController extends Zend_Controller_Action
     }
     
     public function addAction(){
-	$form = new Form_Customer_Add;
+	$form = new Form_Customer;
 	if($this->_request->isPost()){
 	    if($form->isValid($this->_params)){
 		$data		= $this->_params;
 		$Customer	= new Entities\Customer;
 		$Address	= new Entities\PersonAddress();
-		$Phonenumber	= new Entities\Phonenumber();
+		$PhoneNumber	= new Entities\PhoneNumber();
 		$person_data	= $data["person"];
 		$phone_data	= $data["phonenumber"];
 		$address_data	= $data["address"];
@@ -45,14 +45,14 @@ class CustomerController extends Zend_Controller_Action
 		$Address->setZip1($address_data["zip_1"]);
 		$Address->setZip2($address_data["zip_2"]);
 		
-		$Phonenumber->setType($phone_data["type"]);
-		$Phonenumber->setAreaCode($phone_data["phone_number"]["area"]);
-		$Phonenumber->setNum1($phone_data["phone_number"]["prefix"]);
-		$Phonenumber->setNum2($phone_data["phone_number"]["line"]);
-		$Phonenumber->setExtension($phone_data["extension"]);
+		$PhoneNumber->setType($phone_data["type"]);
+		$PhoneNumber->setAreaCode($phone_data["phone_number"]["area"]);
+		$PhoneNumber->setNum1($phone_data["phone_number"]["prefix"]);
+		$PhoneNumber->setNum2($phone_data["phone_number"]["line"]);
+		$PhoneNumber->setExtension($phone_data["extension"]);
 		
 		$Customer->addPersonAddress($Address);
-		$Customer->addPhoneNumber($Phonenumber);
+		$Customer->addPhoneNumber($PhoneNumber);
 		
 		$em->persist($Customer);
 		$em->flush();
@@ -84,8 +84,7 @@ class CustomerController extends Zend_Controller_Action
 	    $this->_redirect('/customer/search/');
 	}
 	
-	$CompanyService		= new \Services\Company\Company();
-	$Company		= $CompanyService->getCurrentCompany();
+	$Company		= \Services\Company::factory()->getCurrentCompany();
 	$this->view->Customer	= $Customer;
 	$this->view->Locations	= $Company->getLocations();
     }
@@ -106,8 +105,7 @@ class CustomerController extends Zend_Controller_Action
 	$this->_helper->viewRenderer->setNoRender(true);
 	
 	$term		= $this->_autocompleteGetTerm();
-	$LeadService	= new \Services\People\Lead();
-	$return		= $LeadService->getAutocompleteLeadsArrayFromTerm($term, "customer");
+	$return		= \Services\Lead::factory()->getAutocompleteLeadsArrayFromTerm($term, "customer");
 	echo json_encode($return);
     }
 
@@ -195,7 +193,7 @@ class CustomerController extends Zend_Controller_Action
 	    
 	    if(!$Customer)throw new Exception("Can not add phone number. No Customer with that Id");
 	    
-	    $form = new Form_Person_Phonenumber(array("method" => "post"));
+	    $form = new Form_Person_PhoneNumber(array("method" => "post"));
 	    
 	    $form->addElement(
 		    "button", 
@@ -216,19 +214,19 @@ class CustomerController extends Zend_Controller_Action
 	    {
 		try {
 		    $phone_data = $this->_params["phonenumber"];
-		    $Phonenumber = new \Entities\Phonenumber();
-		    $Phonenumber->setType($phone_data["type"]);
-		    $Phonenumber->setAreaCode($phone_data["phone_number"]["area"]);
-		    $Phonenumber->setNum1($phone_data["phone_number"]["prefix"]);
-		    $Phonenumber->setNum2($phone_data["phone_number"]["line"]);
-		    $Phonenumber->setExtension($phone_data["extension"]);
-		    $Customer->addPhoneNumber($Phonenumber);
+		    $PhoneNumber = new \Entities\PhoneNumber();
+		    $PhoneNumber->setType($phone_data["type"]);
+		    $PhoneNumber->setAreaCode($phone_data["phone_number"]["area"]);
+		    $PhoneNumber->setNum1($phone_data["phone_number"]["prefix"]);
+		    $PhoneNumber->setNum2($phone_data["phone_number"]["line"]);
+		    $PhoneNumber->setExtension($phone_data["extension"]);
+		    $Customer->addPhoneNumber($PhoneNumber);
 		    
 		    $em->persist($Customer);
 		    $em->flush();
 		    $flashMessenger->addMessage(
 			    array(
-				'message' => "Customer Phone Number '".$Phonenumber->getType()."' for '".
+				'message' => "Customer Phone Number '".$PhoneNumber->getType()."' for '".
 						$Customer->getFullName()."' Added", 
 				'status' => 'success'
 				)
@@ -313,11 +311,11 @@ class CustomerController extends Zend_Controller_Action
 	    if(!isset($this->_params["customer_id"]))throw new Exception("Can not edit phone. No Id");
 	    /* @var $Customer Entities\Customer */
 	    $Customer	    = $em->find("Entities\Customer", $this->_params["customer_id"]);
-	    $Phonenumber    = $em->find("Entities\Phonenumber", $this->_params["phonenumber_id"]);
+	    $PhoneNumber    = $em->find("Entities\PhoneNumber", $this->_params["phonenumber_id"]);
 	    
-	    if(!$Customer || !$Phonenumber)throw new Exception("Can not edit phone. No Customer or Phonenumber with that Id");
+	    if(!$Customer || !$PhoneNumber)throw new Exception("Can not edit phone. No Customer or PhoneNumber with that Id");
 	    
-	    $form = new Form_Person_Phonenumber(array("method" => "post"), $Phonenumber);
+	    $form = new Form_Person_PhoneNumber(array("method" => "post"), $PhoneNumber);
 	    
 	    $form->addElement(
 		    "button", 
@@ -339,17 +337,17 @@ class CustomerController extends Zend_Controller_Action
 		try {
 		    $phone_data = $this->_params["phonenumber"];
 		    
-		    $Phonenumber->setType($phone_data["type"]);
-		    $Phonenumber->setAreaCode($phone_data["phone_number"]["area"]);
-		    $Phonenumber->setNum1($phone_data["phone_number"]["prefix"]);
-		    $Phonenumber->setNum2($phone_data["phone_number"]["line"]);
-		    $Phonenumber->setExtension($phone_data["extension"]);
+		    $PhoneNumber->setType($phone_data["type"]);
+		    $PhoneNumber->setAreaCode($phone_data["phone_number"]["area"]);
+		    $PhoneNumber->setNum1($phone_data["phone_number"]["prefix"]);
+		    $PhoneNumber->setNum2($phone_data["phone_number"]["line"]);
+		    $PhoneNumber->setExtension($phone_data["extension"]);
 		    
-		    $em->persist($Phonenumber);
+		    $em->persist($PhoneNumber);
 		    $em->flush();
 		    $flashMessenger->addMessage(
 			    array(
-				'message' => "Customer Phone Number '".$Phonenumber->getType()."' for '".
+				'message' => "Customer Phone Number '".$PhoneNumber->getType()."' for '".
 						$Customer->getFullName()."' Edited", 
 				'status' => 'success'
 				)
@@ -541,8 +539,7 @@ class CustomerController extends Zend_Controller_Action
     }
     
     public function addcontactAction(){
-	$Auth		= new Services\Auth\Auth();
-	$Person		= $Auth->getIdentityWebAccount()->getPerson();
+	$Person		= Services\Auth::factory()->getIdentityWebAccount()->getPerson();
 	$em		= $this->_helper->EntityManager();
 	$flashMessenger = $this->_helper->getHelper('FlashMessenger');
 	
@@ -561,8 +558,8 @@ class CustomerController extends Zend_Controller_Action
 		if(isset($this->_params["type_id"])){
 		    switch ($this->_params["type"]) {
 			case "phone":
-			    $Phonenumber = $this->_helper->EntityManager()->find("Entities\Phonenumber", $this->_params["type_id"]);
-			    if($Phonenumber)$Contact->setTypeDetail ($Phonenumber->getNumberDisplay());
+			    $PhoneNumber = $this->_helper->EntityManager()->find("Entities\PhoneNumber", $this->_params["type_id"]);
+			    if($PhoneNumber)$Contact->setTypeDetail ($PhoneNumber->getNumberDisplay());
 			    break;
 			case "location":
 			    $Location = $this->_helper->EntityManager()->find("Entities\Location", $this->_params["type_id"]);

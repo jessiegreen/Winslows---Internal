@@ -69,7 +69,7 @@ class LoginController extends Zend_Controller_Action
         $adapter    = $this->getAuthAdapter($data['username'], $data['password']);
 	$result	    = $adapter->authenticate();
 	$auth	    = Zend_Auth::getInstance();
-	$data	    = $adapter->getWebaccount();
+	$data	    = $adapter->getWebAccount();
         $auth->getStorage()->write($data);
 	
         if (!$result->isValid()) {

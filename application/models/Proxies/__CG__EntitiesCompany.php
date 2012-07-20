@@ -54,18 +54,6 @@ class Company extends \Entities\Company implements \Doctrine\ORM\Proxy\Proxy
         return parent::getLocations();
     }
 
-    public function addEmployee(\Entities\Employee $Employee)
-    {
-        $this->__load();
-        return parent::addEmployee($Employee);
-    }
-
-    public function getEmployees()
-    {
-        $this->__load();
-        return parent::getEmployees();
-    }
-
     public function getId()
     {
         if ($this->__isInitialized__ === false) {
@@ -111,10 +99,16 @@ class Company extends \Entities\Company implements \Doctrine\ORM\Proxy\Proxy
         return parent::setDescription($description);
     }
 
+    public function populate(array $array)
+    {
+        $this->__load();
+        return parent::populate($array);
+    }
+
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'name', 'name_index', 'locations', 'employees');
+        return array('__isInitialized__', 'id', 'name', 'name_index', 'Locations');
     }
 
     public function __clone()

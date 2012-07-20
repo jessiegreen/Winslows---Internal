@@ -23,70 +23,70 @@ class Role
     private $description;
     
     /**
-     * @OneToMany(targetEntity="Privilege", mappedBy="role", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @OneToMany(targetEntity="Privilege", mappedBy="Role", cascade={"persist", "remove"}, orphanRemoval=true)
      */
-    private $privileges;
+    private $Privileges;
     
     /**
-     * @ManytoMany(targetEntity="Resource", inversedBy="roles", cascade={"persist", "remove"})
+     * @ManytoMany(targetEntity="Resource", inversedBy="Roles", cascade={"persist", "remove"})
      * @JoinTable(name="role_resources",
      *      joinColumns={@JoinColumn(name="role_id", referencedColumnName="id")},
      *      inverseJoinColumns={@JoinColumn(name="resource_id", referencedColumnName="id")}
      *      )
      */
-    private $resources;
+    private $Resources;
     
     /**
-     * @ManytoMany(targetEntity="Webaccount", mappedBy="roles", cascade={"ALL"})
+     * @ManytoMany(targetEntity="WebAccount", mappedBy="Roles", cascade={"ALL"})
      */
-    private $webaccounts;
+    private $WebAccounts;
     
     public function __construct()
     {
-	$this->resources    = new ArrayCollection();
-	$this->webaccounts  = new ArrayCollection();
+	$this->Resources    = new ArrayCollection();
+	$this->WebAccounts  = new ArrayCollection();
     }
     
     /**
      * Associate Role with Privilege
-     * @param Privilege $privilege
+     * @param Privilege $Privilege
      */
     public function addPrivilege(Privilege $Privilege)
     {
 	$Privilege->setRole($this);
-        $this->privileges[] = $Privilege;
+        $this->Privileges[] = $Privilege;
     }
     
-    public function addWebaccount(Webaccount $WebAccount)
+    public function addWebAccount(WebAccount $WebAccount)
     {
 //	$WebAccount->addRole($this);
-        $this->webaccounts[] = $WebAccount;
+        $this->WebAccounts[] = $WebAccount;
     }
     
-    public function removeWebAccount(Webaccount $Webaccount){
-	foreach ($this->webaccounts as $key => $Webaccount2) {
-	    if($Webaccount->getId() == $Webaccount2->getId()){
-		$removed = $this->webaccounts[$key];
-		unset($this->webaccounts[$key]);
+    public function removeWebAccount(WebAccount $WebAccount){
+	foreach ($this->WebAccounts as $key => $WebAccount2) {
+	    if($WebAccount->getId() == $WebAccount2->getId()){
+		$removed = $this->WebAccounts[$key];
+		unset($this->WebAccounts[$key]);
 		return $removed;
 	    }
 	}
     }
 
     public function getPrivileges(){
-	return $this->privileges;
+	return $this->Privileges;
     }
     
     public function addResource(Resource $Resource)
     {
-        $this->resources[] = $Resource;
+        $this->Resources[] = $Resource;
     }
     
     public function removeResource(Resource $Resource){
-	foreach ($this->resources as $key => $Resource2) {
+	foreach ($this->Resources as $key => $Resource2) {
 	    if($Resource->getId() == $Resource2->getId()){
-		$removed = $this->resources[$key];
-		unset($this->resources[$key]);
+		$removed = $this->Resources[$key];
+		unset($this->Resources[$key]);
 		return $removed;
 	    }
 	}
@@ -94,7 +94,7 @@ class Role
     
     public function getResources()
     {
-	return $this->resources;
+	return $this->Resources;
     }
 
     /**
@@ -125,4 +125,11 @@ class Role
         $this->description = $description;
     }
 
+    public function populate(array $array){
+	foreach ($array as $key => $value) {
+	    if(property_exists($this, $key)){
+		$this->$key = $value;
+	    }
+	}
+    }
 }

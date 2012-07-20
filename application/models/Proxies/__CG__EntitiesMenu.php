@@ -42,10 +42,10 @@ class Menu extends \Entities\Menu implements \Doctrine\ORM\Proxy\Proxy
     }
 
     
-    public function addMenuItem(\Entities\MenuItem $menuitem)
+    public function addMenuItem(\Entities\MenuItem $MenuItem)
     {
         $this->__load();
-        return parent::addMenuItem($menuitem);
+        return parent::addMenuItem($MenuItem);
     }
 
     public function getMenuItems()
@@ -105,10 +105,16 @@ class Menu extends \Entities\Menu implements \Doctrine\ORM\Proxy\Proxy
         return parent::getUpdated();
     }
 
+    public function populate(array $array)
+    {
+        $this->__load();
+        return parent::populate($array);
+    }
+
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'name', 'created', 'updated', 'menuitems');
+        return array('__isInitialized__', 'id', 'name', 'created', 'updated', 'MenuItems');
     }
 
     public function __clone()
