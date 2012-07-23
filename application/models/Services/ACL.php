@@ -13,7 +13,7 @@ class ACL {
     }
     
     public static function factory() {
-	return new Menu;
+	return new ACL;
     }
     
     /**
