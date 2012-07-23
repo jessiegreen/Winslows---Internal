@@ -109,7 +109,7 @@ class LeadController extends Zend_Controller_Action
 	    
 	    if(!$Lead)throw new Exception("Can not add address. No Lead with that Id");
 	    
-	    $form = new Form_PersonAddress_PersonAddress(array("method" => "post"));
+	    $form = new Form_PersonAddress(array("method" => "post"));
 	    
 	    $form->addElement(
 		    "button", 

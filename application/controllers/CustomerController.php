@@ -131,7 +131,7 @@ class CustomerController extends Zend_Controller_Action
 	    
 	    if(!$Customer)throw new Exception("Can not add address. No Customer with that Id");
 	    
-	    $form = new Form_PersonAddress_PersonAddress(array("method" => "post"));
+	    $form = new Form_PersonAddress(array("method" => "post"));
 	    
 	    $form->addElement(
 		    "button", 
@@ -254,7 +254,7 @@ class CustomerController extends Zend_Controller_Action
 	    
 	    if(!$Customer || !$PersonAddress)throw new Exception("Can not edit address. No Customer or Address with that Id");
 	    
-	    $form = new Form_PersonAddress_PersonAddress(array("method" => "post"), $PersonAddress);
+	    $form = new Form_PersonAddress(array("method" => "post"), $PersonAddress);
 	    
 	    $form->addElement(
 		    "button", 

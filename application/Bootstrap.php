@@ -97,8 +97,12 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     }
     
     protected function _initPlugins() {
+	#--Register Front controller Plugins
 	$front = Zend_Controller_Front::getInstance();
 	$front->registerPlugin(new Dataservice_Controller_Plugin_ACL(), 1);
+	
+	#--Register Controller Action Helpers
+	Zend_Controller_Action_HelperBroker::addHelper(new Dataservice_Controller_Action_Helper_History());
     }
   
 }

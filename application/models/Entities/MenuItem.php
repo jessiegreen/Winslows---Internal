@@ -143,7 +143,7 @@ class MenuItem
     
     public function getMenuId()
     {
-        return $this->menu_id;
+        return $this->Menu_id;
     }
     
     public function getLabel()

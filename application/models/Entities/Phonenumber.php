@@ -17,28 +17,28 @@ class PhoneNumber
      * @Id @Column(type="integer")
      * @GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /** @Column(type="string", length=255) */
-    private $type;
+    protected $type;
     
     /** @Column(type="integer", length=3) */
-    private $area_code;
+    protected $area_code;
     
     /** @Column(type="integer", length=3) */
-    private $num1;
+    protected $num1;
     
     /** @Column(type="string", length=4) */
-    private $num2;
+    protected $num2;
     
     /** @Column(type="string", length=7) */
-    private $extension;
+    protected $extension;
 
     /** @Column(type="datetime") */
-    private $created;
+    protected $created;
 
     /** @Column(type="datetime") */
-    private $updated;
+    protected $updated;
 
     public function __construct()
     {

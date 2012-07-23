@@ -50,6 +50,7 @@ class PersonAddress extends Address
     
     public function populate(array $array){
 	foreach ($array as $key => $value) {
+	    echo "$key exists=".(property_exists($this, $key) ? "yes" : "no")."<br />";
 	    if(property_exists($this, $key)){
 		$this->$key = $value;
 	    }

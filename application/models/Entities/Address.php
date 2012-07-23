@@ -17,37 +17,37 @@ class Address
      * @Id @Column(type="integer")
      * @GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /** @Column(type="string", length=255) */
-    private $name;
+    protected $name;
     
     /** @Column(type="string", length=255) */
-    private $address_1;
+    protected $address_1;
     
     /** @Column(type="string", length=255) */
-    private $address_2;
+    protected $address_2;
     
     /** @Column(type="string", length=255) */
-    private $city;
+    protected $city;
     
     /** @Column(type="string", length=255) */
-    private $county;
+    protected $county;
 
     /** @Column(type="string", length=2) */
-    private $state;
+    protected $state;
 
     /** @Column(type="string", length=5) */
-    private $zip_1;
+    protected $zip_1;
     
     /** @Column(type="string", length=5) */
-    private $zip_2;
+    protected $zip_2;
 
     /** @Column(type="datetime") */
-    private $created;
+    protected $created;
 
     /** @Column(type="datetime") */
-    private $updated;
+    protected $updated;
 
     public function __construct()
     {

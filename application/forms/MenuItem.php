@@ -10,7 +10,7 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_Menuitem extends Zend_Form
+class Form_MenuItem extends Zend_Form
 {
     private $_MenuItem;
     

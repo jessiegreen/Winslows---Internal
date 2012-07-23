@@ -1,8 +1,9 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo HTML::backAnchorIcon("Employees", "/humanresources/employeesview");
+echo HTML::backAnchorIcon("Employees - All", "/employee/viewall");
 echo "</div>";
+
 /* @var $Employee \Entities\Employee */
 $Employee	= $this->Employee;
 $employee_id	= $Employee->getId();
@@ -45,7 +46,7 @@ $emails		= $Employee->getPersonEmailAddresses();
 		    echo HTML::anchorIcon(
 			    "pencil.png", 
 			    "", 
-			    "/employee/editaddress/employee_id/".$employee_id."/address_id/".$Address->getId(),
+			    "/personaddress/edit/person_id/".$employee_id."/id/".$Address->getId(),
 			    "margin-left:5px;"
 			    );
 		    ?>
@@ -154,8 +155,8 @@ $emails		= $Employee->getPersonEmailAddresses();
 </div>
 <div style="clear: both;"><input type="hidden" id="employee_id" value="<?php echo $employee_id;?>" /></div>
 <script type="text/javascript">
-    Hr_Employee = new Hr_Employee();
-    Hr_Employee.AddPhoneClickBind("phone_add");
-    Hr_Employee.AddAddressClickBind("address_add");
-    Hr_Employee.AddEmailClickBind("email_add");
+    Employee = new Employee();
+    Employee.AddPhoneClickBind("phone_add");
+    Employee.AddAddressClickBind("address_add");
+    Employee.AddEmailClickBind("email_add");
 </script>

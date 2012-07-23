@@ -10,18 +10,18 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_Phone_Subform extends Zend_Form_SubForm
+class Form_PersonPhoneNumber_Subform extends Form_PhoneNumber_Subform
 {
-    private $_Phone;
+    private $_PhoneNumber;
     
     public function __construct($options = null, Entities\PhoneNumber $PhoneNumber = null) {
-	$this->_Phone = $PhoneNumber;
+	$this->_PhoneNumber = $PhoneNumber;
 	parent::__construct($options);
     }
   
     public function init(){
-	if($this->_Phone){
-	    $type_options   = $this->_Phone->getTypeOptions();
+	if($this->_PhoneNumber){
+	    $type_options   = $this->_PhoneNumber->getTypeOptions();
 	}
 	else{
 	    $PhoneNumber    = new \Entities\PhoneNumber();
@@ -33,7 +33,7 @@ class Form_Phone_Subform extends Zend_Form_SubForm
             'label'	    => 'Type:',
 	    'multioptions'  => $type_options,
 	    'belongsTo'	    => "phone",
-	    'value'	    => $this->_Phone ? $this->_Phone->getType() : ""
+	    'value'	    => $this->_PhoneNumber ? $this->_PhoneNumber->getType() : ""
         ));
 	
 	$phone_number = new Dataservice_Form_Element_PhoneNumber('phoneNumber', array(
@@ -42,7 +42,7 @@ class Form_Phone_Subform extends Zend_Form_SubForm
 		'validators'	=> array(
 			array('NotEmpty', true, array('messages' => 'Please input your phone number.'))
 		),
-		'value'		=> $this->_Phone ? $this->_Phone->getAreaCode()."-".$this->_Phone->getNum1()."-".$this->_Phone->getNum2() : "",
+		'value'		=> $this->_PhoneNumber ? $this->_PhoneNumber->getAreaCode()."-".$this->_PhoneNumber->getNum1()."-".$this->_PhoneNumber->getNum2() : "",
 		'required'	=> true,
 		'belongsTo'	=> "phone",
 		'class'		=> 'phonenumber'
@@ -57,7 +57,7 @@ class Form_Phone_Subform extends Zend_Form_SubForm
 	    'size'	    => 7,
 	    'maxlength'	    => 7,
 	    'belongsTo'	    => "phone",
-	    'value'	    => $this->_Phone ? $this->_Phone->getExtension() : ""
+	    'value'	    => $this->_PhoneNumber ? $this->_PhoneNumber->getExtension() : ""
         ));
     }
 }

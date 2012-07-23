@@ -73,7 +73,7 @@ class Menu {
 	    "module"	    => $MenuItem->getLinkModule(),
 	    "controller"    => $MenuItem->getLinkController(),
 	    "action"	    => $MenuItem->getLinkAction(),
-	    "params"	    => $MenuItem->getLinkParams()
+	    "params"	    => $this->decodeLinkParams($MenuItem)
 	);
     }
     
@@ -86,7 +86,13 @@ class Menu {
     {
 	$url_array  = $this->getUrlArray($MenuItem);
 	$url_helper = new \Zend_Controller_Action_Helper_Url;
-	return $url_helper->url($url_array);
+
+	return $url_helper->simple(
+		$url_array["action"],
+		$url_array["controller"],
+		$url_array["module"],
+		$url_array["params"]
+		);
     }
     
     /**
@@ -114,6 +120,18 @@ class Menu {
 	/* @var $MenuRepos \Repositories\Menu */
 	$MenuRepos	= $this->_em->getRepository('Entities\Menu');
 	return $MenuRepos->findOneBy(array("name" => $menu_name));
+    }
+    
+    /**
+     *
+     * @param \Entities\MenuItem $MenuItem
+     * @return type 
+     */
+    public function decodeLinkParams(\Entities\MenuItem $MenuItem){
+	$params			= array();
+	$link_params		= trim($MenuItem->getLinkParams());
+	if($link_params)$params =  json_decode ($link_params);
+	return $params;
     }
 }
 

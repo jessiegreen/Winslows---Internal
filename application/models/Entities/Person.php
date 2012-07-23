@@ -121,7 +121,7 @@ class Person
     public function addPersonPhoneNumber(PersonPhoneNumber $PersonPhoneNumber)
     {
 	$PersonPhoneNumber->setPerson($this);
-        $this->PersonPhoneNumbers[] = $PhoneNumber;
+        $this->PersonPhoneNumbers[] = $PersonPhoneNumber;
     }
     
     /**
