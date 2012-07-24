@@ -13,39 +13,49 @@
 class Form_Contact_Subform extends Zend_Form_SubForm
 {
     private $_Contact;
+    private $_Lead;
     
-    public function __construct($options = null, Entities\Contact $Contact = null) {
+    public function __construct(\Entities\Lead $Lead, $options = null, Entities\Contact $Contact = null) {
 	$this->_Contact	    = $Contact;
+	$this->_Lead	    = $Lead;
 	parent::__construct($options);
     }
   
     public function init(){
 	if($this->_Contact){
-	    $type_options   = $this->_Contact->getTypeOptions();
-	    $type_options   = $this->_Contact->getTypeOptions();
 	    $result_options = $this->_Contact->getResultOptions();
 	}
 	else{
 	    $Contact	    = new Entities\Contact();
-	    $type_options   = $Contact->getTypeOptions();
 	    $result_options = $Contact->getResultOptions();
 	}
 	
-	$this->addElement('select', 'type', array(
-            'required'	    => true,
-            'label'	    => 'Type:',
-	    'multioptions'  => $type_options,
-	    'belongsTo'	    => "contact",
-	    'value'	    => $this->_Contact ? $this->_Contact->getType() : ""
-        ));
+	$this->addElement(new Dataservice_Form_Element_ContactMediumSelect(
+		"type",
+		$this->_Lead, 
+		$this->_Contact, 
+		array(
+		    'required'	    => true,
+		    'label'	    => 'Type:',
+		    'belongsTo'	    => 'contact',
+		    'value'	    => $this->_Contact && $this->_Contact->getType() && $this->_Contact->getTypeDetail() ? 
+					json_encode(
+						array(
+						    "type" => $this->_Contact->getType(), 
+						    "type_detail" => $this->_Contact->getTypeDetail())) : 
+					""
+		)
+	    )
+	);
 	
-	$this->addElement('text', 'type_detail', array(
+	$this->addElement(new Dataservice_Form_Element_EmployeeSelect("person", array(
             'required'	    => true,
-	    'label'	    => "Type Detail:",
-	    'belongsTo'	    => "contact",
-	    "description"   => "214-555-5555, example@gmail.com, or Will Point (Location name)",
-	    'value'	    => $this->_Contact ? $this->_Contact->getTypeDetail() : ""
-        ));
+            'label'	    => 'By:',
+	    'belongsTo'	    => 'contact',
+	    'value'	    => $this->_Contact && $this->_Contact->getPerson() ? 
+				$this->_Contact->getPerson()->getId() : 
+				\Services\Auth::factory()->getIdentityPerson()->getId()
+        )));
 	
 	$this->addElement('textarea', 'note', array(
             'required'	    => false,

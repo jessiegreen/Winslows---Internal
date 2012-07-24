@@ -1,17 +1,18 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo HTML::backAnchorIcon("Lead Search", "/lead/search");
+echo HTML::backAnchorIcon("Customer Search", "/customer/search");
 echo "</div>";
 ?>
-<h1 class="header1">Lead - View</h1>
+<h1 class="header1">Customer - View</h1>
 <?php
-$lead	= $this->Lead;
-$lead_id	= $lead->getId();
-$addresses	= $lead->getPersonAddresses();
-$phones		= $lead->getPersonPhoneNumbers();
-$emails		= $lead->getPersonEmailAddresses();
-$contacts	= $lead->getContacts();
+/* @var $customer Entities\Customer */
+$customer	= $this->Customer;
+$customer_id	= $customer->getId();
+$addresses	= $customer->getPersonAddresses();
+$phones		= $customer->getPersonPhoneNumbers();
+$emails		= $customer->getPersonEmailAddresses();
+$contacts	= $customer->getContacts();
 ?>
 <div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
     <h4 class="no_space" style="color: #2000EE;">
@@ -20,27 +21,26 @@ $contacts	= $lead->getContacts();
 	echo HTML::anchorIcon(
 		"pencil.png", 
 		"", 
-		"/lead/edit/id/".$lead_id,
+		"/customer/edit/id/".$customer_id,
 		"margin-left:5px;"
 		);
 	?>
     </h4>
     <div>
-	Name:<?php echo $lead->getFullName(); ?> &nbsp;&nbsp;&nbsp; 
-	Sales Location:<?php echo $lead->getEmployee()->getLocation()->getName(); ?> &nbsp;&nbsp;&nbsp; 
-	Company:<?php echo $lead->getEmployee()->getLocation()->getCompany()->getName(); ?> &nbsp;&nbsp;&nbsp; 
-	Salesman:<?php echo $lead->getEmployee()->getFullName(); ?>
+	Name:<?php echo $customer->getFullName(); ?> &nbsp;&nbsp;&nbsp; 
+	Sales Location:<?php echo $customer->getEmployee()->getLocation()->getName(); ?> &nbsp;&nbsp;&nbsp; 
+	Company:<?php echo $customer->getEmployee()->getLocation()->getCompany()->getName(); ?> &nbsp;&nbsp;&nbsp; 
+	Salesman:<?php echo $customer->getEmployee()->getFullName(); ?>
     </div>
 </div>
 <div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">
     <div id="accordion">
 	<h3>
-	    <a href="#">Addresses</a>
-	    <?php echo HTML::buttonBlue("building_add.png", "Add address", "address_add", "float:right;width:110px;");?>
+	    <a href="#">Address</a>
+	    <?php echo HTML::buttonBlue("building_add.png", "Add Address", "address_add", "float:right;width:110px;");?>
 	</h3>
 	<div>
 	    <?php
-	    echo count($addresses)<1 ? "<span class='small gray'>No Addresses</span>" : "";
 	    /* @var $Address \Entities\Address */
 	    foreach ($addresses as $Address) {
 		?>
@@ -50,7 +50,7 @@ $contacts	= $lead->getContacts();
 		    echo HTML::anchorIcon(
 			    "pencil.png", 
 			    "", 
-			    "/personaddress/edit/person_id/".$lead_id."/id/".$Address->getId(),
+			    "/personaddress/edit/person_id/".$customer_id."/id/".$Address->getId(),
 			    "margin-left:5px;"
 			    );
 		    ?>
@@ -83,18 +83,16 @@ $contacts	= $lead->getContacts();
 	</h3>
 	<div>
 	    <?php
-	    echo count($phones)<1 ? "<span class='small gray'>No Phones</span>" : "";
 	    /* @var $PhoneNumber \Entities\PhoneNumber */
 	    foreach ($phones as $PhoneNumber) {
 		?>
-		<h4 class="no_space blue_frame bg_blue_fade" style="padding:3px;margin-bottom: 3px;">
+		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
 		    <?php 
 		    echo $PhoneNumber->getType(); 
 		    echo HTML::anchorIcon(
 			    "pencil.png", 
 			    "", 
-			    "/personphonenumber/edit/person_id/".$lead_id."/id/".
-				$PhoneNumber->getId(), 
+			    "/personphonenumber/edit/person_id/".$customer_id."/id/".$PhoneNumber->getId(), 
 			    "margin-left:5px;"
 			    );
 		    ?>
@@ -136,14 +134,13 @@ $contacts	= $lead->getContacts();
 		    echo HTML::anchorIcon(
 			    "pencil.png", 
 			    "", 
-			    "/personemailaddress/edit/person_id/".$lead_id."/id/".
-				$Emailaddress->getId(), 
+			    "/personemailaddress/edit/person_id/".$customer_id."/id/".$Emailaddress->getId(), 
 			    "margin-left:5px;"
 			    );
 		    ?>
 		</h4>
-		<label>Address:</label>
-		<div style="display: inline;">
+		<label for="emailaddress">Address:</label>
+		<div id="emailaddress" style="display: inline;">
 		    <?php 
 		    echo $Emailaddress->getAddress(); 
 		    ?>
@@ -157,7 +154,7 @@ $contacts	= $lead->getContacts();
 <div class="padded_frame" style="width: 415px;float: right;padding-top: 0px;">
     <h3>
 	<a href="#">Contacts</a>
-	<span style="float:right;">
+	<span style="float: right;">
 	    <?php 
 	    echo HTML::buttonBlue(
 		    "phone_sound.png", 
@@ -169,37 +166,36 @@ $contacts	= $lead->getContacts();
 	</span>
     </h3>
     <div>
-	<div style="max-height: 300px;overflow: auto;">
+	<div class="" style="max-height: 300px;overflow: auto;">
 	    <?php
 	    /* @var $Contact \Entities\Contact */
 	    foreach ($contacts as $Contact) {
 		?>
-		<h4 class="no_space bg_blue_fade blue_frame" style="padding:3px;margin-bottom: 3px;">
+		<h4 class="no_space bg_blue_fade blue_frame" style="margin-bottom: 3px;padding:3px;">
 		    <?php 
-		    echo $Contact->getCreated()->format("m-d-Y, g:i a")." - ".$Contact->getPerson()->getFullName(); 
+		    echo $Contact->getCreated()->format("m-d-Y, g:i a")." - ".$Contact->getPerson()->getFirstName(); 
 		    echo HTML::anchorIcon(
 			    "pencil.png", 
 			    "", 
-			    "/contact/edit/lead_id/".$lead_id."/id/".
-				$Contact->getId(), 
+			    "/contact/edit/lead_id/".$customer_id."/id/".$Contact->getId(), 
 			    "margin-left:5px;"
 			    );
 		    ?>
 		</h4>
-		<label>Type:</label>
-		<div style="display: inline;">
+		<label for="contact_type">Type:</label>
+		<div id="contact_type" style="display: inline;">
 		    <?php 
 		    echo $Contact->getTypeDisplay()." - ".$Contact->getTypeDetail(); 
 		    ?>
 		</div><br />
-		<label>Note:</label>
-		<div style="display: inline;">
+		<label for="contact_note">Note:</label>
+		<div id="contact_note" style="display: inline;">
 		    <?php 
 		    echo HTML::truncateString($Contact->getNote(), 40);
 		    ?>
 		</div><br />
-		<label>Result:</label>
-		<div style="display: inline;">
+		<label for="contact_result">Result:</label>
+		<div id="contact_result" style="display: inline;">
 		    <?php 
 		    echo $Contact->getResultDisplay();
 		    ?>
@@ -210,14 +206,17 @@ $contacts	= $lead->getContacts();
 	</div>
     </div>
     <hr />
+    <h3><a href="#">Orders</a></h3>
+    <div>Put Orders here</div>
+    <hr />
     <h3><a href="#">Documents</a></h3>
     <div>Put Documents here</div>
 </div>
-<div style="clear: both;"><input type="hidden" id="lead_id" value="<?php echo $lead_id;?>" /></div>
+<div style="clear: both;"><input type="hidden" id="customer_id" value="<?php echo $customer_id;?>" /></div>
 <script type="text/javascript">
-    Lead = new Lead();
-    Lead.AddPhoneClickBind("phone_add");
-    Lead.AddAddressClickBind("address_add");
-    Lead.AddEmailClickBind("email_add");
-    Lead.AddContactClickBind("contact_add");
+    Customer = new Customer();
+    Customer.AddPhoneClickBind("phone_add");
+    Customer.AddAddressClickBind("address_add");
+    Customer.AddEmailClickBind("email_add");
+    Customer.AddContactClickBind("contact_add");
 </script>

@@ -3,17 +3,20 @@ echo($this->flashMessages());
 echo "<div>";
 echo HTML::backAnchorIcon("Employees - All", "/employee/viewall");
 echo "</div>";
-
+?>
+<h1 class="header1">Employee - View</h1>
+<?php
 /* @var $Employee \Entities\Employee */
 $Employee	= $this->Employee;
 $employee_id	= $Employee->getId();
 $addresses	= $Employee->getPersonAddresses();
 $phones		= $Employee->getPersonPhoneNumbers();
 $emails		= $Employee->getPersonEmailAddresses();
+$webaccount	= $Employee->getWebAccount();
 ?>
 <div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
     <h3 class="no_space" style="color: #2000EE;">
-	Employee Info
+	Info
 	<?php
 	echo HTML::anchorIcon(
 		"pencil.png", 
@@ -88,7 +91,7 @@ $emails		= $Employee->getPersonEmailAddresses();
 		    echo HTML::anchorIcon(
 			    "pencil.png", 
 			    "", 
-			    "/employee/editphone/employee_id/".$employee_id."/phonenumber_id/".
+			    "/personphonenumber/edit/person_id/".$employee_id."/id/".
 				$PhoneNumber->getId(), 
 			    "margin-left:5px;"
 			    );
@@ -131,7 +134,7 @@ $emails		= $Employee->getPersonEmailAddresses();
 		    echo HTML::anchorIcon(
 			    "pencil.png", 
 			    "", 
-			    "/employee/editemail/employee_id/".$employee_id."/emailaddress_id/".
+			    "/personemailaddress/edit/person_id/".$employee_id."/id/".
 				$EmailAddress->getId(), 
 			    "margin-left:5px;"
 			    );
@@ -150,6 +153,70 @@ $emails		= $Employee->getPersonEmailAddresses();
     </div>
 </div>
 <div class="padded_frame" style="width: 415px;float: right;padding-top: 0px;">
+    <h3>
+	<a href="#">Web Account</a>
+	<?php
+	if(!$webaccount)
+	    echo HTML::buttonBlue(
+		    "lock_add.png", 
+		    "Add WebAccount", 
+		    "webaccount_add", 
+		    "float:right;width:140px;"
+		    );
+	?>
+    </h3>
+    <div>
+	<?php
+	/* @var $webaccount \Entities\WebAccount */
+	if($webaccount) {
+	    ?>
+	    <h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
+		<?php 
+		echo $webaccount->getUsername(); 
+		echo HTML::anchorIcon(
+			"pencil.png", 
+			"", 
+			"/webaccount/edit/person_id/".$employee_id."/id/".
+			    $webaccount->getId(), 
+			"margin-left:5px;",
+			"Edit Username"
+			);
+		echo HTML::anchorIcon(
+			"lock_edit.png", 
+			"", 
+			"/webaccount/edit/pwd/1/person_id/".$employee_id."/id/".
+			    $webaccount->getId(), 
+			"margin-left:5px;",
+			"Reset Password"
+			);
+		echo HTML::anchorIcon(
+			"creditcards.png", 
+			"", 
+			"/webaccount/roles/id/".$webaccount->getId(), 
+			"margin-left:5px;",
+			"Edit Roles"
+			);
+		?>
+	    </h4>
+	    <label>Roles:</label>
+	    <div style="display: inline;">
+		<?php 
+		$roles = array();
+		/* @var $Role \Entities\Role */
+		foreach($webaccount->getRoles() as $Role) {
+		    $roles[] = $Role->getName();
+		}
+		if(count($roles)>0){
+		    echo implode(", ",$roles);
+		}
+		else echo "No roles";
+		?>
+	    </div><br />
+	    <?php
+	}
+	else echo "No Web Account";
+	?>
+    </div>
     <h3><a href="#">Documents</a></h3>
     <div>Put Documents here</div>
 </div>
@@ -159,4 +226,5 @@ $emails		= $Employee->getPersonEmailAddresses();
     Employee.AddPhoneClickBind("phone_add");
     Employee.AddAddressClickBind("address_add");
     Employee.AddEmailClickBind("email_add");
+    Employee.AddWebAccountClickBind("webaccount_add");
 </script>

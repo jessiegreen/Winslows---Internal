@@ -31,7 +31,7 @@ class Company {
     }
     
     public function getCompanies(){
-	return $this->_em->getRepository("Entities\Company")->findAll();
+	return $this->_em->getRepository("Entities\Company")->findBy(array(), array("name" => "ASC"));
     }
 }
 

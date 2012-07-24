@@ -66,6 +66,12 @@ class Employee extends \Entities\Employee implements \Doctrine\ORM\Proxy\Proxy
         return parent::setTitle($title);
     }
 
+    public function populate(array $array)
+    {
+        $this->__load();
+        return parent::populate($array);
+    }
+
     public function addPersonAddress(\Entities\PersonAddress $PersonAddress)
     {
         $this->__load();
@@ -220,12 +226,6 @@ class Employee extends \Entities\Employee implements \Doctrine\ORM\Proxy\Proxy
     {
         $this->__load();
         return parent::getUpdated();
-    }
-
-    public function populate(array $array)
-    {
-        $this->__load();
-        return parent::populate($array);
     }
 
 

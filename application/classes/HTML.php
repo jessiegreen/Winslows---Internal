@@ -81,12 +81,12 @@ class HTML
 	return '<img src="/img/icons/'.$icon.'" class="button_icon '.$class.'" style="'.$style.'" id="'.$id.'" title="'.$title.'"/>';
     }
     
-    public static function anchorIcon($icon, $text, $href, $style = ""){
-	return '<a href="'.$href.'" style="border:none;'.$style.'"><img src="'.self::$_icon_url.'/'.$icon.'"/ style="margin-right:5px;vertical-align:bottom;">'.$text.'</a>';
+    public static function anchorIcon($icon, $text, $href, $style = "", $title=""){
+	return '<a href="'.$href.'" title="'.$title.'" style="border:none;'.$style.'"><img src="'.self::$_icon_url.'/'.$icon.'"/ style="margin-right:5px;vertical-align:bottom;">'.$text.'</a>';
     }
     
     public static function backAnchorIcon($text, $href){
-	return self::anchorIcon("arrow_left.png", $text, $href);
+	return self::anchorIcon("arrow_left.png", $text, $href,"", "back");
     }
     
     /**

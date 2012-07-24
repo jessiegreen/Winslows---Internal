@@ -16,7 +16,7 @@ class Form_PersonPhoneNumber_Subform extends Form_PhoneNumber_Subform
     
     public function __construct($options = null, Entities\PhoneNumber $PhoneNumber = null) {
 	$this->_PhoneNumber = $PhoneNumber;
-	parent::__construct($options);
+	parent::__construct($options, $this->_PhoneNumber);
     }
   
     public function init(){

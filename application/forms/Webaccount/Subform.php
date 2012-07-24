@@ -24,19 +24,10 @@ class Form_WebAccount_Subform extends Zend_Form_SubForm
     public function init(){
 	if($this->_safe){
 	    $this->addElement('text', 'username', array(
-		'required'	    => false,
-		'disable'	    => true,
+		'required'	    => true,
 		'label'		    => 'Username:',
 		'belongsTo'	    => 'webaccount',
 		'value'		    => $this->_WebAccount ? $this->_WebAccount->getUsername() : ""
-	    ));
-
-	    $this->addElement('text', 'password', array(
-		'disable'	    => true,
-		'required'	    => false,
-		'label'		    => 'Password:',
-		'belongsTo'	    => 'webaccount',
-		'value'		    => "*******"
 	    ));
 	}
 	else{

@@ -1,12 +1,10 @@
 <?php echo($this->flashMessages()); ?>
-<fieldset class="padded_frame blue_frame center">
-    <legend>
-	<?php 
-	    echo $this->PersonPhoneNumber->getId() ? 
-		"Edit phone number " : 
-		"Add phone number ";?>
-    </legend>
+<h1 class="header1">
+    Person Phone Number - 
+    <?php echo $this->PersonPhoneNumber->getId() ? "Edit" : "Add";?>
+</h1>
+<div class="padded_frame" style="padding-top: 0;padding-left: 0;">
     <?php
     echo $this->form;
     ?>
-</fieldset>
+</div>

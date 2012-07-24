@@ -10,20 +10,20 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_Email_Subform extends Zend_Form_SubForm
+class Form_EmailAddress_Subform extends Zend_Form_SubForm
 {
-    private $_Emailaddress;
+    private $_EmailAddress;
     
     public function __construct($options = null, Entities\Emailaddress $Emailaddress = null)
     {
-	$this->_Emailaddress = $Emailaddress;
+	$this->_EmailAddress = $Emailaddress;
 	
 	parent::__construct($options);
     }
   
     public function init(){
-	if($this->_Emailaddress){
-	    $type_options   = $this->_Emailaddress->getTypeOptions();
+	if($this->_EmailAddress){
+	    $type_options   = $this->_EmailAddress->getTypeOptions();
 	}
 	else{
 	    $Emailaddress    = new Entities\Emailaddress();
@@ -35,7 +35,7 @@ class Form_Email_Subform extends Zend_Form_SubForm
             'label'	    => 'Type:',
 	    'multioptions'  => $type_options,
 	    'belongsTo'	    => $this->_belongs_to,
-	    'value'	    => $this->_Emailaddress ? $this->_Emailaddress->getType() : ""
+	    'value'	    => $this->_EmailAddress ? $this->_EmailAddress->getType() : ""
         ));
 	
 	$this->addElement('text', 'address', array(
@@ -43,7 +43,7 @@ class Form_Email_Subform extends Zend_Form_SubForm
             'label'	    => 'Address:',
 	    'validators'    => array('EmailAddress'),
 	    'belongsTo'	    => $this->_belongs_to,
-	    'value'	    => $this->_Emailaddress ? $this->_Emailaddress->getAddress() : ""
+	    'value'	    => $this->_EmailAddress ? $this->_EmailAddress->getAddress() : ""
         ));
     }
 }

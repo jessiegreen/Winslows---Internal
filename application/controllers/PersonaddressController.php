@@ -13,6 +13,9 @@ class PersonaddressController extends Dataservice_Controller_Action
 	/* @var $PersonAddress \Entities\PersonAddress */
 	$PersonAddress	= $this->getEntityFromParamFields("PersonAddress", array("id"));
 	$form		= new Form_PersonAddress(array("method" => "post"), $PersonAddress);
+	$form->addElement("button", "cancel", 
+		array("onclick" => "location='".$this->_History->getPreviousUrl(1)."'")
+		);
 	
 	if($this->isPostAndValid($form)){
 	    try 

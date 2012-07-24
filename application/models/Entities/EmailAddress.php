@@ -16,19 +16,19 @@ class EmailAddress
      * @Id @Column(type="integer")
      * @GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /** @Column(type="string", length=255) */
-    private $address;
+    protected $address;
     
     /** @Column(type="string", length=255) */
-    private $type;
+    protected $type;
 
     /** @Column(type="datetime") */
-    private $created;
+    protected $created;
 
     /** @Column(type="datetime") */
-    private $updated;
+    protected $updated;
 
     public function __construct()
     {

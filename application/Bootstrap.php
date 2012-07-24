@@ -19,6 +19,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     
     protected function _initBootstrap()
     {
+	date_default_timezone_set ("America/Mexico_City");
 	#--Set View Environment
 	$this->bootstrap('view');
         $view = $this->getResource('view');

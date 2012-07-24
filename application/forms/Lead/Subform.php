@@ -20,21 +20,16 @@ class Form_Lead_Subform extends Form_Person_Subform
     }
     
     public function init($options = array())
-    {
-	if($this->_Lead){
-	    $this->addElement('hidden', 'id', array(
-		'required'  => true,
-		'belongsTo' => 'lead',
-		'value'	    => $this->_Lead ? $this->_Lead->getId() : ""
-	    ));
-	}
-	
-        $this->addElement('text', 'company', array(
-            'required'	    => false,
-            'label'	    => 'Company:',
+    {	
+        $this->addElement(new Dataservice_Form_Element_EmployeeSelect("employee", array(
+            'required'	    => true,
+            'label'	    => 'Employee:',
 	    'belongsTo'	    => 'lead',
-	    'value'	    => $this->_Lead ? $this->_Lead->getCompany() : ""
-        ));
+	    'value'	    => $this->_Lead && $this->_Lead->getEmployee() ? 
+				    $this->_Lead->getEmployee()->getId() : 
+				    Services\Auth::factory()->getIdentityPerson()->getId()
+        )));
+	
 	parent::init($options);
     }
 }

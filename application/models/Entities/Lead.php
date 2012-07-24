@@ -61,7 +61,11 @@ class Lead extends Person
     public function setEmployee(Employee $Employee)
     {
         $this->Employee = $Employee;
-    }    
+    } 
+    
+    public function getContactOptionsArray(){
+	
+    }
     
     public function populate(array $array){
 	foreach ($array as $key => $value) {

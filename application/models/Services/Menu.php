@@ -86,7 +86,7 @@ class Menu {
     {
 	$url_array  = $this->getUrlArray($MenuItem);
 	$url_helper = new \Zend_Controller_Action_Helper_Url;
-
+	
 	return $url_helper->simple(
 		$url_array["action"],
 		$url_array["controller"],
@@ -130,7 +130,7 @@ class Menu {
     public function decodeLinkParams(\Entities\MenuItem $MenuItem){
 	$params			= array();
 	$link_params		= trim($MenuItem->getLinkParams());
-	if($link_params)$params =  json_decode ($link_params);
+	if($link_params)$params =  (array) json_decode ($link_params);
 	return $params;
     }
 }

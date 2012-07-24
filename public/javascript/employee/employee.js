@@ -29,7 +29,13 @@ Employee.prototype.AddPhoneClickBind = function(element_id){
 
 Employee.prototype.AddEmailClickBind = function(element_id){
     $("#"+element_id).click(function(){
-	location = "/employee/addemail/id/" + $("#employee_id").val();
+	location = "/personemailaddress/edit/id/0/person_id/" + $("#employee_id").val();
+    });
+}
+
+Employee.prototype.AddWebAccountClickBind = function(element_id){
+    $("#"+element_id).click(function(){
+	location = "/webaccount/edit/id/0/person_id/" + $("#employee_id").val();
     });
 }
 

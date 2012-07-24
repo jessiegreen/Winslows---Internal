@@ -10,7 +10,7 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_Customer_Subform extends Form_Person_Subform
+class Form_Customer_Subform extends Form_Lead_Subform
 {    
     private $_Customer;
     
@@ -21,12 +21,6 @@ class Form_Customer_Subform extends Form_Person_Subform
     
     public function init($options = array())
     {	
-        $this->addElement('text', 'company', array(
-            'required'	    => false,
-            'label'	    => 'Company:',
-	    'belongsTo'	    => 'customer',
-	    'value'	    => $this->_Customer ? $this->_Customer->getCompany() : ""
-        ));
 	parent::init($options);
     }
 }

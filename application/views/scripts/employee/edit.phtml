@@ -1,11 +1,10 @@
 <?php echo($this->flashMessages()); ?>
 <h1 class="header1">
-    <?php echo $this->Employee->getId() ? "Edit" : "Add";?> Employee
+    Employee - 
+    <?php echo $this->Employee->getId() ? "Edit" : "Add";?>
 </h1>
-<div class="blue_frame padded_frame">
-    <?php echo $this->form;?>
+<div class="padded_frame" style="padding-top: 0;padding-left: 0;">
+    <?php
+    echo $this->form;
+    ?>
 </div>
-<script type="text/javascript">
-    Employee = new Employee();
-    Employee.LocationSelectOnchangeBind("#employee-company");
-</script>

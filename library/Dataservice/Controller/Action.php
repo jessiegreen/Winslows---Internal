@@ -27,7 +27,7 @@ class Dataservice_Controller_Action extends Zend_Controller_Action
     public $_FlashMessenger;
     
     /**
-     * @var Winslows_Action_Helper_History $_History 
+     * @var Dataservice_Controller_Action_Helper_History $_History 
      */
     public $_History;
     

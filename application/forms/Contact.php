@@ -13,14 +13,16 @@
 class Form_Contact extends Zend_Form
 {
     private $_Contact;
+    private $_Lead;
     
-    public function __construct($options = null, Entities\Contact $Contact = null) {
+    public function __construct(\Entities\Lead $Lead, $options = null, Entities\Contact $Contact = null) {
 	$this->_Contact	    = $Contact;
+	$this->_Lead	    = $Lead;
 	parent::__construct($options);
     }
   
     public function init($options = array()){
-	$form = new Form_Contact_Subform($options, $this->_Contact);
+	$form = new Form_Contact_Subform($this->_Lead, $options, $this->_Contact);
 	
 	$this->addSubForm($form, "contact");
 
