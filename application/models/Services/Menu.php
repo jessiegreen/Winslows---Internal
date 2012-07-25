@@ -133,6 +133,18 @@ class Menu {
 	if($link_params)$params =  (array) json_decode ($link_params);
 	return $params;
     }
+    
+    public function getAllMenus(){
+	/* @var $MenuRepos \Repositories\Menu */
+	$MenuRepos	= $this->_em->getRepository('Entities\Menu');
+	return $MenuRepos->findBy(array(), array("name" => "ASC"));
+    }
+    
+    public function getAllMenuItems(){
+	/* @var $MenuItemRepos \Repositories\MenuItem */
+	$MenuItemRepos	= $this->_em->getRepository('Entities\MenuItem');
+	return $MenuItemRepos->findBy(array(), array("label" => "ASC"));
+    }
 }
 
 ?>

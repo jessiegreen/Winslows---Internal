@@ -10,7 +10,7 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_Location_Subform extends Form_Address_Subform
+class Form_LocationAddress_Subform extends Form_Address_Subform
 {    
     private $_LocationAddress;
     

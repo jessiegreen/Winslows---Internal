@@ -12,53 +12,11 @@
  */
 class Form_PersonPhoneNumber_Subform extends Form_PhoneNumber_Subform
 {
-    private $_PhoneNumber;
+    private $_PersonPhoneNumber;
     
-    public function __construct($options = null, Entities\PhoneNumber $PhoneNumber = null) {
-	$this->_PhoneNumber = $PhoneNumber;
-	parent::__construct($options, $this->_PhoneNumber);
-    }
-  
-    public function init(){
-	if($this->_PhoneNumber){
-	    $type_options   = $this->_PhoneNumber->getTypeOptions();
-	}
-	else{
-	    $PhoneNumber    = new \Entities\PhoneNumber();
-	    $type_options   = $PhoneNumber->getTypeOptions();
-	}
-	
-	$this->addElement('select', 'type', array(
-            'required'	    => true,
-            'label'	    => 'Type:',
-	    'multioptions'  => $type_options,
-	    'belongsTo'	    => "phone",
-	    'value'	    => $this->_PhoneNumber ? $this->_PhoneNumber->getType() : ""
-        ));
-	
-	$phone_number = new Dataservice_Form_Element_PhoneNumber('phoneNumber', array(
-		'name'		=> 'phone_number',
-		'label'		=> 'Phone Number',
-		'validators'	=> array(
-			array('NotEmpty', true, array('messages' => 'Please input your phone number.'))
-		),
-		'value'		=> $this->_PhoneNumber ? $this->_PhoneNumber->getAreaCode()."-".$this->_PhoneNumber->getNum1()."-".$this->_PhoneNumber->getNum2() : "",
-		'required'	=> true,
-		'belongsTo'	=> "phone",
-		'class'		=> 'phonenumber'
-	));
-	
-	$this->addElement($phone_number);
-
-
-        $this->addElement('text', 'extension', array(
-            'required'	    => false,
-            'label'	    => 'Extension:',
-	    'size'	    => 7,
-	    'maxlength'	    => 7,
-	    'belongsTo'	    => "phone",
-	    'value'	    => $this->_PhoneNumber ? $this->_PhoneNumber->getExtension() : ""
-        ));
+    public function __construct($options = null, Entities\PersonPhoneNumber $PersonPhoneNumber = null) {
+	$this->_PersonPhoneNumber = $PersonPhoneNumber;
+	parent::__construct($options, $this->_PersonPhoneNumber);
     }
 }
 

@@ -4,7 +4,7 @@ function Navigation() {
 
 Navigation.prototype.AddOnclickBind = function(element){
     element.click(function(){
-	location='/menuitem/edit';
+	location='/menuitem/edit/id/0';
     });
 }
 
@@ -18,7 +18,7 @@ Navigation.prototype.EditOnclickBind = function(element){
 Navigation.prototype.AddChildOnclickBind = function(element){
     element.click(function(e){
 	button = $(e.target);
-	location='/menuitem/edit/parent_id/' + button.parent().attr("menuitem_id");
+	location='/menuitem/edit/id/0/parent_id/' + button.parent().attr("menuitem_id");
     });
 }
 

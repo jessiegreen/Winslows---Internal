@@ -40,7 +40,7 @@ class MaintenanceController extends Zend_Controller_Action
 	$id	= isset($this->_params['id']) ? $this->_params['id'] : null;
 	$em	= $this->_helper->EntityManager();
 	$Role	= $id ? $em->getRepository('\Entities\Role')->findOneById($id) : null;
-	$form	=  new Form_Role_Role(array("method" => "post"), $Role);
+	$form	=  new Form_Role(array("method" => "post"), $Role);
 	
 	$form->addElement("button", "cancel", array("label" => "cancel", "onclick" => "location='/maintenance/groupsview'"));
 	

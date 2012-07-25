@@ -1,0 +1,71 @@
+<?php 
+echo($this->flashMessages()); 
+echo "<div>";
+echo HTML::backAnchorIcon("Companies - All", "/company/viewall");
+echo "</div>";
+?>
+<h1 class="header1">Company - View</h1>
+<?php
+/* @var $Company \Entities\Company */
+$Company	= $this->Company;
+$company_id	= $Company->getId();
+$Locations	= $Company->getLocations();
+?>
+<div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
+    <h3 class="no_space" style="color: #2000EE;">
+	Info
+	<?php
+	echo HTML::anchorIcon(
+		"pencil.png", 
+		"", 
+		"/company/edit/id/".$company_id,
+		"margin-left:5px;"
+		);
+	?>
+    </h4>
+    <div>
+	Name: <?php echo $Company->getName(); ?> &nbsp;&nbsp;&nbsp; 
+	DBA: <?php echo $Company->getDba(); ?> <br /> 
+	Description: <span class="small"><?php echo $Company->getDescription(); ?></span>
+    </div>
+</div>
+<div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">
+    <div id="accordion">
+	<h3>
+	    <a href="#">Location</a>
+	    <?php echo HTML::buttonBlue("building_add.png", "Add Location", "location_add", "float:right;width:110px;");?>
+	</h3>
+	<div>
+	    <?php
+	    /* @var $Location \Entities\Location */
+	    foreach ($Locations as $Location) {
+		?>
+		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
+		    <?php 
+		    echo $Location->getName();
+		    echo HTML::anchorIcon(
+			    "building_go.png", 
+			    "", 
+			    "/location/view/id/".$Location->getId(),
+			    "margin-left:5px;"
+			    );
+		    ?>
+		</h4>
+		<label>Type: </label>
+		<div style="display: inline;"><?php echo $Location->getTypeDisplay(); ?></div>
+		<?php
+	    }
+	    ?>
+	</div>
+	<hr />
+    </div>
+</div>
+<div class="padded_frame" style="width: 415px;float: right;padding-top: 0px;">
+    <h3><a href="#">Documents</a></h3>
+    <div>Put Documents here</div>
+</div>
+<div style="clear: both;"><input type="hidden" id="company_id" value="<?php echo $company_id;?>" /></div>
+<script type="text/javascript">
+    Company = new Company();
+    Company.AddLocationOnclickBind($("#location_add"));
+</script>

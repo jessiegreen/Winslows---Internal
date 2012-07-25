@@ -124,6 +124,17 @@ class Location
         $this->type = $type;
     }
     
+    public function getTypeDisplay($type = null){
+	if($type === null){
+	    $type = $this->type; 
+	}
+	if(!$type)return "";
+	$array = $this->getTypeOptions();
+	if(!key_exists($type, $array))
+	    throw new Exception("Could not get Type Display. Key '".$type."' does not exist");
+	return $array[$type];
+    }
+    
     public function getTypeOptions(){
 	return array(
 	    "sales" => "Sales",

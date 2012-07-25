@@ -20,31 +20,25 @@ class Form_MenuItem_Subform extends Zend_Form_SubForm
     }
     
     public function init(){
-	if($this->_MenuItem !== null && $this->_MenuItem->getId() > 0){
-	    $this->addElement('hidden', 'id', array(
-		'required'  => true,
-		'belongsTo' => 'menuitem',
-		'value'	    => $this->_MenuItem ? $this->_MenuItem->getId() : ""
-	    ));
-	}
 	
-	$this->addElement('text', 'menu_id', array(
-            'required'	    => false,
-	    'disabled'	    => true,
-	    'description'   => $this->_MenuItem && $this->_MenuItem->getMenuId() ? $this->_MenuItem->getMenu()->getName() : "",
-            'label'	    => 'Menu Id:',
+	$this->addElement(new Dataservice_Form_Element_MenuSelect("menu_id", array(
+            'required'	    => true,
+            'label'	    => 'Menu:',
 	    'belongsTo'	    => 'menuitem',
-	    'value'	    => $this->_MenuItem ? $this->_MenuItem->getMenuId() : ""
-        ));
+	    'value'	    => $this->_MenuItem && $this->_MenuItem->getMenu() ? 
+				$this->_MenuItem->getMenu()->getId() : 
+				""
+        )));
 	
-	$this->addElement('text', 'parent', array(
+	$this->addElement(new Dataservice_Form_Element_MenuItemSelect("parent_id", array(
             'required'	    => false,
-	    'disabled'	    => true,
-	    'description'   => $this->_MenuItem && $this->_MenuItem->getParent() ? $this->_MenuItem->getParent()->getLabel() : "",
             'label'	    => 'Parent:',
 	    'belongsTo'	    => 'menuitem',
-	    'value'	    => $this->_MenuItem && $this->_MenuItem->getParent()? $this->_MenuItem->getParent()->getID() : ""
-        ));
+	    'description'   => 'Leave blank if no parent',
+	    'value'	    => $this->_MenuItem && $this->_MenuItem->getParent() ? 
+				$this->_MenuItem->getParent()->getId() : 
+				""
+        )));
 	
 	$this->addElement('text', 'name_index', array(
             'required'	    => true,

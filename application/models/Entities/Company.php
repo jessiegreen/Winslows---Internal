@@ -20,7 +20,13 @@ class Company
     private $name;
     
     /** @Column(type="string", length=255) */
+    private $dba;
+    
+    /** @Column(type="string", length=255) */
     private $name_index;
+    
+    /** @Column(type="string", length=65536) */
+    private $description;
 
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
@@ -68,6 +74,16 @@ class Company
     public function setName($name)
     {
         $this->name = $name;
+    }
+    
+    public function getDba()
+    {
+        return $this->dba;
+    }
+
+    public function setDba($dba)
+    {
+        $this->dba = $dba;
     }
     
     public function getNameIndex()

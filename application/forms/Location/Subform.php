@@ -12,36 +12,38 @@
  */
 class Form_Location_Subform extends Zend_Form_SubForm
 {
-    private $_location;
+    private $_Location;
     
     public function __construct($options = null, \Entities\Location $Location = null)
     {
-	$this->_location = $Location;
+	$this->_Location = $Location;
 	parent::__construct($options);
     }
     
     public function init()
     {	
-	if($this->_location){
-	    $type_options   = $this->_location->getTypeOptions();
+	if($this->_Location){
+	    $type_options   = $this->_Location->getTypeOptions();
 	}
 	else{
 	    $Location	    = new \Entities\Location;
 	    $type_options   = $Location->getTypeOptions();
 	}
 	
+	$this->addElement(new Dataservice_Form_Element_CompanySelect("company_id", array(
+            'required'	    => true,
+            'label'	    => 'Company:',
+	    'belongsTo'	    => 'location',
+	    'value'	    => $this->_Location && $this->_Location->getCompany() ? 
+				$this->_Location->getCompany()->getId() : 
+				""
+        )));
+	
 	$this->addElement('text', 'name', array(
-            'required'	    => false,
+            'required'	    => true,
             'label'	    => 'Name:',
 	    'belongsTo'	    => 'location',
-	    'value'	    => $this->_location ? $this->_location->getName() : ""
-        ));
-	
-	$this->addElement('text', 'phone', array(
-            'required'	    => false,
-            'label'	    => 'Phone:',
-	    'belongsTo'	    => 'location',
-	    'value'	    => $this->_location ? $this->_location->getPhone() : ""
+	    'value'	    => $this->_Location ? $this->_Location->getName() : ""
         ));
 	
 	$this->addElement('select', 'type', array(
@@ -49,7 +51,7 @@ class Form_Location_Subform extends Zend_Form_SubForm
             'label'	    => 'Type:',
 	    'multioptions'  => $type_options,
 	    'belongsTo'	    => "location",
-	    'value'	    => $this->_location ? $this->_location->getType() : ""
+	    'value'	    => $this->_Location ? $this->_Location->getType() : ""
         ));
     }
 }

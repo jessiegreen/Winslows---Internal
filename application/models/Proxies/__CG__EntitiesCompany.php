@@ -75,6 +75,18 @@ class Company extends \Entities\Company implements \Doctrine\ORM\Proxy\Proxy
         return parent::setName($name);
     }
 
+    public function getDba()
+    {
+        $this->__load();
+        return parent::getDba();
+    }
+
+    public function setDba($dba)
+    {
+        $this->__load();
+        return parent::setDba($dba);
+    }
+
     public function getNameIndex()
     {
         $this->__load();
@@ -108,7 +120,7 @@ class Company extends \Entities\Company implements \Doctrine\ORM\Proxy\Proxy
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'name', 'name_index', 'Locations');
+        return array('__isInitialized__', 'id', 'name', 'dba', 'name_index', 'description', 'Locations');
     }
 
     public function __clone()

@@ -2,7 +2,7 @@
 
 /**
  * Name:
- * Location:
+ * Company:
  *
  * Description for class (if any)...
  *
@@ -10,21 +10,21 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_Location extends Zend_Form
+class Form_Company extends Zend_Form
 {    
-    private $_Location;
+    private $_Company;
     
-    public function __construct($options = null, Entities\Location $Location = null)
+    public function __construct($options = null, Entities\Company $Company = null)
     {
-	$this->_Location = $Location;
-	parent::__construct($options, $this->_Location);
+	$this->_Company = $Company;
+	parent::__construct($options, $this->_Company);
     }
     
     public function init($options = array())
     {	
-        $form = new Form_Location_Subform($options, $this->_Location);
+        $form = new Form_Company_Subform($options, $this->_Company);
 	
-	$this->addSubForm($form, "location");
+	$this->addSubForm($form, "company");
 	
 	$this->addElement('submit', 'submit', array(
             'ignore'   => true,
