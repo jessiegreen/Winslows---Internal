@@ -1,7 +1,6 @@
 <?php
 
 namespace Entities;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /** 
  * @Entity (repositoryClass="Repositories\Product") 
@@ -32,9 +31,9 @@ class Product
     private $updated;
     
     /** 
-     * @ManyToOne(targetEntity="Supplier", inversedBy="products")
+     * @ManyToOne(targetEntity="Supplier", inversedBy="Products")
      */     
-    private $supplier;
+    private $Supplier;
 
     public function __construct()
     {
@@ -45,9 +44,9 @@ class Product
      * Add supplier to address.
      * @param Supplier $supplier
      */
-    public function setSupplier(Supplier $supplier)
+    public function setSupplier(Supplier $Supplier)
     {
-        $this->supplier = $supplier;
+        $this->Supplier = $Supplier;
     }
     
     /**
@@ -55,7 +54,7 @@ class Product
      */
     public function getSupplier()
     {
-	return $this->supplier;
+	return $this->Supplier;
     }
 
     /**

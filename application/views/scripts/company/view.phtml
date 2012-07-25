@@ -10,6 +10,7 @@ echo "</div>";
 $Company	= $this->Company;
 $company_id	= $Company->getId();
 $Locations	= $Company->getLocations();
+$Suppliers	= $Company->getSuppliers();
 ?>
 <div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
     <h3 class="no_space" style="color: #2000EE;">
@@ -32,7 +33,7 @@ $Locations	= $Company->getLocations();
 <div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">
     <div id="accordion">
 	<h3>
-	    <a href="#">Location</a>
+	    <a href="#">Locations</a>
 	    <?php echo HTML::buttonBlue("building_add.png", "Add Location", "location_add", "float:right;width:110px;");?>
 	</h3>
 	<div>
@@ -61,6 +62,33 @@ $Locations	= $Company->getLocations();
     </div>
 </div>
 <div class="padded_frame" style="width: 415px;float: right;padding-top: 0px;">
+    <h3>
+	<a href="#">Suppliers</a>
+    </h3>
+    <div>
+	<?php
+	/* @var $Supplier \Entities\Supplier */
+	if(count($Suppliers)>0){
+	    foreach ($Suppliers as $Supplier) {
+		?>
+		<div style="padding: 3px;margin-bottom: 3px;">
+		    <?php 
+		    echo $Supplier->getName();
+		    echo HTML::anchorIcon(
+			    "tag_blue.png", 
+			    "", 
+			    "/supplier/view/id/".$Supplier->getId(),
+			    "margin-left:5px;"
+			    );
+		    ?>
+		</div>
+		<?php
+	    }
+	}
+	else echo "No Suppliers";
+	?>
+    </div>
+    <hr />
     <h3><a href="#">Documents</a></h3>
     <div>Put Documents here</div>
 </div>

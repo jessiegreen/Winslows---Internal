@@ -50,7 +50,7 @@ class SupplierController extends Dataservice_Controller_Action
 		$this->_em->persist($Supplier);
 		$this->_em->flush();
 
-		$message = "Supplier '".htmlspecialchars($Supplier->getFullName())."' saved";
+		$message = "Supplier '".htmlspecialchars($Supplier->getName())."' saved";
 		$this->_FlashMessenger->addSuccessMessage($message);
 		$this->_History->goBack(1);
 	    } catch (Exception $exc) {
@@ -61,6 +61,44 @@ class SupplierController extends Dataservice_Controller_Action
 	
 	$this->view->form	= $form;
 	$this->view->Supplier	= $Supplier;
+    }
+    
+    public function addcompanyAction()
+    {
+	$supplier_id = $this->_getParam("id");
+	
+	if($supplier_id){
+	    $Supplier = $this->_em->find("Entities\Supplier", $supplier_id);
+	    if(!$Supplier){
+		$this->_FlashMessenger->addErrorMessage("No Supplier With that Id");
+		$this->_History->goBack();
+	    }
+	}
+	else{
+	    $this->_FlashMessenger->addErrorMessage("No Supplier Id Sent");
+	    $this->_History->goBack();
+	}
+	
+	$form = new Form_Supplier_AddCompany(array("method" => "post"));
+	if($this->isPostAndValid($form)){
+	    try {
+		$Company = $this->_em->find("Entities\Company", $this->_params["supplier_addcompany"]["company_id"]);
+		if($Company){
+		    $Supplier->addCompany($Company);
+		    $this->_em->persist($Supplier);
+		    $this->_em->flush();
+		    $message = "Company '".htmlspecialchars($Company->getName())."' added.";
+		    $this->_FlashMessenger->addSuccessMessage($message);
+		    $this->_History->goBack(1);
+		}
+		else throw new Exception("Could Not Add Company. No Supplier With that Id Exists.");
+	    } catch (Exception $exc) {
+		$this->_FlashMessenger->addErrorMessage($exc->getMessage());
+		$this->_History->goBack(1);
+	    }
+	}
+	
+	$this->view->form = $form;
     }
 }
 

@@ -24,6 +24,15 @@ class Supplier
 
     /** @Column(type="datetime") */
     private $updated;
+    
+    /**
+     * @ManytoMany(targetEntity="Company", inversedBy="Suppliers", cascade={"persist", "remove"})
+     * @JoinTable(name="supplier_companies",
+     *      joinColumns={@JoinColumn(name="supplier_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@JoinColumn(name="company_id", referencedColumnName="id")}
+     *      )
+     */
+    private $Companies;
 
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
@@ -41,9 +50,30 @@ class Supplier
     
     public function __construct()
     {
-      $this->SupplierAddresses	= new ArrayCollection();
-      $this->Products		= new ArrayCollection();
-      $this->created		= $this->updated = new \DateTime("now");
+	$this->Companies	    = new ArrayCollection();
+	$this->SupplierAddresses    = new ArrayCollection();
+	$this->Products		    = new ArrayCollection();
+	$this->created		    = $this->updated = new \DateTime("now");
+    }
+    
+    public function addCompany(Company $Company)
+    {
+        $this->Companies[] = $Company;
+    }
+    
+    public function removeCompany(Company $Company){
+	foreach ($this->Companies as $key => $Company2) {
+	    if($Company->getId() == $Company2->getId()){
+		$removed = $this->Companies[$key];
+		unset($this->Companies[$key]);
+		return $removed;
+	    }
+	}
+    }
+    
+    public function getCompanies()
+    {
+	return $this->Companies;
     }
    
     /**
@@ -70,7 +100,7 @@ class Supplier
      */
     public function addProduct(Product $Product)
     {
-	$Product->setProduct($this);
+	$Product->setSupplier($this);
         $this->Products[] = $Product;
     }
     

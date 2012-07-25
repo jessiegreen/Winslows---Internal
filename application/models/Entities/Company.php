@@ -35,9 +35,15 @@ class Company
      */
     private $Locations;
     
+    /**
+     * @ManytoMany(targetEntity="Supplier", mappedBy="Companies", cascade={"ALL"})
+     */
+    private $Suppliers;
+    
     public function __construct()
     {
 	$this->Locations = new ArrayCollection();
+	$this->Suppliers = new ArrayCollection();
     }
     
     /**
@@ -56,6 +62,28 @@ class Company
     public function getLocations()
     {
       return $this->Locations;
+    }
+    
+    public function getSuppliers(){
+	return $this->Suppliers;
+    }
+    
+    public function addSupplier(Supplier $Supplier){
+	$Supplier->addCompany($this);
+	$this->Suppliers[] = $Supplier;
+    }
+    
+    public function removeSupplier($supplier_id)
+    {
+	foreach ($this->Suppliers as $key => $Suppliers) {
+	    if($Suppliers->getId() == $supplier_id){
+		$Suppliers->removeResource($this);
+		$removed = $this->Suppliers[$key];
+		unset($this->Suppliers[$key]);
+		return $removed;
+	    }
+	}
+	return false;
     }
 
     /**
