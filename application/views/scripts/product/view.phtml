@@ -61,43 +61,42 @@ switch ($Product->getDescriminator()) {
 		<?php 
 		echo HTML::buttonBlue(
 			"text_list_bullets.png", 
-			"Manage Options", 
-			"options_manage", 
-			"float:right;width:120px;"
+			"Manage", 
+			"groups_manage", 
+			"float:right;width:80px;"
+			);
+		echo HTML::buttonBlue(
+			"bullet_add.png", 
+			"Add New", 
+			"group_add", 
+			"float:right;width:80px;margin-right:5px;"
 			);
 		?>
 	    </h3>
 	    <div>
+		<ul>
 		<?php
+		/* @var $CbOption \Entities\CbOption */
 		if(count($OptionGroups)>0){
-		    ?>
-			<ul>
-			<?php
-			/* @var $CbOption \Entities\CbOption */
-			if(count($OptionGroups)>0){
-			    foreach ($OptionGroups as $ConfigurableProductOptionGroup) {
-				?>
-				<li>
-				    <?php
-				    echo HTML::anchorIcon(
-					    "cog_go.png", 
-					    "", 
-					    "/ConfigurableProductOptionGroup/view/id/".$ConfigurableProductOptionGroup->getId(),
-					    "margin-left:5px;"
-					    );
-				    echo $ConfigurableProductOptionGroup->getName();
-				    ?>
-				</li>
-				<?php
-			    }
-			}
-			else echo "<li>No Options</li>";
+		    foreach ($OptionGroups as $ConfigurableProductOptionGroup) {
 			?>
-			</ul>
-		    <?php
+			<li>
+			    <?php
+			    echo HTML::anchorIcon(
+				    "cog_go.png", 
+				    "", 
+				    "/configurableproductoptiongroup/view/id/".$ConfigurableProductOptionGroup->getId(),
+				    "margin-left:5px;"
+				    );
+			    echo $ConfigurableProductOptionGroup->getName();
+			    ?>
+			</li>
+			<?php
+		    }
 		}
-		else echo "No option groups.";
+		else echo "<li>No Option Groups</li>";
 		?>
+		</ul>
 	    </div>
 	    <hr />
 	    <?php
@@ -112,5 +111,6 @@ switch ($Product->getDescriminator()) {
 <div style="clear: both;"><input type="hidden" id="product_id" value="<?php echo $product_id;?>" /></div>
 <script type="text/javascript">
     Product = new Product();
-    Product.ManageOptionsOnclickBind($("#options_manage"));
+    Product.ManageOptionGroupsOnclickBind($("#groups_manage"));
+    Product.OptionGroupAddOnclickBind($("#group_add"));
 </script>

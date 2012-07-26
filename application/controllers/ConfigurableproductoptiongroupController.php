@@ -10,7 +10,7 @@ class ConfigurableproductoptiongroupController extends Dataservice_Controller_Ac
 {    
     public function init()
     {
-	$this->view->headScript()->appendFile("/javascript/company/company.js");
+	$this->view->headScript()->appendFile("/javascript/configurableproductoptiongroup/configurableproductoptiongroup.js");
 	parent::init();
     }
     
@@ -44,13 +44,26 @@ class ConfigurableproductoptiongroupController extends Dataservice_Controller_Ac
 	if($this->isPostAndValid($form)){
 	    try 
 	    {
-		$company_data	= $this->_params["company"];
+		$data	= $this->_params["configurableproductoptiongroup"];
 
-		$ConfigurableProductOptionGroup->populate($company_data);
-		$this->_em->persist($ConfigurableProductOptionGroup);
-		$this->_em->flush();
+		$ConfigurableProductOptionGroup->populate($data);
+		
+		$configurableproduct_id = $this->_request->getParam("configurableproduct_id");
+		
+		if(!$ConfigurableProductOptionGroup->getId() && $configurableproduct_id){
+		    $ConfigurableProduct = $this->_em->find("Entities\ConfigurableProduct", $configurableproduct_id);
+		    if($ConfigurableProduct){
+			$ConfigurableProduct->addConfigurableProductOptionGroup($ConfigurableProductOptionGroup);
+			$this->_em->persist($ConfigurableProduct);
+			$this->_em->flush();
+		    }
+		}
+		else{
+		    $this->_em->persist($ConfigurableProductOptionGroup);
+		    $this->_em->flush();
+		}
 
-		$message = "ConfigurableProductOptionGroup '".htmlspecialchars($ConfigurableProductOptionGroup->getName())."' saved";
+		$message = "Configurable Product Option Group '".htmlspecialchars($ConfigurableProductOptionGroup->getName())."' saved";
 		$this->_FlashMessenger->addSuccessMessage($message);
 		$this->_History->goBack();
 	    } catch (Exception $exc) {

@@ -93,7 +93,7 @@ class ProductController extends Dataservice_Controller_Action
 	$this->view->Product	= $Product;
     }
     
-    public function manageoptionsAction(){
+    public function manageoptiongroupsAction(){
 	/* @var $ConfigurableProduct \Entities\ConfigurableProduct */
 	$ConfigurableProduct = $this->getEntityFromParamFields("ConfigurableProduct", array("id"));
 	

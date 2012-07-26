@@ -1,0 +1,10 @@
+<?php echo($this->flashMessages()); ?>
+<h1 class="header1">
+    Configurable Product Option Group - 
+    <?php echo $this->ConfigurableProductOptionGroup->getId() ? "Edit" : "Add";?>
+</h1>
+<div class="padded_frame" style="padding-top: 0;padding-left: 0;">
+    <?php
+    echo $this->form;
+    ?>
+</div>

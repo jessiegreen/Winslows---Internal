@@ -36,12 +36,12 @@ class ConfigurableProductOptionGroup
     private $ConfigurableProductOptions;
     
     /**
-     * @ManytoMany(targetEntity="ConfigurableProduct", inversedBy="CbOptions", cascade={"persist", "remove"})
+     * @ManytoMany(targetEntity="ConfigurableProduct", inversedBy="ConfigurableProductOptionGroups", cascade={"persist", "remove"})
      * @JoinTable(name="product_configurable_product_configurable_option_groups")
      */
     private $ConfigurableProducts;
     
-    private $length;
+    private $_length;
     
     public function __construct()
     {
@@ -79,41 +79,29 @@ class ConfigurableProductOptionGroup
     public function getConfigurableProductOptions(){
 	return $this->ConfigurableProductOptions;
     }
-    
-    /**
-     * Retrieve person's associated addresses.
-     */
-    public function getValues()
-    {
-      return $this->values;
-    }
-    
-    /**
-     * Retrieve length of values
-     */
+
     public function getLength(){
-	$this->_calculateLength();
-	return $this->length;
+	$length = $this->_calculateLength();
+	$this->_setLength($length);
+	return $this->_length;
     }
     
-    /**
-     * Calculate length of values
-     */
+    private function _setLength($length){
+	$this->_length = $length;
+    }
+    
     private function _calculateLength(){
 	$length = 0;
-	if(is_array($this->values)){
-	    /* @var $value \Entities\CbValue */
-	    foreach ($this->values as $value) {
-		$length += (int) $value->getLength();
+	
+	if(count($this->ConfigurableProductOptions)>0){
+	    /* @var $ConfigurableProductOption \Entities\ConfigurableProductOption */
+	    foreach ($this->ConfigurableProductOptions as $ConfigurableProductOption) {
+		$length += (int) $ConfigurableProductOption->getLength();
 	    }
 	}
-	
-	$this->length = $length;
+	return $length;	
     }
 
-    /**
-     * Retrieve supplier id
-     */
     public function getId()
     {
         return $this->id;
@@ -158,6 +146,14 @@ class ConfigurableProductOptionGroup
     {
         $this->description = $description;
     }    
+    
+    public function populate(array $array){
+	foreach ($array as $key => $value) {
+	    if(property_exists($this, $key)){
+		$this->$key = $value;
+	    }
+	}
+    }
     
     public function toArray(){
 	$array			= array();
