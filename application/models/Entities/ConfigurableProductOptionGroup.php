@@ -4,11 +4,11 @@ namespace Entities;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @Entity (repositoryClass="Repositories\CbOption") 
- * @Table(name="cb_options")
+ * @Entity (repositoryClass="Repositories\ConfigurableProductOptionGroup") 
+ * @Table(name="product_configurable_option_groups")
  * @HasLifecycleCallbacks
  */
-class CbOption
+class ConfigurableProductOptionGroup
 {
     /**
      * @Id @Column(type="integer")
@@ -31,26 +31,53 @@ class CbOption
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="CbValue", mappedBy="option", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @OneToMany(targetEntity="ConfigurableProductOption", mappedBy="ConfigurableProductOptionGroup", cascade={"persist", "remove"}, orphanRemoval=true)
      */
-    private $values;
+    private $ConfigurableProductOptions;
+    
+    /**
+     * @ManytoMany(targetEntity="ConfigurableProduct", inversedBy="CbOptions", cascade={"persist", "remove"})
+     * @JoinTable(name="product_configurable_product_configurable_option_groups")
+     */
+    private $ConfigurableProducts;
     
     private $length;
     
     public function __construct()
     {
-	$this->Products	    = new ArrayCollection();
-	$this->values	    = new ArrayCollection();
+	$this->ConfigurableProducts	    = new ArrayCollection();
+	$this->ConfigurableProductOptions   = new ArrayCollection();
     }
     
-    /**
-     * Add value to Option.
-     * @param BcValue $value
-     */
-    public function addValue(CbValue $value)
+    public function addConfigurableProduct(ConfigurableProduct $ConfigurableProduct)
     {
-	$value->setOption($this);
-        $this->values[] = $value;
+        $this->ConfigurableProducts[] = $ConfigurableProduct;
+    }
+    
+    public function removeConfigurableProduct(ConfigurableProduct $ConfigurableProduct){
+	foreach ($this->ConfigurableProducts as $key => $ConfigurableProduct2) {
+	    if($ConfigurableProduct->getId() == $ConfigurableProduct2->getId()){
+		$removed = $this->ConfigurableProducts[$key];
+		unset($this->ConfigurableProducts[$key]);
+		return $removed;
+	    }
+	}
+	return false;
+    }
+    
+    public function getConfigurableProducts()
+    {
+	return $this->ConfigurableProducts;
+    }
+    
+    public function addConfigurableProductOption(ConfigurableProductOption $ConfigurableProductOption)
+    {
+	$ConfigurableProductOption->setConfigurableProductOptionGroup($this);
+        $this->ConfigurableProductOptions[] = $ConfigurableProductOption;
+    }
+    
+    public function getConfigurableProductOptions(){
+	return $this->ConfigurableProductOptions;
     }
     
     /**

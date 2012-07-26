@@ -14,7 +14,7 @@ class SupplieraddressController extends Dataservice_Controller_Action
 	$SupplierAddress	= $this->getEntityFromParamFields("SupplierAddress", array("id"));
 	$form		= new Form_SupplierAddress(array("method" => "post"), $SupplierAddress);
 	$form->addElement("button", "cancel", 
-		array("onclick" => "Supplier='".$this->_History->getPreviousUrl(1)."'")
+		array("onclick" => "location='".$this->_History->getPreviousUrl(1)."'")
 		);
 	
 	if($this->isPostAndValid($form)){

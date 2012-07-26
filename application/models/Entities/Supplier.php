@@ -69,6 +69,7 @@ class Supplier
 		return $removed;
 	    }
 	}
+	return false;
     }
     
     public function getCompanies()

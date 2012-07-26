@@ -16,7 +16,7 @@ class Contact
      */
     private $id;
 
-    /** @Column(type="string", length=65536) */
+    /** @Column(type="string", length=50000) */
     private $note;
     
     /** @Column(type="string", length=255) */

@@ -1,0 +1,116 @@
+<?php 
+echo($this->flashMessages()); 
+echo "<div>";
+echo HTML::backAnchorIcon("Supplier - view", "/supplier/view/id/".$this->Product->getSupplier()->getId());
+echo "</div>";
+?>
+<h1 class="header1">Product - View</h1>
+<?php
+/* @var $Product \Entities\Product */
+$Product	= $this->Product;
+$product_id	= $Product->getId();
+$OptionGroups	= null;
+$validator	= null;
+$pricer		= null;
+$price		= null;
+switch ($Product->getDescriminator()) {
+    case "Configurable":
+	/* @var $Product \Entities\ConfigurableProduct */
+	$OptionGroups	= $Product->getConfigurableProductOptionGroups();
+	$validator	= $Product->getValidator();
+	$pricer		= $Product->getPricer();
+    break;
+    case "Simple":
+	/* @var $Product \Entities\SimpleProduct */
+	$price		= $Product->getPrice();
+    break;
+}
+?>
+<div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
+    <h3 class="no_space" style="color: #2000EE;">
+	Info
+	<?php
+	echo HTML::anchorIcon(
+		"pencil.png", 
+		"", 
+		"/product/edit/id/".$product_id,
+		"margin-left:5px;"
+		);
+	?>
+    </h4>
+    <div>
+	<label>Type:</label> <?php echo $Product->getDescriminator(); ?> &nbsp;&nbsp;&nbsp;
+	<label>Name:</label> <?php echo $Product->getName(); ?> &nbsp;&nbsp;&nbsp;
+	<label>Part#:</label> <?php echo $Product->getPartNumber(); ?> &nbsp;&nbsp;&nbsp;
+	<label>Supplier:</label> <?php echo $Product->getSupplier()->getName(); ?> <br />
+	<label>Description:</label> <span class="small"><?php echo $Product->getDescription(); ?></span><br />
+	<?php
+	if($validator){?><label>Validator:</label> <?php echo $validator; ?> &nbsp;&nbsp;&nbsp;<?php }
+	if($pricer){?><label>Pricer:</label> <?php echo $pricer; ?> &nbsp;&nbsp;&nbsp;<?php }
+	if($price){?><label>Price:</label> <?php echo $price; ?> &nbsp;&nbsp;&nbsp;<?php }
+	?>
+    </div>
+</div>
+<div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">
+    <div id="accordion">
+	<?php
+	if($OptionGroups){
+	    ?>
+	    <h3>
+		<a href="#">Option Groups</a>
+		<?php 
+		echo HTML::buttonBlue(
+			"text_list_bullets.png", 
+			"Manage Options", 
+			"options_manage", 
+			"float:right;width:120px;"
+			);
+		?>
+	    </h3>
+	    <div>
+		<?php
+		if(count($OptionGroups)>0){
+		    ?>
+			<ul>
+			<?php
+			/* @var $CbOption \Entities\CbOption */
+			if(count($OptionGroups)>0){
+			    foreach ($OptionGroups as $ConfigurableProductOptionGroup) {
+				?>
+				<li>
+				    <?php
+				    echo HTML::anchorIcon(
+					    "cog_go.png", 
+					    "", 
+					    "/ConfigurableProductOptionGroup/view/id/".$ConfigurableProductOptionGroup->getId(),
+					    "margin-left:5px;"
+					    );
+				    echo $ConfigurableProductOptionGroup->getName();
+				    ?>
+				</li>
+				<?php
+			    }
+			}
+			else echo "<li>No Options</li>";
+			?>
+			</ul>
+		    <?php
+		}
+		else echo "No option groups.";
+		?>
+	    </div>
+	    <hr />
+	    <?php
+	}
+	?>
+    </div>
+</div>
+<div class="padded_frame" style="width: 415px;float: right;padding-top: 0px;">
+    <h3><a href="#">Documents</a></h3>
+    <div>Put Documents here</div>
+</div>
+<div style="clear: both;"><input type="hidden" id="product_id" value="<?php echo $product_id;?>" /></div>
+<script type="text/javascript">
+    Product = new Product();
+    Product.ManageOptionsOnclickBind($("#options_manage"));
+</script>

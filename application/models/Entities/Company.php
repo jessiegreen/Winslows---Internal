@@ -25,7 +25,7 @@ class Company
     /** @Column(type="string", length=255) */
     private $name_index;
     
-    /** @Column(type="string", length=65536) */
+    /** @Column(type="string", length=50000) */
     private $description;
 
     /**
@@ -73,11 +73,10 @@ class Company
 	$this->Suppliers[] = $Supplier;
     }
     
-    public function removeSupplier($supplier_id)
+    public function removeSupplier(Supplier $Supplier)
     {
-	foreach ($this->Suppliers as $key => $Suppliers) {
-	    if($Suppliers->getId() == $supplier_id){
-		$Suppliers->removeResource($this);
+	foreach ($this->Suppliers as $key => $Supplier2) {
+	    if($Supplier->getId() == $Supplier2->getId()){
 		$removed = $this->Suppliers[$key];
 		unset($this->Suppliers[$key]);
 		return $removed;

@@ -5,10 +5,17 @@ namespace Entities;
 /** 
  * @Entity (repositoryClass="Repositories\Product") 
  * @Table(name="products") 
+ * @InheritanceType("JOINED")
+ * @DiscriminatorColumn(name="discr", type="string")
+ * @DiscriminatorMap({"configurableproduct" = "ConfigurableProduct", "simpleproduct" = "SimpleProduct"})
  * @HasLifecycleCallbacks
  */
 class Product
 {
+    const TYPE_Configurable = "Configurable";
+    const TYPE_Simple	    = "Simple";
+    const TYPE_Base	    = "Base";
+
     /**
      * @Id @Column(type="integer")
      * @GeneratedValue(strategy="AUTO")
@@ -37,7 +44,7 @@ class Product
 
     public function __construct()
     {
-	$this->created	= $this->updated = new \DateTime("now");
+	$this->created	    = $this->updated = new \DateTime("now");
     }
     
     /**
@@ -57,9 +64,6 @@ class Product
 	return $this->Supplier;
     }
 
-    /**
-     * Retrieve Privilege id
-     */
     public function getId()
     {
         return $this->id;
@@ -108,6 +112,10 @@ class Product
     public function getUpdated()
     {
         return $this->updated;
+    }
+    
+    public function getDescriminator(){
+	return static::TYPE_Base;
     }
     
     /**
