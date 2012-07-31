@@ -27,16 +27,25 @@ class ConfigurableProductOptionGroup
     
     /** @Column(type="string", length=1000) */
     private $description;
+    
+    /** @Column(type="integer", length=1000) */
+    private $maxcount;
+    
+    /**
+     * @ManyToOne(targetEntity="ConfigurableProductOptionCategory", inversedBy="ConfigurableProductOptionGroups")
+     * @var ConfigurableProductOptionCategory $ConfigurableProductOptionCategory 
+     */
+    private $ConfigurableProductOptionCategory;
 
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="ConfigurableProductOption", mappedBy="ConfigurableProductOptionGroup", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @OneToMany(targetEntity="ConfigurableProductOption", mappedBy="ConfigurableProductOptionGroup", cascade={"persist"}, orphanRemoval=true)
      */
     private $ConfigurableProductOptions;
     
     /**
-     * @ManytoMany(targetEntity="ConfigurableProduct", inversedBy="ConfigurableProductOptionGroups", cascade={"persist", "remove"})
+     * @ManytoMany(targetEntity="ConfigurableProduct", inversedBy="ConfigurableProductOptionGroups", cascade={"persist"})
      * @JoinTable(name="product_configurable_product_configurable_option_groups")
      */
     private $ConfigurableProducts;
@@ -68,6 +77,14 @@ class ConfigurableProductOptionGroup
     public function getConfigurableProducts()
     {
 	return $this->ConfigurableProducts;
+    }
+    
+    public function setConfigurableProductOptionCategory(ConfigurableProductOptionCategory $ConfigurableProductOptionCategory){
+	$this->ConfigurableProductOptionCategory = $ConfigurableProductOptionCategory;
+    }
+    
+    public function getConfigurableProductOptionCategory(){
+	return $this->ConfigurableProductOptionCategory;
     }
     
     public function addConfigurableProductOption(ConfigurableProductOption $ConfigurableProductOption)

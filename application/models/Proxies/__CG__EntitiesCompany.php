@@ -54,6 +54,24 @@ class Company extends \Entities\Company implements \Doctrine\ORM\Proxy\Proxy
         return parent::getLocations();
     }
 
+    public function getSuppliers()
+    {
+        $this->__load();
+        return parent::getSuppliers();
+    }
+
+    public function addSupplier(\Entities\Supplier $Supplier)
+    {
+        $this->__load();
+        return parent::addSupplier($Supplier);
+    }
+
+    public function removeSupplier(\Entities\Supplier $Supplier)
+    {
+        $this->__load();
+        return parent::removeSupplier($Supplier);
+    }
+
     public function getId()
     {
         if ($this->__isInitialized__ === false) {
@@ -120,7 +138,7 @@ class Company extends \Entities\Company implements \Doctrine\ORM\Proxy\Proxy
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'name', 'dba', 'name_index', 'description', 'Locations');
+        return array('__isInitialized__', 'id', 'name', 'dba', 'name_index', 'description', 'Locations', 'Suppliers');
     }
 
     public function __clone()

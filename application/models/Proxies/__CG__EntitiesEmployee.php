@@ -42,6 +42,36 @@ class Employee extends \Entities\Employee implements \Doctrine\ORM\Proxy\Proxy
     }
 
     
+    public function getLeads()
+    {
+        $this->__load();
+        return parent::getLeads();
+    }
+
+    public function AddQuote(\Entities\Quote $Quote)
+    {
+        $this->__load();
+        return parent::AddQuote($Quote);
+    }
+
+    public function getQuotes()
+    {
+        $this->__load();
+        return parent::getQuotes();
+    }
+
+    public function getOrders()
+    {
+        $this->__load();
+        return parent::getOrders();
+    }
+
+    public function AddOrder(\Entities\Order $Order)
+    {
+        $this->__load();
+        return parent::AddOrder($Order);
+    }
+
     public function getLocation()
     {
         $this->__load();
@@ -231,7 +261,7 @@ class Employee extends \Entities\Employee implements \Doctrine\ORM\Proxy\Proxy
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'first_name', 'middle_name', 'last_name', 'suffix', 'created', 'updated', 'PersonAddresses', 'PersonDocuments', 'PersonPhoneNumbers', 'PersonEmailAddresses', 'WebAccount', 'title', 'Location');
+        return array('__isInitialized__', 'id', 'first_name', 'middle_name', 'last_name', 'suffix', 'created', 'updated', 'PersonAddresses', 'PersonDocuments', 'PersonPhoneNumbers', 'PersonEmailAddresses', 'WebAccount', 'title', 'Location', 'Quotes', 'Orders', 'Leads');
     }
 
     public function __clone()

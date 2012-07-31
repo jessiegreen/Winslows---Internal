@@ -1,0 +1,40 @@
+<?php echo($this->flashMessages()); ?>
+<h1 class="header1">Configurable Product Option - View All</h1>
+<fieldset class="padded_frame blue_frame">
+    <legend>Menu</legend>
+    <?php
+    echo HTML::buttonBlue("add.png", "Add Option", "option_add", "position:relative;");
+    ?>
+</fieldset>
+<fieldset class="padded_frame blue_frame">
+    <legend>Options</legend>
+    <?php
+    /* @var $ConfigurableProductOption \Entities\ConfigurableProductOption */
+    foreach($this->ConfigurableProductOptions as $ConfigurableProductOption){
+	echo "<div configurableproductoption_id='".$ConfigurableProductOption->getId()."'>";
+	echo HTML::buttonIcon(
+		"magnifier.png", 
+		"option_view_".$ConfigurableProductOption->getId(), 
+		"View Option", 
+		"option_view", 
+		"padding-right:5px;"
+		);
+	echo HTML::buttonIcon(
+		"delete.png", 
+		"option_delete_".$ConfigurableProductOption->getId(), 
+		"Delete Option", 
+		"option_delete", 
+		"padding-right:5px;"
+		);
+	echo ":: ";
+	echo $ConfigurableProductOption->getName()."<span class='gray small'> - ".
+		$ConfigurableProductOption->getConfigurableProductOptionGroup()->getName()."</span>";
+    }
+    ?>
+</fieldset>
+<script type="text/javascript">
+    ConfigurableProductOption = new ConfigurableProductOption();
+    ConfigurableProductOption.AddOnclickBind($("#option_add"));
+    ConfigurableProductOption.ViewOnclickBind($(".option_view"));
+    ConfigurableProductOption.DeleteOnclickBind($(".option_delete"));
+</script>

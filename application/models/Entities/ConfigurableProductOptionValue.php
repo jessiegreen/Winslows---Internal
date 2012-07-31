@@ -33,6 +33,9 @@ class ConfigurableProductOptionValue
      */
     private $ConfigurableProductOption;
     
+    /** @Column(type="integer") */
+    private $ConfigurableProductOption_id;
+    
     public function __construct()
     {
 	
@@ -92,6 +95,14 @@ class ConfigurableProductOptionValue
     public function setDescription($description)
     {
         $this->description = $description;
+    }
+    
+    public function populate(array $array){
+	foreach ($array as $key => $value) {
+	    if(property_exists($this, $key)){
+		$this->$key = $value;
+	    }
+	}
     }
     
     public function toArray(){

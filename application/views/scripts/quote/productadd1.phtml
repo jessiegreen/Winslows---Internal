@@ -1,0 +1,18 @@
+<div class="padded_frame" id="addproduct_colorbox_content">
+    <div style="width:500px;height: 250px;">
+	<h2>Which product would you like to add?</h2>
+	<?php echo $this->form;?>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#quote_addproduct").submit(function(){
+	$.ajax({
+	    url: "/quote/productadd2/id/<?php echo $this->quote_id;?>/product_id/"+$("#quote_addproduct-product_id").val(),
+	    success: function(data) { 
+		c = $("#addproduct_colorbox_content");
+		c.fadeOut('fast', function(){c.html(data).fadeIn('slow')});
+	    }
+	});
+	return false;
+    })
+</script>

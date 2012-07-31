@@ -1,0 +1,43 @@
+<?php echo($this->flashMessages()); ?>
+<h1 class="header1">Configurable Product Option Values - View All</h1>
+<fieldset class="padded_frame blue_frame">
+    <legend>Menu</legend>
+    <?php
+    echo HTML::buttonBlue("add.png", "Add Value", "value_add", "position:relative;");
+    ?>
+</fieldset>
+<fieldset class="padded_frame blue_frame">
+    <legend>Values</legend>
+    <?php
+    /* @var $ConfigurableProductOptionValue \Entities\ConfigurableProductOptionValue */
+    foreach($this->ConfigurableProductOptionsValues as $ConfigurableProductOptionValue){
+	echo "<div configurableproductoptionvalue_id='".$ConfigurableProductOptionValue->getId()."'>";
+	echo HTML::buttonIcon(
+		"pencil.png", 
+		"value_edit_".$ConfigurableProductOptionValue->getId(), 
+		"Edit Value", 
+		"value_edit", 
+		"padding-right:5px;"
+		);
+	echo HTML::buttonIcon(
+		"delete.png", 
+		"value_delete_".$ConfigurableProductOptionValue->getId(), 
+		"Delete Value", 
+		"value_delete", 
+		"padding-right:5px;"
+		);
+	echo ":: ";
+	echo $ConfigurableProductOptionValue->getName();
+	$Option = $ConfigurableProductOptionValue->getConfigurableProductOption();
+	if($Option)echo "<span class='gray small'> - ".$Option->getName ()." - ".$Option->getConfigurableProductOptionGroup()->getName()."</span>";
+	else echo " <span class='error_message'>No Option</span>";
+	echo "</div>";
+    }
+    ?>
+</fieldset>
+<script type="text/javascript">
+    ConfigurableProductOptionValue = new ConfigurableProductOptionValue();
+    ConfigurableProductOptionValue.AddOnclickBind($("#value_add"));
+    ConfigurableProductOptionValue.EditOnclickBind($(".value_edit"));
+    ConfigurableProductOptionValue.DeleteOnclickBind($(".value_delete"));
+</script>

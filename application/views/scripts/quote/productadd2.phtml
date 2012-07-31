@@ -1,0 +1,53 @@
+<div style="width:500px;height: 250px;">
+<?php 
+echo($this->flashMessages());
+if(!$this->error){
+    switch ($this->type) {
+	case "Simple":
+	    ?>
+	    <script type="text/javascript">
+		location="/quote/productadd/product_id/<?php echo $this->product_id;?>/id/<?php echo $this->quote_id;?>";
+	    </script>
+	    <?php
+	    break;
+	case "Configurable":
+	    ?>
+	    <h2>The product you are adding is configurable. <br />Which method do you want to use to choose it's options?</h2>
+		<?php echo $this->form;?>
+	    <script type="text/javascript">
+		$("#quote_addproduct2").submit(function(){
+		    value = $('input:radio:checked').val();
+		    
+		    if(value == "manual"){
+			$.ajax({
+			    url: "/quote/productaddmanual/id/<?php echo $this->quote_id;?>/product_id/<?php echo $this->product_id;?>",
+			    success: function(data) { 
+				$.colorbox.resize({width:1200,height:'95%'})
+				c = $("#addproduct_colorbox_content");
+				c.fadeOut('fast', function(){c.html(data).fadeIn('slow')});
+			    }
+			});
+		    }
+		    else if(value == "builder"){
+			$.ajax({
+			    url: "/builder?type=carport",
+			    success: function(data) { 
+				$.colorbox.resize({width:1100,height:'95%'})
+				c = $("#addproduct_colorbox_content");
+				c.fadeOut('fast', function(){c.html(data).fadeIn('slow')});
+			    }
+			});
+		    }
+		    return false;
+		})
+	    </script>
+	    <?php
+	    break;
+	default:
+	    echo "Error";
+	    break;
+    }
+}
+else echo "error.";
+?>
+</div>

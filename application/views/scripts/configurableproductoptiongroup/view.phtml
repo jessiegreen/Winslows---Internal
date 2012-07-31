@@ -47,7 +47,7 @@ $ConfigurableProducts		    = $ConfigurableProductOptionGroup->getConfigurablePro
 		    <li>
 			<?php
 			echo HTML::anchorIcon(
-				"cog_go.png", 
+				"magnifier.png", 
 				"", 
 				"/product/view/id/".$ConfigurableProduct->getId(),
 				"margin-left:5px;"
@@ -66,12 +66,6 @@ $ConfigurableProducts		    = $ConfigurableProductOptionGroup->getConfigurablePro
 	<h3>
 		<a href="#">Options</a>
 		<?php 
-		echo HTML::buttonBlue(
-			"text_list_bullets.png", 
-			"Manage", 
-			"options_manage", 
-			"float:right;width:80px;"
-			);
 		echo HTML::buttonBlue(
 			"bullet_add.png", 
 			"Add New", 
@@ -93,7 +87,7 @@ $ConfigurableProducts		    = $ConfigurableProductOptionGroup->getConfigurablePro
 				<li>
 				    <?php
 				    echo HTML::anchorIcon(
-					    "cog_go.png", 
+					    "magnifier.png", 
 					    "", 
 					    "/configurableproductoption/view/id/".$ConfigurableProductOption->getId(),
 					    "margin-left:5px;"

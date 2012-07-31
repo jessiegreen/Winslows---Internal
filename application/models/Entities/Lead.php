@@ -39,8 +39,16 @@ class Lead extends Person
      */
     protected $Leads;
     
+    /**
+     * Bidirectional - One-To-Many (INVERSE SIDE)
+     *
+     * @OneToMany(targetEntity="Quote", mappedBy="Lead", cascade={"persist"})
+     */
+    protected $Quotes;
+    
     public function __construct(){
 	$this->Contacts = new ArrayCollection();
+	$this->Quotes	= new ArrayCollection();
 	parent::__construct();
     }
     
@@ -51,6 +59,15 @@ class Lead extends Person
     
     public function getContacts(){
 	return $this->Contacts;
+    }
+    
+    public function AddQuote(Quote $Quote){
+	$Quote->setLead($this);
+	$this->Quotes[] = $Quote;
+    }
+    
+    public function getQuotes(){
+	return $this->Quotes;
     }
     
     public function getEmployee()

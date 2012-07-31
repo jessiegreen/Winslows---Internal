@@ -75,5 +75,31 @@ class ConfigurableproductoptiongroupController extends Dataservice_Controller_Ac
 	$this->view->form	= $form;
 	$this->view->ConfigurableProductOptionGroup	= $ConfigurableProductOptionGroup;
     }
+    
+    public function deleteAction(){
+	$this->_helper->viewRenderer->setNoRender(true);
+	$ACL = new Dataservice_Controller_Plugin_ACL();
+	$ACL->preDispatch($this->_request);
+	$this->_helper->layout->disableLayout();
+	
+	/* @var $ConfigurableProductOptionGroup \Entities\ConfigurableProductOptionGroup */
+	$ConfigurableProductOptionGroup = $this->getEntityFromParamFields("ConfigurableProductOptionGroup", array("id"));
+
+	if($ConfigurableProductOptionGroup->getId()){
+	    try {
+		$this->_em->remove($ConfigurableProductOptionGroup);
+		$this->_em->flush();
+		$this->_FlashMessenger->addSuccessMessage("Configurable Product Option Group Deleted");
+		$this->_History->goBack();
+	    } catch (Exception $exc) {
+		$this->_FlashMessenger->addErrorMessage($exc->getMessage());
+		$this->_History->goBack();
+	    }
+	}
+	else{
+	    $this->_FlashMessenger->addErrorMessage("Could Not Get Configurable Product Option Group");
+	    $this->_History->goBack();
+	}
+    }
 }
 

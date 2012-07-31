@@ -10,6 +10,8 @@
  * @version    Release: @package_version@
  */
 namespace Entities;
+use Doctrine\Common\Collections\ArrayCollection;
+
 /** 
  * @Entity (repositoryClass="Repositories\Employee") 
  * @Table(name="employees") 
@@ -28,6 +30,57 @@ class Employee extends Person
      * @var Location $Location
      */
     private $Location;
+    
+    /**
+     * Bidirectional - One-To-Many (INVERSE SIDE)
+     *
+     * @OneToMany(targetEntity="Quote", mappedBy="Employee", cascade={"persist"})
+     */
+    private $Quotes;
+    
+    /**
+     * Bidirectional - One-To-Many (INVERSE SIDE)
+     *
+     * @OneToMany(targetEntity="Order", mappedBy="Employee", cascade={"persist"})
+     */
+    private $Orders;
+    
+    /**
+     * Bidirectional - One-To-Many (INVERSE SIDE)
+     *
+     * @OneToMany(targetEntity="Lead", mappedBy="Employee", cascade={"persist"})
+     */
+    private $Leads;
+    
+    public function __construct()
+    {
+	$this->Quotes	= new ArrayCollection();
+	$this->Orders	= new ArrayCollection();
+	$this->Leads	= new ArrayCollection();
+	parent::__construct();
+    }
+    
+    public function getLeads(){
+	return $this->Leads;
+    }
+    
+    public function AddQuote(Quote $Quote){
+	$Quote->setEmployee($this);
+	$this->Quotes[] = $Quote;
+    }
+    
+    public function getQuotes(){
+	return $this->Quotes;
+    }
+    
+    public function getOrders(){
+	return $this->Orders;
+    }
+    
+    public function AddOrder(Order $Order){
+	$Order->setEmployee($this);
+	$this->Orders[] = $Order;
+    }    
     
     public function getLocation(){
 	return $this->Location;

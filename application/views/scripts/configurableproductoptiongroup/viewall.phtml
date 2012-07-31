@@ -1,31 +1,54 @@
-<?php echo($this->flashMessages()); ?>
-<h1 class="header1">Companies - View All</h1>
+<?php 
+echo($this->flashMessages()); 
+?>
+<h1 class="header1">Configurable Product Option Group - View All</h1>
 <fieldset class="padded_frame blue_frame">
     <legend>Menu</legend>
     <?php
-    echo HTML::buttonBlue("add.png", "Add Company", "add_company", "position:relative;");
+    echo HTML::buttonBlue("add.png", "Add Group", "group_add", "position:relative;");
     ?>
 </fieldset>
 <fieldset class="padded_frame blue_frame">
-    <legend>Companies</legend>
+    <legend>Groups</legend>
     <?php
-    /* @var $Company \Entities\Company */
-    foreach($this->Companys as $Company){
-	echo "<div company_id='".$Company->getId()."'>";
+    /* @var $ConfigurableProductOptionGroup \Entities\ConfigurableProductOptionGroup */
+    foreach($this->ConfigurableProductOptionGroups as $ConfigurableProductOptionGroup){
+	echo "<div configurableproductoptiongroup_id='".$ConfigurableProductOptionGroup->getId()."'>";
+	$Products = $ConfigurableProductOptionGroup->getConfigurableProducts();
 	echo HTML::buttonIcon(
-		"building_go.png", 
-		"editcompany_".$Company->getId(), 
-		"Edit Company", 
-		"edit_company", 
+		"magnifier.png", 
+		"view_group_".$ConfigurableProductOptionGroup->getId(), 
+		"View Group", 
+		"group_view", 
+		"padding-right:5px;"
+		);
+	echo HTML::buttonIcon(
+		"delete.png", 
+		"delete_group_".$ConfigurableProductOptionGroup->getId(), 
+		"Delete Group", 
+		"group_delete", 
 		"padding-right:5px;"
 		);
 	echo ":: ";
-	echo $Company->getName()." - ".$Company->getDba();
+	echo $ConfigurableProductOptionGroup->getName();
+	if(count($Products)>0){
+	    echo "<span class='gray small'> - ";
+	    $array = array();
+	    foreach ($ConfigurableProductOptionGroup->getConfigurableProducts() as $ConfigurableProduct) {
+		$array[] = $ConfigurableProduct->getName();
+	    }
+	    echo implode(", ", $array);
+	    echo "</span>";
+	}
+	else{
+	    echo " - <span class='messenger_error'>No Products!</span>";
+	}
     }
     ?>
 </fieldset>
 <script type="text/javascript">
-    Company = new Company();
-    Company.AddOnclickBind($("#add_company"));
-    Company.EditOnclickBind($(".edit_company"));
+    ConfigurableProductOptionGroup = new ConfigurableProductOptionGroup();
+    ConfigurableProductOptionGroup.AddOnclickBind($("#group_add"));
+    ConfigurableProductOptionGroup.ViewOnclickBind($(".group_view"));
+    ConfigurableProductOptionGroup.DeleteOnclickBind($(".group_delete"));
 </script>

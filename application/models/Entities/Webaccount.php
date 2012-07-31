@@ -80,6 +80,14 @@ class WebAccount
 	return $this->Roles;
     }
     
+    public function hasRole($role){
+	/* @var $Role Role */
+	foreach ($this->getRoles() as $Role) {
+	    if($Role->getName() == $role)return true;
+	}
+	return false;
+    }
+    
     /**
      * Retrieve address's associated people.
      * 

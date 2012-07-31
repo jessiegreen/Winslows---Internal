@@ -26,5 +26,11 @@ Lead.prototype.AddContactClickBind = function(element_id){
     });
 }
 
+Lead.prototype.AddQuoteClickBind = function(element_id){
+    $("#"+element_id).click(function(){	
+	location = "/quote/edit/id/0/lead_id/" + $("#lead_id").val();
+    });
+}
+
 
 

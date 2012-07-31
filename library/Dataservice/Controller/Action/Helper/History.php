@@ -61,13 +61,16 @@ class Dataservice_Controller_Action_Helper_History extends Zend_Controller_Actio
 		array_unshift($this->_namespace->history, $_SERVER['HTTP_REFERER']);
 	    }
 	} else {
+	    if(count($this->_namespace->history) == 0){
+		array_unshift($this->_namespace->history, "/index");
+	    }
 	    array_splice($this->_namespace->history, $this->_trackAmount);
 	}
     }
 
     public function preDispatch() {
-	$urlHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('Url');
-	$this->_currentUrl = $urlHelper->url();
+	$urlHelper	    = Zend_Controller_Action_HelperBroker::getStaticHelper('Url');
+	$this->_currentUrl  = $urlHelper->url();
 
 // Break out if we don't want to track the request
 	if ($this->trackableRequest() == false) {
@@ -145,10 +148,16 @@ class Dataservice_Controller_Action_Helper_History extends Zend_Controller_Actio
 	if ($this->_currentUrl == $this->_namespace->history[0]) {
 	    return false;
 	}
-
 // Need to come up with a way to check for a 404 error so we don't track bad requests.
 
 	return true;
+    }
+    
+    /**
+     * Takes off the last history entry
+     */
+    public function doNotTrack(){
+	array_shift($this->_namespace->history);
     }
 
 }

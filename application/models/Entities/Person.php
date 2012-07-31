@@ -63,6 +63,7 @@ class Person
     
     /**
      * @OneToOne(targetEntity="WebAccount", mappedBy="Person", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @var WebAccount $WebAccount
      */
     protected $WebAccount;
 

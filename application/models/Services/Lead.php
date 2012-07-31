@@ -19,7 +19,6 @@ class Lead {
     
     public function getAutocompleteLeadsArrayFromTerm($term = "", $descriminator = "lead", $max_results = 20){
 	$max_results	= 20;
-	$results	= array();
 	$conn		= $this->_em->getConnection();
 	
 	$sql = "SELECT DISTINCT 
@@ -63,6 +62,15 @@ class Lead {
 	return $return;
     }
 	    
+    public function getAllAllowedLeads(){
+	$Employee   = Auth::factory()->getIdentityPerson();
+	
+	if($Employee->getWebAccount()->hasRole('Admin') || $Employee->getWebAccount()->hasRole('Sales_Manager')){
+	    return $this->_em->getRepository("Entities\Lead")->findBy(array(), array("last_name" => "ASC", "first_name" => "ASC"));
+	}
+	/* @var $Employee \Entities\Employee */
+	return $Employee->getLeads();
+    }
 }
 
 ?>

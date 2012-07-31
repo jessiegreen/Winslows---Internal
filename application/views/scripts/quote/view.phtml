@@ -1,0 +1,77 @@
+<?php 
+echo($this->flashMessages()); 
+echo "<div>";
+echo HTML::backAnchorIcon("Back ", $this->back);
+echo "</div>";
+?>
+<h1 class="header1">Quote - View</h1>
+<?php
+/* @var $quote \Entities\Quote */
+$quote		= $this->Quote;
+$quote_id	= $quote->getId();
+$quote_products	= $quote->getQuoteProducts();
+?>
+<div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
+    <h4 class="no_space" style="color: #2000EE;">
+	Info
+	<?php
+	echo HTML::anchorIcon(
+		"pencil.png", 
+		"", 
+		"/quote/edit/id/".$quote_id,
+		"margin-left:5px;"
+		);
+	?>
+    </h4>
+    <div>
+	Date:<?php echo $quote->getCreated()->format("F j, Y, g:i a"); ?> &nbsp;&nbsp;&nbsp; 
+	Lead:<?php echo $quote->getLead()->getFullName(); ?> &nbsp;&nbsp;&nbsp; 
+	Sales Person:<?php echo $quote->getEmployee()->getFullName(); ?> &nbsp;&nbsp;&nbsp; 
+	Total:<?php echo $quote->getTotal(); ?> &nbsp;&nbsp;&nbsp;
+    </div>
+</div>
+<div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">
+    <div id="accordion">
+	<h3>
+	    <a href="#">Products</a>
+	    <?php echo HTML::buttonBlue("package_add.png", "Add Product", "quoteproduct_add", "float:right;width:110px;");?>
+	</h3>
+	<div>
+	    <?php
+	    echo count($quote_products)<1 ? "<span class='small gray'>No Products</span>" : "";
+	    /* @var $QuoteProduct \Entities\QuoteProduct */
+	    foreach ($quote_products as $QuoteProduct) {
+		/* @var $Product \Entities\Product */
+		$Product = $QuoteProduct->getProduct();
+		?>
+		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
+		    <?php 
+		    echo $Product->getName();
+		    echo HTML::anchorIcon(
+			    "pencil.png", 
+			    "", 
+			    "/quoteproduct/edit/id/".$QuoteProduct->getId(),
+			    "margin-left:5px;"
+			    );
+		    ?>
+		</h4>
+		<label>Quantity:</label>
+		<div style="display: inline;"><?php echo $QuoteProduct->getQuantity(); ?></div><br />
+		<label>Price Each:</label>
+		<div style="display: inline;"><?php echo $QuoteProduct->getPriceEach(); ?></div><br />
+		<label>Price Total:</label>
+		<div style="display: inline;"><?php echo $QuoteProduct->getQuantity()*$QuoteProduct->getPriceEach(); ?></div><br />
+		<?php
+	    }
+	    ?>
+	</div>
+    </div>
+</div>
+<div class="padded_frame" style="width: 415px;float: right;padding-top: 0px;">
+    <h3><a href="#">Documents</a></h3>
+    <div>Put Documents here</div>
+</div>
+<div style="clear: both;"><input type="hidden" id="quote_id" value="<?php echo $quote_id;?>" /></div>
+<script type="text/javascript">
+    $("#quoteproduct_add").colorbox({href:"/quote/productadd1/id/<?php echo $quote_id;?>"});
+</script>

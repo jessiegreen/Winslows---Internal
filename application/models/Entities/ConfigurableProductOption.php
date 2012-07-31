@@ -25,14 +25,20 @@ class ConfigurableProductOption
     /** @Column(type="string", length=1000) */
     private $description;
     
+    /** @Column(type="boolean") */
+    private $required;
+    
     /** @Column(type="integer", length=10) */
     private $length;
     
     /**
-     * @ManyToOne(targetEntity="ConfigurableProductOptionGroup", inversedBy="values")
+     * @ManyToOne(targetEntity="ConfigurableProductOptionGroup", inversedBy="ConfigurableProductOptions")
      * @var ConfigurableProductOptionGroup $ConfigurableProductOptionGroup 
      */
     private $ConfigurableProductOptionGroup;
+    
+    /** @Column(type="integer") */
+    private $ConfigurableProductOptionGroup_id; 
     
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
@@ -106,6 +112,22 @@ class ConfigurableProductOption
     public function setDescription($description)
     {
         $this->description = $description;
+    }
+    
+    public function setRequired(bool $required){
+	$this->required = $required;
+    }
+    
+    public function isRequired(){
+	return $this->required;
+    }
+    
+    public function populate(array $array){
+	foreach ($array as $key => $value) {
+	    if(property_exists($this, $key)){
+		$this->$key = $value;
+	    }
+	}
     }
     
     public function toArray(){

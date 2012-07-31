@@ -12,6 +12,7 @@ $addresses	= $lead->getPersonAddresses();
 $phones		= $lead->getPersonPhoneNumbers();
 $emails		= $lead->getPersonEmailAddresses();
 $contacts	= $lead->getContacts();
+$quotes		= $lead->getQuotes();
 ?>
 <div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
     <h4 class="no_space" style="color: #2000EE;">
@@ -156,6 +157,64 @@ $contacts	= $lead->getContacts();
 </div>
 <div class="padded_frame" style="width: 415px;float: right;padding-top: 0px;">
     <h3>
+	<a href="#">Quotes</a>
+	<span style="float:right;">
+	    <?php 
+	    echo HTML::buttonBlue(
+		    "money_add.png", 
+		    "Add Quote", 
+		    "quote_add", 
+		    "quote_add", 
+		    "padding-left:3px;"
+		    );?>
+	</span>
+    </h3>
+    <div>
+	<div style="max-height: 300px;overflow: auto;">
+	    <?php
+	    /* @var $Quote \Entities\Quote */
+	    if(count($quotes)>0){
+		foreach ($quotes as $Quote) {
+		    ?>
+		    <h4 class="no_space bg_blue_fade blue_frame" style="padding:3px;margin-bottom: 3px;">
+			<?php 
+			echo $Quote->getCreated()->format("m-d-Y, g:i a")." - ".$Quote->getEmployee()->getFirstName(); 
+			echo HTML::anchorIcon(
+				"magnifier.png", 
+				"", 
+				"/quote/view/id/".
+				    $Quote->getId(), 
+				"margin-left:5px;"
+				);
+			?>
+		    </h4>
+		    <label>Employee:</label>
+		    <div style="display: inline;">
+			<?php 
+			echo $Quote->getEmployee()->getFirstName(); 
+			?>
+		    </div><br />
+		    <label>Total:</label>
+		    <div style="display: inline;">
+			<?php 
+			echo "$".$Quote->getTotal();
+			?>
+		    </div><br />
+		    <label>Number Of Products:</label>
+		    <div style="display: inline;">
+			<?php 
+			echo count($Quote->getQuoteProducts());
+			?>
+		    </div><br /><br />
+		    <?php
+		}
+	    }
+	    else echo "No quotes.";
+	    ?>
+	</div>
+    </div>
+    <hr />
+    <h3>
 	<a href="#">Contacts</a>
 	<span style="float:right;">
 	    <?php 
@@ -220,4 +279,5 @@ $contacts	= $lead->getContacts();
     Lead.AddAddressClickBind("address_add");
     Lead.AddEmailClickBind("email_add");
     Lead.AddContactClickBind("contact_add");
+    Lead.AddQuoteClickBind("quote_add");
 </script>
