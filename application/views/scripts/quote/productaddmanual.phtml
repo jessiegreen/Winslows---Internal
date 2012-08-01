@@ -1,4 +1,157 @@
-<div style="width:1100px;height: 90%">
-    <h2>Manual Product Add</h2>
-    <?php echo $this->form;?>
+<style>
+.ui-draggable-dragging { text-shadow: 0.1em 0.1em 0.05em #4297d7 }
+.add_option_right{
+    width:78%;float: right;height: 90%;overflow: auto;
+}
+</style>
+<div id="quote_product_errors" class="messenger_error" style="display: none;"></div>
+<form id="quote_product_add_manual" method="post" name="quote_product_add_manual">
+<div style="width:1100px;height: 75%;">
+    <h4>Manual Product Add</h4>
+    <h2>
+	<?php echo $this->Product->getName();?>
+	<input type="submit" value="Add Product" style="float: right" />
+    </h2>
+    <div style="color: #4297d7">* = required</div>
+    <div id="quote_tabs">
+	<ul>
+	    <?php
+	    foreach ($this->data as $array) {
+		$Category = $array["category"];
+		?>
+		<li><a id="tab_title_<?php echo $Category->getId();?>" href="#<?php echo $Category->getIndex();?>"><?php echo $Category->getName();?></a></li>
+		<?php
+	    }
+	    ?>
+	</ul>
+	<?php
+	/* @var $Category \Entities\ConfigurableProductOptionCategory */
+	foreach ($this->data as $array) {
+	    $Category = $array["category"];
+	    $groups   = $array["groups"];	
+	    ?>
+	    <div id="<?php echo $Category->getIndex();?>" class="blah">
+		<div class="add_option_left border_gray" id="left_<?php echo $Category->getIndex();?>" style="width:18%;float: left;height: 90%;">
+		    <h1 class="header1">Drag Option &raquo;</h1>
+		    <ul>
+		    <?php
+		    /* @var $Group \Entities\ConfigurableProductOptionGroup */
+		    foreach ($groups["optional"] as $Group) {
+			?>
+			<li 
+			    quantity_left="<?php echo ($Group->getMaxCount()-1);?>" 
+			    group_id="<?php echo $Group->getId();?>" 
+			    id="draggable_<?php echo $Group->getId();?>" 
+			    style="cursor: move;"
+			>
+				<?php echo $Group->getName();?>
+			</li>
+			<?php
+		    }
+		    ?>
+		    </ul>
+		</div>
+		<div id="right_<?php echo $Category->getIndex();?>" class="border_gray add_option_right">
+		    <h1 class="header1">Options &downarrow;</h1>
+		    <?php
+		    foreach ($groups["required"] as $Group) {
+			?>
+			<script type="text/javascript">
+			    $("#tab_title_<?php echo $Category->getId();?>").html("<?php echo $Category->getName();?>*")
+			    $.ajax({
+				url: "/quote/getoptionform/group_id/<?php echo $Group->getId();?>",
+				success: function(data){
+				    right_div = $("#right_<?php echo $Category->getIndex();?>");
+				    right_div.append(data);
+				}
+			    })
+			</script>
+			<?php
+		    }
+		    ?>
+		</div>
+		<div style="clear: both;"></div>
+	    </div>
+	    <?php
+	}
+	?>
+    </div>
 </div>
+</form>
+<script type="text/javascript">
+    $(document).ready(function() {
+	$("#quote_product_add_manual :input").button()
+
+	$("#quote_product_add_manual").submit(function(){
+	    $.post(
+		"/quote/productaddmanualsave/product_id/<?php echo $this->Product->getId();?>/quote_id/<?php echo $this->quote_id;?>", 
+		$("#quote_product_add_manual").serialize(),
+		function(data) {
+		    alert(data = data);
+		    if(data.success === true){
+			alert("yay!");
+		    }
+		    else if(data.success === false){
+			if(data.error_message){
+			    error_container = $("#quote_product_errors");
+			    error_container.fadeOut("fast", function(){
+				error_container.html(data.error_message);
+				error_container.fadeIn("fast");
+			    });
+			}
+		    }
+		},
+		"json"
+	    )
+	    .success(function() {
+		alert( )
+	    })
+	    .error( function (jqXHR, status, error) {
+		alert(error)
+	     })
+	    .complete(function() { });
+	    return false;
+	});
+
+	
+	$( ".add_option_left li" ).draggable({
+		cursor: "move",
+		helper:	"clone",
+		containment: '#quote_tabs',
+		drag: function(){
+		    $(".add_option_right").css("border", "solid 1px blue");
+		},
+		stop: function(){
+		    $(".add_option_right").css("border", "1px solid #EEEDED");
+		}
+	});
+
+	$('.add_option_right').droppable( {
+	    drop: handleDropEvent
+	});
+
+	function handleDropEvent( event, ui ) {
+	    var draggable   = ui.draggable;
+	    group_id	    = draggable.attr('group_id');
+	    quantity_left   = draggable.attr('quantity_left');
+	    parent_div	    = draggable.parents(".blah");
+	    right_frame	    = parent_div.children(".add_option_right");
+	    
+	    $.ajax({
+		url: "/quote/getoptionform/group_id/" + group_id,
+		success: function(data){
+		    right_frame.append(data);
+		    if(quantity_left == 0){
+			draggable.remove();
+		    }
+		    else{
+			draggable.attr('quantity_left', quantity_left-1);
+		    }
+		}
+	    }).done(function(){
+		right_frame.scrollTop(right_frame.height());
+	    })
+	}
+	$( "#quote_tabs" ).tabs();
+    });
+</script>

@@ -154,6 +154,16 @@ class ConfigurableProductOptionGroup
         $this->code = $code;
     }
     
+    public function getMaxCount()
+    {
+        return $this->maxcount;
+    }
+
+    public function setMaxCount($max_count)
+    {
+        $this->maxcount = $max_count;
+    }
+    
     public function getDescription()
     {
         return $this->description;
@@ -163,6 +173,23 @@ class ConfigurableProductOptionGroup
     {
         $this->description = $description;
     }    
+    
+    public function hasRequiredOption(){
+	/* @var $Option \Entities\ConfigurableProductOption */
+	foreach ($this->getConfigurableProductOptions() as $Option) {
+	    if($Option->isRequired())return true;
+	}
+	return false;
+    }
+    
+    public function getRequiredOptionIdsArray(){
+	$ids = array();
+	/* @var $Option \Entities\ConfigurableProductOption */
+	foreach ($this->getConfigurableProductOptions() as $Option) {
+	    if($Option->isRequired())$ids[] = $Option->getId();
+	}
+	return $ids;
+    }
     
     public function populate(array $array){
 	foreach ($array as $key => $value) {

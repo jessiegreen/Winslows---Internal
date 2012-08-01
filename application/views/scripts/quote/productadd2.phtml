@@ -24,7 +24,10 @@ if(!$this->error){
 			    success: function(data) { 
 				$.colorbox.resize({width:1200,height:'95%'})
 				c = $("#addproduct_colorbox_content");
-				c.fadeOut('fast', function(){c.html(data).fadeIn('slow')});
+				c.fadeOut('fast', function(){c.html(data).fadeIn('fast')});
+			    },
+			    error: function(request,error){
+				alert(request.responseText)
 			    }
 			});
 		    }
@@ -34,7 +37,7 @@ if(!$this->error){
 			    success: function(data) { 
 				$.colorbox.resize({width:1100,height:'95%'})
 				c = $("#addproduct_colorbox_content");
-				c.fadeOut('fast', function(){c.html(data).fadeIn('slow')});
+				c.fadeOut('fast', function(){c.html(data).fadeIn('fast')});
 			    }
 			});
 		    }

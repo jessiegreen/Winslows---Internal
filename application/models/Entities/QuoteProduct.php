@@ -65,6 +65,17 @@ class QuoteProduct
     {
         $this->updated = new \DateTime("now");
     }
+    
+    public function addQuoteProductOptionValue(QuoteProductOptionValue $QuoteProductOptionValue)
+    {
+	$QuoteProductOptionValue->setQuoteProduct($this);
+        $this->QuoteProductOptionValues[] = $QuoteProductOptionValue;
+    }
+    
+    public function getQuoteProductOptionValues()
+    {
+	return $this->QuoteProductOptionValues;
+    }
 
     public function setQuote(Quote $Quote){
 	$this->Quote = $Quote;

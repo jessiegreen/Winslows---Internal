@@ -21,6 +21,9 @@ class ConfigurableProductOptionCategory
     
     /** @Column(type="string", length=255) */
     private $name;
+    
+    /** @Column(type="integer", length=11) */
+    private $order;
 
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
@@ -35,13 +38,13 @@ class ConfigurableProductOptionCategory
 	$this->ConfigurableProductOptions   = new ArrayCollection();
     }
     
-    public function addConfigurableProductOptionGroup(ConfigurableProductOptionGroup $ConfigurableProductOptionGroup)
+    public function addConfigurableProductOptionGroups(ConfigurableProductOptionGroup $ConfigurableProductOptionGroup)
     {
 	$ConfigurableProductOptionGroup->setConfigurableProductOptionCategory($this);
         $this->ConfigurableProductOptionGroups[] = $ConfigurableProductOptionGroup;
     }
     
-    public function getConfigurableProductOptionGroup(){
+    public function getConfigurableProductOptionGroups(){
 	return $this->ConfigurableProductOptionGroups;
     }
     
@@ -70,6 +73,15 @@ class ConfigurableProductOptionCategory
         $this->name = $name;
     }
     
+    public function getOrder()
+    {
+        return $this->order;
+    }
+
+    public function setOrder($order)
+    {
+        $this->order = $order;
+    }
     
     public function populate(array $array){
 	foreach ($array as $key => $value) {

@@ -10,7 +10,7 @@
 	    url: "/quote/productadd2/id/<?php echo $this->quote_id;?>/product_id/"+$("#quote_addproduct-product_id").val(),
 	    success: function(data) { 
 		c = $("#addproduct_colorbox_content");
-		c.fadeOut('fast', function(){c.html(data).fadeIn('slow')});
+		c.fadeOut('fast', function(){c.html(data).fadeIn('fast')});
 	    }
 	});
 	return false;

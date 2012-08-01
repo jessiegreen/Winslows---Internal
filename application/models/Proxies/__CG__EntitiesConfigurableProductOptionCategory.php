@@ -42,16 +42,16 @@ class ConfigurableProductOptionCategory extends \Entities\ConfigurableProductOpt
     }
 
     
-    public function addConfigurableProductOptionGroup(\Entities\ConfigurableProductOptionGroup $ConfigurableProductOptionGroup)
+    public function addConfigurableProductOptionGroups(\Entities\ConfigurableProductOptionGroup $ConfigurableProductOptionGroup)
     {
         $this->__load();
-        return parent::addConfigurableProductOptionGroup($ConfigurableProductOptionGroup);
+        return parent::addConfigurableProductOptionGroups($ConfigurableProductOptionGroup);
     }
 
-    public function getConfigurableProductOptionGroup()
+    public function getConfigurableProductOptionGroups()
     {
         $this->__load();
-        return parent::getConfigurableProductOptionGroup();
+        return parent::getConfigurableProductOptionGroups();
     }
 
     public function getId()
@@ -87,6 +87,18 @@ class ConfigurableProductOptionCategory extends \Entities\ConfigurableProductOpt
         return parent::setName($name);
     }
 
+    public function getOrder()
+    {
+        $this->__load();
+        return parent::getOrder();
+    }
+
+    public function setOrder($order)
+    {
+        $this->__load();
+        return parent::setOrder($order);
+    }
+
     public function populate(array $array)
     {
         $this->__load();
@@ -102,7 +114,7 @@ class ConfigurableProductOptionCategory extends \Entities\ConfigurableProductOpt
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'index_string', 'name', 'ConfigurableProductOptionGroups');
+        return array('__isInitialized__', 'id', 'index_string', 'name', 'order', 'ConfigurableProductOptionGroups');
     }
 
     public function __clone()

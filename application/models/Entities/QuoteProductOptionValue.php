@@ -22,7 +22,7 @@ class QuoteProductOptionValue
     private $QuoteProduct;
     
     /** 
-     * @OneToOne(targetEntity="ConfigurableProductOptionValue")
+     * @ManyToOne(targetEntity="ConfigurableProductOptionValue")
      */     
     private $ConfigurableProductOptionValue;
 
@@ -83,14 +83,6 @@ class QuoteProductOptionValue
     
     public function getNote(){
 	return $this->note;
-    }
-    
-    public function getPriceEach(){
-	return $this->price_each;
-    }
-    
-    public function setPriceEach($price_each){
-	$this->price_each = $price_each;
     }
     
     public function getCreated()
