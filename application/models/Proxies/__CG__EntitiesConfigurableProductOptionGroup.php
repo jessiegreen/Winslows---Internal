@@ -60,6 +60,18 @@ class ConfigurableProductOptionGroup extends \Entities\ConfigurableProductOption
         return parent::getConfigurableProducts();
     }
 
+    public function setConfigurableProductOptionCategory(\Entities\ConfigurableProductOptionCategory $ConfigurableProductOptionCategory)
+    {
+        $this->__load();
+        return parent::setConfigurableProductOptionCategory($ConfigurableProductOptionCategory);
+    }
+
+    public function getConfigurableProductOptionCategory()
+    {
+        $this->__load();
+        return parent::getConfigurableProductOptionCategory();
+    }
+
     public function addConfigurableProductOption(\Entities\ConfigurableProductOption $ConfigurableProductOption)
     {
         $this->__load();
@@ -123,6 +135,18 @@ class ConfigurableProductOptionGroup extends \Entities\ConfigurableProductOption
         return parent::setCode($code);
     }
 
+    public function getMaxCount()
+    {
+        $this->__load();
+        return parent::getMaxCount();
+    }
+
+    public function setMaxCount($max_count)
+    {
+        $this->__load();
+        return parent::setMaxCount($max_count);
+    }
+
     public function getDescription()
     {
         $this->__load();
@@ -133,6 +157,18 @@ class ConfigurableProductOptionGroup extends \Entities\ConfigurableProductOption
     {
         $this->__load();
         return parent::setDescription($description);
+    }
+
+    public function hasRequiredOption()
+    {
+        $this->__load();
+        return parent::hasRequiredOption();
+    }
+
+    public function getRequiredOptionIdsArray()
+    {
+        $this->__load();
+        return parent::getRequiredOptionIdsArray();
     }
 
     public function populate(array $array)
@@ -150,7 +186,7 @@ class ConfigurableProductOptionGroup extends \Entities\ConfigurableProductOption
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'index_string', 'code', 'name', 'description', 'ConfigurableProductOptions', 'ConfigurableProducts');
+        return array('__isInitialized__', 'id', 'index_string', 'code', 'name', 'description', 'maxcount', 'ConfigurableProductOptionCategory', 'ConfigurableProductOptions', 'ConfigurableProducts');
     }
 
     public function __clone()
