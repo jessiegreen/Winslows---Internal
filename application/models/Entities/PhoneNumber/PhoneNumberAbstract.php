@@ -7,7 +7,7 @@ namespace Entities\PhoneNumber;
  * @Table(name="phonenumber_phonenumberabstracts") 
  * @InheritanceType("JOINED")
  * @DiscriminatorColumn(name="discr", type="string")
- * @DiscriminatorMap({"person_phonenumber" = "Person\PhoneNumber", "location_phonenumber" = "Location\PhoneNumber"})
+ * @DiscriminatorMap({"person_phonenumber" = "\Entities\Person\PhoneNumber", "location_phonenumber" = "\Entities\Company\Location\PhoneNumber"})
  * @HasLifecycleCallbacks
  */
 class PhoneNumberAbstract

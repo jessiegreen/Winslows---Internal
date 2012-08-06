@@ -44,13 +44,13 @@ class Company
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="Company\Location", mappedBy="Company", cascade={"persist"})
+     * @OneToMany(targetEntity="\Entities\Company\Location", mappedBy="Company", cascade={"persist"})
      * @var array $Locations
      */
     private $Locations;
     
     /**
-     * @ManytoMany(targetEntity="Company\Supplier", mappedBy="Companies", cascade={"ALL"})
+     * @ManytoMany(targetEntity="\Entities\Company\Supplier", mappedBy="Companies", cascade={"ALL"})
      * @var array $Suppliers
      */
     private $Suppliers;
@@ -65,7 +65,7 @@ class Company
      * Add Location to Company.
      * @param \Entities\Company\Location $Location
      */
-    public function addLocation(Location $Location)
+    public function addLocation(Company\Location $Location)
     {
 	$Location->setCompany($this);
         $this->Locations[] = $Location;

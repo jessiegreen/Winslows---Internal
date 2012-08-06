@@ -88,13 +88,13 @@ class Item
     private $updated;
     
     /** 
-     * @ManyToOne(targetEntity="Website\Menu", inversedBy="Items")
+     * @ManyToOne(targetEntity="\Entities\Website\Menu", inversedBy="Items")
      * @var \Entities\Website\Menu $Menu
      */     
     private $Menu;
     
     /**
-     * @ManyToOne(targetEntity="Item", inversedBy="children")
+     * @ManyToOne(targetEntity="\Entities\Website\Menu\Item", inversedBy="children")
      * @JoinColumn(name="parent", referencedColumnName="id")
      * @var $parent null | Item
      */

@@ -18,7 +18,7 @@ namespace Entities\Company\Supplier;
 class Address extends \Entities\Address\AddressAbstract
 {
     /** 
-     * @ManyToOne(targetEntity="Supplier", inversedBy="Addresses")
+     * @ManyToOne(targetEntity="\Entities\Company\Supplier", inversedBy="Addresses")
      * @var \Entities\Company\Supplier $Supplier
      */     
     private $Supplier;

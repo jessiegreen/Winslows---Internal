@@ -18,7 +18,7 @@ namespace Entities\Person;
 class EmailAddress extends \Entities\EmailAddress\EmailAddressAbstract
 {
     /** 
-     * @ManyToOne(targetEntity="Person\PersonAbstract", inversedBy="EmailAddresses")
+     * @ManyToOne(targetEntity="\Entities\Person\PersonAbstract", inversedBy="EmailAddresses")
      * @var \Entities\Person\PersonAbstract
      */     
     private $Person;

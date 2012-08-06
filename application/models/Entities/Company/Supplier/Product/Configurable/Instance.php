@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstract
 {    
     /**
-     * @ManytoMany(targetEntity="Company\Supplier\Product\Configurable\Option\Parameter\Value")
+     * @ManytoMany(targetEntity="\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value")
      * @JoinTable(name="company_supplier_product_configurable_instance_value_joins")
      * @var array $Values
      */

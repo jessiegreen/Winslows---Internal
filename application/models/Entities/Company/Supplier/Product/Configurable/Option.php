@@ -48,7 +48,7 @@ class Option
     private $maxcount;
     
     /**
-     * @ManyToOne(targetEntity="Company\Supplier\Product\Configurable\Option\Category", inversedBy="Options")
+     * @ManyToOne(targetEntity="\Entities\Company\Supplier\Product\Configurable\Option\Category", inversedBy="Options")
      * @var Option\Category $Category 
      */
     private $Category;
@@ -56,13 +56,13 @@ class Option
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="Company\Supplier\Product\Configurable\Option\Parameter", mappedBy="Option", cascade={"persist"}, orphanRemoval=true)
+     * @OneToMany(targetEntity="\Entities\Company\Supplier\Product\Configurable\Option\Parameter", mappedBy="Option", cascade={"persist"}, orphanRemoval=true)
      * @var array $Parameters
      */
     private $Parameters;
     
     /**
-     * @ManytoMany(targetEntity="Company\Supplier\Product\Configurable", inversedBy="Options", cascade={"persist"})
+     * @ManytoMany(targetEntity="\Entities\Company\Supplier\Product\Configurable", inversedBy="Options", cascade={"persist"})
      * @JoinTable(name="company_supplier_product_configurable_option_joins")
      * @var array $ConfigurableProducts
      */

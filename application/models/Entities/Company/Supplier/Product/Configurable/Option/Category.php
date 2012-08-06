@@ -38,7 +38,7 @@ class Category
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="Company\Supplier\Product\Configurable\Option", mappedBy="Category", cascade={"persist"}, orphanRemoval=true)
+     * @OneToMany(targetEntity="\Entities\Company\Supplier\Product\Configurable\Option", mappedBy="Category", cascade={"persist"}, orphanRemoval=true)
      * @var array $Options
      */
     private $Options;

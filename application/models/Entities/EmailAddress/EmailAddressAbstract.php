@@ -6,7 +6,7 @@ namespace Entities\EmailAddress;
  * @Table(name="emailaddress_emailaddressabstracts") 
  * @InheritanceType("JOINED")
  * @DiscriminatorColumn(name="discr", type="string")
- * @DiscriminatorMap({"person_emailaddress" = "Person\EmailAddress"})
+ * @DiscriminatorMap({"person_emailaddress" = "\Entities\Person\EmailAddress"})
  * @HasLifecycleCallbacks
  */
 class EmailAddressAbstract

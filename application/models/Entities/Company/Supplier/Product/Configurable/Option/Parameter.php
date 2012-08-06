@@ -48,7 +48,7 @@ class Parameter
     private $length;
     
     /**
-     * @ManyToOne(targetEntity="Company\Supplier\Product\Configurable\Option", inversedBy="Parameters")
+     * @ManyToOne(targetEntity="\Entities\Company\Supplier\Product\Configurable\Option", inversedBy="Parameters")
      * @var \Entities\Company\Supplier\Product\Configurable\Option $Option 
      */
     private $Option;
@@ -62,7 +62,7 @@ class Parameter
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="Company\Supplier\Product\Configurable\Option\Parameter\Value", mappedBy="Parameter", cascade={"persist"}, orphanRemoval=true)
+     * @OneToMany(targetEntity="\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value", mappedBy="Parameter", cascade={"persist"}, orphanRemoval=true)
      * @var \Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value $Values
      */
     private $Values;

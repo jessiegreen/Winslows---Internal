@@ -30,19 +30,19 @@ class Location
     private $type;
 
     /**
-     * @OneToOne(targetEntity="Company\Location\Address", mappedBy="Location", cascade={"persist"}, orphanRemoval=true)
+     * @OneToOne(targetEntity="\Entities\Company\Location\Address", mappedBy="Location", cascade={"persist"}, orphanRemoval=true)
      * @var Entities\Company\Location\Address $Address
      */
     protected $Address;
     
     /**
-     * @OneToOne(targetEntity="Company\Location\PhoneNumber", mappedBy="Location", cascade={"persist"}, orphanRemoval=true)
+     * @OneToOne(targetEntity="\Entities\Company\Location\PhoneNumber", mappedBy="Location", cascade={"persist"}, orphanRemoval=true)
      * @var \Entities\Company\Location\PhoneNumber $PhoneNumber
      */
     protected $PhoneNumber;
     
     /** 
-     * @ManyToOne(targetEntity="Company", inversedBy="locations")
+     * @ManyToOne(targetEntity="\Entities\Company", inversedBy="locations")
      * @var \Entities\Company
      */     
     private $Company;
@@ -50,7 +50,7 @@ class Location
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="Company\Location\Employee", mappedBy="Location", cascade={"persist"})
+     * @OneToMany(targetEntity="\Entities\Company\Location\Employee", mappedBy="Location", cascade={"persist"})
      * @var array $Employees
      */
     private $Employees;

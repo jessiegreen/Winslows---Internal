@@ -38,7 +38,7 @@ class Menu
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="Website\Menu\Item", mappedBy="Menu", cascade={"persist"}, orphanRemoval=true)
+     * @OneToMany(targetEntity="\Entities\Website\Menu\Item", mappedBy="Menu", cascade={"persist"}, orphanRemoval=true)
      * @var array $Items
      */
     private $Items;

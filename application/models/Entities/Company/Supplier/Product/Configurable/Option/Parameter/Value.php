@@ -41,7 +41,7 @@ class Value
     private $description;
         
     /**
-     * @ManyToOne(targetEntity="Company\Supplier\Product\Configurable\Option\Parameter", inversedBy="Values")
+     * @ManyToOne(targetEntity="\Entities\Company\Supplier\Product\Configurable\Option\Parameter", inversedBy="Values")
      * @var \Entities\Company\Supplier\Product\Configurable\Option\Parameter $Parameter
      */
     private $Parameter;

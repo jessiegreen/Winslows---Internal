@@ -8,8 +8,8 @@ namespace Entities\Company\Supplier\Product\Instance;
  * @InheritanceType("JOINED")
  * @DiscriminatorColumn(name="discr", type="string")
  * @DiscriminatorMap({
- *			"company_supplier_product_configurable_instance" = "Company\Supplier\Product\Configurable\Instance",
- *			"company_supplier_product_simple_instance" = "Company\Supplier\Product\Simple\Instance",
+ *			"company_supplier_product_configurable_instance" = "\Entities\Company\Supplier\Product\Configurable\Instance",
+ *			"company_supplier_product_simple_instance" = "\Entities\Company\Supplier\Product\Simple\Instance",
  *		    })
  * @HasLifecycleCallbacks
  */
@@ -29,7 +29,7 @@ class InstanceAbstract
     private $note;
     
     /**
-     * @ManyToOne(targetEntity="Company\Supplier\Product\ProductAbstract")
+     * @ManyToOne(targetEntity="\Entities\Company\Supplier\Product\ProductAbstract")
      * @var \Entities\Company\Supplier\Product\ProductAbstract $Product
      */
     protected $Product;

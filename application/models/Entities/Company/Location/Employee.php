@@ -51,7 +51,7 @@ class Employee extends PersonAbstract
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="Lead", mappedBy="Employee", cascade={"persist"})
+     * @OneToMany(targetEntity="\Entities\Company\Lead", mappedBy="Employee", cascade={"persist"})
      * @var array $Leads
      */
     private $Leads;

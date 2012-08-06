@@ -28,7 +28,7 @@ class Configurable extends ProductAbstract
     private $pricer;
     
     /**
-     * @ManytoMany(targetEntity="Company\Product\Configurable\Option", mappedBy="ConfigurableProducts", cascade={"ALL"})
+     * @ManytoMany(targetEntity="\Entities\Company\Supplier\Product\Configurable\Option", mappedBy="ConfigurableProducts", cascade={"ALL"})
      * @var array $Options
      */
     private $Options;

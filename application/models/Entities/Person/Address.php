@@ -23,7 +23,7 @@ class Address extends \Entities\Address\AddressAbstract
     private $person_id;
     
     /** 
-     * @ManyToOne(targetEntity="Person\PersonAbstract", inversedBy="Addresses")
+     * @ManyToOne(targetEntity="\Entities\Person\PersonAbstract", inversedBy="Addresses")
      * @var \Enrtities\Person\PersonAbstract
      */     
     private $Person;

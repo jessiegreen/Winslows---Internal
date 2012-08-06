@@ -18,7 +18,7 @@ namespace Entities\Person;
 class Document extends \Entities\Document\DocumentAbstract
 {
     /** 
-     * @ManyToOne(targetEntity="Person\PersonAbstract", inversedBy="Documents")
+     * @ManyToOne(targetEntity="\Entities\Person\PersonAbstract", inversedBy="Documents")
      * @var \Entities\Person\PersonAbstract
      */     
     private $Person;

@@ -30,13 +30,13 @@ class Role
     private $description;
     
     /**
-     * @OneToMany(targetEntity="Website\Account\Role\Privilege", mappedBy="Role", cascade={"persist"}, orphanRemoval=true)
+     * @OneToMany(targetEntity="\Entities\Website\Account\Role\Privilege", mappedBy="Role", cascade={"persist"}, orphanRemoval=true)
      * @var array Privileges
      */
     private $Privileges;
     
     /**
-     * @ManytoMany(targetEntity="Website\Resource", inversedBy="Roles", cascade={"persist", "remove"})
+     * @ManytoMany(targetEntity="\Entities\Website\Resource", inversedBy="Roles", cascade={"persist", "remove"})
      * @JoinTable(name="website_account_role_resource_joins",
      *      joinColumns={@JoinColumn(name="role_id", referencedColumnName="id")},
      *      inverseJoinColumns={@JoinColumn(name="resource_id", referencedColumnName="id")}
@@ -46,7 +46,7 @@ class Role
     private $Resources;
     
     /**
-     * @ManytoMany(targetEntity="Website\Account", mappedBy="Roles", cascade={"ALL"})
+     * @ManytoMany(targetEntity="\Entities\Website\Account", mappedBy="Roles", cascade={"ALL"})
      * @var array $Accounts
      */
     private $Accounts;
@@ -79,10 +79,13 @@ class Role
      * @param \Entities\Website\Account $Account
      * @return bool
      */
-    public function removeAccount(\Entities\Website\Account $Account){
-	foreach ($this->Accounts as $key => $Account2) {
-	    if($Account->getId() == $Account2->getId()){
-		$removed = $this->Accounts[$key];
+    public function removeAccount(\Entities\Website\Account $Account)
+    {
+	foreach ($this->Accounts as $key => $Account2) 
+	{
+	    if($Account->getId() == $Account2->getId())
+	    {
+		$this->Accounts[$key];
 		unset($this->Accounts[$key]);
 		return true;
 	    }

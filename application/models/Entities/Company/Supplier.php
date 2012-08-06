@@ -36,7 +36,7 @@ class Supplier
     private $updated;
     
     /**
-     * @ManytoMany(targetEntity="Company", inversedBy="Suppliers", cascade={"persist"})
+     * @ManytoMany(targetEntity="\Entities\Company", inversedBy="Suppliers", cascade={"persist"})
      * @JoinTable(name="company_supplier_company_joins",
      *      joinColumns={@JoinColumn(name="supplier_id", referencedColumnName="id")},
      *      inverseJoinColumns={@JoinColumn(name="company_id", referencedColumnName="id")}
@@ -48,14 +48,14 @@ class Supplier
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="Company\Supplier\Address", mappedBy="Supplier", cascade={"persist"}, orphanRemoval=true)
+     * @OneToMany(targetEntity="\Entities\Company\Supplier\Address", mappedBy="Supplier", cascade={"persist"}, orphanRemoval=true)
      */
     private $Addresses;
     
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="Company\Supplier\Product", mappedBy="Supplier", cascade={"persist"}, orphanRemoval=true)
+     * @OneToMany(targetEntity="\Entities\Company\Supplier\Product\ProductAbstract", mappedBy="Supplier", cascade={"persist"}, orphanRemoval=true)
      */
     private $Products;
     

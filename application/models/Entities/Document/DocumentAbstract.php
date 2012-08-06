@@ -7,7 +7,7 @@ namespace Entities\Document;
  * @Table(name="document_documentabstracts") 
  * @InheritanceType("JOINED")
  * @DiscriminatorColumn(name="discr", type="string")
- * @DiscriminatorMap({"person_document" = "Person\Document"})
+ * @DiscriminatorMap({"person_document" = "\Entities\Person\Document"})
  * @HasLifecycleCallbacks
  */
 class DocumentAbstract  implements \Interfaces\Document

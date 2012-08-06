@@ -18,7 +18,7 @@ namespace Entities\Person;
 class PhoneNumber extends \Entities\PhoneNumber\PhoneNumberAbstract
 {
     /** 
-     * @ManyToOne(targetEntity="Person\PersonAbstract", inversedBy="PhoneNumbers")
+     * @ManyToOne(targetEntity="\Entities\Person\PersonAbstract", inversedBy="PhoneNumbers")
      * @var \Entities\Person\PersonAbstract $Person
      */     
     private $Person;    

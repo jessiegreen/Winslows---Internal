@@ -59,7 +59,7 @@ class Resource
     private $updated;
     
     /**
-     * @ManytoMany(targetEntity="Website\Role", mappedBy="Resources", cascade={"ALL"})
+     * @ManytoMany(targetEntity="\Entities\Website\Account\Role", mappedBy="Resources", cascade={"ALL"})
      * @var \Entities\Website\Account\Role
      */
     private $Roles;

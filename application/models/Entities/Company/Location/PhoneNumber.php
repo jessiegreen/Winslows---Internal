@@ -17,7 +17,7 @@ namespace Entities\Company\Location;
 class PhoneNumber extends \Entities\PhoneNumber\PhoneNumberAbstract
 {
     /** 
-     * @OneToOne(targetEntity="Company\Location", inversedBy="PhoneNumber")
+     * @OneToOne(targetEntity="\Entities\Company\Location", inversedBy="PhoneNumber")
      * @var \Entities\Company\Location $Location
      */     
     private $Location;

@@ -23,7 +23,7 @@ class Privilege
     private $name;
     
     /**
-     * @ManyToOne(targetEntity="Role", inversedBy="Privileges")
+     * @ManyToOne(targetEntity="\Entities\Website\Account\Role", inversedBy="Privileges")
      * @var $Role null | Role
      */
     private $Role;

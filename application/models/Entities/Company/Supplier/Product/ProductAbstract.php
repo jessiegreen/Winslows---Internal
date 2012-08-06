@@ -8,8 +8,8 @@ namespace Entities\Company\Supplier\Product;
  * @InheritanceType("JOINED")
  * @DiscriminatorColumn(name="discr", type="string")
  * @DiscriminatorMap({
- *			"supplier_product_configurable" = "Company\Supplier\Product\Configurable", 
- *			"supplier_product_simple" = "Company\Supplier\Product\Simple"
+ *			"supplier_product_configurable" = "\Entities\Company\Supplier\Product\Configurable", 
+ *			"supplier_product_simple" = "\Entities\Company\Supplier\Product\Simple"
  *			})
  * @HasLifecycleCallbacks
  */
@@ -57,7 +57,7 @@ class ProductAbstract
     private $updated;
     
     /** 
-     * @ManyToOne(targetEntity="Supplier", inversedBy="Products")
+     * @ManyToOne(targetEntity="\Entities\Company\Supplier", inversedBy="Products")
      * @var \Entities\Company\Supplier $Supplier
      */     
     private $Supplier;
