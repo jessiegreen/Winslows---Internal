@@ -15,72 +15,113 @@ namespace Entities\Company\Supplier\Product;
 
 class Configurable extends ProductAbstract
 {
-    /** @Column(type="string", length=255) */
+    /** 
+     * @Column(type="string", length=255) 
+     * @var string $validator
+     */
     private $validator;
     
-    /** @Column(type="string", length=255) */
+    /** 
+     * @Column(type="string", length=255) 
+     * @var string $pricer
+     */
     private $pricer;
     
     /**
-     * @ManytoMany(targetEntity="ConfigurableProductOptionGroup", mappedBy="ConfigurableProducts", cascade={"ALL"})
+     * @ManytoMany(targetEntity="Company\Product\Configurable\Option", mappedBy="ConfigurableProducts", cascade={"ALL"})
+     * @var array $Options
      */
-    private $ConfigurableProductOptionGroups;
+    private $Options;
     
     public function __construct()
     {
-	$this->ConfigurableProductOptionGroups    = new ArrayCollection();
+	$this->Options = new ArrayCollection();
 	parent::__construct();
     }
     
-    public function getConfigurableProductOptionGroups(){
-	return $this->ConfigurableProductOptionGroups;
+    /**
+     * @return array
+     */
+    public function getOptions(){
+	return $this->Options;
     }
         
-    public function addConfigurableProductOptionGroup(ConfigurableProductOptionGroup $ConfigurableProductOptionGroup){
-	$ConfigurableProductOptionGroup->addConfigurableProduct($this);
-	$this->ConfigurableProductOptionGroups[] = $ConfigurableProductOptionGroup;
+    /**
+     * @param \Entities\Company\Supplier\Product\Configurable\Option $Option
+     */
+    public function addOption(Configurable\Option $Option){
+	$Option->addConfigurableProduct($this);
+	$this->Options[] = $Option;
     }
     
-    public function removeConfigurableProductOptionGroup(ConfigurableProductOptionGroup $ConfigurableProductOptionGroup)
+    /**
+     * @param \Entities\Company\Supplier\Product\Configurable\Option $Option
+     * @return boolean
+     */
+    public function removeOption(Configurable\Option $Option)
     {
-	foreach ($this->ConfigurableProductOptionGroups as $key => $ConfigurableProductOptionGroup2) {
-	    if($ConfigurableProductOptionGroup->getId() == $ConfigurableProductOptionGroup2->getId()){
-		$removed = $this->ConfigurableProductOptionGroups[$key];
-		unset($this->ConfigurableProductOptionGroups[$key]);
-		$ConfigurableProductOptionGroup->removeConfigurableProduct($this);
-		return $removed;
+	foreach ($this->Options as $key => $Option2) 
+	{
+	    if($Option->getId() == $Option2->getId())
+	    {
+		$this->Options[$key];
+		
+		unset($this->Options[$key]);
+		
+		$Option->removeConfigurableProduct($this);
+		
+		return true;
 	    }
 	}
 	return false;
     }
     
+    /**
+     * @return string
+     */
     public function getValidator()
     {
         return $this->validator;
     }
 
-    public function setValidator($validator)
+    /**
+     * @param string $validator
+     */
+    public function setValidator(string $validator)
     {
         $this->validator = $validator;
     }
     
+    /**
+     * @return string
+     */
     public function getPricer()
     {
         return $this->pricer;
     }
 
-    public function setPricer($pricer)
+    /**
+     * @param string $pricer
+     */
+    public function setPricer(string $pricer)
     {
         $this->pricer = $pricer;
     }
     
-    public function getDescriminator() {
+    /**
+     * @return string
+     */
+    public function getDescriminator() 
+    {
 	return parent::TYPE_Configurable;
     }
     
-    public function populate(array $array){
-	foreach ($array as $key => $value) {
-	    if(property_exists($this, $key)){
+    public function populate(array $array)
+    {
+	foreach ($array as $key => $value) 
+	{
+	    if(property_exists($this, $key))
+	    {
 		$this->$key = $value;
 	    }
 	}

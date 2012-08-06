@@ -18,25 +18,35 @@ class InstanceAbstract
     /**
      * @Id @Column(type="integer")
      * @GeneratedValue(strategy="AUTO")
+     * @var integer $id
      */
     private $id;
 
-    /** @Column(type="string", length=2000) */
+    /** 
+     * @Column(type="string", length=2000) 
+     * @var string $note
+     */
     private $note;
     
     /**
-     * @ManyToOne(targetEntity="Product")
-     * @var $Product Product
+     * @ManyToOne(targetEntity="Company\Supplier\Product\ProductAbstract")
+     * @var \Entities\Company\Supplier\Product\ProductAbstract $Product
      */
-    private $Product;
+    protected $Product;
 
-    /** @Column(type="datetime") */
+    /** 
+     * @Column(type="datetime") 
+     * @var \DateTime $created
+     */
     private $created;
 
-    /** @Column(type="datetime") */
+    /** 
+     * @Column(type="datetime") 
+     * @var \DateTime
+     */
     private $updated;
 
-    public function __construct(Product $Product)
+    public function __construct(\Entities\Company\Supplier\Product\ProductAbstract $Product)
     {
 	$this->Product = $Product;
 	$this->created = $this->updated = new \DateTime("now");
@@ -51,7 +61,7 @@ class InstanceAbstract
     }
     
     /**
-     * @return Product
+     * @return \Entities\Company\Supplier\Product\ProductAbstract 
      */
     public function getProduct()
     {
@@ -59,39 +69,58 @@ class InstanceAbstract
     }
     
     /**
-     * Retrieve Option id
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
     }
     
-    public function setNote($note){
+    /**
+     * @param string $note
+     */
+    public function setNote(string $note)
+    {
 	$this->note = $note;
     }
     
+    /**
+     * @return string
+     */
     public function getNote(){
 	return $this->note;
     }
     
+    /**
+     * @return \DateTime
+     */
     public function getCreated()
     {
         return $this->created;
     }
 
-    public function setCreated($created)
+    /**
+     * @param \DateTime $created
+     */
+    public function setCreated(\DateTime $created)
     {
         $this->created = $created;
     }
 
+    /**
+     * @return \DateTime
+     */
     public function getUpdated()
     {
         return $this->updated;
     }
     
-    public function populate(array $array){
-	foreach ($array as $key => $value) {
-	    if(property_exists($this, $key)){
+    public function populate(array $array)
+    {
+	foreach ($array as $key => $value) 
+	{
+	    if(property_exists($this, $key))
+	    {
 		$this->$key = $value;
 	    }
 	}

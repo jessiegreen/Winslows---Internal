@@ -56,7 +56,7 @@ class Account
     
     /**
      * @ManytoMany(targetEntity="Role", cascade={"persist", "remove"})
-     * @JoinTable(name="webaccounts_roles",
+     * @JoinTable(name="website_account_role_joins",
      *      joinColumns={@JoinColumn(name="webaccount_id", referencedColumnName="id")},
      *      inverseJoinColumns={@JoinColumn(name="role_id", referencedColumnName="id")}
      *      )

@@ -45,12 +45,13 @@ class Company
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="Company\Location", mappedBy="Company", cascade={"persist"})
-     * @var 
+     * @var array $Locations
      */
     private $Locations;
     
     /**
      * @ManytoMany(targetEntity="Company\Supplier", mappedBy="Companies", cascade={"ALL"})
+     * @var array $Suppliers
      */
     private $Suppliers;
     
@@ -81,23 +82,25 @@ class Company
     /**
      * @return array
      */
-    public function getSuppliers(){
+    public function getSuppliers()
+    {
 	return $this->Suppliers;
     }
     
-    /** 
-     * @param \Entities\Supplier $Supplier
+    /**
+     * @param \Entities\Company\Supplier $Supplier
      */
-    public function addSupplier(Supplier $Supplier){
+    public function addSupplier(Company\Supplier $Supplier)
+    {
 	$Supplier->addCompany($this);
 	$this->Suppliers[] = $Supplier;
     }
     
     /**
-     * @param \Entities\Supplier $Supplier
+     * @param \Entities\Company\Supplier $Supplier
      * @return boolean
      */
-    public function removeSupplier(Supplier $Supplier)
+    public function removeSupplier(Company\Supplier $Supplier)
     {
 	foreach ($this->Suppliers as $key => $Supplier2) {
 	    if($Supplier->getId() == $Supplier2->getId()){

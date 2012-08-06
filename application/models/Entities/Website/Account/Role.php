@@ -37,7 +37,7 @@ class Role
     
     /**
      * @ManytoMany(targetEntity="Website\Resource", inversedBy="Roles", cascade={"persist", "remove"})
-     * @JoinTable(name="website_account_role_resources",
+     * @JoinTable(name="website_account_role_resource_joins",
      *      joinColumns={@JoinColumn(name="role_id", referencedColumnName="id")},
      *      inverseJoinColumns={@JoinColumn(name="resource_id", referencedColumnName="id")}
      *      )

@@ -18,31 +18,33 @@ namespace Entities\Company\Supplier;
 class Address extends \Entities\Address\AddressAbstract
 {
     /** 
-     * @ManyToOne(targetEntity="Supplier", inversedBy="SupplierAddresses")
+     * @ManyToOne(targetEntity="Supplier", inversedBy="Addresses")
+     * @var \Entities\Company\Supplier $Supplier
      */     
     private $Supplier;
     
-    
     /**
-     * Add supplier to address.
-     * @param Supplier $Supplier
+     * @param \Entities\Company\Supplier $Supplier
      */
-    public function setSupplier(Supplier $Supplier)
+    public function setSupplier(\Entities\Company\Supplier $Supplier)
     {
         $this->Supplier = $Supplier;
     }
     
     /**
-     * Retrieve address's associated supplier.
+     * @return \Entities\Company\Supplier
      */
     public function getSupplier()
     {
 	return $this->Supplier;
     }
     
-    public function populate(array $array){
-	foreach ($array as $key => $value) {
-	    if(property_exists($this, $key)){
+    public function populate(array $array)
+    {
+	foreach ($array as $key => $value) 
+	{
+	    if(property_exists($this, $key))
+	    {
 		$this->$key = $value;
 	    }
 	}

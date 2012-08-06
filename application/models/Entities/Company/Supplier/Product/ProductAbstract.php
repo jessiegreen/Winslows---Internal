@@ -22,26 +22,43 @@ class ProductAbstract
     /**
      * @Id @Column(type="integer")
      * @GeneratedValue(strategy="AUTO")
+     * @var integer $id
      */
     private $id;
 
-    /** @Column(type="string", length=255) */
+    /** 
+     * @Column(type="string", length=255) 
+     * @var string $name
+     */
     private $name;
     
-    /** @Column(type="string", length=255) */
+    /** 
+     * @Column(type="string", length=255) 
+     * @var string $part_number
+     */
     private $part_number;
     
-    /** @Column(type="string", length=2000) */
+    /** 
+     * @Column(type="string", length=2000) 
+     * @var string $part_number
+     */
     private $description;
     
-    /** @Column(type="datetime") */
+    /** 
+     * @Column(type="datetime") 
+     * @var \DateTime $created
+     */
     private $created;
 
-    /** @Column(type="datetime") */
+    /** 
+     * @Column(type="datetime") 
+     * @var \DateTime $updated
+     */
     private $updated;
     
     /** 
      * @ManyToOne(targetEntity="Supplier", inversedBy="Products")
+     * @var \Entities\Company\Supplier $Supplier
      */     
     private $Supplier;
 
@@ -51,72 +68,104 @@ class ProductAbstract
     }
     
     /**
-     * Add supplier to address.
-     * @param Supplier $supplier
+     * @param \Entities\Company\Supplier $Supplier
      */
-    public function setSupplier(Supplier $Supplier)
+    public function setSupplier(\Entities\Company\Supplier $Supplier)
     {
         $this->Supplier = $Supplier;
     }
     
     /**
-     * Retrieve address's associated supplier.
+     * @return \Entities\Company\Supplier
      */
     public function getSupplier()
     {
 	return $this->Supplier;
     }
 
+    /**
+     * @return integer
+     */
     public function getId()
     {
         return $this->id;
     }
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         return $this->name;
     }
 
-    public function setName($name)
+    /**
+     * @param string $name
+     */
+    public function setName(string $name)
     {
         $this->name = $name;
     }
     
+    /**
+     * @return string
+     */
     public function getPartNumber()
     {
         return $this->part_number;
     }
 
-    public function setPartNumber($partnumber)
+    /**
+     * @param string $partnumber
+     */
+    public function setPartNumber(string $partnumber)
     {
         $this->part_number = $partnumber;
     }
     
+    /**
+     * @return string
+     */
     public function getDescription()
     {
         return $this->description;
     }
 
-    public function setDescription($description)
+    /**
+     * @param string $description
+     */
+    public function setDescription(string $description)
     {
         $this->description = $description;
     }
     
+    /**
+     * @return \DateTime
+     */
     public function getCreated()
     {
         return $this->created;
     }
 
-    public function setCreated($created)
+    /**
+     * @param \DateTime $created
+     */
+    public function setCreated(\DateTime $created)
     {
         $this->created = $created;
     }
 
+    /**
+     * @return \DateTime
+     */
     public function getUpdated()
     {
         return $this->updated;
     }
     
+    /**
+     * @return string
+     */
     public function getDescriminator(){
 	return static::TYPE_Base;
     }
@@ -129,9 +178,12 @@ class ProductAbstract
         $this->updated = new \DateTime("now");
     }
 
-    public function populate(array $array){
-	foreach ($array as $key => $value) {
-	    if(property_exists($this, $key)){
+    public function populate(array $array)
+    {
+	foreach ($array as $key => $value) 
+	{
+	    if(property_exists($this, $key))
+	    {
 		$this->$key = $value;
 	    }
 	}

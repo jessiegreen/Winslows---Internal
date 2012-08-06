@@ -37,7 +37,7 @@ class Supplier
     
     /**
      * @ManytoMany(targetEntity="Company", inversedBy="Suppliers", cascade={"persist"})
-     * @JoinTable(name="supplier_companies",
+     * @JoinTable(name="company_supplier_company_joins",
      *      joinColumns={@JoinColumn(name="supplier_id", referencedColumnName="id")},
      *      inverseJoinColumns={@JoinColumn(name="company_id", referencedColumnName="id")}
      *      )
@@ -94,7 +94,7 @@ class Supplier
     }
     
     /**
-     * @return false
+     * @return array
      */
     public function getCompanies()
     {

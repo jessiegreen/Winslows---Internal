@@ -12,99 +12,148 @@ class Value
     /**
      * @Id @Column(type="integer")
      * @GeneratedValue(strategy="AUTO")
+     * @var integer $id
      */
     private $id;
 
-    /** @Column(type="string", length=255) */
+    /** 
+     * @Column(type="string", length=255) 
+     * @var string $index_string
+     */
     private $index_string;
     
-    /** @Column(type="string", length=255) */
+    /** 
+     * @Column(type="string", length=255) 
+     * @var string $name
+     */
     private $name;
     
-    /** @Column(type="string", length=255) */
+    /** 
+     * @Column(type="string", length=255) 
+     * @var string $code
+     */
     private $code;
     
-    /** @Column(type="string", length=1000) */
+    /** 
+     * @Column(type="string", length=1000) 
+     * @var string $description
+     */
     private $description;
         
     /**
-     * @ManyToOne(targetEntity="ConfigurableProductOption", inversedBy="ConfigurableProductOptionValues")
-     * @var ConfigurableProductOption $ConfigurableProductOption
+     * @ManyToOne(targetEntity="Company\Supplier\Product\Configurable\Option\Parameter", inversedBy="Values")
+     * @var \Entities\Company\Supplier\Product\Configurable\Option\Parameter $Parameter
      */
-    private $ConfigurableProductOption;
+    private $Parameter;
     
-    /** @Column(type="integer") */
-    private $ConfigurableProductOption_id;
-    
-    public function __construct()
+    /** 
+     * @Column(type="integer") 
+     * @var integer $Parameter_id
+     */
+    private $Parameter_id;
+        
+    /**
+     * @param \Entities\Company\Supplier\Product\Configurable\Option\Parameter $Parameter
+     */
+    public function setParameter(\Entities\Company\Supplier\Product\Configurable\Option\Parameter $Parameter)
     {
-	
+	$this->Parameter = $Parameter;
     }
     
-    public function setConfigurableProductOption(ConfigurableProductOption $ConfigurableProductOption){
-	$this->ConfigurableProductOption = $ConfigurableProductOption;
-    }
-    
-    public function getConfigurableProductOption(){
-	return $this->ConfigurableProductOption;
+    /**
+     * @return \Entities\Company\Supplier\Product\Configurable\Option\Parameter
+     */
+    public function getParameter()
+    {
+	return $this->Parameter;
     }
 
     /**
-     * Retrieve Option id
+     * @return integer 
      */
     public function getId()
     {
         return $this->id;
     }
     
+    /**
+     * @return string 
+     */
     public function getIndex()
     {
         return $this->index_string;
     }
 
-    public function setIndex($index)
+    /**
+     * @param string $index
+     */
+    public function setIndex(string $index)
     {
         $this->index_string = $index;
     }
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         return $this->name;
     }
 
-    public function setName($name)
+    /**
+     * @param string $name
+     */
+    public function setName(string $name)
     {
         $this->name = $name;
     }
     
+    /**
+     * @return string
+     */
     public function getCode()
     {
         return $this->code;
     }
 
-    public function setCode($code)
+    /**
+     * @param string $code
+     */
+    public function setCode(string $code)
     {
         $this->code = $code;
     }
     
+    /**
+     * @return string
+     */
     public function getDescription()
     {
         return $this->description;
     }
 
-    public function setDescription($description)
+    /**
+     * @param string $description
+     */
+    public function setDescription(string $description)
     {
         $this->description = $description;
     }
     
-    public function populate(array $array){
-	foreach ($array as $key => $value) {
-	    if(property_exists($this, $key)){
+    public function populate(array $array)
+    {
+	foreach ($array as $key => $value) 
+	{
+	    if(property_exists($this, $key))
+	    {
 		$this->$key = $value;
 	    }
 	}
     }
     
+    /**
+     * @return array
+     */
     public function toArray(){
 	$array			= array();
 	$array['name']		= $this->getName();

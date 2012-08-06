@@ -13,192 +13,306 @@ class Option
     /**
      * @Id @Column(type="integer")
      * @GeneratedValue(strategy="AUTO")
+     * @var integer $id
      */
     private $id;
     
-    /** @Column(type="string", length=255) */
+    /** 
+     * @Column(type="string", length=255)
+     * @var string $index_string 
+     */
     private $index_string;
 
-    /** @Column(type="string", length=2) */
+    /**
+     * @Column(type="string", length=2) 
+     * @var string $code
+     */
     private $code;
     
-    /** @Column(type="string", length=255) */
+    /** 
+     * @Column(type="string", length=255) 
+     * @var string $name
+     */
     private $name;
     
-    /** @Column(type="string", length=1000) */
+    /** 
+     * @Column(type="string", length=1000) 
+     * @var string $description
+     */
     private $description;
     
-    /** @Column(type="integer", length=1000) */
+    /** 
+     * @Column(type="integer", length=1000) 
+     * @var integer $maxcount
+     */
     private $maxcount;
     
     /**
-     * @ManyToOne(targetEntity="ConfigurableProductOptionCategory", inversedBy="ConfigurableProductOptionGroups")
-     * @var ConfigurableProductOptionCategory $ConfigurableProductOptionCategory 
+     * @ManyToOne(targetEntity="Company\Supplier\Product\Configurable\Option\Category", inversedBy="Options")
+     * @var Option\Category $Category 
      */
-    private $ConfigurableProductOptionCategory;
+    private $Category;
 
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="ConfigurableProductOption", mappedBy="ConfigurableProductOptionGroup", cascade={"persist"}, orphanRemoval=true)
+     * @OneToMany(targetEntity="Company\Supplier\Product\Configurable\Option\Parameter", mappedBy="Option", cascade={"persist"}, orphanRemoval=true)
+     * @var array $Parameters
      */
-    private $ConfigurableProductOptions;
+    private $Parameters;
     
     /**
-     * @ManytoMany(targetEntity="ConfigurableProduct", inversedBy="ConfigurableProductOptionGroups", cascade={"persist"})
-     * @JoinTable(name="product_configurable_product_configurable_option_groups")
+     * @ManytoMany(targetEntity="Company\Supplier\Product\Configurable", inversedBy="Options", cascade={"persist"})
+     * @JoinTable(name="company_supplier_product_configurable_option_joins")
+     * @var array $ConfigurableProducts
      */
     private $ConfigurableProducts;
     
+    /**
+     * @var integer 
+     */
     private $_length;
     
     public function __construct()
     {
-	$this->ConfigurableProducts	    = new ArrayCollection();
-	$this->ConfigurableProductOptions   = new ArrayCollection();
+	$this->ConfigurableProducts = new ArrayCollection();
+	$this->Parameters	    = new ArrayCollection();
     }
     
-    public function addConfigurableProduct(ConfigurableProduct $ConfigurableProduct)
+    /**
+     * @param \Entities\Company\Supplier\Product\Configurable $ConfigurableProduct
+     */
+    public function addConfigurableProduct(\Entities\Company\Supplier\Product\Configurable $ConfigurableProduct)
     {
         $this->ConfigurableProducts[] = $ConfigurableProduct;
     }
     
-    public function removeConfigurableProduct(ConfigurableProduct $ConfigurableProduct){
-	foreach ($this->ConfigurableProducts as $key => $ConfigurableProduct2) {
-	    if($ConfigurableProduct->getId() == $ConfigurableProduct2->getId()){
-		$removed = $this->ConfigurableProducts[$key];
+    /**
+     * @param \Entities\Company\Supplier\Product\Configurable $ConfigurableProduct
+     * @return boolean
+     */
+    public function removeConfigurableProduct(\Entities\Company\Supplier\Product\Configurable $ConfigurableProduct)
+    {
+	foreach ($this->ConfigurableProducts as $key => $ConfigurableProduct2) 
+	{
+	    if($ConfigurableProduct->getId() == $ConfigurableProduct2->getId())
+	    {
+		$this->ConfigurableProducts[$key];
+		
 		unset($this->ConfigurableProducts[$key]);
-		return $removed;
+		
+		return true;
 	    }
 	}
 	return false;
     }
     
+    /**
+     * @return array
+     */
     public function getConfigurableProducts()
     {
 	return $this->ConfigurableProducts;
     }
     
-    public function setConfigurableProductOptionCategory(ConfigurableProductOptionCategory $ConfigurableProductOptionCategory){
-	$this->ConfigurableProductOptionCategory = $ConfigurableProductOptionCategory;
-    }
-    
-    public function getConfigurableProductOptionCategory(){
-	return $this->ConfigurableProductOptionCategory;
-    }
-    
-    public function addConfigurableProductOption(ConfigurableProductOption $ConfigurableProductOption)
+    /**
+     * @param \Entities\Company\Supplier\Product\Configurable\Option\Category $Category
+     */
+    public function setCategory(Option\Category $Category)
     {
-	$ConfigurableProductOption->setConfigurableProductOptionGroup($this);
-        $this->ConfigurableProductOptions[] = $ConfigurableProductOption;
+	$this->Category = $Category;
     }
     
-    public function getConfigurableProductOptions(){
-	return $this->ConfigurableProductOptions;
+    /**
+     * @return \Entities\Company\Supplier\Product\Configurable\Option\Category
+     */
+    public function getCategory()
+    {
+	return $this->Category;
+    }
+    
+    /**
+     * @param \Entities\Company\Supplier\Product\Configurable\Option\Parameter $Parameter
+     */
+    public function addParameter(Option\Parameter $Parameter)
+    {
+	$Parameter->setConfigurableProductOptionGroup($this);
+        $this->Parameters[] = $Parameter;
+    }
+    
+    /**
+     * @return array
+     */
+    public function getParameters()
+    {
+	return $this->Parameters;
     }
 
-    public function getLength(){
+    /**
+     * @return integer
+     */
+    public function getLength()
+    {
 	$length = $this->_calculateLength();
+	
 	$this->_setLength($length);
+	
 	return $this->_length;
     }
     
-    private function _setLength($length){
+    /**
+     * @param integer $length
+     */
+    private function _setLength(integer $length){
 	$this->_length = $length;
     }
     
+    /**
+     * @return integer
+     */
     private function _calculateLength(){
 	$length = 0;
 	
-	if(count($this->ConfigurableProductOptions)>0){
+	if(count($this->ConfigurableProductOptions)>0)
+	{
 	    /* @var $ConfigurableProductOption \Entities\ConfigurableProductOption */
-	    foreach ($this->ConfigurableProductOptions as $ConfigurableProductOption) {
+	    foreach ($this->ConfigurableProductOptions as $ConfigurableProductOption) 
+	    {
 		$length += (int) $ConfigurableProductOption->getLength();
 	    }
 	}
 	return $length;	
     }
 
+    /**
+     * @return integer
+     */
     public function getId()
     {
         return $this->id;
     }
     
+    /**
+     * @return string
+     */
     public function getIndex()
     {
         return $this->index_string;
     }
 
-    public function setIndex($index)
+    /**
+     * @param string $index
+     */
+    public function setIndex(string $index)
     {
         $this->index_string = $index;
     }
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         return $this->name;
     }
 
-    public function setName($name)
+    /**
+     * @param string $name
+     */
+    public function setName(string $name)
     {
         $this->name = $name;
     }
     
+    /**
+     * @return string
+     */
     public function getCode()
     {
         return $this->code;
     }
 
-    public function setCode($code)
+    /**
+     * @param string $code
+     */
+    public function setCode(string $code)
     {
         $this->code = $code;
     }
     
+    /**
+     * @return integer
+     */
     public function getMaxCount()
     {
         return $this->maxcount;
     }
 
-    public function setMaxCount($max_count)
+    /**
+     * @param integer $max_count
+     */
+    public function setMaxCount(integer $max_count)
     {
         $this->maxcount = $max_count;
     }
     
+    /**
+     * @return string
+     */
     public function getDescription()
     {
         return $this->description;
     }
 
-    public function setDescription($description)
+    /**
+     * @param string $description
+     */
+    public function setDescription(string $description)
     {
         $this->description = $description;
     }    
     
-    public function hasRequiredOption(){
+    /**
+     * @return boolean
+     */
+    public function hasRequiredOption()
+    {
 	/* @var $Option \Entities\ConfigurableProductOption */
-	foreach ($this->getConfigurableProductOptions() as $Option) {
+	foreach ($this->getConfigurableProductOptions() as $Option) 
+	{
 	    if($Option->isRequired())return true;
 	}
 	return false;
     }
     
-    public function getRequiredOptionIdsArray(){
+    /**
+     * @return array
+     */
+    public function getRequiredOptionIdsArray()
+    {
 	$ids = array();
 	/* @var $Option \Entities\ConfigurableProductOption */
-	foreach ($this->getConfigurableProductOptions() as $Option) {
+	foreach ($this->getConfigurableProductOptions() as $Option) 
+	{
 	    if($Option->isRequired())$ids[] = $Option->getId();
 	}
 	return $ids;
     }
     
-    public function populate(array $array){
-	foreach ($array as $key => $value) {
-	    if(property_exists($this, $key)){
+    public function populate(array $array)
+    {
+	foreach ($array as $key => $value) 
+	{
+	    if(property_exists($this, $key))
+	    {
 		$this->$key = $value;
 	    }
 	}
     }
     
+    /**
+     * @return array
+     */
     public function toArray(){
 	$array			= array();
 	$array['name']		= $this->getName();

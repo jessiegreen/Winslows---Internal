@@ -13,85 +13,131 @@ class Category
     /**
      * @Id @Column(type="integer")
      * @GeneratedValue(strategy="AUTO")
+     * @var integer $id
      */
     private $id;
     
-    /** @Column(type="string", length=255) */
+    /** 
+     * @Column(type="string", length=255) 
+     * @var string $index_string
+     */
     private $index_string;
     
-    /** @Column(type="string", length=255) */
+    /** 
+     * @Column(type="string", length=255) 
+     * @var string $name
+     */
     private $name;
     
-    /** @Column(type="integer", length=11) */
+    /** 
+     * @Column(type="integer", length=11) 
+     * @var integer $order
+     */
     private $order;
 
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="ConfigurableProductOptionGroup", mappedBy="ConfigurableProductOptionCategory", cascade={"persist"}, orphanRemoval=true)
+     * @OneToMany(targetEntity="Company\Supplier\Product\Configurable\Option", mappedBy="Category", cascade={"persist"}, orphanRemoval=true)
+     * @var array $Options
      */
-    private $ConfigurableProductOptionGroups;
+    private $Options;
     
     public function __construct()
     {
-	$this->ConfigurableProducts	    = new ArrayCollection();
-	$this->ConfigurableProductOptions   = new ArrayCollection();
+	$this->ConfigurableProducts = new ArrayCollection();
+	$this->ConfigurableOptions  = new ArrayCollection();
     }
     
-    public function addConfigurableProductOptionGroups(ConfigurableProductOptionGroup $ConfigurableProductOptionGroup)
+    /**
+     * @param \Entities\Company\Supplier\Product\Configurable\Option $Option
+     */
+    public function addOptions(\Entities\Company\Supplier\Product\Configurable\Option $Option)
     {
-	$ConfigurableProductOptionGroup->setConfigurableProductOptionCategory($this);
-        $this->ConfigurableProductOptionGroups[] = $ConfigurableProductOptionGroup;
+	$Option->setCategory($this);
+        $this->Options[] = $Option;
     }
     
-    public function getConfigurableProductOptionGroups(){
-	return $this->ConfigurableProductOptionGroups;
+    /**
+     * @return array
+     */
+    public function getOptions()
+    {
+	return $this->Options;
     }
     
+    /**
+     * @return integer
+     */
     public function getId()
     {
         return $this->id;
     }
     
+    /**
+     * @return string
+     */
     public function getIndex()
     {
         return $this->index_string;
     }
 
-    public function setIndex($index)
+    /**
+     * @param string $index
+     */
+    public function setIndex(string $index)
     {
         $this->index_string = $index;
     }
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         return $this->name;
     }
 
-    public function setName($name)
+    /**
+     * @param string $name
+     */
+    public function setName(string $name)
     {
         $this->name = $name;
     }
     
+    /**
+     * @return integer
+     */
     public function getOrder()
     {
         return $this->order;
     }
 
-    public function setOrder($order)
+    /**
+     * @param integer $order
+     */
+    public function setOrder(integer $order)
     {
         $this->order = $order;
     }
     
-    public function populate(array $array){
-	foreach ($array as $key => $value) {
-	    if(property_exists($this, $key)){
+    public function populate(array $array)
+    {
+	foreach ($array as $key => $value) 
+	{
+	    if(property_exists($this, $key))
+	    {
 		$this->$key = $value;
 	    }
 	}
     }
     
-    public function toArray(){
+    /** 
+     * @return type
+     */
+    public function toArray()
+    {
 	$array			= array();
 	$array['name']		= $this->getName();
 	return $array;

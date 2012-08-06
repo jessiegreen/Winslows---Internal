@@ -9,25 +9,26 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-namespace Entities\Company;
+namespace Entities\Company\Location;
 use Doctrine\Common\Collections\ArrayCollection;
+use Entities\Person as Person;
 
 /** 
  * @Entity (repositoryClass="Repositories\Company\Employee") 
  * @Table(name="company_employees") 
  */
-
-use Entities\Person as Person;
-
 class Employee extends Person
 {
-    /** @Column(type="string", length=255) */
+    /** 
+     * @Column(type="string", length=255) 
+     * @var string $title
+     */
     private $title;
     
     /**
      * @ManyToOne(targetEntity="Location", inversedBy="Employees")
      * @JoinColumn(name="location_id", referencedColumnName="id")
-     * @var Location $Location
+     * @var \Entities\Company\Location $Location
      */
     private $Location;
     
@@ -64,29 +65,35 @@ class Employee extends Person
 	return $this->Leads;
     }
     
-    public function AddQuote(Quote $Quote){
+    public function AddQuote(\Entities\Company\Lead\Quote $Quote)
+    {
 	$Quote->setEmployee($this);
 	$this->Quotes[] = $Quote;
     }
     
-    public function getQuotes(){
+    public function getQuotes()
+    {
 	return $this->Quotes;
     }
     
-    public function getOrders(){
+    public function getOrders()
+    {
 	return $this->Orders;
     }
     
-    public function AddOrder(Order $Order){
+    public function AddOrder(\Entities\Company\Customer\Order $Order)
+    {
 	$Order->setEmployee($this);
 	$this->Orders[] = $Order;
     }    
     
-    public function getLocation(){
+    public function getLocation()
+    {
 	return $this->Location;
     }
     
-    public function setLocation(Location $Location){
+    public function setLocation(\Entities\Company\Location $Location)
+    {
 	$this->Location = $Location;
     }
     
@@ -100,9 +107,12 @@ class Employee extends Person
         $this->title = $title;
     }  
     
-    public function populate(array $array){
-	foreach ($array as $key => $value) {
-	    if(property_exists($this, $key)){
+    public function populate(array $array)
+    {
+	foreach ($array as $key => $value) 
+	{
+	    if(property_exists($this, $key))
+	    {
 		$this->$key = $value;
 	    }
 	}

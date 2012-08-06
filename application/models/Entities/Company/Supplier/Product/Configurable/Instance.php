@@ -10,42 +10,54 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstract
 {    
     /**
-     * Bidirectional - One-To-Many (INVERSE SIDE)
-     *
-     * @OneToMany(targetEntity="ConfigurableProductInstanceOptionValue", mappedBy="ConfigurableProductInstance", cascade={"persist"})
+     * @ManytoMany(targetEntity="Company\Supplier\Product\Configurable\Option\Parameter\Value")
+     * @JoinTable(name="company_supplier_product_configurable_instance_value_joins")
+     * @var array $Values
      */
-    private $ConfigurableProductInstanceOptionValues;
+    private $Values;
     
-    private $ConfigurableProductValidator;
+    private $Validator;
 
-    public function __construct(ConfigurableProduct $ConfigurableProduct)
+    private $Pricer;
+
+    public function __construct(\Entities\Company\Supplier\Product\Configurable $ConfigurableProduct)
     {
-	$this->\Services\Factories\ConfigurableProductInstanceValidator($this->getProduct()->getValidator());
-	$this->ConfigurableProductInstanceOptionValues  = new ArrayCollection();
 	parent::__construct($ConfigurableProduct);
+	
+	$this->Validator    = \Services\Company\Supplier\Product\Configurable\Validator::factory($this->getProduct()->getValidator());
+	$this->Pricer	    = \Services\Company\Supplier\Product\Configurable\Pricer::factory($this->getProduct()->getPricer());
+	$this->Values	    = new ArrayCollection();
     }
     
     /**
-     * @return ConfigurableProduct
+     * @return \Entities\Company\Supplier\Product\Configurable
      */
     public function getProduct() {
 	parent::getProduct();
     }
     
-    public function addConfigurableProductInstanceOptionValue(ConfigurableProductOptionValue $ConfigurableProductOptionValue)
+    /**
+     * @param \Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value $ConfigurableProductOptionValue
+     */
+    public function addValue(Option\Parameter\Value $Value)
     {
-	$ConfigurableProductInstanceOptionValue = new ConfigurableProductInstanceOptionValue($ConfigurableProductOptionValue, $this);
-        $this->ConfigurableProductInstanceOptionValues[] = $ConfigurableProductInstanceOptionValue;
+        $this->Values[] = $Value;
     }
     
-    public function getConfigurableProductInstanceOptionValues()
+    /**
+     * @return array
+     */
+    public function getValues()
     {
-	return $this->ConfigurableProductInstanceOptionValues;
+	return $this->Values;
     }
     
-    public function populate(array $array){
-	foreach ($array as $key => $value) {
-	    if(property_exists($this, $key)){
+    public function populate(array $array)
+    {
+	foreach ($array as $key => $value) 
+	{
+	    if(property_exists($this, $key))
+	    {
 		$this->$key = $value;
 	    }
 	}
