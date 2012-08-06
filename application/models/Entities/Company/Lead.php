@@ -10,16 +10,16 @@
  * @version    Release: @package_version@
  */
 namespace Entities\Company;
-use Entities\Person as Person;
+use Entities\Person\PersonAbstract as PersonAbstract;
 use Doctrine\Common\Collections\ArrayCollection;
 /** 
  * @Entity (repositoryClass="Repositories\Company\Lead") 
  * @Table(name="company_leads") 
  */
-class Lead extends Person
+class Lead extends PersonAbstract
 {
     /** 
-     * @ManyToOne(targetEntity="Employee", inversedBy="Leads")
+     * @ManyToOne(targetEntity="\Entities\Company\Location\Employee", inversedBy="Leads")
      * @var \Entities\Company\Location\Employee $Employee
      */     
     protected $Employee;
@@ -27,7 +27,7 @@ class Lead extends Person
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="Company\Lead\Contact", mappedBy="Lead", cascade={"persist"})
+     * @OneToMany(targetEntity="\Entities\Company\Lead\Contact", mappedBy="Lead", cascade={"persist"})
      * @var array $Contacts
      */
     protected $Contacts;
@@ -35,7 +35,7 @@ class Lead extends Person
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="Company\Lead", mappedBy="Employee", cascade={"persist"})
+     * @OneToMany(targetEntity="\Entities\Company\Lead", mappedBy="Employee", cascade={"persist"})
      * @var array $Leads
      */
     protected $Leads;
@@ -43,7 +43,7 @@ class Lead extends Person
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="Company\Lead\Quote", mappedBy="Lead", cascade={"persist"})
+     * @OneToMany(targetEntity="\Entities\Company\Lead\Quote", mappedBy="Lead", cascade={"persist"})
      * @var array $Quotes
      */
     protected $Quotes;

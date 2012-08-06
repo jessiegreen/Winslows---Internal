@@ -69,8 +69,8 @@ class DocumentAbstract  implements \Interfaces\Document
     );
     
     /**
-     * @ManyToOne(targetEntity="Employee")
-     * @var \Entities\Company\Employee $Employee
+     * @ManyToOne(targetEntity="\Entities\Company\Location\Employee")
+     * @var \Entities\Company\Location\Employee $Employee
      */
     private $Employee;
 
@@ -88,15 +88,15 @@ class DocumentAbstract  implements \Interfaces\Document
     }
     
     /**
-     * @param \Entities\Company\Employee $Employee
+     * @param \Entities\Company\Location\Employee $Employee
      */
-    public function setEmployee(\Entities\Company\Employee $Employee)
+    public function setEmployee(\Entities\Company\Location\Employee $Employee)
     {
 	$this->Employee = $Employee;
     }
     
     /**
-     * @return \Entities\Company\Employee
+     * @return \Entities\Company\Location\Employee
      */
     public function getEmployee()
     {

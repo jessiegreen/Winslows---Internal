@@ -11,13 +11,13 @@
  */
 namespace Entities\Company\Location;
 use Doctrine\Common\Collections\ArrayCollection;
-use Entities\Person as Person;
+use Entities\Person\PersonAbstract as PersonAbstract;
 
 /** 
- * @Entity (repositoryClass="Repositories\Company\Employee") 
- * @Table(name="company_employees") 
+ * @Entity (repositoryClass="Repositories\Company\Location\Employee") 
+ * @Table(name="company_location_employees") 
  */
-class Employee extends Person
+class Employee extends PersonAbstract
 {
     /** 
      * @Column(type="string", length=255) 
@@ -26,7 +26,7 @@ class Employee extends Person
     private $title;
     
     /**
-     * @ManyToOne(targetEntity="Location", inversedBy="Employees")
+     * @ManyToOne(targetEntity="\Entities\Company\Location", inversedBy="Employees")
      * @JoinColumn(name="location_id", referencedColumnName="id")
      * @var \Entities\Company\Location $Location
      */
@@ -35,14 +35,16 @@ class Employee extends Person
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="Quote", mappedBy="Employee", cascade={"persist"})
+     * @OneToMany(targetEntity="\Entities\Company\Lead\Quote", mappedBy="Employee", cascade={"persist"})
+     * @var array $Quotes
      */
     private $Quotes;
     
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="Order", mappedBy="Employee", cascade={"persist"})
+     * @OneToMany(targetEntity="\Entities\Company\Customer\Order", mappedBy="Employee", cascade={"persist"})
+     * @var array $Orders
      */
     private $Orders;
     
@@ -50,6 +52,7 @@ class Employee extends Person
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="Lead", mappedBy="Employee", cascade={"persist"})
+     * @var array $Leads
      */
     private $Leads;
     
@@ -61,48 +64,76 @@ class Employee extends Person
 	parent::__construct();
     }
     
-    public function getLeads(){
+    /**
+     * @return array
+     */
+    public function getLeads()
+    {
 	return $this->Leads;
     }
     
+    /**
+     * @param \Entities\Company\Lead\Quote $Quote
+     */
     public function AddQuote(\Entities\Company\Lead\Quote $Quote)
     {
 	$Quote->setEmployee($this);
 	$this->Quotes[] = $Quote;
     }
     
+    /**
+     * @return array
+     */
     public function getQuotes()
     {
 	return $this->Quotes;
     }
     
+    /**
+     * @return array
+     */
     public function getOrders()
     {
 	return $this->Orders;
     }
     
+    /**
+     * @param \Entities\Company\Customer\Order $Order
+     */
     public function AddOrder(\Entities\Company\Customer\Order $Order)
     {
 	$Order->setEmployee($this);
 	$this->Orders[] = $Order;
-    }    
+    }  
     
+    /** 
+     * @return \Entities\Company\Location
+     */
     public function getLocation()
     {
 	return $this->Location;
     }
     
+    /**
+     * @param \Entities\Company\Location $Location
+     */
     public function setLocation(\Entities\Company\Location $Location)
     {
 	$this->Location = $Location;
     }
     
+    /**
+     * @return string
+     */
     public function getTitle()
     {
         return $this->title;
     }
 
-    public function setTitle($title)
+    /**
+     * @param string $title
+     */
+    public function setTitle(string $title)
     {
         $this->title = $title;
     }  

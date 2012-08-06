@@ -14,34 +14,36 @@ namespace Entities\Company\Location;
  * @Entity (repositoryClass="Repositories\Company\Location\PhoneNumber") 
  * @Table(name="company_location_phonenumbers")
  */
-
 class PhoneNumber extends \Entities\PhoneNumber\PhoneNumberAbstract
 {
     /** 
      * @OneToOne(targetEntity="Company\Location", inversedBy="PhoneNumber")
+     * @var \Entities\Company\Location $Location
      */     
     private $Location;
     
     /**
-     * Set location for phone number.
-     * @param Location $Location
+     * @param \Entities\Company\Location $Location
      */
-    public function setLocation(Location $Location)
+    public function setLocation(\Entities\Company\Location $Location)
     {
         $this->Location = $Location;
     }
     
     /**
-     * Retrieve Location associated to phone number.
+     * @return \Entities\Company\Location
      */
     public function getLocation()
     {
 	return $this->Location;
     }
     
-    public function populate(array $array){
-	foreach ($array as $key => $value) {
-	    if(property_exists($this, $key)){
+    public function populate(array $array)
+    {
+	foreach ($array as $key => $value) 
+	{
+	    if(property_exists($this, $key))
+	    {
 		$this->$key = $value;
 	    }
 	}

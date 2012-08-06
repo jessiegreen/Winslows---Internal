@@ -20,7 +20,7 @@ class Customer extends Lead
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="Company\Customer\Order", mappedBy="Customer", cascade={"persist"})
+     * @OneToMany(targetEntity="\Entities\Company\Customer\Order", mappedBy="Customer", cascade={"persist"})
      * @var array $Orders
      */
     protected $Orders;

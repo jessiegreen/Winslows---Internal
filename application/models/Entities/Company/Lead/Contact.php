@@ -41,14 +41,14 @@ class Contact
     private $result;
     
     /**
-     * @ManyToOne(targetEntity="Company\Lead", inversedBy="Contacts")
-     * @var \Entities\Company\Employee $Lead
+     * @ManyToOne(targetEntity="\Entities\Company\Lead", inversedBy="Contacts")
+     * @var \Entities\Company\Lead $Lead
      */
     private $Lead;
     
     /** 
-     * @ManyToOne(targetEntity="Company\Employee", cascade="persist")
-     * @var \Entities\Company\Employee $Employee
+     * @ManyToOne(targetEntity="\Entities\Company\Location\Employee", cascade="persist")
+     * @var \Entities\Company\Location\Employee $Employee
      */     
     private $Employee;
 
@@ -94,15 +94,15 @@ class Contact
     }
     
     /**
-     * @param \Entities\Company\Employee $Employee
+     * @param \Entities\Company\Location\Employee $Employee
      */
-    public function setEmployee(\Entities\Company\Employee $Employee)
+    public function setEmployee(\Entities\Company\Location\Employee $Employee)
     {
 	$this->Employee = $Employee;
     }
     
     /**
-     * @return \Entities\Company\Employee
+     * @return \Entities\Company\Location\Employee
      */
     public function getEmployee()
     {

@@ -136,7 +136,7 @@ class Option
      */
     public function addParameter(Option\Parameter $Parameter)
     {
-	$Parameter->setConfigurableProductOptionGroup($this);
+	$Parameter->setOption($this);
         $this->Parameters[] = $Parameter;
     }
     
@@ -163,22 +163,24 @@ class Option
     /**
      * @param integer $length
      */
-    private function _setLength(integer $length){
+    private function _setLength(integer $length)
+    {
 	$this->_length = $length;
     }
     
     /**
      * @return integer
      */
-    private function _calculateLength(){
+    private function _calculateLength()
+    {
 	$length = 0;
 	
-	if(count($this->ConfigurableProductOptions)>0)
+	if(count($this->Parameters)>0)
 	{
-	    /* @var $ConfigurableProductOption \Entities\ConfigurableProductOption */
-	    foreach ($this->ConfigurableProductOptions as $ConfigurableProductOption) 
+	    /* @var $Parameter Option\Parameter */
+	    foreach ($this->Parameters as $Parameter) 
 	    {
-		$length += (int) $ConfigurableProductOption->getLength();
+		$length += (int) $Parameter->getLength();
 	    }
 	}
 	return $length;	
@@ -277,10 +279,10 @@ class Option
      */
     public function hasRequiredOption()
     {
-	/* @var $Option \Entities\ConfigurableProductOption */
-	foreach ($this->getConfigurableProductOptions() as $Option) 
+	/* @var $Parameter Option\Parameter */
+	foreach ($this->getParameters() as $Parameter) 
 	{
-	    if($Option->isRequired())return true;
+	    if($Parameter->isRequired())return true;
 	}
 	return false;
     }
@@ -291,10 +293,10 @@ class Option
     public function getRequiredOptionIdsArray()
     {
 	$ids = array();
-	/* @var $Option \Entities\ConfigurableProductOption */
-	foreach ($this->getConfigurableProductOptions() as $Option) 
+	/* @var $Parameter Option\Parameter */
+	foreach ($this->getParameters() as $Parameter) 
 	{
-	    if($Option->isRequired())$ids[] = $Option->getId();
+	    if($Parameter->isRequired())$ids[] = $Parameter->getId();
 	}
 	return $ids;
     }

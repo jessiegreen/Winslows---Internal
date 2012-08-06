@@ -9,9 +9,9 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @InheritanceType("JOINED")
  * @DiscriminatorColumn(name="discr", type="string")
  * @DiscriminatorMap({
- *			"company_employee" = "Company\Employee", 
- *			"company_customer" = "Company\Customer", 
- *			"company_lead" = "Company\Lead"
+ *			"company_location_employee" = "\Entities\Company\Location\Employee", 
+ *			"company_customer" = "\Entities\Company\Customer", 
+ *			"company_lead" = "\Entities\Company\Lead"
  *		    })
  * @HasLifecycleCallbacks
  */
@@ -63,7 +63,7 @@ class PersonAbstract
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="Person\Address", mappedBy="Person", cascade={"persist"}, orphanRemoval=true)
+     * @OneToMany(targetEntity="\Entities\Person\Address", mappedBy="Person", cascade={"persist"}, orphanRemoval=true)
      * @var array
      */
     protected $Addresses;
@@ -71,23 +71,23 @@ class PersonAbstract
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="Person\Document", mappedBy="Person", cascade={"persist"}, orphanRemoval=true)
+     * @OneToMany(targetEntity="\Entities\Person\Document", mappedBy="Person", cascade={"persist"}, orphanRemoval=true)
      * @var array
      */
     protected $Documents;
     
     /**
-     * @OneToMany(targetEntity="Person\PhoneNumber", mappedBy="Person", cascade={"persist"}, orphanRemoval=true)
+     * @OneToMany(targetEntity="\Entities\Person\PhoneNumber", mappedBy="Person", cascade={"persist"}, orphanRemoval=true)
      */
     private $PhoneNumbers;
     
     /**
-     * @OneToMany(targetEntity="Person\EmailAddress", mappedBy="Person", cascade={"persist"}, orphanRemoval=true)
+     * @OneToMany(targetEntity="\Entities\Person\EmailAddress", mappedBy="Person", cascade={"persist"}, orphanRemoval=true)
      */
     private $EmailAddresses;
     
     /**
-     * @OneToOne(targetEntity="Website\Account", mappedBy="Person", cascade={"persist"}, orphanRemoval=true)
+     * @OneToOne(targetEntity="\Entities\Website\Account", mappedBy="Person", cascade={"persist"}, orphanRemoval=true)
      * @var \Entities\Website\Account $Account
      */
     protected $Account;

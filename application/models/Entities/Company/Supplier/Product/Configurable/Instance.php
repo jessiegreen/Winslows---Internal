@@ -37,7 +37,7 @@ class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstr
     }
     
     /**
-     * @param \Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value $ConfigurableProductOptionValue
+     * @param \Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value $Value
      */
     public function addValue(Option\Parameter\Value $Value)
     {

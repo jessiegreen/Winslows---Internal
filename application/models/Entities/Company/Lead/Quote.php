@@ -20,62 +20,86 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Quote extends Quote\QuoteAbstract
 {    
     /** 
-     * @ManyToOne(targetEntity="Company\Lead", inversedBy="Quotes")
+     * @ManyToOne(targetEntity="\Entities\Company\Lead", inversedBy="Quotes")
+     * @var \Entities\Company\Lead $Lead
      */     
     private $Lead;
     
     /** 
-     * @ManyToOne(targetEntity="Company\Employee", inversedBy="Quotes")
+     * @ManyToOne(targetEntity="\Entities\Company\Location\Employee", inversedBy="Quotes")
+     * @var \Entities\Company\Location\Employee $Employee 
      */     
     private $Employee;
     
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="Company\Lead\Quote\Product", mappedBy="Quote", cascade={"persist"})
+     * @OneToMany(targetEntity="\Entities\Company\Lead\Quote\Item", mappedBy="Quote", cascade={"persist"})
+     * @var array $Items
      */
-    private $Products;
+    private $Items;
     
     public function __construct()
     {
-	$this->Products = new ArrayCollection();
+	$this->Items = new ArrayCollection();
 	parent::__construct();
     }
     
-    public function addProduct(Quote\Product $QuoteProduct)
+    /**
+     * @param \Entities\Company\Lead\Quote\Item $Item
+     */
+    public function addItem(Quote\Item $Item)
     {
-	$QuoteProduct->setQuote($this);
-        $this->QuoteProducts[] = $QuoteProduct;
+	$Item->setQuote($this);
+        $this->Items[] = $Item;
     }
     
-    public function getQuoteProducts()
+    /**
+     * @return array
+     */
+    public function getItems()
     {
-	return $this->QuoteProducts;
+	return $this->Items;
     }
     
-    public function setLead(Lead $Lead)
+    /**
+     * @param \Entities\Company\Lead $Lead
+     */
+    public function setLead(\Entities\Company\Lead $Lead)
     {
         $this->Lead = $Lead;
     }
     
+    /**
+     * @return \Entities\Company\Lead
+     */
     public function getLead()
     {
 	return $this->Lead;
     }
     
-    public function setEmployee(Employee $Employee)
+    /**
+     * @param \Entities\Company\Location\Employee $Employee
+     */
+    public function setEmployee(\Entities\Company\Location\Employee $Employee)
     {
         $this->Employee = $Employee;
     }
     
+    /**
+     * @return \Entities\Company\Location\Employee
+     */
     public function getEmployee()
     {
 	return $this->Employee;
     }
     
-    public function populate(array $array){
-	foreach ($array as $key => $value) {
-	    if(property_exists($this, $key)){
+    public function populate(array $array)
+    {
+	foreach ($array as $key => $value) 
+	{
+	    if(property_exists($this, $key))
+	    {
 		$this->$key = $value;
 	    }
 	}

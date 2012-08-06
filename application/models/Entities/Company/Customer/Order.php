@@ -15,7 +15,6 @@ use Entities\Company\Lead\Quote;
  * @Entity (repositoryClass="Repositories\Company\Customer\Order") 
  * @Table(name="company_customer_orders") 
  */
-
 class Order extends Quote
 {
     /** 
@@ -25,7 +24,8 @@ class Order extends Quote
     private $purchased_date;
     
     /** 
-     * @ManyToOne(targetEntity="Company\Customer", inversedBy="Orders")
+     * @ManyToOne(targetEntity="\Entities\Company\Customer", inversedBy="Orders")
+     * @var \Entities\Company\Customer $Customer
      */     
     private $Customer;
     
