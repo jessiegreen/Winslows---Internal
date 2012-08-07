@@ -12,7 +12,7 @@
  */
 class Form_Quote_Subform extends Form_QuoteBase_Subform
 {
-    private $_Quote;
+    private $_Quote; 
     
     public function __construct($options = null, Entities\Quote $Quote = null) {
 	$this->_Quote = $Quote;
