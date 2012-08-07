@@ -14,7 +14,7 @@ class Form_PhoneNumber_Subform extends Zend_Form_SubForm
 {
     private $_PhoneNumber;
     
-    public function __construct($options = null, Entities\PhoneNumber $PhoneNumber = null) {
+    public function __construct($options = null, Entities\PhoneNumber\PhoneNumberAbstract $PhoneNumber = null) {
 	$this->_PhoneNumber = $PhoneNumber;
 	parent::__construct($options);
     }
