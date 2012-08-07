@@ -1,5 +1,5 @@
 <?php
-
+namespace Form\Company;
 /**
  * Name:
  * Location:
@@ -10,20 +10,20 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_Lead extends Zend_Form
+class Lead extends \Zend_Form
 {    
     private $_Lead;
     
-    public function __construct($options = null, Entities\Lead $Lead = null) {
+    public function __construct($options = null, \Entities\Company\Lead $Lead = null) {
 	$this->_Lead = $Lead;
 	parent::__construct($options);
     }
     
     public function init($options = array())
     {
-	$form = new Form_Lead_Subform($options, $this->_Lead);
+	$form = new Form\Lead\Subform($options, $this->_Lead);
 	
-	$this->addSubForm($form, "lead");
+	$this->addSubForm($form, "company_lead");
 	
 	$this->addElement('submit', 'submit', array(
             'ignore'   => true,

@@ -1,15 +1,11 @@
 <?php
-/* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
+namespace Form;
 /**
  * Description of __Login
  *
  * @author Jessie
  */
-class Form_Login_Login extends Zend_Form
+class Login extends \Zend_Form
 {
     public function init($options = array())
     {

@@ -1,5 +1,5 @@
 <?php
-
+namespace Form\Company;
 /**
  * Name:
  * Location:
@@ -10,11 +10,11 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_Location extends Zend_Form
+class Location extends \Zend_Form
 {    
     private $_Location;
     
-    public function __construct($options = null, Entities\Location $Location = null)
+    public function __construct($options = null, \Entities\Company\Location $Location = null)
     {
 	$this->_Location = $Location;
 	parent::__construct($options, $this->_Location);
@@ -22,9 +22,9 @@ class Form_Location extends Zend_Form
     
     public function init($options = array())
     {	
-        $form = new Form_Location_Subform($options, $this->_Location);
+        $form = new Form\Location\Subform($options, $this->_Location);
 	
-	$this->addSubForm($form, "location");
+	$this->addSubForm($form, "company_location");
 	
 	$this->addElement('submit', 'submit', array(
             'ignore'   => true,

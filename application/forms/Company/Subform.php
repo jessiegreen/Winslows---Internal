@@ -1,5 +1,5 @@
 <?php
-
+namespace Form\Company;
 /**
  * Name:
  * Company:
@@ -10,7 +10,7 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_Company_Subform extends Zend_Form_SubForm
+class Subform extends \Zend_Form_SubForm
 {
     private $_Company;
     

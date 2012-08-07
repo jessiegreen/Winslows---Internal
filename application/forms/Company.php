@@ -1,5 +1,5 @@
 <?php
-
+namespace Form;
 /**
  * Name:
  * Company:
@@ -10,7 +10,7 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_Company extends Zend_Form
+class Company extends \Zend_Form
 {    
     private $_Company;
     
@@ -22,7 +22,7 @@ class Form_Company extends Zend_Form
     
     public function init($options = array())
     {	
-        $form = new Form_Company_Subform($options, $this->_Company);
+        $form = new Form\Company\Subform($options, $this->_Company);
 	
 	$this->addSubForm($form, "company");
 	

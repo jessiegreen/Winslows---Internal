@@ -1,5 +1,5 @@
 <?php
-
+namespace Form\Person;
 /**
  * Name:
  * Location:
@@ -10,11 +10,11 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_PersonEmailAddress extends Zend_Form
+class EmailAddress extends \Zend_Form
 {    
     private $_PersonEmailAddress;
     
-    public function __construct($options = null, Entities\PersonEmailAddress $PersonEmailAddress = null)
+    public function __construct($options = null, Entities\Person\EmailAddress $PersonEmailAddress = null)
     {
 	$this->_PersonEmailAddress = $PersonEmailAddress;
 	parent::__construct($options);
@@ -22,9 +22,9 @@ class Form_PersonEmailAddress extends Zend_Form
     
     public function init($options = array())
     {
-	$form = new Form_PersonEmailAddress_Subform($options, $this->_PersonEmailAddress);
+	$form = new Form\Person\EmailAddress\Subform($options, $this->_PersonEmailAddress);
 	
-	$this->addSubForm($form, "personemailaddress");
+	$this->addSubForm($form, "person_emailaddress");
 	
 	$this->addElement('submit', 'submit', array(
             'ignore'	    => true,

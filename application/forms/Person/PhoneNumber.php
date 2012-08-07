@@ -1,5 +1,5 @@
 <?php
-
+namespace Form\Person;
 /**
  * Name:
  * Location:
@@ -10,11 +10,11 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_PersonPhoneNumber extends Zend_Form
+class PhoneNumber extends \Zend_Form
 {    
     private $_PersonPhoneNumber;
     
-    public function __construct($options = null, Entities\PersonPhoneNumber $PersonPhoneNumber = null)
+    public function __construct($options = null, Entities\Person\PhoneNumber $PersonPhoneNumber = null)
     {
 	$this->_PersonPhoneNumber = $PersonPhoneNumber;
 	parent::__construct($options);
@@ -22,9 +22,9 @@ class Form_PersonPhoneNumber extends Zend_Form
     
     public function init($options = array())
     {
-	$form = new Form_PersonPhoneNumber_Subform($options, $this->_PersonPhoneNumber);
+	$form = new Form\Person\PhoneNumber\Subform($options, $this->_PersonPhoneNumber);
 	
-	$this->addSubForm($form, "personphonenumber");
+	$this->addSubForm($form, "person_phonenumber");
 	
 	$this->addElement('submit', 'submit', array(
             'ignore'	    => true,

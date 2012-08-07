@@ -1,5 +1,5 @@
 <?php
-
+namespace Form\Person\Address;
 /**
  * Name:
  * Location:
@@ -10,11 +10,11 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_PersonAddress_Subform extends Form_Address_Subform
+class Subform extends Form\Address\Subform
 {    
     private $_PersonAddress;
     
-    public function __construct($options = null, Entities\PersonAddress $PersonAddress = null) {
+    public function __construct($options = null, Entities\Person\Address $PersonAddress = null) {
 	$this->_PersonAddress = $PersonAddress;
 	parent::__construct($options, $this->_PersonAddress);
     }
