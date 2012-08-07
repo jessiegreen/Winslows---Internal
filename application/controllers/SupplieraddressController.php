@@ -25,7 +25,7 @@ class SupplieraddressController extends Dataservice_Controller_Action
 		$SupplierAddress->populate($data);
 		
 		if(!$SupplierAddress->getId()){
-		    /* @var $Person \Entities\Person */
+		    /* @var $Person \Entities\Person\PersonAbstract */
 		    $Supplier = $this->_em->find("Entities\Supplier", $this->_params["supplier_id"]);
 		    if(!$Supplier)
 			throw new Exception("Can not add address. No Supplier with that Id");

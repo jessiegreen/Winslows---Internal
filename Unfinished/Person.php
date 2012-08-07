@@ -21,7 +21,7 @@ class Service_Person {
     }
     
     public function remove($person_id) {
-	$person = $this->_em->getRepository('Entities\Person')
+	$person = $this->_em->getRepository('Entities\Person\PersonAbstract')
 		    ->findOneById($person_id);
 	$this->_em->remove($person);
 	$this->_em->flush();

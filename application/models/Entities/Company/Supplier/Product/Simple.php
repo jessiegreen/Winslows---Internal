@@ -10,7 +10,7 @@
 namespace Entities\Company\Supplier\Product;
 /** 
  * @Entity (repositoryClass="Repositories\Company\Supplier\Product\Simple") 
- * @Table(name="company_product_simples") 
+ * @Table(name="company_supplier_product_simples") 
  */
 class Simple extends ProductAbstract
 {

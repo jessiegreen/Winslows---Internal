@@ -25,8 +25,8 @@ class PersonphonenumberController extends Dataservice_Controller_Action
 		$PersonPhoneNumber->setNum2($data["phone_number"]["line"]);
 		
 		if(!$PersonPhoneNumber->getId()){
-		    /* @var $Person \Entities\Person */
-		    $Person = $this->_em->find("Entities\Person", $this->_params["person_id"]);
+		    /* @var $Person \Entities\Person\PersonAbstract */
+		    $Person = $this->_em->find("Entities\Person\PersonAbstract", $this->_params["person_id"]);
 		    if(!$Person)
 			throw new Exception("Can not add address. No Person with that Id");
 

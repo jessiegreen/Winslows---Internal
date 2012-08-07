@@ -14,7 +14,7 @@ class Form_Person_Subform extends Zend_Form_SubForm
 {
     private $_Person;
     
-    public function __construct($options = null, Entities\Person $Person = null) {
+    public function __construct($options = null, Entities\Person\PersonAbstract $Person = null) {
 	$this->_Person = $Person;
 	parent::__construct($options);
     }

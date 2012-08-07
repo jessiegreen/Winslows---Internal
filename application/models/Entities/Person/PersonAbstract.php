@@ -87,8 +87,8 @@ class PersonAbstract
     private $EmailAddresses;
     
     /**
-     * @OneToOne(targetEntity="\Entities\Website\Account", mappedBy="Person", cascade={"persist"}, orphanRemoval=true)
-     * @var \Entities\Website\Account $Account
+     * @OneToOne(targetEntity="\Entities\Company\Website\Account", mappedBy="Person", cascade={"persist"}, orphanRemoval=true)
+     * @var \Entities\Company\Website\Account $Account
      */
     protected $Account;
 
@@ -174,22 +174,25 @@ class PersonAbstract
     }
     
     /**
-     * @return \Entities\Website\Account
+     * @return \Entities\Company\Website\Account
      */
-    public function getAccount() {
+    public function getAccount() 
+    {
 	return $this->Account;
     }
     
     /**
-     * @param \Entities\Website\Account $Account
+     * @param \Entities\Company\Website\Account $Account
      */
-    public function setAccount(\Entities\Website\Account $Account) {
+    public function setAccount(\Entities\Company\Website\Account $Account) 
+    {
 	$Account->setPerson($this);
 	$this->Account = $Account;
     }
     
-    public function removeWebAccount(){
-	unset($this->WebAccount);
+    public function removeAccount()
+    {
+	unset($this->Account);
     }
 
     /**
@@ -219,7 +222,7 @@ class PersonAbstract
     /**
      * @param string $first_name
      */
-    public function setFirstName(string $first_name)
+    public function setFirstName($first_name)
     {
         $this->first_name = $first_name;
     }
@@ -235,7 +238,7 @@ class PersonAbstract
     /**
      * @param string $last_name
      */
-    public function setLastName(string $last_name)
+    public function setLastName($last_name)
     {
         $this->last_name = $last_name;
     }
@@ -251,7 +254,7 @@ class PersonAbstract
     /**
      * @param string $middle_name
      */
-    public function setMiddleName(string $middle_name)
+    public function setMiddleName($middle_name)
     {
         $this->middle_name = $middle_name;
     }
@@ -267,7 +270,7 @@ class PersonAbstract
     /**
      * @return string
      */
-    public function setSuffix(string $suffix)
+    public function setSuffix($suffix)
     {
         $this->suffix = $suffix;
     }
@@ -303,9 +306,12 @@ class PersonAbstract
         return $this->updated;
     }
 
-    public function populate(array $array){
-	foreach ($array as $key => $value) {
-	    if(property_exists($this, $key)){
+    public function populate(array $array)
+    {
+	foreach ($array as $key => $value) 
+	{
+	    if(property_exists($this, $key))
+	    {
 		$this->$key = $value;
 	    }
 	}

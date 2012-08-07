@@ -87,7 +87,7 @@ class Configurable extends ProductAbstract
     /**
      * @param string $validator
      */
-    public function setValidator(string $validator)
+    public function setValidator($validator)
     {
         $this->validator = $validator;
     }
@@ -103,7 +103,7 @@ class Configurable extends ProductAbstract
     /**
      * @param string $pricer
      */
-    public function setPricer(string $pricer)
+    public function setPricer($pricer)
     {
         $this->pricer = $pricer;
     }

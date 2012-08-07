@@ -30,20 +30,20 @@ class Dataservice_ACL_Factory {
     }
  
     private static function _loadAclFromDB(\Doctrine\ORM\EntityManager $em) {
-        $Roles = $em->getRepository("Entities\Role")->findAll();
+        $Roles = $em->getRepository("Entities\Company\Website\Account\Role")->findAll();
 	
 	self::$_objAcl = new Zend_Acl();
  
-	//self::$_objAcl->addRole(new Zend_Acl_Role(Entities\Role::getGuestRoleName()));
+	//self::$_objAcl->addRole(new Zend_Acl_Role(Entities\Company\Website\Account\Role::getGuestRoleName()));
 	//self::$_objAcl->addRole(new Zend_Acl_Role("Guest"));
 	
-	/* @var $Role \Entities\Role */
+	/* @var $Role \Entities\Company\Website\Account\Role */
 	foreach($Roles as $Role)
 	{
 	    if(self::$_debug)echo $Role->getName()."-<ul> ";
 	    self::$_objAcl->addRole(new Zend_Acl_Role($Role->getName()));
 
-	    /* @var $Resource \Entities\Resource */
+	    /* @var $Resource \Entities\Company\Website\Account\Resource */
 	    foreach($Role->getResources() as $Resource) {
 		$url_key = $Resource->getModule() .'::' .$Resource->getController() .'::' .$Resource->getAction();
 		if(!self::$_objAcl->has($url_key)){

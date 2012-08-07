@@ -120,7 +120,7 @@ class Contact
     /**
      * @param string $note
      */
-    public function setNote(string $note)
+    public function setNote($note)
     {
 	$this->note = $note;
     }

@@ -102,7 +102,7 @@ class ProductAbstract
     /**
      * @param string $name
      */
-    public function setName(string $name)
+    public function setName($name)
     {
         $this->name = $name;
     }
@@ -118,7 +118,7 @@ class ProductAbstract
     /**
      * @param string $partnumber
      */
-    public function setPartNumber(string $partnumber)
+    public function setPartNumber($partnumber)
     {
         $this->part_number = $partnumber;
     }
@@ -134,7 +134,7 @@ class ProductAbstract
     /**
      * @param string $description
      */
-    public function setDescription(string $description)
+    public function setDescription($description)
     {
         $this->description = $description;
     }

@@ -15,7 +15,7 @@ class Form_Person_AddComplete extends Zend_Form
 {
     protected $_Person;
     
-    public function __construct($options = null, Entities\Person $Person = null) {
+    public function __construct($options = null, Entities\Person\PersonAbstract $Person = null) {
 	$this->_Person = $Person;
 	parent::__construct($options, $this->_Person);
     }

@@ -32,9 +32,9 @@ class Dataservice_ACL_Resources {
 		foreach ($this->arrControllers[$strModuleName] as $strControllerName) {
 		    if (array_key_exists($strControllerName, $this->arrActions[$strModuleName])) {
 			foreach ($this->arrActions[$strModuleName][$strControllerName] as $strActionName) {
-			    $existing = $em->getRepository("Entities\Resource")->findBy(array("module" => $strModuleName, "controller" => $strControllerName, "action" => $strActionName));
+			    $existing = $em->getRepository("Entities\Company\Website\Resource")->findBy(array("module" => $strModuleName, "controller" => $strControllerName, "action" => $strActionName));
 			    if(!$existing){
-				$resource = new \Entities\Resource;
+				$resource = new \Entities\Company\Website\Resource;
 				$resource->setName(ucwords($strControllerName . " - " . $strActionName));
 				$resource->setModule($strModuleName);
 				$resource->setController($strControllerName);

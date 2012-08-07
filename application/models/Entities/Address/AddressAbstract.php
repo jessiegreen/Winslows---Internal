@@ -115,7 +115,7 @@ class AddressAbstract
     /**
      * @param string $name
      */
-    public function setName(string $name)
+    public function setName($name)
     {
         $this->name = $name;
     }
@@ -131,7 +131,7 @@ class AddressAbstract
     /**
      * @param string $address_1
      */
-    public function setAddress1(string $address_1)
+    public function setAddress1($address_1)
     {
         $this->address_1 = $address_1;
     }
@@ -147,7 +147,7 @@ class AddressAbstract
     /**
      * @param string $address_2
      */
-    public function setAddress2(string $address_2)
+    public function setAddress2($address_2)
     {
         $this->address_2 = $address_2;
     }
@@ -163,7 +163,7 @@ class AddressAbstract
     /**
      * @param string $county
      */
-    public function setCounty(string $county)
+    public function setCounty($county)
     {
         $this->county = $county;
     }
@@ -179,7 +179,7 @@ class AddressAbstract
     /**
      * @param string $city
      */
-    public function setCity(string $city)
+    public function setCity($city)
     {
         $this->city = $city;
     }
@@ -195,7 +195,7 @@ class AddressAbstract
     /**
      * @param string $state
      */
-    public function setState(string $state)
+    public function setState($state)
     {
         $this->state = $state;
     }
@@ -211,7 +211,7 @@ class AddressAbstract
     /**
      * @param string $zip_1
      */
-    public function setZip1(string $zip_1)
+    public function setZip1($zip_1)
     {
         $this->zip_1 = $zip_1;
     }
@@ -227,7 +227,7 @@ class AddressAbstract
     /**
      * @param string $zip_2
      */
-    public function setZip2(string $zip_2)
+    public function setZip2($zip_2)
     {
         $this->zip_2 = $zip_2;
     }

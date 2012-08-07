@@ -110,7 +110,7 @@ class Location
     /**
      * @param string $name
      */
-    public function setName(string $name)
+    public function setName($name)
     {
         $this->name = $name;
     }
@@ -161,7 +161,7 @@ class Location
      * @param string $type
      * @throws \Exception
      */
-    public function setType(string $type)
+    public function setType($type)
     {
 	if(!key_exists($type, $this->getTypeOptions()))
 	    throw new \Exception("Type option of ".htmlspecialchars ($type)." does not exist");
@@ -173,7 +173,7 @@ class Location
      * @return string
      * @throws \Exception
      */
-    public function getTypeDisplay(string $type = null)
+    public function getTypeDisplay($type = null)
     {
 	if($type === null)
 	{

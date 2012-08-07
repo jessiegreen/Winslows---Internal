@@ -122,7 +122,7 @@ class DocumentAbstract  implements \Interfaces\Document
     /**
      * @param string $name
      */
-    public function setName(string $name)
+    public function setName($name)
     {
         $this->name = $name;
     }
@@ -138,7 +138,7 @@ class DocumentAbstract  implements \Interfaces\Document
     /**
      * @param string $extension
      */
-    public function setExtension(string $extension)
+    public function setExtension($extension)
     {
         $this->extension = $extension;
     }
@@ -155,7 +155,7 @@ class DocumentAbstract  implements \Interfaces\Document
      * @param string $type
      * @throws \Exception
      */
-    public function setType(string $type)
+    public function setType($type)
     {
 	if(!key_exists($type, $this->getTypeOptions()))
 	    throw new \Exception("Type must be in Type Options");
@@ -184,7 +184,7 @@ class DocumentAbstract  implements \Interfaces\Document
     /**
      * @param string $original_file_name
      */
-    public function setOriginalFileName(string $original_file_name)
+    public function setOriginalFileName($original_file_name)
     {
         $this->original_file_name = $original_file_name;
     }
@@ -200,7 +200,7 @@ class DocumentAbstract  implements \Interfaces\Document
     /**
      * @param string $document_path
      */
-    public function setDocumentPath(string $document_path)
+    public function setDocumentPath($document_path)
     {
         $this->document_path = $document_path;
     }

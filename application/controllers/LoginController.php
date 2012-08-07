@@ -63,11 +63,12 @@ class LoginController extends Zend_Controller_Action
 	    Zend_Auth::getInstance()->clearIdentity();
             return $this->render('index'); // re-render the login form
         }
-
         // Get our authentication adapter and check credentials
-	$data	    = $form->getValues();
-        $adapter    = $this->getAuthAdapter($data['username'], $data['password']);
+	$post_data  = $form->getValues();
+        $adapter    = $this->getAuthAdapter($post_data['username'], $post_data['password']);
+	
 	$result	    = $adapter->authenticate();
+	
 	$auth	    = Zend_Auth::getInstance();
 	$data	    = $adapter->getWebAccount();
         $auth->getStorage()->write($data);

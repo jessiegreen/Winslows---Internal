@@ -34,7 +34,7 @@ class Dataservice_Auth_Adapter_Doctrine implements Zend_Auth_Adapter_Interface
      */
     protected $credential;
     
-    protected $webaccount;
+    protected $Account;
 
     /**
     * Constructor sets configuration options.
@@ -69,9 +69,9 @@ class Dataservice_Auth_Adapter_Doctrine implements Zend_Auth_Adapter_Interface
         $this->_authenticateSetup();
 	
         // get details of the user from table
-	/* @var $webaccount Entities\WebAccount */
-        $webaccount = $this->_em->getRepository('Entities\WebAccount')->findOneByUsername($this->identity);
-
+	/* @var $Account Entities\Company\Website\Account */
+	$repos	    = $this->_em->getRepository('Entities\Company\Website\Account');
+        $Account    = $repos->findOneBy(array("username" => $this->identity));
         $authResult = array(
             'code' => Zend_Auth_Result::FAILURE,
             'identity' => null,
@@ -79,7 +79,7 @@ class Dataservice_Auth_Adapter_Doctrine implements Zend_Auth_Adapter_Interface
         );
         try {
 
-            $resultCount = count($webaccount);
+            $resultCount = count($Account);
 
             if ($resultCount > 1) {
                 $authResult['code'] = Zend_Auth_Result::FAILURE_IDENTITY_AMBIGUOUS;
@@ -88,8 +88,8 @@ class Dataservice_Auth_Adapter_Doctrine implements Zend_Auth_Adapter_Interface
                 $authResult['code'] = Zend_Auth_Result::FAILURE_IDENTITY_NOT_FOUND;
                 $authResult['messages'][] = 'Username not found.';
             } else if (1 == $resultCount) {
-		$this->setCredentialTreatment($this->credential, $webaccount->getSalt() );
-                if ($webaccount->getPassword() != $this->credentialTreatment ) {
+		$this->setCredentialTreatment($this->credential, $Account->getSalt() );
+                if ($Account->getPassword() != $this->credentialTreatment ) {
                     $authResult['code'] = Zend_Auth_Result::FAILURE_CREDENTIAL_INVALID;
                     $authResult['messages'][] = 'Password is invalid.';
                 } else {
@@ -97,7 +97,7 @@ class Dataservice_Auth_Adapter_Doctrine implements Zend_Auth_Adapter_Interface
                     $authResult['identity'] = $this->identity;
                     $authResult['messages'][] = 'Authentication successful.';
 
-                    $this->setWebAccount($webaccount);
+                    $this->setWebAccount($Account);
 
                 }
             }
@@ -153,7 +153,7 @@ class Dataservice_Auth_Adapter_Doctrine implements Zend_Auth_Adapter_Interface
     {
         $qb = $this->_em->createQueryBuilder()
             ->select('e')
-            ->from('\entities\WebAccount', 'e')
+            ->from('\Entities\Company\Website\Account', 'e')
             ->where('e.username=:username')
             ->setParameter('username', $this->identity);
         return $qb->getQuery();
@@ -164,12 +164,12 @@ class Dataservice_Auth_Adapter_Doctrine implements Zend_Auth_Adapter_Interface
           $this->credentialTreatment = (SHA1($credential . $salt));
     } 
     
-    public function setWebAccount(Entities\WebAccount $webaccount){
-	$this->webaccount = $webaccount;
+    public function setWebAccount(Entities\Company\Website\Account $Account){
+	$this->Account = $Account;
     }
     
     public function getWebAccount(){
-	return $this->webaccount;
+	return $this->Account;
     }
 }
 ?>

@@ -74,7 +74,7 @@ class EmailAddressAbstract
     /**
      * @param string $type
      */
-    public function setType(string $type)
+    public function setType($type)
     {
         $this->type = $type;
     }
@@ -90,7 +90,7 @@ class EmailAddressAbstract
     /**
      * @param string $address
      */
-    public function setAddress(string $address)
+    public function setAddress($address)
     {
         $this->address = $address;
     }

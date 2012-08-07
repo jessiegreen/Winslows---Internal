@@ -47,7 +47,7 @@ class ACL {
 	$WebAccount	= \Services\Auth::factory()->getIdentityWebAccount();
 	$objAcl		= \Dataservice_ACL_Factory::get($this->_em);
 	
-	/* @var $Role \Entities\Role */
+	/* @var $Role \Entities\Company\Website\Account\Role */
 	foreach($WebAccount->getRoles() as $Role){
 	    if($objAcl->isAllowed($Role->getName(), $module .'::' .$controller .'::' .$action)){
 		return true;

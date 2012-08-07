@@ -824,7 +824,7 @@ class TestController extends Zend_Controller_Action
 		    $em		    = $this->_helper->EntityManager();
 		    $employee	    = new \Entities\Employee;
 		    $personaddress  = new \Entities\PersonAddress;
-		    $webaccount	    = new \Entities\WebAccount;
+		    $webaccount	    = new \Entities\Company\Website\Account;
 
 		    if(isset($data['webaccount']['username']))$webaccount->setUsername($data['webaccount']['username']);
 		    if(isset($data['webaccount']['username']))$webaccount->setPassword ($data['webaccount']['password']);

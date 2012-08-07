@@ -13,7 +13,7 @@
 class Form_Role extends Zend_Form{
     private $_Role;
     
-    public function __construct($options = null, \Entities\Role $Role = null) {
+    public function __construct($options = null, \Entities\Company\Website\Account\Role $Role = null) {
 	$this->_Role = $Role;
 	parent::__construct($options);
     }

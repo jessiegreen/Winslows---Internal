@@ -16,7 +16,7 @@ class WebaccountController extends Dataservice_Controller_Action
     
     public function editAction()
     {
-	/* @var $WebAccount \Entities\WebAccount */
+	/* @var $WebAccount \Entities\Company\Website\Account */
 	$WebAccount	= $this->getEntityFromParamFields("WebAccount", array("id"));
 	$safe		= !$WebAccount->getId() || $this->getRequest()->getParam("pwd", 0) === "1" ? false : true;
 	$form		= new Form_WebAccount(array("method" => "post"), $WebAccount, $safe);
@@ -33,8 +33,8 @@ class WebaccountController extends Dataservice_Controller_Action
 		if(isset($data["password"]))$WebAccount->setPassword($data["password"]);
 		
 		if(!$WebAccount->getId()){
-		    /* @var $Person \Entities\Person */
-		    $Person = $this->_em->find("Entities\Person", $this->_params["person_id"]);
+		    /* @var $Person \Entities\Person\PersonAbstract */
+		    $Person = $this->_em->find("Entities\Person\PersonAbstract", $this->_params["person_id"]);
 		    if(!$Person)
 			throw new Exception("Can not add web account. No Person with that Id");
 
@@ -62,10 +62,10 @@ class WebaccountController extends Dataservice_Controller_Action
     public function rolesAction(){
 	$this->view->headScript()->appendFile("/javascript/webaccount/roles.js");
 	
-	/* @var $WebAccount \Entities\WebAccount */
-	$WebAccount		    = $this->_em->find("\Entities\WebAccount",$this->_params["id"]); 
+	/* @var $WebAccount \Entities\Company\Website\Account */
+	$WebAccount		    = $this->_em->find("\Entities\Company\Website\Account",$this->_params["id"]); 
 	$this->view->WebAccount	    = $WebAccount;
-	$this->view->Roles	    = $this->_em->getRepository("Entities\Role")->findAll();
+	$this->view->Roles	    = $this->_em->getRepository("Entities\Company\Website\Account\Role")->findAll();
     }
     
     public function addroleAction(){
@@ -75,7 +75,7 @@ class WebaccountController extends Dataservice_Controller_Action
 	$this->_helper->layout->disableLayout();
 	
 	$WebAccount = $this->getEntityFromParamFields("WebAccount", array("id"));
-	$Role	    = $this->_em->find("Entities\Role", $this->_request->getParam("role_id", 0));
+	$Role	    = $this->_em->find("Entities\Company\Website\Account\Role", $this->_request->getParam("role_id", 0));
 	
 	if($WebAccount && $Role){
 	    $WebAccount->addRole($Role);
@@ -97,7 +97,7 @@ class WebaccountController extends Dataservice_Controller_Action
 	$this->_helper->layout->disableLayout();
 	
 	$WebAccount = $this->getEntityFromParamFields("WebAccount", array("id"));
-	$Role	    = $this->_em->find("Entities\Role", $this->_request->getParam("role_id", 0));
+	$Role	    = $this->_em->find("Entities\Company\Website\Account\Role", $this->_request->getParam("role_id", 0));
 	if($WebAccount && $Role){
 	    $WebAccount->removeRole($Role->getId());
 	    $this->_em->persist($WebAccount);

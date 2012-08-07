@@ -9,7 +9,7 @@ echo HTML::buttonBlue("group_add.png", "Add Group", "group_add", "position:relat
     <legend>Groups</legend>
     <ol>
     <?php
-    /* @var $role \Entities\Role */
+    /* @var $role \Entities\Company\Website\Account\Role */
     foreach($this->roles as $role){
 	?>
 	<li class="padded_frame" group_id="<?php echo $role->getId();?>"> 

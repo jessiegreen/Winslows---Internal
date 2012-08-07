@@ -22,8 +22,8 @@ class PersonemailaddressController extends Dataservice_Controller_Action
 		$PersonEmailAddress->populate($data);
 		
 		if(!$PersonEmailAddress->getId()){
-		    /* @var $Person \Entities\Person */
-		    $Person = $this->_em->find("Entities\Person", $this->_params["person_id"]);
+		    /* @var $Person \Entities\Person\PersonAbstract */
+		    $Person = $this->_em->find("Entities\Person\PersonAbstract", $this->_params["person_id"]);
 		    if(!$Person)
 			throw new Exception("Can not add email address. No Person with that Id");
 

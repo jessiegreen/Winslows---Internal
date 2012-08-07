@@ -25,11 +25,11 @@ class Auth
     
     /**
      *
-     * @return \Entities\WebAccount 
+     * @return \Entities\Company\Website\Account 
      */
     public function getIdentityWebAccount(){
 	$IdentityWebAccount = $this->getIdentity();
-	$WebAccount	    = $this->_em->find("Entities\WebAccount", $IdentityWebAccount->getId());
+	$WebAccount	    = $this->_em->find("Entities\Company\Website\Account", $IdentityWebAccount->getId());
 	return $WebAccount;
     }
     

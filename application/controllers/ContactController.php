@@ -98,7 +98,7 @@ class ContactController extends Dataservice_Controller_Action
 		$type_data = json_decode($contact_data["type"]);
 		$Contact->setType($type_data->type);
 		$Contact->setTypeDetail($type_data->type_detail);
-		$Contact->setPerson($this->_em->find("Entities\Person", $contact_data["person"]));
+		$Contact->setPerson($this->_em->find("Entities\Person\PersonAbstract", $contact_data["person"]));
 
 		if(!$Contact->getId()){
 		   $Lead->addContact($Contact);
@@ -139,8 +139,8 @@ class ContactController extends Dataservice_Controller_Action
 		$PersonAddress->populate($data);
 		
 		if(!$PersonAddress->getId()){
-		    /* @var $Person \Entities\Person */
-		    $Person = $this->_em->find("Entities\Person", $this->_params["person_id"]);
+		    /* @var $Person \Entities\Person\PersonAbstract */
+		    $Person = $this->_em->find("Entities\Person\PersonAbstract", $this->_params["person_id"]);
 		    if(!$Person)
 			throw new Exception("Can not add address. No Person with that Id");
 

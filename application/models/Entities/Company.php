@@ -55,6 +55,14 @@ class Company
      */
     private $Suppliers;
     
+    /**
+     * Bidirectional - One-To-Many (INVERSE SIDE)
+     *
+     * @OneToMany(targetEntity="\Entities\Company\Website", mappedBy="Company", cascade={"persist"})
+     * @var array $Websites
+     */
+    private $Websites;
+    
     public function __construct()
     {
 	$this->Locations = new ArrayCollection();
@@ -77,6 +85,23 @@ class Company
     public function getLocations()
     {
       return $this->Locations;
+    }
+    
+    /**
+     * @return array
+     */
+    public function getWebsites()
+    {
+	return $this->Websites;
+    }
+    
+    /**
+     * @param \Entities\Company\Website $Website
+     */
+    public function addWebsite(Company\Website $Website)
+    {
+	$Website->setCompany($this);
+	$this->Websites[] = $Website;
     }
     
     /**
@@ -147,7 +172,7 @@ class Company
     /**
      * @param string $dba
      */
-    public function setDba(string $dba)
+    public function setDba($dba)
     {
         $this->dba = $dba;
     }
@@ -163,7 +188,7 @@ class Company
     /**
      * @param string $name_index
      */
-    public function setNameIndex(string $name_index)
+    public function setNameIndex($name_index)
     {
         $this->name_index = $name_index;
     }
@@ -179,7 +204,7 @@ class Company
     /**
      * @param string $description
      */
-    public function setDescription(string $description)
+    public function setDescription($description)
     {
         $this->description = $description;
     }    
@@ -187,9 +212,12 @@ class Company
     /**
      * @param array $array
      */
-    public function populate(array $array){
-	foreach ($array as $key => $value) {
-	    if(property_exists($this, $key)){
+    public function populate(array $array)
+    {
+	foreach ($array as $key => $value) 
+	{
+	    if(property_exists($this, $key))
+	    {
 		$this->$key = $value;
 	    }
 	}

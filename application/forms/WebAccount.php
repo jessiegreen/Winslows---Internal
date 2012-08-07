@@ -14,7 +14,7 @@ class Form_WebAccount extends Zend_Form{
     private $_WebAccount;
     private $_safe;
     
-    public function __construct($options = null, Entities\WebAccount $WebAccount = null, $safe = true) {
+    public function __construct($options = null, Entities\Company\Website\Account $WebAccount = null, $safe = true) {
 	$this->_WebAccount  = $WebAccount;
 	$this->_safe	    = $safe;
 	parent::__construct($options);

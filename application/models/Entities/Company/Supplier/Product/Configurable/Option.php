@@ -205,7 +205,7 @@ class Option
     /**
      * @param string $index
      */
-    public function setIndex(string $index)
+    public function setIndex($index)
     {
         $this->index_string = $index;
     }
@@ -221,7 +221,7 @@ class Option
     /**
      * @param string $name
      */
-    public function setName(string $name)
+    public function setName($name)
     {
         $this->name = $name;
     }
@@ -237,7 +237,7 @@ class Option
     /**
      * @param string $code
      */
-    public function setCode(string $code)
+    public function setCode($code)
     {
         $this->code = $code;
     }
@@ -269,7 +269,7 @@ class Option
     /**
      * @param string $description
      */
-    public function setDescription(string $description)
+    public function setDescription($description)
     {
         $this->description = $description;
     }    

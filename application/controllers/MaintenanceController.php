@@ -30,7 +30,7 @@ class MaintenanceController extends Zend_Controller_Action
 	/* @var $em \Doctrine\ORM\EntityManager */
 	$em	 = $this->_helper->EntityManager();
 	/* @var $roles \Repositories\Role */
-	$roles   = $em->getRepository('Entities\Role')->findAll();
+	$roles   = $em->getRepository('Entities\Company\Website\Account\Role')->findAll();
 	
 	$this->view->roles = $roles;
     }
@@ -39,7 +39,7 @@ class MaintenanceController extends Zend_Controller_Action
     {
 	$id	= isset($this->_params['id']) ? $this->_params['id'] : null;
 	$em	= $this->_helper->EntityManager();
-	$Role	= $id ? $em->getRepository('\Entities\Role')->findOneById($id) : null;
+	$Role	= $id ? $em->getRepository('\Entities\Company\Website\Account\Role')->findOneById($id) : null;
 	$form	=  new Form_Role(array("method" => "post"), $Role);
 	
 	$form->addElement("button", "cancel", array("label" => "cancel", "onclick" => "location='/maintenance/groupsview'"));
@@ -52,7 +52,7 @@ class MaintenanceController extends Zend_Controller_Action
 		try {
 		    $new = false;
 		    if(!$Role){
-			$Role	= new \Entities\Role(); 
+			$Role	= new \Entities\Company\Website\Account\Role(); 
 			$new	= true;
 		    }
 		    $em = $this->_helper->EntityManager();
@@ -81,8 +81,8 @@ class MaintenanceController extends Zend_Controller_Action
 	if($group_id) {
 	    /* @var $Privilege \Entities\Privilege */
 	    $Privilege	= new \Entities\Privilege;
-	    /* @var $Group \Entities\Role */
-	    $Group	= $em->getRepository('\Entities\Role')->findOneById($group_id);
+	    /* @var $Group \Entities\Company\Website\Account\Role */
+	    $Group	= $em->getRepository('\Entities\Company\Website\Account\Role')->findOneById($group_id);
 	    $new	= true;
 	}
 	elseif($privilege_id) $Privilege = $em->getRepository('\Entities\Privilege')->findOneById($privilege_id);
@@ -125,7 +125,7 @@ class MaintenanceController extends Zend_Controller_Action
 	    /* @var $em \Doctrine\ORM\EntityManager */
 	    $em		= $this->_helper->EntityManager();
 	    /* @var $employee \Entities\Employee */
-	    $employee   = $em->getRepository('Entities\Role')->findOneById($role_id);
+	    $employee   = $em->getRepository('Entities\Company\Website\Account\Role')->findOneById($role_id);
 	    
 	    if(!$employee){
 		$flashMessenger = $this->_helper->getHelper('FlashMessenger');
@@ -214,7 +214,7 @@ class MaintenanceController extends Zend_Controller_Action
 	$this->view->headScript()->appendFile("/javascript/maintenance/resource/resource.js");
 	/* @var $em \Doctrine\ORM\EntityManager */
 	$em = $this->_helper->EntityManager();
-	$this->view->Resources = $em->getRepository("Entities\Resource")->findAll();
+	$this->view->Resources = $em->getRepository("Entities\Company\Website\Account\Resource")->findAll();
     }
     
     public function resourceeditAction(){
@@ -223,10 +223,10 @@ class MaintenanceController extends Zend_Controller_Action
 	if(isset($this->_params["id"])){
 	    /* @var $em \Doctrine\ORM\EntityManager */
 	    $em			    = $this->_helper->EntityManager();
-	    /* @var $Resource \Entities\Resource */
-	    $Resource		    = $em->find("\Entities\Resource",$this->_params["id"]); 
+	    /* @var $Resource \Entities\Company\Website\Account\Resource */
+	    $Resource		    = $em->find("\Entities\Company\Website\Account\Resource",$this->_params["id"]); 
 	    $this->view->Resource   = $Resource;
-	    $this->view->Roles	    = $em->getRepository("Entities\Role")->findAll();
+	    $this->view->Roles	    = $em->getRepository("Entities\Company\Website\Account\Role")->findAll();
 	}
     }
     
@@ -243,8 +243,8 @@ class MaintenanceController extends Zend_Controller_Action
 	if($resource_id && $role_id){
 	    /* @var $em \Doctrine\ORM\EntityManager */
 	    $em		= $this->_helper->EntityManager();
-	    /* @var $Resource \Entities\Resource */
-	    $Resource	= $em->find("Entities\Resource", $resource_id);
+	    /* @var $Resource \Entities\Company\Website\Account\Resource */
+	    $Resource	= $em->find("Entities\Company\Website\Account\Resource", $resource_id);
 	    if($Resource){
 		if(!$Resource->removeRole($role_id)){
 		    $flashMessenger->addMessage(array('message' => "Could Not Remove Role", 'status' => 'error'));
@@ -279,9 +279,9 @@ class MaintenanceController extends Zend_Controller_Action
 	if($resource_id && $role_id){
 	    /* @var $em \Doctrine\ORM\EntityManager */
 	    $em		= $this->_helper->EntityManager();
-	    /* @var $Resource \Entities\Resource */
-	    $Resource	= $em->find("Entities\Resource", $resource_id);
-	    $Role	= $em->find("Entities\Role", $role_id);
+	    /* @var $Resource \Entities\Company\Website\Account\Resource */
+	    $Resource	= $em->find("Entities\Company\Website\Account\Resource", $resource_id);
+	    $Role	= $em->find("Entities\Company\Website\Account\Role", $role_id);
 	    if($Resource && $Role){
 		$Resource->addRole($Role);
 		$em->persist($Resource);

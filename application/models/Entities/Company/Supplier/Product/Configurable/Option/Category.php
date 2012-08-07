@@ -85,7 +85,7 @@ class Category
     /**
      * @param string $index
      */
-    public function setIndex(string $index)
+    public function setIndex($index)
     {
         $this->index_string = $index;
     }
@@ -101,7 +101,7 @@ class Category
     /**
      * @param string $name
      */
-    public function setName(string $name)
+    public function setName($name)
     {
         $this->name = $name;
     }
