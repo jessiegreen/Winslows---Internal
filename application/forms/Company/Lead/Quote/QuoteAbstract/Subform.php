@@ -1,5 +1,6 @@
 <?php
-
+namespace Forms\Company\Lead\Quote\QuoteAbstract;
+use Entities\Company\Lead\Quote\QuoteAbstract as QuoteAbstract;
 /**
  * Name:
  * Location:
@@ -10,14 +11,13 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_QuoteBase_Subform extends Zend_Form_SubForm
+class Subform extends \Zend_Form_SubForm
 {
-    private $_QuoteBase;
+    private $_QuoteAbstract;
     
-    public function __construct($options = null, Entities\QuoteBase $QuoteBase = null) {
-	$this->_QuoteBase	    = $QuoteBase;
+    public function __construct($options = null, QuoteAbstract $QuoteAbstract = null) 
+    {
+	$this->_QuoteAbstract = $QuoteAbstract;
 	parent::__construct($options);
     }
 }
-
-?>

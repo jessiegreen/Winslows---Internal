@@ -1,5 +1,7 @@
 <?php
-
+namespace Forms\Company\Lead\Quote\Contact;
+use Entities\Company\Lead\Contact as Contact;
+use Entities\Company\Lead as Lead;
 /**
  * Name:
  * Location:
@@ -10,19 +12,22 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_Contact_Subform extends Zend_Form_SubForm
+class Subform extends \Zend_Form_SubForm
 {
     private $_Contact;
     private $_Lead;
     
-    public function __construct(\Entities\Lead $Lead, $options = null, Entities\Contact $Contact = null) {
+    public function __construct(Lead $Lead, $options = null, Contact $Contact = null) 
+    {
 	$this->_Contact	    = $Contact;
 	$this->_Lead	    = $Lead;
 	parent::__construct($options);
     }
   
-    public function init(){
-	if($this->_Contact){
+    public function init()
+    {
+	if($this->_Contact)
+	{
 	    $result_options = $this->_Contact->getResultOptions();
 	}
 	else{
@@ -74,5 +79,3 @@ class Form_Contact_Subform extends Zend_Form_SubForm
         ));
     }
 }
-
-?>

@@ -1,5 +1,6 @@
 <?php
-
+namespace Forms\Company\Employee;
+use Entities\Company\Location\Employee as Employee;
 /**
  * Name:
  * Location:
@@ -10,11 +11,12 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_Employee_Subform extends Form_Person_Subform
+class Subform extends \Forms\Person\Subform
 {    
     private $_Employee;
     
-    public function __construct($options = null, Entities\Employee $Employee = null) {
+    public function __construct($options = null, Employee $Employee = null) 
+    {
 	$this->_Employee = $Employee;
 	parent::__construct($options, $this->_Employee);
     }
@@ -37,5 +39,3 @@ class Form_Employee_Subform extends Form_Person_Subform
 	parent::init($options);
     }
 }
-
-?>

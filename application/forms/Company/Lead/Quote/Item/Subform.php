@@ -1,5 +1,6 @@
 <?php
-
+namespace Forms\Company\Lead\Quote\Item;
+use Entities\Company\Lead\Quote\Item as Item;
 /**
  * Name:
  * QuoteProduct:
@@ -10,49 +11,49 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_QuoteProduct_Subform extends Zend_Form_SubForm
+class Subform extends \Zend_Form_SubForm
 {
-    private $_QuoteProduct;
+    private $_Item;
     
-    public function __construct(Entities\QuoteProduct $QuoteProduct, $options = null)
+    public function __construct(Item $Item, $options = null)
     {
-	$this->_QuoteProduct = $QuoteProduct;
+	$this->_Item = $Item;
 	parent::__construct($options);
     }
     
     public function init()
     {	
-	if($this->_QuoteProduct->getProduct()){
-	    /* @var $ConfigurableProductOptionGroup \Entities\ConfigurableProductOptionGroup */
-	    foreach ($this->_QuoteProduct->getProduct()->getConfigurableProductOptionGroups() as $ConfigurableProductOptionGroup) {
+	if($this->_Item->getInstance()){
+	    /* @var $Option \Entities\Company\Supplier\Product\Configurable\Option */
+	    foreach ($this->_Item->getInstance()->getProduct()->getOptions() as $Option) {
 		$ids_array = array();
-		/* @var $ConfigurableProductOption \Entities\ConfigurableProductOption */
-		foreach ($ConfigurableProductOptionGroup->getConfigurableProductOptions() as $ConfigurableProductOption) {
+		/* @var $Parameter \Entities\Company\Supplier\Product\Configurable\Option\Parameter */
+		foreach ($Option->getParameters() as $Parameter) {
 		    $options = array("" => "Please Select...");
-		    /* @var $ConfigurableProductOptionValue \Entities\ConfigurableProductOptionValue */
-		    foreach ($ConfigurableProductOption->getConfigurableProductOptionValues() as $ConfigurableProductOptionValue) {
-			$options[$ConfigurableProductOptionValue->getId()] = $ConfigurableProductOptionValue->getName();
+		    /* @var $Value \Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value */
+		    foreach ($Parameter->getValues() as $Value) {
+			$options[$Value->getId()] = $Value->getName();
 		    }
 		    $this->addElement(
 			    "select", 
-			    $ConfigurableProductOptionGroup->getIndex()."-".$ConfigurableProductOption->getIndex(), 
+			    $Option->getIndex()."-".$Parameter->getIndex(), 
 			    array(
 				"required"	=> false,
-				"label"		=> $ConfigurableProductOption->getName(),
-				"belongsTo"	=> $ConfigurableProductOptionGroup->getIndex(),
+				"label"		=> $Parameter->getName(),
+				"belongsTo"	=> $Option->getIndex(),
 				"multioptions"	=> $options
 			    )
 			);
-		    $ids_array[] = $ConfigurableProductOptionGroup->getIndex()."-".$ConfigurableProductOption->getIndex();
+		    $ids_array[] = $Option->getIndex()."-".$Parameter->getIndex();
 		}
 		$this->addDisplayGroup(
 			$ids_array, 
-			$ConfigurableProductOptionGroup->getIndex(), 
+			$Option->getIndex(), 
 			array(
-			    'legend'	=> $ConfigurableProductOptionGroup->getName(),
+			    'legend'	=> $Option->getName(),
 			)
 		);
-		$displaygroup = $this->getDisplayGroup($ConfigurableProductOptionGroup->getIndex());
+		$displaygroup = $this->getDisplayGroup($Option->getIndex());
 		$displaygroup->setDecorators(array(
                     'FormElements',
                     'Fieldset',

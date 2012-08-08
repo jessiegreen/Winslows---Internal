@@ -1,5 +1,6 @@
 <?php
-
+namespace Forms\Company\Lead\Quote\Item;
+use Entities\Company\Lead\Quote\Item\Value as Value;
 /**
  * Name:
  * Location:

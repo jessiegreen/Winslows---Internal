@@ -1,5 +1,5 @@
 <?php
-
+namespace Forms\Company\Lead\Quote;
 /**
  * Name:
  * Location:
@@ -10,12 +10,12 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_Quote_AddProduct extends Zend_Form
+class AddProduct extends \Zend_Form
 {
     public function init($options = array()){
-	$form = new Form_Quote_AddProduct_Subform($options);
+	$form = new AddProduct\Subform($options);
 	
-	$this->addSubForm($form, "quote_addproduct");
+	$this->addSubForm($form, "company_lead_quote_addproduct");
 
         $this->addElement('submit', 'submit', array(
             'ignore'   => true,

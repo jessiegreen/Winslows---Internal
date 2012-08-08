@@ -1,5 +1,5 @@
 <?php
-
+namespace Forms\Company\Lead\Quote\Item\Value;
 /**
  * Name:
  * Location:
@@ -10,7 +10,7 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_Quote_ConfigurableProductOptionGroup_Subform extends Zend_Form_SubForm
+class Subform extends \Zend_Form_SubForm
 {    
     private $_ConfigurableProductOptionGroup;
     

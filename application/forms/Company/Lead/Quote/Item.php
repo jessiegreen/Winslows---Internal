@@ -1,5 +1,6 @@
 <?php
-
+namespace Forms\Company\Lead\Quote;
+use Entities\Company\Lead\Quote\Item as Item;
 /**
  * Name:
  * Quote:
@@ -10,19 +11,19 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_QuoteProduct extends Zend_Form
+class Item extends \Zend_Form
 {    
-    private $_QuoteProduct;
+    private $_Item;
     
-    public function __construct(Entities\QuoteProduct $QuoteProduct, $options = null)
+    public function __construct(\Item $Item, $options = null)
     {
-	$this->_QuoteProduct = $QuoteProduct;
+	$this->_Item = $Item;
 	parent::__construct($options);
     }
     
     public function init($options = array())
     {	
-        $form = new Form_QuoteProduct_Subform($this->_QuoteProduct, $options);
+        $form = new Item\Subform($this->_Item, $options);
 	$this->addDisplayGroups($form->getDisplayGroups());
 	
 	$this->addElement('submit', 'submit', array(
@@ -31,5 +32,3 @@ class Form_QuoteProduct extends Zend_Form
         ));
     }
 }
-
-?>

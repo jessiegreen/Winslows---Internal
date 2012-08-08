@@ -1,5 +1,5 @@
 <?php
-
+namespace Forms\Company\Lead\Quote\AddProduct2;
 /**
  * Name:
  * Location:
@@ -10,9 +10,10 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_Quote_AddProduct2_Subform extends Zend_Form_SubForm
+class Subform extends \Zend_Form_SubForm
 {    
-    public function init() {
+    public function init() 
+    {
 	$this->addElement("radio", "method",
 		array(
 		    "required"	    => true,
@@ -25,5 +26,3 @@ class Form_Quote_AddProduct2_Subform extends Zend_Form_SubForm
 	parent::init();
     }
 }
-
-?>

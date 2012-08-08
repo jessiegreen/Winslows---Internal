@@ -1,5 +1,6 @@
 <?php
-
+namespace Forms\Company\Customer;
+use Entities\Company\Customer as Customer;
 /**
  * Name:
  * Location:
@@ -10,11 +11,12 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_Customer_Subform extends Form_Lead_Subform
+class Subform extends \Forms\Company\Lead\Subform
 {    
     private $_Customer;
     
-    public function __construct($options = null, Entities\Customer $Customer = null) {
+    public function __construct($options = null, Customer $Customer = null) 
+    {
 	$this->_Customer = $Customer;
 	parent::__construct($options, $this->_Customer);
     }

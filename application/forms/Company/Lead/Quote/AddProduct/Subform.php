@@ -1,5 +1,5 @@
 <?php
-
+namespace Forms\Company\Lead\Quote\AddProduct;
 /**
  * Name:
  * Location:
@@ -10,9 +10,10 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_Quote_AddProduct_Subform extends Zend_Form_SubForm
+class Subform extends \Zend_Form_SubForm
 {    
-    public function init() {
+    public function init() 
+    {
 	$this->addElement(new Dataservice_Form_Element_ProductSelect("product_id", array(
             'required'	    => true,
             'label'	    => 'Products:',
@@ -22,5 +23,3 @@ class Form_Quote_AddProduct_Subform extends Zend_Form_SubForm
 	parent::init();
     }
 }
-
-?>

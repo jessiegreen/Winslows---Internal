@@ -1,5 +1,6 @@
 <?php
-
+namespace Forms\Company\Lead\Quote;
+use Entities\Company\Lead\Quote as Quote;
 /**
  * Name:
  * Location:
@@ -10,16 +11,18 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_Quote_Subform extends Form_QuoteBase_Subform
+class Subform extends QuoteAbstract\Subform
 {
     private $_Quote; 
     
-    public function __construct($options = null, Entities\Quote $Quote = null) {
+    public function __construct($options = null, Quote $Quote = null) 
+    {
 	$this->_Quote = $Quote;
 	parent::__construct($options);
     }
     
-    public function init() {
+    public function init() 
+    {
 	$this->addElement(new Dataservice_Form_Element_LeadSelect("lead_id", array(
             'required'	    => true,
             'label'	    => 'Lead:',
@@ -43,5 +46,3 @@ class Form_Quote_Subform extends Form_QuoteBase_Subform
 	parent::init();
     }
 }
-
-?>

@@ -1,5 +1,6 @@
 <?php
-
+namespace Forms\Company\Employee;
+use Entities\Address\AddressAbstract as AddressAbstract;
 /**
  * Name:
  * Location:
@@ -10,12 +11,12 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_Address_Subform extends Zend_Form_SubForm
+class Subform extends \Zend_Form_SubForm
 {
-    private $_Address;
+    private $_AddressAbstract;
     
-    public function __construct($options = null, Entities\Address $Address = null) {
-	$this->_Address	    = $Address;
+    public function __construct($options = null, AddressAbstract $AddressAbstract = null) {
+	$this->_AddressAbstract	    = $AddressAbstract;
 	parent::__construct($options);
     }
     
@@ -25,35 +26,35 @@ class Form_Address_Subform extends Zend_Form_SubForm
             'label'	    => 'Address Name:',
 	    'belongsTo'	    => "address",
 	    'description'   => '(Ex. Home)',
-	    'value'	    => $this->_Address ? $this->_Address->getName() : ""
+	    'value'	    => $this->_AddressAbstract ? $this->_AddressAbstract->getName() : ""
         ));
 	
         $this->addElement('text', 'address_1', array(
             'required'	    => true,
             'label'	    => 'Address Line 1:',
 	    'belongsTo'	    => $this->_belongs_to,
-	    'value'	    => $this->_Address ? $this->_Address->getAddress1() : ""
+	    'value'	    => $this->_AddressAbstract ? $this->_AddressAbstract->getAddress1() : ""
         ));
 	
 	$this->addElement('text', 'address_2', array(
             'required'	    => false,
             'label'	    => 'Address Line 2:',
 	    'belongsTo'	    => $this->_belongs_to,
-	    'value'	    => $this->_Address ? $this->_Address->getAddress2() : ""
+	    'value'	    => $this->_AddressAbstract ? $this->_AddressAbstract->getAddress2() : ""
         ));
 	
 	$this->addElement('text', 'county', array(
             'required'	    => false,
             'label'	    => 'County:',
 	    'belongsTo'	    => $this->_belongs_to,
-	    'value'	    => $this->_Address ? $this->_Address->getCounty() : ""
+	    'value'	    => $this->_AddressAbstract ? $this->_AddressAbstract->getCounty() : ""
         ));
 
         $this->addElement('text', 'city', array(
             'required'	    => true,
             'label'	    => 'City:',
 	    'belongsTo'	    => $this->_belongs_to,
-	    'value'	    => $this->_Address ? $this->_Address->getCity() : ""
+	    'value'	    => $this->_AddressAbstract ? $this->_AddressAbstract->getCity() : ""
         ));
 	
 	$this->addElement('text', 'state', array(
@@ -61,7 +62,7 @@ class Form_Address_Subform extends Zend_Form_SubForm
             'label'	    => 'State:',
 	    'size'	    => '2',
 	    'belongsTo'	    => $this->_belongs_to,
-	    'value'	    => $this->_Address ? $this->_Address->getState() : ""
+	    'value'	    => $this->_AddressAbstract ? $this->_AddressAbstract->getState() : ""
         ));
 	
 	$this->addElement('text', 'zip_1', array(
@@ -69,7 +70,7 @@ class Form_Address_Subform extends Zend_Form_SubForm
             'label'	    => 'Zip:',
 	    'size'	    => '5',
 	    'belongsTo'	    => $this->_belongs_to,
-	    'value'	    => $this->_Address ? $this->_Address->getZip1() : ""
+	    'value'	    => $this->_AddressAbstract ? $this->_AddressAbstract->getZip1() : ""
         ));
 	
 	$this->addElement('text', 'zip_2', array(
@@ -77,7 +78,7 @@ class Form_Address_Subform extends Zend_Form_SubForm
             'label'	    => 'Zip Extension:',
 	    'size'	    => '5',
 	    'belongsTo'	    => $this->_belongs_to,
-	    'value'	    => $this->_Address ? $this->_Address->getZip2() : ""
+	    'value'	    => $this->_AddressAbstract ? $this->_AddressAbstract->getZip2() : ""
         ));
     }
 }
