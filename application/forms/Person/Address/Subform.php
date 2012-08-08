@@ -1,5 +1,5 @@
 <?php
-namespace Form\Person\Address;
+namespace Forms\Person\Address;
 /**
  * Name:
  * Location:
@@ -10,7 +10,7 @@ namespace Form\Person\Address;
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Subform extends Form\Address\Subform
+class Subform extends Forms\Address\Subform
 {    
     private $_PersonAddress;
     

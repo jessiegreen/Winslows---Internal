@@ -1,5 +1,5 @@
 <?php
-namespace Form\Person;
+namespace Forms\Person;
 /**
  * Name:
  * Location:
@@ -22,7 +22,7 @@ class PhoneNumber extends \Zend_Form
     
     public function init($options = array())
     {
-	$form = new Form\Person\PhoneNumber\Subform($options, $this->_PersonPhoneNumber);
+	$form = new PhoneNumber\Subform($options, $this->_PersonPhoneNumber);
 	
 	$this->addSubForm($form, "person_phonenumber");
 	

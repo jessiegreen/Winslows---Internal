@@ -1,5 +1,5 @@
 <?php
-
+namespace Forms\Company;
 /**
  * Name:
  * Location:
@@ -10,20 +10,21 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_Employee extends Zend_Form
+class Employee extends \Zend_Form
 {    
     private $_Employee;
     
-    public function __construct($options = null, Entities\Employee $Employee = null) {
+    public function __construct($options = null, Entities\Employee $Employee = null) 
+    {
 	$this->_Employee = $Employee;
 	parent::__construct($options, $this->_Employee);
     }
     
     public function init($options = array())
     {	
-	$form = new Form_Employee_Subform($options, $this->_Employee);
+	$form = new Employee\Subform($options, $this->_Employee);
 	
-        $this->addSubForm($form, "employee");
+        $this->addSubForm($form, "company_employee");
 
         $this->addElement('submit', 'submit', array(
             'ignore'	    => true,

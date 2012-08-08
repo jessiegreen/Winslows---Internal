@@ -1,5 +1,6 @@
 <?php
-
+namespace Forms\Company\Supplier\Product\Simple;
+use Entities\Company\Supplier\Product\Simple as Simple;
 /**
  * Name:
  * Location:
@@ -10,13 +11,13 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_SimpleProduct_Subform extends Form_Product_Subform
+class Subform extends \Form_Product_Subform
 {    
-    private $_SimpleProduct;
+    private $_Simple;
     
-    public function __construct($options = null, Entities\SimpleProduct $SimpleProduct = null) {
-	$this->_SimpleProduct = $SimpleProduct;
-	parent::__construct($options, $this->_SimpleProduct);
+    public function __construct($options = null, Simple $Simple = null) {
+	$this->_Simple = $Simple;
+	parent::__construct($options, $this->_Simple);
     }
     
     public function init($options = array())
@@ -25,7 +26,7 @@ class Form_SimpleProduct_Subform extends Form_Product_Subform
             'required'	    => true,
             'label'	    => 'Price:',
 	    'belongsTo'	    => 'simpleproduct',
-	    'value'	    => $this->_SimpleProduct ? $this->_SimpleProduct->getPrice() : ""
+	    'value'	    => $this->_Simple ? $this->_Simple->getPrice() : ""
         ));
 	
 	parent::init($options);

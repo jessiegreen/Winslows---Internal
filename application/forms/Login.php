@@ -1,5 +1,5 @@
 <?php
-namespace Form;
+namespace Forms;
 /**
  * Description of __Login
  *

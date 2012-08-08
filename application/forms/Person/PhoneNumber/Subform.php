@@ -1,5 +1,5 @@
 <?php
-namespace Form\Person\PhoneNumber;
+namespace Forms\Person\PhoneNumber;
 /**
  * Name:
  * Location:
@@ -10,7 +10,7 @@ namespace Form\Person\PhoneNumber;
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Subform extends Form\PhoneNumber\Subform
+class Subform extends Forms\PhoneNumber\Subform
 {
     private $_PersonPhoneNumber;
     

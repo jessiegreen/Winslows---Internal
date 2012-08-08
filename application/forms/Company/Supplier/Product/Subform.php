@@ -1,5 +1,6 @@
 <?php
-
+namespace Forms\Company\Supplier\Product;
+use Entities\Company\Supplier\Product\ProductAbstract as ProductAbstract;
 /**
  * Name:
  * Product:
@@ -10,13 +11,13 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_Product_Subform extends Zend_Form_SubForm
+class Subform extends \Zend_Form_SubForm
 {
-    private $_Product;
+    private $_ProductAbstract;
     
-    public function __construct($options = null, \Entities\Product $Product = null)
+    public function __construct($options = null, ProductAbstract $Product = null)
     {
-	$this->_Product = $Product;
+	$this->_ProductAbstract = $Product;
 	parent::__construct($options);
     }
     
@@ -26,8 +27,8 @@ class Form_Product_Subform extends Zend_Form_SubForm
             'required'	    => true,
             'label'	    => 'Supplier:',
 	    'belongsTo'	    => 'product',
-	    'value'	    => $this->_Product && $this->_Product->getSupplier() ? 
-				$this->_Product->getSupplier()->getId() : 
+	    'value'	    => $this->_ProductAbstract && $this->_ProductAbstract->getSupplier() ? 
+				$this->_ProductAbstract->getSupplier()->getId() : 
 				""
         )));
 	
@@ -35,14 +36,14 @@ class Form_Product_Subform extends Zend_Form_SubForm
             'required'	    => true,
             'label'	    => 'Name:',
 	    'belongsTo'	    => 'product',
-	    'value'	    => $this->_Product ? $this->_Product->getName() : ""
+	    'value'	    => $this->_ProductAbstract ? $this->_ProductAbstract->getName() : ""
         ));
 	
 	$this->addElement('text', 'part_number', array(
             'required'	    => true,
             'label'	    => 'Part #:',
 	    'belongsTo'	    => 'product',
-	    'value'	    => $this->_Product ? $this->_Product->getPartNumber() : ""
+	    'value'	    => $this->_ProductAbstract ? $this->_ProductAbstract->getPartNumber() : ""
         ));
 	
 	$this->addElement('textarea', 'description', array(
@@ -51,7 +52,7 @@ class Form_Product_Subform extends Zend_Form_SubForm
 	    'belongsTo'	    => 'product',
 	    'rows'	    => '10',
 	    'cols'	    => '35',
-	    'value'	    => $this->_Product ? $this->_Product->getDescription() : ""
+	    'value'	    => $this->_ProductAbstract ? $this->_ProductAbstract->getDescription() : ""
         ));
     }
 }

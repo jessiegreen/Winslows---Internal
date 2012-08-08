@@ -1,5 +1,5 @@
 <?php
-
+namespace Forms\Company\Website\Account;
 /**
  * Name:
  * Location:
@@ -10,7 +10,7 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_WebAccount_Subform extends Zend_Form_SubForm
+class Subform extends \Zend_Form_SubForm
 {
     private $_WebAccount;
     private $_safe;

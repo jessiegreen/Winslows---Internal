@@ -1,5 +1,6 @@
 <?php
-
+namespace Forms\Company\Supplier\Product;
+use Entities\Company\Supplier\Product\Simple as Simple;
 /**
  * Name:
  * Product:
@@ -10,21 +11,21 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_SimpleProduct extends Zend_Form
+class Simple extends \Zend_Form
 {    
-    private $_SimpleProduct;
+    private $_Simple;
     
-    public function __construct($options = null, Entities\SimpleProduct $SimpleProduct = null)
+    public function __construct($options = null, Simple $Simple = null)
     {
-	$this->_SimpleProduct = $SimpleProduct;
-	parent::__construct($options, $this->_SimpleProduct);
+	$this->_Simple = $Simple;
+	parent::__construct($options, $this->_Simple);
     }
     
     public function init($options = array())
     {	
-        $form = new Form_SimpleProduct_Subform($options, $this->_SimpleProduct);
+        $form = new Simple\Subform($options, $this->_Simple);
 	
-	$this->addSubForm($form, "simpleproduct");
+	$this->addSubForm($form, "company_supplier_product_simple");
 	
 	$this->addElement('submit', 'submit', array(
             'ignore'   => true,

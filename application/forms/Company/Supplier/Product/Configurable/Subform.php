@@ -1,5 +1,6 @@
 <?php
-
+namespace Forms\Company\Supplier\Product\Configurable;
+use Entities\Company\Supplier\Product\Configurable as Configurable;
 /**
  * Name:
  * Location:
@@ -10,13 +11,14 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_ConfigurableProduct_Subform extends Form_Product_Subform
+class Subform extends \Form_Product_Subform
 {    
-    private $_ConfigurableProduct;
+    private $_Configurable;
     
-    public function __construct($options = null, Entities\ConfigurableProduct $ConfigurableProduct = null) {
-	$this->_ConfigurableProduct = $ConfigurableProduct;
-	parent::__construct($options, $this->_ConfigurableProduct);
+    public function __construct($options = null, Configurable $Configurable = null) 
+    {
+	$this->_Configurable = $Configurable;
+	parent::__construct($options, $this->_Configurable);
     }
     
     public function init($options = array())
@@ -25,14 +27,14 @@ class Form_ConfigurableProduct_Subform extends Form_Product_Subform
             'required'	    => true,
             'label'	    => 'Pricer:',
 	    'belongsTo'	    => 'configurableproduct',
-	    'value'	    => $this->_ConfigurableProduct ? $this->_ConfigurableProduct->getPricer() : ""
+	    'value'	    => $this->_Configurable ? $this->_Configurable->getPricer() : ""
         ));
 	
 	$this->addElement('text', 'validator', array(
             'required'	    => true,
             'label'	    => 'Validator:',
 	    'belongsTo'	    => 'configurableproduct',
-	    'value'	    => $this->_ConfigurableProduct ? $this->_ConfigurableProduct->getValidator() : ""
+	    'value'	    => $this->_Configurable ? $this->_Configurable->getValidator() : ""
         ));
 	parent::init($options);
     }

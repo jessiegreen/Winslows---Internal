@@ -1,5 +1,5 @@
 <?php
-
+namespace Forms\Company\Website\Account;
 /**
  * Name:
  * Location:
@@ -10,7 +10,7 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_Role extends Zend_Form{
+class Role extends \Zend_Form{
     private $_Role;
     
     public function __construct($options = null, \Entities\Company\Website\Account\Role $Role = null) {
@@ -19,9 +19,9 @@ class Form_Role extends Zend_Form{
     }
     
     public function init($options = array()){
-	$form = new Form_Role_Subform($options, $this->_Role);
+	$form = new Role\Subform($options, $this->_Role);
 	
-	$this->addSubForm($form, "role");
+	$this->addSubForm($form, "company_website_account_role");
 
         $this->addElement('submit', 'submit', array(
             'ignore'   => true,

@@ -1,5 +1,6 @@
 <?php
-
+namespace Forms\Company\Supplier\Product;
+use Entities\Company\Supplier\Product\Configurable as Configurable;
 /**
  * Name:
  * Product:
@@ -10,21 +11,21 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_ConfigurableProduct extends Zend_Form
+class Configurable extends Zend_Form
 {    
-    private $_ConfigurableProduct;
+    private $_Configurable;
     
-    public function __construct($options = null, Entities\ConfigurableProduct $ConfigurableProduct = null)
+    public function __construct($options = null, Configurable $Configurable = null)
     {
-	$this->_ConfigurableProduct = $ConfigurableProduct;
-	parent::__construct($options, $this->_ConfigurableProduct);
+	$this->_Configurable = $Configurable;
+	parent::__construct($options, $this->_Configurable);
     }
     
     public function init($options = array())
     {	
-        $form = new Form_ConfigurableProduct_Subform($options, $this->_ConfigurableProduct);
+        $form = new Configurable\Subform($options, $this->_Configurable);
 	
-	$this->addSubForm($form, "configurableproduct");
+	$this->addSubForm($form, "company_supplier_product_configurable");
 	
 	$this->addElement('submit', 'submit', array(
             'ignore'   => true,

@@ -1,5 +1,5 @@
 <?php
-
+namespace Forms\Company\Supplier;
 /**
  * Name:
  * Company:
@@ -10,14 +10,14 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_Supplier_AddCompany extends Zend_Form
+class AddCompany extends Zend_Form
 {
     
     public function init($options = array())
     {	
-        $form = new Form_Supplier_AddCompany_Subform($options);
+        $form = new AddCompany\Subform($options);
 	
-	$this->addSubForm($form, "supplier_addcompany");
+	$this->addSubForm($form, "company_supplier_addcompany");
 	
 	$this->addElement('submit', 'submit', array(
             'ignore'   => true,

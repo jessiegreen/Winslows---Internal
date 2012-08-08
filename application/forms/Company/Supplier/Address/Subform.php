@@ -1,5 +1,6 @@
 <?php
-
+namespace Forms\Company\Supplier\Address;
+use Entities\Company\Supplier\Address as Address;
 /**
  * Name:
  * Supplier:
@@ -10,13 +11,13 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_SupplierAddress_Subform extends Form_Address_Subform
+class Subform extends \Forms\Address\Subform
 {    
-    private $_SupplierAddress;
+    private $_Address;
     
-    public function __construct($options = null, Entities\SupplierAddress $SupplierAddress = null) {
-	$this->_SupplierAddress = $SupplierAddress;
-	parent::__construct($options, $this->_SupplierAddress);
+    public function __construct($options = null, Address $Address = null) {
+	$this->_Address = $Address;
+	parent::__construct($options, $this->_Address);
     }
     
     public function init($options = array())

@@ -1,5 +1,5 @@
 <?php
-
+namespace Forms\Company\Website\Account\Role;
 /**
  * Name:
  * Location:
@@ -10,7 +10,8 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_Privilege_Privilege extends Zend_Form{
+class Privilege extends \Zend_Form
+{
     private $_privilege;
     
     public function __construct($options = null, \Entities\Privilege $privilege = null) {

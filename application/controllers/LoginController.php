@@ -9,7 +9,7 @@ class LoginController extends Zend_Controller_Action
 {
     public function getForm()
     {
-        return new Form_Login_Login(array(
+        return new Forms\Login(array(
             'action' => '/login/process',
             'method' => 'post',
         ));

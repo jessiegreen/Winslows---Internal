@@ -1,5 +1,6 @@
 <?php
-
+namespace Forms\Company\Lead;
+use Entities\Company\Lead\Quote as Quote;
 /**
  * Name:
  * Quote:
@@ -10,11 +11,11 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_Quote extends Zend_Form
+class Quote extends \Zend_Form
 {    
     private $_Quote;
     
-    public function __construct($options = null, Entities\Quote $Quote = null)
+    public function __construct($options = null, Quote $Quote = null)
     {
 	$this->_Quote = $Quote;
 	parent::__construct($options, $this->_Quote);
@@ -22,9 +23,9 @@ class Form_Quote extends Zend_Form
     
     public function init($options = array())
     {	
-        $form = new Form_Quote_Subform($options, $this->_Quote);
+        $form = new Quote\Subform($options, $this->_Quote);
 	
-	$this->addSubForm($form, "quote");
+	$this->addSubForm($form, "company_lead_quote");
 	
 	$this->addElement('submit', 'submit', array(
             'ignore'   => true,

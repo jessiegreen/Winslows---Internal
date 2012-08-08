@@ -1,5 +1,6 @@
 <?php
-
+namespace Forms\Company\Location\PhoneNumber;
+use Entities\Company\Location\PhoneNumber as PhoneNumber;
 /**
  * Name:
  * Location:
@@ -10,13 +11,13 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_LocationPhoneNumber_Subform extends Form_PhoneNumber_Subform
+class Subform extends \Forms\PhoneNumber\Subform
 {
-    private $_LocationPhoneNumber;
+    private $_PhoneNumber;
     
-    public function __construct($options = null, Entities\LocationPhoneNumber $PhoneNumber = null) {
-	$this->_LocationPhoneNumber = $PhoneNumber;
-	parent::__construct($options, $this->_LocationPhoneNumber);
+    public function __construct($options = null, PhoneNumber $PhoneNumber = null) {
+	$this->_PhoneNumber = $PhoneNumber;
+	parent::__construct($options, $this->_PhoneNumber);
     }
 }
 

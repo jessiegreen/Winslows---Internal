@@ -1,5 +1,6 @@
 <?php
-
+namespace Forms\Company\Location;
+use Entities\Company\Location as Location;
 /**
  * Name:
  * Location:
@@ -10,11 +11,11 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_Location_Subform extends Zend_Form_SubForm
+class Subform extends \Zend_Form_SubForm
 {
     private $_Location;
     
-    public function __construct($options = null, \Entities\Location $Location = null)
+    public function __construct($options = null, Location $Location = null)
     {
 	$this->_Location = $Location;
 	parent::__construct($options);
@@ -26,7 +27,7 @@ class Form_Location_Subform extends Zend_Form_SubForm
 	    $type_options   = $this->_Location->getTypeOptions();
 	}
 	else{
-	    $Location	    = new \Entities\Location;
+	    $Location	    = new Location;
 	    $type_options   = $Location->getTypeOptions();
 	}
 	

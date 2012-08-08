@@ -1,5 +1,6 @@
 <?php
-
+namespace Forms\Company\Supplier\Product\Configurable\Option\Parameter\Value;
+use Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value as Value;
 /**
  * Name:
  * Location:
@@ -10,46 +11,46 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_ConfigurableProductOptionValue_Subform extends Zend_Form_SubForm
+class Subform extends \Zend_Form_SubForm
 {
-    private $_ConfigurableProductOptionValue;
+    private $_Value;
     
-    public function __construct($options = null, \Entities\ConfigurableProductOptionValue $ConfigurableProductOptionValue = null) {
-	$this->_ConfigurableProductOptionValue = $ConfigurableProductOptionValue;
+    public function __construct($options = null, Value $Value = null) {
+	$this->_Value = $Value;
 	parent::__construct($options);
     }
     
     public function init()
     {
-	$this->addElement(new Dataservice_Form_Element_ConfigurableProductOptionSelect("configurableproductoption_id", array(
+	$this->addElement(new Dataservice_Form_Element_ParameterSelect("parameter_id", array(
             'required'	    => false,
             'label'	    => 'Option:',
-	    'belongsTo'	    => 'configurableproductoptionvalue',
-	    'value'	    => $this->_ConfigurableProductOptionValue && 
-				    $this->_ConfigurableProductOptionValue->getConfigurableProductOption()
-				? $this->_ConfigurableProductOptionValue->getConfigurableProductOption()->getId() 
+	    'belongsTo'	    => 'configurableproductoptionparametervalue',
+	    'value'	    => $this->_Value && 
+				    $this->_Value->getParameter()
+				? $this->_Value->getParameter()->getId() 
 				: ""
         )));
 	
 	$this->addElement('text', 'name', array(
             'required'	    => true,
             'label'	    => 'Name:',
-	    'belongsTo'	    => 'configurableproductoptionvalue',
-	    'value'	    => $this->_ConfigurableProductOptionValue ? $this->_ConfigurableProductOptionValue->getName() : ""
+	    'belongsTo'	    => 'configurableproductoptionparametervalue',
+	    'value'	    => $this->_Value ? $this->_Value->getName() : ""
         ));
 	
 	$this->addElement('text', 'index_string', array(
             'required'	    => true,
             'label'	    => 'Name Index:',
-	    'belongsTo'	    => 'configurableproductoptionvalue',
-	    'value'	    => $this->_ConfigurableProductOptionValue ? $this->_ConfigurableProductOptionValue->getIndex() : ""
+	    'belongsTo'	    => 'configurableproductoptionparametervalue',
+	    'value'	    => $this->_Value ? $this->_Value->getIndex() : ""
         ));
 	
 	$this->addElement('text', 'code', array(
             'required'	    => true,
             'label'	    => 'Code:',
-	    'belongsTo'	    => 'configurableproductoptionvalue',
-	    'value'	    => $this->_ConfigurableProductOptionValue ? $this->_ConfigurableProductOptionValue->getCode() : ""
+	    'belongsTo'	    => 'configurableproductoptionparametervalue',
+	    'value'	    => $this->_Value ? $this->_Value->getCode() : ""
         ));
 	
 	$this->addElement('textarea', 'description', array(
@@ -57,8 +58,8 @@ class Form_ConfigurableProductOptionValue_Subform extends Zend_Form_SubForm
             'label'	    => 'Description:',
 	    'cols'	    => 50,
 	    'rows'	    => 8,
-	    'belongsTo'	    => 'configurableproductoptionvalue',
-	    'value'	    => $this->_ConfigurableProductOptionValue ? $this->_ConfigurableProductOptionValue->getDescription() : ""
+	    'belongsTo'	    => 'configurableproductoptionparametervalue',
+	    'value'	    => $this->_Value ? $this->_Value->getDescription() : ""
         ));
     }
 }

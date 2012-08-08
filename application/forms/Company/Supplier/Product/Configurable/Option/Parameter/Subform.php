@@ -1,5 +1,6 @@
 <?php
-
+namespace Forms\Company\Supplier\Product\Configurable\Option\Parameter;
+use Entities\Company\Supplier\Product\Configurable\Option\Parameter as Parameter;
 /**
  * Name:
  * Location:
@@ -10,39 +11,39 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_ConfigurableProductOption_Subform extends Zend_Form_SubForm
+class Subform extends \Zend_Form_SubForm
 {
-    private $_ConfigurableProductOption;
+    private $_Parameter;
     
-    public function __construct($options = null, \Entities\ConfigurableProductOption $ConfigurableProductOption = null) {
-	$this->_ConfigurableProductOption = $ConfigurableProductOption;
+    public function __construct($options = null, Parameter $Parameter = null) {
+	$this->_Parameter = $Parameter;
 	parent::__construct($options);
     }
     
     public function init()
     {
-	$this->addElement(new Dataservice_Form_Element_ConfigurableProductOptionGroupSelect("configurableproductoptiongroup_id", array(
+	$this->addElement(new Dataservice_Form_Element_OptionSelect("option_id", array(
             'required'	    => false,
             'label'	    => 'Option Group:',
-	    'belongsTo'	    => 'configurableproductoption',
-	    'value'	    => $this->_ConfigurableProductOption && 
-				    $this->_ConfigurableProductOption->getConfigurableProductOptionGroup()
-				? $this->_ConfigurableProductOption->getConfigurableProductOptionGroup()->getId() 
+	    'belongsTo'	    => 'configurableproductoptionparameter',
+	    'value'	    => $this->_Parameter && 
+				    $this->_Parameter->getOption()
+				? $this->_Parameter->getOption()->getId() 
 				: ""
         )));
 	
 	$this->addElement('text', 'name', array(
             'required'	    => true,
             'label'	    => 'Name:',
-	    'belongsTo'	    => 'configurableproductoption',
-	    'value'	    => $this->_ConfigurableProductOption ? $this->_ConfigurableProductOption->getName() : ""
+	    'belongsTo'	    => 'configurableproductoptionparameter',
+	    'value'	    => $this->_Parameter ? $this->_Parameter->getName() : ""
         ));
 	
 	$this->addElement('text', 'index_string', array(
             'required'	    => true,
             'label'	    => 'Name Index:',
-	    'belongsTo'	    => 'configurableproductoption',
-	    'value'	    => $this->_ConfigurableProductOption ? $this->_ConfigurableProductOption->getIndex() : ""
+	    'belongsTo'	    => 'configurableproductoptionparameter',
+	    'value'	    => $this->_Parameter ? $this->_Parameter->getIndex() : ""
         ));
 	
 	$this->addElement('text', 'length', array(
@@ -50,8 +51,8 @@ class Form_ConfigurableProductOption_Subform extends Zend_Form_SubForm
             'label'	    => 'Length:',
 	    'size'	    => 2,
 	    'maxlength'	    => 2,
-	    'belongsTo'	    => 'configurableproductoption',
-	    'value'	    => $this->_ConfigurableProductOption ? $this->_ConfigurableProductOption->getLength() : ""
+	    'belongsTo'	    => 'configurableproductoptionparameter',
+	    'value'	    => $this->_Parameter ? $this->_Parameter->getLength() : ""
         ));
 	
 	$this->addElement('textarea', 'description', array(
@@ -59,16 +60,16 @@ class Form_ConfigurableProductOption_Subform extends Zend_Form_SubForm
             'label'	    => 'Description:',
 	    'cols'	    => 50,
 	    'rows'	    => 8,
-	    'belongsTo'	    => 'configurableproductoption',
-	    'value'	    => $this->_ConfigurableProductOption ? $this->_ConfigurableProductOption->getDescription() : ""
+	    'belongsTo'	    => 'configurableproductoptionparameter',
+	    'value'	    => $this->_Parameter ? $this->_Parameter->getDescription() : ""
         ));
 	
 	$this->addElement('select', 'required', array(
             'required'	    => true,
             'label'	    => 'Required:',
-	    'belongsTo'	    => 'configurableproductoption',
+	    'belongsTo'	    => 'configurableproductoptionparameter',
 	    'multioptions'  => array(false, true),
-	    'value'	    => $this->_ConfigurableProductOption ? $this->_ConfigurableProductOption->isRequired() : ""
+	    'value'	    => $this->_Parameter ? $this->_Parameter->isRequired() : ""
         ));
     }
 }

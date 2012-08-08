@@ -1,5 +1,5 @@
 <?php
-namespace Form\Person;
+namespace Forms\Person;
 /**
  * Name:
  * Location:

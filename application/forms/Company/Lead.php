@@ -1,5 +1,5 @@
 <?php
-namespace Form\Company;
+namespace Forms\Company;
 /**
  * Name:
  * Location:
@@ -21,7 +21,7 @@ class Lead extends \Zend_Form
     
     public function init($options = array())
     {
-	$form = new Form\Lead\Subform($options, $this->_Lead);
+	$form = new Lead\Subform($options, $this->_Lead);
 	
 	$this->addSubForm($form, "company_lead");
 	

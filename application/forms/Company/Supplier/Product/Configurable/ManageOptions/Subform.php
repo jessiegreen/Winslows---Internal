@@ -1,5 +1,6 @@
 <?php
-
+namespace Forms\Company\Supplier\Product\Configurable\ManageOptions;
+use Entities\Company\Supplier\Product\Configurable as Configurable;
 /**
  * Name:
  * Product:
@@ -10,29 +11,29 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_ConfigurableProduct_ManageOptions_Subform extends Zend_Form_SubForm
+class Subform extends \Zend_Form_SubForm
 {
-    private $_ConfigurableProduct;
+    private $_Configurable;
     
-    public function __construct(\Entities\ConfigurableProduct $ConfigurableProduct, $options = null)
+    public function __construct(Configurable $Configurable, $options = null)
     {
-	$this->_ConfigurableProduct = $ConfigurableProduct;
+	$this->_Configurable = $Configurable;
 	parent::__construct($options);
     }
     
     public function init()
     {	
 	$values = array();
-	if($this->_ConfigurableProduct){
-	    foreach($this->_ConfigurableProduct->getConfigurableProductOptionGroups() as $ConfigurableProductOptionGroup){
-		$values[] = $ConfigurableProductOptionGroup->getId();
+	if($this->_Configurable){
+	    foreach($this->_Configurable->getOptions() as $Option){
+		$values[] = $Option->getId();
 	    }
 	}
 	
-	$this->addElement(new Dataservice_Form_Element_ConfigurableProductOptionGroupMultiCheckbox("configurableproduct_manageoptions", array(
+	$this->addElement(new Dataservice_Form_Element_OptionMultiCheckbox("configurable_manageoptions", array(
             'required'	    => false,
             'label'	    => 'Option Groups:',
-	    'belongsTo'	    => 'configurableproduct_manageoptions',
+	    'belongsTo'	    => 'configurable_manageoptions',
 	    'value'	    => $values
         )));
     }

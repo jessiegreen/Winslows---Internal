@@ -1,5 +1,5 @@
 <?php
-
+namespace Forms\Company\Website;
 /**
  * Name:
  * Location:
@@ -10,7 +10,7 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_WebAccount extends Zend_Form{
+class Account extends \Zend_Form{
     private $_WebAccount;
     private $_safe;
     
@@ -21,9 +21,9 @@ class Form_WebAccount extends Zend_Form{
     }
     
     public function init($options = array()){
-	$form = new Form_WebAccount_SubForm($options, $this->_WebAccount, $this->_safe);
+	$form = new Account\SubForm($options, $this->_WebAccount, $this->_safe);
 	
-	$this->addSubForm($form, "webaccount");
+	$this->addSubForm($form, "company_website_account");
 	
         $this->addElement('submit', 'submit', array(
             'ignore'   => true,

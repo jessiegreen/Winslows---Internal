@@ -1,5 +1,5 @@
 <?php
-
+namespace Forms\Company\Website\Menu;
 /**
  * Name:
  * Location:
@@ -10,7 +10,7 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_MenuItem extends Zend_Form
+class Item extends \Zend_Form
 {
     private $_MenuItem;
     
@@ -22,9 +22,9 @@ class Form_MenuItem extends Zend_Form
     
     public function init($options = array())
     {
-	$form = new Form_MenuItem_Subform($options, $this->_MenuItem);
+	$form = new Item\Subform($options, $this->_MenuItem);
 	
-	$this->addSubForm($form, "menuitem");
+	$this->addSubForm($form, "company_website_menu_item");
 
         $this->addElement('submit', 'submit', array(
             'ignore'   => true,

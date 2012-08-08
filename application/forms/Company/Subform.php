@@ -1,5 +1,5 @@
 <?php
-namespace Form\Company;
+namespace Forms\Company;
 /**
  * Name:
  * Company:

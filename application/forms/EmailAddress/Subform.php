@@ -1,5 +1,5 @@
 <?php
-namespace Form\EmailAddress;
+namespace Forms\EmailAddress;
 /**
  * Name:
  * Location:

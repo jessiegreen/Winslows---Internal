@@ -1,5 +1,5 @@
 <?php
-
+namespace Forms\Company\Website\Menu\Item;
 /**
  * Name:
  * Location:
@@ -10,7 +10,7 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_MenuItem_Subform extends Zend_Form_SubForm
+class Subform extends \Zend_Form_SubForm
 {
     private $_MenuItem;
     

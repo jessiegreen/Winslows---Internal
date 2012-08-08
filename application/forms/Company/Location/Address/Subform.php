@@ -1,5 +1,6 @@
 <?php
-
+namespace Forms\Company\Location\Address;
+use Entities\Company\Location\Address as Address;
 /**
  * Name:
  * Location:
@@ -10,13 +11,14 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_LocationAddress_Subform extends Form_Address_Subform
+class Subform extends \Forms\Address\Subform
 {    
-    private $_LocationAddress;
+    private $_Address;
     
-    public function __construct($options = null, Entities\LocationAddress $LocationAddress = null) {
-	$this->_LocationAddress = $LocationAddress;
-	parent::__construct($options, $this->_LocationAddress);
+    public function __construct($options = null, Address $Address = null)
+    {
+	$this->_Address = $Address;
+	parent::__construct($options, $this->_Address);
     }
     
     public function init($options = array())

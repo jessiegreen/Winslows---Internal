@@ -1,5 +1,5 @@
 <?php
-namespace Form\Person;
+namespace Forms\Person;
 /**
  * Name:
  * Location:
@@ -22,7 +22,7 @@ class Address extends \Zend_Form
     
     public function init($options = array())
     {
-	$form = new Form\Person\Address\Subform($options, $this->_PersonAddress);
+	$form = new Address\Subform($options, $this->_PersonAddress);
 	
 	$this->addSubForm($form, "person_address");
 	

@@ -1,5 +1,6 @@
 <?php
-
+namespace Forms\Company\Supplier\Product\Configurable\Option\Parameter;
+use Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value as Value;
 /**
  * Name:
  * Product:
@@ -10,21 +11,21 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_ConfigurableProductOptionValue extends Zend_Form
+class Value extends \Zend_Form
 {    
-    private $_ConfigurableProductOptionValue;
+    private $_Value;
     
-    public function __construct($options = null, Entities\ConfigurableProductOptionValue $ConfigurableProductOptionValue = null)
+    public function __construct($options = null, Value $Value = null)
     {
-	$this->_ConfigurableProductOptionValue = $ConfigurableProductOptionValue;
-	parent::__construct($options, $this->_ConfigurableProductOptionValue);
+	$this->_Value = $Value;
+	parent::__construct($options, $this->_Value);
     }
     
     public function init($options = array())
     {	
-        $form = new Form_ConfigurableProductOptionValue_Subform($options, $this->_ConfigurableProductOptionValue);
+        $form = new Value\Subform($options, $this->_Value);
 	
-	$this->addSubForm($form, "configurableproductoptionvalue");
+	$this->addSubForm($form, "company_supplier_product_configurable_option_parameter_value");
 	
 	$this->addElement('submit', 'submit', array(
             'ignore'   => true,

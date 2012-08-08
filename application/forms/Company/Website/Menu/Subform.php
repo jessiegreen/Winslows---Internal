@@ -1,5 +1,5 @@
 <?php
-
+namespace Forms\Company\Website\Menu;
 /**
  * Name:
  * Location:
@@ -10,16 +10,18 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_Menu_Subform extends Zend_Form_SubForm
+class Subform extends \Zend_Form_SubForm
 {
     private $_MenuItem;
     
-    public function __construct($options = null, \Entities\MenuItem $MenuItem = null) {
+    public function __construct($options = null, \Entities\MenuItem $MenuItem = null) 
+    {
 	$this->_MenuItem = $MenuItem;
 	parent::__construct($options);
     }
     
-    public function init($options = array()){
+    public function init()
+    {
 	if($this->_MenuItem !== null && $this->_MenuItem->getId() > 0){
 	    $this->addElement('hidden', 'id', array(
 		'required'  => true,

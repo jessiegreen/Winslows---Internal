@@ -1,5 +1,6 @@
 <?php
-
+namespace Forms\Company\Supplier\Product\Configurable\Option;
+use Entities\Company\Supplier\Product\Configurable\Option as Option;
 /**
  * Name:
  * Location:
@@ -10,12 +11,12 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_ConfigurableProductOptionGroup_Subform extends Zend_Form_SubForm
+class Subform extends \Zend_Form_SubForm
 {
-    private $_ConfigurableProductOptionGroup;
+    private $_Option;
     
-    public function __construct($options = null, \Entities\ConfigurableProductOptionGroup $ConfigurableProductOptionGroup = null) {
-	$this->_ConfigurableProductOptionGroup = $ConfigurableProductOptionGroup;
+    public function __construct($options = null, Option $Option = null) {
+	$this->_Option = $Option;
 	parent::__construct($options);
     }
     
@@ -24,15 +25,15 @@ class Form_ConfigurableProductOptionGroup_Subform extends Zend_Form_SubForm
 	$this->addElement('text', 'name', array(
             'required'	    => true,
             'label'	    => 'Name:',
-	    'belongsTo'	    => 'configurableproductoptiongroup',
-	    'value'	    => $this->_ConfigurableProductOptionGroup ? $this->_ConfigurableProductOptionGroup->getName() : ""
+	    'belongsTo'	    => 'configurableproductoption',
+	    'value'	    => $this->_Option ? $this->_Option->getName() : ""
         ));
 	
 	$this->addElement('text', 'index_string', array(
             'required'	    => true,
             'label'	    => 'Name Index:',
-	    'belongsTo'	    => 'configurableproductoptiongroup',
-	    'value'	    => $this->_ConfigurableProductOptionGroup ? $this->_ConfigurableProductOptionGroup->getIndex() : ""
+	    'belongsTo'	    => 'configurableproductoption',
+	    'value'	    => $this->_Option ? $this->_Option->getIndex() : ""
         ));
 	
 	$this->addElement('text', 'code', array(
@@ -40,8 +41,8 @@ class Form_ConfigurableProductOptionGroup_Subform extends Zend_Form_SubForm
 	    'maxlength'	    => 2,
 	    'size'	    => 2,
             'label'	    => 'Code:',
-	    'belongsTo'	    => 'configurableproductoptiongroup',
-	    'value'	    => $this->_ConfigurableProductOptionGroup ? $this->_ConfigurableProductOptionGroup->getCode() : ""
+	    'belongsTo'	    => 'configurableproductoption',
+	    'value'	    => $this->_Option ? $this->_Option->getCode() : ""
         ));
 	
 	$this->addElement('textarea', 'description', array(
@@ -49,8 +50,8 @@ class Form_ConfigurableProductOptionGroup_Subform extends Zend_Form_SubForm
             'label'	    => 'Description:',
 	    'cols'	    => 50,
 	    'rows'	    => 8,
-	    'belongsTo'	    => 'configurableproductoptiongroup',
-	    'value'	    => $this->_ConfigurableProductOptionGroup ? $this->_ConfigurableProductOptionGroup->getDescription() : ""
+	    'belongsTo'	    => 'configurableproductoption',
+	    'value'	    => $this->_Option ? $this->_Option->getDescription() : ""
         ));
     }
 }

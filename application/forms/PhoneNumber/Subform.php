@@ -1,5 +1,5 @@
 <?php
-namespace Form\PhoneNumber;
+namespace Forms\PhoneNumber;
 /**
  * Name:
  * Location:

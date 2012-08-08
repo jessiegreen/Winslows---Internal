@@ -1,5 +1,6 @@
 <?php
-
+namespace Forms\Company\Location;
+use Entities\Company\Location\Address as Address;
 /**
  * Name:
  * Location:
@@ -10,20 +11,20 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_LocationAddress extends Zend_Form
+class Address extends \Zend_Form
 {    
-    private $_LocationAddress;
+    private $_Address;
     
-    public function __construct($options = null, Entities\LocationAddress $LocationAddress = null) {
-	$this->_LocationAddress = $LocationAddress;
-	parent::__construct($options, $this->_LocationAddress);
+    public function __construct($options = null, Address $Address = null) {
+	$this->_Address = $Address;
+	parent::__construct($options, $this->_Address);
     }
     
     public function init($options = array())
     {
-	$form = new Form_LocationAddress_Subform($options, $this->_LocationAddress);
+	$form = new Address\Subform($options, $this->_Address);
 	
-	$this->addSubForm($form, "locationaddress");
+	$this->addSubForm($form, "company_location_address");
 
         $this->addElement('submit', 'submit', array(
             'ignore'   => true,

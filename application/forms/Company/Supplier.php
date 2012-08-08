@@ -1,5 +1,5 @@
 <?php
-namespace Form\Company;
+namespace Forms\Company;
 /**
  * Name:
  * Supplier:
@@ -22,9 +22,9 @@ class Supplier extends \Zend_Form
     
     public function init($options = array())
     {	
-        $form = new Form\Supplier\Subform($options, $this->_Supplier);
+        $form = new Supplier\Subform($options, $this->_Supplier);
 	
-	$this->addSubForm($form, "supplier");
+	$this->addSubForm($form, "company_supplier");
 	
 	$this->addElement('submit', 'submit', array(
             'ignore'   => true,

@@ -1,5 +1,5 @@
 <?php
-namespace Form\Person\EmailAddress;
+namespace Forms\Person\EmailAddress;
 /**
  * Name:
  * Location:
@@ -10,7 +10,7 @@ namespace Form\Person\EmailAddress;
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Subform extends Form\EmailAddress\Subform
+class Subform extends Forms\EmailAddress\Subform
 {
     private $_PersonEmailAddress;
     

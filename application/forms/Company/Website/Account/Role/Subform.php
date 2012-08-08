@@ -1,5 +1,5 @@
 <?php
-
+namespace Forms\Company\Website\Account\Role;
 /**
  * Name:
  * Location:
@@ -10,7 +10,8 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_Role_Subform extends Zend_Form_SubForm{
+class Subform extends \Zend_Form_SubForm
+{
     private $_Role;
     
     public function __construct($options = null, \Entities\Company\Website\Account\Role $Role = null) {

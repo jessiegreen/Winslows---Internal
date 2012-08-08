@@ -1,5 +1,6 @@
 <?php
-
+namespace Forms\Company\Location;
+use Entities\Company\Location\PhoneNumber as PhoneNumber;
 /**
  * Name:
  * Location:
@@ -10,21 +11,21 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Form_LocationPhoneNumber extends Zend_Form
+class PhoneNumber extends \Zend_Form
 {    
-    private $_LocationPhoneNumber;
+    private $_PhoneNumber;
     
-    public function __construct($options = null, Entities\LocationPhoneNumber $LocationPhoneNumber = null)
+    public function __construct($options = null, PhoneNumber $PhoneNumber = null)
     {
-	$this->_LocationPhoneNumber = $LocationPhoneNumber;
+	$this->_PhoneNumber = $PhoneNumber;
 	parent::__construct($options);
     }
     
     public function init($options = array())
     {
-	$form = new Form_LocationPhoneNumber_Subform($options, $this->_LocationPhoneNumber);
+	$form = new PhoneNumber\Subform($options, $this->_PhoneNumber);
 	
-	$this->addSubForm($form, "locationphonenumber");
+	$this->addSubForm($form, "company_location_phonenumber");
 	
 	$this->addElement('submit', 'submit', array(
             'ignore'	    => true,
