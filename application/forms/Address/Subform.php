@@ -1,5 +1,5 @@
 <?php
-namespace Forms\Company\Employee;
+namespace Forms\Address;
 use Entities\Address\AddressAbstract as AddressAbstract;
 /**
  * Name:

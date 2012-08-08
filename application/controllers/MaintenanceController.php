@@ -214,7 +214,7 @@ class MaintenanceController extends Zend_Controller_Action
 	$this->view->headScript()->appendFile("/javascript/maintenance/resource/resource.js");
 	/* @var $em \Doctrine\ORM\EntityManager */
 	$em = $this->_helper->EntityManager();
-	$this->view->Resources = $em->getRepository("Entities\Company\Website\Account\Resource")->findAll();
+	$this->view->Resources = $em->getRepository("Entities\Company\Website\Resource")->findAll();
     }
     
     public function resourceeditAction(){
@@ -223,14 +223,15 @@ class MaintenanceController extends Zend_Controller_Action
 	if(isset($this->_params["id"])){
 	    /* @var $em \Doctrine\ORM\EntityManager */
 	    $em			    = $this->_helper->EntityManager();
-	    /* @var $Resource \Entities\Company\Website\Account\Resource */
-	    $Resource		    = $em->find("\Entities\Company\Website\Account\Resource",$this->_params["id"]); 
+	    /* @var $Resource \Entities\Company\Website\Resource */
+	    $Resource		    = $em->find("\Entities\Company\Website\Resource",$this->_params["id"]); 
 	    $this->view->Resource   = $Resource;
 	    $this->view->Roles	    = $em->getRepository("Entities\Company\Website\Account\Role")->findAll();
 	}
     }
     
-    public function removeroleAction(){
+    public function removeroleAction()
+    {
 	$this->_helper->viewRenderer->setNoRender(true);
 	$ACL = new Dataservice_Controller_Plugin_ACL();
 	$ACL->preDispatch($this->_request);
@@ -240,33 +241,42 @@ class MaintenanceController extends Zend_Controller_Action
 	$role_id	= isset($this->_params["role_id"]) ? $this->_params["role_id"] : null;
 	$flashMessenger = $this->_helper->getHelper('FlashMessenger');
 	
-	if($resource_id && $role_id){
+	if($resource_id && $role_id)
+	{
 	    /* @var $em \Doctrine\ORM\EntityManager */
 	    $em		= $this->_helper->EntityManager();
-	    /* @var $Resource \Entities\Company\Website\Account\Resource */
-	    $Resource	= $em->find("Entities\Company\Website\Account\Resource", $resource_id);
-	    if($Resource){
-		if(!$Resource->removeRole($role_id)){
+	    /* @var $Resource \Entities\Company\Website\Resource */
+	    $Resource	= $em->find("Entities\Company\Website\Resource", $resource_id);
+	    $Role	= $em->find("Entities\Company\Website\Account\Role", $role_id);
+	    
+	    if($Resource && $Role)
+	    {
+		if(!$Resource->removeRole($Role))
+		{
 		    $flashMessenger->addMessage(array('message' => "Could Not Remove Role", 'status' => 'error'));
 		    $this->_redirect('/maintenance/resourceedit/id/'.$resource_id);
 		}
+		
 		$em->persist($Resource);
 		$em->flush();
 		$flashMessenger->addMessage(array('message' => "Role Removed", 'status' => 'success'));
 		$this->_redirect('/maintenance/resourceedit/id/'.$resource_id);
 	    }
-	    else{
+	    else
+	    {
 		$flashMessenger->addMessage(array('message' => "Error Removing Role - Resource or Role Not Found", 'status' => 'error'));
 		$this->_redirect('/maintenance/resourceedit/id/'.$resource_id);
 	    }
 	}
-	else{
+	else
+	{
 	    $flashMessenger->addMessage(array('message' => "Error Removing Role - Resource or Role Not Sent", 'status' => 'error'));
 	    $this->_redirect('/maintenance/resourcesview');
 	}
     }
     
-    public function addroleAction(){
+    public function addroleAction()
+    {
 	$this->_helper->viewRenderer->setNoRender(true);
 	$ACL = new Dataservice_Controller_Plugin_ACL();
 	$ACL->preDispatch($this->_request);
@@ -279,8 +289,8 @@ class MaintenanceController extends Zend_Controller_Action
 	if($resource_id && $role_id){
 	    /* @var $em \Doctrine\ORM\EntityManager */
 	    $em		= $this->_helper->EntityManager();
-	    /* @var $Resource \Entities\Company\Website\Account\Resource */
-	    $Resource	= $em->find("Entities\Company\Website\Account\Resource", $resource_id);
+	    /* @var $Resource \Entities\Company\Website\Resource */
+	    $Resource	= $em->find("Entities\Company\Website\Resource", $resource_id);
 	    $Role	= $em->find("Entities\Company\Website\Account\Role", $role_id);
 	    if($Resource && $Role){
 		$Resource->addRole($Role);

@@ -22,7 +22,7 @@ class Supplier {
     }
     
     public function getAllSuppliers(){
-	return $this->_em->getRepository("Entities\Supplier")->findBy(array(), array("name" => "ASC"));
+	return $this->_em->getRepository("Entities\Company\Supplier")->findBy(array(), array("name" => "ASC"));
     }
 }
 

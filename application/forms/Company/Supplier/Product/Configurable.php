@@ -11,7 +11,7 @@ use Entities\Company\Supplier\Product\Configurable as Configurable;
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Configurable extends Zend_Form
+class Configurable extends \Zend_Form
 {    
     private $_Configurable;
     

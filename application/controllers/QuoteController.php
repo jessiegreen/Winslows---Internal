@@ -10,14 +10,14 @@ class QuoteController extends Dataservice_Controller_Action
 {    
     public function init(){
 	$this->view->headScript()->appendFile("/javascript/quote/quote.js");
-	$this->view->headScript()->appendFile("/javascript/jquery-ui.min.js");
+	$this->view->headScript()->appendFile("/javascript/jquery/jquery-ui.min.js");
 	$this->view->headLink()->prependStylesheet('/css/jquery-ui/flick/jquery-ui.custom.css');
 	parent::init();
     }
     
     public function viewAction()
     {
-	$this->view->headScript()->appendFile("/javascript/jquery.colorbox.js");
+	$this->view->headScript()->appendFile("/javascript/jquery/jquery.colorbox.js");
 	$this->view->headLink()->appendStylesheet('/css/jquery.colorbox.css');
 	$Quote = $this->getEntityFromParamFields("Quote", array("id"));
 	

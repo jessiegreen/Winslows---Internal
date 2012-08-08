@@ -12,6 +12,5 @@ class BusinessController extends Dataservice_Controller_Action
     {	
 
     }
-
 }
 

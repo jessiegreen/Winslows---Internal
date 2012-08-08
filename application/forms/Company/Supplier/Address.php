@@ -10,19 +10,19 @@ namespace Forms\Company\Supplier;
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Address extends Zend_Form
+class Address extends \Zend_Form
 {    
-    private $_SupplierAddress;
+    private $_Address;
     
-    public function __construct($options = null, Entities\SupplierAddress $SupplierAddress = null) 
+    public function __construct($options = null, \Entities\Company\Supplier\Address $Address = null) 
     {
-	$this->_SupplierAddress = $SupplierAddress;
-	parent::__construct($options, $this->_SupplierAddress);
+	$this->_Address = $Address;
+	parent::__construct($options, $this->_Address);
     }
     
     public function init($options = array())
     {
-	$form = new Address\Subform($options, $this->_SupplierAddress);
+	$form = new Address\Subform($options, $this->_Address);
 	
 	$this->addSubForm($form, "company_supplier_address");
 

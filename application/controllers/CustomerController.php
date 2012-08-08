@@ -50,7 +50,7 @@ class CustomerController extends Dataservice_Controller_Action
     
     public function viewAction(){
 	$this->view->headScript()->appendFile("/javascript/customer/customer.js");
-	$this->view->headScript()->appendFile("/javascript/jquery-ui.min.js");
+	$this->view->headScript()->appendFile("/javascript/jquery/jquery-ui.min.js");
 	$this->view->headLink()->prependStylesheet('/css/jquery-ui/flick/jquery-ui.custom.css');
 	
 	$flashMessenger = $this->_helper->getHelper('FlashMessenger');
@@ -73,7 +73,7 @@ class CustomerController extends Dataservice_Controller_Action
     public function searchAction()
     {	
 	$this->view->headScript()->appendFile("/javascript/customer/search.js");
-	$this->view->headScript()->appendFile("/javascript/jquery-ui.min.js");
+	$this->view->headScript()->appendFile("/javascript/jquery/jquery-ui.min.js");
 	$this->view->headLink()->prependStylesheet('/css/jquery-ui/flick/jquery-ui.custom.css');
     }
     

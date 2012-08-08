@@ -12,11 +12,11 @@
     
     echo $this->headMeta();
     $this->headScript()->prependFile('/javascript/common.js');
-    $this->headScript()->prependFile('/javascript/jquery.js');
+    $this->headScript()->prependFile('/javascript/jquery/jquery.js');
     $this->headScript()->appendFile('/javascript/layout.js');
     
     #--Superfish Menu
-    $this->headScript()->appendFile(BASE_URL.'/javascript/hoverIntent.js');
+    $this->headScript()->appendFile(BASE_URL.'/javascript/jquery/hoverIntent.js');
     $this->headScript()->appendFile(BASE_URL.'/javascript/superfish.js');
     
     echo $this->headScript();

@@ -107,8 +107,8 @@ class BuilderController extends Zend_Controller_Action
 	//$this->_initializeSessionBuilder();
 	
 	$this->view->headLink()->appendStylesheet('/css/builder.css');
-	$this->view->headScript()->appendFile("/javascript/jquery.maphilight.js");
-	$this->view->headScript()->appendFile("/javascript/jquery.postMessage.js");
+	$this->view->headScript()->appendFile("/javascript/jquery/jquery.maphilight.js");
+	$this->view->headScript()->appendFile("/javascript/jquery/jquery.postMessage.js");
 	$this->view->headScript()->appendFile("/javascript/builder/builder.js");
     }
     
@@ -135,8 +135,8 @@ class BuilderController extends Zend_Controller_Action
 	$this->_session_builder->params = array("color" => "", "code" => "", "type" => "", "location" => "");
 	$css				= isset($this->_params["color"]) ? $this->_params["color"] : "";
 	
-	$this->view->headScript()->appendFile("/javascript/jquery-ui.min.js");
-	$this->view->headScript()->appendFile("/javascript/jquery.blockui.js");
+	$this->view->headScript()->appendFile("/javascript/jquery/jquery-ui.min.js");
+	$this->view->headScript()->appendFile("/javascript/jquery/jquery.blockui.js");
 	$this->_helper->layout->setLayout("basic");
 	
 	switch ($css) {

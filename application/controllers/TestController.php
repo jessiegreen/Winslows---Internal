@@ -864,51 +864,27 @@ class TestController extends Zend_Controller_Action
     }
     
     public function testAction(){
-	/* @var $em \Doctrine\ORM\EntityManager */
-	$em	= $this->_helper->EntityManager();
-	$menu	= new Entities\Menu;
-	$name	= "Top";
-	$menu->setName($name);
-	
-	$menuitem = new \Entities\MenuItem;
-	$menuitem->setLabel("Home");
-	$menuitem->setLinkModule("default");
-	$menuitem->setLinkController("index");
-	$menuitem->setLinkAction("index");
-	$menuitem->setLinkParams("");
-	$menuitem->setNameIndex("home");
-	$menuitem->setIcon("house.png");
-	
-	$menu->addMenuItem($menuitem);
-	
-	$menuitem = new \Entities\MenuItem;
-	$menuitem->setLabel("Sales");
-	$menuitem->setLinkModule("default");
-	$menuitem->setLinkController("sales");
-	$menuitem->setLinkAction("index");
-	$menuitem->setLinkParams("");
-	$menuitem->setNameIndex("sales");
-	$menuitem->setIcon("money.png");
-	
-	$submenuitem = new \Entities\MenuItem;
-	$submenuitem->setLabel("Sales");
-	$submenuitem->setLinkModule("default");
-	$submenuitem->setLinkController("sales");
-	$submenuitem->setLinkAction("inventory");
-	$submenuitem->setLinkParams("");
-	$submenuitem->setNameIndex("inventory");
-	$submenuitem->setIcon("inventory.png");
-	
-	$menuitem->AddChild($submenuitem);	
-	$menu->addMenuItem($menuitem);
-	
-	$em->persist($menu);
-	$em->flush();
-	
-	/* @var $menu \Repositories\Men */
-	$menu   = $em->getRepository('Entities\Menu');
-	Zend_Debug::dump($menu->findAll());
+	$string = "testA";
+	echo $this->_camelCaseToHyphens($string);
 	exit;
+    }
+    
+    private function _camelCaseToHyphens($string)
+    {	
+	$length		    = strlen($string);
+	$convertedString    = '';
+	
+	for ($i = 0; $i < $length; $i++)
+	{
+	    if (ord($string[$i]) >= ord('A') && ord($string[$i]) <= ord('Z'))
+	    {
+		$convertedString .= '-' . strtolower($string[$i]);
+	    } else
+	    {
+		$convertedString .= $string[$i];
+	    }
+	}
+	return strtolower($convertedString);
     }
     
     public function codetohtmlAction(){

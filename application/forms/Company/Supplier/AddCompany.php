@@ -10,7 +10,7 @@ namespace Forms\Company\Supplier;
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class AddCompany extends Zend_Form
+class AddCompany extends \Zend_Form
 {
     
     public function init($options = array())

@@ -67,7 +67,7 @@ $Suppliers	= $Company->getSuppliers();
     </h3>
     <div>
 	<?php
-	/* @var $Supplier \Entities\Supplier */
+	/* @var $Supplier \Entities\Company\Supplier */
 	if(count($Suppliers)>0){
 	    foreach ($Suppliers as $Supplier) {
 		?>
@@ -77,7 +77,7 @@ $Suppliers	= $Company->getSuppliers();
 		    echo HTML::anchorIcon(
 			    "tag_blue.png", 
 			    "", 
-			    "/supplier/view/id/".$Supplier->getId(),
+			    "/company-supplier/view/id/".$Supplier->getId(),
 			    "margin-left:5px;"
 			    );
 		    ?>

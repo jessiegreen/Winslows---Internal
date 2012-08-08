@@ -35,7 +35,7 @@ class ProductController extends Dataservice_Controller_Action
 	}
 	
 	$supplier_id	= $this->_request->getParam("supplier_id", 0);
-	$Supplier	= $this->_em->find("Entities\Supplier", $supplier_id);
+	$Supplier	= $this->_em->find("Entities\Company\Supplier", $supplier_id);
 	
 	if($supplier_id)$Product->setSupplier ($Supplier);
 	
@@ -51,8 +51,8 @@ class ProductController extends Dataservice_Controller_Action
 		$data	= $this->_params[$param_key];
 		
 		$Product->populate($data);
-		/* @var $Supplier \Entities\Supplier */
-		$Supplier = $this->_em->find("Entities\Supplier", $data["supplier_id"]);
+		/* @var $Supplier \Entities\Company\Supplier */
+		$Supplier = $this->_em->find("Entities\Company\Supplier", $data["supplier_id"]);
 		if(!$Supplier)
 		    throw new Exception("Can not add/edit product. No Supplier with that Id");
 		

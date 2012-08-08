@@ -52,7 +52,7 @@ class LeadController extends Dataservice_Controller_Action
     
     public function viewAction(){
 	$this->view->headScript()->appendFile("/javascript/lead/lead.js");
-	$this->view->headScript()->appendFile("/javascript/jquery-ui.min.js");
+	$this->view->headScript()->appendFile("/javascript/jquery/jquery-ui.min.js");
 	$this->view->headLink()->prependStylesheet('/css/jquery-ui/flick/jquery-ui.custom.css');
 	
 	$flashMessenger = $this->_helper->getHelper('FlashMessenger');
@@ -75,7 +75,7 @@ class LeadController extends Dataservice_Controller_Action
     public function searchAction()
     {	
 	$this->view->headScript()->appendFile("/javascript/lead/search.js");
-	$this->view->headScript()->appendFile("/javascript/jquery-ui.min.js");
+	$this->view->headScript()->appendFile("/javascript/jquery/jquery-ui.min.js");
 	$this->view->headLink()->prependStylesheet('/css/jquery-ui/flick/jquery-ui.custom.css');
     }
     

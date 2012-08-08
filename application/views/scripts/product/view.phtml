@@ -1,7 +1,7 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo HTML::backAnchorIcon("Supplier - view", "/supplier/view/id/".$this->Product->getSupplier()->getId());
+echo HTML::backAnchorIcon("Supplier - view", "/company-supplier/view/id/".$this->Product->getSupplier()->getId());
 echo "</div>";
 ?>
 <h1 class="header1">Product - View</h1>
@@ -13,6 +13,7 @@ $OptionGroups	= null;
 $validator	= null;
 $pricer		= null;
 $price		= null;
+
 switch ($Product->getDescriminator()) {
     case "Configurable":
 	/* @var $Product \Entities\ConfigurableProduct */

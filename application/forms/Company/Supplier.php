@@ -14,7 +14,7 @@ class Supplier extends \Zend_Form
 {    
     private $_Supplier;
     
-    public function __construct($options = null, Entities\Company\Supplier $Supplier = null)
+    public function __construct($options = null, \Entities\Company\Supplier $Supplier = null)
     {
 	$this->_Supplier = $Supplier;
 	parent::__construct($options, $this->_Supplier);
