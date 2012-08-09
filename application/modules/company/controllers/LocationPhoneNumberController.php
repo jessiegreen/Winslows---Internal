@@ -10,7 +10,7 @@ class Company_LocationPhoneNumberController extends Dataservice_Controller_Actio
 {    
     public function editAction()
     {
-	/* @var $LocationPhoneNumber \Entities\LocationPhoneNumber */
+	/* @var $LocationPhoneNumber \Entities\Company\Location\PhoneNumber */
 	$LocationPhoneNumber  = $this->getEntityFromParamFields("LocationPhoneNumber", array("id"));
 	$form		    = new Form_LocationPhoneNumber(array("method" => "post"), $LocationPhoneNumber);
 	
@@ -25,8 +25,8 @@ class Company_LocationPhoneNumberController extends Dataservice_Controller_Actio
 		$LocationPhoneNumber->setNum2($data["phone_number"]["line"]);
 		
 		if(!$LocationPhoneNumber->getId()){
-		    /* @var $Location \Entities\Location */
-		    $Location = $this->_em->find("Entities\Location", $this->_params["location_id"]);
+		    /* @var $Location \Entities\Company\Location */
+		    $Location = $this->_em->find("Entities\Company\Location", $this->_params["location_id"]);
 		    if(!$Location)
 			throw new Exception("Can not add address. No Location with that Id");
 

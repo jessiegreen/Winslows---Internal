@@ -49,7 +49,7 @@ class Company_LocationEmployeeController extends Dataservice_Controller_Action
 		$employee_data	= $this->_params["employee"];
 
 		if(!$Employee->getId()){
-		    $Location		= $this->_em->find("Entities\Location",$employee_data["location"]);
+		    $Location		= $this->_em->find("Entities\Company\Location",$employee_data["location"]);
 		    if(!$Location)
 			throw new Exception("Can not edit employee. No Location with that Id");
 

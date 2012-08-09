@@ -29,7 +29,7 @@ class Company_IndexController extends Dataservice_Controller_Action
     {
 	$Company = $this->getEntityFromParamFields("Company", array("id"));
 	
-	$form = new Form_Company(array("method" => "post"), $Company);
+	$form = new Forms\Company(array("method" => "post"), $Company);
 	$form->addElement("button", "cancel", 
 		array("onclick" => "location='".$this->_History->getPreviousUrl(1)."'")
 		);

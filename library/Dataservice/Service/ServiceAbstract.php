@@ -1,11 +1,9 @@
 <?php
-namespace Services;
-
 use Doctrine\ORM\EntityManager;
 
-class Product {
+class Dataservice_Service_ServiceAbstract 
+{
     /**
-     *
      * @var EntityManager $_em 
      */
     private $_em;
@@ -17,13 +15,11 @@ class Product {
 	$this->_em		= $bootstrap->getResource('entityManager');
     }
     
-    public static function factory() {
-	return new Product;
-    }
-    
-    public function getAllProducts(){
-	return $this->_em->getRepository("Entities\Product")->findBy(array(), array("name" => "ASC"));
-    }
+    public static function factory()
+    {
+	$class = get_class();
+	return new $class;
+    }    
 }
 
 ?>

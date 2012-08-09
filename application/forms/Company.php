@@ -14,7 +14,7 @@ class Company extends \Zend_Form
 {    
     private $_Company;
     
-    public function __construct($options = null, Entities\Company $Company = null)
+    public function __construct($options = null, \Entities\Company $Company = null)
     {
 	$this->_Company = $Company;
 	parent::__construct($options, $this->_Company);
@@ -22,7 +22,7 @@ class Company extends \Zend_Form
     
     public function init($options = array())
     {	
-        $form = new Forms\Company\Subform($options, $this->_Company);
+        $form = new Company\Subform($options, $this->_Company);
 	
 	$this->addSubForm($form, "company");
 	

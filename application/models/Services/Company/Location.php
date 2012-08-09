@@ -22,7 +22,7 @@ class Location {
     }
     
     public function getLocations(){
-	return $this->_em->getRepository("Entities\Location")->findAll();
+	return $this->_em->getRepository("Entities\Company\Location")->findAll();
     }
 }
 

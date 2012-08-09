@@ -31,7 +31,7 @@ class Subform extends \Zend_Form_SubForm
 	    $type_options   = $Location->getTypeOptions();
 	}
 	
-	$this->addElement(new Dataservice_Form_Element_CompanySelect("company_id", array(
+	$this->addElement(new \Dataservice_Form_Element_CompanySelect("company_id", array(
             'required'	    => true,
             'label'	    => 'Company:',
 	    'belongsTo'	    => 'location',

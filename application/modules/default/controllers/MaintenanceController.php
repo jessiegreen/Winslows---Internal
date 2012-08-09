@@ -356,8 +356,8 @@ class MaintenanceController extends Dataservice_Controller_Action
 		try {
 		    $location_params	= $this->_params["location"];
 		    $address_params	= $this->_params["locationaddress"];	
-		    $Location		= new \Entities\Location();
-		    $LocationAddress	= new Entities\LocationAddress;
+		    $Location		= new \Entities\Company\Location();
+		    $LocationAddress	= new Entities\Company\Location\Address;
 		    
 		    $Location->setName($location_params['name']);
 		    $Location->setPhone($location_params['phone']);

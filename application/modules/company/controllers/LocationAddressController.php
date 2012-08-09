@@ -4,23 +4,27 @@ class Company_LocationAddressController extends Dataservice_Controller_Action
 {    
     public function editAction()
     {
-	/* @var $LocationAddress \Entities\LocationAddress */
-	$LocationAddress	= $this->getEntityFromParamFields("LocationAddress", array("id"));
-	$form		= new Form_LocationAddress(array("method" => "post"), $LocationAddress);
+	/* @var $LocationAddress \Entities\Company\Location\Address */
+	$LocationAddress    = $this->getEntityFromParamFields("Company\Location\Address", array("id"));
+	$form		    = new Form_LocationAddress(array("method" => "post"), $LocationAddress);
+	
 	$form->addElement("button", "cancel", 
 		array("onclick" => "location='".$this->_History->getPreviousUrl(1)."'")
 		);
 	
-	if($this->isPostAndValid($form)){
+	if($this->isPostAndValid($form))
+	{
 	    try 
 	    {
 		$data	= $this->_params["locationaddress"];
 		
 		$LocationAddress->populate($data);
 		
-		if(!$LocationAddress->getId()){
-		    /* @var $Location \Entities\Location */
-		    $Location = $this->_em->find("Entities\Location", $this->_params["location_id"]);
+		if(!$LocationAddress->getId())
+		{
+		    /* @var $Location \Entities\Company\Location */
+		    $Location = $this->_em->find("Entities\Company\Location", $this->_params["location_id"]);
+		    
 		    if(!$Location)
 			throw new Exception("Can not add address. No Location with that Id");
 
@@ -34,7 +38,9 @@ class Company_LocationAddressController extends Dataservice_Controller_Action
 		$message = "Location Address saved";
 		$this->_FlashMessenger->addSuccessMessage($message);
 
-	    } catch (Exception $exc) {
+	    } 
+	    catch (Exception $exc) 
+	    {
 		$this->_FlashMessenger->addErrorMessage($exc->getMessage());
 		$this->_History->goBack(1);
 	    }

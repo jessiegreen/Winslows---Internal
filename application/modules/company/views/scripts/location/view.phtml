@@ -1,18 +1,18 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo HTML::backAnchorIcon("Company - View", "/company/view/id/".$this->Location->getCompany()->getId());
+echo HTML::backAnchorIcon("Company - View", "/company/index/view/id/".$this->Location->getCompany()->getId());
 echo "</div>";
 ?>
 <h1 class="header1">Location - View</h1>
 <?php
-/* @var $Location \Entities\Location */
+/* @var $Location \Entities\Company\Location */
 $Location		= $this->Location;
 $location_id		= $Location->getId();
- /* @var $LocationAddress \Entities\LocationAddress */
-$LocationAddress	= $Location->getLocationAddress();
-/* @var $LocationPhoneNumber \Entities\LocationPhoneNumber */
-$LocationPhoneNumber    = $Location->getLocationPhoneNumber();
+ /* @var $LocationAddress \Entities\Company\Location\Address */
+$LocationAddress	= $Location->getAddress();
+/* @var $LocationPhoneNumber \Entities\Company\Location\PhoneNumber */
+$LocationPhoneNumber    = $Location->getPhoneNumber();
 $Employees		= $Location->getEmployees();
 ?>
 <div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
@@ -22,7 +22,7 @@ $Employees		= $Location->getEmployees();
 	echo HTML::anchorIcon(
 		"pencil.png", 
 		"", 
-		"/location/edit/id/".$location_id,
+		"/company/location/edit/id/".$location_id,
 		"margin-left:5px;"
 		);
 	?>
@@ -56,7 +56,7 @@ $Employees		= $Location->getEmployees();
 		    echo HTML::anchorIcon(
 			    "pencil.png", 
 			    "", 
-			    "/locationaddress/edit/location_id/".$location_id."/id/".$LocationAddress->getId(),
+			    "/company/location-address/edit/location_id/".$location_id."/id/".$LocationAddress->getId(),
 			    "margin-left:5px;"
 			    );
 		    ?>
@@ -100,7 +100,7 @@ $Employees		= $Location->getEmployees();
 		    echo HTML::anchorIcon(
 			    "pencil.png", 
 			    "", 
-			    "/locationphonenumber/edit/location_id/".$location_id."/id/".
+			    "/company/location-phone-number/edit/location_id/".$location_id."/id/".
 				$LocationPhoneNumber->getId(), 
 			    "margin-left:5px;"
 			    );

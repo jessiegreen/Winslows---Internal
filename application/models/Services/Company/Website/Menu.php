@@ -1,22 +1,10 @@
 <?php
-namespace Services;
+namespace Services\Company\Website;
 
-use Doctrine\ORM\EntityManager;
+use \Entities\Company\Website\Menu\Item as Item;
 
-class Menu {
-    private $_em;
-
-    public function __construct()
-    {
-        $front			= \Zend_Controller_Front::getInstance();
-	$bootstrap		= $front->getParam("bootstrap");
-	$this->_em		= $bootstrap->getResource('entityManager');
-    }
-    
-    public static function factory() {
-	return new Menu;
-    }
-    
+class Menu 
+{
     /**
      * @param type $menu_name 
      * @return \Classes\Menu
@@ -28,34 +16,40 @@ class Menu {
 	$Menu		= \Classes\Menu::factory();
 	
 	/* @var $menu_item \Entities\Company\Website\Menu\Item */
-	foreach($parent_items as $MenuItem){
+	foreach($parent_items as $MenuItem)
+	{
 	    $Menu   = $this->GetMenuHTMLAdd($MenuItem, $Menu, $AclService);
 	}
 	return $Menu;
     }    
     
     /**
-     *
      * @param \Entities\Company\Website\Menu\Item $menu_item 
      */
-    private function GetMenuHTMLAdd(\Entities\Company\Website\Menu\Item $MenuItem, \Classes\Menu $menu, \Services\ACL $AclService)
+    private function GetMenuHTMLAdd(Item $MenuItem, \Classes\Menu $menu, \Services\ACL $AclService)
     {
 	$children   = $MenuItem->getChildren();
 	
-	if($children){
+	if($children)
+	{
 	    #-- create new list
 	    $menu2 = \Classes\Menu::factory();
+	    
 	    /* @var $menu_item \Entities\Company\Website\Menu\Item */
-	    foreach($children as $MenuItem2){
+	    foreach($children as $MenuItem2)
+	    {
 		#--Add a children and/or child lists to the newly created list
 		$menu2   = $this->GetMenuHTMLAdd($MenuItem2,$menu2, $AclService);
 	    }	    
+	    
 	    #--Add current parent menu with the child menu
 	    if($AclService->isUserAllowed($this->getUrlArray($MenuItem)))
 		$menu = $menu->add($MenuItem->getLabel(), $this->getUrlString($MenuItem), $menu2);
+	    
 	    return $menu;
 	}
-	else{
+	else
+	{
 	    if($AclService->isUserAllowed($this->getUrlArray($MenuItem)))
 		$menu = $menu->add($MenuItem->getLabel(), $this->getUrlString($MenuItem));
 	    return $menu;

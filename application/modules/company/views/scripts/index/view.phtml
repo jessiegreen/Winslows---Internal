@@ -1,7 +1,7 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo HTML::backAnchorIcon("Companies - All", "/company/viewall");
+echo HTML::backAnchorIcon("Companies - All", "/company/index/viewall");
 echo "</div>";
 ?>
 <h1 class="header1">Company - View</h1>
@@ -19,7 +19,7 @@ $Suppliers	= $Company->getSuppliers();
 	echo HTML::anchorIcon(
 		"pencil.png", 
 		"", 
-		"/company/edit/id/".$company_id,
+		"/company/index/edit/id/".$company_id,
 		"margin-left:5px;"
 		);
 	?>
@@ -38,7 +38,7 @@ $Suppliers	= $Company->getSuppliers();
 	</h3>
 	<div>
 	    <?php
-	    /* @var $Location \Entities\Location */
+	    /* @var $Location \Entities\Company\Location */
 	    foreach ($Locations as $Location) {
 		?>
 		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
@@ -47,7 +47,7 @@ $Suppliers	= $Company->getSuppliers();
 		    echo HTML::anchorIcon(
 			    "building_go.png", 
 			    "", 
-			    "/location/view/id/".$Location->getId(),
+			    "/company/location/view/id/".$Location->getId(),
 			    "margin-left:5px;"
 			    );
 		    ?>
@@ -77,7 +77,7 @@ $Suppliers	= $Company->getSuppliers();
 		    echo HTML::anchorIcon(
 			    "tag_blue.png", 
 			    "", 
-			    "/company-supplier/view/id/".$Supplier->getId(),
+			    "/company/supplier/view/id/".$Supplier->getId(),
 			    "margin-left:5px;"
 			    );
 		    ?>

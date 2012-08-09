@@ -1,5 +1,6 @@
 <?php
-class Dataservice_ACL_Factory {
+class Dataservice_ACL_Factory 
+{
     private static $_sessionNameSpace = 'Dataservice';
     private static $_objAclSession;
     /**
