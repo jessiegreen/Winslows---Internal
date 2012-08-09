@@ -115,6 +115,24 @@ class Website
     }
     
     /**
+     * @param \Entities\Company\Website\Resource $Resource
+     * @return boolean
+     */
+    public function removeResource(Website\Resource $Resource)
+    {
+	foreach ($this->Resources as $key => $Resource2) 
+	{
+	    if($Resource->getId() == $Resource2->getId())
+	    {
+		$this->Resources[$key];
+		unset($this->Resources[$key]);
+		return true;
+	    }
+	}
+	return false;
+    }
+    
+    /**
      * @param \Entities\Company\Website\Menu $Menu
      */
     public function addMenu(\Entities\Company\Website\Menu $Menu)

@@ -74,9 +74,9 @@ class Menu
    
     /**
      * Add item to menu.
-     * @param Website\Menu\Item $Item
+     * @param \Entities\Company\Website\Menu\Item $Item
      */
-    public function addItem(Website\Menu\Item $Item)
+    public function addItem(Menu\Item $Item)
     {
 	$Item->setMenu($this);
         $this->Items[] = $Item;
@@ -95,7 +95,7 @@ class Menu
      * @param \Entities\Company\Website\Menu\Item $Item
      * @return boolean
      */
-    public function removeItem(Website\Menu\Item $Item){
+    public function removeItem(Menu\Item $Item){
 	foreach ($this->Items as $key => $Item2) {
 	    if($Item->getId() == $Item2->getId()){
 		$removed = $this->Items[$key];

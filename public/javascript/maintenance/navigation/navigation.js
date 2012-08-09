@@ -4,21 +4,21 @@ function Navigation() {
 
 Navigation.prototype.AddOnclickBind = function(element){
     element.click(function(){
-	location='/menuitem/edit/id/0';
+	location='/company/website-menu-item/edit/id/0';
     });
 }
 
 Navigation.prototype.EditOnclickBind = function(element){
     element.click(function(e){
 	button = $(e.target);
-	location='/menuitem/edit/id/' + button.parent().attr("menuitem_id");
+	location='/company/website-menu-item/edit/id/' + button.parent().attr("menuitem_id");
     });
 }
 
 Navigation.prototype.AddChildOnclickBind = function(element){
     element.click(function(e){
 	button = $(e.target);
-	location='/menuitem/edit/id/0/parent_id/' + button.parent().attr("menuitem_id");
+	location='/company/website-menu-item/edit/id/0/parent_id/' + button.parent().attr("menuitem_id");
     });
 }
 

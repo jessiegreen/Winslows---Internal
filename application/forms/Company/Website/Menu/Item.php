@@ -14,7 +14,7 @@ class Item extends \Zend_Form
 {
     private $_MenuItem;
     
-    public function __construct($options = null, \Entities\MenuItem $MenuItem = null)
+    public function __construct($options = null, \Entities\Company\Website\Menu\Item $MenuItem = null)
     {
 	$this->_MenuItem = $MenuItem;
 	parent::__construct($options);

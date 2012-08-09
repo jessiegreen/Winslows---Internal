@@ -36,7 +36,7 @@ class Role
     private $Privileges;
     
     /**
-     * @ManytoMany(targetEntity="\Entities\Company\Website\Resource", inversedBy="Roles", cascade={"persist", "remove"})
+     * @ManytoMany(targetEntity="\Entities\Company\Website\Resource", inversedBy="Roles", cascade={"persist"})
      * @JoinTable(name="company_website_account_role_resource_joins",
      *      joinColumns={@JoinColumn(name="role_id", referencedColumnName="id")},
      *      inverseJoinColumns={@JoinColumn(name="resource_id", referencedColumnName="id")}
@@ -46,7 +46,7 @@ class Role
     private $Resources;
     
     /**
-     * @ManytoMany(targetEntity="\Entities\Company\Website\Account", mappedBy="Roles", cascade={"ALL"})
+     * @ManytoMany(targetEntity="\Entities\Company\Website\Account", mappedBy="Roles", cascade={"persist"})
      * @var array $Accounts
      */
     private $Accounts;

@@ -48,14 +48,14 @@ class Account
     private $updated;
 
     /**
-     * @OneToOne(targetEntity="\Entities\Person\PersonAbstract", inversedBy="Account", cascade={"ALL"})
+     * @OneToOne(targetEntity="\Entities\Person\PersonAbstract", inversedBy="Account", cascade={"persist"})
      * @JoinColumn(name="person_id", referencedColumnName="id")
      * @var \Entities\Person\PersonAbstract $Person
      */
     private $Person;
     
     /**
-     * @ManytoMany(targetEntity="\Entities\Company\Website\Account\Role", cascade={"persist", "remove"})
+     * @ManytoMany(targetEntity="\Entities\Company\Website\Account\Role", cascade={"persist"})
      * @JoinTable(name="company_website_account_role_joins",
      *      joinColumns={@JoinColumn(name="webaccount_id", referencedColumnName="id")},
      *      inverseJoinColumns={@JoinColumn(name="role_id", referencedColumnName="id")}

@@ -28,7 +28,7 @@ class Order
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      * 
-     * @OneToMany(targetEntity="OrderItem", mappedBy="order", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @OneToMany(targetEntity="OrderItem", mappedBy="order", cascade={"persist"}, orphanRemoval=true)
      */
     private $order_items;
 

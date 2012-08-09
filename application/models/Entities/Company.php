@@ -50,7 +50,7 @@ class Company
     private $Locations;
     
     /**
-     * @ManytoMany(targetEntity="\Entities\Company\Supplier", mappedBy="Companies", cascade={"ALL"})
+     * @ManytoMany(targetEntity="\Entities\Company\Supplier", mappedBy="Companies", cascade={"persist"})
      * @var array $Suppliers
      */
     private $Suppliers;

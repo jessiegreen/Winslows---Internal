@@ -39,7 +39,8 @@
         $auth = Zend_Auth::getInstance();
 
 	#--Check if user logged in
-        if (!$auth->hasIdentity()){
+        if (!$auth->hasIdentity())
+	{
 	    if($_SERVER["REQUEST_URI"] != "/login/index")
 	    header('Location: /login/index');
 	}

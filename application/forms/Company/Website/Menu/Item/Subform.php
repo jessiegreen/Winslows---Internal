@@ -14,14 +14,14 @@ class Subform extends \Zend_Form_SubForm
 {
     private $_MenuItem;
     
-    public function __construct($options = null, \Entities\MenuItem $MenuItem = null) {
+    public function __construct($options = null, \Entities\Company\Website\Menu\Item $MenuItem = null) {
 	$this->_MenuItem = $MenuItem;
 	parent::__construct($options);
     }
     
     public function init(){
 	
-	$this->addElement(new Dataservice_Form_Element_MenuSelect("menu_id", array(
+	$this->addElement(new \Dataservice_Form_Element_MenuSelect("menu_id", array(
             'required'	    => true,
             'label'	    => 'Menu:',
 	    'belongsTo'	    => 'menuitem',
@@ -30,7 +30,7 @@ class Subform extends \Zend_Form_SubForm
 				""
         )));
 	
-	$this->addElement(new Dataservice_Form_Element_MenuItemSelect("parent_id", array(
+	$this->addElement(new \Dataservice_Form_Element_MenuItemSelect("parent_id", array(
             'required'	    => false,
             'label'	    => 'Parent:',
 	    'belongsTo'	    => 'menuitem',
