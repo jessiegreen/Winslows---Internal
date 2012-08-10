@@ -1,29 +1,10 @@
 <?php
-namespace Services;
+namespace Services\Company;
 
-use Doctrine\ORM\EntityManager;
-
-class Supplier {
-    /**
-     *
-     * @var EntityManager $_em 
-     */
-    private $_em;
-
-    public function __construct()
+class Supplier extends \Dataservice_Service_ServiceAbstract
+{
+    public function getAllSuppliers()
     {
-        $front			= \Zend_Controller_Front::getInstance();
-	$bootstrap		= $front->getParam("bootstrap");
-	$this->_em		= $bootstrap->getResource('entityManager');
-    }
-    
-    public static function factory() {
-	return new Supplier;
-    }
-    
-    public function getAllSuppliers(){
 	return $this->_em->getRepository("Entities\Company\Supplier")->findBy(array(), array("name" => "ASC"));
     }
 }
-
-?>

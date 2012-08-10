@@ -8,8 +8,8 @@ class Company_LeadContactController extends Dataservice_Controller_Action
 	
 	try {
 	    if(!isset($this->_params["lead_id"]))throw new Exception("Can not edit contact. No Id");
-	    /* @var $Lead Entities\Lead */
-	    $Lead  = $em->find("Entities\Lead", $this->_params["lead_id"]);
+	    /* @var $Lead Entities\Company\Lead */
+	    $Lead  = $em->find("Entities\Company\Lead", $this->_params["lead_id"]);
 	    /* @var $Lead Entities\Contact */
 	    $Contact   = $em->find("Entities\Contact", $this->_params["contact_id"]);
 	    
@@ -67,7 +67,7 @@ class Company_LeadContactController extends Dataservice_Controller_Action
     {
 	/* @var $Contact \Entities\Contact */
 	$Contact	= $this->getEntityFromParamFields("Contact", array("id"));
-	$Lead		= $this->_em->find("Entities\Lead", $this->_request->getParam("lead_id", 0));
+	$Lead		= $this->_em->find("Entities\Company\Lead", $this->_request->getParam("lead_id", 0));
 	
 	if(!$Lead){
 	    $this->_FlashMessenger->addErrorMessage("Can not add contact lead not sent");

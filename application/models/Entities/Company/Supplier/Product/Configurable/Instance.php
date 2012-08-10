@@ -24,8 +24,8 @@ class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstr
     {
 	parent::__construct($ConfigurableProduct);
 	
-	$this->Validator    = \Services\Company\Supplier\Product\Configurable\Validator::factory($this->getProduct()->getValidator());
-	$this->Pricer	    = \Services\Company\Supplier\Product\Configurable\Pricer::factory($this->getProduct()->getPricer());
+	$this->Validator    = \Services\Company\Supplier\Product\Configurable\Instance\Validator::factory($this->getProduct()->getValidator());
+	$this->Pricer	    = \Services\Company\Supplier\Product\Configurable\Instance\Pricer::factory($this->getProduct()->getPricer());
 	$this->Values	    = new ArrayCollection();
     }
     
@@ -41,7 +41,11 @@ class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstr
      */
     public function addValue(Option\Parameter\Value $Value)
     {
-        $this->Values[] = $Value;
+        $this->Values[]	    = $Value;
+	$validate_result    = $this->validate();
+	
+	if($validate_result !== true)
+	    throw new Exception($validate_result->getMessage());
     }
     
     /**
@@ -50,6 +54,22 @@ class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstr
     public function getValues()
     {
 	return $this->Values;
+    }
+    
+    /**
+     * @return \Exception|boolean
+     */
+    public function validate()
+    {
+	try
+	{
+	    call_user_method("validate", $this->Validator, $this);
+	    return true;
+	} 
+	catch(\Exception $exc)
+	{
+	    return $exc;
+	}
     }
     
     public function populate(array $array)

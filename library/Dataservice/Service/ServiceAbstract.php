@@ -6,7 +6,7 @@ class Dataservice_Service_ServiceAbstract
     /**
      * @var EntityManager $_em 
      */
-    private $_em;
+    protected $_em;
 
     public function __construct()
     {
@@ -17,7 +17,7 @@ class Dataservice_Service_ServiceAbstract
     
     public static function factory()
     {
-	$class = get_class();
+	$class = get_called_class();
 	return new $class;
     }    
 }

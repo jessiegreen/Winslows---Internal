@@ -15,7 +15,7 @@ class Dataservice_Form_Element_ContactMediumSelect extends Zend_Form_Element_Sel
     protected $_Lead;
     protected $_Contact;
     
-    public function __construct($spec, \Entities\Lead $Lead, Entities\Contact $Contact = null, $options = null)
+    public function __construct($spec, \Entities\Company\Lead $Lead, Entities\Contact $Contact = null, $options = null)
     {
 	$this->_Lead	    = $Lead;
 	$this->_Contact	    = $Contact;
@@ -31,11 +31,11 @@ class Dataservice_Form_Element_ContactMediumSelect extends Zend_Form_Element_Sel
 	    $value	    = json_encode(array("type" => "location", "type_detail" => $Location->getName()));
 	    $array[$value]  = $Contact->getTypeDisplay("location").": ".$Location->getName();
 	}
-	foreach($this->_Lead->getPersonPhoneNumbers() as $PhoneNumber){
+	foreach($this->_Lead->getPhoneNumbers() as $PhoneNumber){
 	    $value	    = json_encode(array("type" => "phone", "type_detail" => $PhoneNumber->getNumberDisplay()));
 	    $array[$value]  = $Contact->getTypeDisplay("phone").": ".$PhoneNumber->getNumberDisplay();
 	}
-	foreach($this->_Lead->getPersonEmailAddresses() as $Emailaddress){
+	foreach($this->_Lead->getEmailAddresses() as $Emailaddress){
 	    $value	    = json_encode(array("type" => "email", "type_detail" => $Emailaddress->getAddress()));
 	    $array[$value]  = $Contact->getTypeDisplay("email").": ".$Emailaddress->getAddress();
 	}

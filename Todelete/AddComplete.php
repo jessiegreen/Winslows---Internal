@@ -33,7 +33,7 @@ class Form_Person_AddComplete extends Zend_Form
 	));
         $this->addSubForm($form, "form_person");
 
-	if(!$this->_Person || count($this->_Person->getPersonAddresses()) < 1){
+	if(!$this->_Person || count($this->_Person->getAddresses()) < 1){
 	    $address_count = 1;
 	    $form = new Form_PersonAddress_PersonAddress(array(),null);
 	    $form->removeElement("submit");
@@ -50,7 +50,7 @@ class Form_Person_AddComplete extends Zend_Form
 	else{
 	    $address_count = 0;
 	    /* @var $PersonAddress Entities\PersonAddress */
-	    foreach($this->_Person->getPersonAddresses() as $PersonAddress){
+	    foreach($this->_Person->getAddresses() as $PersonAddress){
 		$form = new Form_PersonAddress_PersonAddress($options, $PersonAddress);
 		$form->removeElement("submit");
 		$form->setIsArray(true);

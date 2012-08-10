@@ -20,13 +20,13 @@ class InstanceAbstract
      * @GeneratedValue(strategy="AUTO")
      * @var integer $id
      */
-    private $id;
+    protected $id;
 
     /** 
      * @Column(type="string", length=2000) 
      * @var string $note
      */
-    private $note;
+    protected $note;
     
     /**
      * @ManyToOne(targetEntity="\Entities\Company\Supplier\Product\ProductAbstract")
@@ -38,13 +38,13 @@ class InstanceAbstract
      * @Column(type="datetime") 
      * @var \DateTime $created
      */
-    private $created;
+    protected $created;
 
     /** 
      * @Column(type="datetime") 
      * @var \DateTime
      */
-    private $updated;
+    protected $updated;
 
     public function __construct(\Entities\Company\Supplier\Product\ProductAbstract $Product)
     {

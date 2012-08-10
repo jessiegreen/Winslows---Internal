@@ -1,7 +1,7 @@
 <?php
 namespace Services\Company\Supplier\Product\Configurable\Option;
 
-class Parameter
+class Parameter extends \Dataservice_Service_ServiceAbstract
 {
     public function getAllParameters()
     {

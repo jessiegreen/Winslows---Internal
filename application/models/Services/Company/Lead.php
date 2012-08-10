@@ -1,7 +1,7 @@
 <?php
 namespace Services\Company;
 
-class Lead 
+class Lead extends \Dataservice_Service_ServiceAbstract
 {
     public function getAutocompleteLeadsArrayFromTerm($term = "", $descriminator = "company_lead", $max_results = 20)
     {
@@ -16,11 +16,11 @@ class Lead
 			p3_.num1 AS num1, 
 			p3_.num2 AS num2,
 			a4_.address_1 AS address_1
-		FROM leads l1_ 
+		FROM company_leads l1_ 
 		INNER JOIN person_personabstracts p0_ ON l1_.id = p0_.id 
 		LEFT JOIN company_leads c2_ ON l1_.id = c2_.id 
 		LEFT JOIN person_phonenumbers p6_ ON p0_.id = p6_.person_id 
-		LEFT JOIN phonenumber_phonenumber_abstracts p3_ ON p3_.id = p6_.id 
+		LEFT JOIN phonenumber_phonenumberabstracts p3_ ON p3_.id = p6_.id 
 		LEFT JOIN person_addresses p5_ ON p0_.id = p5_.person_id 
 		LEFT JOIN address_addressabstracts a4_ ON p5_.id = a4_.id 
 		WHERE 
@@ -60,8 +60,8 @@ class Lead
     {
 	$Employee   = Auth::factory()->getIdentityPerson();
 	
-	if($Employee->getWebAccount()->hasRole('Admin') || $Employee->getWebAccount()->hasRole('Sales_Manager')){
-	    return $this->_em->getRepository("Entities\Lead")->findBy(array(), array("last_name" => "ASC", "first_name" => "ASC"));
+	if($Employee->getAccount()->hasRole('Admin') || $Employee->getAccount()->hasRole('Sales_Manager')){
+	    return $this->_em->getRepository("Entities\Company\Lead")->findBy(array(), array("last_name" => "ASC", "first_name" => "ASC"));
 	}
 	/* @var $Employee \Entities\Employee */
 	return $Employee->getLeads();

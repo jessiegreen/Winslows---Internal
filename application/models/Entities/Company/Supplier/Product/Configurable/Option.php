@@ -290,15 +290,15 @@ class Option
     /**
      * @return array
      */
-    public function getRequiredOptionIdsArray()
+    public function getRequiredParameters()
     {
-	$ids = array();
+	$return = array();
 	/* @var $Parameter Option\Parameter */
 	foreach ($this->getParameters() as $Parameter) 
 	{
-	    if($Parameter->isRequired())$ids[] = $Parameter->getId();
+	    if($Parameter->isRequired())$return[] = $Parameter();
 	}
-	return $ids;
+	return $return;
     }
     
     public function populate(array $array)

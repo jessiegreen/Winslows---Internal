@@ -1,7 +1,7 @@
 <?php
 namespace Services\Company\Supplier;
 
-class Product 
+class Product extends \Dataservice_Service_ServiceAbstract
 {
     public function getAllProducts()
     {

@@ -28,7 +28,7 @@ class LoginController extends Zend_Controller_Action
         if (Zend_Auth::getInstance()->hasIdentity()) {
             // If the user is logged in, we don't want to show the login form;
             // however, the logout action should still be available
-            if ('logout' != $this->getRequest()->getActionName()) {
+            if ($this->getRequest()->getActionName() != 'logout') {
                 $this->_helper->redirector('index', 'index');
             }
         } else {

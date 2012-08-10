@@ -11,7 +11,7 @@ use Entities\Company\Lead\Quote as Quote;
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Quote extends \Zend_Form
+class Quote extends \Dataservice_Form
 {    
     private $_Quote;
     

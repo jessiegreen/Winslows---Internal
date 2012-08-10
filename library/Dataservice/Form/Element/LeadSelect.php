@@ -17,7 +17,7 @@ class Dataservice_Form_Element_LeadSelect extends Zend_Form_Element_Select {
 	
 	$options = array();
 	
-	foreach (Services\Lead::factory()->getAllAllowedLeads() as $Lead) {
+	foreach (Services\Company\Lead::factory()->getAllAllowedLeads() as $Lead) {
 	    $options[$Lead->getId()] = $Lead->getLastName().", ".$Lead->getFirstName();
 	}
 	

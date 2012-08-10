@@ -3,7 +3,7 @@ namespace Services\Company\Website;
 
 use \Entities\Company\Website\Menu\Item as Item;
 
-class Menu 
+class Menu extends \Dataservice_Service_ServiceAbstract
 {
     /**
      * @param type $menu_name 

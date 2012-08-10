@@ -2,8 +2,9 @@
 
 class Company_LeadQuoteController extends Dataservice_Controller_Action
 {    
-    public function init(){
-	$this->view->headScript()->appendFile("/javascript/quote/quote.js");
+    public function init()
+    {
+	$this->view->headScript()->appendFile("/javascript/company/lead/quote.js");
 	$this->view->headScript()->appendFile("/javascript/jquery/jquery-ui.min.js");
 	$this->view->headLink()->prependStylesheet('/css/jquery-ui/flick/jquery-ui.custom.css');
 	parent::init();
@@ -13,53 +14,57 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
     {
 	$this->view->headScript()->appendFile("/javascript/jquery/jquery.colorbox.js");
 	$this->view->headLink()->appendStylesheet('/css/jquery.colorbox.css');
-	$Quote = $this->getEntityFromParamFields("Quote", array("id"));
 	
-	if(!$Quote->getId()){
-	    $this->_FlashMessenger->addErrorMessage("Could not get Quote");
-	    $this->_History->goBack();
-	}
+	$Quote = $this->_getQuote();
 	
-	$this->view->Quote	= $Quote;
+	$this->_CheckRequiredQuoteExists();
+	
+	$this->view->Quote = $Quote;
     }
     
     public function editAction()
     {
-	$Quote   = $this->getEntityFromParamFields("Quote", array("id"));
-	$lead_id = $this->_request->getParam("lead_id", null);
+	$Quote   = $this->_getQuote();
+	$Lead	 = $this->_getLead();   
 	
-	if(!$Quote->getId() && $lead_id){
-	    $Lead = $this->_em->find("Entities\Lead", $lead_id);
-	    if($Lead)$Quote->setLead($Lead);
+	if(!$Quote->getId() && $Lead->getId())
+	{
+	    $Quote->setLead($Lead);
+	    
 	    $Employee = Services\Auth::factory()->getIdentityPerson();
+	    
 	    $Quote->setEmployee($Employee);
 	}
 	
-	$form = new Form_Quote(array("method" => "post"), $Quote);
-	$form->addElement("button", "cancel", 
-		array("onclick" => "location='".$this->_History->getPreviousUrl(1)."'")
-		);
+	$form = new Forms\Company\Lead\Quote(array("method" => "post"), $Quote);
 	
-	if($this->isPostAndValid($form)){
+	$form->addCancelButton($this->_History->getPreviousUrl(1));
+	
+	if($this->isPostAndValid($form))
+	{
 	    try 
 	    {
-		$quote_data	= $this->_params["quote"];
-		$Lead = $this->_em->find("Entities\Lead", $quote_data["lead_id"]);
+		$quote_data = $this->_params["company_lead_quote"];
+		$Lead	    = $this->_em->find("Entities\Company\Lead", $quote_data["lead_id"]);
+		$Employee   = $this->_em->find("Entities\Employee", $quote_data["employee_id"]);
+		
 		if($Lead)$Quote->setLead($Lead);
-		$Employee = $this->_em->find("Entities\Employee", $quote_data["employee_id"]);
+		
 		if($Employee)$Quote->setEmployee($Employee);
+		
 		$Quote->setTotal(0);
 		$Quote->populate($quote_data);
 		$this->_em->persist($Quote);
 		$this->_em->flush();
-
-		$message = "Quote saved";
-		$this->_FlashMessenger->addSuccessMessage($message);
-		$this->_History->goBack();
-	    } catch (Exception $exc) {
+		
+		$this->_FlashMessenger->addSuccessMessage("Quote saved");
+	    } 
+	    catch (Exception $exc) 
+	    {
 		$this->_FlashMessenger->addErrorMessage($exc->getMessage());
-		$this->_History->goBack();
 	    }
+	    
+	    $this->_History->goBack();
 	}
 	
 	$this->view->form	= $form;
@@ -74,8 +79,12 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
     public function productadd1Action()
     {
 	$this->_helper->layout->setLayout("blank");
+	
 	$quote_id   = $this->_request->getParam("id", null);
-	$form	    = new Form_Quote_AddProduct(array("id" => "quote_addproduct", "name" => "quote_addproduct"));
+	$form	    = new Forms\Company\Lead\Quote\AddProduct(
+			    array("id" => "quote_addproduct", "name" => "quote_addproduct")
+			);
+	
 	$this->view->form	= $form;
 	$this->view->quote_id	= $quote_id;
     }
@@ -83,75 +92,65 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
     public function productadd2Action()
     {
 	$this->_helper->layout->setLayout("blank");
+	
 	$this->view->error  = false;
-	$product_id	    = $this->_request->getParam("product_id", null);
 	$quote_id	    = $this->_request->getParam("id", null);
-	$Product	    = $this->_em->find("Entities\Product", $product_id);
-	/* @var $Product \Entities\Product */
+	$Product	    = $this->_getProduct();
 	
-	if($Product->getId()){
-	    $this->view->type	    = $Product->getDescriminator();
-	    $this->view->form	    = new Form_Quote_AddProduct2(array("id" => "quote_addproduct2", "name" => "quote_addproduct2"));
-	    $this->view->quote_id   = $quote_id;
-	    $this->view->product_id = $product_id;
-	}
-	else{
-	    $this->_FlashMessenger->addErrorMessage("There was an error. Please Contact Administrator");
-	    $this->view->error = true;
-	}
+	$this->_CheckRequiredProductExists($Product);
+	$this->view->type	    = $Product->getDescriminator();
+	$this->view->form	    = new Forms\Company\Lead\Quote\AddProduct2(
+					    array("id" => "quote_addproduct2", "name" => "quote_addproduct2")
+					);
+	$this->view->quote_id	    = $quote_id;
+	$this->view->product_id	    = $Product->getId();
     }
     
-    public function productaddmanualAction(){
-	
+    public function productaddmanualAction()
+    {	
 	$this->_helper->layout->setLayout("blank");
-	$product_id	    = $this->_request->getParam("product_id", null);
+	
 	$quote_id	    = $this->_request->getParam("id", null);
-	$Product	    = $this->_em->find("Entities\ConfigurableProduct", $product_id);
-	
-	/* @var $Product \Entities\ConfigurableProduct */
+	$Product	    = $this->_getProduct();
 	$data		    = array();
-	if($Product->getId()){
-	    /* @var $OptionGroup \Entities\ConfigurableProductOptionGroup */
-	    foreach ($Product->getConfigurableProductOptionGroups() as $OptionGroup)
-	    {
-		$index			    = $OptionGroup->hasRequiredOption() ? "required" : "optional";
-		$Category		    = $OptionGroup->getConfigurableProductOptionCategory(); 
-		$optiongroupcategory_index  = $Category->getIndex();
-		
-		if(!isset($data[$optiongroupcategory_index]["category"])){
-		    $data[$optiongroupcategory_index]["category"] = $Category;
-		}
-		if(!isset($data[$optiongroupcategory_index]["groups"]["optional"])){
-		    $data[$optiongroupcategory_index]["groups"]["optional"] = array();
-		}
-		if(!isset($data[$optiongroupcategory_index]["groups"]["required"])){
-		    $data[$optiongroupcategory_index]["groups"]["required"] = array();
-		}
-		$data[$optiongroupcategory_index]["groups"][$index][] = $OptionGroup;;
-	    }
-	    $this->view->quote_id   = $quote_id;
-	    $this->view->product_id = $product_id;
-	    $this->view->data	    = $data;
-	    $this->view->Product    = $Product;
-	}
-	else{
-	    $this->_FlashMessenger->addErrorMessage("There was an error. Please Contact Administrator");
-	}
-    }
-    
-    public function getoptionformAction(){
-	$group_id   = $this->_request->getParam("group_id", null);
-	$Group	    = $this->_em->find("Entities\ConfigurableProductOptionGroup", $group_id);
-	/* @var $Group \Entities\ConfigurableProductOptionGroup */
 	
-	if($Group->getId()){
-	    $form = new Form_Quote_ConfigurableProductOptionGroup($Group);
-	    $form->removeDecorator('form');
-	    echo $form; exit;
+	foreach ($Product->getOptions() as $Option)
+	{
+	    /* @var $Option \Entities\Company\Supplier\Product\Configurable\Option */
+	    $index	    = $Option->hasRequiredOption() ? "required" : "optional";
+	    $Category	    = $Option->getCategory(); 
+	    $category_index = $Category->getIndex();
+
+	    if(!isset($data[$category_index]["category"]))
+		$data[$category_index]["category"] = $Category;
+	    
+	    if(!isset($data[$category_index]["groups"]["optional"]))
+		$data[$category_index]["groups"]["optional"] = array();
+	    
+	    if(!isset($data[$category_index]["groups"]["required"]))
+		$data[$category_index]["groups"]["required"] = array();
+	    
+	    $data[$category_index]["groups"][$index][] = $Option;
 	}
+	
+	$this->view->quote_id   = $quote_id;
+	$this->view->product_id = $Product->getId();
+	$this->view->data	= $data;
+	$this->view->Product    = $Product;
     }
     
-    public function productaddmanualsaveAction(){
+    public function getoptionformAction()
+    {
+	$Option	= $this->_getOption(); 
+	$form	= new Forms\Company\Lead\Quote\Option($Option);
+	
+	$form->removeDecorator('form');
+	
+	echo $form; exit;
+    }
+    
+    public function itemaddmanualsaveAction()
+    {
 	$this->_helper->layout->setLayout("blank");
 	$this->_helper->viewRenderer->setNoRender(true);
 	
@@ -160,57 +159,64 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
 	$return["error_message"]    = "";
 	$error_message		    = array();
 	$values			    = array();
-	$quote_id		    = $this->_request->getParam("quote_id");
-	$product_id		    = $this->_request->getParam("product_id");
-	$QuoteProduct		    = new Entities\QuoteProduct;
-	$Quote			    = null;
-	$Product		    = null;
+	$Quote			    = $this->_getQuote();
+	$Product		    = $this->_getProduct();
 	
-	if($product_id && $quote_id){	
-	    $Quote		= $this->_em->find("Entities\Quote", $quote_id);
-	    $Product	= $this->_em->find("Entities\Product", $product_id);
-	}
+	$this->_CheckRequiredQuoteExists($Quote);
+	$this->_CheckRequiredProductExists($Product);
 	
-	if($Quote && $Product && $this->_request->isPost())
-	{
-	    $QuoteProduct->setProduct($Product);
+	$ConfigurableInstance	= new Entities\Company\Supplier\Product\Configurable\Instance($Product);
+	$Item			= new Entities\Company\Lead\Quote\Item;
+	
+	$Item->setQuote($Quote);
+	
+	if($this->_request->isPost())
+	{	    
 	    $data = $this->_request->getPost();
-	    foreach($data as $group_id => $group_array){
-		$Group			= $this->_em->find("\Entities\ConfigurableProductOptionGroup", $group_id);
-		/* @var $Group \Entities\ConfigurableProductOptionGroup */
-		$Category		= $Group->getConfigurableProductOptionCategory();
-		$required_options_array = $Group->getRequiredOptionIdsArray();
+	    
+	    foreach($data as $option_id => $option_array)
+	    {
+		$Option		    = $this->_em->find(
+					    "\Entities\Company\Supplier\Product\Configurable\Option", 
+					    $option_id
+					);
+		/* @var $Option \Entities\Company\Supplier\Product\Configurable\Option */
+		$Category		= $Option->getCategory();
+		$required_parameters	= $Option->getRequiredParameters();
+		$required_message	= $Category->getName()." - ".$Option->getName()." - %s is required.";
 		
-		#--Check that all required options exist in post
-		foreach ($required_options_array as $option_id) {
-		    if(!key_exists($option_id, $group_array)){
-			$Option = $this->_em->find("\Entities\ConfigurableProductOption", $option_id);
-			$error_message[] = $Category->getName()." - ".$Group->getName().
-					    " - ".$Option->getName()." is required.";
-		    }
+		#--Check that all required parameters exist in post
+		foreach ($required_parameters as $Parameter) 
+		{
+		    if(!key_exists($Parameter->getId(), $option_array))
+			$error_message[] = sprintf($required_message, $Parameter->getName());
 		}
 		
-		foreach($group_array as $option_id => $value_id)
+		#--Check that required options have a value if so then add
+		foreach($option_array as $parameter_id => $value_id)
 		{
-		    $Option = $this->_em->find("\Entities\ConfigurableProductOption", $option_id);
-		    #--Check that required options have a value
-		    /* @var $Option \Entities\ConfigurableProductOption */
-		    if($Option->isRequired() && !$value_id){
-			$error_message[] = $Category->getName()." - ".$Group->getName().
-					    " - ".$Option->getName()." is required.";
+		    $Parameter = $this->_em->find(
+				    "\Entities\Company\Supplier\Product\Configurable\Option\Parameter", 
+				    $parameter_id
+				 );
+		    
+		    /* @var $Parameter \Entities\Company\Supplier\Product\Configurable\Option\Parameter */
+		    if($Parameter->isRequired() && !$value_id)
+		    {
+			$error_message[] = sprintf($required_message, $Parameter->getName());
 		    }
 		    elseif(!$value_id) {
 			
 		    }
 		    else{
-			$Value = $this->_em->find("\Entities\ConfigurableProductOptionValue", $value_id);
-			if($Value){
-			    $values[] = $Value;
-			}
-			else{
-			    $error_message[] = $Category->getName()." - ".$Group->getName().
-					    " - ".$Option->getName()." $value_id is not valid.";
-			}
+			$Value = $this->_em->find(
+				    "\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value", 
+				    $value_id
+				);
+			
+			if($Value)$values[] = $Value;
+			else $error_message[] = $Category->getName()." - ".$Option->getName().
+					    " - ".$Parameter->getName()." $value_id is not valid.";
 		    }
 		}
 	    }
@@ -220,20 +226,19 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
 	    }
 	    else{
 		try {
-		    foreach ($values as $Value) {
-			    $QuoteProductValue = new \Entities\QuoteProductOptionValue;
-			    $QuoteProductValue->setConfigurableProductOptionValue($Value);
-			    $QuoteProductValue->setQuantity(1);
-			    $QuoteProductValue->setNote("");
-			    $QuoteProduct->addQuoteProductOptionValue($QuoteProductValue);
+		    foreach ($values as $Value) 		    {
+			$ConfigurableInstance->addValue($Value);
 		    }
-		    $QuoteProduct->setNote("");
-		    $QuoteProduct->setPriceEach(0);
-		    $QuoteProduct->setQuantity(1);
-		    $Quote->addQuoteProduct($QuoteProduct);
+		    $ConfigurableInstance->setNote("");
+		    
+		    $Item->setInstance($ConfigurableInstance);
+		    $Item->setQuantity(1);
+		    $Quote->addItem($Item);
 		    $this->_em->persist($Quote);
 		    $this->_em->flush();
-		} catch (Exception $exc) {
+		} 
+		catch (Exception $exc) 
+		{
 		    $return["success"] = false;
 		    $return["error_message"] .= "<br />".$exc->getMessage();
 		}
@@ -244,6 +249,76 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
 	    $return["error_message"]	= "Invalid Request or Missing Quote or Product Id";
 	}
 	echo json_encode($return);
+    }
+    
+    /**
+     * @return \Entities\Company\Lead\Quote
+     */
+    private function _getQuote()
+    {
+	return $this->getEntityFromParamFields("Company\Lead\Quote", array("id"));
+    }
+    
+    private function _CheckRequiredQuoteExists(\Entities\Company\Lead\Quote $Quote)
+    {
+	if(!$Quote->getId())
+	{
+	    $this->_FlashMessenger->addErrorMessage("Could not get Quote");
+	    $this->_History->goBack();
+	}
+    }
+    
+    /**
+     * @return Entities\Company\Lead
+     */
+    private function _getLead()
+    {
+	return $this->getEntityFromParamFields("Company\Lead", array("lead_id"));
+    }
+    
+    private function _CheckRequiredLeadExists(\Entities\Company\Lead $Lead)
+    {
+	if(!$Lead->getId())
+	{
+	    $this->_FlashMessenger->addErrorMessage("Could not get Lead");
+	    $this->_History->goBack();
+	}
+    }
+    
+    /**
+     * @return Entities\Company\Supplier\Product\ProductAbstract
+     */
+    private function _getProduct()
+    {
+	return $this->getEntityFromParamFields("Company\Supplier\Product\ProductAbstract", array("product_id"));
+    }
+    
+    private function _CheckRequiredProductExists(Entities\Company\Supplier\Product\ProductAbstract $Product)
+    {
+	if(!$Product->getId())
+	{
+	    $this->_FlashMessenger->addErrorMessage("Could not get Product");
+	    $this->_History->goBack();
+	}
+    }
+    
+    /**
+     * @return Entities\Company\Supplier\Product\Configurable\Option
+     */
+    private function _getOption()
+    {
+	return $this->getEntityFromParamFields("Company\Supplier\Product\Product\Configurable\Option", 
+		    array("option_id")
+		);
+    }
+    
+    private function _CheckRequiredOptionExists(Entities\Company\Supplier\Product\Configurable\Option $Option)
+    {
+	if(!$Option->getId())
+	{
+	    $this->_FlashMessenger->addErrorMessage("Could not get Option");
+	    $this->_History->goBack();
+	}
     }
 }
 

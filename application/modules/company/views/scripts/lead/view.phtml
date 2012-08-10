@@ -8,9 +8,9 @@ echo "</div>";
 <?php
 $lead	= $this->Lead;
 $lead_id	= $lead->getId();
-$addresses	= $lead->getPersonAddresses();
-$phones		= $lead->getPersonPhoneNumbers();
-$emails		= $lead->getPersonEmailAddresses();
+$addresses	= $lead->getAddresses();
+$phones		= $lead->getPhoneNumbers();
+$emails		= $lead->getEmailAddresses();
 $contacts	= $lead->getContacts();
 $quotes		= $lead->getQuotes();
 ?>

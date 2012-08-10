@@ -4,7 +4,7 @@ class Company_LeadController extends Dataservice_Controller_Action
 {
     public function init()
     {
-	$this->view->headScript()->appendFile("/javascript/lead/lead.js");
+	$this->view->headScript()->appendFile("/javascript/company/lead.js");
 	parent::init();
     }
     
@@ -44,31 +44,31 @@ class Company_LeadController extends Dataservice_Controller_Action
 	$this->view->Lead	= $Lead;
     }
     
-    public function viewAction(){
-	$this->view->headScript()->appendFile("/javascript/lead/lead.js");
+    public function viewAction()
+    {
 	$this->view->headScript()->appendFile("/javascript/jquery/jquery-ui.min.js");
 	$this->view->headLink()->prependStylesheet('/css/jquery-ui/flick/jquery-ui.custom.css');
 	
-	$flashMessenger = $this->_helper->getHelper('FlashMessenger');
 	$redirect	= false;
 	
-	if(isset($this->_params["id"])){
-	    $Lead = $this->_helper->EntityManager()->find("Entities\Lead", $this->_params["id"]);
+	if(isset($this->_params["id"]))
+	{
+	    $Lead = $this->_helper->EntityManager()->find("Entities\Company\Lead", $this->_params["id"]);
+	    
 	    if(!$Lead)$redirect = true;
 	}
 	else $redirect = true;
-	if($redirect){
-	    $flashMessenger->addMessage(array("message" => "Could not get Lead", "status" =>  "error"));
-	}
 	
-	$Company	= \Services\Company::factory()->getCurrentCompany();
+	if($redirect)$this->_FlashMessenger->addErrorMessage("Could not get Lead");
+	
+	$Company		= \Services\Company::factory()->getCurrentCompany();
 	$this->view->Lead	= $Lead;
 	$this->view->Locations	= $Company->getLocations();
     }
     
     public function searchAction()
     {	
-	$this->view->headScript()->appendFile("/javascript/lead/search.js");
+	$this->view->headScript()->appendFile("/javascript/company/lead/search.js");
 	$this->view->headScript()->appendFile("/javascript/jquery/jquery-ui.min.js");
 	$this->view->headLink()->prependStylesheet('/css/jquery-ui/flick/jquery-ui.custom.css');
     }
@@ -82,11 +82,12 @@ class Company_LeadController extends Dataservice_Controller_Action
 	$this->_helper->viewRenderer->setNoRender(true);
 	
 	$term		= $this->_autocompleteGetTerm();
-	$return		= \Services\Lead::factory()->getAutocompleteLeadsArrayFromTerm($term);
+	$return		= \Services\Company\Lead::factory()->getAutocompleteLeadsArrayFromTerm($term);
 	echo json_encode($return);
     }
 
-    private function _autocompleteGetTerm(){
+    private function _autocompleteGetTerm()
+    {
 	$term = '';
 	if (isset($_GET['term'])) {
 	    $term = strtolower($_GET['term']);

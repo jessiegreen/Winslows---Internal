@@ -1,8 +1,10 @@
 <?php
-class Dataservice_Controller_Plugin_ACL extends Zend_Controller_Plugin_Abstract {
+class Dataservice_Controller_Plugin_ACL extends Zend_Controller_Plugin_Abstract
+{
     private $debug = false;
     
-    public function preDispatch(Zend_Controller_Request_Abstract $request) {
+    public function preDispatch(Zend_Controller_Request_Abstract $request) 
+    {
         $objAuth    = Zend_Auth::getInstance();
 	$clearACL   = true;
 	$front	    = \Zend_Controller_Front::getInstance();
@@ -19,18 +21,23 @@ class Dataservice_Controller_Plugin_ACL extends Zend_Controller_Plugin_Abstract 
 	// in user has the credentials to access the current resource
  
         try {
-	    if($objAuth->hasIdentity()) {
+	    if($objAuth->hasIdentity()) 
+	    {
 		if($this->debug)echo "Has Identity<br />";
 		/* @var $Account \Entities\Company\Website\Account */
 	        $Account = $objAuth->getIdentity();
  
 	         $sess = new Zend_Session_Namespace('Dataservice');
+		 
 	         if($sess->clearACL) {
 	             $clearACL = true;
 	              unset($sess->clearACL);
 	         }
+		 
 		 if($this->debug)echo "<br /><u>Begin Factory::get()</u><br />";
+		 
                  $objAcl = Dataservice_ACL_Factory::get($em, $clearACL);
+		 
 		 if($this->debug)echo "<br /><u>End Factory::get()</u><br />";
 		 
 		 $allowed = false;
@@ -54,7 +61,8 @@ class Dataservice_Controller_Plugin_ACL extends Zend_Controller_Plugin_Abstract 
         	     $request->setActionName('noauth');
 	         }
  
-            } else {
+            } else 
+	    {
 		if($this->debug)echo "Does Not have Identity<br />";
 	        $objAcl = Dataservice_ACL_Factory::get($em, $clearACL);
 	        if(!$objAcl->isAllowed($role, $request->getModuleName() .'::' .$request->getControllerName() .'::' .$request->getActionName())) {

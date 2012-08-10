@@ -1,7 +1,7 @@
 <?php
 namespace Services\Company\Supplier\Product\Configurable;
 
-class Option 
+class Option extends \Dataservice_Service_ServiceAbstract
 {
     public function getAllOptions()
     {

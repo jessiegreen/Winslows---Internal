@@ -9,10 +9,10 @@ echo "</div>";
 /* @var $Employee \Entities\Employee */
 $Employee	= $this->Employee;
 $employee_id	= $Employee->getId();
-$addresses	= $Employee->getPersonAddresses();
-$phones		= $Employee->getPersonPhoneNumbers();
-$emails		= $Employee->getPersonEmailAddresses();
-$webaccount	= $Employee->getWebAccount();
+$addresses	= $Employee->getAddresses();
+$phones		= $Employee->getPhoneNumbers();
+$emails		= $Employee->getEmailAddresses();
+$webaccount	= $Employee->getAccount();
 ?>
 <div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
     <h3 class="no_space" style="color: #2000EE;">

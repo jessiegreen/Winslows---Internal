@@ -9,9 +9,9 @@ echo "</div>";
 /* @var $customer Entities\Customer */
 $customer	= $this->Customer;
 $customer_id	= $customer->getId();
-$addresses	= $customer->getPersonAddresses();
-$phones		= $customer->getPersonPhoneNumbers();
-$emails		= $customer->getPersonEmailAddresses();
+$addresses	= $customer->getAddresses();
+$phones		= $customer->getPhoneNumbers();
+$emails		= $customer->getEmailAddresses();
 $contacts	= $customer->getContacts();
 ?>
 <div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
