@@ -1,23 +1,24 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo HTML::backAnchorIcon("Supplier - view", "/company-supplier/view/id/".$this->Product->getSupplier()->getId());
+echo HTML::backAnchorIcon("Supplier - view", "/company/supplier/view/id/".$this->Product->getSupplier()->getId());
 echo "</div>";
 ?>
 <h1 class="header1">Product - View</h1>
 <?php
-/* @var $Product \Entities\Product */
+/* @var $Product \Entities\Company\Supplier\Product\ProductAbstract */
 $Product	= $this->Product;
 $product_id	= $Product->getId();
-$OptionGroups	= null;
+$Options	= null;
 $validator	= null;
 $pricer		= null;
 $price		= null;
 
-switch ($Product->getDescriminator()) {
+switch ($Product->getDescriminator()) 
+{
     case "Configurable":
-	/* @var $Product \Entities\ConfigurableProduct */
-	$OptionGroups	= $Product->getConfigurableProductOptionGroups();
+	/* @var $Product \Entities\Company\Supplier\Product\Configurable */
+	$Options	= $Product->getOptions();
 	$validator	= $Product->getValidator();
 	$pricer		= $Product->getPricer();
     break;
@@ -34,7 +35,7 @@ switch ($Product->getDescriminator()) {
 	echo HTML::anchorIcon(
 		"pencil.png", 
 		"", 
-		"/product/edit/id/".$product_id,
+		"/company/supplier-product/edit/id/".$product_id,
 		"margin-left:5px;"
 		);
 	?>
@@ -55,7 +56,7 @@ switch ($Product->getDescriminator()) {
 <div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">
     <div id="accordion">
 	<?php
-	if($OptionGroups){
+	if($Options){
 	    ?>
 	    <h3>
 		<a href="#">Option Groups</a>
@@ -78,24 +79,24 @@ switch ($Product->getDescriminator()) {
 		<ul>
 		<?php
 		/* @var $CbOption \Entities\CbOption */
-		if(count($OptionGroups)>0){
-		    foreach ($OptionGroups as $ConfigurableProductOptionGroup) {
+		if(count($Options)>0){
+		    foreach ($Options as $Option) {
 			?>
 			<li>
 			    <?php
 			    echo HTML::anchorIcon(
 				    "magnifier.png", 
 				    "", 
-				    "/configurableproductoptiongroup/view/id/".$ConfigurableProductOptionGroup->getId(),
+				    "/company/supplier-product-configurable-option/view/id/".$Option->getId(),
 				    "margin-left:5px;"
 				    );
-			    echo $ConfigurableProductOptionGroup->getName();
+			    echo $Option->getName();
 			    ?>
 			</li>
 			<?php
 		    }
 		}
-		else echo "<li>No Option Groups</li>";
+		else echo "<li>No Options</li>";
 		?>
 		</ul>
 	    </div>

@@ -1,6 +1,5 @@
 <?php
 namespace Forms\Company\Lead\Quote;
-use Entities\Company\Lead\Quote as Quote;
 /**
  * Name:
  * Location:
@@ -15,7 +14,7 @@ class Subform extends QuoteAbstract\Subform
 {
     private $_Quote; 
     
-    public function __construct($options = null, Quote $Quote = null) 
+    public function __construct($options = null, \Entities\Company\Lead\Quote $Quote = null) 
     {
 	$this->_Quote = $Quote;
 	parent::__construct($options);
@@ -23,7 +22,7 @@ class Subform extends QuoteAbstract\Subform
     
     public function init() 
     {
-	$this->addElement(new Dataservice_Form_Element_LeadSelect("lead_id", array(
+	$this->addElement(new \Dataservice_Form_Element_LeadSelect("lead_id", array(
             'required'	    => true,
             'label'	    => 'Lead:',
 	    'belongsTo'	    => 'quote',
@@ -33,7 +32,7 @@ class Subform extends QuoteAbstract\Subform
 				: ""
         )));
 	
-	$this->addElement(new Dataservice_Form_Element_EmployeeSelect("employee_id", array(
+	$this->addElement(new \Dataservice_Form_Element_EmployeeSelect("employee_id", array(
             'required'	    => true,
             'label'	    => 'Sales Person:',
 	    'belongsTo'	    => 'quote',

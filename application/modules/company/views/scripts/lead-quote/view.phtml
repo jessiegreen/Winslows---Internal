@@ -6,10 +6,10 @@ echo "</div>";
 ?>
 <h1 class="header1">Quote - View</h1>
 <?php
-/* @var $quote \Entities\Quote */
+/* @var $quote \Entities\Company\Lead\Quote */
 $quote		= $this->Quote;
 $quote_id	= $quote->getId();
-$quote_products	= $quote->getQuoteProducts();
+$Items	= $quote->getItems();
 ?>
 <div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
     <h4 class="no_space" style="color: #2000EE;">
@@ -18,7 +18,7 @@ $quote_products	= $quote->getQuoteProducts();
 	echo HTML::anchorIcon(
 		"pencil.png", 
 		"", 
-		"/quote/edit/id/".$quote_id,
+		"/company/lead-quote/edit/id/".$quote_id,
 		"margin-left:5px;"
 		);
 	?>
@@ -33,34 +33,34 @@ $quote_products	= $quote->getQuoteProducts();
 <div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">
     <div id="accordion">
 	<h3>
-	    <a href="#">Products</a>
+	    <a href="#">Items</a>
 	    <?php echo HTML::buttonBlue("package_add.png", "Add Product", "quoteproduct_add", "float:right;width:110px;");?>
 	</h3>
 	<div>
 	    <?php
-	    echo count($quote_products)<1 ? "<span class='small gray'>No Products</span>" : "";
-	    /* @var $QuoteProduct \Entities\QuoteProduct */
-	    foreach ($quote_products as $QuoteProduct) {
-		/* @var $Product \Entities\Product */
-		$Product = $QuoteProduct->getProduct();
+	    echo count($Items)<1 ? "<span class='small gray'>No Items</span>" : "";
+	    /* @var $Item \Entities\Company\Lead\Quote\Item */
+	    foreach ($Items as $Item) {
+		/* @var $Instance \Entities\Company\Supplier\Product\Instance */
+		$Instance = $Item->getInstance();
 		?>
 		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
 		    <?php 
-		    echo $Product->getName();
+		    echo $Instance->getProduct()->getName();
 		    echo HTML::anchorIcon(
 			    "pencil.png", 
 			    "", 
-			    "/quoteproduct/edit/id/".$QuoteProduct->getId(),
+			    "/company/lead-quote-item/edit/id/".$Item->getId(),
 			    "margin-left:5px;"
 			    );
 		    ?>
 		</h4>
 		<label>Quantity:</label>
-		<div style="display: inline;"><?php echo $QuoteProduct->getQuantity(); ?></div><br />
+		<div style="display: inline;"><?php echo $Item->getQuantity(); ?></div><br />
 		<label>Price Each:</label>
-		<div style="display: inline;"><?php echo $QuoteProduct->getPriceEach(); ?></div><br />
+		<div style="display: inline;"><?php echo $Item->getPrice(); ?></div><br />
 		<label>Price Total:</label>
-		<div style="display: inline;"><?php echo $QuoteProduct->getQuantity()*$QuoteProduct->getPriceEach(); ?></div><br />
+		<div style="display: inline;"><?php echo $Item->getQuantity()*$Item->getPrice(); ?></div><br />
 		<?php
 	    }
 	    ?>
@@ -73,5 +73,5 @@ $quote_products	= $quote->getQuoteProducts();
 </div>
 <div style="clear: both;"><input type="hidden" id="quote_id" value="<?php echo $quote_id;?>" /></div>
 <script type="text/javascript">
-    $("#quoteproduct_add").colorbox({href:"/quote/productadd1/id/<?php echo $quote_id;?>"});
+    $("#quoteproduct_add").colorbox({href:"/company/lead-quote/productadd1/id/<?php echo $quote_id;?>"});
 </script>

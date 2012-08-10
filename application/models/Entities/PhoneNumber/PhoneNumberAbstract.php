@@ -109,7 +109,7 @@ class PhoneNumberAbstract
     /**
      * @param integer $area_code
      */
-    public function setAreaCode(integer $area_code)
+    public function setAreaCode($area_code)
     {
         $this->area_code = $area_code;
     }
@@ -125,7 +125,7 @@ class PhoneNumberAbstract
     /**
      * @param integer $num1
      */
-    public function setNum1(integer $num1)
+    public function setNum1($num1)
     {
         $this->num1 = $num1;
     }

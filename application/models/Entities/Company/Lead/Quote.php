@@ -94,6 +94,35 @@ class Quote extends Quote\QuoteAbstract
 	return $this->Employee;
     }
     
+    /**
+     * @return integer
+     */
+    public function getTotal()
+    {
+	$this->total = 0;
+	
+	/* @var $Item \Entities\Company\Lead\Quote\Item */
+	foreach ($this->getItems() as $Item)
+	{
+	    $this->total += $Item->getQuantity() * $Item->getInstance()->getPrice();
+	}
+	
+        return $this->total;
+    }
+    
+    public function getTotalItemsQuantity()
+    {
+	$total = 0;
+	
+	/* @var $Item \Entities\Company\Lead\Quote\Item */
+	foreach ($this->getItems() as $Item)
+	{
+	    $total += $Item->getQuantity();
+	}
+	
+        return $total;
+    }
+    
     public function populate(array $array)
     {
 	foreach ($array as $key => $value) 

@@ -117,7 +117,7 @@ class Category
     /**
      * @param integer $order
      */
-    public function setOrder(integer $order)
+    public function setOrder($order)
     {
         $this->order = $order;
     }

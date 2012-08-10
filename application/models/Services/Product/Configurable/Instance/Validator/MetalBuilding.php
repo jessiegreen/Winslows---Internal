@@ -4,7 +4,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-namespace Services\Product\Configurable\Instance\Validator;
+namespace Services\Company\Supplier\Product\Configurable\Instance\Validator;
 /**
  * Description of MetalBuildingValidator
  *

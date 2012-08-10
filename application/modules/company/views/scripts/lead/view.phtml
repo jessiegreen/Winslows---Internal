@@ -1,7 +1,7 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo HTML::backAnchorIcon("Lead Search", "/lead/search");
+echo HTML::backAnchorIcon("Lead Search", "/company/lead/search");
 echo "</div>";
 ?>
 <h1 class="header1">Lead - View</h1>
@@ -21,7 +21,7 @@ $quotes		= $lead->getQuotes();
 	echo HTML::anchorIcon(
 		"pencil.png", 
 		"", 
-		"/lead/edit/id/".$lead_id,
+		"/company/lead/edit/id/".$lead_id,
 		"margin-left:5px;"
 		);
 	?>
@@ -51,7 +51,7 @@ $quotes		= $lead->getQuotes();
 		    echo HTML::anchorIcon(
 			    "pencil.png", 
 			    "", 
-			    "/personaddress/edit/person_id/".$lead_id."/id/".$Address->getId(),
+			    "/person/address/edit/person_id/".$lead_id."/id/".$Address->getId(),
 			    "margin-left:5px;"
 			    );
 		    ?>
@@ -85,7 +85,7 @@ $quotes		= $lead->getQuotes();
 	<div>
 	    <?php
 	    echo count($phones)<1 ? "<span class='small gray'>No Phones</span>" : "";
-	    /* @var $PhoneNumber \Entities\PhoneNumber */
+	    /* @var $PhoneNumber \Entities\Person\PhoneNumber */
 	    foreach ($phones as $PhoneNumber) {
 		?>
 		<h4 class="no_space blue_frame bg_blue_fade" style="padding:3px;margin-bottom: 3px;">
@@ -94,7 +94,7 @@ $quotes		= $lead->getQuotes();
 		    echo HTML::anchorIcon(
 			    "pencil.png", 
 			    "", 
-			    "/personphonenumber/edit/person_id/".$lead_id."/id/".
+			    "/person/phone-number/edit/person_id/".$lead_id."/id/".
 				$PhoneNumber->getId(), 
 			    "margin-left:5px;"
 			    );
@@ -137,7 +137,7 @@ $quotes		= $lead->getQuotes();
 		    echo HTML::anchorIcon(
 			    "pencil.png", 
 			    "", 
-			    "/personemailaddress/edit/person_id/".$lead_id."/id/".
+			    "/person/email-address/edit/person_id/".$lead_id."/id/".
 				$Emailaddress->getId(), 
 			    "margin-left:5px;"
 			    );
@@ -172,17 +172,17 @@ $quotes		= $lead->getQuotes();
     <div>
 	<div style="max-height: 300px;overflow: auto;">
 	    <?php
-	    /* @var $Quote \Entities\Quote */
+	    /* @var $Quote \Entities\Company\Lead\Quote */
 	    if(count($quotes)>0){
 		foreach ($quotes as $Quote) {
 		    ?>
 		    <h4 class="no_space bg_blue_fade blue_frame" style="padding:3px;margin-bottom: 3px;">
 			<?php 
-			echo $Quote->getCreated()->format("m-d-Y, g:i a")." - ".$Quote->getEmployee()->getFirstName(); 
+			echo $Quote->getCreated()->format("m-d-Y, g:i a"); 
 			echo HTML::anchorIcon(
 				"magnifier.png", 
 				"", 
-				"/quote/view/id/".
+				"/company/lead-quote/view/id/".
 				    $Quote->getId(), 
 				"margin-left:5px;"
 				);
@@ -203,7 +203,7 @@ $quotes		= $lead->getQuotes();
 		    <label>Number Of Products:</label>
 		    <div style="display: inline;">
 			<?php 
-			echo count($Quote->getQuoteProducts());
+			echo $Quote->getTotalItemsQuantity();
 			?>
 		    </div><br /><br />
 		    <?php
@@ -230,21 +230,27 @@ $quotes		= $lead->getQuotes();
     <div>
 	<div style="max-height: 300px;overflow: auto;">
 	    <?php
-	    /* @var $Contact \Entities\Contact */
+	    /* @var $Contact \Entities\Company\Lead\Contact */
 	    foreach ($contacts as $Contact) {
 		?>
 		<h4 class="no_space bg_blue_fade blue_frame" style="padding:3px;margin-bottom: 3px;">
 		    <?php 
-		    echo $Contact->getCreated()->format("m-d-Y, g:i a")." - ".$Contact->getPerson()->getFullName(); 
+		    echo $Contact->getCreated()->format("m-d-Y, g:i a"); 
 		    echo HTML::anchorIcon(
 			    "pencil.png", 
 			    "", 
-			    "/contact/edit/lead_id/".$lead_id."/id/".
+			    "/company/lead-contact/edit/lead_id/".$lead_id."/id/".
 				$Contact->getId(), 
 			    "margin-left:5px;"
 			    );
 		    ?>
 		</h4>
+		<label>By:</label>
+		<div style="display: inline;">
+		    <?php 
+		    echo $Contact->getEmployee()->getFirstName();
+		    ?>
+		</div><br />
 		<label>Type:</label>
 		<div style="display: inline;">
 		    <?php 

@@ -59,7 +59,7 @@
 			<script type="text/javascript">
 			    $("#tab_title_<?php echo $Category->getId();?>").html("<?php echo $Category->getName();?>*")
 			    $.ajax({
-				url: "/quote/getoptionform/group_id/<?php echo $Group->getId();?>",
+				url: "/company/lead-quote/getoptionform/group_id/<?php echo $Group->getId();?>",
 				success: function(data){
 				    right_div = $("#right_<?php echo $Category->getIndex();?>");
 				    right_div.append(data);
@@ -85,7 +85,7 @@
 	$("#quote_product_add_manual").submit(function(){
 	    $.post(
 		"/quote/productaddmanualsave/product_id/<?php echo $this->Product->getId();?>/quote_id/<?php echo $this->quote_id;?>", 
-		$("#quote_product_add_manual").serialize(),
+		$("#company_lead_quote_product_add_manual").serialize(),
 		function(data) {
 		    alert(data = data);
 		    if(data.success === true){
@@ -132,13 +132,13 @@
 
 	function handleDropEvent( event, ui ) {
 	    var draggable   = ui.draggable;
-	    group_id	    = draggable.attr('group_id');
+	    option_id	    = draggable.attr('option_id');
 	    quantity_left   = draggable.attr('quantity_left');
 	    parent_div	    = draggable.parents(".blah");
 	    right_frame	    = parent_div.children(".add_option_right");
 	    
 	    $.ajax({
-		url: "/quote/getoptionform/group_id/" + group_id,
+		url: "/company/lead-quote/getoptionform/option_id/" + option_id,
 		success: function(data){
 		    right_frame.append(data);
 		    if(quantity_left == 0){

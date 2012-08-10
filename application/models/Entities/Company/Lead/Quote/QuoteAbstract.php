@@ -23,7 +23,7 @@ class QuoteAbstract
      * @Column(type="decimal", precision=40, scale=2)
      * @var integer $total
      */
-    private $total;
+    protected $total;
     
     /** 
      * @Column(type="datetime") 
@@ -56,22 +56,6 @@ class QuoteAbstract
     public function getId()
     {
         return $this->id;
-    }
-    
-    /**
-     * @return integer
-     */
-    public function getTotal()
-    {
-        return $this->total;
-    }
-
-    /**
-     * @param integer $total
-     */
-    public function setTotal(integer $total)
-    {
-        $this->total = $total;
     }
 
     /**

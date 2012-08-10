@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @Entity (repositoryClass="Repositories\Company\Supplier\Product\Configurable\Instance") 
  * @Table(name="company_supplier_product_configurable_instances") 
  */
-class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstract
+class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstract implements \Interfaces\Company\Supplier\Product\Instance\InstanceAbstract
 {    
     /**
      * @ManytoMany(targetEntity="\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value")
@@ -32,7 +32,8 @@ class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstr
     /**
      * @return \Entities\Company\Supplier\Product\Configurable
      */
-    public function getProduct() {
+    public function getProduct()
+    {
 	parent::getProduct();
     }
     
@@ -65,6 +66,21 @@ class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstr
 	{
 	    call_user_method("validate", $this->Validator, $this);
 	    return true;
+	} 
+	catch(\Exception $exc)
+	{
+	    return $exc;
+	}
+    }
+    
+    /**
+     * @return \Exception|integer
+     */
+    public function getPrice()
+    {
+	try
+	{
+	    return call_user_method("price", $this->Pricer, $this);
 	} 
 	catch(\Exception $exc)
 	{

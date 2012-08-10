@@ -30,7 +30,7 @@ class Subform extends \Zend_Form_SubForm
 	    }
 	}
 	
-	$this->addElement(new Dataservice_Form_Element_OptionMultiCheckbox("configurable_manageoptions", array(
+	$this->addElement(new \Dataservice_Form_Element_OptionMultiCheckbox("configurable_manageoptions", array(
             'required'	    => false,
             'label'	    => 'Option Groups:',
 	    'belongsTo'	    => 'configurable_manageoptions',

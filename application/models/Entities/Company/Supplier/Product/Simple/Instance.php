@@ -8,5 +8,16 @@ namespace Entities\Company\Supplier\Product\Simple;
  */
 class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstract implements \Interfaces\Company\Supplier\Product\Instance\InstanceAbstract 
 {    
+    /**
+     * @return \Entities\Company\Supplier\Product\Simple
+     */
+    public function getProduct()
+    {
+	parent::getProduct();
+    }
     
+    public function getPrice() 
+    {
+	return $this->getProduct()->getPrice();
+    }
 }

@@ -156,7 +156,7 @@ class Parameter
     /**
      * @param integer $length
      */
-    public function setLength(integer $length)
+    public function setLength($length)
     {
         $this->length = $length;
     }

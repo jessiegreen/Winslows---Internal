@@ -163,7 +163,7 @@ class Option
     /**
      * @param integer $length
      */
-    private function _setLength(integer $length)
+    private function _setLength($length)
     {
 	$this->_length = $length;
     }
@@ -253,7 +253,7 @@ class Option
     /**
      * @param integer $max_count
      */
-    public function setMaxCount(integer $max_count)
+    public function setMaxCount($max_count)
     {
         $this->maxcount = $max_count;
     }

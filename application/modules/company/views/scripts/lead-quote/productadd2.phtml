@@ -20,7 +20,7 @@ if(!$this->error){
 		    
 		    if(value == "manual"){
 			$.ajax({
-			    url: "/quote/productaddmanual/id/<?php echo $this->quote_id;?>/product_id/<?php echo $this->product_id;?>",
+			    url: "/company/lead-quote/productaddmanual/id/<?php echo $this->quote_id;?>/product_id/<?php echo $this->product_id;?>",
 			    success: function(data) { 
 				$.colorbox.resize({width:1200,height:'95%'})
 				c = $("#addproduct_colorbox_content");

@@ -31,7 +31,7 @@ class Simple extends ProductAbstract
     /**
      * @param integer $price
      */
-    public function setPrice(integer $price)
+    public function setPrice($price)
     {
 	$this->price = $price;
     }

@@ -10,7 +10,7 @@ namespace Forms\Company\Supplier\Product\Configurable;
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class ManageOptions extends \Zend_Form
+class ManageOptions extends \Dataservice_Form
 {
     private $_Product;
     

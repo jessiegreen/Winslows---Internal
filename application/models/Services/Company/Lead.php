@@ -58,7 +58,7 @@ class Lead extends \Dataservice_Service_ServiceAbstract
 	    
     public function getAllAllowedLeads()
     {
-	$Employee   = Auth::factory()->getIdentityPerson();
+	$Employee   = \Services\Auth::factory()->getIdentityPerson();
 	
 	if($Employee->getAccount()->hasRole('Admin') || $Employee->getAccount()->hasRole('Sales_Manager')){
 	    return $this->_em->getRepository("Entities\Company\Lead")->findBy(array(), array("last_name" => "ASC", "first_name" => "ASC"));

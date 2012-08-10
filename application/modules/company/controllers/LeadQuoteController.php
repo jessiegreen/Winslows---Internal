@@ -17,19 +17,21 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
 	
 	$Quote = $this->_getQuote();
 	
-	$this->_CheckRequiredQuoteExists();
+	$this->_CheckRequiredQuoteExists($Quote);
 	
 	$this->view->Quote = $Quote;
     }
     
     public function editAction()
     {
-	$Quote   = $this->_getQuote();
-	$Lead	 = $this->_getLead();   
+	$Quote   = $this->_getQuote();   
 	
 	if(!$Quote->getId() && $Lead->getId())
 	{
-	    $Quote->setLead($Lead);
+	    if($this->_request->getParam("lead_id") && $Lead = $this->_getLead() && $Lead->getId())
+	    {
+		$Quote->setLead($Lead);
+	    }
 	    
 	    $Employee = Services\Auth::factory()->getIdentityPerson();
 	    
@@ -290,7 +292,8 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
      */
     private function _getProduct()
     {
-	return $this->getEntityFromParamFields("Company\Supplier\Product\ProductAbstract", array("product_id"));
+	$id = $this->_request->getParam("product_id", 0);
+	return $this->_em->find("Entities\Company\Supplier\Product\ProductAbstract", $id);
     }
     
     private function _CheckRequiredProductExists(Entities\Company\Supplier\Product\ProductAbstract $Product)

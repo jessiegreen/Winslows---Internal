@@ -10,24 +10,24 @@ class Company_SupplierProductController extends Dataservice_Controller_Action
 {    
     public function init()
     {
-	$this->view->headScript()->appendFile("/javascript/product/product.js");
+	$this->view->headScript()->appendFile("/javascript/company/supplier/product.js");
 	parent::init();
     }
     
     public function editAction()
     {
-	/* @var $Product \Entities\Product */
-	$Product	= $this->getEntityFromParamFields("Product", array("id"));
+	/* @var $Product \Entities\Company\Supplier\Product\ProductAbstract */
+	$Product	= $this->getEntityFromParamFields('Company\Supplier\Product', array("id"));
 	switch ($Product->getDescriminator()) {
 	    case "Configurable":
-		$Product    = $this->getEntityFromParamFields("ConfigurableProduct", array("id"));
-		$form_class = "Form_ConfigurableProduct";
-		$param_key  = "configurableproduct";
+		$Product    = $this->getEntityFromParamFields('Company\Supplier\Product\Configurable', array("id"));
+		$form_class = 'Forms\Company\Supplier\Product\Configurable';
+		$param_key  = "company_supplier_product_configurable";
 	    break;
 	    case "Simple":
-		$Product    = $this->getEntityFromParamFields("SimpleProduct", array("id"));
-		$form_class = "Form_SimpleProduct";
-		$param_key  = "simpleproduct";
+		$Product    = $this->getEntityFromParamFields("Company\Supplier\Product\Simple", array("id"));
+		$form_class = "Forms\Company\Supplier\Product\Simple";
+		$param_key  = "company_supplier_product_simple";
 	    break;
 	    default:
 		$this->_FlashMessenger->addErrorMessage("Product Descriminator is Base");
@@ -83,9 +83,10 @@ class Company_SupplierProductController extends Dataservice_Controller_Action
     
     public function viewAction()
     {
-	$Product = $this->getEntityFromParamFields("Product", array("id"));
+	$Product = $this->getEntityFromParamFields("Company\Supplier\Product\ProductAbstract", array("id"));
 	
-	if(!$Product->getId()){
+	if(!$Product->getId())
+	{
 	    $this->_FlashMessenger->addErrorMessage("Could not get Product");
 	    $this->_History->goBack();
 	}
@@ -95,46 +96,52 @@ class Company_SupplierProductController extends Dataservice_Controller_Action
     
     public function viewallAction()
     {
-	$ProductRepos		= $this->_em->getRepository("Entities\Product");
+	$ProductRepos		= $this->_em->getRepository("\Entities\Company\Supplier\Product\ProductAbstract");
 	$this->view->Product	= $ProductRepos->findBy(array(), array("name" => "ASC"));
     }
     
-    public function manageoptiongroupsAction(){
-	/* @var $ConfigurableProduct \Entities\ConfigurableProduct */
-	$ConfigurableProduct = $this->getEntityFromParamFields("ConfigurableProduct", array("id"));
+    public function manageoptiongroupsAction()
+    {
+	/* @var $Configurable Entities\Company\Supplier\Product\Configurable */
+	$Configurable = $this->getEntityFromParamFields("Company\Supplier\Product\Configurable", array("id"));
 	
-	if($ConfigurableProduct){
-	    $form = new Form_ConfigurableProduct_ManageOptions($ConfigurableProduct, array("method" => "post"));
-	    $form->addElement("button", "cancel", 
-		array("onclick" => "location='".$this->_History->getPreviousUrl(1)."'")
-		);
+	if($Configurable)
+	{
+	    $form = new Forms\Company\Supplier\Product\Configurable\ManageOptions($Configurable, array("method" => "post"));
+	    
+	    $form->addCancelButton($this->_History->getPreviousUrl(1));
 	    
 	    if($this->isPostAndValid($form)){
-		try {
-		    $data	= $this->_params["product_manageoptions"];
-		    $options    = $data["configurableproduct_manageoptions"];
+		try 
+		{
+		    $data	= $this->_params["company_supplier_product_configurable_manageoptions"];
+		    $options    = $data["configurable_manageoptions"];
 
-		    foreach ($ConfigurableProduct->getConfigurableProductOptionGroups() as $ConfigurableProductOptionGroup) {
-			if(!in_array($ConfigurableProductOptionGroup->getId(), $options)){
-			    $ConfigurableProduct->removeConfigurableProductOptionGroup($ConfigurableProductOptionGroup);
+		    foreach ($Configurable->getOptions() as $Option)
+		    {
+			if(!in_array($Option->getId(), $options)){
+			    $Configurable->removeOption($Option);
 			}
 
-			$current_groups[] = $ConfigurableProductOptionGroup->getId();
+			$current_groups[] = $Option->getId();
 		    }
 
-		    foreach ($options as $value) {
-			if(!in_array($value, $current_groups)){
-			    $ConfigurableProductOptionGroup = $this->_em->find("Entities\ConfigurableProductOptionGroup", $value);
-			    $ConfigurableProduct->addConfigurableProductOptionGroup($ConfigurableProductOptionGroup);
+		    foreach ($options as $value) 
+		    {
+			if(!in_array($value, $current_groups))
+			{
+			    $Option = $this->_em->find("\Entities\Company\Supplier\Product\Configurable\Option", $value);
+			    $Configurable->addOption($Option);
 			}
 		    }
 
-		    $this->_em->persist($ConfigurableProduct);
+		    $this->_em->persist($Configurable);
 		    $this->_em->flush();
-		    $this->_FlashMessenger->addSuccessMessage("Configurable Option Groups saved.");
+		    $this->_FlashMessenger->addSuccessMessage("Configurable Option saved.");
 		    $this->_History->goBack();
 		}
-		catch (Exception $exc) {
+		catch (Exception $exc)
+		{
 		    $this->_FlashMessenger->addErrorMessage($exc->getMessage());
 		    $this->_History->goBack();
 		}

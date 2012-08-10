@@ -77,7 +77,7 @@ class Item
     /**
      * @param integer $quantity
      */
-    public function setQuantity(integer $quantity)
+    public function setQuantity($quantity)
     {
 	$this->quantity = $quantity;
     }

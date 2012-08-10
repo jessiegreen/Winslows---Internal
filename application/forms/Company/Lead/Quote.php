@@ -1,6 +1,5 @@
 <?php
 namespace Forms\Company\Lead;
-use Entities\Company\Lead\Quote as Quote;
 /**
  * Name:
  * Quote:
@@ -15,7 +14,7 @@ class Quote extends \Dataservice_Form
 {    
     private $_Quote;
     
-    public function __construct($options = null, Quote $Quote = null)
+    public function __construct($options = null, \Entities\Company\Lead\Quote $Quote = null)
     {
 	$this->_Quote = $Quote;
 	parent::__construct($options, $this->_Quote);
