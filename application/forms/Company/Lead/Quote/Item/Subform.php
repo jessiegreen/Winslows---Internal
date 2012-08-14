@@ -63,5 +63,3 @@ class Subform extends \Zend_Form_SubForm
 	}
     }
 }
-
-?>

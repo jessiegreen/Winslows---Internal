@@ -126,13 +126,13 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
 	    if(!isset($data[$category_index]["category"]))
 		$data[$category_index]["category"] = $Category;
 	    
-	    if(!isset($data[$category_index]["groups"]["optional"]))
-		$data[$category_index]["groups"]["optional"] = array();
+	    if(!isset($data[$category_index]["options"]["optional"]))
+		$data[$category_index]["options"]["optional"] = array();
 	    
-	    if(!isset($data[$category_index]["groups"]["required"]))
-		$data[$category_index]["groups"]["required"] = array();
+	    if(!isset($data[$category_index]["options"]["required"]))
+		$data[$category_index]["options"]["required"] = array();
 	    
-	    $data[$category_index]["groups"][$index][] = $Option;
+	    $data[$category_index]["options"][$index][] = $Option;
 	}
 	
 	$this->view->quote_id   = $quote_id;
@@ -144,11 +144,36 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
     public function getoptionformAction()
     {
 	$Option	= $this->_getOption(); 
-	$form	= new Forms\Company\Lead\Quote\Option($Option);
+	$form	= new Forms\Company\Lead\Quote\Item\Value\Option($Option);
 	
 	$form->removeDecorator('form');
 	
 	echo $form; exit;
+    }
+    
+    public function itemremoveAction()
+    {
+	$this->_helper->layout->setLayout("blank");
+	$this->_helper->viewRenderer->setNoRender(true);
+	
+	$Quote  = $this->_getQuote();
+	$Item	= $this->_getItem();
+	
+	$this->_CheckRequiredQuoteExists($Quote);
+	$this->_CheckRequiredItemExists($Item);
+	
+	try 
+	{
+	    $this->_em->remove($Item);
+	    $this->_em->flush();
+	    $this->_FlashMessenger->addSuccessMessage("Item removed");
+	} 
+	catch (Exception $exc)
+	{
+	    $this->_FlashMessenger->addErrorMessage($exc->getMessage());
+	}
+	
+	$this->_History->goBack();
     }
     
     public function itemaddmanualsaveAction()
@@ -228,7 +253,8 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
 	    }
 	    else{
 		try {
-		    foreach ($values as $Value) 		    {
+		    foreach ($values as $Value)
+		    {
 			$ConfigurableInstance->addValue($Value);
 		    }
 		    $ConfigurableInstance->setNote("");
@@ -236,6 +262,8 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
 		    $Item->setInstance($ConfigurableInstance);
 		    $Item->setQuantity(1);
 		    $Quote->addItem($Item);
+		    $this->_em->persist($ConfigurableInstance);
+		    $this->_em->persist($Item);
 		    $this->_em->persist($Quote);
 		    $this->_em->flush();
 		} 
@@ -306,13 +334,30 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
     }
     
     /**
+     * @return Entities\Company\Lead\Quote\Item
+     */
+    private function _getItem()
+    {
+	$id = $this->_request->getParam("item_id", 0);
+	return $this->_em->find("Entities\Company\Lead\Quote\Item", $id);
+    }
+    
+    private function _CheckRequiredItemExists(Entities\Company\Lead\Quote\Item $Item)
+    {
+	if(!$Item->getId())
+	{
+	    $this->_FlashMessenger->addErrorMessage("Could not get Item");
+	    $this->_History->goBack();
+	}
+    }
+    
+    /**
      * @return Entities\Company\Supplier\Product\Configurable\Option
      */
     private function _getOption()
     {
-	return $this->getEntityFromParamFields("Company\Supplier\Product\Product\Configurable\Option", 
-		    array("option_id")
-		);
+	$id = $this->_request->getParam("option_id", 0);
+	return $this->_em->find("Entities\Company\Supplier\Product\Configurable\Option", $id);
     }
     
     private function _CheckRequiredOptionExists(Entities\Company\Supplier\Product\Configurable\Option $Option)

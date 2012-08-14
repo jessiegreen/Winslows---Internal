@@ -1,5 +1,5 @@
 <?php
-namespace Forms\Company\Lead\Quote\Item\Value;
+namespace Forms\Company\Lead\Quote\Item\Value\Option;
 /**
  * Name:
  * Location:
@@ -68,5 +68,3 @@ class Subform extends \Zend_Form_SubForm
 	parent::init();
     }
 }
-
-?>

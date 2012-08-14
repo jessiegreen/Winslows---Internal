@@ -29,7 +29,7 @@ class Item
     private $Quote;
     
     /**
-     * @OneToOne(targetEntity="\Entities\Company\Supplier\Product\Instance\InstanceAbstract")
+     * @OneToOne(targetEntity="\Entities\Company\Supplier\Product\Instance\InstanceAbstract", cascade={"persist", "remove"}, orphanRemoval=true)
      * @var \Entities\Company\Supplier\Product\Instance\InstanceAbstract $Instance
      */
     private $Instance;

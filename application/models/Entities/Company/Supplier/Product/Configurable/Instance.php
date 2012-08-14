@@ -23,9 +23,6 @@ class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstr
     public function __construct(\Entities\Company\Supplier\Product\Configurable $ConfigurableProduct)
     {
 	parent::__construct($ConfigurableProduct);
-	
-	$this->Validator    = \Services\Company\Supplier\Product\Configurable\Instance\Validator::factory($this->getProduct()->getValidator());
-	$this->Pricer	    = \Services\Company\Supplier\Product\Configurable\Instance\Pricer::factory($this->getProduct()->getPricer());
 	$this->Values	    = new ArrayCollection();
     }
     
@@ -34,7 +31,7 @@ class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstr
      */
     public function getProduct()
     {
-	parent::getProduct();
+	return parent::getProduct();
     }
     
     /**
@@ -47,6 +44,32 @@ class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstr
 	
 	if($validate_result !== true)
 	    throw new Exception($validate_result->getMessage());
+    }
+    
+    /**
+     * @return string
+     */
+    public function getCode()
+    {
+	$code	    = "";
+	$code_array = array();
+	
+	/* @var $Value \Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value */
+	foreach ($this->getValues() as $Value) 
+	{
+	    $Parameter		    = $Value->getParameter();
+	    $code		    = $Parameter->getOption()->getCode();
+	    $code_array[$code][]    = (string) $Value->getCode();
+	}
+	
+	ksort($code_array);
+	
+	foreach ($code_array as $option_code => $value_code_array)
+	{
+	    $code .= $option_code.implode("", $value_code_array);
+	}
+	
+	return $code;
     }
     
     /**
@@ -64,7 +87,9 @@ class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstr
     {
 	try
 	{
-	    call_user_method("validate", $this->Validator, $this);
+	    $this->Validator    = \Services\Company\Supplier\Product\Configurable\Instance\Validator::factory()
+				    ->getValidator($this->Product->getValidator());
+	    call_user_func(array($this->Validator, "validate"), $this);
 	    return true;
 	} 
 	catch(\Exception $exc)
@@ -80,7 +105,9 @@ class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstr
     {
 	try
 	{
-	    return call_user_method("price", $this->Pricer, $this);
+	    $this->Pricer = \Services\Company\Supplier\Product\Configurable\Instance\Pricer::factory()
+				->getPricer($this->Product->getPricer());
+	    return call_user_func(array($this->Pricer, "price"), $this);
 	} 
 	catch(\Exception $exc)
 	{

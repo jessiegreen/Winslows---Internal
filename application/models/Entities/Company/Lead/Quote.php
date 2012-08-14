@@ -34,7 +34,7 @@ class Quote extends Quote\QuoteAbstract
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="\Entities\Company\Lead\Quote\Item", mappedBy="Quote", cascade={"persist"})
+     * @OneToMany(targetEntity="\Entities\Company\Lead\Quote\Item", mappedBy="Quote", cascade={"persist", "remove"}, orphanRemoval=true)
      * @var array $Items
      */
     private $Items;
@@ -121,6 +121,15 @@ class Quote extends Quote\QuoteAbstract
 	}
 	
         return $total;
+    }
+    
+    /**
+     * @param \Entities\Company\Lead\Quote\Item $Item
+     * @return boolean
+     */
+    public function removeItem(\Entities\Company\Lead\Quote\Item $Item)
+    {
+	$this->Items->removeElement($Item);
     }
     
     public function populate(array $array)

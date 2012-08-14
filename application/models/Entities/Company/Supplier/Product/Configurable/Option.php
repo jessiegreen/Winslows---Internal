@@ -296,7 +296,7 @@ class Option
 	/* @var $Parameter Option\Parameter */
 	foreach ($this->getParameters() as $Parameter) 
 	{
-	    if($Parameter->isRequired())$return[] = $Parameter();
+	    if($Parameter->isRequired())$return[] = $Parameter;
 	}
 	return $return;
     }

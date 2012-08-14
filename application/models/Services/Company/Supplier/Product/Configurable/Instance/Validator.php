@@ -5,7 +5,7 @@ class Validator extends \Dataservice_Service_ServiceAbstract
 {
     public function getValidator($name)
     {
-	$class = "Validator\\".$name;
+	$class = "Services\Company\Supplier\Product\Configurable\Instance\Validator\\".$name;
 	return new $class;
     }
 }

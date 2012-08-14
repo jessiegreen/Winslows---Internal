@@ -53,14 +53,23 @@ $Items	= $quote->getItems();
 			    "/company/lead-quote-item/edit/id/".$Item->getId(),
 			    "margin-left:5px;"
 			    );
+		    echo HTML::anchorIcon(
+			    "delete.png", 
+			    "", 
+			    "/company/lead-quote/itemremove/id/".$quote->getId()."/item_id/".$Item->getId(),
+			    "margin-left:5px;",
+			    "Delete Item"
+			    );
 		    ?>
 		</h4>
+		<label>Code:</label>
+		<div style="display: inline;"><?php echo $Instance->getCode(); ?></div><br />
 		<label>Quantity:</label>
 		<div style="display: inline;"><?php echo $Item->getQuantity(); ?></div><br />
 		<label>Price Each:</label>
-		<div style="display: inline;"><?php echo $Item->getPrice(); ?></div><br />
+		<div style="display: inline;"><?php echo $Instance->getPrice(); ?></div><br />
 		<label>Price Total:</label>
-		<div style="display: inline;"><?php echo $Item->getQuantity()*$Item->getPrice(); ?></div><br />
+		<div style="display: inline;"><?php echo $Item->getQuantity()*$Instance->getPrice(); ?></div><br />
 		<?php
 	    }
 	    ?>

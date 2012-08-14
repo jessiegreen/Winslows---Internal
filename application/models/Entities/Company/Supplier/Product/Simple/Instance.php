@@ -13,7 +13,7 @@ class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstr
      */
     public function getProduct()
     {
-	parent::getProduct();
+	return parent::getProduct();
     }
     
     public function getPrice() 

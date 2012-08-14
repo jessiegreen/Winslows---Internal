@@ -180,7 +180,7 @@ class Parameter
     /**
      * @param bool $required
      */
-    public function setRequired(boolean $required)
+    public function setRequired($required)
     {
 	$this->required = $required;
     }

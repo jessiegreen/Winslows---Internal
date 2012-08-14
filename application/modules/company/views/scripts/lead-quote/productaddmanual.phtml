@@ -5,7 +5,7 @@
 }
 </style>
 <div id="quote_product_errors" class="messenger_error" style="display: none;"></div>
-<form id="quote_product_add_manual" method="post" name="quote_product_add_manual">
+<form id="company_lead_quote_product_add_manual" method="post" name="quote_product_add_manual">
 <div style="width:1100px;height: 75%;">
     <h4>Manual Product Add</h4>
     <h2>
@@ -28,23 +28,23 @@
 	/* @var $Category \Entities\ConfigurableProductOptionCategory */
 	foreach ($this->data as $array) {
 	    $Category = $array["category"];
-	    $groups   = $array["groups"];	
+	    $options   = $array["options"];	
 	    ?>
 	    <div id="<?php echo $Category->getIndex();?>" class="blah">
 		<div class="add_option_left border_gray" id="left_<?php echo $Category->getIndex();?>" style="width:18%;float: left;height: 90%;">
 		    <h1 class="header1">Drag Option &raquo;</h1>
 		    <ul>
 		    <?php
-		    /* @var $Group \Entities\ConfigurableProductOptionGroup */
-		    foreach ($groups["optional"] as $Group) {
+		    /* @var $Option \Entities\ConfigurableProductOptionGroup */
+		    foreach ($options["optional"] as $Option) {
 			?>
 			<li 
-			    quantity_left="<?php echo ($Group->getMaxCount()-1);?>" 
-			    group_id="<?php echo $Group->getId();?>" 
-			    id="draggable_<?php echo $Group->getId();?>" 
+			    quantity_left="<?php echo ($Option->getMaxCount()-1);?>" 
+			    option_id="<?php echo $Option->getId();?>" 
+			    id="draggable_<?php echo $Option->getId();?>" 
 			    style="cursor: move;"
 			>
-				<?php echo $Group->getName();?>
+				<?php echo $Option->getName();?>
 			</li>
 			<?php
 		    }
@@ -54,12 +54,12 @@
 		<div id="right_<?php echo $Category->getIndex();?>" class="border_gray add_option_right">
 		    <h1 class="header1">Options &downarrow;</h1>
 		    <?php
-		    foreach ($groups["required"] as $Group) {
+		    foreach ($options["required"] as $Option) {
 			?>
 			<script type="text/javascript">
 			    $("#tab_title_<?php echo $Category->getId();?>").html("<?php echo $Category->getName();?>*")
 			    $.ajax({
-				url: "/company/lead-quote/getoptionform/group_id/<?php echo $Group->getId();?>",
+				url: "/company/lead-quote/getoptionform/option_id/<?php echo $Option->getId();?>",
 				success: function(data){
 				    right_div = $("#right_<?php echo $Category->getIndex();?>");
 				    right_div.append(data);
@@ -80,16 +80,15 @@
 </form>
 <script type="text/javascript">
     $(document).ready(function() {
-	$("#quote_product_add_manual :input").button()
+	$("#company_lead_quote_product_add_manual :input").button()
 
-	$("#quote_product_add_manual").submit(function(){
+	$("#company_lead_quote_product_add_manual").submit(function(){
 	    $.post(
-		"/quote/productaddmanualsave/product_id/<?php echo $this->Product->getId();?>/quote_id/<?php echo $this->quote_id;?>", 
+		"/company/lead-quote/itemaddmanualsave/product_id/<?php echo $this->Product->getId();?>/id/<?php echo $this->quote_id;?>", 
 		$("#company_lead_quote_product_add_manual").serialize(),
 		function(data) {
-		    alert(data = data);
 		    if(data.success === true){
-			alert("yay!");
+			parent.location = location;
 		    }
 		    else if(data.success === false){
 			if(data.error_message){
