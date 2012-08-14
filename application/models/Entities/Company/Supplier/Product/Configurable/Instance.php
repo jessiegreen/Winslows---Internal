@@ -73,11 +73,16 @@ class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstr
     }
     
     /**
-     * @return array
+     * @return ArrayCollection
      */
     public function getValues()
     {
 	return $this->Values;
+    }
+    
+    public function removeAllValues()
+    {
+	$this->getValues()->clear();
     }
     
     /**

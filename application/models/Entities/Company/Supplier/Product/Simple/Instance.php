@@ -8,6 +8,10 @@ namespace Entities\Company\Supplier\Product\Simple;
  */
 class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstract implements \Interfaces\Company\Supplier\Product\Instance\InstanceAbstract 
 {    
+    public function __construct(\Entities\Company\Supplier\Product\Simple $SimpleProduct)
+    {
+	parent::__construct($SimpleProduct);
+    }
     /**
      * @return \Entities\Company\Supplier\Product\Simple
      */

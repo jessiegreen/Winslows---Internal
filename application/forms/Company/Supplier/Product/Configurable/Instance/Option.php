@@ -1,5 +1,5 @@
 <?php
-namespace Forms\Company\Lead\Quote\Item\Value;
+namespace Forms\Company\Supplier\Product\Configurable\Instance;
 /**
  * Name:
  * Location:
@@ -30,7 +30,7 @@ class Option extends \Dataservice_Form
     
     public function init($options = array())
     {
-	$form = new \Forms\Company\Lead\Quote\Item\Value\Option\Subform($this->_Instance, $this->_Option, $options);
+	$form = new \Forms\Company\Supplier\Product\Configurable\Instance\Option\Subform($this->_Instance, $this->_Option, $options);
 	
 	$this->addSubForm($form, (string) $this->_Option->getId());
     }

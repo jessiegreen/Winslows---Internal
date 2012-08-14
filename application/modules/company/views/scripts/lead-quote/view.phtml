@@ -47,11 +47,12 @@ $Items	= $quote->getItems();
 		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
 		    <?php 
 		    echo $Instance->getProduct()->getName();
-		    echo HTML::anchorIcon(
+		    echo HTML::buttonIcon(
 			    "pencil.png", 
-			    "", 
-			    "/company/lead-quote-item/edit/id/".$Item->getId(),
-			    "margin-left:5px;"
+			    "view_item_".$Item->getId(), 
+			    "Edit Item", "quote_item_edit", 
+			    "margin-left:5px;vertical-align:bottom;",
+			    'item_id="'.$Item->getId().'"'
 			    );
 		    echo HTML::anchorIcon(
 			    "delete.png", 
@@ -83,4 +84,6 @@ $Items	= $quote->getItems();
 <div style="clear: both;"><input type="hidden" id="quote_id" value="<?php echo $quote_id;?>" /></div>
 <script type="text/javascript">
     $("#quoteproduct_add").colorbox({href:"/company/lead-quote/productadd1/id/<?php echo $quote_id;?>"});
+    Quote = new Quote();
+    Quote.EditItemOnClickBind($(".quote_item_edit"));
 </script>

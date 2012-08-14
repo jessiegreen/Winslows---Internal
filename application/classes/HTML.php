@@ -77,8 +77,8 @@ class HTML
 	return "<div class='button_blue' id='$id' style='$style'>".self::superFish_icon(array("icon" => $icon), false)." $text</div>";
     }
     
-    public static function buttonIcon($icon, $id = "", $title = "", $class = "", $style = "") {
-	return '<img src="/img/icons/'.$icon.'" class="button_icon '.$class.'" style="'.$style.'" id="'.$id.'" title="'.$title.'"/>';
+    public static function buttonIcon($icon, $id = "", $title = "", $class = "", $style = "", $attr="") {
+	return '<img src="/img/icons/'.$icon.'" class="button_icon '.$class.'" style="'.$style.'" id="'.$id.'" title="'.$title.'" '.$attr.'/>';
     }
     
     public static function anchorIcon($icon, $text, $href, $style = "", $title = "", $id = ""){

@@ -24,7 +24,8 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
     
     public function editAction()
     {
-	$Quote   = $this->_getQuote();   
+	$Quote  = $this->_getQuote();   
+	$Lead	= $this->_getLead(); 
 	
 	if(!$Quote->getId() && $Lead->getId())
 	{
@@ -96,59 +97,42 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
 	$this->_helper->layout->setLayout("blank");
 	
 	$this->view->error  = false;
-	$quote_id	    = $this->_request->getParam("id", null);
-	$Product	    = $this->_getProduct();
-	
-	$this->_CheckRequiredProductExists($Product);
-	$this->view->type	    = $Product->getDescriminator();
-	$this->view->form	    = new Forms\Company\Lead\Quote\AddProduct2(
-					    array("id" => "quote_addproduct2", "name" => "quote_addproduct2")
-					);
-	$this->view->quote_id	    = $quote_id;
-	$this->view->product_id	    = $Product->getId();
-    }
-    
-    public function productaddmanualAction()
-    {	
-	$this->_helper->layout->setLayout("blank");
 	
 	$quote_id	    = $this->_request->getParam("id", null);
-	$Product	    = $this->_getProduct();
-	$data		    = array();
+	$item_id	    = $this->_request->getParam("item_id", null);
+	$product_id	    = $this->_request->getParam("product_id", null);
 	
-	foreach ($Product->getOptions() as $Option)
+	if($product_id && $quote_id)#--New Item
 	{
-	    /* @var $Option \Entities\Company\Supplier\Product\Configurable\Option */
-	    $index	    = $Option->hasRequiredOption() ? "required" : "optional";
-	    $Category	    = $Option->getCategory(); 
-	    $category_index = $Category->getIndex();
+	    $Product	= $this->_getProduct();
+	    $Quote	= $this->_getQuote();
 
-	    if(!isset($data[$category_index]["category"]))
-		$data[$category_index]["category"] = $Category;
-	    
-	    if(!isset($data[$category_index]["options"]["optional"]))
-		$data[$category_index]["options"]["optional"] = array();
-	    
-	    if(!isset($data[$category_index]["options"]["required"]))
-		$data[$category_index]["options"]["required"] = array();
-	    
-	    $data[$category_index]["options"][$index][] = $Option;
+	    $this->_CheckRequiredProductExists($Product);
+	    $this->_CheckRequiredQuoteExists($Quote);
+
+	    /* @var $Instance Entities\Company\Supplier\Product\Configurable\Instance */
+	    $Instance	= \Services\Company\Supplier\Product\Instance::factory()->createInstanceFromProduct($Product);
+	    $Item	= new Entities\Company\Lead\Quote\Item();
+
+	    $Instance->setNote(date("Y-m-d H:i:s")." - Created and added to quote");
+	    $Item->setInstance($Instance);
+	    $Item->setQuantity(1);
+	    $Quote->addItem($Item);
+	    $this->_em->persist($Quote);
+	    $this->_em->flush();
+	    $this->_FlashMessenger->addSuccessMessage("Item Added");
 	}
+	elseif($item_id)#--Existing Item
+	{
+	    $Item = $this->_getItem();
+
+	    $this->_CheckRequiredItemExists($Item);
+	    
+	    $Instance = $Item->getInstance();
+	}
+	else throw new Exception("No Ids");
 	
-	$this->view->quote_id   = $quote_id;
-	$this->view->product_id = $Product->getId();
-	$this->view->data	= $data;
-	$this->view->Product    = $Product;
-    }
-    
-    public function getoptionformAction()
-    {
-	$Option	= $this->_getOption(); 
-	$form	= new Forms\Company\Lead\Quote\Item\Value\Option($Option);
-	
-	$form->removeDecorator('form');
-	
-	echo $form; exit;
+	$this->view->Instance = $Instance;
     }
     
     public function itemremoveAction()
@@ -347,24 +331,6 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
 	if(!$Item->getId())
 	{
 	    $this->_FlashMessenger->addErrorMessage("Could not get Item");
-	    $this->_History->goBack();
-	}
-    }
-    
-    /**
-     * @return Entities\Company\Supplier\Product\Configurable\Option
-     */
-    private function _getOption()
-    {
-	$id = $this->_request->getParam("option_id", 0);
-	return $this->_em->find("Entities\Company\Supplier\Product\Configurable\Option", $id);
-    }
-    
-    private function _CheckRequiredOptionExists(Entities\Company\Supplier\Product\Configurable\Option $Option)
-    {
-	if(!$Option->getId())
-	{
-	    $this->_FlashMessenger->addErrorMessage("Could not get Option");
 	    $this->_History->goBack();
 	}
     }

@@ -1,0 +1,26 @@
+<?php echo($this->flashMessages());?>
+<div class="padded_frame">
+    <?php
+    /* @var $Instance Entities\Company\Supplier\Product\Configurable\Instance */
+    $Instance	= $this->Instance;
+    $Product	= $Instance->getProduct();
+    ?>
+    <h2>
+	<?php echo $Product->getName();?> is a Configurable Product. <br />
+	Which method do you want to use to choose it's options?
+    </h2>
+    <?php echo $this->form;?>
+    <script type="text/javascript">
+	$("#quote_addproduct2").submit(function(){
+	    value = $('input:radio:checked').val();
+
+	    if(value == "manual"){
+		location = "/company/supplier-product-configurable-instance/manual/id/<?php echo $this->Instance->getId();?>"
+	    }
+	    else if(value == "builder"){
+		location = "/builder?type=carport";
+	    }
+	    return false;
+	})
+    </script>
+</div>
