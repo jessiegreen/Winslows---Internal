@@ -1,7 +1,7 @@
 <style>
 .ui-draggable-dragging { text-shadow: 0.1em 0.1em 0.05em #4297d7 }
 .add_option_right{
-    width:60%;float: right;padding-right: 20px;
+    width:60%;float: right;padding: 10px;
     min-height: 250px;
 }
 </style>
@@ -43,25 +43,10 @@ $Product    = $Instance->getProduct();
 	    $category	= $array["category"];
 	    $options	= $array["options"];	
 	    ?>
-	    <div id="<?php echo $category["index"];?>" class="blah">
+	    <div id="<?php echo $category["index"];?>" class="category_div">
 		<div class="add_option_left" id="left_<?php echo $category["index"];?>" style="width:33%;float: left;">
 		    <h1 class="header1">Drag Option &raquo;</h1>
-		    <ul id="optional_list_">
-		    <?php
-		    /* @var $Option \Entities\ConfigurableProductOptionGroup */
-		    foreach ($options["optional"] as $option) {
-			?>
-			<li 
-			    quantity_left="<?php echo ($option["maxcount"]-1);?>" 
-			    option_id="<?php echo $option["id"];?>" 
-			    id="draggable_<?php echo $option["id"];?>" 
-			    style="cursor: move;"
-			>
-			    <?php echo $option["name"];?>
-			</li>
-			<?php
-		    }
-		    ?>
+		    <ul id="optional_list_<?php echo $category["index"];?>">
 		    </ul>
 		</div>
 		<div id="right_<?php echo $category["index"];?>" class="border_gray add_option_right">
@@ -77,10 +62,9 @@ $Product    = $Instance->getProduct();
 </form>
 </div>
 <div style="clear: both"></div>
-<script type="text/javascript">    
-    var Manual = new Manual;
+<script type="text/javascript">   
+    var Manual = new Manual(<?php echo $Instance->getId();?>);
     
-    Manual.dragAndDropInit();
     Manual.submit(<?php echo $Instance->getId();?>, "<?php echo $this->return_url;?>");
     Manual.cancel("<?php echo $this->return_url;?>");
     Manual.addRequiredAndExistingToOptionsList(<?php echo json_encode($this->data);?>, <?php echo $Instance->getId();?>);

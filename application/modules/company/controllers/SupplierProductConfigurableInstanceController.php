@@ -118,11 +118,13 @@ class Company_SupplierProductConfigurableInstanceController extends Dataservice_
 	    if($Option->hasRequiredOption()) $index = "required";
 	    else
 	    {
-		foreach ($Option->getParameters() as $Parameter) {
+		foreach ($Option->getParameters() as $Parameter) 
+		{
 		    foreach ($Parameter->getValues() as $Value)
 		    {
-			if($InstanceValues->contains($Value))
-			{
+			$value_index = $InstanceValues->indexOf($Value);
+			if($value_index)
+			{			    
 			    $index = "existing";
 			}
 		    }

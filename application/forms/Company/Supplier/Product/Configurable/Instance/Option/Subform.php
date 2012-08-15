@@ -77,6 +77,19 @@ class Subform extends \Zend_Form_SubForm
                     'Fieldset',
                     array('HtmlTag',array('tag'=>'div','style'=>'width:100%;'))
 		));
+		
+	$this->setElementDecorators(array(
+	    'ViewHelper',
+	    'Errors',
+	    array(array('data' => 'HtmlTag'), array('tag' => 'div', 'class' => 'element')),
+	    array('Label', array('tag' => 'div', 'style' => 'width:110px;float:left;')),
+	    array(array('row' => 'HtmlTag'), array('tag' => '<div')),
+	));
+	
+	$this->setDecorators(array(
+	    'FormElements',
+	    array('HtmlTag', array('tag' => 'div'))
+	));
 	
 	parent::init();
     }
