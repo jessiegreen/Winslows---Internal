@@ -5,33 +5,33 @@
     min-height: 250px;
 }
 </style>
-<script type="text/javascript">
-    var theQueue = $({});
-    theQueue.queue('loading', function(next){$("#quote_product_errors").progressbar({
-			value: 100
-		}).fadeIn("slow");next();})
-</script>
 <div class="padded_frame">
 <?php
 $Instance   = $this->Instance;
 $Product    = $Instance->getProduct();
 ?>
 <div id="quote_product_errors" class="messenger_error" style="display: none;"></div>
+<div id="progress_bar" style="display: none;"></div>
 <form id="configurable_instance_edit" method="post" name="configurable_instance_edit">
 <div>
     <h4>Manual Edit</h4>
     <h2>
 	<?php echo $Product->getName();?>
 	<input type="submit" value="Save" style="float: right" />
+	<input type="button" value="Cancel" style="float: right" id="form_cancel"/>
     </h2>
     <div style="color: #4297d7">* = required</div>
     <div id="quote_tabs">
 	<ul>
 	    <?php
 	    foreach ($this->data as $array) {
-		$Category = $array["category"];
+		$category = $array["category"];
 		?>
-		<li><a id="tab_title_<?php echo $Category->getId();?>" href="#<?php echo $Category->getIndex();?>"><?php echo $Category->getName();?></a></li>
+		<li>
+		    <a id="tab_title_<?php echo $category["id"];?>" href="#<?php echo $category["index"];?>">
+			<?php echo $category["name"];?>
+		    </a>
+		</li>
 		<?php
 	    }
 	    ?>
@@ -40,75 +40,32 @@ $Product    = $Instance->getProduct();
 	/* @var $Category \Entities\ConfigurableProductOptionCategory */
 	foreach ($this->data as $array)
 	{
-	    $Category	= $array["category"];
+	    $category	= $array["category"];
 	    $options	= $array["options"];	
 	    ?>
-	    <div id="<?php echo $Category->getIndex();?>" class="blah">
-		<div class="add_option_left" id="left_<?php echo $Category->getIndex();?>" style="width:33%;float: left;">
+	    <div id="<?php echo $category["index"];?>" class="blah">
+		<div class="add_option_left" id="left_<?php echo $category["index"];?>" style="width:33%;float: left;">
 		    <h1 class="header1">Drag Option &raquo;</h1>
-		    <ul>
+		    <ul id="optional_list_">
 		    <?php
 		    /* @var $Option \Entities\ConfigurableProductOptionGroup */
-		    foreach ($options["optional"] as $Option) {
+		    foreach ($options["optional"] as $option) {
 			?>
 			<li 
-			    quantity_left="<?php echo ($Option->getMaxCount()-1);?>" 
-			    option_id="<?php echo $Option->getId();?>" 
-			    id="draggable_<?php echo $Option->getId();?>" 
+			    quantity_left="<?php echo ($option["maxcount"]-1);?>" 
+			    option_id="<?php echo $option["id"];?>" 
+			    id="draggable_<?php echo $option["id"];?>" 
 			    style="cursor: move;"
 			>
-				<?php echo $Option->getName();?>
+			    <?php echo $option["name"];?>
 			</li>
 			<?php
 		    }
 		    ?>
 		    </ul>
 		</div>
-		<div id="right_<?php echo $Category->getIndex();?>" class="border_gray add_option_right">
+		<div id="right_<?php echo $category["index"];?>" class="border_gray add_option_right">
 		    <h1 class="header1">Options &dArr;</h1>
-		    <?php
-		    foreach ($options["required"] as $Option) {
-			?>
-			<script type="text/javascript">
-			    theQueue.queue('loading', function(next){
-				$("#tab_title_<?php echo $Category->getId();?>").html("<?php echo $Category->getName();?>*");
-				$.ajax({
-				    url: "/company/supplier-product-configurable-instance/getoptionform/id/<?php echo $Instance->getId();?>/option_id/<?php echo $Option->getId();?>",
-				    success: function(data){
-					right_div = $("#right_<?php echo $Category->getIndex();?>");
-					right_div.append(data);
-					$("#quote_product_errors").progressbar({
-						value: $("#quote_product_errors").progressbar("value")-interval
-					});
-					$(".caption").html(interval+"%")
-					next();
-				    }
-				})
-			    });
-			</script>
-			<?php
-		    }
-		    foreach ($options["existing"] as $Option)
-		    {
-			?>
-			<script type="text/javascript">
-			    theQueue.queue('loading', function(next){
-				$.ajax({
-				    url: "/company/supplier-product-configurable-instance/getoptionform/id/<?php echo $Instance->getId();?>/option_id/<?php echo $Option->getId();?>",
-				    success: function(data){
-					right_div = $("#right_<?php echo $Category->getIndex();?>");
-					right_div.append(data);
-					$("#quote_product_errors").progressbar({
-						value: $("#quote_product_errors").progressbar("value")-interval
-					})
-					next();
-				    }
-				})
-			    });
-			</script>
-			<?php
-		    }
-		    ?>
 		</div>
 		<div style="clear: both;"></div>
 	    </div>
@@ -120,85 +77,11 @@ $Product    = $Instance->getProduct();
 </form>
 </div>
 <div style="clear: both"></div>
-<script type="text/javascript">
-    $(document).ready(function() {
-	$("#configurable_instance_edit :input").button()
-
-	$("#configurable_instance_edit").submit(function(){
-	    $.post(
-		"/company/supplier-product-configurable-instance/manualsaveajax/id/<?php echo $Instance->getId();?>", 
-		$("#configurable_instance_edit").serialize(),
-		function(data) {
-		    if(data.success === true){
-			parent.location = "<?php echo $this->return_url;?>";
-		    }
-		    else if(data.success === false){
-			if(data.error_message){
-			    error_container = $("#quote_product_errors");
-			    error_container.fadeOut("fast", function(){
-				error_container.html(data.error_message);
-				error_container.fadeIn("fast");
-			    });
-			}
-		    }
-		},
-		"json"
-	    )
-	    .success(function() {
-		alert( )
-	    })
-	    .error( function (jqXHR, status, error) {
-		alert(error)
-	     })
-	    .complete(function() { });
-	    return false;
-	});
-
-	
-	$( ".add_option_left li" ).draggable({
-		cursor: "move",
-		helper:	"clone",
-		containment: '#quote_tabs',
-		drag: function(){
-		    $(".add_option_right").css("border", "solid 1px blue");
-		},
-		stop: function(){
-		    $(".add_option_right").css("border", "1px solid #EEEDED");
-		}
-	});
-
-	$('.add_option_right').droppable( {
-	    drop: handleDropEvent
-	});
-
-	function handleDropEvent( event, ui ) {
-	    var draggable   = ui.draggable;
-	    option_id	    = draggable.attr('option_id');
-	    quantity_left   = draggable.attr('quantity_left');
-	    parent_div	    = draggable.parents(".blah");
-	    right_frame	    = parent_div.children(".add_option_right");
-	    
-	    $.ajax({
-		url: "/company/supplier-product-configurable-instance/getoptionform/id/<?php echo $Instance->getId();?>/option_id/" + option_id,
-		success: function(data){
-		    right_frame.append(data);
-		    if(quantity_left == 0){
-			draggable.remove();
-		    }
-		    else{
-			draggable.attr('quantity_left', quantity_left-1);
-		    }
-		}
-	    }).done(function(){
-		right_frame.scrollTop(right_frame.height());
-	    })
-	}
-	$( "#quote_tabs" ).tabs();
-    });
-    var count	    = theQueue.queue('loading').length;
-    var interval    = 100/count;
-    theQueue.queue('loading', function(next){
-	$("#quote_product_errors").html("Done").fadeOut();next();
-    });
-    theQueue.dequeue('loading');
+<script type="text/javascript">    
+    var Manual = new Manual;
+    
+    Manual.dragAndDropInit();
+    Manual.submit(<?php echo $Instance->getId();?>, "<?php echo $this->return_url;?>");
+    Manual.cancel("<?php echo $this->return_url;?>");
+    Manual.addRequiredAndExistingToOptionsList(<?php echo json_encode($this->data);?>, <?php echo $Instance->getId();?>);
 </script>

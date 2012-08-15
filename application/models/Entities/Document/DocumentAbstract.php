@@ -10,7 +10,7 @@ namespace Entities\Document;
  * @DiscriminatorMap({"person_document" = "\Entities\Person\Document"})
  * @HasLifecycleCallbacks
  */
-class DocumentAbstract  implements \Interfaces\Document
+class DocumentAbstract  extends \Dataservice_Doctrine_Entity implements \Interfaces\Document
 {
     /**
      * @Id @Column(type="integer")

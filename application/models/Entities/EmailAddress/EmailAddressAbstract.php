@@ -9,7 +9,7 @@ namespace Entities\EmailAddress;
  * @DiscriminatorMap({"person_emailaddress" = "\Entities\Person\EmailAddress"})
  * @HasLifecycleCallbacks
  */
-class EmailAddressAbstract
+class EmailAddressAbstract extends \Dataservice_Doctrine_Entity
 {
     /**
      * @Id @Column(type="integer")

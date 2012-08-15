@@ -10,7 +10,7 @@ namespace Entities\Company\Lead\Quote;
  * @DiscriminatorMap({"company_lead_quote" = "\Entities\Company\Lead\Quote", "company_customer_order" = "\Entities\Company\Customer\Order"})
  * @HasLifecycleCallbacks
  */
-class QuoteAbstract
+class QuoteAbstract extends \Dataservice_Doctrine_Entity
 {
     /**
      * @Id @Column(type="integer")

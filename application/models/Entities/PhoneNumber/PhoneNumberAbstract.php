@@ -10,7 +10,7 @@ namespace Entities\PhoneNumber;
  * @DiscriminatorMap({"person_phonenumber" = "\Entities\Person\PhoneNumber", "location_phonenumber" = "\Entities\Company\Location\PhoneNumber"})
  * @HasLifecycleCallbacks
  */
-class PhoneNumberAbstract
+class PhoneNumberAbstract extends \Dataservice_Doctrine_Entity
 {
     /**
      * @Id @Column(type="integer")

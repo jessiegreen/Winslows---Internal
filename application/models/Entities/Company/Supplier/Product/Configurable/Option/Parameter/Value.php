@@ -7,7 +7,7 @@ namespace Entities\Company\Supplier\Product\Configurable\Option\Parameter;
  * @Table(name="company_supplier_product_configurable_option_parameter_values") 
  * @HasLifecycleCallbacks
  */
-class Value
+class Value extends \Dataservice_Doctrine_Entity
 {
     /**
      * @Id @Column(type="integer")

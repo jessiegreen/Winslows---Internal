@@ -141,6 +141,12 @@ class Location extends \Entities\Company\Location implements \Doctrine\ORM\Proxy
         return parent::populate($array);
     }
 
+    public function toArray()
+    {
+        $this->__load();
+        return parent::toArray();
+    }
+
 
     public function __sleep()
     {

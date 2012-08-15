@@ -7,7 +7,7 @@ namespace Entities\Company\Lead\Quote;
  * @Table(name="company_lead_quote_items") 
  * @HasLifecycleCallbacks
  */
-class Item
+class Item extends \Dataservice_Doctrine_Entity
 {    
     /**
      * @Id @Column(type="integer")

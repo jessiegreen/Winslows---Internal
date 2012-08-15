@@ -101,6 +101,7 @@ class Company_SupplierProductConfigurableInstanceController extends Dataservice_
     public function manualAction()
     {	
 	$this->view->headScript()->appendFile("/javascript/jquery/jquery-ui.min.js");
+	$this->view->headScript()->appendFile("/javascript/company/supplier/product/configurable/instance/manual.js");
 	$this->view->headLink()->prependStylesheet('/css/jquery-ui/flick/jquery-ui.custom.css');
 	
 	$Instance	= $this->_getInstance();
@@ -132,7 +133,11 @@ class Company_SupplierProductConfigurableInstanceController extends Dataservice_
 	    $category_index = $Category->getIndex();
 
 	    if(!isset($data[$category_index]["category"]))
-		$data[$category_index]["category"] = $Category;
+		$data[$category_index]["category"] = array(
+							    "name" => $Category->getName(), 
+							    "id" => $Category->getId(), 
+							    "index" => $Category->getIndex()
+							    );
 	    
 	    if(!isset($data[$category_index]["options"]["optional"]))
 		$data[$category_index]["options"]["optional"] = array();
@@ -143,7 +148,12 @@ class Company_SupplierProductConfigurableInstanceController extends Dataservice_
 	    if(!isset($data[$category_index]["options"]["existing"]))
 		$data[$category_index]["options"]["existing"] = array();
 	    
-	    $data[$category_index]["options"][$index][] = $Option;
+	    $data[$category_index]["options"][$index][] = array(
+							    "name"	=> $Option->getName(), 
+							    "id"	=> $Option->getId(), 
+							    "index"	=> $Option->getIndex(),
+							    "maxcount"	=> $Option->getMaxCount()
+							    );
 	}
 	
 	$this->view->Instance	= $Instance;

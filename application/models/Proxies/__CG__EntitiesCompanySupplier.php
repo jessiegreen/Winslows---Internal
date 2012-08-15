@@ -135,6 +135,12 @@ class Supplier extends \Entities\Company\Supplier implements \Doctrine\ORM\Proxy
         return parent::populate($array);
     }
 
+    public function toArray()
+    {
+        $this->__load();
+        return parent::toArray();
+    }
+
 
     public function __sleep()
     {

@@ -16,7 +16,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *		    })
  * @HasLifecycleCallbacks
  */
-class PersonAbstract
+class PersonAbstract extends \Dataservice_Doctrine_Entity
 {
     /**
      * @Id @Column(type="integer")

@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @Entity (repositoryClass="Repositories\Company\Website\Resource") 
  * @Table(name="company_website_resources") 
  */
-class Resource
+class Resource extends \Dataservice_Doctrine_Entity
 {
     /**
      * @Id @Column(type="integer")

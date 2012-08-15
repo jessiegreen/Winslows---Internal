@@ -13,7 +13,7 @@ namespace Entities\Company\Supplier\Product\Instance;
  *		    })
  * @HasLifecycleCallbacks
  */
-class InstanceAbstract
+class InstanceAbstract extends \Dataservice_Doctrine_Entity
 {
     /**
      * @Id @Column(type="integer")

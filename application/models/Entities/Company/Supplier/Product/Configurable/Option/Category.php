@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @Table(name="company_supplier_product_configurable_option_categories")
  * @HasLifecycleCallbacks
  */
-class Category
+class Category extends \Dataservice_Doctrine_Entity
 {
     /**
      * @Id @Column(type="integer")

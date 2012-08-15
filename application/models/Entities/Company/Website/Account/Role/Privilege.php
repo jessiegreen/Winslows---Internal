@@ -7,7 +7,7 @@ namespace Entities\Company\Website\Account\Role;
  * @Table(name="company_website_account_role_privileges") 
  * @HasLifecycleCallbacks
  */
-class Privilege
+class Privilege extends \Dataservice_Doctrine_Entity
 {
     /**
      * @Id @Column(type="integer")

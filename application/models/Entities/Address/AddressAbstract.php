@@ -14,7 +14,7 @@ namespace Entities\Address;
  *		    })
  * @HasLifecycleCallbacks
  */
-class AddressAbstract
+class AddressAbstract extends \Dataservice_Doctrine_Entity
 {
     /**
      * @Id @Column(type="integer")

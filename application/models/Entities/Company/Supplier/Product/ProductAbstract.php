@@ -13,7 +13,7 @@ namespace Entities\Company\Supplier\Product;
  *			})
  * @HasLifecycleCallbacks
  */
-class ProductAbstract
+class ProductAbstract extends \Dataservice_Doctrine_Entity
 {
     const TYPE_Configurable = "Configurable";
     const TYPE_Simple	    = "Simple";

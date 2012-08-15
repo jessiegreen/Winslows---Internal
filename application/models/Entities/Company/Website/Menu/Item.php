@@ -17,7 +17,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @Table(name="company_website_menu_items") 
  */
 
-class Item
+class Item extends \Dataservice_Doctrine_Entity
 {
     
     /**

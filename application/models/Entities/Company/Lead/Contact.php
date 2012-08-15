@@ -7,7 +7,7 @@ namespace Entities\Company\Lead;
  * @Table(name="company_lead_contacts") 
  * @HasLifecycleCallbacks
  */
-class Contact
+class Contact extends \Dataservice_Doctrine_Entity
 {
     /**
      * @Id @Column(type="integer")

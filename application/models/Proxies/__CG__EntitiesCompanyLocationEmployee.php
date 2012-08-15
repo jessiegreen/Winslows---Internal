@@ -252,6 +252,12 @@ class Employee extends \Entities\Company\Location\Employee implements \Doctrine\
         return parent::getUpdated();
     }
 
+    public function toArray()
+    {
+        $this->__load();
+        return parent::toArray();
+    }
+
 
     public function __sleep()
     {

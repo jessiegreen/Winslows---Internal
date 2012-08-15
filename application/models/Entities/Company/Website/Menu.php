@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @Table(name="company_website_menus") 
  * @HasLifecycleCallbacks
  */
-class Menu
+class Menu extends \Dataservice_Doctrine_Entity
 {
     /**
      * @Id @Column(type="integer")

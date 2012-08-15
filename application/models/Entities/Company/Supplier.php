@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @Table(name="company_suppliers")
  * @HasLifecycleCallbacks
  */
-class Supplier
+class Supplier extends \Dataservice_Doctrine_Entity
 {
     /**
      * @Id @Column(type="integer")

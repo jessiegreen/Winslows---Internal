@@ -159,6 +159,12 @@ class Website extends \Entities\Company\Website implements \Doctrine\ORM\Proxy\P
         return parent::populate($array);
     }
 
+    public function toArray()
+    {
+        $this->__load();
+        return parent::toArray();
+    }
+
 
     public function __sleep()
     {
