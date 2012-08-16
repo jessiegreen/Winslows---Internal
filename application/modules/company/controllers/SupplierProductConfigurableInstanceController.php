@@ -11,7 +11,6 @@ class Company_SupplierProductConfigurableInstanceController extends Dataservice_
 	$return["success"]	    = true;
 	$return["error_message"]    = "";
 	$error_message		    = array();
-	$values			    = array();
 	$Instance		    = $this->_getInstance();
 	
 	$this->_CheckRequiredInstanceExists($Instance);
@@ -20,16 +19,23 @@ class Company_SupplierProductConfigurableInstanceController extends Dataservice_
 	{	    
 	    $data = $this->_request->getPost();
 	    
-	    foreach($data as $option_id => $option_array)
+	    $Instance->removeAllOptions();
+	    $this->_em->persist($Instance);
+	    
+	    foreach($data as $option_array)
 	    {
-		$Option		    = $this->_em->find(
-					    "\Entities\Company\Supplier\Product\Configurable\Option", 
-					    $option_id
+		$parameter_id	    = key($option_array);
+		$Parameter	    = $this->_em->find(
+					    "\Entities\Company\Supplier\Product\Configurable\Option\Parameter", 
+					    $parameter_id
 					);
-		/* @var $Option \Entities\Company\Supplier\Product\Configurable\Option */
-		$Category		= $Option->getCategory();
-		$required_parameters	= $Option->getRequiredParameters();
-		$required_message	= $Category->getName()." - ".$Option->getName()." - %s is required.";
+		$ConfigurableOption = $Parameter->getOption();
+		$Option		    = new \Entities\Company\Supplier\Product\Configurable\Instance\Option($ConfigurableOption);
+		
+		/* @var $ConfigurableOption \Entities\Company\Supplier\Product\Configurable\Option */
+		$Category		= $ConfigurableOption->getCategory();
+		$required_parameters	= $ConfigurableOption->getRequiredParameters();
+		$required_message	= $Category->getName()." - ".$ConfigurableOption->getName()." - %s is required.";
 		
 		#--Check that all required parameters exist in post
 		foreach ($required_parameters as $Parameter) 
@@ -37,6 +43,7 @@ class Company_SupplierProductConfigurableInstanceController extends Dataservice_
 		    if(!key_exists($Parameter->getId(), $option_array))
 			$error_message[] = sprintf($required_message, $Parameter->getName());
 		}
+		
 		
 		#--Check that required options have a value if so then add
 		foreach($option_array as $parameter_id => $value_id)
@@ -60,11 +67,13 @@ class Company_SupplierProductConfigurableInstanceController extends Dataservice_
 				    $value_id
 				);
 			
-			if($Value)$values[] = $Value;
-			else $error_message[] = $Category->getName()." - ".$Option->getName().
+			if($Value)$Option->addValue($Value);
+			else $error_message[] = $Category->getName()." - ".$ConfigurableOption->getName().
 					    " - ".$Parameter->getName()." $value_id is not valid.";
 		    }
+		    
 		}
+		$Instance->addOption($Option);
 	    }
 	    if(count($error_message)>0){
 		$return["success"] = false;
@@ -72,15 +81,8 @@ class Company_SupplierProductConfigurableInstanceController extends Dataservice_
 	    }
 	    else{
 		try 
-		{
-		    $Instance->removeAllValues();
-		    
-		    foreach ($values as $Value)
-		    {
-			$Instance->addValue($Value);
-		    }
-		    
-		    $Instance->setNote("");
+		{		    
+		    $Instance->setNote($Instance->getNote()." **".date("Y-m-d H:i:s")." Modified");
 		    $this->_em->persist($Instance);
 		    $this->_em->flush();
 		} 
@@ -105,58 +107,60 @@ class Company_SupplierProductConfigurableInstanceController extends Dataservice_
 	$this->view->headLink()->prependStylesheet('/css/jquery-ui/flick/jquery-ui.custom.css');
 	
 	$Instance	= $this->_getInstance();
-	$InstanceValues	= $Instance->getValues();
 	$data		= array();
 	
 	$this->_CheckRequiredInstanceExists($Instance);
 	
+	$left	    = array();
+	$required   = array();
+	
+	#--Build Left Options Array and required array
 	/* @var $Option \Entities\Company\Supplier\Product\Configurable\Option */
 	foreach ($Instance->getProduct()->getOptions() as $Option)
 	{
-	    $index = "optional";
+	    $Category = $Option->getCategory();
 	    
-	    if($Option->hasRequiredOption()) $index = "required";
-	    else
-	    {
-		foreach ($Option->getParameters() as $Parameter) 
-		{
-		    foreach ($Parameter->getValues() as $Value)
-		    {
-			$value_index = $InstanceValues->indexOf($Value);
-			if($value_index)
-			{			    
-			    $index = "existing";
-			}
-		    }
-		}
-	    }
-	    
-	    $Category	    = $Option->getCategory(); 
-	    $category_index = $Category->getIndex();
-
-	    if(!isset($data[$category_index]["category"]))
-		$data[$category_index]["category"] = array(
-							    "name" => $Category->getName(), 
-							    "id" => $Category->getId(), 
+	    $left[$Category->getIndex()]["category"] = array(
+							    "name"  => $Category->getName(), 
+							    "id"    => $Category->getId(), 
 							    "index" => $Category->getIndex()
 							    );
-	    
-	    if(!isset($data[$category_index]["options"]["optional"]))
-		$data[$category_index]["options"]["optional"] = array();
-	    
-	    if(!isset($data[$category_index]["options"]["required"]))
-		$data[$category_index]["options"]["required"] = array();
-	    
-	    if(!isset($data[$category_index]["options"]["existing"]))
-		$data[$category_index]["options"]["existing"] = array();
-	    
-	    $data[$category_index]["options"][$index][] = array(
-							    "name"	=> $Option->getName(), 
-							    "id"	=> $Option->getId(), 
-							    "index"	=> $Option->getIndex(),
-							    "maxcount"	=> $Option->getMaxCount()
-							    );
+	    $left[$Category->getIndex()]["options"][$Option->getId()] = array(
+									"name"	    => $Option->getName(), 
+									"id"	    => $Option->getId(), 
+									"index"	    => $Option->getIndex(),
+									"maxcount"  => $Option->getMaxCount()
+									);
+	    if($Option->hasRequiredOption())$required[] = $Option->getId();
 	}
+	
+	$data["left"]	    = $left;
+	$data["required"]   = $required;
+	
+	$existing = array();
+	
+	#--Build Existing Array
+	/* @var $Option \Entities\Company\Supplier\Product\Configurable\Instance\Option */
+	foreach ($Instance->getOptions() as $Option)
+	{
+	    $ConfigurableOption			= $Option->getOption();
+	    $Category				= $ConfigurableOption->getCategory(); 
+	    $temp_array				= array();
+	    $temp_array["category"]		= array(
+							"name"  => $Category->getName(), 
+							"id"    => $Category->getId(), 
+							"index" => $Category->getIndex()
+						    );
+	    $temp_array["instance_option"]	= array(
+							"id" => $Option->getId()
+						    );
+	    $temp_array["configurable_option"]  = array(
+							"id" => $ConfigurableOption->getId()
+						    );
+	    $existing[]				= $temp_array;
+	}
+	
+	$data["existing"] = $existing;
 	
 	$this->view->Instance	= $Instance;
 	$this->view->data	= $data;
@@ -179,12 +183,14 @@ class Company_SupplierProductConfigurableInstanceController extends Dataservice_
     
     public function getoptionformAction()
     {
-	$Option	    = $this->_getOption();
-	$Instance   = $this->_getInstance();
+	$Option		    = $this->_getOption();
+	$ConfigurableOption = $this->_getConfigurableOption();
 	
-	$this->_CheckRequiredOptionExists($Option);
+	$this->_CheckRequiredConfigurableOptionExists($ConfigurableOption);
 	
-	$form	= new Forms\Company\Supplier\Product\Configurable\Instance\Option($Instance, $Option);
+	if(!$Option)$Option = new Entities\Company\Supplier\Product\Configurable\Instance\Option($ConfigurableOption);
+	
+	$form	= new Forms\Company\Supplier\Product\Configurable\Instance\Manual\Option($ConfigurableOption, $Option);
 	
 	$form->removeDecorator('form');
 	
@@ -211,13 +217,31 @@ class Company_SupplierProductConfigurableInstanceController extends Dataservice_
     /**
      * @return Entities\Company\Supplier\Product\Configurable\Option
      */
-    private function _getOption()
+    private function _getConfigurableOption()
     {
-	$id = $this->_request->getParam("option_id", 0);
+	$id = $this->_request->getParam("configurable_option_id", 0);
 	return $this->_em->find("Entities\Company\Supplier\Product\Configurable\Option", $id);
     }
     
-    private function _CheckRequiredOptionExists(Entities\Company\Supplier\Product\Configurable\Option $Option)
+    private function _CheckRequiredConfigurableOptionExists(Entities\Company\Supplier\Product\Configurable\Option $Option)
+    {
+	if(!$Option->getId())
+	{
+	    $this->_FlashMessenger->addErrorMessage("Could not get Option");
+	    $this->_History->goBack();
+	}
+    }
+    
+    /**
+     * @return Entities\Company\Supplier\Product\Configurable\Option
+     */
+    private function _getOption()
+    {
+	$id = $this->_request->getParam("option_id", 0);
+	return $this->_em->find("Entities\Company\Supplier\Product\Configurable\Instance\Option", $id);
+    }
+    
+    private function _CheckRequiredOptionExists(Entities\Company\Supplier\Product\Configurable\Instance\Option $Option)
     {
 	if(!$Option->getId())
 	{

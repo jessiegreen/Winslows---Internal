@@ -24,7 +24,8 @@ $Product    = $Instance->getProduct();
     <div id="quote_tabs">
 	<ul>
 	    <?php
-	    foreach ($this->data as $array) {
+	    foreach ($this->data["left"] as $array) 
+	    {
 		$category = $array["category"];
 		?>
 		<li>
@@ -37,11 +38,9 @@ $Product    = $Instance->getProduct();
 	    ?>
 	</ul>
 	<?php
-	/* @var $Category \Entities\ConfigurableProductOptionCategory */
-	foreach ($this->data as $array)
+	foreach ($this->data["left"] as $array)
 	{
 	    $category	= $array["category"];
-	    $options	= $array["options"];	
 	    ?>
 	    <div id="<?php echo $category["index"];?>" class="category_div">
 		<div class="add_option_left" id="left_<?php echo $category["index"];?>" style="width:33%;float: left;">

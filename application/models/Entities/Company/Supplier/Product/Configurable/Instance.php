@@ -10,11 +10,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstract implements \Interfaces\Company\Supplier\Product\Instance\InstanceAbstract
 {    
     /**
-     * @ManytoMany(targetEntity="\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value")
-     * @JoinTable(name="company_supplier_product_configurable_instance_value_joins")
-     * @var array $Values
+     * @OnetoMany(targetEntity="\Entities\Company\Supplier\Product\Configurable\Instance\Option", cascade={"persist", "remove"}, mappedBy="Instance")
+     * @var array $Options
      */
-    private $Values;
+    private $Options;
     
     private $Validator;
 
@@ -23,7 +22,8 @@ class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstr
     public function __construct(\Entities\Company\Supplier\Product\Configurable $ConfigurableProduct)
     {
 	parent::__construct($ConfigurableProduct);
-	$this->Values	    = new ArrayCollection();
+	
+	$this->Options = new ArrayCollection();
     }
     
     /**
@@ -35,15 +35,25 @@ class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstr
     }
     
     /**
-     * @param \Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value $Value
+     * @param \Entities\Company\Supplier\Product\Configurable\Instance\Option $Option
      */
-    public function addValue(Option\Parameter\Value $Value)
+    public function addOption(Instance\Option $Option)
     {
-        $this->Values[]	    = $Value;
+	$Option->setInstance($this);
+	
+        $this->Options[]    = $Option;
 	$validate_result    = $this->validate();
 	
 	if($validate_result !== true)
 	    throw new Exception($validate_result->getMessage());
+    }
+    
+    /**
+     * @return ArrayCollection
+     */
+    public function getOptions()
+    {
+	return $this->Options;
     }
     
     /**
@@ -54,35 +64,38 @@ class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstr
 	$code	    = "";
 	$code_array = array();
 	
-	/* @var $Value \Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value */
-	foreach ($this->getValues() as $Value) 
+	/* @var $Option \Entities\Company\Supplier\Product\Configurable\Instance\Option */
+	foreach ($this->getOptions() as $Option) 
 	{
-	    $Parameter		    = $Value->getParameter();
-	    $code		    = $Parameter->getOption()->getCode();
-	    $code_array[$code][]    = (string) $Value->getCode();
+	    /* @var $Value \Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value */
+	    foreach ($Option->getValues() as $Value)
+	    {
+		$temp_array[$Value->getParameter()->getId()] = $Value->getCode();
+	    }
+	    
+	    ksort($temp_array);
+	    
+	    $Parameter			= $Value->getParameter();
+	    $option_code		= $Parameter->getOption()->getCode();
+	    $code_array[$option_code][] = $temp_array;
 	}
 	
 	ksort($code_array);
 	
-	foreach ($code_array as $option_code => $value_code_array)
+	foreach ($code_array as $option_code => $options_array)
 	{
-	    $code .= $option_code.implode("", $value_code_array);
+	    foreach ($options_array as $value_code_array) 
+	    {
+		$code .= $option_code.implode("", $value_code_array);
+	    }
 	}
 	
 	return $code;
     }
     
-    /**
-     * @return ArrayCollection
-     */
-    public function getValues()
+    public function removeAllOptions()
     {
-	return $this->Values;
-    }
-    
-    public function removeAllValues()
-    {
-	$this->getValues()->clear();
+	$this->getOptions()->clear();
     }
     
     /**

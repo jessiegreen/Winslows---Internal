@@ -1,5 +1,5 @@
 <?php
-namespace Forms\Company\Supplier\Product\Configurable\Instance\Option;
+namespace Forms\Company\Supplier\Product\Configurable\Instance\Manual\Option;
 /**
  * Name:
  * Location:
@@ -12,30 +12,30 @@ namespace Forms\Company\Supplier\Product\Configurable\Instance\Option;
  */
 class Subform extends \Zend_Form_SubForm
 {    
+    private $_ConfigurableOption;
     private $_Option;
-    private $_Instance;
     
     public function __construct
     (
-	\Entities\Company\Supplier\Product\Configurable\Instance $Instance,
-	\Entities\Company\Supplier\Product\Configurable\Option $Option, 
+	\Entities\Company\Supplier\Product\Configurable\Option $ConfigurableOption, 
+	\Entities\Company\Supplier\Product\Configurable\Instance\Option $Option,
 	$options = null
     ) 
     {
-	$this->_Instance    = $Instance;
-	$this->_Option	    = $Option;
+	$this->_ConfigurableOption  = $ConfigurableOption;
+	$this->_Option		    = $Option;
 	
 	parent::__construct($options);
     }
     
     public function init() 
     {
-	$ids_array = array();
-	
-	$InstanceValues = $this->_Instance->getValues();
+	$Option_Values	    = $this->_Option->getValues();
+	$ids_array	    = array();
+	$option_group_id    = $this->_ConfigurableOption->getIndex().time().rand(0, 5000);
 	
 	/* @var $Parameter \Entities\Company\Supplier\Product\Configurable\Option\Parameter */
-	foreach ($this->_Option->getParameters() as $Parameter) 
+	foreach ($this->_ConfigurableOption->getParameters() as $Parameter) 
 	{
 	    $options	= array("" => "Please Select...");
 	    $value	= "";
@@ -44,7 +44,7 @@ class Subform extends \Zend_Form_SubForm
 	    foreach ($Parameter->getValues() as $Value)
 	    {
 		$options[$Value->getId()] = $Value->getName();
-		if($InstanceValues->contains($Value))$value = $Value->getId();
+		if($Option_Values->contains($Value))$value = $Value->getId();
 	    }
 	    
 	    $this->addElement(
@@ -53,7 +53,7 @@ class Subform extends \Zend_Form_SubForm
 		    array(
 			"required"	=> $Parameter->isRequired(),
 			"label"		=> $Parameter->getName(),
-			"belongsTo"	=> $this->_Option->getId(),
+			"belongsTo"	=> $option_group_id,
 			"multioptions"	=> $options,
 			"value"		=> $value
 		    )
@@ -63,20 +63,21 @@ class Subform extends \Zend_Form_SubForm
 	
 	$this->addDisplayGroup(
 		$ids_array, 
-		(string) $this->_Option->getId(), 
+		$option_group_id, 
 		array(
-		    'legend'	=> $this->_Option->getName().
-				    ($this->_Option->hasRequiredOption() ? 
+		    'legend'	=> $this->_ConfigurableOption->getName().
+				    ($this->_ConfigurableOption->hasRequiredOption() ? 
 					" *required" : ""),
 		)
 	);
 	
-	$displaygroup = $this->getDisplayGroup((string) $this->_Option->getId());
-		$displaygroup->setDecorators(array(
-                    'FormElements',
-                    'Fieldset',
-                    array('HtmlTag',array('tag'=>'div','style'=>'width:100%;'))
-		));
+	$displaygroup = $this->getDisplayGroup($option_group_id);
+	
+	$displaygroup->setDecorators(array(
+	    'FormElements',
+	    'Fieldset',
+	    array('HtmlTag',array('tag'=>'div','style'=>'width:100%;'))
+	));
 		
 	$this->setElementDecorators(array(
 	    'ViewHelper',
