@@ -1,5 +1,5 @@
 <?php echo($this->flashMessages()); ?>
-<h1 class="header1">Configurable Product Option Values - View All</h1>
+<h1 class="header1">Configurable Product Option Parameter Values - View All</h1>
 <fieldset class="padded_frame blue_frame">
     <legend>Menu</legend>
     <?php
@@ -9,35 +9,38 @@
 <fieldset class="padded_frame blue_frame">
     <legend>Values</legend>
     <?php
-    /* @var $ConfigurableProductOptionValue \Entities\ConfigurableProductOptionValue */
-    foreach($this->ConfigurableProductOptionsValues as $ConfigurableProductOptionValue){
-	echo "<div configurableproductoptionvalue_id='".$ConfigurableProductOptionValue->getId()."'>";
+    /* @var $Value \Entities\Company\Supplier\Product\Configurable\Option\ParameterValue */
+    foreach($this->Values as $Value){
+	echo "<div value_id='".$Value->getId()."'>";
 	echo HTML::buttonIcon(
 		"pencil.png", 
-		"value_edit_".$ConfigurableProductOptionValue->getId(), 
+		"value_edit_".$Value->getId(), 
 		"Edit Value", 
 		"value_edit", 
 		"padding-right:5px;"
 		);
 	echo HTML::buttonIcon(
 		"delete.png", 
-		"value_delete_".$ConfigurableProductOptionValue->getId(), 
+		"value_delete_".$Value->getId(), 
 		"Delete Value", 
 		"value_delete", 
 		"padding-right:5px;"
 		);
 	echo ":: ";
-	echo $ConfigurableProductOptionValue->getName();
-	$Option = $ConfigurableProductOptionValue->getConfigurableProductOption();
-	if($Option)echo "<span class='gray small'> - ".$Option->getName ()." - ".$Option->getConfigurableProductOptionGroup()->getName()."</span>";
+	echo $Value->getName();
+	
+	$Parameter  = $Value->getParameter();
+	$Option	    = $Parameter->getOption();
+	
+	if($Parameter)echo "<span class='gray small'> - ".$Option->getName ()." - ".$Parameter->getName()."</span>";
 	else echo " <span class='error_message'>No Option</span>";
 	echo "</div>";
     }
     ?>
 </fieldset>
 <script type="text/javascript">
-    ConfigurableProductOptionValue = new ConfigurableProductOptionValue();
-    ConfigurableProductOptionValue.AddOnclickBind($("#value_add"));
-    ConfigurableProductOptionValue.EditOnclickBind($(".value_edit"));
-    ConfigurableProductOptionValue.DeleteOnclickBind($(".value_delete"));
+    Value = new Value();
+    Value.AddOnclickBind($("#value_add"));
+    Value.EditOnclickBind($(".value_edit"));
+    Value.DeleteOnclickBind($(".value_delete"));
 </script>

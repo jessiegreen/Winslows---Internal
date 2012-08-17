@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstract implements \Interfaces\Company\Supplier\Product\Instance\InstanceAbstract
 {    
     /**
-     * @OnetoMany(targetEntity="\Entities\Company\Supplier\Product\Configurable\Instance\Option", cascade={"persist", "remove"}, mappedBy="Instance")
+     * @OnetoMany(targetEntity="\Entities\Company\Supplier\Product\Configurable\Instance\Option", cascade={"persist", "remove"}, mappedBy="Instance", orphanRemoval=true)
      * @var array $Options
      */
     private $Options;
@@ -67,6 +67,7 @@ class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstr
 	/* @var $Option \Entities\Company\Supplier\Product\Configurable\Instance\Option */
 	foreach ($this->getOptions() as $Option) 
 	{
+	    $temp_array = array();
 	    /* @var $Value \Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value */
 	    foreach ($Option->getValues() as $Value)
 	    {

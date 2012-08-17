@@ -1,6 +1,5 @@
 <?php
 namespace Forms\Company\Supplier\Product\Configurable\Option\Parameter;
-use Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value as Value;
 /**
  * Name:
  * Product:
@@ -15,7 +14,7 @@ class Value extends \Zend_Form
 {    
     private $_Value;
     
-    public function __construct($options = null, Value $Value = null)
+    public function __construct($options = null, \Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value $Value = null)
     {
 	$this->_Value = $Value;
 	parent::__construct($options, $this->_Value);

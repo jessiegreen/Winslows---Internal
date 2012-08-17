@@ -22,7 +22,7 @@ class Subform extends \Zend_Form_SubForm
     
     public function init()
     {
-	$this->addElement(new Dataservice_Form_Element_ParameterSelect("parameter_id", array(
+	$this->addElement(new \Dataservice_Form_Element_ParameterSelect("parameter_id", array(
             'required'	    => false,
             'label'	    => 'Option:',
 	    'belongsTo'	    => 'configurableproductoptionparametervalue',

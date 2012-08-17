@@ -67,4 +67,5 @@ $Product    = $Instance->getProduct();
     Manual.submit(<?php echo $Instance->getId();?>, "<?php echo $this->return_url;?>");
     Manual.cancel("<?php echo $this->return_url;?>");
     Manual.addRequiredAndExistingToOptionsList(<?php echo json_encode($this->data);?>, <?php echo $Instance->getId();?>);
+    Manual.OptionDeleteBind(".manual_option_delete");
 </script>

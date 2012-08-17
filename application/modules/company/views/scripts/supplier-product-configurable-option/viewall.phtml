@@ -1,42 +1,50 @@
 <?php 
 echo($this->flashMessages()); 
 ?>
-<h1 class="header1">Configurable Product Option Group - View All</h1>
+<h1 class="header1">Configurable Product Option - View All</h1>
 <fieldset class="padded_frame blue_frame">
     <legend>Menu</legend>
     <?php
-    echo HTML::buttonBlue("add.png", "Add Group", "group_add", "position:relative;");
+    echo HTML::buttonBlue("add.png", "Add Option", "option_add", "position:relative;");
     ?>
 </fieldset>
 <fieldset class="padded_frame blue_frame">
-    <legend>Groups</legend>
+    <legend>Options</legend>
     <?php
-    /* @var $ConfigurableProductOptionGroup \Entities\ConfigurableProductOptionGroup */
-    foreach($this->ConfigurableProductOptionGroups as $ConfigurableProductOptionGroup){
-	echo "<div configurableproductoptiongroup_id='".$ConfigurableProductOptionGroup->getId()."'>";
-	$Products = $ConfigurableProductOptionGroup->getConfigurableProducts();
+    /* @var $Option \Entities\Company\Supplier\Product\Configurable\Option */
+    foreach($this->Options as $Option){
+	echo "<div option_id='".$Option->getId()."'>";
+	
+	$Products = $Option->getConfigurableProducts();
+	
 	echo HTML::buttonIcon(
 		"magnifier.png", 
-		"view_group_".$ConfigurableProductOptionGroup->getId(), 
-		"View Group", 
-		"group_view", 
+		"view_option_".$Option->getId(), 
+		"View Option", 
+		"option_view", 
 		"padding-right:5px;"
 		);
 	echo HTML::buttonIcon(
 		"delete.png", 
-		"delete_group_".$ConfigurableProductOptionGroup->getId(), 
-		"Delete Group", 
-		"group_delete", 
+		"delete_option_".$Option->getId(), 
+		"Delete Option", 
+		"option_delete", 
 		"padding-right:5px;"
 		);
 	echo ":: ";
-	echo $ConfigurableProductOptionGroup->getName();
-	if(count($Products)>0){
+	echo $Option->getName();
+	
+	if(count($Products)>0)
+	{
 	    echo "<span class='gray small'> - ";
+	    
 	    $array = array();
-	    foreach ($ConfigurableProductOptionGroup->getConfigurableProducts() as $ConfigurableProduct) {
-		$array[] = $ConfigurableProduct->getName();
+	    
+	    foreach ($Option->getConfigurableProducts() as $Configurable)
+	    {
+		$array[] = $Configurable->getName();
 	    }
+	    
 	    echo implode(", ", $array);
 	    echo "</span>";
 	}
@@ -47,8 +55,8 @@ echo($this->flashMessages());
     ?>
 </fieldset>
 <script type="text/javascript">
-    ConfigurableProductOptionGroup = new ConfigurableProductOptionGroup();
-    ConfigurableProductOptionGroup.AddOnclickBind($("#group_add"));
-    ConfigurableProductOptionGroup.ViewOnclickBind($(".group_view"));
-    ConfigurableProductOptionGroup.DeleteOnclickBind($(".group_delete"));
+    Option = new Option();
+    Option.AddOnclickBind($("#option_add"));
+    Option.ViewOnclickBind($(".option_view"));
+    Option.DeleteOnclickBind($(".option_delete"));
 </script>

@@ -1,16 +1,16 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo HTML::backAnchorIcon("Configurable Product Option Group - All", "/configurableproductoptiongroup/viewall");
+echo HTML::backAnchorIcon("Configurable Product Option - All", "/company/supplier-product-configurable-option/viewall");
 echo "</div>";
 ?>
-<h1 class="header1">Configurable Product Option Group - View</h1>
+<h1 class="header1">Configurable Product Option - View</h1>
 <?php
-/* @var $ConfigurableProductOptionGroup \Entities\ConfigurableProductOptionGroup */
-$ConfigurableProductOptionGroup	    = $this->ConfigurableProductOptionGroup;
-$configurableproductoptiongroup_id  = $ConfigurableProductOptionGroup->getId();
-$ConfigurableProductOptions	    = $ConfigurableProductOptionGroup->getConfigurableProductOptions();
-$ConfigurableProducts		    = $ConfigurableProductOptionGroup->getConfigurableProducts();
+/* @var $Option \Entities\Company\Supplier\Product\Configurable\Option */
+$Option	    = $this->Option;
+$option_id  = $Option->getId();
+$Parameters	    = $Option->getParameters();
+$Configurables		    = $Option->getConfigurableProducts();
 ?>
 <div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
     <h4 class="no_space" style="color: #2000EE;">
@@ -19,17 +19,17 @@ $ConfigurableProducts		    = $ConfigurableProductOptionGroup->getConfigurablePro
 	echo HTML::anchorIcon(
 		"pencil.png", 
 		"", 
-		"/configurableproductoptiongroup/edit/id/".$configurableproductoptiongroup_id,
+		"/company/supplier-product-configurable-option/edit/id/".$option_id,
 		"margin-left:5px;"
 		);
 	?>
     </h4>
     <div>
-	<label>Name:</label> <?php echo $ConfigurableProductOptionGroup->getName(); ?> &nbsp;&nbsp;&nbsp; 
-	<label>Index:</label> <?php echo $ConfigurableProductOptionGroup->getIndex(); ?> &nbsp;&nbsp;&nbsp;
-	<label>Length:</label> <?php echo $ConfigurableProductOptionGroup->getLength(); ?> &nbsp;&nbsp;&nbsp;
-	<label>Code:</label> <?php echo $ConfigurableProductOptionGroup->getCode(); ?> <br /> 
-	<label>Description:</label> <span class="small"><?php echo $ConfigurableProductOptionGroup->getDescription(); ?></span>
+	<label>Name:</label> <?php echo $Option->getName(); ?> &nbsp;&nbsp;&nbsp; 
+	<label>Index:</label> <?php echo $Option->getIndex(); ?> &nbsp;&nbsp;&nbsp;
+	<label>Length:</label> <?php echo $Option->getLength(); ?> &nbsp;&nbsp;&nbsp;
+	<label>Code:</label> <?php echo $Option->getCode(); ?> <br /> 
+	<label>Description:</label> <span class="small"><?php echo $Option->getDescription(); ?></span>
     </div>
 </div>
 <div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">
@@ -40,25 +40,25 @@ $ConfigurableProducts		    = $ConfigurableProductOptionGroup->getConfigurablePro
 	<div>
 	    <ul>
 	    <?php
-	    /* @var $ConfigurableProduct \Entities\ConfigurableProduct */
-	    if(count($ConfigurableProducts)>0){
-		foreach ($ConfigurableProducts as $ConfigurableProduct) {
+	    /* @var $Configurable \Entities\Company\Supplier\Product\Configurable */
+	    if(count($Configurables)>0){
+		foreach ($Configurables as $Configurable) {
 		    ?>
 		    <li>
 			<?php
 			echo HTML::anchorIcon(
 				"magnifier.png", 
 				"", 
-				"/product/view/id/".$ConfigurableProduct->getId(),
+				"/company/supplier-product/view/id/".$Configurable->getId(),
 				"margin-left:5px;"
 				);
-			echo $ConfigurableProduct->getName();
+			echo $Configurable->getName();
 			?>
 		    </li>
 		    <?php
 		}
 	    }
-	    else echo "<li>No Products</li>";
+	    else echo "<li>No Configurable Products</li>";
 	    ?>
 	    </ul>
 	</div>
@@ -75,36 +75,29 @@ $ConfigurableProducts		    = $ConfigurableProductOptionGroup->getConfigurablePro
 		?>
 	    </h3>
 	    <div>
+		<ul>
 		<?php
-		if(count($ConfigurableProductOptions)>0){
-		    ?>
-			<ul>
-			<?php
-			/* @var $ConfigurableProductOption \Entities\ConfigurableProductOption */
-			if(count($ConfigurableProductOptions)>0){
-			    foreach ($ConfigurableProductOptions as $ConfigurableProductOption) {
-				?>
-				<li>
-				    <?php
-				    echo HTML::anchorIcon(
-					    "magnifier.png", 
-					    "", 
-					    "/configurableproductoption/view/id/".$ConfigurableProductOption->getId(),
-					    "margin-left:5px;"
-					    );
-				    echo $ConfigurableProductOption->getName();
-				    ?>
-				</li>
-				<?php
-			    }
-			}
-			else echo "<li>No Options</li>";
+		/* @var $Parameter \Entities\Company\Supplier\Product\Configurable\Option\Parameter */
+		if(count($Parameters)>0){
+		    foreach ($Parameters as $Parameter) {
 			?>
-			</ul>
-		    <?php
+			<li>
+			    <?php
+			    echo HTML::anchorIcon(
+				    "magnifier.png", 
+				    "", 
+				    "/company/supplier-product-configurable-option-parameter/view/id/".$Parameter->getId(),
+				    "margin-left:5px;"
+				    );
+			    echo $Parameter->getName();
+			    ?>
+			</li>
+			<?php
+		    }
 		}
-		else echo "No options.";
+		else echo "<li>No Options</li>";
 		?>
+		</ul>
 	    </div>
 	    <hr />
     </div>
@@ -113,9 +106,9 @@ $ConfigurableProducts		    = $ConfigurableProductOptionGroup->getConfigurablePro
     <h3><a href="#">Documents</a></h3>
     <div>Put Documents here</div>
 </div>
-<div style="clear: both;"><input type="hidden" id="configurableproductoptiongroup_id" value="<?php echo $configurableproductoptiongroup_id;?>" /></div>
+<div style="clear: both;"><input type="hidden" id="option_id" value="<?php echo $option_id;?>" /></div>
 <script type="text/javascript">
-    ConfigurableProductOptionGroup = new ConfigurableProductOptionGroup();
-    ConfigurableProductOptionGroup.ManageOptionsOnclickBind($("#options_manage"));
-    ConfigurableProductOptionGroup.OptionAddOnclickBind($("#option_add"));
+    Option = new Option();
+    Option.ManageOptionsOnclickBind($("#options_manage"));
+    Option.OptionAddOnclickBind($("#option_add"));
 </script>

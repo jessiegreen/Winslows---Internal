@@ -64,7 +64,7 @@ $Items	= $quote->getItems();
 		    ?>
 		</h4>
 		<label>Code:</label>
-		<div style="display: inline;"><?php echo $Instance->getCode(); ?></div><br />
+		<div style="display: inline;"><?php echo HTML::truncateString($Instance->getCode(),40); ?></div><br />
 		<label>Quantity:</label>
 		<div style="display: inline;"><?php echo $Item->getQuantity(); ?></div><br />
 		<label>Price Each:</label>

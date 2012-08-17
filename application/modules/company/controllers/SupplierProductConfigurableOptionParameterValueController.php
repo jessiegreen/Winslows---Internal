@@ -10,99 +10,117 @@ class Company_SupplierProductConfigurableOptionParameterValueController extends 
 {    
     public function init()
     {
-	$this->view->headScript()->appendFile("/javascript/configurableproductoptionvalue/configurableproductoptionvalue.js");
+	$this->view->headScript()->appendFile("/javascript/company/supplier/product/configurable/option/parameter/value.js");
 	parent::init();
     }
     
     public function viewallAction()
     {
-	$ConfigurableProductOptionValueRepos		= $this->_em->getRepository("Entities\ConfigurableProductOptionValue");
-	$this->view->ConfigurableProductOptionsValues	= $ConfigurableProductOptionValueRepos->findBy(array(), array("ConfigurableProductOption_id" => "ASC", "name" => "ASC"));
+	$ValueRepos		= $this->_em->getRepository("Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value");
+	$this->view->Values	= $ValueRepos->findBy(array(), array("Parameter_id" => "ASC", "name" => "ASC"));
     }
     
     public function editAction()
     {
-	/* @var $ConfigurableProductOptionValue \Entities\ConfigurableProductOptionValue */
-	$ConfigurableProductOptionValue = $this->getEntityFromParamFields("ConfigurableProductOptionValue", array("id"));
-	$configurableproductoption_id	= $this->_request->getParam("configurableproductoption_id");
-	$new				= !$ConfigurableProductOptionValue->getId() ? true : false;
+	/* @var $Value \Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value */
+	$Value = $this->getEntityFromParamFields("Company\Supplier\Product\Configurable\Option\Parameter\Value", array("id"));
 	
-	if($new && $configurableproductoption_id){
-	    $ConfigurableProductOption	= $this->_em->find(
-							    "Entities\ConfigurableProductOption", 
-							    $configurableproductoption_id
-							);
-	    if($ConfigurableProductOption){
-		$ConfigurableProductOptionValue->setConfigurableProductOption($ConfigurableProductOption);
+	$parameter_id	= $this->_request->getParam("parameter_id");
+	$new		= !$Value->getId() ? true : false;
+	
+	if($new && $parameter_id)
+	{
+	    $Parameter	= $this->_em->find(
+				"Entities\Company\Supplier\Product\Configurable\Option\Parameter", 
+				$parameter_id
+			    );
+	    if($Parameter)
+	    {
+		$Value->setParameter($Parameter);
 	    }
 	    else{
-		$this->_FlashMessenger->addErrorMessage("Could Not Get Option Group");
+		$this->_FlashMessenger->addErrorMessage("Could Not Get Parameter");
 		$this->_History->goBack();
 	    }
 	}
 	
-	$form = new Form_ConfigurableProductOptionValue(array("method" => "post"), $ConfigurableProductOptionValue);
+	$form = new Forms\Company\Supplier\Product\Configurable\Option\Parameter\Value(array("method" => "post"), $Value);
+	
 	$form->addElement("button", "cancel", 
-		array("onclick" => "location='".$this->_History->getPreviousUrl(1)."'")
+		    array("onclick" => "location='".$this->_History->getPreviousUrl(1)."'")
 		);
 	
-	if($this->isPostAndValid($form)){
+	if($this->isPostAndValid($form))
+	{
 	    try 
 	    {
-		$data	= $this->_params["configurableproductoptionvalue"];
+		$data	= $this->_params["company_supplier_product_configurable_option_parameter_value"];
 
-		$ConfigurableProductOptionValue->populate($data);
+		$Value->populate($data);
 		
-		$ConfigurableProductOption = $this->_em->find(
-							"Entities\ConfigurableProductOption", 
-							$data["configurableproductoption_id"]
-						    );
+		$Parameter = $this->_em->find(
+				"Entities\Company\Supplier\Product\Configurable\Option\Parameter", 
+				$data["parameter_id"]
+			    );
 		
-		if($ConfigurableProductOption){
-		    $ConfigurableProductOptionValue->setConfigurableProductOption($ConfigurableProductOption);
-		    $this->_em->persist($ConfigurableProductOptionValue);
+		if($Parameter)
+		{
+		    $Value->setParameter($Parameter);
+		    $this->_em->persist($Value);
 		    $this->_em->flush();
 		}
-		else{
-		    $this->_FlashMessenger->addErrorMessage("Could Not Get Option Group");
+		else
+		{
+		    $this->_FlashMessenger->addErrorMessage("Could Not Get Parameter");
 		    $this->_History->goBack();
 		}
 
-		$message = "Configurable Product Option Value '".htmlspecialchars($ConfigurableProductOptionValue->getName())."' saved";
+		$message = "Value '".htmlspecialchars($Value->getName())."' saved";
+		
 		$this->_FlashMessenger->addSuccessMessage($message);
 		$this->_History->goBack();
-	    } catch (Exception $exc) {
+	    }
+	    catch (Exception $exc)
+	    {
 		$this->_FlashMessenger->addErrorMessage($exc->getMessage());
 		$this->_History->goBack();
 	    }
 	}
 	
-	$this->view->form			    = $form;
-	$this->view->ConfigurableProductOptionValue = $ConfigurableProductOptionValue;
+	$this->view->form  = $form;
+	$this->view->Value = $Value;
     }
     
     public function deleteAction()
     {
 	$this->_helper->viewRenderer->setNoRender(true);
-	$ACL = new Dataservice_Controller_Plugin_ACL();
-	$ACL->preDispatch($this->_request);
 	$this->_helper->layout->disableLayout();
 	
-	/* @var $ConfigurableProductOptionValue \Entities\ConfigurableProductOptionValue */
-	$ConfigurableProductOptionValue = $this->getEntityFromParamFields("ConfigurableProductOptionValue", array("id"));
-	if($ConfigurableProductOptionValue){
-	    try {
-		$this->_em->remove($ConfigurableProductOptionValue);
+	$ACL = new Dataservice_Controller_Plugin_ACL();
+	
+	$ACL->preDispatch($this->_request);
+	
+	/* @var $Value \Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value */
+	$Value = $this->getEntityFromParamFields("Company\Supplier\Product\Configurable\Option\Parameter\Value", array("id"));
+	
+	if($Value)
+	{
+	    try
+	    {
+		$this->_em->remove($Value);
 		$this->_em->flush();
-		$this->_FlashMessenger->addSuccessMessage("Configurable Product Option Value Deleted");
+		$this->_FlashMessenger->addSuccessMessage("Value Deleted");
 		$this->_History->goBack();
-	    } catch (Exception $exc) {
+	    } 
+	    catch (Exception $exc)
+	    {
 		$this->_FlashMessenger->addErrorMessage($exc->getMessage());
 		$this->_History->goBack();
 	    }
 	}
-	else{
-	    $this->_FlashMessenger->addErrorMessage("Could Not Get Configurable Product Option Value");
+	else
+	{
+	    $this->_FlashMessenger->addErrorMessage("Could Not Get Value");
 	    $this->_History->goBack();
 	}
     }

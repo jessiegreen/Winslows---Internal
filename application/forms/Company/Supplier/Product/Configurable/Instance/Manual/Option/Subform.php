@@ -47,12 +47,14 @@ class Subform extends \Zend_Form_SubForm
 		if($Option_Values->contains($Value))$value = $Value->getId();
 	    }
 	    
+	    $asterisk = $Parameter->isRequired() ? "*" : "";
+	    
 	    $this->addElement(
 		    "select", 
 		    (string) $Parameter->getId(), 
 		    array(
 			"required"	=> $Parameter->isRequired(),
-			"label"		=> $Parameter->getName(),
+			"label"		=> $asterisk.$Parameter->getName(),
 			"belongsTo"	=> $option_group_id,
 			"multioptions"	=> $options,
 			"value"		=> $value
@@ -61,35 +63,46 @@ class Subform extends \Zend_Form_SubForm
 	    $ids_array[] = $Parameter->getId();
 	}
 	
-	$this->addDisplayGroup(
-		$ids_array, 
-		$option_group_id, 
-		array(
-		    'legend'	=> $this->_ConfigurableOption->getName().
-				    ($this->_ConfigurableOption->hasRequiredOption() ? 
-					" *required" : ""),
-		)
-	);
+	if($this->_ConfigurableOption->hasRequiredOption())
+	{
+	    $legend = "*".$this->_ConfigurableOption->getName();
+	}
+	else
+	{
+	    $legend = \HTML::buttonIcon(
+			"delete.png", 
+			"", "Delete Option", 
+			"manual_option_delete", 
+			"margin-right:5px;", 
+			" option_id='".$this->_ConfigurableOption->getId()."'").
+		    $this->_ConfigurableOption->getName();
+	}
+	
+	$this->addDisplayGroup($ids_array, $option_group_id, array('legend' => $legend));
 	
 	$displaygroup = $this->getDisplayGroup($option_group_id);
 	
 	$displaygroup->setDecorators(array(
 	    'FormElements',
-	    'Fieldset',
-	    array('HtmlTag',array('tag'=>'div','style'=>'width:100%;'))
+	    array('Fieldset', array('class' => 'j_displaygroup_fieldset')),
+	    array('HtmlTag',array('tag'=>'div','style'=>'width:100%;', 'class' => 'j_displaygroup'))
 	));
+	
+	$displaygroup->getDecorator('Fieldset')
+		     ->setOption('escape', false);
+
 		
 	$this->setElementDecorators(array(
 	    'ViewHelper',
 	    'Errors',
-	    array(array('data' => 'HtmlTag'), array('tag' => 'div', 'class' => 'element')),
-	    array('Label', array('tag' => 'div', 'style' => 'width:110px;float:left;')),
-	    array(array('row' => 'HtmlTag'), array('tag' => '<div')),
+	    array(array('data' => 'HtmlTag'), array('tag' => 'div', 'class' => 'j_element')),
+	    array('Label', array('tag' => 'div', 'style' => 'width:110px;float:left;', 'class' => 'j_label')),
+	    array(array('row' => 'HtmlTag'), array('tag' => 'div', 'class' => 'j_row')),
 	));
 	
 	$this->setDecorators(array(
 	    'FormElements',
-	    array('HtmlTag', array('tag' => 'div'))
+	    array('HtmlTag', array('tag' => 'div', 'class' => 'j_subform'))
 	));
 	
 	parent::init();

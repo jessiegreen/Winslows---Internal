@@ -19,8 +19,7 @@ class Company_SupplierProductConfigurableInstanceController extends Dataservice_
 	{	    
 	    $data = $this->_request->getPost();
 	    
-	    $Instance->removeAllOptions();
-	    $this->_em->persist($Instance);
+	    $Instance->getOptions()->clear();
 	    
 	    foreach($data as $option_array)
 	    {
@@ -75,6 +74,7 @@ class Company_SupplierProductConfigurableInstanceController extends Dataservice_
 		}
 		$Instance->addOption($Option);
 	    }
+	    
 	    if(count($error_message)>0){
 		$return["success"] = false;
 		$return["error_message"] = implode("<br />",$error_message);

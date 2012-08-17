@@ -1,39 +1,49 @@
-function ConfigurableProductOption() {
+function Parameter() {
     
 }
 
-ConfigurableProductOption.prototype.ValueAddOnclickBind = function(element){
-    element.click(function(){
-	configurableproductoption_id  = $("#configurableproductoption_id").val()
-	location    ='/configurableproductoptionvalue/edit/id/0/configurableproductoption_id/'+configurableproductoption_id;
+Parameter.prototype.ValueAddOnclickBind = function(element)
+{
+    element.click(function()
+    {
+	parameter_id	= $("#parameter_id").val()
+	location	='/company/supplier-product-configurable-option-parameter-value/edit/id/0/parameter_id/'+parameter_id;
     });
 }
 
-ConfigurableProductOption.prototype.EditOnclickBind = function(element){
-    element.click(function(e){
+Parameter.prototype.EditOnclickBind = function(element)
+{
+    element.click(function(e)
+    {
 	button = $(e.target);
-	location='/configurableproductoption/edit/id/' + button.parent().attr("configurableproductoption_id");
+	location='/company/supplier-product-configurable-option-parameter/edit/id/' + button.parent().attr("parameter_id");
     });
 }
 
-ConfigurableProductOption.prototype.AddOnclickBind = function(element){
-    element.click(function(){
-	location    ='/configurableproductoption/edit/id/0';
+Parameter.prototype.AddOnclickBind = function(element)
+{
+    element.click(function()
+    {
+	location    ='/company/supplier-product-configurable-option-parameter/edit/id/0';
     });
 }
 
-ConfigurableProductOption.prototype.ViewOnclickBind = function(element){
-    element.click(function(e){
+Parameter.prototype.ViewOnclickBind = function(element)
+{
+    element.click(function(e)
+    {
 	button = $(e.target);
-	location='/configurableproductoption/view/id/' + button.parent().attr("configurableproductoption_id");
+	location='/company/supplier-product-configurable-option-parameter/view/id/' + button.parent().attr("parameter_id");
     });
 }
 
-ConfigurableProductOption.prototype.DeleteOnclickBind = function(element){
-    element.click(function(e){
+Parameter.prototype.DeleteOnclickBind = function(element)
+{
+    element.click(function(e)
+    {
 	button = $(e.target);
-	if(confirm("Are you sure? This will delete the option and ALL of its values!!!!")){
-	    location='/configurableproductoption/delete/id/' + button.parent().attr("configurableproductoption_id");
+	if(confirm("Are you sure? This will delete the parameter and ALL of its values!!!!")){
+	    location='/company/supplier-product-configurable-option-parameter/delete/id/' + button.parent().attr("parameter_id");
 	}
     });
 }

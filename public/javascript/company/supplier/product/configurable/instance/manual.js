@@ -22,7 +22,7 @@ var Manual = function(instance_id)
 		    function(next){
 			this_var.progressbar_element.progressbar({
 			    value: 100
-			}).hide().slideDown(1000);
+			}).hide().slideDown(250);
 		    next();}
 	    );
 }
@@ -54,7 +54,7 @@ Manual.prototype.addRequiredAndExistingToOptionsList = function(data, instance_i
 	    //--Star the Tab to indicate required
 	    $("#tab_title_"+option_array.category.id).html(option_array.category.name+"*");
 	    //--Remove option id from required as it has now been satisfied 
-	    delete data.required[required_index];
+	    data.required.splice(required_index,1);
 	}
 	
 	this_var.local_queue.queue('right_frame', function(next)
@@ -100,7 +100,7 @@ Manual.prototype.addRequiredAndExistingToOptionsList = function(data, instance_i
     //--Clean up progress bar, enable save button, initialize drag and drop on left items
     this.local_queue.queue('right_frame', function(next)
     {
-	this_var.progressbar_element.slideUp(1000, function(){this_var.progressbar_element.html("")});
+	this_var.progressbar_element.slideUp(250, function(){this_var.progressbar_element.html("")});
 	this_var.submit_element.button({ disabled: false });
 	Manual.dragAndDropInit(this_var.instane_id);
 	next();
@@ -128,7 +128,7 @@ Manual.prototype.submit = function(instance_id, return_url)
 	    this_var.form_element.serialize(),
 	    function(data) {
 		if(data.success === true){
-		    parent.location = return_url;
+		    location = return_url;
 		}
 		else if(data.success === false){
 		    if(data.error_message){
@@ -178,10 +178,9 @@ Manual.prototype.dragAndDropInit = function()
     {
 	var draggable   = ui.draggable;
 	option_id	= draggable.attr('option_id');
-
+	
 	this_var.addOptionToRightFrame(this_var.instance_id, option_id);
-    }
-    
+    }    
 }
 
 Manual.prototype.addOptionToRightFrame = function(instance_id, configurable_option_id, instance_option_id, next)
@@ -199,10 +198,14 @@ Manual.prototype.addOptionToRightFrame = function(instance_id, configurable_opti
 	    parent_div	    = left_option_li.parents(".category_div");
 	    right_div	    = parent_div.children(".add_option_right");
 	    
-	    right_div.append(data).children(':last').hide().fadeIn(1000);
+	    right_div.append(data).children(':last').hide().fadeIn(250);
 	    
 	    if(quantity_left == 0){
-		left_option_li.fadeOut(1000, function(){left_option_li.remove()});
+		left_option_li.fadeOut(250, function()
+		{
+		    left_option_li.attr('quantity_left', quantity_left-1)
+		    left_option_li.fadeOut()
+		});
 	    }
 	    else{
 		left_option_li.attr('quantity_left', quantity_left-1);
@@ -218,4 +221,19 @@ Manual.prototype.addOptionToLeftFrame = function(option_id, option_name, option_
     option_list = $("#optional_list_"+category_index);
     option_list.append('<li quantity_left="'+(option_maxcount-1)+'" option_id="'+option_id+'" id="draggable_'+
 	    option_id+'" style="cursor: move;">'+option_name+'</li>');
+}
+
+Manual.prototype.OptionDeleteBind = function(element_text)
+{
+    $(element_text).live("click", function(e)
+    {
+	element	    = $(e.target);
+	option_id   = element.attr("option_id")
+	parent	    = element.parent().parent().parent().parent().parent(".j_form");
+	draggable   = $("#draggable_"+option_id);
+	
+	parent.fadeOut(250,function(){parent.remove()});
+	draggable.attr('quantity_left', (parseInt(draggable.attr('quantity_left'))+1));
+	draggable.fadeIn(250);
+    })
 }

@@ -34,6 +34,11 @@ class Option extends \Dataservice_Form
 	$form		    = new \Forms\Company\Supplier\Product\Configurable\Instance\Manual\Option\Subform($this->_ConfigurableOption, $this->_Option, $options);
 	
 	$this->addSubForm($form, $option_group_id);
+	
+	$this->setDecorators(array(
+	    'FormElements',
+	    array('HtmlTag', array('tag' => 'div', 'class' => 'j_form', 'style' => 'margin-top:10px;'))
+	));
     }
 }
 

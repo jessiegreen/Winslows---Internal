@@ -9,7 +9,7 @@
 <fieldset class="padded_frame blue_frame">
     <legend>Options</legend>
     <?php
-    /* @var $ConfigurableProductOption \Entities\ConfigurableProductOption */
+    /* @var $ConfigurableProductOption \Entities\Company\Supplier\Product\Configurable\Option\Parameter */
     foreach($this->ConfigurableProductOptions as $ConfigurableProductOption){
 	echo "<div configurableproductoption_id='".$ConfigurableProductOption->getId()."'>";
 	echo HTML::buttonIcon(

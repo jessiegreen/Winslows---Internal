@@ -1,6 +1,5 @@
 <?php
 namespace Forms\Company\Supplier\Product\Configurable;
-use \Entities\Company\Supplier\Product\Configurable\Option as Option;
 /**
  * Name:
  * Product:
@@ -15,7 +14,7 @@ class Option extends \Zend_Form
 {    
     private $_Option;
     
-    public function __construct($options = null, Option $Option = null)
+    public function __construct($options = null, \Entities\Company\Supplier\Product\Configurable\Option $Option = null)
     {
 	$this->_Option = $Option;
 	parent::__construct($options, $this->_Option);
