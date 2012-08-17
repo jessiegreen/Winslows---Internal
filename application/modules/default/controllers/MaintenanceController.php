@@ -23,12 +23,12 @@ class MaintenanceController extends Dataservice_Controller_Action
     public function groupsviewAction()
     {
 	$this->view->headScript()->appendFile("/javascript/maintenance/groups/group.js");
-	/* @var $em \Doctrine\ORM\EntityManager */
-	$em	 = $this->_helper->EntityManager();
-	/* @var $roles \Repositories\Role */
-	$roles   = $em->getRepository('Entities\Company\Website\Account\Role')->findAll();
 	
-	$this->view->roles = $roles;
+	/* @var $em \Doctrine\ORM\EntityManager */
+	/* @var $roles \Repositories\Role */
+	$em		    = $this->_helper->EntityManager();
+	$roles		    = $em->getRepository('Entities\Company\Website\Account\Role')->findAll();	
+	$this->view->roles  = $roles;
     }
     
     public function groupeditAction()
@@ -36,7 +36,7 @@ class MaintenanceController extends Dataservice_Controller_Action
 	$id	= isset($this->_params['id']) ? $this->_params['id'] : null;
 	$em	= $this->_helper->EntityManager();
 	$Role	= $id ? $em->getRepository('\Entities\Company\Website\Account\Role')->findOneById($id) : null;
-	$form	=  new Form_Role(array("method" => "post"), $Role);
+	$form	=  new \Forms\Company\Website\Account\Role(array("method" => "post"), $Role);
 	
 	$form->addElement("button", "cancel", array("label" => "cancel", "onclick" => "location='/maintenance/groupsview'"));
 	
@@ -44,20 +44,29 @@ class MaintenanceController extends Dataservice_Controller_Action
 	{
 	    if($form->isValid($this->_params))
 	    {
-		try {
+		try
+		{
 		    $new = false;
-		    if(!$Role){
+		    
+		    if(!$Role)
+		    {
 			$Role	= new \Entities\Company\Website\Account\Role(); 
 			$new	= true;
 		    }
+		    
 		    $em = $this->_helper->EntityManager();
+		    
 		    $Role->setName($this->_params['role']['name']);
 		    $Role->setDescription($this->_params['role']['description']);
+		    
 		    $em->persist($Role);
 		    $em->flush();
-		    $this->_FlashMessenger->addMessage(array('message' => "Group '".$Role->getName()."' ".($new ? "Added" : "Edited"), 'status' => 'success'));
-		} catch (Exception $exc) {
-		    $this->_FlashMessenger->addMessage(array('message' => $exc->getMessage(), 'status' => 'error'));
+		    
+		    $this->_FlashMessenger->addSuccessMessage("Group '".$Role->getName()."' ".($new ? "Added" : "Edited"));
+		}
+		catch (Exception $exc)
+		{
+		    $this->_FlashMessenger->addErrorMessage($exc->getMessage());
 		}
 		$this->_redirect('/maintenance/groupsview');
 	    }
@@ -73,7 +82,8 @@ class MaintenanceController extends Dataservice_Controller_Action
 	$em		= $this->_helper->EntityManager();
 	$new		= false;
 	
-	if($group_id) {
+	if($group_id) 
+	{
 	    /* @var $Privilege \Entities\Privilege */
 	    $Privilege	= new \Entities\Privilege;
 	    /* @var $Group \Entities\Company\Website\Account\Role */
@@ -83,7 +93,7 @@ class MaintenanceController extends Dataservice_Controller_Action
 	elseif($privilege_id) $Privilege = $em->getRepository('\Entities\Privilege')->findOneById($privilege_id);
 	else $this->_redirect('/maintenance/groupsview');
 	
-	$form	=  new Form_Privilege_Privilege(array("method" => "post"), $Privilege);
+	$form	=  new \Forms\Company\Website\Account\Role\Privilege(array("method" => "post"), $Privilege);
 	
 	$form->addElement("button", "cancel", array("label" => "cancel", "onclick" => "location='/maintenance/groupsview'"));
 	
@@ -91,40 +101,51 @@ class MaintenanceController extends Dataservice_Controller_Action
 	{
 	    if($form->isValid($this->_params))
 	    {
-		$this->_FlashMessenger = $this->_helper->getHelper('FlashMessenger');
-		try {
+		try 
+		{
 		    $em = $this->_helper->EntityManager();
+		    
 		    $Privilege->setName($this->_params['privilege']['name']);
-		    if(!$Privilege->getRole()){
+		    
+		    if(!$Privilege->getRole())
+		    {
 			$Group->addPrivilege($Privilege);
 			$em->persist($Group);
 		    }
 		    else $em->persist($Privilege);
+		    
 		    $em->flush();
-		    $this->_FlashMessenger->addMessage(array('message' => "Privilege '".$Privilege->getName()."' ".($new ? "Added to ".$Group->getName() : "Edited"), 'status' => 'success'));
-		} catch (Exception $exc) {
-		    $this->_FlashMessenger->addMessage(array('message' => $exc->getMessage(), 'status' => 'error'));
+		    
+		    $message = "Privilege '".$Privilege->getName()."' ".($new ? "Added to ".$Group->getName() : "Edited");
+		    
+		    $this->_FlashMessenger->addSuccessMessage($message);
+		}
+		catch (Exception $exc)
+		{
+		    $this->_FlashMessenger->addErrorMessage($exc->getMessage());
 		}
 		$this->_redirect('/maintenance/groupsview');
 	    }
 	    else $form->populate($this->_params);
 	}
+	
 	$this->view->form	= $form;
 	$this->view->group_name = isset($Group) ? $Group->getName() : null;
     }
     
     public function groupviewAction()
     {
-	if(isset($this->_params['id'])){
+	if(isset($this->_params['id']))
+	{
 	    $role_id	= $this->_params['id'];
 	    /* @var $em \Doctrine\ORM\EntityManager */
 	    $em		= $this->_helper->EntityManager();
 	    /* @var $employee \Entities\Employee */
 	    $employee   = $em->getRepository('Entities\Company\Website\Account\Role')->findOneById($role_id);
 	    
-	    if(!$employee){
-		$this->_FlashMessenger = $this->_helper->getHelper('FlashMessenger');
-		$this->_FlashMessenger->addMessage(array('message' => "Could not find Group.", 'status' => 'error'));
+	    if(!$employee)
+	    {
+		$this->_FlashMessenger->addErrorMessage("Could not find Group.");
 		$this->_redirect('/maintenance/privileges');
 	    }
 	}
@@ -133,42 +154,48 @@ class MaintenanceController extends Dataservice_Controller_Action
     public function privilegedeleteAction()
     {
 	$id	= isset($this->_params['privilege_id']) ? $this->_params['privilege_id'] : null;
-	$em	= $this->_helper->EntityManager();
-	$this->_FlashMessenger = $this->_helper->getHelper('FlashMessenger');
-	try {
-	    $Privilege = $em->getRepository('\Entities\Privilege')->findOneById($id);
-	    $em = $this->_helper->EntityManager();
-	    if($Privilege){
-		$em->remove($Privilege);
-		$em->flush();
-		$this->_FlashMessenger->addMessage(array('message' => "Deleted Privilege '".$Privilege->getName()."'", 'status' => 'success'));
+	
+	try 
+	{
+	    $Privilege = $this->_em->getRepository('\Entities\Privilege')->findOneById($id);
+	    
+	    if($Privilege)
+	    {
+		$this->_em->remove($Privilege);
+		$this->_em->flush();
+		$this->_FlashMessenger->addSuccessMessage("Deleted Privilege '".$Privilege->getName()."'");
 	    }
-	    else{
-		$this->_FlashMessenger->addMessage(array('message' => "Privilege Does Not Exist.", 'status' => 'error'));
+	    else
+	    {
+		$this->_FlashMessenger->addErrorMessage("Privilege Does Not Exist.");
 	    }
-	} catch (Exception $exc) {
-	    $this->_FlashMessenger->addMessage(array('message' => $exc->getMessage(), 'status' => 'error'));
+	} 
+	catch (Exception $exc)
+	{
+	    $this->_FlashMessenger->addErrorMessage($exc->getMessage());
 	}
+	
 	$this->_redirect('/maintenance/groupsview');
-	$this->view->form = $form;
     }
     
-    public function navigationviewAction(){
+    public function navigationviewAction()
+    {
 	$this->view->headScript()->appendFile("/javascript/maintenance/navigation/navigation.js");
 	
-	$this->view->menu_items = \Services\Menu::factory()->getMenuParentItems("Top");
+	$this->view->menu_items = Services\Company\Website\Menu::factory()->getMenuParentItems("Top");
     }
     
     public function navigationremoveAction()
     {
 	$this->_helper->viewRenderer->setNoRender(true);
-	$ACL = new Dataservice_Controller_Plugin_ACL();
-	$ACL->preDispatch($this->_request);
 	$this->_helper->layout->disableLayout();
+	
+	$ACL = new Dataservice_Controller_Plugin_ACL();
+	
+	$ACL->preDispatch($this->_request);
 	
 	$menu_id	= isset($this->_params["menu_id"]) ? $this->_params["menu_id"] : null;
 	$menuitem_id	= isset($this->_params["menuitem_id"]) ? $this->_params["menuitem_id"] : null;
-	$this->_FlashMessenger = $this->_helper->getHelper('FlashMessenger');
 	
 	if($menuitem_id){
 	    /* @var $em \Doctrine\ORM\EntityManager */
@@ -176,23 +203,27 @@ class MaintenanceController extends Dataservice_Controller_Action
 	    /* @var $Resource \Entities\Company\Website\Menu */
 	    $Menu	= $em->find("Entities\Company\Website\Menu", $menu_id);
 	    $MenuItem	= $em->find("Entities\Company\Website\Menu\Item", $menuitem_id);
-	    if($Menu && $MenuItem){
-		if(!$Menu->removeMenuItem($MenuItem)){
-		    $this->_FlashMessenger->addMessage(array('message' => "Could Not Remove MenuItem", 'status' => 'error'));
-		    $this->_redirect('/maintenance/navigationview/');
+	    
+	    if($Menu && $MenuItem)
+	    {
+		if(!$Menu->removeMenuItem($MenuItem))
+		{
+		    $this->_FlashMessenger->addErrorMessage("Could Not Remove MenuItem");
 		}
 		$em->persist($Menu);
 		$em->flush();
-		$this->_FlashMessenger->addMessage(array('message' => "Menu Item Removed", 'status' => 'success'));
-		$this->_redirect('/maintenance/navigationview');
+		$this->_FlashMessenger->addSuccessMessage("Menu Item Removed");
 	    }
-	    else{
-		$this->_FlashMessenger->addMessage(array('message' => "Error Removing Menu Item - Not Found", 'status' => 'error'));
-		$this->_redirect('/maintenance/navigationview');
+	    else
+	    {
+		$this->_FlashMessenger->addErrorMessage("Error Removing Menu Item - Not Found");
 	    }
+	    
+	    $this->_redirect('/maintenance/navigationview/');
 	}
-	else{
-	    $this->_FlashMessenger->addMessage(array('message' => "Error Removing Menu Item, Id Not Sent", 'status' => 'error'));
+	else
+	{
+	    $this->_FlashMessenger->addErrorMessage("Error Removing Menu Item, Id Not Sent");
 	    $this->_redirect('/maintenance/resourcesview');
 	}
     }
@@ -202,9 +233,8 @@ class MaintenanceController extends Dataservice_Controller_Action
 	try 
 	{
 	    /* @var $em \Doctrine\ORM\EntityManager */
-	    $em		    = $this->_helper->EntityManager();
-	    $objResources	    = new Dataservice_ACL_Resources;
-	    $this->view->result = $objResources->cleanDB($em);
+	    $objResources	= new Dataservice_ACL_Resources;
+	    $this->view->result = $objResources->cleanDB($this->_em);
 	} 
 	catch (Exception $exc) 
 	{
@@ -215,74 +245,72 @@ class MaintenanceController extends Dataservice_Controller_Action
     public function resourcebuildAction()
     {
 	/* @var $em \Doctrine\ORM\EntityManager */
-	$em		= $this->_helper->EntityManager();
 	$objResources	= new Dataservice_ACL_Resources;
 	
 	$objResources->buildAllArrays();
-	$objResources->writeToDB($em);
+	$objResources->writeToDB($this->_em);
     }
     
-    public function resourcesviewAction(){
-	$this->view->headScript()->appendFile("/javascript/maintenance/resource/resource.js");
-	/* @var $em \Doctrine\ORM\EntityManager */
-	$em = $this->_helper->EntityManager();
-	$this->view->Resources = $em->getRepository("Entities\Company\Website\Resource")->findAll();
-    }
-    
-    public function resourceeditAction(){
+    public function resourcesviewAction()
+    {
 	$this->view->headScript()->appendFile("/javascript/maintenance/resource/resource.js");
 	
-	if(isset($this->_params["id"])){
-	    /* @var $em \Doctrine\ORM\EntityManager */
-	    $em			    = $this->_helper->EntityManager();
+	$this->view->Resources	= $this->_em->getRepository("Entities\Company\Website\Resource")->findAll();
+    }
+    
+    public function resourceeditAction()
+    {
+	$this->view->headScript()->appendFile("/javascript/maintenance/resource/resource.js");
+	
+	if(isset($this->_params["id"]))
+	{
 	    /* @var $Resource \Entities\Company\Website\Resource */
-	    $Resource		    = $em->find("\Entities\Company\Website\Resource",$this->_params["id"]); 
+	    $Resource		    = $this->_em->find("\Entities\Company\Website\Resource",$this->_params["id"]); 
 	    $this->view->Resource   = $Resource;
-	    $this->view->Roles	    = $em->getRepository("Entities\Company\Website\Account\Role")->findAll();
+	    $this->view->Roles	    = $this->_em->getRepository("Entities\Company\Website\Account\Role")->findAll();
 	}
     }
     
     public function removeroleAction()
     {
 	$this->_helper->viewRenderer->setNoRender(true);
-	$ACL = new Dataservice_Controller_Plugin_ACL();
-	$ACL->preDispatch($this->_request);
 	$this->_helper->layout->disableLayout();
+	
+	$ACL = new Dataservice_Controller_Plugin_ACL();
+	
+	$ACL->preDispatch($this->_request);
 	
 	$resource_id	= isset($this->_params["resource_id"]) ? $this->_params["resource_id"] : null;
 	$role_id	= isset($this->_params["role_id"]) ? $this->_params["role_id"] : null;
-	$this->_FlashMessenger = $this->_helper->getHelper('FlashMessenger');
 	
 	if($resource_id && $role_id)
 	{
-	    /* @var $em \Doctrine\ORM\EntityManager */
-	    $em		= $this->_helper->EntityManager();
 	    /* @var $Resource \Entities\Company\Website\Resource */
-	    $Resource	= $em->find("Entities\Company\Website\Resource", $resource_id);
-	    $Role	= $em->find("Entities\Company\Website\Account\Role", $role_id);
+	    $Resource	= $this->_em->find("Entities\Company\Website\Resource", $resource_id);
+	    $Role	= $this->_em->find("Entities\Company\Website\Account\Role", $role_id);
 	    
 	    if($Resource && $Role)
 	    {
 		if(!$Resource->removeRole($Role))
 		{
-		    $this->_FlashMessenger->addMessage(array('message' => "Could Not Remove Role", 'status' => 'error'));
+		    $this->_FlashMessenger->addErrorMessage("Could Not Remove Role");
 		    $this->_redirect('/maintenance/resourceedit/id/'.$resource_id);
 		}
 		
-		$em->persist($Resource);
-		$em->flush();
-		$this->_FlashMessenger->addMessage(array('message' => "Role Removed", 'status' => 'success'));
+		$this->_em->persist($Resource);
+		$this->_em->flush();
+		$this->_FlashMessenger->addSuccessMessage("Role Removed");
 		$this->_redirect('/maintenance/resourceedit/id/'.$resource_id);
 	    }
 	    else
 	    {
-		$this->_FlashMessenger->addMessage(array('message' => "Error Removing Role - Resource or Role Not Found", 'status' => 'error'));
+		$this->_FlashMessenger->addErrorMessage("Error Removing Role - Resource or Role Not Found");
 		$this->_redirect('/maintenance/resourceedit/id/'.$resource_id);
 	    }
 	}
 	else
 	{
-	    $this->_FlashMessenger->addMessage(array('message' => "Error Removing Role - Resource or Role Not Sent", 'status' => 'error'));
+	    $this->_FlashMessenger->addErrorMessage("Error Removing Role - Resource or Role Not Sent");
 	    $this->_redirect('/maintenance/resourcesview');
 	}
     }
@@ -290,46 +318,49 @@ class MaintenanceController extends Dataservice_Controller_Action
     public function addroleAction()
     {
 	$this->_helper->viewRenderer->setNoRender(true);
-	$ACL = new Dataservice_Controller_Plugin_ACL();
-	$ACL->preDispatch($this->_request);
 	$this->_helper->layout->disableLayout();
+	
+	$ACL = new Dataservice_Controller_Plugin_ACL();
+	
+	$ACL->preDispatch($this->_request);
 	
 	$resource_id	= isset($this->_params["resource_id"]) ? $this->_params["resource_id"] : null;
 	$role_id	= isset($this->_params["role_id"]) ? $this->_params["role_id"] : null;
-	$this->_FlashMessenger = $this->_helper->getHelper('FlashMessenger');
 	
-	if($resource_id && $role_id){
-	    /* @var $em \Doctrine\ORM\EntityManager */
-	    $em		= $this->_helper->EntityManager();
+	if($resource_id && $role_id)
+	{
 	    /* @var $Resource \Entities\Company\Website\Resource */
-	    $Resource	= $em->find("Entities\Company\Website\Resource", $resource_id);
-	    $Role	= $em->find("Entities\Company\Website\Account\Role", $role_id);
-	    if($Resource && $Role){
+	    $Resource	= $this->_em->find("Entities\Company\Website\Resource", $resource_id);
+	    $Role	= $this->_em->find("Entities\Company\Website\Account\Role", $role_id);
+	    
+	    if($Resource && $Role)
+	    {
 		$Resource->addRole($Role);
-		$em->persist($Resource);
-		$em->flush();
-		$this->_FlashMessenger->addMessage(array('message' => "Role Added", 'status' => 'success'));
+		$this->_em->persist($Resource);
+		$this->_em->flush();
+		$this->_FlashMessenger->addSuccessMessage("Role Added");
 		$this->_redirect('/maintenance/resourceedit/id/'.$resource_id);
 	    }
-	    else{
-		$this->_FlashMessenger->addMessage(array('message' => "Error Adding Role - Resource or Role Not Available", 'status' => 'error'));
+	    else
+	    {
+		$this->_FlashMessenger->addErrorMessage("Error Adding Role - Resource or Role Not Available");
 		$this->_redirect('/maintenance/resourcesview');
 	    }
 	}
-	else{
-	    $this->_FlashMessenger->addMessage(array('message' => "Error Adding Role - Resource or Role Not Sent", 'status' => 'error'));
+	else
+	{
+	    $this->_FlashMessenger->addErrorMessage("Error Adding Role - Resource or Role Not Sent");
 	    $this->_redirect('/maintenance/resourcesview');
 	}
     }    
     
-    public function locationaddAction(){
-	$em		= $this->_helper->EntityManager();
-	$this->_FlashMessenger = $this->_helper->getHelper('FlashMessenger');
-	
-	try {
+    public function locationaddAction()
+    {	
+	try
+	{
 	    if(!isset($this->_params["id"]))throw new Exception("Can not add Location. No Company Id");
 	    /* @var $Company Entities\Company */
-	    $Company	= $em->find("Entities\Company", $this->_params["id"]);
+	    $Company	= $this->_em->find("Entities\Company", $this->_params["id"]);
 	    
 	    if(!$Company)throw new Exception("Can not add location. No Company with that Id");
 	    

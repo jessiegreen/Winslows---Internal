@@ -62,7 +62,7 @@ class Parameter extends \Dataservice_Doctrine_Entity
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value", mappedBy="Parameter", cascade={"persist"}, orphanRemoval=true)
+     * @OneToMany(targetEntity="\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value", mappedBy="Parameter", cascade={"persist", "remove"}, orphanRemoval=true)
      * @var \Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value $Values
      */
     private $Values;

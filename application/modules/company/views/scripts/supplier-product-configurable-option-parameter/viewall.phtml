@@ -1,40 +1,40 @@
 <?php echo($this->flashMessages()); ?>
-<h1 class="header1">Configurable Product Option - View All</h1>
+<h1 class="header1">Configurable Product Option Parameter - View All</h1>
 <fieldset class="padded_frame blue_frame">
     <legend>Menu</legend>
     <?php
-    echo HTML::buttonBlue("add.png", "Add Option", "option_add", "position:relative;");
+    echo HTML::buttonBlue("add.png", "Add Parameter", "parameter_add", "position:relative;");
     ?>
 </fieldset>
 <fieldset class="padded_frame blue_frame">
-    <legend>Options</legend>
+    <legend>Parameters</legend>
     <?php
-    /* @var $ConfigurableProductOption \Entities\Company\Supplier\Product\Configurable\Option\Parameter */
-    foreach($this->ConfigurableProductOptions as $ConfigurableProductOption){
-	echo "<div configurableproductoption_id='".$ConfigurableProductOption->getId()."'>";
+    /* @var $Parameter \Entities\Company\Supplier\Product\Configurable\Option\Parameter */
+    foreach($this->Parameters as $Parameter){
+	echo "<div parameter_id='".$Parameter->getId()."'>";
 	echo HTML::buttonIcon(
 		"magnifier.png", 
-		"option_view_".$ConfigurableProductOption->getId(), 
-		"View Option", 
-		"option_view", 
+		"parameter_view_".$Parameter->getId(), 
+		"View Parameter", 
+		"parameter_view", 
 		"padding-right:5px;"
 		);
 	echo HTML::buttonIcon(
 		"delete.png", 
-		"option_delete_".$ConfigurableProductOption->getId(), 
-		"Delete Option", 
-		"option_delete", 
+		"parameter_delete_".$Parameter->getId(), 
+		"Delete Parameter", 
+		"parameter_delete", 
 		"padding-right:5px;"
 		);
 	echo ":: ";
-	echo $ConfigurableProductOption->getName()."<span class='gray small'> - ".
-		$ConfigurableProductOption->getConfigurableProductOptionGroup()->getName()."</span>";
+	echo $Parameter->getName()."<span class='gray small'> - ".
+		$Parameter->getOption()->getName()."</span>";
     }
     ?>
 </fieldset>
 <script type="text/javascript">
-    ConfigurableProductOption = new ConfigurableProductOption();
-    ConfigurableProductOption.AddOnclickBind($("#option_add"));
-    ConfigurableProductOption.ViewOnclickBind($(".option_view"));
-    ConfigurableProductOption.DeleteOnclickBind($(".option_delete"));
+    Parameter = new Parameter();
+    Parameter.AddOnclickBind($("#parameter_add"));
+    Parameter.ViewOnclickBind($(".parameter_view"));
+    Parameter.DeleteOnclickBind($(".parameter_delete"));
 </script>

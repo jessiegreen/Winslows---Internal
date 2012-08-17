@@ -10,13 +10,15 @@
  *
  * @author jgreen
  */
-class Dataservice_Form_Element_MenuItemSelect extends Zend_Form_Element_Select {
-    public function init() {	
+class Dataservice_Form_Element_MenuItemSelect extends Zend_Form_Element_Select
+{
+    public function init()
+    {	
         $this->addMultiOption("", 'Please select...');
-        foreach (Services\Menu::factory()->getAllMenuItems() as $MenuItem) {
+        
+	foreach(Services\Company\Website\Menu::factory()->getAllMenuItems() as $MenuItem)
+	{
             $this->addMultiOption($MenuItem->getId(), $MenuItem->getMenu()->getName()." - ".$MenuItem->getLabel());
         }
     }
 }
-
-?>

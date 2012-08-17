@@ -123,6 +123,12 @@ class Menu extends \Entities\Company\Website\Menu implements \Doctrine\ORM\Proxy
         return parent::populate($array);
     }
 
+    public function toArray()
+    {
+        $this->__load();
+        return parent::toArray();
+    }
+
 
     public function __sleep()
     {

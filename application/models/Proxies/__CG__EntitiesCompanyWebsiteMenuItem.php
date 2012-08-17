@@ -207,6 +207,12 @@ class Item extends \Entities\Company\Website\Menu\Item implements \Doctrine\ORM\
         return parent::populate($array);
     }
 
+    public function toArray()
+    {
+        $this->__load();
+        return parent::toArray();
+    }
+
 
     public function __sleep()
     {
