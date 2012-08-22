@@ -42,10 +42,6 @@ class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstr
 	$Option->setInstance($this);
 	
         $this->Options[]    = $Option;
-	$validate_result    = $this->validate();
-	
-	if($validate_result !== true)
-	    throw new Exception($validate_result->getMessage());
     }
     
     /**
@@ -104,17 +100,10 @@ class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstr
      */
     public function validate()
     {
-	try
-	{
-	    $this->Validator    = \Services\Company\Supplier\Product\Configurable\Instance\Validator::factory()
-				    ->getValidator($this->Product->getValidator());
-	    call_user_func(array($this->Validator, "validate"), $this);
-	    return true;
-	} 
-	catch(\Exception $exc)
-	{
-	    return $exc;
-	}
+	$this->Validator    = \Services\Company\Supplier\Product\Configurable\Instance\Validator::factory()
+				->getValidator($this->Product->getValidator());
+	call_user_func(array($this->Validator, "validate"), $this);
+	return true;
     }
     
     /**
@@ -143,5 +132,52 @@ class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstr
 		$this->$key = $value;
 	    }
 	}
+    }
+    
+    /**
+     * Return Value object from option and parameter indexes
+     * 
+     * @param string $option_index
+     * @param string $parameter_index
+     * @param \Entities\Company\Supplier\Product\Configurable\Instance\Option $Option
+     * @return Option\Parameter\Value
+     */
+    public function getValueFromIndexes($option_index, $parameter_index)
+    {
+	$Options = $this->getOptions();
+	
+	$Options = $Options->filter(
+		    /* @var $Option \Entities\Company\Supplier\Product\Configurable\Instance\Option */
+		    function($Option) use ($option_index) 
+		    {
+			$ProductOption = $Option->getOption();
+
+			if($ProductOption->getIndex() === $option_index)
+			    return true;
+			else return false;
+		    }
+		);
+	
+	if($Options->count() > 0)//->getValue()
+	{
+	    $Values = $Options->first()->getValues();
+	    
+	    $Values = $Values->filter(
+		    /* @var $Option \Entities\Company\Supplier\Product\Configurable\Instance\Option */
+		    function($Value) use ($parameter_index) 
+		    {
+			if($Value->getParameter()->getIndex() === $parameter_index)
+			    return true;
+			else return false;
+		    }
+		);
+		
+	    if($Values->count() > 0)
+	    {
+		return $Values->first();
+	    }
+	}
+	
+	return false;
     }
 }

@@ -10,11 +10,11 @@ namespace Forms\Person\Address;
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Subform extends Forms\Address\Subform
+class Subform extends \Forms\Address\Subform
 {    
     private $_PersonAddress;
     
-    public function __construct($options = null, Entities\Person\Address $PersonAddress = null) {
+    public function __construct($options = null, \Entities\Person\Address $PersonAddress = null) {
 	$this->_PersonAddress = $PersonAddress;
 	parent::__construct($options, $this->_PersonAddress);
     }

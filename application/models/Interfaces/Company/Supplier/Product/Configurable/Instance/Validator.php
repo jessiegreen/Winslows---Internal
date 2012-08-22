@@ -6,7 +6,7 @@ interface Validator
     /**
      * @param \Entities\Company\Supplier\Product\Configurable\Instance $Instance
      */
-    public static function validate($Instance);
+    public static function validate(\Entities\Company\Supplier\Product\Configurable\Instance $Instance);
 }
 
 ?>

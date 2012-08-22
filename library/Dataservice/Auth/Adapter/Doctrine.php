@@ -97,7 +97,7 @@ class Dataservice_Auth_Adapter_Doctrine implements Zend_Auth_Adapter_Interface
                     $authResult['identity'] = $this->identity;
                     $authResult['messages'][] = 'Authentication successful.';
 
-                    $this->setWebAccount($Account);
+                    $this->setAccount($Account);
 
                 }
             }
@@ -164,11 +164,11 @@ class Dataservice_Auth_Adapter_Doctrine implements Zend_Auth_Adapter_Interface
           $this->credentialTreatment = (SHA1($credential . $salt));
     } 
     
-    public function setWebAccount(Entities\Company\Website\Account $Account){
+    public function setAccount(Entities\Company\Website\Account $Account){
 	$this->Account = $Account;
     }
     
-    public function getWebAccount(){
+    public function getAccount(){
 	return $this->Account;
     }
 }

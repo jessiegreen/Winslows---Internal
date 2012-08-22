@@ -49,7 +49,7 @@ class Form_Person_AddComplete extends Zend_Form
 	}
 	else{
 	    $address_count = 0;
-	    /* @var $PersonAddress Entities\PersonAddress */
+	    /* @var $PersonAddress Entities\Person\Address */
 	    foreach($this->_Person->getAddresses() as $PersonAddress){
 		$form = new Form_PersonAddress_PersonAddress($options, $PersonAddress);
 		$form->removeElement("submit");

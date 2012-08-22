@@ -24,10 +24,9 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
     
     public function editAction()
     {
-	$Quote  = $this->_getQuote();   
-	$Lead	= $this->_getLead(); 
+	$Quote  = $this->_getQuote();
 	
-	if(!$Quote->getId() && $Lead->getId())
+	if(!$Quote->getId() && isset($this->_params["lead_id"]) && $Lead = $this->_getLead() && $Lead->getId())
 	{
 	    if($this->_request->getParam("lead_id") && $Lead = $this->_getLead() && $Lead->getId())
 	    {
@@ -49,13 +48,12 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
 	    {
 		$quote_data = $this->_params["company_lead_quote"];
 		$Lead	    = $this->_em->find("Entities\Company\Lead", $quote_data["lead_id"]);
-		$Employee   = $this->_em->find("Entities\Employee", $quote_data["employee_id"]);
+		$Employee   = $this->_em->find("Entities\Company\Location\Employee", $quote_data["employee_id"]);
 		
 		if($Lead)$Quote->setLead($Lead);
 		
 		if($Employee)$Quote->setEmployee($Employee);
 		
-		$Quote->setTotal(0);
 		$Quote->populate($quote_data);
 		$this->_em->persist($Quote);
 		$this->_em->flush();

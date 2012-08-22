@@ -19,11 +19,11 @@ echo($this->flashMessages());
     ?>
 </fieldset>
 <fieldset class="padded_frame blue_frame center">
-    <legend>Edit '<?php echo $this->WebAccount->getPerson()->getFullName(); ?>' Roles</legend>
-    <input type="hidden" id="webaccount_id" value="<?php echo $this->WebAccount->getId();?>" />
+    <legend>Edit '<?php echo $this->Account->getPerson()->getFullName(); ?>' Roles</legend>
+    <input type="hidden" id="account_id" value="<?php echo $this->Account->getId();?>" />
     <ul>
     <?php
-    $Roles = $this->WebAccount->getRoles();
+    $Roles = $this->Account->getRoles();
     if(count($Roles)>0){
 	/* @var $Role \Entities\Company\Website\Account\Role */
 	foreach($Roles as $Role){
@@ -44,7 +44,7 @@ echo($this->flashMessages());
     </ul>
 </fieldset>
 <script type="text/javascript">
-    WebAccount_Role = new WebAccount_Role();
-    WebAccount_Role.AddRoleOnclickBind($("#add_role"));
-    WebAccount_Role.RemoveRoleOnclickBind($(".remove_role"));
+    Account_Role = new Account_Role();
+    Account_Role.AddRoleOnclickBind($("#add_role"));
+    Account_Role.RemoveRoleOnclickBind($(".remove_role"));
 </script>

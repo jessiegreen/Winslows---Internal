@@ -98,23 +98,23 @@ class Validator
 	}
     }
     
-    private function _validateSize(BuilderArrayMapper $BuilderArrayMapper, $options)
-    {
-	$size		    = $BuilderArrayMapper->getSize($options);
-	$metal_models_array = $this->_data->Metal_Models_Array;
-	if(!key_exists($size, $metal_models_array[$BuilderArrayMapper->getMetalStructureModelCode($options)])){
-	    $this->_errors[] = "'".$size. "' is not a valid size for model '".$BuilderArrayMapper->getMetalStructureModelCode($options)."'";
-	}
-    }
+//    private function _validateSize(BuilderArrayMapper $BuilderArrayMapper, $options)
+//    {
+//	$size		    = $BuilderArrayMapper->getSize($options);
+//	$metal_models_array = $this->_data->Metal_Models_Array;
+//	if(!key_exists($size, $metal_models_array[$BuilderArrayMapper->getMetalStructureModelCode($options)])){
+//	    $this->_errors[] = "'".$size. "' is not a valid size for model '".$BuilderArrayMapper->getMetalStructureModelCode($options)."'";
+//	}
+//    }
     
-    private function _validateFrameGauge(BuilderArrayMapper $BuilderArrayMapper, $options)
-    {
-	$frame_gauge = $BuilderArrayMapper->getFrameGaugeCode($options);
-	$model_code  = $BuilderArrayMapper->getMetalStructureModelCode($options);
-	if(strlen($frame_gauge) > 0 && in_array($model_code, array("RX", "BX", "VX"))){
-	    $this->_errors[] = "Frame Gauge option not valid. Maximum frame gauge already standard with ".$BuilderArrayMapper->getMetalStructureModelCode($options);
-	}
-    }
+//    private function _validateFrameGauge(BuilderArrayMapper $BuilderArrayMapper, $options)
+//    {
+//	$frame_gauge = $BuilderArrayMapper->getFrameGaugeCode($options);
+//	$model_code  = $BuilderArrayMapper->getMetalStructureModelCode($options);
+//	if(strlen($frame_gauge) > 0 && in_array($model_code, array("RX", "BX", "VX"))){
+//	    $this->_errors[] = "Frame Gauge option not valid. Maximum frame gauge already standard with ".$BuilderArrayMapper->getMetalStructureModelCode($options);
+//	}
+//    }
     
     #--This-> is a functional test and needs to be moved to the tests
     public function validateValueOptions(){

@@ -44,11 +44,11 @@ class ACL {
 	}
 	else throw new Exception("param sent to isUserAllowed is invalid");
 	
-	$WebAccount	= \Services\Auth::factory()->getIdentityWebAccount();
+	$Account	= \Services\Auth::factory()->getIdentityAccount();
 	$objAcl		= \Dataservice_ACL_Factory::get($this->_em);
 	
 	/* @var $Role \Entities\Company\Website\Account\Role */
-	foreach($WebAccount->getRoles() as $Role){
+	foreach($Account->getRoles() as $Role){
 	    if($objAcl->isAllowed($Role->getName(), $module .'::' .$controller .'::' .$action)){
 		return true;
 	    }

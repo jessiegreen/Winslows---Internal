@@ -12,17 +12,17 @@ namespace Forms\Person;
  */
 class Address extends \Zend_Form
 {    
-    private $_PersonAddress;
+    private $_Address;
     
-    public function __construct($options = null, Entities\Person\Address $PersonAddress = null)
+    public function __construct($options = null, \Entities\Person\Address $Address = null)
     {
-	$this->_PersonAddress = $PersonAddress;
+	$this->_Address = $Address;
 	parent::__construct($options);
     }
     
     public function init($options = array())
     {
-	$form = new Address\Subform($options, $this->_PersonAddress);
+	$form = new \Forms\Person\Address\Subform($options, $this->_Address);
 	
 	$this->addSubForm($form, "person_address");
 	
@@ -31,5 +31,3 @@ class Address extends \Zend_Form
         ));
     }
 }
-
-?>

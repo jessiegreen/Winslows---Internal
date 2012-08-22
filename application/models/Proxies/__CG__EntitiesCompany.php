@@ -147,6 +147,12 @@ class Company extends \Entities\Company implements \Doctrine\ORM\Proxy\Proxy
         return parent::populate($array);
     }
 
+    public function toArray()
+    {
+        $this->__load();
+        return parent::toArray();
+    }
+
 
     public function __sleep()
     {

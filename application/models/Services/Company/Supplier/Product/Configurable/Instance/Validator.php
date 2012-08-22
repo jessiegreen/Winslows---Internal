@@ -8,4 +8,10 @@ class Validator extends \Dataservice_Service_ServiceAbstract
 	$class = "Services\Company\Supplier\Product\Configurable\Instance\Validator\\".$name;
 	return new $class;
     }
+    
+    static protected function _getCalledClassName()
+    {
+	$class = explode('\\', get_called_class());
+	return end($class); 
+    }
 }

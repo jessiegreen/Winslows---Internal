@@ -10,13 +10,13 @@ namespace Forms\Person\PhoneNumber;
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Subform extends Forms\PhoneNumber\Subform
+class Subform extends \Forms\PhoneNumber\Subform
 {
-    private $_PersonPhoneNumber;
+    private $_PhoneNumber;
     
-    public function __construct($options = null, Entities\Person\PhoneNumber $PersonPhoneNumber = null) {
-	$this->_PersonPhoneNumber = $PersonPhoneNumber;
-	parent::__construct($options, $this->_PersonPhoneNumber);
+    public function __construct($options = null, \Entities\Person\PhoneNumber $PhoneNumber = null) {
+	$this->_PhoneNumber = $PhoneNumber;
+	parent::__construct($options, $this->_PhoneNumber);
     }
 }
 

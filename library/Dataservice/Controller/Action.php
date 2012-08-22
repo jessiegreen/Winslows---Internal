@@ -47,10 +47,12 @@ class Dataservice_Controller_Action extends Zend_Controller_Action
 	$entity_string	= "Entities\\".$entity_name;
 	$Entity		= null;
 	
-	foreach($fields as $field){
+	foreach($fields as $field)
+	{
 	    if(!isset($this->_params[$field]))
 		throw new Exception("param '".htmlspecialchars($field)."' does not exist");
-	    else{
+	    else
+	    {
 		$find_by[$field] = $this->_params[$field];
 	    }
 	}

@@ -18,11 +18,11 @@ class Dataservice_View_Helper_Profilelink//  extends Zend_View_Helper_Abstract
     {
         $auth = Zend_Auth::getInstance();
         if ($auth->hasIdentity()) {
-	    $WebAccount = $auth->getIdentity();
-	    $Person	= $WebAccount->getPerson();
+	    $Account = $auth->getIdentity();
+	    $Person	= $Account->getPerson();
 	    
             $return = '<span> Welcome, ' . $Person->getFirstName()." ".$Person->getLastName().'</span>';
-	    $return .= ' <a href="/profile/index/id/' . $WebAccount->getId().'">'.HTML::buttonIcon("user_edit.png", "person_account", "Account Settings").'</a> ';
+	    $return .= ' <a href="/profile/index/id/' . $Account->getId().'">'.HTML::buttonIcon("user_edit.png", "person_account", "Account Settings").'</a> ';
 	    $return .= '<a href="/login/logout">'.HTML::buttonIcon("door_out.png", "logout", "Log Out").'</a>';
 	    return $return;
         }

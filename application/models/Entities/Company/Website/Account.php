@@ -55,7 +55,7 @@ class Account extends \Dataservice_Doctrine_Entity
     private $Person;
     
     /**
-     * @ManytoMany(targetEntity="\Entities\Company\Website\Account\Role", cascade={"persist"})
+     * @ManytoMany(targetEntity="\Entities\Company\Website\Account\Role", cascade={"persist", "remove"})
      * @JoinTable(name="company_website_account_role_joins",
      *      joinColumns={@JoinColumn(name="webaccount_id", referencedColumnName="id")},
      *      inverseJoinColumns={@JoinColumn(name="role_id", referencedColumnName="id")}
@@ -107,19 +107,11 @@ class Account extends \Dataservice_Doctrine_Entity
      */
     public function removeRole(Account\Role $Role)
     {
-	foreach ($this->Roles as $key => $Role2) {
-	    if($Role->getId() == $Role2->getId){
-		$Role->removeWebAccount($this);
-		$removed = $this->Roles[$key];
-		unset($this->Roles[$key]);
-		return $removed;
-	    }
-	}
-	return false;
+	$this->getRoles()->removeElement($Role);
     }
 
     /**
-     * @return array
+     * @return ArrayCollection
      */
     public function getRoles(){
 	return $this->Roles;

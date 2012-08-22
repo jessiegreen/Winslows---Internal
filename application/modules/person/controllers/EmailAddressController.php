@@ -10,27 +10,30 @@ class Person_EmailAddressController extends Dataservice_Controller_Action
 {    
     public function editAction()
     {
-	/* @var $PersonEmailAddress \Entities\PersonEmailAddress */
-	$PersonEmailAddress = $this->getEntityFromParamFields("PersonEmailAddress", array("id"));
-	$form		    = new Form_PersonEmailAddress(array("method" => "post"), $PersonEmailAddress);
+	/* @var $EmailAddress \Entities\Person\EmailAddress */
+	$EmailAddress = $this->getEntityFromParamFields("Person\EmailAddress", array("id"));
+	$form		    = new Forms\Person\EmailAddress(array("method" => "post"), $EmailAddress);
 	
-	if($this->isPostAndValid($form)){
+	if($this->isPostAndValid($form))
+	{
 	    try 
 	    {
-		$data	= $this->_params["personemailaddress"];
+		$data	= $this->_params["person_emailaddress"];
 		
-		$PersonEmailAddress->populate($data);
+		$EmailAddress->populate($data);
 		
-		if(!$PersonEmailAddress->getId()){
+		if(!$EmailAddress->getId())
+		{
 		    /* @var $Person \Entities\Person\PersonAbstract */
 		    $Person = $this->_em->find("Entities\Person\PersonAbstract", $this->_params["person_id"]);
+		    
 		    if(!$Person)
 			throw new Exception("Can not add email address. No Person with that Id");
 
-		    $Person->addPersonEmailAddress($PersonEmailAddress);
+		    $Person->addEmailAddress($EmailAddress);
 		    $this->_em->persist($Person);
 		}
-		else $this->_em->persist($PersonEmailAddress);
+		else $this->_em->persist($EmailAddress);
 
 		$this->_em->flush();
 
@@ -45,7 +48,7 @@ class Person_EmailAddressController extends Dataservice_Controller_Action
 	}
 	
 	$this->view->form		= $form;
-	$this->view->PersonEmailAddress = $PersonEmailAddress;
+	$this->view->EmailAddress = $EmailAddress;
     }
 }
 

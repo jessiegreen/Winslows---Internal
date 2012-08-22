@@ -70,7 +70,7 @@ class LoginController extends Zend_Controller_Action
 	$result	    = $adapter->authenticate();
 	
 	$auth	    = Zend_Auth::getInstance();
-	$data	    = $adapter->getWebAccount();
+	$data	    = $adapter->getAccount();
         $auth->getStorage()->write($data);
 	
         if (!$result->isValid()) {

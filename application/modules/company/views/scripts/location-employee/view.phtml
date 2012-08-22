@@ -1,18 +1,18 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo HTML::backAnchorIcon("Employees - All", "/employee/viewall");
+echo HTML::backAnchorIcon("Employees - All", "/company/location-employee/viewall");
 echo "</div>";
 ?>
 <h1 class="header1">Employee - View</h1>
 <?php
-/* @var $Employee \Entities\Employee */
+/* @var $Employee \Entities\Company\Location\Employee */
 $Employee	= $this->Employee;
 $employee_id	= $Employee->getId();
 $addresses	= $Employee->getAddresses();
 $phones		= $Employee->getPhoneNumbers();
 $emails		= $Employee->getEmailAddresses();
-$webaccount	= $Employee->getAccount();
+$Account	= $Employee->getAccount();
 ?>
 <div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
     <h3 class="no_space" style="color: #2000EE;">
@@ -21,7 +21,7 @@ $webaccount	= $Employee->getAccount();
 	echo HTML::anchorIcon(
 		"pencil.png", 
 		"", 
-		"/employee/edit/id/".$employee_id,
+		"/company/location-employee/edit/id/".$employee_id,
 		"margin-left:5px;"
 		);
 	?>
@@ -49,7 +49,7 @@ $webaccount	= $Employee->getAccount();
 		    echo HTML::anchorIcon(
 			    "pencil.png", 
 			    "", 
-			    "/personaddress/edit/person_id/".$employee_id."/id/".$Address->getId(),
+			    "/person/address/edit/person_id/".$employee_id."/id/".$Address->getId(),
 			    "margin-left:5px;"
 			    );
 		    ?>
@@ -82,7 +82,7 @@ $webaccount	= $Employee->getAccount();
 	</h3>
 	<div>
 	    <?php
-	    /* @var $PhoneNumber \Entities\PersonPhoneNumber */
+	    /* @var $PhoneNumber \Entities\Person\PhoneNumber */
 	    foreach ($phones as $PhoneNumber) {
 		?>
 		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
@@ -91,7 +91,7 @@ $webaccount	= $Employee->getAccount();
 		    echo HTML::anchorIcon(
 			    "pencil.png", 
 			    "", 
-			    "/personphonenumber/edit/person_id/".$employee_id."/id/".
+			    "/person/phone-number/edit/person_id/".$employee_id."/id/".
 				$PhoneNumber->getId(), 
 			    "margin-left:5px;"
 			    );
@@ -125,7 +125,7 @@ $webaccount	= $Employee->getAccount();
 	</h3>
 	<div>
 	    <?php
-	    /* @var $Emailaddress \Entities\PersonEmailAddress */
+	    /* @var $Emailaddress \Entities\Person\EmailAddress */
 	    foreach ($emails as $EmailAddress) {
 		?>
 		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
@@ -134,7 +134,7 @@ $webaccount	= $Employee->getAccount();
 		    echo HTML::anchorIcon(
 			    "pencil.png", 
 			    "", 
-			    "/personemailaddress/edit/person_id/".$employee_id."/id/".
+			    "/person/email-address/edit/person_id/".$employee_id."/id/".
 				$EmailAddress->getId(), 
 			    "margin-left:5px;"
 			    );
@@ -154,45 +154,45 @@ $webaccount	= $Employee->getAccount();
 </div>
 <div class="padded_frame" style="width: 415px;float: right;padding-top: 0px;">
     <h3>
-	<a href="#">Web Account</a>
+	<a href="#">Account</a>
 	<?php
-	if(!$webaccount)
+	if(!$Account)
 	    echo HTML::buttonBlue(
 		    "lock_add.png", 
-		    "Add WebAccount", 
-		    "webaccount_add", 
+		    "Add Account", 
+		    "account_add", 
 		    "float:right;width:140px;"
 		    );
 	?>
     </h3>
     <div>
 	<?php
-	/* @var $webaccount \Entities\Company\Website\Account */
-	if($webaccount) {
+	/* @var $Account \Entities\Company\Website\Account */
+	if($Account) {
 	    ?>
 	    <h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
 		<?php 
-		echo $webaccount->getUsername(); 
+		echo $Account->getUsername(); 
 		echo HTML::anchorIcon(
 			"pencil.png", 
 			"", 
-			"/webaccount/edit/person_id/".$employee_id."/id/".
-			    $webaccount->getId(), 
+			"/company/website-account/edit/person_id/".$employee_id."/id/".
+			    $Account->getId(), 
 			"margin-left:5px;",
 			"Edit Username"
 			);
 		echo HTML::anchorIcon(
 			"lock_edit.png", 
 			"", 
-			"/webaccount/edit/pwd/1/person_id/".$employee_id."/id/".
-			    $webaccount->getId(), 
+			"/company/website-account/edit/pwd/1/person_id/".$employee_id."/id/".
+			    $Account->getId(), 
 			"margin-left:5px;",
 			"Reset Password"
 			);
 		echo HTML::anchorIcon(
 			"creditcards.png", 
 			"", 
-			"/webaccount/roles/id/".$webaccount->getId(), 
+			"/company/website-account/roles/id/".$Account->getId(), 
 			"margin-left:5px;",
 			"Edit Roles"
 			);
@@ -203,7 +203,7 @@ $webaccount	= $Employee->getAccount();
 		<?php 
 		$roles = array();
 		/* @var $Role \Entities\Company\Website\Account\Role */
-		foreach($webaccount->getRoles() as $Role) {
+		foreach($Account->getRoles() as $Role) {
 		    $roles[] = $Role->getName();
 		}
 		if(count($roles)>0){
@@ -226,5 +226,5 @@ $webaccount	= $Employee->getAccount();
     Employee.AddPhoneClickBind("phone_add");
     Employee.AddAddressClickBind("address_add");
     Employee.AddEmailClickBind("email_add");
-    Employee.AddWebAccountClickBind("webaccount_add");
+    Employee.AddAccountClickBind("account_add");
 </script>

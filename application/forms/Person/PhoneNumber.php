@@ -12,17 +12,17 @@ namespace Forms\Person;
  */
 class PhoneNumber extends \Zend_Form
 {    
-    private $_PersonPhoneNumber;
+    private $_PhoneNumber;
     
-    public function __construct($options = null, Entities\Person\PhoneNumber $PersonPhoneNumber = null)
+    public function __construct($options = null, \Entities\Person\PhoneNumber $PhoneNumber = null)
     {
-	$this->_PersonPhoneNumber = $PersonPhoneNumber;
+	$this->_PhoneNumber = $PhoneNumber;
 	parent::__construct($options);
     }
     
     public function init($options = array())
     {
-	$form = new PhoneNumber\Subform($options, $this->_PersonPhoneNumber);
+	$form = new PhoneNumber\Subform($options, $this->_PhoneNumber);
 	
 	$this->addSubForm($form, "person_phonenumber");
 	

@@ -49,7 +49,8 @@ class Configurable extends ProductAbstract
     /**
      * @param \Entities\Company\Supplier\Product\Configurable\Option $Option
      */
-    public function addOption(Configurable\Option $Option){
+    public function addOption(Configurable\Option $Option)
+    {
 	$Option->addConfigurableProduct($this);
 	$this->Options[] = $Option;
     }

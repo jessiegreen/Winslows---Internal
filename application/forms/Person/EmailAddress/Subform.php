@@ -10,15 +10,15 @@ namespace Forms\Person\EmailAddress;
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Subform extends Forms\EmailAddress\Subform
+class Subform extends \Forms\EmailAddress\Subform
 {
-    private $_PersonEmailAddress;
+    private $_EmailAddress;
     
-    public function __construct($options = null, Entities\Person\EmailAddress $PersonEmailAddress = null)
+    public function __construct($options = null, \Entities\Person\EmailAddress $EmailAddress = null)
     {
-	$this->_PersonEmailAddress = $PersonEmailAddress;
+	$this->_EmailAddress = $EmailAddress;
 	
-	parent::__construct($options, $this->_PersonEmailAddress);
+	parent::__construct($options, $this->_EmailAddress);
     }
 }
 

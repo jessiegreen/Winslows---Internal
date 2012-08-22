@@ -57,10 +57,12 @@ class Company_SupplierProductConfigurableInstanceController extends Dataservice_
 		    {
 			$error_message[] = sprintf($required_message, $Parameter->getName());
 		    }
-		    elseif(!$value_id) {
+		    elseif(!$value_id)
+		    {
 			
 		    }
-		    else{
+		    else
+		    {
 			$Value = $this->_em->find(
 				    "\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value", 
 				    $value_id
@@ -75,6 +77,15 @@ class Company_SupplierProductConfigurableInstanceController extends Dataservice_
 		$Instance->addOption($Option);
 	    }
 	    
+	    try 
+	    {
+		$Instance->validate();
+	    } 
+	    catch (Exception $exc)
+	    {
+		$error_message[] = $exc->getMessage();
+	    }
+		
 	    if(count($error_message)>0){
 		$return["success"] = false;
 		$return["error_message"] = implode("<br />",$error_message);

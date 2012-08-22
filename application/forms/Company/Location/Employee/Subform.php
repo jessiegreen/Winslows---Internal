@@ -1,6 +1,5 @@
 <?php
-namespace Forms\Company\Employee;
-use Entities\Company\Location\Employee as Employee;
+namespace Forms\Company\Location\Employee;
 /**
  * Name:
  * Location:
@@ -15,7 +14,7 @@ class Subform extends \Forms\Person\Subform
 {    
     private $_Employee;
     
-    public function __construct($options = null, Employee $Employee = null) 
+    public function __construct($options = null, \Entities\Company\Location\Employee  $Employee = null) 
     {
 	$this->_Employee = $Employee;
 	parent::__construct($options, $this->_Employee);
@@ -23,7 +22,7 @@ class Subform extends \Forms\Person\Subform
     
     public function init($options = array())
     {	
-	$this->addElement(new Dataservice_Form_Element_LocationSelect("location", array(
+	$this->addElement(new \Dataservice_Form_Element_LocationSelect("location", array(
             'required'	    => true,
             'label'	    => 'Location:',
 	    'belongsTo'	    => 'employee',

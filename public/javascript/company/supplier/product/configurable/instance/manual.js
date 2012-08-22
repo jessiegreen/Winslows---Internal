@@ -200,11 +200,12 @@ Manual.prototype.addOptionToRightFrame = function(instance_id, configurable_opti
 	    
 	    right_div.append(data).children(':last').hide().fadeIn(250);
 	    
-	    if(quantity_left == 0){
+	    if(quantity_left <= 0)
+	    {
 		left_option_li.fadeOut(250, function()
 		{
+		    left_option_li.css({"display" : "none"});
 		    left_option_li.attr('quantity_left', quantity_left-1)
-		    left_option_li.fadeOut()
 		});
 	    }
 	    else{

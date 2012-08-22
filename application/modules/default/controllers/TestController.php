@@ -822,8 +822,8 @@ class TestController extends Zend_Controller_Action
 		$flashMessenger = $this->_helper->getHelper('FlashMessenger');
 		try {
 		    $em		    = $this->_helper->EntityManager();
-		    $employee	    = new \Entities\Employee;
-		    $personaddress  = new \Entities\PersonAddress;
+		    $employee	    = new \Entities\Company\Location\Employee;
+		    $personaddress  = new \Entities\Person\Address;
 		    $webaccount	    = new \Entities\Company\Website\Account;
 
 		    if(isset($data['webaccount']['username']))$webaccount->setUsername($data['webaccount']['username']);
@@ -844,7 +844,7 @@ class TestController extends Zend_Controller_Action
 		    if(isset($data['address']['zip_2']))$personaddress->setZip2($data['address']['zip_2']);
 
 		    $employee->addPersonAddress($personaddress);
-		    $employee->setWebAccount($webaccount);
+		    $employee->setAccount($webaccount);
 		    $em->persist($employee);
 		    $em->flush();
 

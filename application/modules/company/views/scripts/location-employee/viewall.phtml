@@ -9,7 +9,7 @@
 <fieldset class="padded_frame blue_frame">
     <legend>Employees</legend>
     <?php
-    /* @var $Employee \Entities\Employee */
+    /* @var $Employee \Entities\Company\Location\Employee */
     foreach($this->Employees as $Employee){
 	echo "<div employee_id='".$Employee->getId()."'>";
 	echo HTML::buttonIcon(

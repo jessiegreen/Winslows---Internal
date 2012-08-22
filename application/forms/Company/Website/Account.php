@@ -10,18 +10,21 @@ namespace Forms\Company\Website;
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Account extends \Zend_Form{
-    private $_WebAccount;
+class Account extends \Zend_Form
+{
+    private $_Account;
     private $_safe;
     
-    public function __construct($options = null, Entities\Company\Website\Account $WebAccount = null, $safe = true) {
-	$this->_WebAccount  = $WebAccount;
+    public function __construct($options = null, \Entities\Company\Website\Account $Account = null, $safe = true)
+    {
+	$this->_Account  = $Account;
 	$this->_safe	    = $safe;
 	parent::__construct($options);
     }
     
-    public function init($options = array()){
-	$form = new Account\SubForm($options, $this->_WebAccount, $this->_safe);
+    public function init($options = array())
+    {
+	$form = new Account\SubForm($options, $this->_Account, $this->_safe);
 	
 	$this->addSubForm($form, "company_website_account");
 	

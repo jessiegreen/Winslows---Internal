@@ -1,4 +1,4 @@
-function WebAccount() {
+function Account() {
     
 }
 

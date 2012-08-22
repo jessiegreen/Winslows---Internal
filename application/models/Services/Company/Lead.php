@@ -63,7 +63,7 @@ class Lead extends \Dataservice_Service_ServiceAbstract
 	if($Employee->getAccount()->hasRole('Admin') || $Employee->getAccount()->hasRole('Sales_Manager')){
 	    return $this->_em->getRepository("Entities\Company\Lead")->findBy(array(), array("last_name" => "ASC", "first_name" => "ASC"));
 	}
-	/* @var $Employee \Entities\Employee */
+	/* @var $Employee \Entities\Company\Location\Employee */
 	return $Employee->getLeads();
     }
 }

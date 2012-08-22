@@ -27,18 +27,18 @@ class Auth
      *
      * @return \Entities\Company\Website\Account 
      */
-    public function getIdentityWebAccount(){
-	$IdentityWebAccount = $this->getIdentity();
-	$WebAccount	    = $this->_em->find("Entities\Company\Website\Account", $IdentityWebAccount->getId());
-	return $WebAccount;
+    public function getIdentityAccount(){
+	$IdentityAccount = $this->getIdentity();
+	$Account	    = $this->_em->find("Entities\Company\Website\Account", $IdentityAccount->getId());
+	return $Account;
     }
     
     public function getIdentityPerson(){
-	return $this->getIdentityWebAccount()->getPerson();
+	return $this->getIdentityAccount()->getPerson();
     }
     
     public function getIdentityCompany(){
-	return $this->getIdentity;## Create EmployeeWebAccount and set WebAccount as BaseClass...Roles only for Employee Web Account?
+	return $this->getIdentity;## Create EmployeeAccount and set Account as BaseClass...Roles only for Employee Web Account?
     }
 }
 

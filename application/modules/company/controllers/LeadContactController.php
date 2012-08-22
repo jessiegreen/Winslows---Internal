@@ -116,7 +116,7 @@ class Company_LeadContactController extends Dataservice_Controller_Action
     
     public function editOld()
     {
-	/* @var $PersonAddress \Entities\PersonAddress */
+	/* @var $PersonAddress \Entities\Person\Address */
 	$PersonAddress	= $this->getEntityFromParamFields("PersonAddress", array("id"));
 	$form		= new Form_PersonAddress(array("method" => "post"), $PersonAddress);
 	$form->addElement("button", "cancel", 

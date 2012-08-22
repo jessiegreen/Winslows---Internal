@@ -12,17 +12,17 @@ namespace Forms\Person;
  */
 class EmailAddress extends \Zend_Form
 {    
-    private $_PersonEmailAddress;
+    private $_EmailAddress;
     
-    public function __construct($options = null, Entities\Person\EmailAddress $PersonEmailAddress = null)
+    public function __construct($options = null, \Entities\Person\EmailAddress $EmailAddress = null)
     {
-	$this->_PersonEmailAddress = $PersonEmailAddress;
+	$this->_EmailAddress = $EmailAddress;
 	parent::__construct($options);
     }
     
     public function init($options = array())
     {
-	$form = new EmailAddress\Subform($options, $this->_PersonEmailAddress);
+	$form = new EmailAddress\Subform($options, $this->_EmailAddress);
 	
 	$this->addSubForm($form, "person_emailaddress");
 	

@@ -14,7 +14,7 @@ class Subform extends \Zend_Form_SubForm
 {
     private $_PhoneNumber;
     
-    public function __construct($options = null, Entities\PhoneNumber\PhoneNumberAbstract $PhoneNumber = null) {
+    public function __construct($options = null, \Entities\PhoneNumber\PhoneNumberAbstract $PhoneNumber = null) {
 	$this->_PhoneNumber = $PhoneNumber;
 	parent::__construct($options);
     }
@@ -36,7 +36,7 @@ class Subform extends \Zend_Form_SubForm
 	    'value'	    => $this->_PhoneNumber ? $this->_PhoneNumber->getType() : ""
         ));
 	
-	$phone_number = new Dataservice_Form_Element_PhoneNumber('phoneNumber', array(
+	$phone_number = new \Dataservice_Form_Element_PhoneNumber('phoneNumber', array(
 		'name'		=> 'phone_number',
 		'label'		=> 'Phone Number',
 		'validators'	=> array(

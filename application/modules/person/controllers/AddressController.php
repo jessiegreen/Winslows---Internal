@@ -10,37 +10,43 @@ class Person_AddressController extends Dataservice_Controller_Action
 {    
     public function editAction()
     {
-	/* @var $PersonAddress \Entities\PersonAddress */
-	$PersonAddress	= $this->getEntityFromParamFields("PersonAddress", array("id"));
-	$form		= new Form_PersonAddress(array("method" => "post"), $PersonAddress);
+	/* @var $Address \Entities\Person\Address */
+	$Address	= $this->getEntityFromParamFields("Person\Address", array("id"));
+	$form		= new Forms\Person\Address(array("method" => "post"), $Address);
+	
 	$form->addElement("button", "cancel", 
 		array("onclick" => "location='".$this->_History->getPreviousUrl(1)."'")
 		);
 	
-	if($this->isPostAndValid($form)){
+	if($this->isPostAndValid($form))
+	{
 	    try 
 	    {
-		$data	= $this->_params["personaddress"];
+		$data	= $this->_params["person_address"];
 		
-		$PersonAddress->populate($data);
+		$Address->populate($data);
 		
-		if(!$PersonAddress->getId()){
+		if(!$Address->getId())
+		{
 		    /* @var $Person \Entities\Person\PersonAbstract */
 		    $Person = $this->_em->find("Entities\Person\PersonAbstract", $this->_params["person_id"]);
+		    
 		    if(!$Person)
 			throw new Exception("Can not add address. No Person with that Id");
 
-		    $Person->addPersonAddress($PersonAddress);
+		    $Person->addPersonAddress($Address);
 		    $this->_em->persist($Person);
 		}
-		else $this->_em->persist($PersonAddress);
+		else $this->_em->persist($Address);
 
 		$this->_em->flush();
 
 		$message = "Person Address saved";
 		$this->_FlashMessenger->addSuccessMessage($message);
 
-	    } catch (Exception $exc) {
+	    }
+	    catch (Exception $exc)
+	    {
 		$this->_FlashMessenger->addErrorMessage($exc->getMessage());
 		$this->_History->goBack(1);
 	    }
@@ -48,7 +54,7 @@ class Person_AddressController extends Dataservice_Controller_Action
 	}
 	
 	$this->view->form	    = $form;
-	$this->view->PersonAddress  = $PersonAddress;
+	$this->view->PersonAddress  = $Address;
     }
 }
 
