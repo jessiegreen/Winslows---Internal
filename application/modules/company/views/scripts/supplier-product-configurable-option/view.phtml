@@ -28,7 +28,8 @@ $Configurables		    = $Option->getConfigurableProducts();
 	<label>Name:</label> <?php echo $Option->getName(); ?> &nbsp;&nbsp;&nbsp; 
 	<label>Index:</label> <?php echo $Option->getIndex(); ?> &nbsp;&nbsp;&nbsp;
 	<label>Length:</label> <?php echo $Option->getLength(); ?> &nbsp;&nbsp;&nbsp;
-	<label>Code:</label> <?php echo $Option->getCode(); ?> <br /> 
+	<label>Code:</label> <?php echo $Option->getCode(); ?> &nbsp;&nbsp;&nbsp;
+	<label>Required:</label> <?php echo $Option->isRequiredString(); ?> <br /> 
 	<label>Description:</label> <span class="small"><?php echo $Option->getDescription(); ?></span>
     </div>
 </div>
@@ -64,42 +65,42 @@ $Configurables		    = $Option->getConfigurableProducts();
 	</div>
 	<hr />
 	<h3>
-		<a href="#">Options</a>
-		<?php 
-		echo HTML::buttonBlue(
-			"bullet_add.png", 
-			"Add New", 
-			"option_add", 
-			"float:right;width:80px;margin-right:5px;"
-			);
-		?>
-	    </h3>
-	    <div>
-		<ul>
-		<?php
-		/* @var $Parameter \Entities\Company\Supplier\Product\Configurable\Option\Parameter */
-		if(count($Parameters)>0){
-		    foreach ($Parameters as $Parameter) {
-			?>
-			<li>
-			    <?php
-			    echo HTML::anchorIcon(
-				    "magnifier.png", 
-				    "", 
-				    "/company/supplier-product-configurable-option-parameter/view/id/".$Parameter->getId(),
-				    "margin-left:5px;"
-				    );
-			    echo $Parameter->getName();
-			    ?>
-			</li>
+	    <a href="#">Parameters</a>
+	    <?php 
+	    echo HTML::buttonBlue(
+		    "bullet_add.png", 
+		    "Add New", 
+		    "option_add", 
+		    "float:right;width:80px;margin-right:5px;"
+		    );
+	    ?>
+	</h3>
+	<div>
+	    <ul>
+	    <?php
+	    /* @var $Parameter \Entities\Company\Supplier\Product\Configurable\Option\Parameter */
+	    if(count($Parameters)>0){
+		foreach ($Parameters as $Parameter) {
+		    ?>
+		    <li>
 			<?php
-		    }
+			echo HTML::anchorIcon(
+				"magnifier.png", 
+				"", 
+				"/company/supplier-product-configurable-option-parameter/view/id/".$Parameter->getId(),
+				"margin-left:5px;"
+				);
+			echo $Parameter->getName();
+			?>
+		    </li>
+		    <?php
 		}
-		else echo "<li>No Options</li>";
-		?>
-		</ul>
-	    </div>
-	    <hr />
+	    }
+	    else echo "<li>No Options</li>";
+	    ?>
+	    </ul>
+	</div>
+	<hr />
     </div>
 </div>
 <div class="padded_frame" style="width: 415px;float: right;padding-top: 0px;">

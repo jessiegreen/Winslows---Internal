@@ -47,6 +47,12 @@ class Option extends \Dataservice_Doctrine_Entity
      */
     private $maxcount;
     
+    /** 
+     * @Column(type="boolean") 
+     * @var boolean $required
+     */
+    private $required;
+    
     /**
      * @ManyToOne(targetEntity="\Entities\Company\Supplier\Product\Configurable\Option\Category", inversedBy="Options")
      * @var Option\Category $Category 
@@ -272,19 +278,30 @@ class Option extends \Dataservice_Doctrine_Entity
     public function setDescription($description)
     {
         $this->description = $description;
-    }    
+    }
     
     /**
-     * @return boolean
+     * @param bool $required
      */
-    public function hasRequiredOption()
+    public function setRequired($required)
     {
-	/* @var $Parameter Option\Parameter */
-	foreach ($this->getParameters() as $Parameter) 
-	{
-	    if($Parameter->isRequired())return true;
-	}
-	return false;
+	$this->required = $required;
+    }
+    
+    /**
+     * @return bool
+     */
+    public function isRequired()
+    {
+	return $this->required;
+    }
+    
+    /**
+     * @return string
+     */
+    public function isRequiredString()
+    {
+	return $this->required ? "yes" : "no";
     }
     
     /**

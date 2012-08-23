@@ -90,6 +90,21 @@ class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstr
 	return $code;
     }
     
+    public function hasProductOption(Option $ProductOption)
+    {
+	return $this->getOptions()->exists(
+	    /* @var $Option \Entities\Company\Supplier\Product\Configurable\Instance\Option */
+	    function($key, $Option) use ($ProductOption) 
+	    {
+		$InstanceProductOption = $Option->getOption();
+
+		if($InstanceProductOption->getId() === $ProductOption->getId())
+		    return true;
+		else return false;
+	    }
+	);
+    }
+    
     public function removeAllOptions()
     {
 	$this->getOptions()->clear();
@@ -140,44 +155,39 @@ class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstr
      * @param string $option_index
      * @param string $parameter_index
      * @param \Entities\Company\Supplier\Product\Configurable\Instance\Option $Option
-     * @return Option\Parameter\Value
+     * @return Option\Parameter\Value|false
      */
-    public function getValueFromIndexes($option_index, $parameter_index)
+    public function getFirstValueFromIndexes($option_index, $parameter_index)
     {
-	$Options = $this->getOptions();
+	$FilteredOptions = $this->getOptionsFromOptionIndex($option_index);
 	
-	$Options = $Options->filter(
-		    /* @var $Option \Entities\Company\Supplier\Product\Configurable\Instance\Option */
-		    function($Option) use ($option_index) 
-		    {
-			$ProductOption = $Option->getOption();
-
-			if($ProductOption->getIndex() === $option_index)
-			    return true;
-			else return false;
-		    }
-		);
-	
-	if($Options->count() > 0)//->getValue()
+	if($FilteredOptions->count() > 0)
 	{
-	    $Values = $Options->first()->getValues();
+	    /* @var $Option Instance\Option */
+	    $Option = $FilteredOptions->first();
 	    
-	    $Values = $Values->filter(
-		    /* @var $Option \Entities\Company\Supplier\Product\Configurable\Instance\Option */
-		    function($Value) use ($parameter_index) 
-		    {
-			if($Value->getParameter()->getIndex() === $parameter_index)
-			    return true;
-			else return false;
-		    }
-		);
-		
-	    if($Values->count() > 0)
-	    {
-		return $Values->first();
-	    }
+	    return $Value = $Option->getValueFromParameterIndex($parameter_index);
 	}
 	
 	return false;
+    }
+    
+    /**
+     * @param string $option_index
+     * @return ArrayCollection
+     */
+    public function getOptionsFromOptionIndex($option_index)
+    {
+	return $this->getOptions()->filter(
+	    /* @var $Option \Entities\Company\Supplier\Product\Configurable\Instance\Option */
+	    function($Option) use ($option_index) 
+	    {
+		$ProductOption = $Option->getOption();
+
+		if($ProductOption->getIndex() === $option_index)
+		    return true;
+		else return false;
+	    }
+	);
     }
 }

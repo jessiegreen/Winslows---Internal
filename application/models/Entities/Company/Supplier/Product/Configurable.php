@@ -77,6 +77,24 @@ class Configurable extends ProductAbstract
 	return false;
     }
     
+    
+    /**
+     * @param string $option_index
+     * @return ArrayCollection
+     */
+    public function getRequiredOptions()
+    {
+	return $this->getOptions()->filter(
+	    /* @var $Option \Entities\Company\Supplier\Product\Configurable\Option */
+	    function($Option)
+	    {
+		if($Option->isRequired())
+		    return true;
+		else return false;
+	    }
+	);
+    }
+    
     /**
      * @return string
      */

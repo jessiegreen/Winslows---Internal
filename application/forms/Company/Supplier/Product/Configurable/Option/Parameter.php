@@ -31,5 +31,3 @@ class Parameter extends \Zend_Form
         ));
     }
 }
-
-?>

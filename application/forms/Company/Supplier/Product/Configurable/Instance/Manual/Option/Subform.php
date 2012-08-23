@@ -63,7 +63,7 @@ class Subform extends \Zend_Form_SubForm
 	    $ids_array[] = $Parameter->getId();
 	}
 	
-	if($this->_ConfigurableOption->hasRequiredOption())
+	if($this->_ConfigurableOption->isRequired())
 	{
 	    $legend = "*".$this->_ConfigurableOption->getName();
 	}

@@ -193,6 +193,14 @@ class Parameter extends \Dataservice_Doctrine_Entity
 	return $this->required;
     }
     
+    /**
+     * @return string
+     */
+    public function isRequiredString()
+    {
+	return $this->required ? "yes" : "no";
+    }
+    
     public function populate(array $array)
     {
 	foreach ($array as $key => $value) 

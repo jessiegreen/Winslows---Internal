@@ -44,13 +44,30 @@ class Option extends \Dataservice_Doctrine_Entity
     
     /**
      * @param \Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value $Value
+     * @return boolean
+     * @throws \Exception
      */
     public function addValue(\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value $Value)
     {
-	if($Value->getParameter()->getOption()->getId() != $this->Option->getId())
+	$Parameter = $Value->getParameter();
+	
+	if($Parameter->getOption()->getId() != $this->Option->getId())
 	    throw new \Exception("Value does not belong to option");
 	
-        $this->Values[]	    = $Value;
+	#-- Already exists, don't add
+	if($this->Values->contains($Value)) return true;
+	
+	$ValueWithSameParameter = $this->getValueFromParameterIndex($Parameter->getIndex());
+	
+	#-- Value from same Parameter exists. Replace it with new
+	if($ValueWithSameParameter !== false)
+	{
+	    $this->Values->removeElement($ValueWithSameParameter);
+	}
+	
+	$this->Values[] = $Value;
+	
+	return true;
     }
     
     public function setInstance(\Entities\Company\Supplier\Product\Configurable\Instance $Instance)
@@ -91,6 +108,34 @@ class Option extends \Dataservice_Doctrine_Entity
 		$this->$key = $value;
 	    }
 	}
+    }
+    
+    /**
+     * @param string $parameter_index
+     * @return \Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value|false
+     * @throws \Exception
+     */
+    public function getValueFromParameterIndex($parameter_index)
+    {
+	$FilteredValues = $this->Values->filter(
+		    /* @var $Option \Entities\Company\Supplier\Product\Configurable\Instance\Option */
+		    function($Value) use ($parameter_index) 
+		    {
+			if($Value->getParameter()->getIndex() === $parameter_index)
+			    return true;
+			else return false;
+		    }
+		);
+	
+	$count = $FilteredValues->count();
+	
+	if($count ==  1)
+	{
+	    return $FilteredValues->first();
+	}
+	elseif($count > 1)throw new \Exception("Option Parameter Has More Than 1 Value");
+	
+	return false;
     }
     
     /**

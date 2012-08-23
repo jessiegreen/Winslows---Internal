@@ -31,5 +31,3 @@ class Option extends \Zend_Form
         ));
     }
 }
-
-?>

@@ -33,46 +33,29 @@ class Company_SupplierProductConfigurableInstanceController extends Dataservice_
 		
 		/* @var $ConfigurableOption \Entities\Company\Supplier\Product\Configurable\Option */
 		$Category		= $ConfigurableOption->getCategory();
-		$required_parameters	= $ConfigurableOption->getRequiredParameters();
-		$required_message	= $Category->getName()." - ".$ConfigurableOption->getName()." - %s is required.";
-		
-		#--Check that all required parameters exist in post
-		foreach ($required_parameters as $Parameter) 
-		{
-		    if(!key_exists($Parameter->getId(), $option_array))
-			$error_message[] = sprintf($required_message, $Parameter->getName());
-		}
 		
 		
-		#--Check that required options have a value if so then add
+		#--Check that values really exist
 		foreach($option_array as $parameter_id => $value_id)
 		{
-		    $Parameter = $this->_em->find(
-				    "\Entities\Company\Supplier\Product\Configurable\Option\Parameter", 
-				    $parameter_id
-				 );
-		    
-		    /* @var $Parameter \Entities\Company\Supplier\Product\Configurable\Option\Parameter */
-		    if($Parameter->isRequired() && !$value_id)
-		    {
-			$error_message[] = sprintf($required_message, $Parameter->getName());
-		    }
-		    elseif(!$value_id)
-		    {
-			
-		    }
-		    else
+		    if($value_id)
 		    {
 			$Value = $this->_em->find(
 				    "\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value", 
 				    $value_id
 				);
-			
+
 			if($Value)$Option->addValue($Value);
-			else $error_message[] = $Category->getName()." - ".$ConfigurableOption->getName().
-					    " - ".$Parameter->getName()." $value_id is not valid.";
+			else
+			{
+			    $Parameter	= $this->_em->find(
+						"\Entities\Company\Supplier\Product\Configurable\Option\Parameter", 
+						$parameter_id
+					     );
+			    $error_message[] = $Category->getName()." - ".$ConfigurableOption->getName().
+					    " - ".$Parameter->getName()." $value_id is not valid.";	
+			}	
 		    }
-		    
 		}
 		$Instance->addOption($Option);
 	    }
@@ -142,7 +125,7 @@ class Company_SupplierProductConfigurableInstanceController extends Dataservice_
 									"index"	    => $Option->getIndex(),
 									"maxcount"  => $Option->getMaxCount()
 									);
-	    if($Option->hasRequiredOption())$required[] = $Option->getId();
+	    if($Option->isRequired())$required[] = $Option->getId();
 	}
 	
 	$data["left"]	    = $left;

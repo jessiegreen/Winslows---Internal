@@ -90,10 +90,22 @@ class Instance extends \Entities\Company\Supplier\Product\Configurable\Instance 
         return parent::populate($array);
     }
 
-    public function getValueFromIndexes($option_index, $parameter_index)
+    public function getFirstValueFromIndexes($option_index, $parameter_index)
     {
         $this->__load();
-        return parent::getValueFromIndexes($option_index, $parameter_index);
+        return parent::getFirstValueFromIndexes($option_index, $parameter_index);
+    }
+
+    public function getOptionsFromOptionIndex($option_index)
+    {
+        $this->__load();
+        return parent::getOptionsFromOptionIndex($option_index);
+    }
+
+    public function getRequiredOptions()
+    {
+        $this->__load();
+        return parent::getRequiredOptions();
     }
 
     public function updated()

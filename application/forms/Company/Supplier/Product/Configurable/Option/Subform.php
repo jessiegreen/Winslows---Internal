@@ -25,14 +25,14 @@ class Subform extends \Zend_Form_SubForm
 	$this->addElement('text', 'name', array(
             'required'	    => true,
             'label'	    => 'Name:',
-	    'belongsTo'	    => 'configurableproductoption',
+	    'belongsTo'	    => 'company_supplier_product_configurable_option',
 	    'value'	    => $this->_Option ? $this->_Option->getName() : ""
         ));
 	
 	$this->addElement('text', 'index_string', array(
             'required'	    => true,
             'label'	    => 'Name Index:',
-	    'belongsTo'	    => 'configurableproductoption',
+	    'belongsTo'	    => 'company_supplier_product_configurable_option',
 	    'value'	    => $this->_Option ? $this->_Option->getIndex() : ""
         ));
 	
@@ -41,7 +41,7 @@ class Subform extends \Zend_Form_SubForm
 	    'maxlength'	    => 2,
 	    'size'	    => 2,
             'label'	    => 'Code:',
-	    'belongsTo'	    => 'configurableproductoption',
+	    'belongsTo'	    => 'company_supplier_product_configurable_option',
 	    'value'	    => $this->_Option ? $this->_Option->getCode() : ""
         ));
 	
@@ -50,10 +50,16 @@ class Subform extends \Zend_Form_SubForm
             'label'	    => 'Description:',
 	    'cols'	    => 50,
 	    'rows'	    => 8,
-	    'belongsTo'	    => 'configurableproductoption',
+	    'belongsTo'	    => 'company_supplier_product_configurable_option',
 	    'value'	    => $this->_Option ? $this->_Option->getDescription() : ""
+        ));
+	
+	$this->addElement('select', 'required', array(
+            'required'	    => true,
+            'label'	    => 'Required:',
+	    'belongsTo'	    => 'company_supplier_product_configurable_option',
+	    'multioptions'  => array(0 => "false", 1 => "true"),
+	    'value'	    => $this->_Option ? $this->_Option->isRequired() : ""
         ));
     }
 }
-
-?>

@@ -69,7 +69,7 @@ class Subform extends \Zend_Form_SubForm
             'required'	    => true,
             'label'	    => 'Required:',
 	    'belongsTo'	    => 'company_supplier_product_configurable_option_parameter',
-	    'multioptions'  => array(false, true),
+	    'multioptions'  => array(0 => "false", 1 => "true"),
 	    'value'	    => $this->_Parameter ? $this->_Parameter->isRequired() : ""
         ));
     }

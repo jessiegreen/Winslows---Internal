@@ -159,10 +159,22 @@ class Option extends \Entities\Company\Supplier\Product\Configurable\Option impl
         return parent::setDescription($description);
     }
 
-    public function hasRequiredOption()
+    public function setRequired($required)
     {
         $this->__load();
-        return parent::hasRequiredOption();
+        return parent::setRequired($required);
+    }
+
+    public function isRequired()
+    {
+        $this->__load();
+        return parent::isRequired();
+    }
+
+    public function isRequiredString()
+    {
+        $this->__load();
+        return parent::isRequiredString();
     }
 
     public function getRequiredParameters()
@@ -186,7 +198,7 @@ class Option extends \Entities\Company\Supplier\Product\Configurable\Option impl
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'index_string', 'code', 'name', 'description', 'maxcount', 'Category', 'Parameters', 'ConfigurableProducts');
+        return array('__isInitialized__', 'id', 'index_string', 'code', 'name', 'description', 'maxcount', 'required', 'Category', 'Parameters', 'ConfigurableProducts');
     }
 
     public function __clone()

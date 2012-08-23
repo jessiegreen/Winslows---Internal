@@ -135,6 +135,12 @@ class Parameter extends \Entities\Company\Supplier\Product\Configurable\Option\P
         return parent::isRequired();
     }
 
+    public function isRequiredString()
+    {
+        $this->__load();
+        return parent::isRequiredString();
+    }
+
     public function populate(array $array)
     {
         $this->__load();
