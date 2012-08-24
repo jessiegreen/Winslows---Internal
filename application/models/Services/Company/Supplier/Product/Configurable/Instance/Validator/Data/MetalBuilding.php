@@ -7,6 +7,8 @@ class MetalBuilding extends \Services\Company\Supplier\Product\Configurable\Inst
     
     static private $_high_snow_wind_models = array("RX", "BX", "VX");
     
+    static private $_aframe_models = array("BA", "VA", "BW", "VW", "BS", "VS", "BX", "VX");
+    
     static private $_allowed_leg_heights = array(
 					    "RA" => array(5,6,7,8,9,10,11,12),
 					    "BA" => array(6,7,8,9,10,11,12,13),
@@ -72,5 +74,10 @@ class MetalBuilding extends \Services\Company\Supplier\Product\Configurable\Inst
     static public function getSidesArray()
     {
 	return self::$_sides_array;
+    }
+    
+    static public function getAframeModels()
+    {
+	return self::$_aframe_models;
     }
 }

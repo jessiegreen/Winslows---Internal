@@ -62,18 +62,42 @@ class MetalBuilding extends \Services\Company\Supplier\Product\Configurable\Inst
     }
     
     /**
+     * @return string|false
+     */
+    static public function getFrameWidth()
+    {
+	$WidthValue = self::$_Instance->getFirstValueFromIndexes("width", "width");
+	
+	if($WidthValue !== false)return $WidthValue->getCode();
+	
+	return false;
+    }
+    
+    /**
+     * @return string|false
+     */
+    static public function getFrameLength()
+    {
+	$LengthValue = self::$_Instance->getFirstValueFromIndexes("length", "length");
+	
+	if($LengthValue !== false)return $LengthValue->getCode();
+	
+	return false;
+    }
+    
+    /**
      * @return string
      * @throws \Exception
      */
     static public function getFrameSize()
     {
-	$WidthValue  = self::$_Instance->getFirstValueFromIndexes("width", "width");
-	$LengthValue = self::$_Instance->getFirstValueFromIndexes("length", "length");
+	$width  = self::getFrameWidth();
+	$length = self::getFrameLength();
 	
-	if($LengthValue === false || $WidthValue === false)
+	if($width === false || $length === false)
 	    throw new \Exception("No width or length selected.");
 	
-	return $WidthValue->getCode()."X".$LengthValue->getCode();
+	return $width."X".$length;
     }
     
     /**
@@ -116,8 +140,8 @@ class MetalBuilding extends \Services\Company\Supplier\Product\Configurable\Inst
 	/* @var $DoorOption \Entities\Company\Supplier\Product\Configurable\Instance\Option */
 	foreach($DoorOptions as $DoorOption)
 	{
-	    $widths_array[$DoorOption->getValueFromParameterIndex("location")] 
-		    += (int) $DoorOption->getValueFromParameterIndex("width");
+	    $widths_array[self::getDoorLocation($DoorOption)] 
+		    += (int) self::getDoorWidth($DoorOption);
 	}
 	
 	/* @var $WindowOption \Entities\Company\Supplier\Product\Configurable\Instance\Option */
@@ -128,6 +152,30 @@ class MetalBuilding extends \Services\Company\Supplier\Product\Configurable\Inst
 	}
 	
 	return $widths_array;
+    }
+    
+    /**
+     * @return string|false
+     */
+    static public function getDoorLocation(\Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption)
+    {
+	$LocationValue = $DoorOption->getValueFromParameterIndex("location");
+	
+	if($LocationValue !== false)return $LocationValue->getCode();
+	
+	return false;
+    }
+    
+    /**
+     * @return string|false
+     */
+    static public function getDoorWidth(\Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption)
+    {
+	$WidthValue = $DoorOption->getValueFromParameterIndex("width");
+	
+	if($WidthValue !== false)return $WidthValue->getCode();
+	
+	return false;
     }
     
     /**
@@ -171,6 +219,99 @@ class MetalBuilding extends \Services\Company\Supplier\Product\Configurable\Inst
 	if($CoveredValue !== false)
 	{
 	    return $CoveredValue->getCode();
+	}
+	
+	return false;
+    }
+    
+    /**
+     * @param string $side
+     * @return false|string
+     */
+    static public function getWallCoveredTypeName($side)
+    {
+	$CoveredValue = self::$_Instance->getFirstValueFromIndexes("covered_".$side, "type");
+	
+	if($CoveredValue !== false)
+	{
+	    return $CoveredValue->getName();
+	}
+	
+	return false;
+    }
+    
+    /**
+     * @param string $side
+     * @return false|string
+     */
+    static public function getWallCoveredHeight($side)
+    {
+	$CoveredValue = self::$_Instance->getFirstValueFromIndexes("covered_".$side, "height");
+	
+	if($CoveredValue !== false)
+	{
+	    return $CoveredValue->getCode();
+	}
+	
+	return false;
+    }
+    
+    /**
+     * @param string $side
+     * @return false|string
+     */
+    static public function getWallCoveredHeightName($side)
+    {
+	$CoveredValue = self::$_Instance->getFirstValueFromIndexes("covered_".$side, "height");
+	
+	if($CoveredValue !== false)
+	{
+	    return $CoveredValue->getName();
+	}
+	
+	return false;
+    }
+    
+    /**
+     * @return false|string
+     */
+    static public function getAnchorsHasAnchors()
+    {
+	$HasAnchorsValue = self::$_Instance->getFirstValueFromIndexes("anchors", "has_anchors");
+	
+	if($HasAnchorsValue !== false)
+	{
+	    return $HasAnchorsValue->getCode();
+	}
+	
+	return false;
+    }
+    
+    /**
+     * @return false|string
+     */
+    static public function getAnchorsType()
+    {
+	$TypeValue = self::$_Instance->getFirstValueFromIndexes("anchors", "type");
+	
+	if($TypeValue !== false)
+	{
+	    return $TypeValue->getCode();
+	}
+	
+	return false;
+    }
+    
+    /**
+     * @return false|string
+     */
+    static public function getAnchorsQuantity()
+    {
+	$QuantityValue = self::$_Instance->getFirstValueFromIndexes("anchors", "quantity");
+	
+	if($QuantityValue !== false)
+	{
+	    return $QuantityValue->getCode();
 	}
 	
 	return false;

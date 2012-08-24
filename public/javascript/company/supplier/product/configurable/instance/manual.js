@@ -4,6 +4,7 @@ var Manual = function(instance_id)
     this.interval		= 0;
     this.count			= 0;
     this.progressbar_element	= $("#progress_bar");
+    this.progressbar_container	= $("#progressbardivs");
     this.submit_element		= $("input[type=submit]");
     this.cancel_element		= $("#form_cancel");
     this.form_element		= $("#configurable_instance_edit");
@@ -22,8 +23,10 @@ var Manual = function(instance_id)
 		    function(next){
 			this_var.progressbar_element.progressbar({
 			    value: 100
-			}).hide().slideDown(250);
-		    next();}
+			});
+			this_var.progressbar_container.slideDown(250);
+			next();
+		    }
 	    );
 }
 
@@ -100,7 +103,7 @@ Manual.prototype.addRequiredAndExistingToOptionsList = function(data, instance_i
     //--Clean up progress bar, enable save button, initialize drag and drop on left items
     this.local_queue.queue('right_frame', function(next)
     {
-	this_var.progressbar_element.slideUp(250, function(){this_var.progressbar_element.html("")});
+	this_var.progressbar_container.slideUp(250, function(){this_var.progressbar_element.html("")});
 	this_var.submit_element.button({ disabled: false });
 	Manual.dragAndDropInit(this_var.instane_id);
 	next();

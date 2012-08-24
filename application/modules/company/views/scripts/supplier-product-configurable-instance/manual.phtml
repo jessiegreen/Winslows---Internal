@@ -11,7 +11,10 @@ $Instance   = $this->Instance;
 $Product    = $Instance->getProduct();
 ?>
 <div id="quote_product_errors" class="messenger_error ui-corner-all" style="display: none;"></div>
-<div id="progress_bar" style="display: none;"></div>
+<div id="progressbardivs" style="display: none;position: relative;">
+    <div id="progress_bar" style="height: 30px;"></div>
+    <div id="progress_text" style="position: absolute;left:370px;top:4px;font-size: 20px;color: #0052CC;">Loading Options...</div>
+</div>
 <form id="configurable_instance_edit" method="post" name="configurable_instance_edit">
 <div>
     <h4>Manual Edit</h4>

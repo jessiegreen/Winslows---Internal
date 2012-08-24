@@ -97,7 +97,7 @@ class Subform extends \Zend_Form_SubForm
 	    'Errors',
 	    array(array('data' => 'HtmlTag'), array('tag' => 'div', 'class' => 'j_element')),
 	    array('Label', array('tag' => 'div', 'style' => 'width:110px;float:left;', 'class' => 'j_label')),
-	    array(array('row' => 'HtmlTag'), array('tag' => 'div', 'class' => 'j_row')),
+	    array(array('row' => 'HtmlTag'), array('tag' => 'div', 'class' => 'j_row', 'style' => 'clear:both;padding-top:5px;')),
 	));
 	
 	$this->setDecorators(array(

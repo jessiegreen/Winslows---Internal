@@ -66,6 +66,12 @@ class Instance extends \Entities\Company\Supplier\Product\Configurable\Instance 
         return parent::getCode();
     }
 
+    public function hasProductOption(\Entities\Company\Supplier\Product\Configurable\Option $ProductOption)
+    {
+        $this->__load();
+        return parent::hasProductOption($ProductOption);
+    }
+
     public function removeAllOptions()
     {
         $this->__load();
@@ -100,12 +106,6 @@ class Instance extends \Entities\Company\Supplier\Product\Configurable\Instance 
     {
         $this->__load();
         return parent::getOptionsFromOptionIndex($option_index);
-    }
-
-    public function getRequiredOptions()
-    {
-        $this->__load();
-        return parent::getRequiredOptions();
     }
 
     public function updated()
