@@ -27,7 +27,7 @@ $Items	= $quote->getItems();
 	Date:<?php echo $quote->getCreated()->format("F j, Y, g:i a"); ?> &nbsp;&nbsp;&nbsp; 
 	Lead:<?php echo $quote->getLead()->getFullName(); ?> &nbsp;&nbsp;&nbsp; 
 	Sales Person:<?php echo $quote->getEmployee()->getFullName(); ?> &nbsp;&nbsp;&nbsp; 
-	Total:<?php echo $quote->getTotal(); ?> &nbsp;&nbsp;&nbsp;
+	Total:$<?php echo number_format($quote->getTotal(), 2); ?> &nbsp;&nbsp;&nbsp;
     </div>
 </div>
 <div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">
@@ -42,7 +42,9 @@ $Items	= $quote->getItems();
 	    /* @var $Item \Entities\Company\Lead\Quote\Item */
 	    foreach ($Items as $Item) {
 		/* @var $Instance \Entities\Company\Supplier\Product\Instance */
-		$Instance = $Item->getInstance();
+		$Instance	    = $Item->getInstance();
+		$instance_price	    = $Instance->getPrice();
+		$instance_quantity  = $Item->getQuantity();
 		?>
 		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
 		    <?php 
@@ -66,11 +68,11 @@ $Items	= $quote->getItems();
 		<label>Code:</label>
 		<div style="display: inline;"><?php echo HTML::truncateString($Instance->getCode(),40); ?></div><br />
 		<label>Quantity:</label>
-		<div style="display: inline;"><?php echo $Item->getQuantity(); ?></div><br />
+		<div style="display: inline;"><?php echo $instance_quantity; ?></div><br />
 		<label>Price Each:</label>
-		<div style="display: inline;"><?php echo $Instance->getPrice(); ?></div><br />
+		<div style="display: inline;">$<?php echo number_format($instance_price, 2); ?></div><br />
 		<label>Price Total:</label>
-		<div style="display: inline;"><?php echo $Item->getQuantity()*$Instance->getPrice(); ?></div><br />
+		<div style="display: inline;">$<?php echo number_format(($instance_quantity * $instance_price), 2); ?></div><br />
 		<?php
 	    }
 	    ?>

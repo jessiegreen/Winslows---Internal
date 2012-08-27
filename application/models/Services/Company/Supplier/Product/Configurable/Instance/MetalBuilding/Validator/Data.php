@@ -1,14 +1,8 @@
 <?php
-namespace Services\Company\Supplier\Product\Configurable\Instance\Validator\Data;
+namespace Services\Company\Supplier\Product\Configurable\Instance\MetalBuilding\Validator;
 
-class MetalBuilding extends \Services\Company\Supplier\Product\Configurable\Instance\Data
-{
-    static private $_sides_array = array("L" => "left", "R" => "right", "F" => "front", "B" => "back");
-    
-    static private $_high_snow_wind_models = array("RX", "BX", "VX");
-    
-    static private $_aframe_models = array("BA", "VA", "BW", "VW", "BS", "VS", "BX", "VX");
-    
+class Data extends \Services\Company\Supplier\Product\Configurable\Instance\Validator\DataAbstract
+{    
     static private $_allowed_leg_heights = array(
 					    "RA" => array(5,6,7,8,9,10,11,12),
 					    "BA" => array(6,7,8,9,10,11,12,13),
@@ -53,31 +47,18 @@ class MetalBuilding extends \Services\Company\Supplier\Product\Configurable\Inst
 					);
     
     /**
-     * @param string $model_code
      * @return array()
      */
-    static public function allowedMetalModelSizes()
+    static public function getAllowedMetalModelSizesArray()
     {
 	return self::$_allowed_sizes;
     }
     
-    static public function allowedLegHeightsArray()
+    /**
+     * @return array()
+     */
+    static public function getAllowedLegHeightsArray()
     {
 	return self::$_allowed_leg_heights;
-    }
-    
-    static public function getHighSnowAndWindModelsArray()
-    {
-	return self::$_high_snow_wind_models;
-    }
-    
-    static public function getSidesArray()
-    {
-	return self::$_sides_array;
-    }
-    
-    static public function getAframeModels()
-    {
-	return self::$_aframe_models;
     }
 }

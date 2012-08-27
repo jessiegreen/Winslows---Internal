@@ -17,15 +17,9 @@ class Configurable extends ProductAbstract
 {
     /** 
      * @Column(type="string", length=255) 
-     * @var string $validator
+     * @var string $class_name
      */
-    private $validator;
-    
-    /** 
-     * @Column(type="string", length=255) 
-     * @var string $pricer
-     */
-    private $pricer;
+    private $class_name;
     
     /**
      * @ManytoMany(targetEntity="\Entities\Company\Supplier\Product\Configurable\Option", mappedBy="ConfigurableProducts", cascade={"ALL"})
@@ -118,33 +112,17 @@ class Configurable extends ProductAbstract
     /**
      * @return string
      */
-    public function getValidator()
+    public function getClassName()
     {
-        return $this->validator;
+        return $this->class_name;
     }
 
     /**
-     * @param string $validator
+     * @param string $class_name
      */
-    public function setValidator($validator)
+    public function setClassName($class_name)
     {
-        $this->validator = $validator;
-    }
-    
-    /**
-     * @return string
-     */
-    public function getPricer()
-    {
-        return $this->pricer;
-    }
-
-    /**
-     * @param string $pricer
-     */
-    public function setPricer($pricer)
-    {
-        $this->pricer = $pricer;
+        $this->class_name = $class_name;
     }
     
     /**

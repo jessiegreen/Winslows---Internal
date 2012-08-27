@@ -111,31 +111,26 @@ class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstr
     }
     
     /**
-     * @return \Exception|boolean
+     * @return boolean
      */
     public function validate()
     {
-	$this->Validator    = \Services\Company\Supplier\Product\Configurable\Instance\Validator::factory()
-				->getValidator($this->Product->getValidator());
-	call_user_func(array($this->Validator, "validate"), $this);
+	$class		    = "\Services\Company\Supplier\Product\Configurable\Instance\\".$this->Product->getClassName()."\Validator";
+	$this->Validator    = new $class($this);
+	
+	$this->Validator->validate();
 	return true;
     }
     
     /**
-     * @return \Exception|integer
+     * @return integer
      */
     public function getPrice()
     {
-	try
-	{
-	    $this->Pricer = \Services\Company\Supplier\Product\Configurable\Instance\Pricer::factory()
-				->getPricer($this->Product->getPricer());
-	    return call_user_func(array($this->Pricer, "price"), $this);
-	} 
-	catch(\Exception $exc)
-	{
-	    return $exc;
-	}
+	$class		= "\Services\Company\Supplier\Product\Configurable\Instance\\".$this->Product->getClassName()."\Pricer";
+	$this->Pricer	= new $class($this);
+	
+	return $this->Pricer->price();
     }
     
     public function populate(array $array)

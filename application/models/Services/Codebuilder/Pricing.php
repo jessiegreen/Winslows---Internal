@@ -27,104 +27,95 @@ class Pricing {
      */
     private $_details;
     
-       /**
-     *  @var \Entities\Company\Supplier\Product\Configurable\Instance $_Instance 
-     */
-    static private $_Instance;
-    /**
-     *  @var \Services\Company\Supplier\Product\Configurable\Instance\Validator\Data\MetalBuilding $_Data 
-     */
-    static private $_Data;
-    /**
-     *  @var \Services\Company\Supplier\Product\Configurable\Instance\Mapper\MetalBuilding $_Mapper 
-     */
-    static private $_Mapper;
+    public function __construct() {
+	$this->_data	= Factory::factoryData();
+    }
     
-    /**
-     * @param \Entities\Company\Supplier\Product\Configurable\Instance $Instance
-     */
-    static public function price(\Entities\Company\Supplier\Product\Configurable\Instance $Instance)
-    {
-	$data_class	    = "\Services\Company\Supplier\Product\Configurable\Instance\Pricing\Data\\".self::_getCalledClassName();
-	$mapper_class	    = "\Services\Company\Supplier\Product\Configurable\Instance\Mapper\\".self::_getCalledClassName();
-	self::$_Instance    = $Instance;
-	self::$_Data	    = new $data_class;
-	self::$_Mapper	    = new $mapper_class($Instance);
-	
-	self::_getBasePrice();
-	self::_priceFrameGauge();
-	self::_priceWalls();
-	self::_priceLegHeight();
-	self::_priceDoors();
-	self::_priceWindows();
-	
-	$price = self::$_price;
-	self::$_price = 0;
+    public function price(BuilderArrayMapper $BuilderArrayMapper, $builder_values_array){
+	switch($BuilderArrayMapper->getStructureTypeCode($builder_values_array)){
+	    #--Metal Structure
+	    case "MC":
+		#--Set Base Price
+		$this->_getBasePrice($BuilderArrayMapper, $builder_values_array);
+		$this->_priceFrameGauge($BuilderArrayMapper, $builder_values_array);
+		$this->_priceWalls($BuilderArrayMapper, $builder_values_array);
+		$this->_priceLegHeight($BuilderArrayMapper, $builder_values_array);
+		$this->_priceDoors($BuilderArrayMapper, $builder_values_array);
+		$this->_priceWindows($BuilderArrayMapper, $builder_values_array);
+	    break;
+	    #--Wood Structure
+	    case "WF":
+		#--Set Base Price
+		$this->_getBasePrice($BuilderArrayMapper, $builder_values_array);
+	    break;
+	    default:
+		throw new \Exception("Type is required.");
+	}
+	$price = $this->_price;
+	$this->_price = 0;
 	return number_format($price,2);
     }
     
-    private function _getBasePrice()
+    private function _getBasePrice(BuilderArrayMapper $BuilderArrayMapper, $builder_values_array)
     {
-	$prices_array		= self::$_Data->model_sizes_prices;
-	$model_code		= self::$_Mapper->getModel();
-	$size_code		= self::$_Mapper->getSize();
-	
+	$prices_array		= $this->_data->model_sizes_prices;
+	$structure_type_code	= $BuilderArrayMapper->getStructureTypeCode($builder_values_array);
+	$model_code		= $BuilderArrayMapper->getModel($builder_values_array);
+	$size_code		= $BuilderArrayMapper->getSize($builder_values_array);
 	if(
-	    key_exists($model_code, $prices_array)
-	    && key_exists($size_code, $prices_array[$model_code])
+	    key_exists($structure_type_code, $prices_array)
+	    && key_exists($model_code, $prices_array[$structure_type_code])
+	    && key_exists($size_code, $prices_array[$structure_type_code][$model_code])
 	)
 	{
-	    $base_price = $prices_array[$model_code][$size_code];
-	    self::_addDetail("Base", $base_price, $size_code);
-	    self::$_price += $prices_array[$model_code][$size_code];
+	    $base_price = $prices_array[$structure_type_code][$model_code][$size_code];
+	    $this->_addDetail("Base", $base_price, $size_code);
+	    $this->_price += $prices_array[$structure_type_code][$model_code][$size_code];
 	}
     }
     
-    private function _priceFrameGauge()
-    {
-	$framegauge_code = self::$_Mapper->getFrameGaugeCode();
-	
+    private function _priceFrameGauge(BuilderArrayMapper $BuilderArrayMapper, $builder_values_array){
+	$framegauge_code = $BuilderArrayMapper->getFrameGaugeCode($builder_values_array);
 	if($framegauge_code)
 	{
-	    $prices_array = self::$_Data->framegauge_prices;
+	    $prices_array = $this->_data->framegauge_prices;
 	    if(key_exists($framegauge_code, $prices_array))
 	    {
 		$price		= $prices_array[$framegauge_code];
-		self::$_price  += $price;
+		$this->_price  += $price;
 		$this->_addDetail("Frame Gauge", $price, $framegauge_code);
 	    }
 	}
     }
     
-    private function _priceWalls() 
+    private function _priceWalls(BuilderArrayMapper $BuilderArrayMapper, $builder_values_array) 
     {
 	$sides			= array("left" => "Left", "right" => "Right", "front" => "Front", "back" => "Back");
-	$walls_pricing_array	= self::$_Data->walls_prices;
+	$walls_pricing_array	= $this->_data->walls_prices;
 	$side_location_array	= array("left" => "side", "right" => "side", "front" => "end", "back" => "end");
 	
 	foreach ($sides as $side_lower => $side_upper) 
 	{
-	    $type	    = self::$_Mapper->getCoveredWallsTypeCodeFromSideString($side_lower);
-	    $partial_height = self::$_Mapper->getCoveredWallsHeightCodeFromSideString($side_lower);
-	    $orientation    = self::$_Mapper->getOrientationCodeFromSideString($side_lower) == "V" ? "vertical" : "horizontal";
-	    $certified	    = self::$_Mapper->isCertified() ? "certified" : "noncertified";
-	    $width	    = (int) self::$_Mapper->getFrameWidthCode();
-	    $length	    = (int) self::$_Mapper->getFrameLengthCode();
-	    $leg_height	    = (int) self::$_Mapper->getLegHeightCode();
+	    $type	    = $BuilderArrayMapper->getCoveredWallsTypeCodeFromSideString($side_lower, $builder_values_array);
+	    $partial_height = $BuilderArrayMapper->getCoveredWallsHeightCodeFromSideString($side_lower, $builder_values_array);
+	    $orientation    = $BuilderArrayMapper->getOrientationCodeFromSideString($side_lower, $builder_values_array) == "V" ? "vertical" : "horizontal";
+	    $certified	    = $BuilderArrayMapper->isCertified($builder_values_array) ? "certified" : "noncertified";
+	    $width	    = (int) $BuilderArrayMapper->getFrameWidthCode($builder_values_array);
+	    $length	    = (int) $BuilderArrayMapper->getFrameLengthCode($builder_values_array);
+	    $leg_height	    = (int) $BuilderArrayMapper->getLegHeightCode($builder_values_array);
 	    $side_location  = $side_location_array[$side_lower];
 	    #--Is it an end or side?
 	    switch ($side_location) 
 	    {
 		case "end":
-		    switch($type)
-		    {
+		    switch($type){
 			case "GB":
 			    $price = $walls_pricing_array["location"][$side_location]
 							["type"]["gable"]
 							["certified"][$certified]
 							["orientation"][$orientation];
-			    self::$_price += $price;
-			    self::_addDetail($side_upper." wall", $price, $type);
+			    $this->_price += $price;
+			    $this->_addDetail($side_upper." wall", $price, $type);
 			    break;
 			case "PT"://partial top
 			case "PB"://partial bottom
@@ -132,8 +123,8 @@ class Pricing {
 			    $panel_length_array = array("12" => 75, "18" => 75 ,"20" => 75, "22" => 90, "24" => 90);
 			    $amount_of_panels	= ceil($partial_height/3);
 			    $price		= (($amount_of_panels*$panel_length_array[$width])+($bracing[$width]*$amount_of_panels));
-			    self::$_price	+= $price;
-			    self::_addDetail($side_upper." wall", $price, $type." ".$partial_height."ft w/ bracing");
+			    $this->_price	+= $price;
+			    $this->_addDetail($side_upper." wall", $price, $type." ".$partial_height."ft w/ bracing");
 			    break;
 			case "CL"://closed
 			    $price = $walls_pricing_array["location"][$side_location]
@@ -142,8 +133,8 @@ class Pricing {
 							["orientation"][$orientation]
 							["width"][$width]
 							["leg_height"][$leg_height];
-			    self::$_price += $price;
-			    self::_addDetail($side_upper." wall", $price, $type);
+			    $this->_price += $price;
+			    $this->_addDetail($side_upper." wall", $price, $type);
 			    break;
 			case "":
 			case "NO"://no wall
@@ -159,8 +150,8 @@ class Pricing {
 			    $panel_length_array = array("21" => 75, "26" => 90, "31" => 105, "36" => 120, "41" => 170);
 			    $amount_of_panels	= ceil($partial_height/3);
 			    $price = ($amount_of_panels*$panel_length_array[$length]);
-			    self::$_price += $price;
-			    self::_addDetail($side_upper." wall", $price, $type." ".$partial_height."ft");
+			    $this->_price += $price;
+			    $this->_addDetail($side_upper." wall", $price, $type." ".$partial_height."ft");
 			    break;
 			//closed
 			case "CL"://closed
@@ -168,8 +159,8 @@ class Pricing {
 							["orientation"][$orientation]
 							["length"][$length]
 							["leg_height"][$leg_height];
-			    self::$_price += $price;
-			    self::_addDetail($side_upper." wall", $price, $type);
+			    $this->_price += $price;
+			    $this->_addDetail($side_upper." wall", $price, $type);
 			    break;
 			case "":
 			case "NO":
@@ -182,71 +173,62 @@ class Pricing {
 	}
     }
     
-    private function _priceLegHeight()
-    {
-	$leg_height		= (int)self::$_Mapper->getLegHeightCode();
-	$structure_type_code	= self::$_Mapper->getStructureTypeCode();
-	$model_code		= self::$_Mapper->getModel();
-	$price_array		= self::$_Data->getModelLegHeightPricesArray();
-	$length			= (int)self::$_Mapper->getFrameLengthCode();
+    private function _priceLegHeight(BuilderArrayMapper $BuilderArrayMapper, $builder_values_array){
+	$leg_height		= (int)$BuilderArrayMapper->getLegHeightCode($builder_values_array);
+	$structure_type_code	= $BuilderArrayMapper->getStructureTypeCode($builder_values_array);
+	$model_code		= $BuilderArrayMapper->getModel($builder_values_array);
+	$price_array		= $this->_data->getModelLegHeightPricesArray();
+	$length			= (int)$BuilderArrayMapper->getFrameLengthCode($builder_values_array);
 	$price			= $price_array["type"][$structure_type_code]["model"][$model_code]["leg_height"][$leg_height]["length"][$length];
-	self::$_price		+= $price;
-	
-	self::_addDetail("Leg Height", $price, $leg_height."ft");
+	$this->_price		+= $price;
+	$this->_addDetail("Leg Height", $price, $leg_height."ft");
     }
     
-    private function _priceDoors()
-    {
-	$doors_count	= self::$_Mapper->getDoorsCount();
-	
-	if($doors_count>0)
-	{
-	    $price_array	= self::$_Data->doors_array;
+    private function _priceDoors(BuilderArrayMapper $BuilderArrayMapper, $builder_values_array){
+	$doors_count	= $BuilderArrayMapper->getDoorsCount($builder_values_array);
+	if($doors_count>0){
+	    $price_array	= $this->_data->doors_array;
 	    $price		= 0;
-	    $type		= self::$_Mapper->getStructureTypeCode();
-	    $certified		= self::$_Mapper->getCertifiedCode();
+	    $type		= $BuilderArrayMapper->getStructureTypeCode($builder_values_array);
+	    $certified		= $BuilderArrayMapper->getCertifiedCode($builder_values_array);
 	    $certified		= $certified == "Y" ? "certified" : "uncertified"; 
 	    
-	    for($i=0;$i<$doors_count;$i++)
-	    {
-		$door_type  = self::$_Mapper->getDoorTypeCode($i);
-		$size	    = self::$_Mapper->getDoorSize($i);
+	    for($i=0;$i<$doors_count;$i++){
+		$door_type  = $BuilderArrayMapper->getDoorTypeCode($builder_values_array, $i);
+		$size	    = $BuilderArrayMapper->getDoorSize($builder_values_array, $i);
 		$price	    = $price_array["type"][$type]["certified"][$certified]["door_type"][$door_type][$size];
-		self::$_price += $price;
-		self::_addDetail("Door ", $price, $size);
+		$this->_price += $price;
+		$this->_addDetail("Door ", $price, $size);
 	    }
 	}
     }
     
-    private function _priceWindows()
-    {
-	$windows_count	= self::$_Mapper->getWindowsCount();
-	if($windows_count>0)
-	{
-	    $price_array	= self::$_Data->windows_array;
+    private function _priceWindows(BuilderArrayMapper $BuilderArrayMapper, $builder_values_array){
+	$windows_count	= $BuilderArrayMapper->getWindowsCount($builder_values_array);
+	if($windows_count>0){
+	    $price_array	= $this->_data->windows_array;
 	    $price		= 0;
-	    $type		= self::$_Mapper->getStructureTypeCode();
-	    $certified		= self::$_Mapper->getCertifiedCode();
+	    $type		= $BuilderArrayMapper->getStructureTypeCode($builder_values_array);
+	    $certified		= $BuilderArrayMapper->getCertifiedCode($builder_values_array);
 	    $certified		= $certified == "Y" ? "certified" : "uncertified"; 
 	    
-	    for($i=0;$i<$windows_count;$i++)
-	    {
-		$window_type  = self::$_Mapper->getWindowTypeCode($i);
-		$size	    = self::$_Mapper->getWindowSize($i);
+	    for($i=0;$i<$windows_count;$i++){
+		$window_type  = $BuilderArrayMapper->getWindowTypeCode($builder_values_array, $i);
+		$size	    = $BuilderArrayMapper->getWindowSize($builder_values_array, $i);
 		$price	    = $price_array["type"][$type]["certified"][$certified]["window_type"][$window_type][$size];
-		self::$_price += $price;
-		self::_addDetail("Window ", $price, $size);
+		$this->_price += $price;
+		$this->_addDetail("Window ", $price, $size);
 	    }
 	}
     }
     
-    private function _addDetail($name = "", $price = 0, $note = "")
-    {
-	self::$_details[] = array("name" => $name, "price" => $price, "note" => $note);
+    private function _addDetail($name = "", $price = 0, $note = ""){
+	$this->_details[] = array("name" => $name, "price" => $price, "note" => $note);
     }
     
-    public function getDetails()
-    {
-	return self::$_details;
+    public function getDetails(){
+	return $this->_details;
     }
 }
+
+?>
