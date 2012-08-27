@@ -40,10 +40,30 @@ class Configurable extends ProductAbstract
     }
     
     /**
-     * @return array
+     * @return \Doctrine\Common\Collections\ArrayCollection
      */
-    public function getOptions(){
+    public function getOptions()
+    {
 	return $this->Options;
+    }
+    
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getOptionsOrderedByCategory()
+    {
+	$arr = $this->getOptions()->toArray();
+	
+	usort($arr, function($a, $b)
+	{
+	    $name_a = $a->getCategory()->getOrder();
+	    $name_b = $b->getCategory()->getOrder();
+
+	    return $name_a == $name_b ? 0 : $name_a > $name_b ? 1 : - 1;
+
+	});
+	
+	return $arr;
     }
         
     /**

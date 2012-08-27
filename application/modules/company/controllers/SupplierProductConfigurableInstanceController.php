@@ -110,7 +110,7 @@ class Company_SupplierProductConfigurableInstanceController extends Dataservice_
 	
 	#--Build Left Options Array and required array
 	/* @var $Option \Entities\Company\Supplier\Product\Configurable\Option */
-	foreach ($Instance->getProduct()->getOptions() as $Option)
+	foreach ($Instance->getProduct()->getOptionsOrderedByCategory() as $Option)
 	{
 	    $Category = $Option->getCategory();
 	    

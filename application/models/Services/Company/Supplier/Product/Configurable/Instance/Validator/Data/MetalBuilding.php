@@ -3,7 +3,7 @@ namespace Services\Company\Supplier\Product\Configurable\Instance\Validator\Data
 
 class MetalBuilding extends \Services\Company\Supplier\Product\Configurable\Instance\Data
 {
-    static private $_sides_array = array("L" => "left", "R" => "right", "F" => "Front", "B" => "Back");
+    static private $_sides_array = array("L" => "left", "R" => "right", "F" => "front", "B" => "back");
     
     static private $_high_snow_wind_models = array("RX", "BX", "VX");
     

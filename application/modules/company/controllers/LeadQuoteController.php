@@ -26,12 +26,9 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
     {
 	$Quote  = $this->_getQuote();
 	
-	if(!$Quote->getId() && isset($this->_params["lead_id"]) && $Lead = $this->_getLead() && $Lead->getId())
+	if(!$Quote->getId() && isset($this->_params["lead_id"]) && ($Lead = $this->_getLead()) && $Lead->getId())
 	{
-	    if($this->_request->getParam("lead_id") && $Lead = $this->_getLead() && $Lead->getId())
-	    {
-		$Quote->setLead($Lead);
-	    }
+	    $Quote->setLead($Lead);
 	    
 	    $Employee = Services\Auth::factory()->getIdentityPerson();
 	    
@@ -285,7 +282,8 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
      */
     private function _getLead()
     {
-	return $this->getEntityFromParamFields("Company\Lead", array("lead_id"));
+	$id = $this->_request->getParam("lead_id", 0);
+	return $this->_em->find("Entities\Company\Lead", $id);
     }
     
     private function _CheckRequiredLeadExists(\Entities\Company\Lead $Lead)

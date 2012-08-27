@@ -23,7 +23,7 @@ class QuoteAbstract extends \Dataservice_Doctrine_Entity
      * @Column(type="decimal", precision=40, scale=2)
      * @var integer $total
      */
-    protected $total;
+    protected $total = 0;
     
     /** 
      * @Column(type="datetime") 
