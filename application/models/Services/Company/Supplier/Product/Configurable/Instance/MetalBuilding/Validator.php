@@ -211,9 +211,4 @@ class Validator extends \Services\Company\Supplier\Product\Configurable\Instance
 			);
 	}
     }
-    
-    protected function _validateRoof()
-    {
-	
-    }
 }

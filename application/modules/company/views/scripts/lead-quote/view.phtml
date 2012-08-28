@@ -5,6 +5,13 @@ echo HTML::backAnchorIcon("Back ", $this->back);
 echo "</div>";
 ?>
 <h1 class="header1">Quote - View</h1>
+<fieldset class="padded_frame blue_frame">
+    <legend>Menu</legend>
+<?php
+echo HTML::buttonBlue("printer.png", "Print", "quote_print", "margin-right:5px;position:relative;");
+echo HTML::buttonBlue("money.png", "Sell", "quote_sell", "position:relative;");
+?>
+</fieldset>
 <?php
 /* @var $quote \Entities\Company\Lead\Quote */
 $quote		= $this->Quote;
@@ -19,7 +26,8 @@ $Items	= $quote->getItems();
 		"pencil.png", 
 		"", 
 		"/company/lead-quote/edit/id/".$quote_id,
-		"margin-left:5px;"
+		"margin-left:5px;",
+		"Edit Quote"
 		);
 	?>
     </h4>
@@ -34,45 +42,63 @@ $Items	= $quote->getItems();
     <div id="accordion">
 	<h3>
 	    <a href="#">Items</a>
-	    <?php echo HTML::buttonBlue("package_add.png", "Add Product", "quoteproduct_add", "float:right;width:110px;");?>
+	    <?php echo HTML::buttonBlue("package_add.png", "Add Item", "quoteproduct_add", "float:right;width:110px;");?>
 	</h3>
 	<div>
 	    <?php
 	    echo count($Items)<1 ? "<span class='small gray'>No Items</span>" : "";
 	    /* @var $Item \Entities\Company\Lead\Quote\Item */
-	    foreach ($Items as $Item) {
+	    foreach ($Items as $Item)
+	    {
 		/* @var $Instance \Entities\Company\Supplier\Product\Instance */
 		$Instance	    = $Item->getInstance();
-		$instance_price	    = $Instance->getPrice();
+		/* @var $InstancePrice Dataservice_Price */
+		$InstancePrice	    = $Instance->getPrice();
 		$instance_quantity  = $Item->getQuantity();
 		?>
 		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
 		    <?php 
 		    echo $Instance->getProduct()->getName();
-		    echo HTML::buttonIcon(
-			    "pencil.png", 
-			    "view_item_".$Item->getId(), 
-			    "Edit Item", "quote_item_edit", 
-			    "margin-left:5px;vertical-align:bottom;",
-			    'item_id="'.$Item->getId().'"'
-			    );
 		    echo HTML::anchorIcon(
 			    "delete.png", 
 			    "", 
 			    "/company/lead-quote/itemremove/id/".$quote->getId()."/item_id/".$Item->getId(),
-			    "margin-left:5px;",
+			    "float:right;margin-right:5px;vertical-align:bottom;",
 			    "Delete Item"
+			    );
+		    echo HTML::buttonIcon(
+			    "pencil.png", 
+			    "view_item_".$Item->getId(), 
+			    "Edit Item", "quote_item_edit", 
+			    "float:right;margin-right:5px;vertical-align:bottom;",
+			    'item_id="'.$Item->getId().'"'
+			    );
+		    echo HTML::buttonIcon(
+			    "bullet_arrow_down.png", 
+			    "expand_item_".$Item->getId(), 
+			    "Show Details", "expand_item", 
+			    "float:right;margin-right:5px;vertical-align:bottom;",
+			    'item_id="'.$Item->getId().'"'
 			    );
 		    ?>
 		</h4>
-		<label>Code:</label>
-		<div style="display: inline;"><?php echo HTML::truncateString($Instance->getCode(),40); ?></div><br />
+		<div style="display: none;border: solid 1px #E5E5E5;" id="item_details_<?php echo $Item->getId();?>">
+		    <b>Options</b><br />
+		    <?php echo $Instance->getOptionsDisplay();?>
+		    <b>Price Details</b><br />
+		    <?php echo $InstancePrice->getDisplayDetails();?>
+		</div>
 		<label>Quantity:</label>
-		<div style="display: inline;"><?php echo $instance_quantity; ?></div><br />
+		<div style="display: inline;"><?php echo $instance_quantity; ?></div>
+		<br />
 		<label>Price Each:</label>
-		<div style="display: inline;">$<?php echo number_format($instance_price, 2); ?></div><br />
+		<div style="display: inline;"><?php echo $InstancePrice->getDisplayPrice(); ?></div>
+		<br />
 		<label>Price Total:</label>
-		<div style="display: inline;">$<?php echo number_format(($instance_quantity * $instance_price), 2); ?></div><br />
+		<div style="display: inline;">
+		    $<?php echo number_format(($instance_quantity * $InstancePrice->getPrice()), 2); ?>
+		</div>
+		<br />
 		<?php
 	    }
 	    ?>
@@ -88,4 +114,7 @@ $Items	= $quote->getItems();
     $("#quoteproduct_add").colorbox({href:"/company/lead-quote/productadd1/id/<?php echo $quote_id;?>"});
     Quote = new Quote();
     Quote.EditItemOnClickBind($(".quote_item_edit"));
+    Quote.ExpandItemOnClickBind($(".expand_item"));
+    Quote.PrintOnClickBind($("#quote_print"));
+    Quote.SellOnClickBind($("#quote_sell"));
 </script>

@@ -55,6 +55,36 @@ class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstr
     /**
      * @return string
      */
+    public function getOptionsDisplay($list_class = "", $item_class = "")
+    {
+	$string = '<ul class="'.$list_class.'">';
+	
+	/* @var $Option \Entities\Company\Supplier\Product\Configurable\Instance\Option */
+	foreach ($this->Options as $Option)
+	{
+	    $string .= '<li class="'.$item_class.'">';
+	    $string .= $Option->getOption()->getName();
+	    
+	    $string .= '<ul class="'.$list_class.'">';
+	    
+	    foreach ($Option->getValues() as $Value)
+	    {
+		$string .= '<li class="'.$item_class.'">';
+		$string .= $Value->getParameter()->getName().':'.$Value->getName();
+		$string .= '</li>';
+	    }
+	    
+	    $string .= '</ul></li>';
+	}
+	
+	$string .= '</ul>';
+	
+	return $string;
+    }
+    
+    /**
+     * @return string
+     */
     public function getCode()
     {
 	$code	    = "";
@@ -123,7 +153,7 @@ class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstr
     }
     
     /**
-     * @return integer
+     * @return \Dataservice_Price
      */
     public function getPrice()
     {

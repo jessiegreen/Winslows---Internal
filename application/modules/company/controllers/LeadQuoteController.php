@@ -260,6 +260,11 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
 	echo json_encode($return);
     }
     
+    public function paymentTypeAction()
+    {
+	
+    }
+    
     /**
      * @return \Entities\Company\Lead\Quote
      */

@@ -104,7 +104,7 @@ class Quote extends Quote\QuoteAbstract
 	/* @var $Item \Entities\Company\Lead\Quote\Item */
 	foreach ($this->getItems() as $Item)
 	{
-	    $this->total += $Item->getQuantity() * $Item->getInstance()->getPrice();
+	    $this->total += $Item->getQuantity() * $Item->getInstance()->getPrice()->getPrice();
 	}
 	
         return $this->total;

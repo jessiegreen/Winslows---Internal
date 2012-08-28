@@ -57,6 +57,18 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Ma
     }
     
     /**
+     * @return false|string
+     */
+    public function getFrameGaugeName()
+    {
+	$ModelValue = $this->_Instance->getFirstValueFromIndexes("frame_gauge", "gauge");
+	
+	if($ModelValue !== false)return $ModelValue->getName();
+	
+	return false;
+    }
+    
+    /**
      * @return string|false
      */
     public function getFrameWidth()
@@ -169,6 +181,18 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Ma
     /**
      * @return string|false
      */
+    public function getDoorTypeName(\Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption)
+    {
+	$TypeValue = $DoorOption->getValueFromParameterIndex("type");
+	
+	if($TypeValue !== false)return $TypeValue->getName();
+	
+	return false;
+    }
+    
+    /**
+     * @return string|false
+     */
     public function getDoorLocation(\Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption)
     {
 	$LocationValue = $DoorOption->getValueFromParameterIndex("location");
@@ -251,6 +275,18 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Ma
 	$TypeValue = $WindowOption->getValueFromParameterIndex("type");
 	
 	if($TypeValue !== false)return $TypeValue->getCode();
+	
+	return false;
+    }
+    
+    /**
+     * @return string|false
+     */
+    public function getWindowTypeName(\Entities\Company\Supplier\Product\Configurable\Instance\Option $WindowOption)
+    {
+	$TypeValue = $WindowOption->getValueFromParameterIndex("type");
+	
+	if($TypeValue !== false)return $TypeValue->getName();
 	
 	return false;
     }

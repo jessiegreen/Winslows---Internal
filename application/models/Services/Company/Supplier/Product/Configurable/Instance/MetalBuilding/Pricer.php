@@ -14,12 +14,11 @@ class Pricer extends \Services\Company\Supplier\Product\Configurable\Instance\Pr
     protected $_Mapper;
     
     /**
-     * @return int
+     * @return \Dataservice_Price
      */
     public function price()
     {
-	$this->_price	    = 0;
-	
+	$this->_Price->setPrice(0);	
 	$this->_getBasePrice();
 	$this->_priceFrameGauge();
 	$this->_priceWalls();
@@ -27,8 +26,7 @@ class Pricer extends \Services\Company\Supplier\Product\Configurable\Instance\Pr
 	$this->_priceDoors();
 	$this->_priceWindows();
 	
-	$price = $this->_price;
-	return round($price,2);
+	return $this->_Price;
     }
     
     protected function _getBasePrice()
@@ -43,8 +41,9 @@ class Pricer extends \Services\Company\Supplier\Product\Configurable\Instance\Pr
 	)
 	{
 	    $base_price = $prices_array[$model_code][$size_code];
-	    $this->_addDetail("Base", $base_price, $size_code);
-	    $this->_price += $prices_array[$model_code][$size_code];
+	    
+	    $this->_Price->add((int) $prices_array[$model_code][$size_code]);
+	    $this->_Price->addDetail($base_price." - Base Price:".$this->_Mapper->getModelName()."-".$size_code);
 	}
 	else throw new \Exception("$size_code is not in Base Price Array");
     }
@@ -59,9 +58,10 @@ class Pricer extends \Services\Company\Supplier\Product\Configurable\Instance\Pr
 	    
 	    if(key_exists($framegauge_code, $prices_array))
 	    {
-		$price		= $prices_array[$framegauge_code];
-		$this->_price  += $price;
-		$this->_addDetail("Frame Gauge", $price, $framegauge_code);
+		$price = $prices_array[$framegauge_code];
+		
+		$this->_Price->add((int) $price);		
+		$this->_Price->addDetail($price." - Frame Gauge:".$this->_Mapper->getFrameGaugeName());
 	    }
 	    else throw new \Exception("Frame Gauge '$framegauge_code' not not valid for pricing");
 	}
@@ -78,6 +78,7 @@ class Pricer extends \Services\Company\Supplier\Product\Configurable\Instance\Pr
 	    $side_upper	= ucfirst($side);
 	    
 	    $type	    = $this->_Mapper->getWallCoveredType($side);
+	    $type_name	    = $this->_Mapper->getWallCoveredTypeName($side);
 	    $partial_height = $this->_Mapper->getWallCoveredHeight($side);
 	    $orientation    = $this->_Mapper->getWallOrientationIndex($side) !== "vertical" ? "horizontal" : "vertical";
 	    $certified	    = $this->_Mapper->isCertified() ? "certified" : "noncertified";
@@ -97,8 +98,8 @@ class Pricer extends \Services\Company\Supplier\Product\Configurable\Instance\Pr
 							["type"]["gable"]
 							["certified"][$certified]
 							["orientation"][$orientation];
-			    $this->_price += $price;
-			    $this->_addDetail($side_upper." wall", $price, $type);
+			    $this->_Price->add((int) $price);
+			    $this->_Price->addDetail($price." - ".$side_upper." wall coverage:".$type_name."-".$certified);
 			    break;
 			case "PT"://partial top
 			case "PB"://partial bottom
@@ -106,8 +107,10 @@ class Pricer extends \Services\Company\Supplier\Product\Configurable\Instance\Pr
 			    $panel_length_array = $this->_Data->getWallsPartialCoverageEndPanelPricesArray();
 			    $amount_of_panels	= ceil($partial_height/3);
 			    $price		= (($amount_of_panels*$panel_length_array[$width])+($bracing[$width]*$amount_of_panels));
-			    $this->_price	+= $price;
-			    $this->_addDetail($side_upper." wall", $price, $type." ".$partial_height."ft w/ bracing");
+			    
+			    $this->_Price->add((int) $price);
+			    $this->_Price->addDetail($price." - ".$side_upper." wall coverage:".
+							$type_name."-".$partial_height."ft w/ bracing");
 			    break;
 			case "CL"://closed
 			    $price = $walls_pricing_array["location"][$side_location]
@@ -116,8 +119,8 @@ class Pricer extends \Services\Company\Supplier\Product\Configurable\Instance\Pr
 							["orientation"][$orientation]
 							["width"][$width]
 							["leg_height"][$leg_height];
-			    $this->_price += $price;
-			    $this->_addDetail($side_upper." wall", $price, $type);
+			    $this->_Price->add((int) $price);
+			    $this->_Price->addDetail($price." - ".$side_upper." wall coverage:".$type_name."-".$certified);
 			    break;
 			case "":
 			case "NO"://no wall
@@ -133,8 +136,9 @@ class Pricer extends \Services\Company\Supplier\Product\Configurable\Instance\Pr
 			    $panel_length_array = $this->_Data->getWallsPartialCoverageSidePanelPricesArray();
 			    $amount_of_panels	= ceil($partial_height/3);
 			    $price = ($amount_of_panels*$panel_length_array[$length]);
-			    $this->_price += $price;
-			    $this->_addDetail($side_upper." wall", $price, $type." ".$partial_height."ft");
+			    $this->_Price->add((int) $price);
+			    $this->_Price->addDetail($price." - ".$side_upper." wall coverage:".
+							$type_name." ".$partial_height."ft");
 			    break;
 			//closed
 			case "CL"://closed
@@ -142,8 +146,8 @@ class Pricer extends \Services\Company\Supplier\Product\Configurable\Instance\Pr
 							["orientation"][$orientation]
 							["length"][$length]
 							["leg_height"][$leg_height];
-			    $this->_price += $price;
-			    $this->_addDetail($side_upper." wall", $price, $type);
+			    $this->_Price->add((int) $price);
+			    $this->_Price->addDetail($price." - ".$side_upper." wall coverage:".$type_name);
 			    break;
 			case "":
 			case "NO":
@@ -163,9 +167,9 @@ class Pricer extends \Services\Company\Supplier\Product\Configurable\Instance\Pr
 	$price_array		= $this->_Data->getModelLegHeightPricesArray();
 	$length			= (int)$this->_Mapper->getFrameLength();
 	$price			= $price_array[$model_code]["leg_height"][$leg_height]["length"][$length];
-	$this->_price		+= $price;
 	
-	$this->_addDetail("Leg Height", $price, $leg_height."ft");
+	$this->_Price->add((int) $price);	
+	$this->_Price->addDetail($price." - Leg Height:".$leg_height." ft");
     }
     
     protected function _priceDoors()
@@ -182,11 +186,12 @@ class Pricer extends \Services\Company\Supplier\Product\Configurable\Instance\Pr
 	    foreach($DoorOptions as $DoorOption)
 	    {
 		$door_type	= $this->_Mapper->getDoorType($DoorOption);
+		$door_type_name	= $this->_Mapper->getDoorTypeName($DoorOption);
 		$size		= $this->_Mapper->getDoorSize($DoorOption);
 		$price		= $price_array[$certified]["door_type"][$door_type][$size];
-		$this->_price	+= $price;
 		
-		$this->_addDetail("Door ", $price, $size);
+		$this->_Price->add((int) $price);		
+		$this->_Price->addDetail($price." - Door:".$door_type_name."-".$size."-".$certified);
 	    }
 	}
     }
@@ -204,11 +209,13 @@ class Pricer extends \Services\Company\Supplier\Product\Configurable\Instance\Pr
 	    
 	    foreach($WindowOptions as $WindowOption)
 	    {
-		$window_type	= $this->_Mapper->getWindowType($WindowOption);
-		$size		= $this->_Mapper->getWindowSize($WindowOption);
-		$price		= $price_array[$certified]["window_type"][$window_type][$size];
-		$this->_price	+= $price;
-		$this->_addDetail("Window ", $price, $size);
+		$window_type	    = $this->_Mapper->getWindowType($WindowOption);
+		$window_type_name   = $this->_Mapper->getWindowTypeName($WindowOption);
+		$size		    = $this->_Mapper->getWindowSize($WindowOption);
+		$price		    = $price_array[$certified]["window_type"][$window_type][$size];
+		
+		$this->_Price->add((int) $price);
+		$this->_Price->addDetail($price." - Window:".$window_type_name."-".$size."-".$certified);
 	    }
 	}
     }
@@ -216,10 +223,5 @@ class Pricer extends \Services\Company\Supplier\Product\Configurable\Instance\Pr
     protected function _addDetail($name = "", $price = 0, $note = "")
     {
 	$this->_details[] = array("name" => $name, "price" => $price, "note" => $note);
-    }
-    
-    public function getDetails()
-    {
-	return $this->_details;
     }
 }

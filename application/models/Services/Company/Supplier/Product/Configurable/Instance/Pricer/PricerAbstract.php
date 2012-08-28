@@ -4,14 +4,9 @@ namespace Services\Company\Supplier\Product\Configurable\Instance\Pricer;
 class PricerAbstract extends \Dataservice_Service_ServiceAbstract implements \Interfaces\Company\Supplier\Product\Configurable\Instance\Pricer
 {
    /**
-     * @var decimal $_price
+     * @var \Dataservice_Price $_Price
      */
-    protected $_price = 0;
-    
-    /**
-     * @var array $_details
-     */
-    protected $_details;
+    protected $_Price;
     
        /**
      *  @var \Entities\Company\Supplier\Product\Configurable\Instance $_Instance 
@@ -41,6 +36,7 @@ class PricerAbstract extends \Dataservice_Service_ServiceAbstract implements \In
 	$this->_Instance    = $Instance;
 	$this->_Data	    = new $data_class;
 	$this->_Mapper	    = new $mapper_class($Instance);
+	$this->_Price	    = new \Dataservice_Price();
     }
     
     public function price()

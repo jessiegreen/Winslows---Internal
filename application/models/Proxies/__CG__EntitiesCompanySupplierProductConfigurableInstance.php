@@ -60,6 +60,12 @@ class Instance extends \Entities\Company\Supplier\Product\Configurable\Instance 
         return parent::getOptions();
     }
 
+    public function getOptionsDisplay($list_class = '', $item_class = '')
+    {
+        $this->__load();
+        return parent::getOptionsDisplay($list_class, $item_class);
+    }
+
     public function getCode()
     {
         $this->__load();

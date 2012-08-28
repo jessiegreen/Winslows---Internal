@@ -61,6 +61,13 @@ class ProductAbstract extends \Dataservice_Doctrine_Entity
      * @var \Entities\Company\Supplier $Supplier
      */     
     private $Supplier;
+    
+    /**
+     * @ManytoMany(targetEntity="\Entities\RtoProvider", inversedBy="Products", cascade={"persist"})
+     * @JoinTable(name="company_supplier_company_product_rtoprovider_joins")
+     * @var \Doctrine\Common\Collections\ArrayCollection $RtoProviders
+     */
+    private $RtoProviders;
 
     public function __construct()
     {
@@ -81,6 +88,20 @@ class ProductAbstract extends \Dataservice_Doctrine_Entity
     public function getSupplier()
     {
 	return $this->Supplier;
+    }
+    
+    /**
+     * @param \Entities\RtoProvider $RtoProvider
+     */
+    public function addRtoProvider(\Entities\RtoProvider $RtoProvider)
+    {
+	if(!$this->RtoProviders->contains($RtoProvider))
+	    $this->RtoProviders[] = $RtoProvider;
+    }
+    
+    public function removeRtoProvider(\Entities\RtoProvider $RtoProvider)
+    {
+	$this->RtoProviders->removeElement($RtoProvider);
     }
 
     /**
