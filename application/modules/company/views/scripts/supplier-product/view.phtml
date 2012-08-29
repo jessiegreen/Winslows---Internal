@@ -10,8 +10,6 @@ echo "</div>";
 $Product	= $this->Product;
 $product_id	= $Product->getId();
 $Options	= null;
-$validator	= null;
-$pricer		= null;
 $price		= null;
 
 switch ($Product->getDescriminator()) 
@@ -19,8 +17,7 @@ switch ($Product->getDescriminator())
     case "Configurable":
 	/* @var $Product \Entities\Company\Supplier\Product\Configurable */
 	$Options	= $Product->getOptions();
-	$validator	= $Product->getValidator();
-	$pricer		= $Product->getPricer();
+	$className	= $Product->getClassName();
     break;
     case "Simple":
 	/* @var $Product \Entities\SimpleProduct */
@@ -47,8 +44,7 @@ switch ($Product->getDescriminator())
 	<label>Supplier:</label> <?php echo $Product->getSupplier()->getName(); ?> <br />
 	<label>Description:</label> <span class="small"><?php echo $Product->getDescription(); ?></span><br />
 	<?php
-	if($validator){?><label>Validator:</label> <?php echo $validator; ?> &nbsp;&nbsp;&nbsp;<?php }
-	if($pricer){?><label>Pricer:</label> <?php echo $pricer; ?> &nbsp;&nbsp;&nbsp;<?php }
+	if($className){?><label>Class Name:</label> <?php echo $className; ?> &nbsp;&nbsp;&nbsp;<?php }
 	if($price){?><label>Price:</label> <?php echo $price; ?> &nbsp;&nbsp;&nbsp;<?php }
 	?>
     </div>

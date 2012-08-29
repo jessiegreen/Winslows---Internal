@@ -260,6 +260,26 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
 	echo json_encode($return);
     }
     
+    public function salesTypeAction()
+    {
+	$Quote = $this->_getQuote();
+	
+	$this->_CheckRequiredQuoteExists($Quote);
+	
+	$form = new Forms\Company\Lead\Quote\SalesTypes($Quote);
+	
+	if($this->isPostAndValid($form))
+	{
+	    $data = $this->_request("company_lead_quote_salestypes");
+	    
+	    foreach ($data as $value) {
+		
+	    }
+	}
+	
+	$this->view->form = $form;
+    }
+    
     public function paymentTypeAction()
     {
 	

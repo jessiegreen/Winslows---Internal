@@ -99,9 +99,20 @@ class ProductAbstract extends \Dataservice_Doctrine_Entity
 	    $this->RtoProviders[] = $RtoProvider;
     }
     
+    /**
+     * @param \Entities\RtoProvider $RtoProvider
+     */
     public function removeRtoProvider(\Entities\RtoProvider $RtoProvider)
     {
 	$this->RtoProviders->removeElement($RtoProvider);
+    }
+    
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getRtoProviders()
+    {
+	return $this->RtoProviders;
     }
 
     /**

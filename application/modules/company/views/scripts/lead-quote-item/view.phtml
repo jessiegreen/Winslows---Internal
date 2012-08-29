@@ -1,0 +1,101 @@
+<?php 
+echo($this->flashMessages()); 
+?>
+<h1 class="header1">Quote Item - View</h1>
+<?php
+/* @var $RtoProvider \Entities\RtoProvider */
+$Item	    = $this->Item;
+/* @var $Instance \Entities\Company\Supplier\Product\Instance */
+$Instance   = $Item->getInstance();
+/* @var $Product Entities\Company\Supplier\Product\ProductAbstract */
+$Product    = $Instance->getProduct();
+$quantity   = $Item->getQuantity();
+?>
+<div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
+    <h4 class="no_space" style="color: #2000EE;">
+	Info
+	<?php
+	echo HTML::anchorIcon(
+		"pencil.png", 
+		"", 
+		"/company/lead-quote-item/edit/id/".$Item->getId(),
+		"margin-left:5px;"
+		);
+	?>
+    </h4>
+    <div>
+	Quantity:    <?php echo $quantity;?> &nbsp;&nbsp;&nbsp; 
+	Product:    <?php echo $Product->getName(); ?> &nbsp;&nbsp;&nbsp; 
+	Sale Type:  <?php echo $Item->getSaleTypeDisplay(); ?> <br />
+    </div>
+</div>
+<div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">
+    <div id="accordion">
+	<h3>
+	    <a href="#">Product</a>
+	    <?php
+	    if($Product->getDescriminator() == "Configurable")
+	    {
+		echo HTML::buttonBlue(
+			"pencil.png", 
+			"Builder", 
+			"product_builder", 
+			"float:right;width:80px;margin-left:5px;"
+			);
+		echo HTML::buttonBlue(
+			"pencil.png", 
+			"Manual", 
+			"product_manual", 
+			"float:right;width:80px;margin-left:5px;"
+			);
+	    }
+	    ?>
+	</h3>
+	<div>
+	    <?php
+	    /* @var $InstancePrice Dataservice_Price */
+	    $InstancePrice = $Instance->getPrice();
+	    ?>
+	    <h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
+		<?php 
+		echo $Instance->getProduct()->getName();
+		?>
+	    </h4>
+	    <label>Price Each:</label>
+	    <div style="display: inline;"><?php echo $InstancePrice->getDisplayPrice(); ?></div>
+	    <br />
+	    <label>Price Total:</label>
+	    <div style="display: inline;">
+		$<?php echo number_format(($quantity * $InstancePrice->getPrice()), 2); ?>
+	    </div>
+	    <br />
+	    <?php
+	    if($Product->getDescriminator() == "Configurable")
+	    {
+		?>
+		<label>Price Details:</label>
+		<div style="display: inline;">
+		    <?php echo $InstancePrice->getDisplayDetails();?>
+		</div>
+		<br />
+		<label>Options:</label>
+		<div style="display: inline;">
+		    <?php echo $Instance->getOptionsDisplay();?>
+		</div>
+		<?php
+	    }
+	    ?>
+	</div>
+	<hr />
+    </div>
+</div>
+<div class="padded_frame" style="width: 415px;float: right;padding-top: 0px;">
+    <h3><a href="#">Documents</a></h3>
+    <div>Put Documents here</div>
+    <hr />
+</div>
+<div style="clear: both;"><input type="hidden" id="item_id" value="<?php echo $Item->getId();?>" /></div>
+<script type="text/javascript">
+    Item = new Item();
+    Item.ManageProductsOnclickBind($("#products_manage"));
+</script>

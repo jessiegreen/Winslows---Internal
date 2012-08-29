@@ -2,15 +2,13 @@ function Quote() {
     
 }
 
-Quote.prototype.EditItemOnClickBind = function(element)
+Quote.prototype.ViewItemOnClickBind = function(element)
 {
     element.click(function()
     {
 	item_id = element.attr("item_id");
 	
-	$.colorbox({
-	    href:"/company/lead-quote/productadd2/item_id/"+item_id
-	});
+	location = "/company/lead-quote-item/view/id/"+item_id
     })
 }
 
@@ -36,6 +34,6 @@ Quote.prototype.SellOnClickBind = function(element)
 {
     element.click(function(e)
     {
-	location = "/company/lead-quote/payment-type/id/" + $("#quote_id").val();
+	location = "/company/lead-quote/sales-type/id/" + $("#quote_id").val();
     })
 }

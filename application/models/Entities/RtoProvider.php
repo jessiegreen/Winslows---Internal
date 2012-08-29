@@ -41,8 +41,44 @@ class RtoProvider extends \Dataservice_Doctrine_Entity
      */
     private $description;
     
+    /**
+     * @ManytoMany(targetEntity="\Entities\Company\Supplier\Product\ProductAbstract", mappedBy="RtoProviders", cascade={"ALL"})
+     * @var array $Products
+     */
+    private $Products;
+    
     public function __construct()
     {
+	$this->Products = new ArrayCollection();
+    }
+    
+    /**
+     * @return ArrayCollection
+     */
+    public function getProducts()
+    {
+	return $this->Products;
+    }
+    
+    /**
+     * @param \Entities\Company\Supplier\Product\ProductAbstract $Product
+     */
+    public function addProduct(Company\Supplier\Product\ProductAbstract $Product)
+    {
+	if(!$this->getProducts()->contains($Product))
+	{
+	    $Product->addRtoProvider($this);
+	    $this->Products[] = $Product;
+	}
+    }
+    
+    public function removeProduct(Company\Supplier\Product\ProductAbstract $Product)
+    {
+	if($this->getProducts()->contains($Product))
+	{
+	    $Product->removeRtoProvider($this);
+	    $this->getProducts()->removeElement ($Product);
+	}
     }
 
     /**

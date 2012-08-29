@@ -1,8 +1,8 @@
 <?php
-namespace Forms\Company\Lead\Quote;
+namespace Forms\RtoProvider;
 /**
  * Name:
- * Quote:
+ * Company:
  *
  * Description for class (if any)...
  *
@@ -10,24 +10,26 @@ namespace Forms\Company\Lead\Quote;
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Item extends \Dataservice_Form
-{    
-    private $_Item;
+class ManageProducts extends \Dataservice_Form
+{
+    private $_RtoProvider;
     
-    public function __construct(\Entities\Company\Lead\Quote\Item $Item, $options = null)
+    public function __construct(\Entities\RtoProvider $RtoProvider, $options = null)
     {
-	$this->_Item = $Item;
+	$this->_RtoProvider = $RtoProvider;
 	parent::__construct($options);
     }
     
     public function init($options = array())
     {	
-        $form = new Item\Subform($this->_Item, $options);
-	$this->addSubForm($form, "company_lead_quote_item");
+        $form = new ManageProducts\Subform($this->_RtoProvider, $options);
+	
+	$this->addSubForm($form, "rto_provider_manageproducts");
 	
 	$this->addElement('submit', 'submit', array(
             'ignore'   => true,
-	    'style'	=> "clear:both"
         ));
     }
 }
+
+?>

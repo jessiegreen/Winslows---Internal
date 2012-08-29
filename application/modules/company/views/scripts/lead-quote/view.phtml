@@ -67,9 +67,9 @@ $Items	= $quote->getItems();
 			    "Delete Item"
 			    );
 		    echo HTML::buttonIcon(
-			    "pencil.png", 
+			    "magnifier.png", 
 			    "view_item_".$Item->getId(), 
-			    "Edit Item", "quote_item_edit", 
+			    "View Item", "quote_item_view", 
 			    "float:right;margin-right:5px;vertical-align:bottom;",
 			    'item_id="'.$Item->getId().'"'
 			    );
@@ -113,7 +113,7 @@ $Items	= $quote->getItems();
 <script type="text/javascript">
     $("#quoteproduct_add").colorbox({href:"/company/lead-quote/productadd1/id/<?php echo $quote_id;?>"});
     Quote = new Quote();
-    Quote.EditItemOnClickBind($(".quote_item_edit"));
+    Quote.ViewItemOnClickBind($(".quote_item_view"));
     Quote.ExpandItemOnClickBind($(".expand_item"));
     Quote.PrintOnClickBind($("#quote_print"));
     Quote.SellOnClickBind($("#quote_sell"));

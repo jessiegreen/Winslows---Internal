@@ -22,6 +22,12 @@ class Item extends \Dataservice_Doctrine_Entity
      */
     private $quantity;
     
+    /** 
+     * @Column(type="string")
+     * @var string $sale_type
+     */
+    private $sale_type;
+    
     /**
      * @ManyToOne(targetEntity="\Entities\Company\Lead\Quote", inversedBy="Items")
      * @var \Entities\Company\Lead\Quote $Quote
@@ -88,6 +94,35 @@ class Item extends \Dataservice_Doctrine_Entity
     public function getQuantity()
     {
 	return $this->quantity;
+    }
+    
+    /**
+     * @param string $sale_type
+     */
+    public function setSaleType($sale_type)
+    {
+	$this->sale_type = $sale_type;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getSaleType()
+    {
+	return $this->sale_type;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getSaleTypeDisplay()
+    {
+	$options = \Services\Company\Lead\Quote\Item::factory()->getSaleTypeOptions($this);
+	
+	if(key_exists($this->sale_type, $options))
+	    return $options[$this->sale_type];
+	
+	return "";
     }
     
     /**
