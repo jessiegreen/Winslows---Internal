@@ -27,7 +27,7 @@ class Company_LeadQuoteItemController extends Dataservice_Controller_Action
 	
 	$form = new Forms\Company\Lead\Quote\Item($Item, array("method" => "post"));
 	
-	if(!$Item->getInstance())$form->product_id->setAttr("required", true);
+	if(!$Item->getInstance())$form->getSubform("company_lead_quote_item")->getElement("product_id")->setAttrib("required", true);
 	
 	$form->addCancelButton($this->_History->getPreviousUrl(1));
 		    /* @var $Instance \Entities\Company\Supplier\Product\Instance\InstanceAbstract */
@@ -45,7 +45,7 @@ class Company_LeadQuoteItemController extends Dataservice_Controller_Action
 		}
 		elseif($item_data["product_id"] > 0)
 		{
-		    $Product = $this->_em->find("Entities\Company\Supplier\Product\ProductAbstract", $item_data["instance_id"]);
+		    $Product = $this->_em->find("Entities\Company\Supplier\Product\ProductAbstract", $item_data["product_id"]);
 		    
 		    if($Product->getId())
 		    {
@@ -54,6 +54,8 @@ class Company_LeadQuoteItemController extends Dataservice_Controller_Action
 			$Instance   = new $class($Product);
 		    }
 		}
+		
+		$Instance->setNote("Added To Quote #".$Item->getQuote()->getId());
 		
 		if($Instance)$Item->setInstance($Instance);
 		
@@ -82,7 +84,11 @@ class Company_LeadQuoteItemController extends Dataservice_Controller_Action
     {
 	$id = $this->_request->getParam("id", 0);
 	
-	return $this->_em->find("Entities\Company\Lead\Quote\Item", $id);
+	$Item = $this->_em->find("Entities\Company\Lead\Quote\Item", $id);
+	
+	if(!$Item)$Item = new Entities\Company\Lead\Quote\Item;
+	
+	return $Item;
     }
     
     private function _CheckRequiredItemExists(Entities\Company\Lead\Quote\Item $Item)
@@ -100,7 +106,7 @@ class Company_LeadQuoteItemController extends Dataservice_Controller_Action
     private function _getQuote()
     {
 	$id = $this->_request->getParam("quote_id", 0);
-	return $this->_em->find("Entities\Company\Quote", $id);
+	return $this->_em->find("Entities\Company\Lead\Quote", $id);
     }
     
     private function _CheckRequiredLeadExists(\Entities\Company\Quote $Quote)

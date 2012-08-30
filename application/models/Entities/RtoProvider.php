@@ -36,6 +36,12 @@ class RtoProvider extends \Dataservice_Doctrine_Entity
     private $name_index;
     
     /** 
+     * @Column(type="integer", length=3) 
+     * @var int $minimum_points
+     */
+    private $minimum_points;
+    
+    /** 
      * @Column(type="string", length=50000)
      * @var string $description
      */
@@ -47,9 +53,18 @@ class RtoProvider extends \Dataservice_Doctrine_Entity
      */
     private $Products;
     
+    /**
+     * Bidirectional - One-To-Many (INVERSE SIDE)
+     *
+     * @OneToMany(targetEntity="\Entities\RtoProvider\Application", mappedBy="RtoProvider", cascade={"persist"})
+     * @var ArrayCollection $Applications
+     */
+    private $Applications;
+    
     public function __construct()
     {
-	$this->Products = new ArrayCollection();
+	$this->Products	    = new ArrayCollection();
+	$this->Applications = new ArrayCollection();
     }
     
     /**
@@ -79,6 +94,79 @@ class RtoProvider extends \Dataservice_Doctrine_Entity
 	    $Product->removeRtoProvider($this);
 	    $this->getProducts()->removeElement ($Product);
 	}
+    }
+    
+    /**
+     * @return ArrayCollection
+     */
+    public function getApplications()
+    {
+	return $this->Applications;
+    }
+    
+    /**
+     * @param \Entities\RtoProvider\Application $Application
+     */
+    public function addApplication(RtoProvider\Application $Application)
+    {
+	$Application->setRtoProvider($this);
+	$this->Applications[] = $Application;
+    }
+    
+    /**
+     * @param \Entities\RtoProvider\Application $Application
+     */
+    public function removeApplication(RtoProvider\Application $Application)
+    {
+	$this->getApplications()->removeElement($Application);
+    }
+    
+    /**
+     * @param \Entities\Company\Lead $Lead
+     * @param \Entities\RtoProvider\Application $Application
+     * @return boolean
+     */
+    public function hasLeadApplication(Company\Lead $Lead)
+    {
+	if($this->getApplications()->exists(
+	    /* @var $Application \Entities\RtoProvider\Application */
+	    function($key, $Application) use ($Lead) 
+	    {
+		if(
+		    $Application->getLead()->getId() === $Lead->getId()
+		)
+		    return true;
+		else return false;
+	    }
+	))return true;
+	else return false;
+    }
+    
+    /**
+     * @param \Entities\Company\Lead $Lead
+     * @param \Entities\RtoProvider\Application $Application
+     * @return boolean
+     */
+    public function isApproved(Company\Lead $Lead)
+    {
+	$LeadApplications = $this->getApplications()->filter(
+				/* @var $Application \Entities\RtoProvider\Application */
+				function($key, $Application) use ($Lead) 
+				{
+				    if(
+					$Application->getLead()->getId() === $Lead->getId()
+				    )
+					return true;
+				    else return false;
+				}
+			    );
+			    
+	if($LeadApplications->count() > 0)
+	{
+	    return $LeadApplications->first()->isApproved();
+	}
+	
+	return false;
     }
 
     /**
@@ -135,6 +223,22 @@ class RtoProvider extends \Dataservice_Doctrine_Entity
     public function setNameIndex($name_index)
     {
         $this->name_index = $name_index;
+    }
+    
+    /**
+     * @return int
+     */
+    public function getMinimumPoints()
+    {
+        return $this->minimum_points;
+    }
+
+    /**
+     * @param int $minimum_points
+     */
+    public function setMinimumPoints($minimum_points)
+    {
+        $this->minimum_points = $minimum_points;
     }
     
     /**

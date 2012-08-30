@@ -35,14 +35,18 @@ $Items	= $quote->getItems();
 	Date:<?php echo $quote->getCreated()->format("F j, Y, g:i a"); ?> &nbsp;&nbsp;&nbsp; 
 	Lead:<?php echo $quote->getLead()->getFullName(); ?> &nbsp;&nbsp;&nbsp; 
 	Sales Person:<?php echo $quote->getEmployee()->getFullName(); ?> &nbsp;&nbsp;&nbsp; 
-	Total:$<?php echo number_format($quote->getTotal(), 2); ?> &nbsp;&nbsp;&nbsp;
+	Total:$<?php echo number_format($quote->getTotalSafe(), 2); ?> &nbsp;&nbsp;&nbsp;
     </div>
 </div>
 <div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">
     <div id="accordion">
 	<h3>
 	    <a href="#">Items</a>
-	    <?php echo HTML::buttonBlue("package_add.png", "Add Item", "quoteproduct_add", "float:right;width:110px;");?>
+	    <?php echo HTML::buttonBlue(
+		    "package_add.png", 
+		    "Add Item", "quote_item_add", 
+		    "float:right;width:110px;");
+	    ?>
 	</h3>
 	<div>
 	    <?php
@@ -53,41 +57,31 @@ $Items	= $quote->getItems();
 		/* @var $Instance \Entities\Company\Supplier\Product\Instance */
 		$Instance	    = $Item->getInstance();
 		/* @var $InstancePrice Dataservice_Price */
-		$InstancePrice	    = $Instance->getPrice();
+		$InstancePrice	    = $Instance->getPriceSafe();
 		$instance_quantity  = $Item->getQuantity();
 		?>
 		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
 		    <?php 
 		    echo $Instance->getProduct()->getName();
+		    echo HTML::buttonIcon(
+			    "eye.png", 
+			    "view_item_".$Item->getId(), 
+			    "View Item", "quote_item_view", 
+			    "margin-left:5px;vertical-align:bottom;",
+			    'item_id="'.$Item->getId().'"'
+			    );
 		    echo HTML::anchorIcon(
 			    "delete.png", 
 			    "", 
 			    "/company/lead-quote/itemremove/id/".$quote->getId()."/item_id/".$Item->getId(),
-			    "float:right;margin-right:5px;vertical-align:bottom;",
+			    "margin-left:5px;vertical-align:bottom;",
 			    "Delete Item"
-			    );
-		    echo HTML::buttonIcon(
-			    "magnifier.png", 
-			    "view_item_".$Item->getId(), 
-			    "View Item", "quote_item_view", 
-			    "float:right;margin-right:5px;vertical-align:bottom;",
-			    'item_id="'.$Item->getId().'"'
-			    );
-		    echo HTML::buttonIcon(
-			    "bullet_arrow_down.png", 
-			    "expand_item_".$Item->getId(), 
-			    "Show Details", "expand_item", 
-			    "float:right;margin-right:5px;vertical-align:bottom;",
-			    'item_id="'.$Item->getId().'"'
 			    );
 		    ?>
 		</h4>
-		<div style="display: none;border: solid 1px #E5E5E5;" id="item_details_<?php echo $Item->getId();?>">
-		    <b>Options</b><br />
-		    <?php echo $Instance->getOptionsDisplay();?>
-		    <b>Price Details</b><br />
-		    <?php echo $InstancePrice->getDisplayDetails();?>
-		</div>
+		<label>Sale Type:</label>
+		<div style="display: inline;"><?php echo $Item->getSaleTypeDisplay(); ?></div>
+		<br />
 		<label>Quantity:</label>
 		<div style="display: inline;"><?php echo $instance_quantity; ?></div>
 		<br />
@@ -111,10 +105,9 @@ $Items	= $quote->getItems();
 </div>
 <div style="clear: both;"><input type="hidden" id="quote_id" value="<?php echo $quote_id;?>" /></div>
 <script type="text/javascript">
-    $("#quoteproduct_add").colorbox({href:"/company/lead-quote/productadd1/id/<?php echo $quote_id;?>"});
     Quote = new Quote();
+    Quote.AddItemOnClickBind($("#quote_item_add"));
     Quote.ViewItemOnClickBind($(".quote_item_view"));
-    Quote.ExpandItemOnClickBind($(".expand_item"));
     Quote.PrintOnClickBind($("#quote_print"));
     Quote.SellOnClickBind($("#quote_sell"));
 </script>

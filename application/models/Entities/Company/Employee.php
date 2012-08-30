@@ -9,13 +9,13 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-namespace Entities\Company\Location;
+namespace Entities\Company;
 use Doctrine\Common\Collections\ArrayCollection;
 use Entities\Person\PersonAbstract as PersonAbstract;
 
 /** 
- * @Entity (repositoryClass="Repositories\Company\Location\Employee") 
- * @Table(name="company_location_employees") 
+ * @Entity (repositoryClass="Repositories\Company\Employee") 
+ * @Table(name="company_employees") 
  */
 class Employee extends PersonAbstract
 {
@@ -27,26 +27,9 @@ class Employee extends PersonAbstract
     
     /**
      * @ManyToOne(targetEntity="\Entities\Company\Location", inversedBy="Employees")
-     * @JoinColumn(name="location_id", referencedColumnName="id")
      * @var \Entities\Company\Location $Location
      */
     private $Location;
-    
-    /**
-     * Bidirectional - One-To-Many (INVERSE SIDE)
-     *
-     * @OneToMany(targetEntity="\Entities\Company\Lead\Quote", mappedBy="Employee", cascade={"persist"})
-     * @var array $Quotes
-     */
-    private $Quotes;
-    
-    /**
-     * Bidirectional - One-To-Many (INVERSE SIDE)
-     *
-     * @OneToMany(targetEntity="\Entities\Company\Customer\Order", mappedBy="Employee", cascade={"persist"})
-     * @var array $Orders
-     */
-    private $Orders;
     
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
@@ -56,11 +39,23 @@ class Employee extends PersonAbstract
      */
     private $Leads;
     
+    /**
+     * @ManytoMany(targetEntity="\Entities\Company\Employee\Role", cascade={"persist"})
+     * @JoinTable(name="company_employee_role_joins")
+     * @var array $Roles
+     */
+    private $Roles;
+    
+    /** 
+     * @OneToOne(targetEntity="\Entities\Company\Employee\Account", inversedBy="Employee")
+     * @var \Entities\Company\Employee\Account
+     */     
+    private $Account;
+    
     public function __construct()
     {
-	$this->Quotes	= new ArrayCollection();
-	$this->Orders	= new ArrayCollection();
 	$this->Leads	= new ArrayCollection();
+	$this->Roles	= new ArrayCollection();
 	parent::__construct();
     }
     
@@ -72,39 +67,43 @@ class Employee extends PersonAbstract
 	return $this->Leads;
     }
     
+    
     /**
-     * @param \Entities\Company\Lead\Quote $Quote
+     * @param \Entities\Company\Employee\Role $Role
      */
-    public function AddQuote(\Entities\Company\Lead\Quote $Quote)
+    public function addRole(Employee\Role $Role)
     {
-	$Quote->setEmployee($this);
-	$this->Quotes[] = $Quote;
+	$Role->addEmployee($this);
+        $this->Roles[] = $Role;
     }
     
     /**
-     * @return array
+     * @param \Entities\Company\Employee\Role $Role
+     * @return boolean
      */
-    public function getQuotes()
+    public function removeRole(Employee\Role $Role)
     {
-	return $this->Quotes;
+	$this->getRoles()->removeElement($Role);
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getRoles(){
+	return $this->Roles;
     }
     
     /**
-     * @return array
+     * @param \Entities\Company\Employee\Role $Role
+     * @return boolean
      */
-    public function getOrders()
+    public function hasRole($Role)
     {
-	return $this->Orders;
+	if($this->getLeads()->contains($Role))
+	    return true;
+	
+	return false;
     }
-    
-    /**
-     * @param \Entities\Company\Customer\Order $Order
-     */
-    public function AddOrder(\Entities\Company\Customer\Order $Order)
-    {
-	$Order->setEmployee($this);
-	$this->Orders[] = $Order;
-    }  
     
     /** 
      * @return \Entities\Company\Location
@@ -120,6 +119,22 @@ class Employee extends PersonAbstract
     public function setLocation(\Entities\Company\Location $Location)
     {
 	$this->Location = $Location;
+    }
+    
+    /** 
+     * @return \Entities\Company\Employee\Account
+     */
+    public function getAccount()
+    {
+	return $this->Account;
+    }
+    
+    /**
+     * @param \Entities\Company\Employee\Account $Account
+     */
+    public function setAccount(\Entities\Company\Employee\Account $Account)
+    {
+	$this->Account = $Account;
     }
     
     /**

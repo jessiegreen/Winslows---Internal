@@ -1,11 +1,10 @@
 <?php
-
 namespace Entities\Company\Website\Account;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /** 
- * @Entity (repositoryClass="Repositories\Company\Website\Account\Role") 
- * @Table(name="company_website_account_roles") 
+ * @Entity (repositoryClass="Repositories\Company\Employee\Role") 
+ * @Table(name="company_employee_roles") 
  * @HasLifecycleCallbacks
  */
 class Role extends \Dataservice_Doctrine_Entity
@@ -30,32 +29,29 @@ class Role extends \Dataservice_Doctrine_Entity
     private $description;
     
     /**
-     * @OneToMany(targetEntity="\Entities\Company\Website\Account\Role\Privilege", mappedBy="Role", cascade={"persist"}, orphanRemoval=true)
+     * @OneToMany(targetEntity="\Entities\Company\Employee\Role\Privilege", mappedBy="Role", cascade={"persist"}, orphanRemoval=true)
      * @var array Privileges
      */
     private $Privileges;
     
     /**
      * @ManytoMany(targetEntity="\Entities\Company\Website\Resource", inversedBy="Roles", cascade={"persist"})
-     * @JoinTable(name="company_website_account_role_resource_joins",
-     *      joinColumns={@JoinColumn(name="role_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@JoinColumn(name="resource_id", referencedColumnName="id")}
-     *      )
+     * @JoinTable(name="company_employee_role_resource_joins")
      * @var array $Resources
      */
     private $Resources;
     
     /**
-     * @ManytoMany(targetEntity="\Entities\Company\Website\Account", mappedBy="Roles", cascade={"persist"})
-     * @var array $Accounts
+     * @ManytoMany(targetEntity="\Entities\Company\Employee", mappedBy="Roles", cascade={"persist"})
+     * @var array $Employees
      */
-    private $Accounts;
+    private $Employees;
     
     public function __construct()
     {
 	$this->Privileges   = new ArrayCollection();
 	$this->Resources    = new ArrayCollection();
-	$this->Accounts	    = new ArrayCollection();
+	$this->Employees    = new ArrayCollection();
     }
     
     /**
@@ -68,29 +64,28 @@ class Role extends \Dataservice_Doctrine_Entity
     }
     
     /**
-     * @param \Entities\Company\Website\Account $Account
+     * @param \Entities\Company\Employee $Employee
      */
-    public function addAccount(\Entities\Company\Website\Account $Account)
+    public function addEmployee(\Entities\Company\Employee $Employee)
     {
-        $this->Accounts[] = $Account;
+        $this->Employees[] = $Employee;
     }
     
     /**
-     * @param \Entities\Company\Website\Account $Account
-     * @return bool
+     * @return ArrayCollection
      */
-    public function removeAccount(\Entities\Company\Website\Account $Account)
+    public function getEmployees()
     {
-	foreach ($this->Accounts as $key => $Account2) 
-	{
-	    if($Account->getId() == $Account2->getId())
-	    {
-		$this->Accounts[$key];
-		unset($this->Accounts[$key]);
-		return true;
-	    }
-	}
-	return false;
+	return $this->Employees;
+    }
+    
+    /**
+     * @param \Entities\Company\Employee $Employee
+     */
+    public function removeEmployee(\Entities\Company\Employee $Employee)
+    {
+	$Employee->removeRole($this);
+	$this->Employees->removeElement($Employee);
     }
 
     /**
@@ -110,17 +105,11 @@ class Role extends \Dataservice_Doctrine_Entity
     
     /**
      * @param \Entities\Company\Website\Resource $Resource
-     * @return boolean
      */
-    public function removeResource(\Entities\Company\Website\Resource $Resource){
-	foreach ($this->Resources as $key => $Resource2) {
-	    if($Resource->getId() == $Resource2->getId()){
-		$removed = $this->Resources[$key];
-		unset($this->Resources[$key]);
-		return true;
-	    }
-	}
-	return false;
+    public function removeResource(\Entities\Company\Website\Resource $Resource)
+    {
+	$Resource->removeRole($this);
+	$this->getResources()->removeElement($Resource);
     }
     
     /**

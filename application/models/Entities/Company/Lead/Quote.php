@@ -25,12 +25,6 @@ class Quote extends Quote\QuoteAbstract
      */     
     private $Lead;
     
-    /** 
-     * @ManyToOne(targetEntity="\Entities\Company\Location\Employee", inversedBy="Quotes")
-     * @var \Entities\Company\Location\Employee $Employee 
-     */     
-    private $Employee;
-    
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
@@ -79,22 +73,6 @@ class Quote extends Quote\QuoteAbstract
     }
     
     /**
-     * @param \Entities\Company\Location\Employee $Employee
-     */
-    public function setEmployee(\Entities\Company\Location\Employee $Employee)
-    {
-        $this->Employee = $Employee;
-    }
-    
-    /**
-     * @return \Entities\Company\Location\Employee
-     */
-    public function getEmployee()
-    {
-	return $this->Employee;
-    }
-    
-    /**
      * @return integer
      */
     public function getTotal()
@@ -108,6 +86,20 @@ class Quote extends Quote\QuoteAbstract
 	}
 	
         return $this->total;
+    }
+    
+    public function getTotalSafe()
+    {
+	try
+	{
+	    $total = $this->getTotal();
+	}
+	catch (\Exception $exc)
+	{
+	    $total = 0;
+	}
+	
+	return $total;
     }
     
     public function getTotalItemsQuantity()

@@ -40,6 +40,8 @@ class Item extends \Dataservice_Doctrine_Entity
      */
     private $Instance;
     
+    private $cash_sale_type_index = "cash";
+    
     /**
      * @return integer
      */
@@ -110,6 +112,17 @@ class Item extends \Dataservice_Doctrine_Entity
     public function getSaleType()
     {
 	return $this->sale_type;
+    }
+    
+    /**
+     * @return boolean
+     */
+    public function isRtoSaleType()
+    {
+	if(!$this->getSaleType() || $this->getSaleType() === $this->cash_sale_type_index)
+	    return false;
+	
+	return true;
     }
     
     /**

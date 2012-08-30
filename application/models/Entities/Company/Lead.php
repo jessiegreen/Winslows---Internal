@@ -48,10 +48,26 @@ class Lead extends PersonAbstract
      */
     protected $Quotes;
     
+    /**
+     * Bidirectional - One-To-Many (INVERSE SIDE)
+     *
+     * @OneToMany(targetEntity="\Entities\RtoProvider\Application", mappedBy="Lead", cascade={"persist"})
+     * @var ArrayCollection $Applications
+     */
+    private $Applications;
+    
+    /** 
+     * @OneToOne(targetEntity="\Entities\Company\Lead\Account", inversedBy="Lead")
+     * @var \Entities\Company\Lead\Account
+     */     
+    private $Account;
+    
     public function __construct()
     {
-	$this->Contacts = new ArrayCollection();
-	$this->Quotes	= new ArrayCollection();
+	$this->Contacts	    = new ArrayCollection();
+	$this->Quotes	    = new ArrayCollection();
+	$this->Applications = new ArrayCollection();
+	
 	parent::__construct();
     }
     
@@ -67,7 +83,8 @@ class Lead extends PersonAbstract
     /**
      * @return array
      */
-    public function getContacts(){
+    public function getContacts()
+    {
 	return $this->Contacts;
     }
     
@@ -102,7 +119,31 @@ class Lead extends PersonAbstract
     public function setEmployee(Location\Employee $Employee)
     {
         $this->Employee = $Employee;
-    } 
+    }
+    
+    /**
+     * @return ArrayCollection
+     */
+    public function getApplications()
+    {
+	return $this->Applications;
+    }
+    
+    /** 
+     * @return \Entities\Company\Lead\Account
+     */
+    public function getAccount()
+    {
+	return $this->Account;
+    }
+    
+    /**
+     * @param \Entities\Company\Lead\Account $Account
+     */
+    public function setAccount(\Entities\Company\Lead\Account $Account)
+    {
+	$this->Account = $Account;
+    }
     
     /**
      * @return array

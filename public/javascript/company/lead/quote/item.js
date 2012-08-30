@@ -1,6 +1,21 @@
-/* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+var Item = function(){
+    
+}
+
+Item.prototype.ProductManualOnclickBind = function(element, instance_id)
+{
+    element.click(function()
+    {
+	location = "/company/supplier-product-configurable-instance/manual/id/" + instance_id
+    });
+}
+
+Item.prototype.ProductBuilderOnclickBind = function(element, instance_id)
+{
+    element.click(function()
+    {
+	location = "/builder?type=carport";
+    });
+}
 
 

@@ -69,67 +69,6 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
 	$this->view->Quote	= $Quote;
     }
     
-    public function productaddAction()
-    {
-	
-    }
-    
-    public function productadd1Action()
-    {
-	$this->_helper->layout->setLayout("blank");
-	
-	$quote_id   = $this->_request->getParam("id", null);
-	$form	    = new Forms\Company\Lead\Quote\AddProduct(
-			    array("id" => "quote_addproduct", "name" => "quote_addproduct")
-			);
-	
-	$this->view->form	= $form;
-	$this->view->quote_id	= $quote_id;
-    }
-    
-    public function productadd2Action()
-    {
-	$this->_helper->layout->setLayout("blank");
-	
-	$this->view->error  = false;
-	
-	$quote_id	    = $this->_request->getParam("id", null);
-	$item_id	    = $this->_request->getParam("item_id", null);
-	$product_id	    = $this->_request->getParam("product_id", null);
-	
-	if($product_id && $quote_id)#--New Item
-	{
-	    $Product	= $this->_getProduct();
-	    $Quote	= $this->_getQuote();
-
-	    $this->_CheckRequiredProductExists($Product);
-	    $this->_CheckRequiredQuoteExists($Quote);
-
-	    /* @var $Instance Entities\Company\Supplier\Product\Configurable\Instance */
-	    $Instance	= \Services\Company\Supplier\Product\Instance::factory()->createInstanceFromProduct($Product);
-	    $Item	= new Entities\Company\Lead\Quote\Item();
-
-	    $Instance->setNote(date("Y-m-d H:i:s")." - Created and added to quote");
-	    $Item->setInstance($Instance);
-	    $Item->setQuantity(1);
-	    $Quote->addItem($Item);
-	    $this->_em->persist($Quote);
-	    $this->_em->flush();
-	    $this->_FlashMessenger->addSuccessMessage("Item Added");
-	}
-	elseif($item_id)#--Existing Item
-	{
-	    $Item = $this->_getItem();
-
-	    $this->_CheckRequiredItemExists($Item);
-	    
-	    $Instance = $Item->getInstance();
-	}
-	else throw new Exception("No Ids");
-	
-	$this->view->Instance = $Instance;
-    }
-    
     public function itemremoveAction()
     {
 	$this->_helper->layout->setLayout("blank");
@@ -260,29 +199,17 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
 	echo json_encode($return);
     }
     
-    public function salesTypeAction()
+    public function sellAction()
     {
 	$Quote = $this->_getQuote();
 	
 	$this->_CheckRequiredQuoteExists($Quote);
 	
-	$form = new Forms\Company\Lead\Quote\SalesTypes($Quote);
-	
-	if($this->isPostAndValid($form))
+	/* @var $Item Entities\Company\Lead\Quote\Item */
+	foreach ($Quote->getItems() as $Item)
 	{
-	    $data = $this->_request("company_lead_quote_salestypes");
-	    
-	    foreach ($data as $value) {
-		
-	    }
+	    if($Item->isRtoSaleType() && (!)
 	}
-	
-	$this->view->form = $form;
-    }
-    
-    public function paymentTypeAction()
-    {
-	
     }
     
     /**

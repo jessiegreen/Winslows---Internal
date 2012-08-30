@@ -4,21 +4,19 @@ function Quote() {
 
 Quote.prototype.ViewItemOnClickBind = function(element)
 {
-    element.click(function()
-    {
-	item_id = element.attr("item_id");
-	
-	location = "/company/lead-quote-item/view/id/"+item_id
-    })
-}
-
-Quote.prototype.ExpandItemOnClickBind = function(element)
-{
     element.click(function(e)
     {
 	button = $(e.target);
 	
-	$("#item_details_"+button.attr("item_id")).slideToggle();
+	location = "/company/lead-quote-item/view/id/"+button.attr("item_id");
+    })
+}
+
+Quote.prototype.AddItemOnClickBind = function(element)
+{
+    element.click(function()
+    {	
+	location = "/company/lead-quote-item/edit/id/0/quote_id/"+$("#quote_id").val();
     })
 }
 

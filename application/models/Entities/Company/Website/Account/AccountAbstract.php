@@ -1,14 +1,13 @@
 <?php
 
-namespace Entities\Company\Website;
-use Doctrine\Common\Collections\ArrayCollection;
+namespace Entities\Company\Website\Account;
 
 /** 
- * @Entity (repositoryClass="Repositories\Company\Website\Account") 
- * @Table(name="company_website_accounts") 
+ * @Entity (repositoryClass="Repositories\Company\Website\Account\AccountAbstracts") 
+ * @Table(name="company_website_account_accountabstracts") 
  * @HasLifecycleCallbacks
  */
-class Account extends \Dataservice_Doctrine_Entity
+class AccountAbstract extends \Dataservice_Doctrine_Entity
 {
     /**
      * @Id @Column(type="integer")
@@ -46,23 +45,6 @@ class Account extends \Dataservice_Doctrine_Entity
      * @var \DateTime $updated
      */
     private $updated;
-
-    /**
-     * @OneToOne(targetEntity="\Entities\Person\PersonAbstract", inversedBy="Account", cascade={"persist"})
-     * @JoinColumn(name="person_id", referencedColumnName="id")
-     * @var \Entities\Person\PersonAbstract $Person
-     */
-    private $Person;
-    
-    /**
-     * @ManytoMany(targetEntity="\Entities\Company\Website\Account\Role", cascade={"persist", "remove"})
-     * @JoinTable(name="company_website_account_role_joins",
-     *      joinColumns={@JoinColumn(name="webaccount_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@JoinColumn(name="role_id", referencedColumnName="id")}
-     *      )
-     * @var array $Roles
-     */
-    private $Roles;
     
     /**
      * @ManyToOne(targetEntity="\Entities\Company\Website", inversedBy="Accounts")
@@ -73,7 +55,6 @@ class Account extends \Dataservice_Doctrine_Entity
     public function __construct()
     {
 	$this->created	= $this->updated = new \DateTime("now");
-	$this->Roles	= new ArrayCollection();
     }
     
     /**
@@ -90,60 +71,6 @@ class Account extends \Dataservice_Doctrine_Entity
     public function getWebsite()
     {
 	return $this->Website;
-    }
-    
-    /**
-     * @param \Entities\Company\Website\Account\Role $Role
-     */
-    public function addRole(Account\Role $Role)
-    {
-	$Role->addAccount($this);
-        $this->Roles[] = $Role;
-    }
-    
-    /**
-     * @param \Entities\Company\Website\Account\Role $Role
-     * @return boolean
-     */
-    public function removeRole(Account\Role $Role)
-    {
-	$this->getRoles()->removeElement($Role);
-    }
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getRoles(){
-	return $this->Roles;
-    }
-    
-    /**
-     * @param string $role_name
-     * @return boolean
-     */
-    public function hasRole($role_name){
-	/* @var $Role Role */
-	foreach ($this->getRoles() as $Role) {
-	    if($Role->getName() == $role_name)return true;
-	}
-	return false;
-    }
-    
-    /**
-     * Retrieve address's associated people.
-     * 
-     * @return \Entities\Person\PersonAbstract
-     */
-    public function getPerson()
-    {
-	return $this->Person;
-    }
-    
-    /**
-     * @param \Entities\Person\PersonAbstract $Person
-     */
-    public function setPerson(\Entities\Person\PersonAbstract $Person) {
-	$this->Person = $Person;
     }
 
     /**

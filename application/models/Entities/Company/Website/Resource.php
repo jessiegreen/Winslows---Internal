@@ -101,35 +101,29 @@ class Resource extends \Dataservice_Doctrine_Entity
     }
     
     /**
-     * @return array
+     * @return ArrayCollection
      */
     public function getRoles(){
 	return $this->Roles;
     }
     
     /**
-     * @param \Entities\Company\Website\Account\Role $Role
+     * @param \Entities\Company\Employee\Role $Role
      */
-    public function addRole(Account\Role $Role){
+    public function addRole(Account\Role $Role)
+    {
 	$Role->addResource($this);
 	$this->Roles[] = $Role;
     }
     
     /**
-     * @param \Entities\Company\Website\Account\Role $Role
+     * @param \Entities\Company\Employee\Role $Role
      * @return boolean
      */
     public function removeRole(Account\Role $Role)
     {
-	foreach ($this->Roles as $key => $Role2) {
-	    if($Role->getId() == $Role2->getId()){
-		$Role->removeResource($this);
-		$removed = $this->Roles[$key];
-		unset($this->Roles[$key]);
-		return $removed;
-	    }
-	}
-	return false;
+	$Role->removeResource($this);
+	$this->getRoles()->removeElement($Role);
     }
 
     /**

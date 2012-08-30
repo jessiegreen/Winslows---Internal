@@ -163,6 +163,20 @@ class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstr
 	return $this->Pricer->price();
     }
     
+    public function getPriceSafe()
+    {
+	try
+	{
+	    $Price = $this->getPrice();
+	}
+	catch (\Exception $exc)
+	{
+	    $Price = new \Dataservice_Price();
+	}
+	
+	return $Price;
+    }
+    
     public function populate(array $array)
     {
 	foreach ($array as $key => $value) 
