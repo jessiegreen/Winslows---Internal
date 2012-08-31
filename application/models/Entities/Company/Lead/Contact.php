@@ -52,31 +52,6 @@ class Contact extends \Dataservice_Doctrine_Entity
      */     
     private $Employee;
 
-    /** 
-     * @Column(type="datetime") 
-     * @var \DateTime
-     */
-    private $created;
-
-    /** 
-     * @Column(type="datetime") 
-     * @var \DateTime
-     */
-    private $updated;
-
-    public function __construct()
-    {
-	$this->created	= $this->updated = new \DateTime("now");
-    }
-           
-    /**
-     * @PreUpdate
-     */
-    public function updated()
-    {
-        $this->updated = new \DateTime("now");
-    }
-
     /**
      * @param \Entities\Company\Lead $Lead
      */
@@ -221,30 +196,6 @@ class Contact extends \Dataservice_Doctrine_Entity
     }
     
     /**
-     * @return \DateTime
-     */
-    public function getCreated()
-    {
-        return $this->created;
-    }
-
-    /**
-     * @param \DateTime $created
-     */
-    public function setCreated(\DateTime $created)
-    {
-        $this->created = $created;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getUpdated()
-    {
-        return $this->updated;
-    }
-    
-    /**
      * @return array
      */
     public function getTypeOptions()
@@ -266,16 +217,5 @@ class Contact extends \Dataservice_Doctrine_Entity
 	    "information"   => "Information",
 	    "sale"	    => "Sale"
 	);
-    }
-    
-    public function populate(array $array)
-    {
-	foreach ($array as $key => $value)
-	{
-	    if(property_exists($this, $key))
-	    {
-		$this->$key = $value;
-	    }
-	}
     }
 }

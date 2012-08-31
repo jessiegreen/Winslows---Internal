@@ -97,15 +97,4 @@ class Application extends \Dataservice_Doctrine_Entity
     {
 	return (int) $this->getPoints() > (int) $this->getRtoProvider()->getMinimumPoints() ? true : false;
     }
-    
-    public function populate(array $array)
-    {
-	foreach ($array as $key => $value) 
-	{
-	    if(property_exists($this, $key))
-	    {
-		$this->$key = $value;
-	    }
-	}
-    }
 }

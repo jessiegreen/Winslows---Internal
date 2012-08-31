@@ -63,13 +63,15 @@ class Parameter extends \Dataservice_Doctrine_Entity
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value", mappedBy="Parameter", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @var \Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value $Values
+     * @var ArrayCollection $Values
      */
     private $Values;
     
     public function __construct()
     {
 	$this->Values = new ArrayCollection();
+	
+	parent::__construct();
     }
     
     /**
@@ -199,27 +201,5 @@ class Parameter extends \Dataservice_Doctrine_Entity
     public function isRequiredString()
     {
 	return $this->required ? "yes" : "no";
-    }
-    
-    public function populate(array $array)
-    {
-	foreach ($array as $key => $value) 
-	{
-	    if(property_exists($this, $key))
-	    {
-		$this->$key = $value;
-	    }
-	}
-    }
-    
-    /**
-     * @return array
-     */
-    public function toArray()
-    {
-	$array			= array();
-	$array['name']		= $this->getName();
-	$array['description']	= $this->getDescription();
-	return $array;
     }
 }

@@ -7,7 +7,7 @@ class Role extends \Entities\Role\RoleAbstract
 {
     /**
      * @ManytoMany(targetEntity="\Entities\Company\Employee", mappedBy="Roles", cascade={"persist"})
-     * @var array $Employees
+     * @var ArrayCollection $Employees
      */
     private $Employees;
     

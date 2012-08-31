@@ -11,7 +11,7 @@ class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstr
 {    
     /**
      * @OnetoMany(targetEntity="\Entities\Company\Supplier\Product\Configurable\Instance\Option", cascade={"persist", "remove"}, mappedBy="Instance", orphanRemoval=true)
-     * @var array $Options
+     * @var ArrayCollection $Options
      */
     private $Options;
     
@@ -175,17 +175,6 @@ class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstr
 	}
 	
 	return $Price;
-    }
-    
-    public function populate(array $array)
-    {
-	foreach ($array as $key => $value) 
-	{
-	    if(property_exists($this, $key))
-	    {
-		$this->$key = $value;
-	    }
-	}
     }
     
     /**

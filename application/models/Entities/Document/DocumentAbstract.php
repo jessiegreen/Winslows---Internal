@@ -48,18 +48,6 @@ class DocumentAbstract  extends \Dataservice_Doctrine_Entity implements \Interfa
      * @var string $original_file_name
      */
     protected $original_file_name;
-
-    /** 
-     * @Column(type="datetime") 
-     * @var \DateTime $created
-     */
-    protected $created;
-
-    /** 
-     * @Column(type="datetime") 
-     * @var \DateTime $created
-     */
-    protected $updated;
     
     /**
      * @var array $typeoptions
@@ -73,19 +61,6 @@ class DocumentAbstract  extends \Dataservice_Doctrine_Entity implements \Interfa
      * @var \Entities\Company\Location\Employee $Employee
      */
     private $Employee;
-
-    public function __construct()
-    {
-	$this->created = $this->updated = new \DateTime("now");
-    }
-
-    /**
-     * @PreUpdate
-     */
-    public function updated()
-    {
-        $this->updated = new \DateTime("now");
-    }
     
     /**
      * @param \Entities\Company\Location\Employee $Employee
@@ -165,11 +140,15 @@ class DocumentAbstract  extends \Dataservice_Doctrine_Entity implements \Interfa
     /**
      * @return string
      */
-    public function getTypeDisplay(){
+    public function getTypeDisplay()
+    {
 	if(!$this->type)return "";
+	
 	$array = $this->getTypeOptions();
+	
 	if(!key_exists($this->type, $array))
 	    throw new Exception("Could not get Result Display. Key '".$this->type."' does not exist");
+	
 	return $array[$this->type];
     }
     
@@ -206,45 +185,10 @@ class DocumentAbstract  extends \Dataservice_Doctrine_Entity implements \Interfa
     }
     
     /**
-     * @return \DateTime
-     */
-    public function getCreated()
-    {
-        return $this->created;
-    }
-
-    /**
-     * @param \DateTime $created
-     */
-    public function setCreated(\DateTime $created)
-    {
-        $this->created = $created;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getUpdated()
-    {
-        return $this->updated;
-    }
-    
-    /**
      * @return array
      */
     public function getTypeOptions()
     {
 	return $this->typeoptions;
-    }
-
-    public function populate(array $array)
-    {
-	foreach ($array as $key => $value)
-	{
-	    if(property_exists($this, $key))
-	    {
-		$this->$key = $value;
-	    }
-	}
     }
 }

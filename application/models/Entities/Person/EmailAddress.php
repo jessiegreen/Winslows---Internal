@@ -1,14 +1,4 @@
 <?php
-/**
- * Name:
- * Location:
- *
- * Description for class (if any)...
- *
- * @author     Jessie Green <jessie.winslows@gmail.com>
- * @copyright  2012 Winslows inc.
- * @version    Release: @package_version@
- */
 namespace Entities\Person;
 /** 
  * @Entity (repositoryClass="Repositories\Person\EmailAddress") 
@@ -37,13 +27,5 @@ class EmailAddress extends \Entities\EmailAddress\EmailAddressAbstract
     public function getPerson()
     {
 	return $this->Person;
-    }
-    
-    public function populate(array $array){
-	foreach ($array as $key => $value) {
-	    if(property_exists($this, $key)){
-		$this->$key = $value;
-	    }
-	}
     }
 }

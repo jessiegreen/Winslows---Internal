@@ -7,7 +7,7 @@ namespace Entities\PhoneNumber;
  * @Table(name="phonenumber_phonenumberabstracts") 
  * @InheritanceType("JOINED")
  * @DiscriminatorColumn(name="discr", type="string")
- * @DiscriminatorMap({"person_phonenumber" = "\Entities\Person\PhoneNumber", "location_phonenumber" = "\Entities\Company\Location\PhoneNumber"})
+ * @DiscriminatorMap({"person_phonenumber" = "\Entities\Person\PhoneNumber", "company_location_phonenumber" = "\Entities\Company\Location\PhoneNumber"})
  * @HasLifecycleCallbacks
  */
 class PhoneNumberAbstract extends \Dataservice_Doctrine_Entity
@@ -49,23 +49,6 @@ class PhoneNumberAbstract extends \Dataservice_Doctrine_Entity
      */
     protected $extension;
 
-    /** 
-     * @Column(type="datetime") 
-     * @var \DateTime $created
-     */
-    protected $created;
-
-    /** 
-     * @Column(type="datetime") 
-     * @var \DateTime $updated
-     */
-    protected $updated;
-
-    public function __construct()
-    {
-	$this->created	= $this->updated = new \DateTime("now");
-    }
-   
     /**
      * @PreUpdate
      */

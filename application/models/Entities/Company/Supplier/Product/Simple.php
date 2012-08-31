@@ -7,7 +7,9 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
+
 namespace Entities\Company\Supplier\Product;
+
 /** 
  * @Entity (repositoryClass="Repositories\Company\Supplier\Product\Simple") 
  * @Table(name="company_supplier_product_simples") 
@@ -41,16 +43,5 @@ class Simple extends ProductAbstract
      */
     public function getDescriminator() {
 	return parent::TYPE_Simple;
-    }
-    
-    public function populate(array $array)
-    {
-	foreach ($array as $key => $value) 
-	{
-	    if(property_exists($this, $key))
-	    {
-		$this->$key = $value;
-	    }
-	}
     }
 }

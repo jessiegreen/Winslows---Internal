@@ -49,23 +49,11 @@ class PersonAbstract extends \Dataservice_Doctrine_Entity
      */
     protected $suffix;
 
-    /** 
-     * @Column(type="datetime") 
-     * @var DateTime $created
-     */
-    protected $created;
-
-    /** 
-     * @Column(type="datetime") 
-     * @var DateTime $updated
-     */
-    protected $updated;
-
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="\Entities\Person\Address", mappedBy="Person", cascade={"persist"}, orphanRemoval=true)
-     * @var array
+     * @var ArrayCollection $Addresses
      */
     protected $Addresses;
     
@@ -73,33 +61,30 @@ class PersonAbstract extends \Dataservice_Doctrine_Entity
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="\Entities\Person\Document", mappedBy="Person", cascade={"persist"}, orphanRemoval=true)
-     * @var array
+     * @var ArrayCollection $Documents
      */
     protected $Documents;
     
     /**
      * @OneToMany(targetEntity="\Entities\Person\PhoneNumber", mappedBy="Person", cascade={"persist"}, orphanRemoval=true)
+     * @var ArrayCollection $PhoneNumbers
      */
     private $PhoneNumbers;
     
     /**
      * @OneToMany(targetEntity="\Entities\Person\EmailAddress", mappedBy="Person", cascade={"persist"}, orphanRemoval=true)
+     * @var ArrayCollection $EmailAddresses
      */
     private $EmailAddresses;
-    
-    /**
-     * @OneToOne(targetEntity="\Entities\Company\Website\Account", mappedBy="Person", cascade={"persist"}, orphanRemoval=true)
-     * @var \Entities\Company\Website\Account $Account
-     */
-    protected $Account;
 
     public function __construct()
     {
-      $this->Addresses		= new ArrayCollection();
-      $this->Documents		= new ArrayCollection();
-      $this->PhoneNumbers	= new ArrayCollection();
-      $this->EmailAddresses	= new ArrayCollection();
-      $this->created		= $this->updated = new \DateTime("now");
+	$this->Addresses	= new ArrayCollection();
+	$this->Documents	= new ArrayCollection();
+	$this->PhoneNumbers	= new ArrayCollection();
+	$this->EmailAddresses	= new ArrayCollection();
+      
+	parent::__construct();
     }
    
     /**
@@ -172,36 +157,6 @@ class PersonAbstract extends \Dataservice_Doctrine_Entity
     public function getEmailAddresses()
     {
 	return $this->EmailAddresses;
-    }
-    
-    /**
-     * @return \Entities\Company\Website\Account
-     */
-    public function getAccount() 
-    {
-	return $this->Account;
-    }
-    
-    /**
-     * @param \Entities\Company\Website\Account $Account
-     */
-    public function setAccount(\Entities\Company\Website\Account $Account) 
-    {
-	$Account->setPerson($this);
-	$this->Account = $Account;
-    }
-    
-    public function removeAccount()
-    {
-	unset($this->Account);
-    }
-
-    /**
-     * @PreUpdate
-     */
-    public function updated()
-    {
-        $this->updated = new \DateTime("now");
     }
 
     /**
@@ -279,42 +234,8 @@ class PersonAbstract extends \Dataservice_Doctrine_Entity
     /**
      * @return string
      */
-    public function getFullName(){
+    public function getFullName()
+    {
 	return $this->getFirstName()." ".$this->getMiddleName()." ".$this->getLastName()." ".$this->getSuffix();
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getCreated()
-    {
-        return $this->created;
-    }
-
-    /**
-     * @param \DateTime $created
-     */
-    public function setCreated(\DateTime $created)
-    {
-        $this->created = $created;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getUpdated()
-    {
-        return $this->updated;
-    }
-
-    public function populate(array $array)
-    {
-	foreach ($array as $key => $value) 
-	{
-	    if(property_exists($this, $key))
-	    {
-		$this->$key = $value;
-	    }
-	}
     }
 }

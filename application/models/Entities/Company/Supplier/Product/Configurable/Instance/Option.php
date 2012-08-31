@@ -32,7 +32,7 @@ class Option extends \Dataservice_Doctrine_Entity
     /**
      * @ManytoMany(targetEntity="\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value", cascade={"persist"})
      * @JoinTable(name="company_supplier_product_configurable_instance_option_joins")
-     * @var array $Values
+     * @var ArrayCollection $Values
      */
     private $Values;
     
@@ -40,6 +40,8 @@ class Option extends \Dataservice_Doctrine_Entity
     {
 	$this->Option = $Option;
 	$this->Values = new ArrayCollection();
+	
+	parent::__construct();
     }
     
     /**
@@ -99,17 +101,6 @@ class Option extends \Dataservice_Doctrine_Entity
         return $this->id;
     }
     
-    public function populate(array $array)
-    {
-	foreach ($array as $key => $value) 
-	{
-	    if(property_exists($this, $key))
-	    {
-		$this->$key = $value;
-	    }
-	}
-    }
-    
     /**
      * @param string $parameter_index
      * @return \Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value|false
@@ -136,16 +127,5 @@ class Option extends \Dataservice_Doctrine_Entity
 	elseif($count > 1)throw new \Exception("Option Parameter Has More Than 1 Value");
 	
 	return false;
-    }
-    
-    /**
-     * @return array
-     */
-    public function toArray(){
-	$array			= array();
-	$array['name']		= $this->getName();
-	$array['code']		= $this->getCode();
-	$array['description']	= $this->getDescription();
-	return $array;
     }
 }

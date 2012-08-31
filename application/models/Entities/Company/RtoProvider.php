@@ -1,11 +1,11 @@
 <?php
 
-namespace Entities;
+namespace Entities\Company;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @Entity (repositoryClass="Repositories\RtoProvider") 
- * @Table(name="rtoprovider")
+ * @Entity (repositoryClass="Repositories\Company\RtoProvider") 
+ * @Table(name="company_rtoproviders")
  * @HasLifecycleCallbacks
  */
 class RtoProvider extends \Dataservice_Doctrine_Entity
@@ -49,7 +49,7 @@ class RtoProvider extends \Dataservice_Doctrine_Entity
     
     /**
      * @ManytoMany(targetEntity="\Entities\Company\Supplier\Product\ProductAbstract", mappedBy="RtoProviders", cascade={"ALL"})
-     * @var array $Products
+     * @var ArrayCollection $Products
      */
     private $Products;
     
@@ -80,7 +80,7 @@ class RtoProvider extends \Dataservice_Doctrine_Entity
     /**
      * @param \Entities\Company\Supplier\Product\ProductAbstract $Product
      */
-    public function addProduct(Company\Supplier\Product\ProductAbstract $Product)
+    public function addProduct(\Entities\Company\Supplier\Product\ProductAbstract $Product)
     {
 	if(!$this->getProducts()->contains($Product))
 	{
@@ -89,13 +89,10 @@ class RtoProvider extends \Dataservice_Doctrine_Entity
 	}
     }
     
-    public function removeProduct(Company\Supplier\Product\ProductAbstract $Product)
+    public function removeProduct(\Entities\Company\Supplier\Product\ProductAbstract $Product)
     {
-	if($this->getProducts()->contains($Product))
-	{
-	    $Product->removeRtoProvider($this);
-	    $this->getProducts()->removeElement ($Product);
-	}
+	$Product->removeRtoProvider($this);
+	$this->getProducts()->removeElement($Product);
     }
     
     /**
@@ -128,7 +125,7 @@ class RtoProvider extends \Dataservice_Doctrine_Entity
      * @param \Entities\RtoProvider\Application $Application
      * @return boolean
      */
-    public function hasLeadApplication(Company\Lead $Lead)
+    public function hasLeadApplication(\Entities\Company\Lead $Lead)
     {
 	if($this->getApplications()->exists(
 	    /* @var $Application \Entities\RtoProvider\Application */
@@ -149,7 +146,7 @@ class RtoProvider extends \Dataservice_Doctrine_Entity
      * @param \Entities\RtoProvider\Application $Application
      * @return boolean
      */
-    public function isApproved(Company\Lead $Lead)
+    public function isApproved(\Entities\Company\Lead $Lead)
     {
 	$LeadApplications = $this->getApplications()->filter(
 				/* @var $Application \Entities\RtoProvider\Application */

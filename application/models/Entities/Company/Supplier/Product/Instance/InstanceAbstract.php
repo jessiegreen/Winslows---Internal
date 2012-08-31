@@ -34,30 +34,11 @@ class InstanceAbstract extends \Dataservice_Doctrine_Entity
      */
     protected $Product;
 
-    /** 
-     * @Column(type="datetime") 
-     * @var \DateTime $created
-     */
-    protected $created;
-
-    /** 
-     * @Column(type="datetime") 
-     * @var \DateTime
-     */
-    protected $updated;
-
     public function __construct(\Entities\Company\Supplier\Product\ProductAbstract $Product)
     {
 	$this->Product = $Product;
-	$this->created = $this->updated = new \DateTime("now");
-    }
-           
-    /**
-     * @PreUpdate
-     */
-    public function updated()
-    {
-        $this->updated = new \DateTime("now");
+	
+	parent::__construct();
     }
     
     /**
@@ -87,42 +68,8 @@ class InstanceAbstract extends \Dataservice_Doctrine_Entity
     /**
      * @return string
      */
-    public function getNote(){
+    public function getNote()
+    {
 	return $this->note;
-    }
-    
-    /**
-     * @return \DateTime
-     */
-    public function getCreated()
-    {
-        return $this->created;
-    }
-
-    /**
-     * @param \DateTime $created
-     */
-    public function setCreated(\DateTime $created)
-    {
-        $this->created = $created;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getUpdated()
-    {
-        return $this->updated;
-    }
-    
-    public function populate(array $array)
-    {
-	foreach ($array as $key => $value) 
-	{
-	    if(property_exists($this, $key))
-	    {
-		$this->$key = $value;
-	    }
-	}
     }
 }

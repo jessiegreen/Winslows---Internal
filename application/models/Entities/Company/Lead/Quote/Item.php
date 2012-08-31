@@ -137,18 +137,4 @@ class Item extends \Dataservice_Doctrine_Entity
 	
 	return "";
     }
-    
-    /**
-     * @param array $array
-     */
-    public function populate(array $array)
-    {
-	foreach ($array as $key => $value) 
-	{
-	    if(property_exists($this, $key))
-	    {
-		$this->$key = $value;
-	    }
-	}
-    }
 }

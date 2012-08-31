@@ -3,8 +3,8 @@
 namespace Entities\Company\Employee\Role;
 
 /** 
- * @Entity (repositoryClass="Repositories\Company\Employee\Role\Privilege") 
- * @Table(name="company_employee_role_privileges") 
+ * @Entity (repositoryClass="Repositories\Role\Privilege") 
+ * @Table(name="role_privileges") 
  * @HasLifecycleCallbacks
  */
 class Privilege extends \Dataservice_Doctrine_Entity
@@ -23,21 +23,21 @@ class Privilege extends \Dataservice_Doctrine_Entity
     private $name;
     
     /**
-     * @ManyToOne(targetEntity="\Entities\Company\Employee\Role", inversedBy="Privileges")
-     * @var $Role null | Role
+     * @ManyToOne(targetEntity="\Entities\Role", inversedBy="Privileges")
+     * @var $Role null | \Entities\Role
      */
     private $Role;
     
     /**
-     * @param \Entities\Company\Employee\Role $Role
+     * @param \Entities\Role $Role
      */
-    public function setRole(\Entities\Company\Employee\Role $Role)
+    public function setRole(\Entities\Role $Role)
     {
 	$this->Role = $Role;
     }
     
     /**
-     * @return \Entities\Company\Employee\Role
+     * @return \Entities\Role
      */
     public function getRole()
     {
@@ -66,13 +66,5 @@ class Privilege extends \Dataservice_Doctrine_Entity
     public function setName($name)
     {
         $this->name = $name;
-    }
-
-    public function populate(array $array){
-	foreach ($array as $key => $value) {
-	    if(property_exists($this, $key)){
-		$this->$key = $value;
-	    }
-	}
     }
 }

@@ -10,8 +10,10 @@
  * @version    Release: @package_version@
  */
 namespace Entities\Company;
+
 use Entities\Person\PersonAbstract as PersonAbstract;
 use Doctrine\Common\Collections\ArrayCollection;
+
 /** 
  * @Entity (repositoryClass="Repositories\Company\Lead") 
  * @Table(name="company_leads") 
@@ -28,7 +30,7 @@ class Lead extends PersonAbstract
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="\Entities\Company\Lead\Contact", mappedBy="Lead", cascade={"persist"})
-     * @var array $Contacts
+     * @var ArrayCollection $Contacts
      */
     protected $Contacts;
     
@@ -36,7 +38,7 @@ class Lead extends PersonAbstract
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="\Entities\Company\Lead", mappedBy="Employee", cascade={"persist"})
-     * @var array $Leads
+     * @var ArrayCollection $Leads
      */
     protected $Leads;
     
@@ -44,7 +46,7 @@ class Lead extends PersonAbstract
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="\Entities\Company\Lead\Quote", mappedBy="Lead", cascade={"persist"})
-     * @var array $Quotes
+     * @var ArrayCollection $Quotes
      */
     protected $Quotes;
     
@@ -151,16 +153,5 @@ class Lead extends PersonAbstract
     public function getContactOptionsArray()
     {
 	return array();
-    }
-    
-    public function populate(array $array)
-    {
-	foreach ($array as $key => $value) 
-	{
-	    if(property_exists($this, $key))
-	    {
-		$this->$key = $value;
-	    }
-	}
     }
 }

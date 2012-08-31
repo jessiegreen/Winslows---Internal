@@ -22,18 +22,6 @@ class Supplier extends \Dataservice_Doctrine_Entity
      * @var string $name
      */
     private $name;
-
-    /** 
-     * @Column(type="datetime") 
-     * @var \DateTime $created
-     */
-    private $created;
-
-    /** 
-     * @Column(type="datetime") 
-     * @var \DateTime $updated
-     */
-    private $updated;
     
     /**
      * @ManytoMany(targetEntity="\Entities\Company", inversedBy="Suppliers", cascade={"persist"})
@@ -41,7 +29,7 @@ class Supplier extends \Dataservice_Doctrine_Entity
      *      joinColumns={@JoinColumn(name="supplier_id", referencedColumnName="id")},
      *      inverseJoinColumns={@JoinColumn(name="company_id", referencedColumnName="id")}
      *      )
-     * @var array $Companies
+     * @var ArrayCollection $Companies
      */
     private $Companies;
 
@@ -49,6 +37,7 @@ class Supplier extends \Dataservice_Doctrine_Entity
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="\Entities\Company\Supplier\Address", mappedBy="Supplier", cascade={"persist"}, orphanRemoval=true)
+     * @var ArrayCollection $Addresses
      */
     private $Addresses;
     
@@ -56,6 +45,7 @@ class Supplier extends \Dataservice_Doctrine_Entity
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="\Entities\Company\Supplier\Product\ProductAbstract", mappedBy="Supplier", cascade={"persist"}, orphanRemoval=true)
+     * @var ArrayCollection $Products
      */
     private $Products;
     
@@ -64,7 +54,8 @@ class Supplier extends \Dataservice_Doctrine_Entity
 	$this->Companies	    = new ArrayCollection();
 	$this->Addresses	    = new ArrayCollection();
 	$this->Products		    = new ArrayCollection();
-	$this->created		    = $this->updated = new \DateTime("now");
+	
+	parent::__construct();
     }
     
     /**
@@ -81,16 +72,7 @@ class Supplier extends \Dataservice_Doctrine_Entity
      */
     public function removeCompany(\Entities\Company $Company)
     {
-	foreach ($this->Companies as $key => $Company2) 
-	{
-	    if($Company->getId() == $Company2->getId())
-	    {
-		$this->Companies[$key];
-		unset($this->Companies[$key]);
-		return true;
-	    }
-	}
-	return false;
+	$this->getCompanies()->removeElement($Company);
     }
     
     /**
@@ -136,14 +118,6 @@ class Supplier extends \Dataservice_Doctrine_Entity
     }
 
     /**
-     * @PreUpdate
-     */
-    public function updated()
-    {
-        $this->updated = new \DateTime("now");
-    }
-
-    /**
      * @return integer
      */
     public function getId()
@@ -165,40 +139,5 @@ class Supplier extends \Dataservice_Doctrine_Entity
     public function setName($name)
     {
         $this->name = $name;
-    }
-    
-    /**
-     * @return \DateTime
-     */
-    public function getCreated()
-    {
-        return $this->created;
-    }
-
-    /**
-     * @param \DateTime $created
-     */
-    public function setCreated(\DateTime $created)
-    {
-        $this->created = $created;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getUpdated()
-    {
-        return $this->updated;
-    }
-
-    public function populate(array $array)
-    {
-	foreach ($array as $key => $value) 
-	{
-	    if(property_exists($this, $key))
-	    {
-		$this->$key = $value;
-	    }
-	}
     }
 }

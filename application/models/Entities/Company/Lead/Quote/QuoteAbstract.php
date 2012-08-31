@@ -24,31 +24,6 @@ class QuoteAbstract extends \Dataservice_Doctrine_Entity
      * @var integer $total
      */
     protected $total = 0;
-    
-    /** 
-     * @Column(type="datetime") 
-     * @var \DateTime $created
-     */
-    protected $created;
-
-    /** 
-     * @Column(type="datetime") 
-     * @var \DateTime $updated
-     */
-    protected $updated;
-
-    public function __construct()
-    {
-	$this->created	= $this->updated = new \DateTime("now");
-    }
-   
-    /**
-     * @PreUpdate
-     */
-    public function updated()
-    {
-        $this->updated = new \DateTime("now");
-    }
 
     /**
      * @return integer
@@ -56,40 +31,5 @@ class QuoteAbstract extends \Dataservice_Doctrine_Entity
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getCreated()
-    {
-        return $this->created;
-    }
-
-    /**
-     * @param \DateTime $created
-     */
-    public function setCreated(\DateTime $created)
-    {
-        $this->created = $created;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getUpdated()
-    {
-        return $this->updated;
-    }
-    
-    public function populate(array $array)
-    {
-	foreach ($array as $key => $value) 
-	{
-	    if(property_exists($this, $key))
-	    {
-		$this->$key = $value;
-	    }
-	}
     }
 }

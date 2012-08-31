@@ -63,14 +63,14 @@ class Option extends \Dataservice_Doctrine_Entity
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="\Entities\Company\Supplier\Product\Configurable\Option\Parameter", mappedBy="Option", cascade={"persist"}, orphanRemoval=true)
-     * @var array $Parameters
+     * @var ArrayCollection $Parameters
      */
     private $Parameters;
     
     /**
      * @ManytoMany(targetEntity="\Entities\Company\Supplier\Product\Configurable", inversedBy="Options", cascade={"persist"})
      * @JoinTable(name="company_supplier_product_configurable_option_joins")
-     * @var array $ConfigurableProducts
+     * @var ArrayCollection $ConfigurableProducts
      */
     private $ConfigurableProducts;
     
@@ -99,22 +99,11 @@ class Option extends \Dataservice_Doctrine_Entity
      */
     public function removeConfigurableProduct(\Entities\Company\Supplier\Product\Configurable $ConfigurableProduct)
     {
-	foreach ($this->ConfigurableProducts as $key => $ConfigurableProduct2) 
-	{
-	    if($ConfigurableProduct->getId() == $ConfigurableProduct2->getId())
-	    {
-		$this->ConfigurableProducts[$key];
-		
-		unset($this->ConfigurableProducts[$key]);
-		
-		return true;
-	    }
-	}
-	return false;
+	$this->getConfigurableProducts()->removeElement($ConfigurableProduct);
     }
     
     /**
-     * @return array
+     * @return ArrayCollection
      */
     public function getConfigurableProducts()
     {
@@ -316,27 +305,5 @@ class Option extends \Dataservice_Doctrine_Entity
 	    if($Parameter->isRequired())$return[] = $Parameter;
 	}
 	return $return;
-    }
-    
-    public function populate(array $array)
-    {
-	foreach ($array as $key => $value) 
-	{
-	    if(property_exists($this, $key))
-	    {
-		$this->$key = $value;
-	    }
-	}
-    }
-    
-    /**
-     * @return array
-     */
-    public function toArray(){
-	$array			= array();
-	$array['name']		= $this->getName();
-	$array['code']		= $this->getCode();
-	$array['description']	= $this->getDescription();
-	return $array;
     }
 }

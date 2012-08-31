@@ -47,6 +47,8 @@ class Category extends \Dataservice_Doctrine_Entity
     {
 	$this->ConfigurableProducts = new ArrayCollection();
 	$this->ConfigurableOptions  = new ArrayCollection();
+	
+	parent::__construct();
     }
     
     /**
@@ -59,7 +61,7 @@ class Category extends \Dataservice_Doctrine_Entity
     }
     
     /**
-     * @return array
+     * @return ArrayCollection
      */
     public function getOptions()
     {
@@ -120,26 +122,5 @@ class Category extends \Dataservice_Doctrine_Entity
     public function setOrder($order)
     {
         $this->order = $order;
-    }
-    
-    public function populate(array $array)
-    {
-	foreach ($array as $key => $value) 
-	{
-	    if(property_exists($this, $key))
-	    {
-		$this->$key = $value;
-	    }
-	}
-    }
-    
-    /** 
-     * @return type
-     */
-    public function toArray()
-    {
-	$array			= array();
-	$array['name']		= $this->getName();
-	return $array;
     }
 }

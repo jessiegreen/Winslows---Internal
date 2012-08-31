@@ -1,16 +1,8 @@
 <?php
-/**
- * Name:
- * Location:
- *
- * Description for class (if any)...
- *
- * @author     Jessie Green <jessie.winslows@gmail.com>
- * @copyright  2012 Winslows inc.
- * @version    Release: @package_version@
- */
 namespace Entities\Company;
+
 use Entities\Company\Lead as Lead;
+
 /** 
  * @Entity (repositoryClass="Repositories\Company\Customer") 
  * @Table(name="company_customers") 

@@ -32,15 +32,15 @@ class RoleAbstract extends \Dataservice_Doctrine_Entity
     private $description;
     
     /**
-     * @OneToMany(targetEntity="\Entities\Company\Employee\Role\Privilege", mappedBy="Role", cascade={"persist"}, orphanRemoval=true)
-     * @var array Privileges
+     * @OneToMany(targetEntity="\Entities\Role\Privilege", mappedBy="Role", cascade={"persist"}, orphanRemoval=true)
+     * @var ArrayCollection Privileges
      */
     private $Privileges;
     
     /**
-     * @ManytoMany(targetEntity="\Entities\Company\Website\Resource", inversedBy="Roles", cascade={"persist"})
-     * @JoinTable(name="company_employee_role_resource_joins")
-     * @var array $Resources
+     * @ManytoMany(targetEntity="\Entities\Website\Resource", inversedBy="Roles", cascade={"persist"})
+     * @JoinTable(name="role_resource_joins")
+     * @var ArrayCollection $Resources
      */
     private $Resources;
     
@@ -48,12 +48,14 @@ class RoleAbstract extends \Dataservice_Doctrine_Entity
     {
 	$this->Privileges   = new ArrayCollection();
 	$this->Resources    = new ArrayCollection();
+	
+	parent::__construct();
     }
     
     /**
-     * @param \Entities\Company\Employee\Role\Privilege $Privilege
+     * @param \Entities\Role\Privilege $Privilege
      */
-    public function addPrivilege(Role\Privilege $Privilege)
+    public function addPrivilege(\Entities\Role\Privilege $Privilege)
     {
 	$Privilege->setRole($this);
         $this->Privileges[] = $Privilege;
@@ -62,22 +64,23 @@ class RoleAbstract extends \Dataservice_Doctrine_Entity
     /**
      * @return array
      */
-    public function getPrivileges(){
+    public function getPrivileges()
+    {
 	return $this->Privileges;
     }
     
     /**
-     * @param \Entities\Company\Website\Resource $Resource
+     * @param \Entities\Website\Resource $Resource
      */
-    public function addResource(\Entities\Company\Website\Resource $Resource)
+    public function addResource(\Entities\Website\Resource $Resource)
     {
         $this->Resources[] = $Resource;
     }
     
     /**
-     * @param \Entities\Company\Website\Resource $Resource
+     * @param \Entities\Website\Resource $Resource
      */
-    public function removeResource(\Entities\Company\Website\Resource $Resource)
+    public function removeResource(\Entities\Website\Resource $Resource)
     {
 	$Resource->removeRole($this);
 	$this->getResources()->removeElement($Resource);
@@ -129,13 +132,5 @@ class RoleAbstract extends \Dataservice_Doctrine_Entity
     public function setDescription($description)
     {
         $this->description = $description;
-    }
-
-    public function populate(array $array){
-	foreach ($array as $key => $value) {
-	    if(property_exists($this, $key)){
-		$this->$key = $value;
-	    }
-	}
     }
 }

@@ -51,26 +51,30 @@ class Location extends \Dataservice_Doctrine_Entity
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="\Entities\Company\Location\Employee", mappedBy="Location", cascade={"persist"})
-     * @var array $Employees
+     * @var ArrayCollection $Employees
      */
     private $Employees;
     
     public function __construct()
     {
 	$this->Employees = new ArrayCollection();
+	
+	parent::__construct();
     }
     
     /**
      * @return \Entities\Company
      */
-    public function getCompany(){
+    public function getCompany()
+    {
 	return $this->Company;
     }
     
     /**
      * @param \Entities\Company $Company
      */
-    public function setCompany(\Entities\Company $Company){
+    public function setCompany(\Entities\Company $Company)
+    {
 	$this->Company = $Company;
     }
     
@@ -84,7 +88,7 @@ class Location extends \Dataservice_Doctrine_Entity
     }
     
     /**
-     * @return array
+     * @return ArrayCollection
      */
     public function getEmployees()
     {
@@ -198,16 +202,5 @@ class Location extends \Dataservice_Doctrine_Entity
 	return array(
 	    "sales" => "Sales",
 	);
-    }
-    
-    public function populate(array $array)
-    {
-	foreach ($array as $key => $value) 
-	{
-	    if(property_exists($this, $key))
-	    {
-		$this->$key = $value;
-	    }
-	}
     }
 }

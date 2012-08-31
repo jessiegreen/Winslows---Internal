@@ -139,26 +139,4 @@ class Value extends \Dataservice_Doctrine_Entity
     {
         $this->description = $description;
     }
-    
-    public function populate(array $array)
-    {
-	foreach ($array as $key => $value) 
-	{
-	    if(property_exists($this, $key))
-	    {
-		$this->$key = $value;
-	    }
-	}
-    }
-    
-    /**
-     * @return array
-     */
-    public function toArray(){
-	$array			= array();
-	$array['name']		= $this->getName();
-	$array['code']		= $this->getCode();
-	$array['description']	= $this->getDescription();
-	return $array;
-    }
 }

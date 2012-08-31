@@ -1,20 +1,10 @@
 <?php
-/**
- * Name:
- * Location:
- *
- * Description for class (if any)...
- *
- * @author     Jessie Green <jessie.winslows@gmail.com>
- * @copyright  2012 Winslows inc.
- * @version    Release: @package_version@
- */
 namespace Entities\Company\Supplier;
+
 /** 
  * @Entity (repositoryClass="Repositories\Company\Supplier\Address") 
  * @Table(name="company_supplier_addresses") 
  */
-
 class Address extends \Entities\Address\AddressAbstract
 {
     /** 
@@ -37,16 +27,5 @@ class Address extends \Entities\Address\AddressAbstract
     public function getSupplier()
     {
 	return $this->Supplier;
-    }
-    
-    public function populate(array $array)
-    {
-	foreach ($array as $key => $value) 
-	{
-	    if(property_exists($this, $key))
-	    {
-		$this->$key = $value;
-	    }
-	}
     }
 }

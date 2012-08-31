@@ -1,15 +1,6 @@
 <?php
-/**
- * Name:
- * Location:
- *
- * Description for class (if any)...
- *
- * @author     Jessie Green <jessie.winslows@gmail.com>
- * @copyright  2012 Winslows inc.
- * @version    Release: @package_version@
- */
 namespace Entities\Company;
+
 use Doctrine\Common\Collections\ArrayCollection;
 use Entities\Person\PersonAbstract as PersonAbstract;
 
@@ -35,32 +26,33 @@ class Employee extends PersonAbstract
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="\Entities\Company\Lead", mappedBy="Employee", cascade={"persist"})
-     * @var array $Leads
+     * @var ArrayCollection $Leads
      */
     private $Leads;
     
     /**
      * @ManytoMany(targetEntity="\Entities\Company\Employee\Role", cascade={"persist"})
      * @JoinTable(name="company_employee_role_joins")
-     * @var array $Roles
+     * @var ArrayCollection $Roles
      */
     private $Roles;
     
-    /** 
-     * @OneToOne(targetEntity="\Entities\Company\Employee\Account", inversedBy="Employee")
-     * @var \Entities\Company\Employee\Account
-     */     
-    private $Account;
+    /**
+     * @OneToOne(targetEntity="\Entities\Company\Employee\Account", mappedBy="Employee", cascade={"persist"}, orphanRemoval=true)
+     * @var \Entities\Company\Employee\Account $Account
+     */
+    protected $Account;
     
     public function __construct()
     {
 	$this->Leads	= new ArrayCollection();
 	$this->Roles	= new ArrayCollection();
+	
 	parent::__construct();
     }
     
     /**
-     * @return array
+     * @return ArrayCollection
      */
     public function getLeads()
     {
@@ -89,7 +81,8 @@ class Employee extends PersonAbstract
     /**
      * @return ArrayCollection
      */
-    public function getRoles(){
+    public function getRoles()
+    {
 	return $this->Roles;
     }
     
@@ -151,16 +144,5 @@ class Employee extends PersonAbstract
     public function setTitle($title)
     {
         $this->title = $title;
-    }  
-    
-    public function populate(array $array)
-    {
-	foreach ($array as $key => $value) 
-	{
-	    if(property_exists($this, $key))
-	    {
-		$this->$key = $value;
-	    }
-	}
     }
 }

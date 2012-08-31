@@ -30,6 +30,7 @@ class Configurable extends ProductAbstract
     public function __construct()
     {
 	$this->Options = new ArrayCollection();
+	
 	parent::__construct();
     }
     
@@ -75,20 +76,8 @@ class Configurable extends ProductAbstract
      */
     public function removeOption(Configurable\Option $Option)
     {
-	foreach ($this->Options as $key => $Option2) 
-	{
-	    if($Option->getId() == $Option2->getId())
-	    {
-		$this->Options[$key];
-		
-		unset($this->Options[$key]);
-		
-		$Option->removeConfigurableProduct($this);
-		
-		return true;
-	    }
-	}
-	return false;
+	$Option->removeConfigurableProduct($this);
+	$this->getOptions()->removeElement($Option);
     }
     
     
@@ -131,16 +120,5 @@ class Configurable extends ProductAbstract
     public function getDescriminator() 
     {
 	return parent::TYPE_Configurable;
-    }
-    
-    public function populate(array $array)
-    {
-	foreach ($array as $key => $value) 
-	{
-	    if(property_exists($this, $key))
-	    {
-		$this->$key = $value;
-	    }
-	}
     }
 }

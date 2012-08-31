@@ -1,6 +1,7 @@
 <?php
-
 namespace Entities\Company\Supplier\Product;
+
+use Doctrine\Common\Collections\ArrayCollection;
 
 /** 
  * @Entity (repositoryClass="Repositories\Company\Supplier\Product\ProductAbstract") 
@@ -45,18 +46,6 @@ class ProductAbstract extends \Dataservice_Doctrine_Entity
     private $description;
     
     /** 
-     * @Column(type="datetime") 
-     * @var \DateTime $created
-     */
-    private $created;
-
-    /** 
-     * @Column(type="datetime") 
-     * @var \DateTime $updated
-     */
-    private $updated;
-    
-    /** 
      * @ManyToOne(targetEntity="\Entities\Company\Supplier", inversedBy="Products")
      * @var \Entities\Company\Supplier $Supplier
      */     
@@ -64,14 +53,16 @@ class ProductAbstract extends \Dataservice_Doctrine_Entity
     
     /**
      * @ManytoMany(targetEntity="\Entities\RtoProvider", inversedBy="Products", cascade={"persist"})
-     * @JoinTable(name="company_supplier_company_product_rtoprovider_joins")
-     * @var \Doctrine\Common\Collections\ArrayCollection $RtoProviders
+     * @JoinTable(name="company_supplier_product_rtoprovider_joins")
+     * @var ArrayCollection $RtoProviders
      */
     private $RtoProviders;
 
     public function __construct()
     {
-	$this->created	    = $this->updated = new \DateTime("now");
+	$this->RtoProviders = new ArrayCollection();
+	
+	parent::__construct();
     }
     
     /**
@@ -172,52 +163,10 @@ class ProductAbstract extends \Dataservice_Doctrine_Entity
     }
     
     /**
-     * @return \DateTime
-     */
-    public function getCreated()
-    {
-        return $this->created;
-    }
-
-    /**
-     * @param \DateTime $created
-     */
-    public function setCreated(\DateTime $created)
-    {
-        $this->created = $created;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getUpdated()
-    {
-        return $this->updated;
-    }
-    
-    /**
      * @return string
      */
-    public function getDescriminator(){
+    public function getDescriminator()
+    {
 	return static::TYPE_Base;
-    }
-    
-    /**
-     * @PreUpdate
-     */
-    public function updated()
-    {
-        $this->updated = new \DateTime("now");
-    }
-
-    public function populate(array $array)
-    {
-	foreach ($array as $key => $value) 
-	{
-	    if(property_exists($this, $key))
-	    {
-		$this->$key = $value;
-	    }
-	}
     }
 }

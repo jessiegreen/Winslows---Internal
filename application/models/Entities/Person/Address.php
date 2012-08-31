@@ -52,15 +52,4 @@ class Address extends \Entities\Address\AddressAbstract
     {
 	return $this->person_id;
     }
-    
-    public function populate(array $array)
-    {
-	foreach ($array as $key => $value)
-	{
-	    if(property_exists($this, $key))
-	    {
-		$this->$key = $value;
-	    }
-	}
-    }
 }

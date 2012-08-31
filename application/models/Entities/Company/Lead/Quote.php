@@ -36,6 +36,7 @@ class Quote extends Quote\QuoteAbstract
     public function __construct()
     {
 	$this->Items = new ArrayCollection();
+	
 	parent::__construct();
     }
     
@@ -122,16 +123,5 @@ class Quote extends Quote\QuoteAbstract
     public function removeItem(\Entities\Company\Lead\Quote\Item $Item)
     {
 	$this->Items->removeElement($Item);
-    }
-    
-    public function populate(array $array)
-    {
-	foreach ($array as $key => $value) 
-	{
-	    if(property_exists($this, $key))
-	    {
-		$this->$key = $value;
-	    }
-	}
     }
 }
