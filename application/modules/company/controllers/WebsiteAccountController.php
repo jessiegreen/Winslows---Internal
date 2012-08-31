@@ -72,7 +72,7 @@ class Company_WebsiteAccountController extends Dataservice_Controller_Action
 	/* @var $Account \Entities\Company\Website\Account */
 	$Account		    = $this->_em->find("\Entities\Company\Website\Account",$this->_params["id"]); 
 	$this->view->Account	    = $Account;
-	$this->view->Roles	    = $this->_em->getRepository("Entities\Company\Website\Account\Role")->findAll();
+	$this->view->Roles	    = $this->_em->getRepository("Entities\Company\Employee\Role")->findAll();
     }
     
     public function addroleAction()
@@ -85,7 +85,7 @@ class Company_WebsiteAccountController extends Dataservice_Controller_Action
 	$ACL->preDispatch($this->_request);
 	
 	$Account = $this->getEntityFromParamFields("Company\Website\Account", array("id"));
-	$Role	 = $this->_em->find("Entities\Company\Website\Account\Role", $this->_request->getParam("role_id", 0));
+	$Role	 = $this->_em->find("Entities\Company\Employee\Role", $this->_request->getParam("role_id", 0));
 	
 	if($Account && $Role)
 	{
@@ -113,7 +113,7 @@ class Company_WebsiteAccountController extends Dataservice_Controller_Action
 	
 	/* @var $Account Entities\Company\Website\Account */
 	$Account = $this->getEntityFromParamFields("Company\Website\Account", array("id"));
-	$Role	 = $this->_em->find("Entities\Company\Website\Account\Role", $this->_request->getParam("role_id", 0));
+	$Role	 = $this->_em->find("Entities\Company\Employee\Role", $this->_request->getParam("role_id", 0));
 	
 	if($Account && $Role)
 	{

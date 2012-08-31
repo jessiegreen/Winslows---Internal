@@ -69,7 +69,7 @@ class Dataservice_ACL_Resources
 
     public function writeToDB(\Doctrine\ORM\EntityManager $em) 
     {
-	$Role = $em->getRepository("Entities\Company\Website\Account\Role")->findOneBy(array("name" => "Admin"));
+	$Role = $em->getRepository("Entities\Company\Employee\Role")->findOneBy(array("name" => "Admin"));
 	$this->checkForData();
 	
 	foreach ($this->arrModules as $strModuleName) 

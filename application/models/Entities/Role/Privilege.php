@@ -1,10 +1,10 @@
 <?php
 
-namespace Entities\Company\Website\Account\Role;
+namespace Entities\Company\Employee\Role;
 
 /** 
- * @Entity (repositoryClass="Repositories\Company\Website\Account\Role\Privilege") 
- * @Table(name="company_website_account_role_privileges") 
+ * @Entity (repositoryClass="Repositories\Company\Employee\Role\Privilege") 
+ * @Table(name="company_employee_role_privileges") 
  * @HasLifecycleCallbacks
  */
 class Privilege extends \Dataservice_Doctrine_Entity
@@ -23,21 +23,21 @@ class Privilege extends \Dataservice_Doctrine_Entity
     private $name;
     
     /**
-     * @ManyToOne(targetEntity="\Entities\Company\Website\Account\Role", inversedBy="Privileges")
+     * @ManyToOne(targetEntity="\Entities\Company\Employee\Role", inversedBy="Privileges")
      * @var $Role null | Role
      */
     private $Role;
     
     /**
-     * @param \Entities\Company\Website\Account\Role $Role
+     * @param \Entities\Company\Employee\Role $Role
      */
-    public function setRole(\Entities\Company\Website\Account\Role $Role)
+    public function setRole(\Entities\Company\Employee\Role $Role)
     {
 	$this->Role = $Role;
     }
     
     /**
-     * @return \Entities\Company\Website\Account\Role
+     * @return \Entities\Company\Employee\Role
      */
     public function getRole()
     {

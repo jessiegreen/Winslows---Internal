@@ -1,5 +1,5 @@
 <?php
-namespace Forms\Company\Website\Account;
+namespace Forms\Company\Employee;
 /**
  * Name:
  * Location:
@@ -10,24 +10,24 @@ namespace Forms\Company\Website\Account;
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Role extends \Zend_Form{
+class Role extends \Zend_Form
+{
     private $_Role;
     
-    public function __construct($options = null, \Entities\Company\Website\Account\Role $Role = null) {
+    public function __construct($options = null, \Entities\Company\Employee\Role $Role = null)
+    {
 	$this->_Role = $Role;
 	parent::__construct($options);
     }
     
-    public function init($options = array()){
+    public function init($options = array())
+    {
 	$form = new Role\Subform($options, $this->_Role);
 	
-	$this->addSubForm($form, "company_website_account_role");
+	$this->addSubForm($form, "company_employee_role");
 
         $this->addElement('submit', 'submit', array(
             'ignore'   => true,
         ));
-
     }
 }
-
-?>

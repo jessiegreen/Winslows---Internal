@@ -14,7 +14,7 @@ class Subform extends \Zend_Form_SubForm
 {
     private $_Role;
     
-    public function __construct($options = null, \Entities\Company\Website\Account\Role $Role = null) {
+    public function __construct($options = null, \Entities\Company\Employee\Role $Role = null) {
 	$this->_Role = $Role;
 	parent::__construct($options);
     }

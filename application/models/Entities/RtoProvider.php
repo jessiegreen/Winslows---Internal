@@ -65,6 +65,8 @@ class RtoProvider extends \Dataservice_Doctrine_Entity
     {
 	$this->Products	    = new ArrayCollection();
 	$this->Applications = new ArrayCollection();
+	
+	parent::__construct();
     }
     
     /**
@@ -255,19 +257,5 @@ class RtoProvider extends \Dataservice_Doctrine_Entity
     public function setDescription($description)
     {
         $this->description = $description;
-    }    
-    
-    /**
-     * @param array $array
-     */
-    public function populate(array $array)
-    {
-	foreach ($array as $key => $value) 
-	{
-	    if(property_exists($this, $key))
-	    {
-		$this->$key = $value;
-	    }
-	}
     }
 }

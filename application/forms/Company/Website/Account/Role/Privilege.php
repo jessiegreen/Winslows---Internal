@@ -1,5 +1,5 @@
 <?php
-namespace Forms\Company\Website\Account\Role;
+namespace Forms\Company\Employee\Role;
 /**
  * Name:
  * Location:

@@ -1,20 +1,11 @@
 <?php
-/**
- * Name:
- * Location:
- *
- * Description for class (if any)...
- *
- * @author     Jessie Green <jessie.winslows@gmail.com>
- * @copyright  2012 Winslows inc.
- * @version    Release: @package_version@
- */
-namespace Entities\Company\Website\Menu;
+
+namespace Entities\Website\Menu;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /** 
- * @Entity (repositoryClass="Repositories\Company\Website\Menu\Item") 
- * @Table(name="company_website_menu_items") 
+ * @Entity (repositoryClass="Repositories\Website\Menu\Item") 
+ * @Table(name="website_menu_items") 
  */
 
 class Item extends \Dataservice_Doctrine_Entity
@@ -74,27 +65,15 @@ class Item extends \Dataservice_Doctrine_Entity
      * @var string $link_params
      */
     private $link_params;
-
-    /** 
-     * @Column(type="datetime") 
-     * @var \DateTime $created
-     */
-    private $created;
-
-    /** 
-     * @Column(type="datetime") 
-     * @var \DateTime $updated
-     */
-    private $updated;
     
     /** 
-     * @ManyToOne(targetEntity="\Entities\Company\Website\Menu", inversedBy="Items")
-     * @var \Entities\Company\Website\Menu $Menu
+     * @ManyToOne(targetEntity="\Entities\Website\Menu", inversedBy="Items")
+     * @var \Entities\Website\Menu $Menu
      */     
     private $Menu;
     
     /**
-     * @ManyToOne(targetEntity="\Entities\Company\Website\Menu\Item", inversedBy="children")
+     * @ManyToOne(targetEntity="\Entities\Website\Menu\Item", inversedBy="children")
      * @JoinColumn(name="parent", referencedColumnName="id")
      * @var $parent null | Item
      */
@@ -104,47 +83,52 @@ class Item extends \Dataservice_Doctrine_Entity
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="Item", mappedBy="parent", cascade={"persist"}, orphanRemoval=true)
-     * @var array $children
+     * @var ArrayCollection $children
      */
     private $children;
     
     public function __construct()
     {
 	$this->children = new ArrayCollection();
-	$this->created	= $this->updated = new \DateTime("now");
+	
+	parent::__construct();
     }
     
     /**
-     * @param \Entities\Company\Website\Menu\Item $parent
+     * @param \Entities\Website\Menu\Item $parent
      */
-    public function setParent(Item $parent){
+    public function setParent(Item $parent)
+    {
 	$this->parent = $parent;
     }
     
     /**
-     * @return null | \Entities\Company\Website\Menu\Item
+     * @return null | \Entities\Website\Menu\Item
      */
-    public function getParent(){
+    public function getParent()
+    {
 	return $this->parent;
     }
     
     /**
-     * @param \Entities\Company\Website\Menu\Item $child
+     * @param \Entities\Website\Menu\Item $child
      */
-    public function AddChild(Item $Item){
+    public function AddChild(Item $Item)
+    {
 	$Item->setParent($this);
 	$this->children[] = $Item;
     }
     
     /**
-     * @return array
+     * @return ArrayCollection
      */
-    public function getChildren(){
+    public function getChildren()
+    {
 	return $this->children;
     }
     
     /**
-     * @param \Entities\Company\Website\Menu $Menu
+     * @param \Entities\Website\Menu $Menu
      */
     public function setMenu(\Entities\Company\Website\Menu $Menu)
     {
@@ -152,19 +136,11 @@ class Item extends \Dataservice_Doctrine_Entity
     }
     
     /**
-     * @return \Entities\Company\Website\Menu
+     * @return \Entities\Website\Menu
      */
     public function getMenu()
     {
 	return $this->Menu;
-    }
-    
-    /**
-     * @PreUpdate
-     */
-    public function updated()
-    {
-        $this->updated = new \DateTime("now");
     }
 
     /**
@@ -293,40 +269,5 @@ class Item extends \Dataservice_Doctrine_Entity
     public function setLinkParams($link_params)
     {
 	$this->link_params = $link_params;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getCreated()
-    {
-        return $this->created;
-    }
-
-    /**
-     * @param \DateTime $created
-     */
-    public function setCreated(\DateTime $created)
-    {
-        $this->created = $created;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getUpdated()
-    {
-        return $this->updated;
-    }
-    
-    public function populate(array $array)
-    {
-	foreach ($array as $key => $value)
-	{
-	    if(property_exists($this, $key))
-	    {
-		$this->$key = $value;
-	    }
-	}
     }
 }

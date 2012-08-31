@@ -47,14 +47,12 @@ class ACL {
 	$Account	= \Services\Auth::factory()->getIdentityAccount();
 	$objAcl		= \Dataservice_ACL_Factory::get($this->_em);
 	
-	/* @var $Role \Entities\Company\Website\Account\Role */
-	foreach($Account->getRoles() as $Role){
-	    if($objAcl->isAllowed($Role->getName(), $module .'::' .$controller .'::' .$action)){
+	/* @var $Role \Entities\Company\Employee\Role */
+	foreach($Account->getRoles() as $Role)
+	{
+	    if($objAcl->isAllowed($Role->getName(), $module .'::' .$controller .'::' .$action))
 		return true;
-	    }
 	}
 	return false;
     }
 }
-
-?>

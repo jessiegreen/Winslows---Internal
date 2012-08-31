@@ -49,7 +49,7 @@ class Dataservice_Controller_Plugin_ACL extends Zend_Controller_Plugin_Abstract
 
 		 $Account = $em->find("Entities\Company\Website\Account", $Account_id);
 		 
-		 /* @var $Role \Entities\Company\Website\Account\Role */
+		 /* @var $Role \Entities\Company\Employee\Role */
 		 foreach($Account->getRoles() as $Role){
 		     if($this->debug)echo "**".$Role->getName()."**<br />";
 		     if($objAcl->isAllowed($Role->getName(), $request->getModuleName() .'::' .$request->getControllerName() .'::' .$request->getActionName()))

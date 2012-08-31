@@ -202,11 +202,15 @@ $Account	= $Employee->getAccount();
 	    <div style="display: inline;">
 		<?php 
 		$roles = array();
-		/* @var $Role \Entities\Company\Website\Account\Role */
-		foreach($Account->getRoles() as $Role) {
+		
+		/* @var $Role \Entities\Company\Employee\Role */
+		foreach($Account->getRoles() as $Role)
+		{
 		    $roles[] = $Role->getName();
 		}
-		if(count($roles)>0){
+		
+		if(count($roles)>0)
+		{
 		    echo implode(", ",$roles);
 		}
 		else echo "No roles";

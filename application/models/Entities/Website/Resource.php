@@ -1,11 +1,12 @@
 <?php
 
-namespace Entities\Company\Website;
+namespace Entities\Website;
+
 use Doctrine\Common\Collections\ArrayCollection;
 
 /** 
- * @Entity (repositoryClass="Repositories\Company\Website\Resource") 
- * @Table(name="company_website_resources") 
+ * @Entity (repositoryClass="Repositories\Website\Resource") 
+ * @Table(name="website_resources") 
  */
 class Resource extends \Dataservice_Doctrine_Entity
 {
@@ -46,26 +47,14 @@ class Resource extends \Dataservice_Doctrine_Entity
      */
     private $routeName;
     
-    /** 
-     * @Column(type="datetime") 
-     * @var \DateTime $created
-     */
-    private $created;
-
-    /** 
-     * @Column(type="datetime") 
-     * @var \DateTime $updated
-     */
-    private $updated;
-    
     /**
-     * @ManytoMany(targetEntity="\Entities\Company\Website\Account\Role", mappedBy="Resources", cascade={"persist"})
-     * @var \Entities\Company\Website\Account\Role
+     * @ManytoMany(targetEntity="\Entities\Role\RoleAbstract", mappedBy="Resources", cascade={"persist"})
+     * @var ArrayCollection
      */
     private $Roles;
     
     /**
-     * @ManyToOne(targetEntity="\Entities\Company\Website", inversedBy="Resources")
+     * @ManyToOne(targetEntity="\Entities\Website", inversedBy="Resources")
      * @var \Entities\Company\Website
      */
     private $Website;
@@ -74,26 +63,20 @@ class Resource extends \Dataservice_Doctrine_Entity
     {
 	$this->created	= $this->updated = new \DateTime("now");
 	$this->Roles    = new ArrayCollection();
+	
+	parent::__construct();
     }
     
     /**
-     * @PreUpdate
+     * @param \Entities\Website $Website
      */
-    public function updated()
-    {
-        $this->updated = new \DateTime("now");
-    }
-    
-    /**
-     * @param \Entities\Company\Website $Website
-     */
-    public function setWebsite(\Entities\Company\Website $Website)
+    public function setWebsite(\Entities\Website $Website)
     {
 	$this->Website = $Website;
     }
     
     /**
-     * @return \Entities\Company\Website
+     * @return \Entities\Website
      */
     public function getWebsite()
     {
@@ -108,19 +91,19 @@ class Resource extends \Dataservice_Doctrine_Entity
     }
     
     /**
-     * @param \Entities\Company\Employee\Role $Role
+     * @param \Entities\Role\RoleAbstract $Role
      */
-    public function addRole(Account\Role $Role)
+    public function addRole(\Entities\Role\RoleAbstract $Role)
     {
 	$Role->addResource($this);
 	$this->Roles[] = $Role;
     }
     
     /**
-     * @param \Entities\Company\Employee\Role $Role
+     * @param \Entities\Role\RoleAbstract $Role
      * @return boolean
      */
-    public function removeRole(Account\Role $Role)
+    public function removeRole(\Entities\Role\RoleAbstract $Role)
     {
 	$Role->removeResource($this);
 	$this->getRoles()->removeElement($Role);
@@ -213,36 +196,5 @@ class Resource extends \Dataservice_Doctrine_Entity
     public function setRouteName($routeName)
     {
         $this->routeName = $routeName;
-    }
-    
-    /**
-     * @param \DateTime $created
-     */
-    public function setCreated(\DateTime $created)
-    {
-        $this->created = $created;
-    }
-    
-    /**
-     * @return \DateTime
-     */
-    public function getCreated(){
-	return $this->created;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getUpdated()
-    {
-        return $this->updated;
-    }
-
-    public function populate(array $array){
-	foreach ($array as $key => $value) {
-	    if(property_exists($this, $key)){
-		$this->$key = $value;
-	    }
-	}
     }
 }

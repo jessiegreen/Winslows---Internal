@@ -31,14 +31,14 @@ class Dataservice_ACL_Factory
     }
  
     private static function _loadAclFromDB(\Doctrine\ORM\EntityManager $em) {
-        $Roles = $em->getRepository("Entities\Company\Website\Account\Role")->findAll();
+        $Roles = $em->getRepository("Entities\Company\Employee\Role")->findAll();
 	
 	self::$_objAcl = new Zend_Acl();
  
-	//self::$_objAcl->addRole(new Zend_Acl_Role(Entities\Company\Website\Account\Role::getGuestRoleName()));
+	//self::$_objAcl->addRole(new Zend_Acl_Role(Entities\Company\Employee\Role::getGuestRoleName()));
 	//self::$_objAcl->addRole(new Zend_Acl_Role("Guest"));
 	
-	/* @var $Role \Entities\Company\Website\Account\Role */
+	/* @var $Role \Entities\Company\Employee\Role */
 	foreach($Roles as $Role)
 	{
 	    if(self::$_debug)echo $Role->getName()."-<ul> ";

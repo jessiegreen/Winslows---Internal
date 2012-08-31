@@ -1,10 +1,13 @@
 <?php
 
-namespace Entities\Company\Website\Account;
+namespace Entities\Website\Account;
 
 /** 
- * @Entity (repositoryClass="Repositories\Company\Website\Account\AccountAbstracts") 
- * @Table(name="company_website_account_accountabstracts") 
+ * @Entity (repositoryClass="Repositories\Website\Account\AccountAbstracts") 
+ * @Table(name="website_account_accountabstracts") 
+ * @InheritanceType("JOINED")
+ * @DiscriminatorColumn(name="discr", type="string")
+ * @DiscriminatorMap({"company_employee_account" = "\Entities\Company\Employee\Account"})
  * @HasLifecycleCallbacks
  */
 class AccountAbstract extends \Dataservice_Doctrine_Entity
@@ -34,51 +37,26 @@ class AccountAbstract extends \Dataservice_Doctrine_Entity
      */
     private $salt;
     
-    /** 
-     * @Column(type="datetime") 
-     * @var \DateTime $created
-     */
-    private $created;
-
-    /** 
-     * @Column(type="datetime") 
-     * @var \DateTime $updated
-     */
-    private $updated;
-    
     /**
-     * @ManyToOne(targetEntity="\Entities\Company\Website", inversedBy="Accounts")
-     * @var \Entities\Company\Website
+     * @ManyToOne(targetEntity="\Entities\Website", inversedBy="Accounts")
+     * @var \Entities\Website
      */
     private $Website;
-
-    public function __construct()
-    {
-	$this->created	= $this->updated = new \DateTime("now");
-    }
     
     /**
-     * @param \Entities\Company\Website $Website
+     * @param \Entities\Website $Website
      */
-    public function setWebsite(\Entities\Company\Website $Website)
+    public function setWebsite(\Entities\Website $Website)
     {
 	$this->Website = $Website;
     }
     
     /**
-     * @return \Entities\Company\Website
+     * @return \Entities\Website
      */
     public function getWebsite()
     {
 	return $this->Website;
-    }
-
-    /**
-     * @PreUpdate
-     */
-    public function updated()
-    {
-        $this->updated = new \DateTime("now");
     }
 
     /**
@@ -125,49 +103,16 @@ class AccountAbstract extends \Dataservice_Doctrine_Entity
     /**
      * @param string $salt
      */
-    private function _setSalt($salt){
+    private function _setSalt($salt)
+    {
 	$this->salt = $salt;
     }
     
     /**
      * @return string
      */
-    public function getSalt(){
+    public function getSalt()
+    {
 	return $this->salt;
-    }
-        
-    /**
-     * @return \DateTime
-     */
-    public function getCreated()
-    {
-        return $this->created;
-    }
-
-    /**
-     * @param \DateTime $created
-     */
-    public function setCreated(\DateTime $created)
-    {
-        $this->created = $created;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getUpdated()
-    {
-        return $this->updated;
-    }
-
-    public function populate(array $array)
-    {
-	foreach ($array as $key => $value) 
-	{
-	    if(property_exists($this, $key))
-	    {
-		$this->$key = $value;
-	    }
-	}
     }
 }

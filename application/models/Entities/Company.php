@@ -67,6 +67,8 @@ class Company extends \Dataservice_Doctrine_Entity
     {
 	$this->Locations = new ArrayCollection();
 	$this->Suppliers = new ArrayCollection();
+	
+	parent::__construct();
     }
     
     /**
@@ -127,14 +129,7 @@ class Company extends \Dataservice_Doctrine_Entity
      */
     public function removeSupplier(Company\Supplier $Supplier)
     {
-	foreach ($this->Suppliers as $key => $Supplier2) {
-	    if($Supplier->getId() == $Supplier2->getId()){
-		$removed = $this->Suppliers[$key];
-		unset($this->Suppliers[$key]);
-		return $removed;
-	    }
-	}
-	return false;
+	$this->getSuppliers()->removeElement($Supplier);
     }
 
     /**
@@ -207,19 +202,5 @@ class Company extends \Dataservice_Doctrine_Entity
     public function setDescription($description)
     {
         $this->description = $description;
-    }    
-    
-    /**
-     * @param array $array
-     */
-    public function populate(array $array)
-    {
-	foreach ($array as $key => $value) 
-	{
-	    if(property_exists($this, $key))
-	    {
-		$this->$key = $value;
-	    }
-	}
     }
 }

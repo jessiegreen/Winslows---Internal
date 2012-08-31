@@ -7,7 +7,7 @@ echo HTML::backAnchorIcon("Resources View", "/maintenance/resourcesview");
     <select id="add_role_id">
 	<option value=""></option>
 	<?php
-	/* @var $Role \Entities\Company\Website\Account\Role */
+	/* @var $Role \Entities\Company\Employee\Role */
 	foreach($this->Roles as $Role){
 	    echo "<option value='".$Role->getId()."'>".$Role->getName()."</option>";
 	}
@@ -24,7 +24,7 @@ echo HTML::backAnchorIcon("Resources View", "/maintenance/resourcesview");
     <?php
     $Roles = $this->Resource->getRoles();
     if(count($Roles)>0){
-	/* @var $Role \Entities\Company\Website\Account\Role */
+	/* @var $Role \Entities\Company\Employee\Role */
 	foreach($Roles as $Role){
 	    echo "<li role_id='".$Role->getId()."'>".  HTML::buttonIcon("delete.png", "delete_role", "Remove Role", "remove_role", "padding-right:5px;").$Role->getName()."</li>";
 	}
