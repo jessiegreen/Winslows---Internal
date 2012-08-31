@@ -9,8 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @InheritanceType("JOINED")
  * @DiscriminatorColumn(name="discr", type="string")
  * @DiscriminatorMap({
- *			"company_location_employee" = "\Entities\Company\Location\Employee", 
- *			"company_customer" = "\Entities\Company\Customer", 
+ *			"company_employee" = "\Entities\Company\Employee",
  *			"company_lead" = "\Entities\Company\Lead",
  *			"person_personabstract" = "\Entities\Person\PersonAbstract"
  *		    })

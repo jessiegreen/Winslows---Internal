@@ -47,8 +47,8 @@ class Contact extends \Dataservice_Doctrine_Entity
     private $Lead;
     
     /** 
-     * @ManyToOne(targetEntity="\Entities\Company\Location\Employee", cascade="persist")
-     * @var \Entities\Company\Location\Employee $Employee
+     * @ManyToOne(targetEntity="\Entities\Company\Employee", cascade="persist")
+     * @var \Entities\Company\Employee $Employee
      */     
     private $Employee;
 
@@ -69,15 +69,15 @@ class Contact extends \Dataservice_Doctrine_Entity
     }
     
     /**
-     * @param \Entities\Company\Location\Employee $Employee
+     * @param \Entities\Company\Employee $Employee
      */
-    public function setEmployee(\Entities\Company\Location\Employee $Employee)
+    public function setEmployee(\Entities\Company\Employee $Employee)
     {
 	$this->Employee = $Employee;
     }
     
     /**
-     * @return \Entities\Company\Location\Employee
+     * @return \Entities\Company\Employee
      */
     public function getEmployee()
     {

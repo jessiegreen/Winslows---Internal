@@ -14,7 +14,7 @@ class ManageProducts extends \Dataservice_Form
 {
     private $_RtoProvider;
     
-    public function __construct(\Entities\RtoProvider $RtoProvider, $options = null)
+    public function __construct(\Entities\Company\RtoProvider $RtoProvider, $options = null)
     {
 	$this->_RtoProvider = $RtoProvider;
 	parent::__construct($options);

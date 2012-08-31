@@ -57,21 +57,21 @@ class DocumentAbstract  extends \Dataservice_Doctrine_Entity implements \Interfa
     );
     
     /**
-     * @ManyToOne(targetEntity="\Entities\Company\Location\Employee")
-     * @var \Entities\Company\Location\Employee $Employee
+     * @ManyToOne(targetEntity="\Entities\Company\Employee")
+     * @var \Entities\Company\Employee $Employee
      */
     private $Employee;
     
     /**
-     * @param \Entities\Company\Location\Employee $Employee
+     * @param \Entities\Company\Employee $Employee
      */
-    public function setEmployee(\Entities\Company\Location\Employee $Employee)
+    public function setEmployee(\Entities\Company\Employee $Employee)
     {
 	$this->Employee = $Employee;
     }
     
     /**
-     * @return \Entities\Company\Location\Employee
+     * @return \Entities\Company\Employee
      */
     public function getEmployee()
     {

@@ -15,23 +15,29 @@ class Dataservice_ACL_Factory
  
 	if($clearACL) {self::_clear();}
  
-	if(isset(self::$_objAclSession->acl)) {
+	if(isset(self::$_objAclSession->acl))
+	{
 	    return self::$_objAclSession->acl;
-	} else {
+	} 
+	else
+	{
 	    return self::_loadAclFromDB($em);
 	}
     }
  
-    private static function _clear() {
+    private static function _clear()
+    {
         unset(self::$_objAclSession->acl);
     }
  
-    private static function _saveAclToSession() {
+    private static function _saveAclToSession()
+    {
         self::$_objAclSession->acl = self::$_objAcl;
     }
  
-    private static function _loadAclFromDB(\Doctrine\ORM\EntityManager $em) {
-        $Roles = $em->getRepository("Entities\Company\Employee\Role")->findAll();
+    private static function _loadAclFromDB(\Doctrine\ORM\EntityManager $em)
+    {
+        $Roles = $em->getRepository("Entities\Role\RoleAbstract")->findAll();
 	
 	self::$_objAcl = new Zend_Acl();
  

@@ -21,8 +21,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Lead extends PersonAbstract
 {
     /** 
-     * @ManyToOne(targetEntity="\Entities\Company\Location\Employee", inversedBy="Leads")
-     * @var \Entities\Company\Location\Employee $Employee
+     * @ManyToOne(targetEntity="\Entities\Company\Employee", inversedBy="Leads")
+     * @var \Entities\Company\Employee $Employee
      */     
     protected $Employee;
     
@@ -53,7 +53,7 @@ class Lead extends PersonAbstract
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="\Entities\RtoProvider\Application", mappedBy="Lead", cascade={"persist"})
+     * @OneToMany(targetEntity="\Entities\Company\RtoProvider\Application", mappedBy="Lead", cascade={"persist"})
      * @var ArrayCollection $Applications
      */
     private $Applications;
@@ -108,7 +108,7 @@ class Lead extends PersonAbstract
     }
     
     /**
-     * @return \Entities\Company\Location\Employee
+     * @return \Entities\Company\Employee
      */
     public function getEmployee()
     {
@@ -116,7 +116,7 @@ class Lead extends PersonAbstract
     }
 
     /**
-     * @param \Entities\Company\Location\Employee $Employee
+     * @param \Entities\Company\Employee $Employee
      */
     public function setEmployee(Location\Employee $Employee)
     {

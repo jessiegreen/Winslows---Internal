@@ -14,7 +14,7 @@ class Subform extends \Forms\Person\Subform
 {    
     private $_Employee;
     
-    public function __construct($options = null, \Entities\Company\Location\Employee  $Employee = null) 
+    public function __construct($options = null, \Entities\Company\Employee  $Employee = null) 
     {
 	$this->_Employee = $Employee;
 	parent::__construct($options, $this->_Employee);

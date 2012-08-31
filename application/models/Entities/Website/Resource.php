@@ -54,7 +54,7 @@ class Resource extends \Dataservice_Doctrine_Entity
     private $Roles;
     
     /**
-     * @ManyToOne(targetEntity="\Entities\Website", inversedBy="Resources")
+     * @ManyToOne(targetEntity="\Entities\Website\WebsiteAbstract", inversedBy="Resources")
      * @var \Entities\Company\Website
      */
     private $Website;
@@ -68,15 +68,15 @@ class Resource extends \Dataservice_Doctrine_Entity
     }
     
     /**
-     * @param \Entities\Website $Website
+     * @param \Entities\Website\WebsiteAbstract $Website
      */
-    public function setWebsite(\Entities\Website $Website)
+    public function setWebsite(\Entities\Website\WebsiteAbstract $Website)
     {
 	$this->Website = $Website;
     }
     
     /**
-     * @return \Entities\Website
+     * @return \Entities\Website\WebsiteAbstract
      */
     public function getWebsite()
     {

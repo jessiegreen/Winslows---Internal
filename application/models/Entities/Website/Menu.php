@@ -32,8 +32,8 @@ class Menu extends \Dataservice_Doctrine_Entity
     private $Items;
     
     /**
-     * @ManyToOne(targetEntity="\Entities\Website", inversedBy="Menus")
-     * @var \Entities\Website
+     * @ManyToOne(targetEntity="\Entities\Website\WebsiteAbstract", inversedBy="Menus")
+     * @var \Entities\Website\WebsiteAbstract
      */
     private $Website;
 
@@ -45,15 +45,15 @@ class Menu extends \Dataservice_Doctrine_Entity
     }
     
     /**
-     * @param \Entities\Website $Website
+     * @param \Entities\Website\WebsiteAbstract $Website
      */
-    public function setWebsite(\Entities\Website $Website)
+    public function setWebsite(\Entities\Website\WebsiteAbstract $Website)
     {
 	$this->Website = $Website;
     }
     
     /**
-     * @return \Entities\Website
+     * @return \Entities\Website\WebsiteAbstract
      */
     public function getWebsite()
     {

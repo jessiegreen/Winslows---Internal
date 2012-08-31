@@ -1,7 +1,11 @@
 <?php
 namespace Entities\Company\Lead;
 
-class Account extends \Entities\Company\Website\Account\AccountAbstract
+/** 
+ * @Entity (repositoryClass="Repositories\Company\Lead\Account") 
+ * @Table(name="company_lead_accounts") 
+ */
+class Account extends \Entities\Website\Account\AccountAbstract
 {
     /**
      * @OneToOne(targetEntity="\Entities\Company\Lead", inversedBy="Account", cascade={"persist"})

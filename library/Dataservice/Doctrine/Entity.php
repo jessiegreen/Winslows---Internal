@@ -5,13 +5,13 @@ class Dataservice_Doctrine_Entity
      * @Column(type="datetime") 
      * @var \DateTime $created
      */
-    private $created;
+    protected $created;
 
     /** 
      * @Column(type="datetime") 
      * @var \DateTime $updated
      */
-    private $updated;
+    protected $updated;
     
     public function __construct()
     {

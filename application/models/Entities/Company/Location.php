@@ -50,7 +50,7 @@ class Location extends \Dataservice_Doctrine_Entity
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="\Entities\Company\Location\Employee", mappedBy="Location", cascade={"persist"})
+     * @OneToMany(targetEntity="\Entities\Company\Employee", mappedBy="Location", cascade={"persist"})
      * @var ArrayCollection $Employees
      */
     private $Employees;
@@ -79,7 +79,7 @@ class Location extends \Dataservice_Doctrine_Entity
     }
     
     /**
-     * @param \Entities\Company\Location\Employee $Employee
+     * @param \Entities\Company\Employee $Employee
      */
     public function addEmployee(Location\Employee $Employee)
     {

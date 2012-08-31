@@ -1,6 +1,6 @@
 <?php
 
-namespace Entities\RtoProvider;
+namespace Entities\Company\RtoProvider;
 
 /**
  * @Entity (repositoryClass="Repositories\RtoProvider\Application") 
@@ -29,13 +29,13 @@ class Application extends \Dataservice_Doctrine_Entity
     protected $Lead;
     
     /** 
-     * @ManyToOne(targetEntity="\Entities\RtoProvider", inversedBy="Applications")
-     * @var \Entities\RtoProvider
+     * @ManyToOne(targetEntity="\Entities\Company\RtoProvider", inversedBy="Applications")
+     * @var \Entities\Company\RtoProvider
      */  
     protected $RtoProvider;
     
     /**
-     * @return \Entities\RtoProvider
+     * @return \Entities\Company\RtoProvider
      */
     public function getRtoProvider()
     {
@@ -43,9 +43,9 @@ class Application extends \Dataservice_Doctrine_Entity
     }
     
     /**
-     * @param \Entities\RtoProvider $RtoProvider
+     * @param \Entities\Company\RtoProvider $RtoProvider
      */
-    public function setRtoProvider(\Entities\RtoProvider $RtoProvider)
+    public function setRtoProvider(\Entities\Company\RtoProvider $RtoProvider)
     {
 	$this->RtoProvider = $RtoProvider;
     }

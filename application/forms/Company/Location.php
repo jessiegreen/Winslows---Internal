@@ -31,5 +31,3 @@ class Location extends \Zend_Form
         ));
     }
 }
-
-?>

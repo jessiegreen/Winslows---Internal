@@ -14,7 +14,7 @@ class RtoProvider extends \Zend_Form
 {    
     private $_RtoProvider;
     
-    public function __construct($options = null, \Entities\RtoProvider $RtoProvider = null)
+    public function __construct($options = null, \Entities\Company\RtoProvider $RtoProvider = null)
     {
 	$this->_RtoProvider = $RtoProvider;
 	parent::__construct($options, $this->_RtoProvider);

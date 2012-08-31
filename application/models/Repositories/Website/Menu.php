@@ -1,6 +1,6 @@
 <?php
 
-namespace Repositories\Company\Website;
+namespace Repositories\Website;
 
 use Doctrine\ORM\EntityRepository;
 

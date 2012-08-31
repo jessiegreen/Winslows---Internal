@@ -1,6 +1,6 @@
 <?php
 
-namespace Repositories\Company\Website\Menu;
+namespace Repositories\Website\Menu;
 
 use Doctrine\ORM\EntityRepository;
 

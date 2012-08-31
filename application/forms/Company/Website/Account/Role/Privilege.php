@@ -12,19 +12,22 @@ namespace Forms\Company\Employee\Role;
  */
 class Privilege extends \Zend_Form
 {
-    private $_privilege;
+    private $_Privilege;
     
-    public function __construct($options = null, \Entities\Privilege $privilege = null) {
-	$this->_privilege = $privilege;
+    public function __construct($options = null, \Entities\Privilege $Privilege = null)
+    {
+	$this->_Privilege = $Privilege;
 	parent::__construct($options);
     }
     
-    public function init($options = array()){
-	if($this->_privilege !== null && $this->_privilege->getId() > 0){
+    public function init()
+    {
+	if($this->_Privilege !== null && $this->_Privilege->getId() > 0)
+	{
 	    $id = $this->addElement('hidden', 'id', array(
 		'required'  => true,
 		'belongsTo' => 'privilege',
-		'value'	    => $this->_privilege ? $this->_privilege->getId() : ""
+		'value'	    => $this->_Privilege ? $this->_Privilege->getId() : ""
 	    ));
 	}
 	
@@ -32,7 +35,7 @@ class Privilege extends \Zend_Form
             'required'	    => true,
             'label'	    => 'Name:',
 	    'belongsTo'	    => 'privilege',
-	    'value'	    => $this->_privilege ? $this->_privilege->getName() : ""
+	    'value'	    => $this->_Privilege ? $this->_Privilege->getName() : ""
         ));
 	
         $this->addElement('submit', 'submit', array(
@@ -41,5 +44,3 @@ class Privilege extends \Zend_Form
 
     }
 }
-
-?>

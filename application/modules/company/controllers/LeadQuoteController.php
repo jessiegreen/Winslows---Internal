@@ -45,7 +45,7 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
 	    {
 		$quote_data = $this->_params["company_lead_quote"];
 		$Lead	    = $this->_em->find("Entities\Company\Lead", $quote_data["lead_id"]);
-		$Employee   = $this->_em->find("Entities\Company\Location\Employee", $quote_data["employee_id"]);
+		$Employee   = $this->_em->find("Entities\Company\Employee", $quote_data["employee_id"]);
 		
 		if($Lead)$Quote->setLead($Lead);
 		

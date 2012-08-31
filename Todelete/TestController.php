@@ -822,7 +822,7 @@ class TestController extends Zend_Controller_Action
 		$flashMessenger = $this->_helper->getHelper('FlashMessenger');
 		try {
 		    $em		    = $this->_helper->EntityManager();
-		    $employee	    = new \Entities\Company\Location\Employee;
+		    $employee	    = new \Entities\Company\Employee;
 		    $personaddress  = new \Entities\Person\Address;
 		    $webaccount	    = new \Entities\Company\Website\Account;
 

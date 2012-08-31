@@ -187,7 +187,7 @@ class CodebuilderController extends Zend_Controller_Action
 	    $option_id	= $this->_params['id'];
 	    /* @var $em \Doctrine\ORM\EntityManager */
 	    $em		= $this->_helper->EntityManager();
-	    /* @var $employee \Entities\Company\Location\Employee */
+	    /* @var $employee \Entities\Company\Employee */
 	    $employee   = $em->getRepository('Entities\Group')->findOneById($option_id);
 	    
 	    if(!$employee){

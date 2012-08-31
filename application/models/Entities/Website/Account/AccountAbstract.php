@@ -7,7 +7,11 @@ namespace Entities\Website\Account;
  * @Table(name="website_account_accountabstracts") 
  * @InheritanceType("JOINED")
  * @DiscriminatorColumn(name="discr", type="string")
- * @DiscriminatorMap({"company_employee_account" = "\Entities\Company\Employee\Account"})
+ * @DiscriminatorMap({
+ *			"company_employee_account" = "\Entities\Company\Employee\Account",
+ * 			"company_lead_account" = "\Entities\Company\Lead\Account",
+ *			"website_guest_account" = "\Entities\Website\Guest\Account"
+ *		    })
  * @HasLifecycleCallbacks
  */
 class AccountAbstract extends \Dataservice_Doctrine_Entity
@@ -17,42 +21,42 @@ class AccountAbstract extends \Dataservice_Doctrine_Entity
      * @GeneratedValue(strategy="AUTO")
      * @var integer
      */
-    private $id;
+    protected $id;
 
     /** 
      * @Column(type="string", length=255) 
      * @var string $username
      */
-    private $username;
+    protected $username;
     
     /** 
      * @Column(type="string", length=255) 
      * @var string $password
      */
-    private $password;
+    protected $password;
     
     /** 
      * @Column(type="string", length=255) 
      * @var string $salt
      */
-    private $salt;
+    protected $salt;
     
     /**
-     * @ManyToOne(targetEntity="\Entities\Website", inversedBy="Accounts")
-     * @var \Entities\Website
+     * @ManyToOne(targetEntity="\Entities\Website\WebsiteAbstract", inversedBy="Accounts")
+     * @var \Entities\Website\WebsiteAbstract
      */
-    private $Website;
+    protected $Website;
     
     /**
-     * @param \Entities\Website $Website
+     * @param \Entities\Website\WebsiteAbstract $Website
      */
-    public function setWebsite(\Entities\Website $Website)
+    public function setWebsite(\Entities\Website\WebsiteAbstract $Website)
     {
 	$this->Website = $Website;
     }
     
     /**
-     * @return \Entities\Website
+     * @return \Entities\Website\WebsiteAbstract
      */
     public function getWebsite()
     {

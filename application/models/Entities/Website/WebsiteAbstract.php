@@ -18,19 +18,19 @@ class WebsiteAbstract extends \Dataservice_Doctrine_Entity
      * @GeneratedValue(strategy="AUTO")
      * @var integer $id
      */
-    private $id;
+    protected $id;
     
     /** 
      * @Column(type="string", length=255) 
      * @var string $name
      */
-    private $name;
+    protected $name;
     
     /** 
      * @Column(type="string", length=255) 
      * @var string $type
      */
-    private $type;
+    protected $type;
 
     /** 
      * @Column(type="string", length=255) 
@@ -42,19 +42,19 @@ class WebsiteAbstract extends \Dataservice_Doctrine_Entity
      * @OneToMany(targetEntity="\Entities\Website\Account\AccountAbstract", mappedBy="Website", cascade={"persist"})
      * @var ArrayCollection $Accounts
      */
-    private $Accounts;
+    protected $Accounts;
     
     /**
      * @OneToMany(targetEntity="\Entities\Website\Resource", mappedBy="Website", cascade={"persist"})
      * @var ArrayCollection $Resources
      */
-    private $Resources;
+    protected $Resources;
     
     /**
      * @OneToMany(targetEntity="\Entities\Website\Menu", mappedBy="Website", cascade={"persist"})
      * @var ArrayCollection $Menus
      */
-    private $Menus;
+    protected $Menus;
     
     public function __construct()
     {

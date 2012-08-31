@@ -1,6 +1,10 @@
 <?php
 namespace Entities\Company;
 
+/** 
+ * @Entity (repositoryClass="Repositories\Company\Website") 
+ * @Table(name="company_websites") 
+ */
 class Website extends \Entities\Website\WebsiteAbstract
 {
     /** 

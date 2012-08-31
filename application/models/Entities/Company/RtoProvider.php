@@ -56,7 +56,7 @@ class RtoProvider extends \Dataservice_Doctrine_Entity
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="\Entities\RtoProvider\Application", mappedBy="RtoProvider", cascade={"persist"})
+     * @OneToMany(targetEntity="\Entities\Company\RtoProvider\Application", mappedBy="RtoProvider", cascade={"persist"})
      * @var ArrayCollection $Applications
      */
     private $Applications;
@@ -104,7 +104,7 @@ class RtoProvider extends \Dataservice_Doctrine_Entity
     }
     
     /**
-     * @param \Entities\RtoProvider\Application $Application
+     * @param \Entities\Company\RtoProvider\Application $Application
      */
     public function addApplication(RtoProvider\Application $Application)
     {
@@ -113,7 +113,7 @@ class RtoProvider extends \Dataservice_Doctrine_Entity
     }
     
     /**
-     * @param \Entities\RtoProvider\Application $Application
+     * @param \Entities\Company\RtoProvider\Application $Application
      */
     public function removeApplication(RtoProvider\Application $Application)
     {
@@ -122,13 +122,13 @@ class RtoProvider extends \Dataservice_Doctrine_Entity
     
     /**
      * @param \Entities\Company\Lead $Lead
-     * @param \Entities\RtoProvider\Application $Application
+     * @param \Entities\Company\RtoProvider\Application $Application
      * @return boolean
      */
     public function hasLeadApplication(\Entities\Company\Lead $Lead)
     {
 	if($this->getApplications()->exists(
-	    /* @var $Application \Entities\RtoProvider\Application */
+	    /* @var $Application \Entities\Company\RtoProvider\Application */
 	    function($key, $Application) use ($Lead) 
 	    {
 		if(
@@ -143,13 +143,13 @@ class RtoProvider extends \Dataservice_Doctrine_Entity
     
     /**
      * @param \Entities\Company\Lead $Lead
-     * @param \Entities\RtoProvider\Application $Application
+     * @param \Entities\Company\RtoProvider\Application $Application
      * @return boolean
      */
     public function isApproved(\Entities\Company\Lead $Lead)
     {
 	$LeadApplications = $this->getApplications()->filter(
-				/* @var $Application \Entities\RtoProvider\Application */
+				/* @var $Application \Entities\Company\RtoProvider\Application */
 				function($key, $Application) use ($Lead) 
 				{
 				    if(

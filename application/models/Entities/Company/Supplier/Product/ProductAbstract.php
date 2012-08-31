@@ -52,7 +52,7 @@ class ProductAbstract extends \Dataservice_Doctrine_Entity
     private $Supplier;
     
     /**
-     * @ManytoMany(targetEntity="\Entities\RtoProvider", inversedBy="Products", cascade={"persist"})
+     * @ManytoMany(targetEntity="\Entities\Company\RtoProvider", inversedBy="Products", cascade={"persist"})
      * @JoinTable(name="company_supplier_product_rtoprovider_joins")
      * @var ArrayCollection $RtoProviders
      */
@@ -82,18 +82,18 @@ class ProductAbstract extends \Dataservice_Doctrine_Entity
     }
     
     /**
-     * @param \Entities\RtoProvider $RtoProvider
+     * @param \Entities\Company\RtoProvider $RtoProvider
      */
-    public function addRtoProvider(\Entities\RtoProvider $RtoProvider)
+    public function addRtoProvider(\Entities\Company\RtoProvider $RtoProvider)
     {
 	if(!$this->RtoProviders->contains($RtoProvider))
 	    $this->RtoProviders[] = $RtoProvider;
     }
     
     /**
-     * @param \Entities\RtoProvider $RtoProvider
+     * @param \Entities\Company\RtoProvider $RtoProvider
      */
-    public function removeRtoProvider(\Entities\RtoProvider $RtoProvider)
+    public function removeRtoProvider(\Entities\Company\RtoProvider $RtoProvider)
     {
 	$this->RtoProviders->removeElement($RtoProvider);
     }

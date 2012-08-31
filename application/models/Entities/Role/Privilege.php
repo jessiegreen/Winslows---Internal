@@ -1,6 +1,6 @@
 <?php
 
-namespace Entities\Company\Employee\Role;
+namespace Entities\Role;
 
 /** 
  * @Entity (repositoryClass="Repositories\Role\Privilege") 
@@ -23,21 +23,21 @@ class Privilege extends \Dataservice_Doctrine_Entity
     private $name;
     
     /**
-     * @ManyToOne(targetEntity="\Entities\Role", inversedBy="Privileges")
-     * @var $Role null | \Entities\Role
+     * @ManyToOne(targetEntity="\Entities\Role\RoleAbstract", inversedBy="Privileges")
+     * @var $Role null | \Entities\Role\RoleAbstract
      */
     private $Role;
     
     /**
-     * @param \Entities\Role $Role
+     * @param \Entities\Role\RoleAbstract $Role
      */
-    public function setRole(\Entities\Role $Role)
+    public function setRole(\Entities\Role\RoleAbstract $Role)
     {
 	$this->Role = $Role;
     }
     
     /**
-     * @return \Entities\Role
+     * @return \Entities\Role\RoleAbstract
      */
     public function getRole()
     {

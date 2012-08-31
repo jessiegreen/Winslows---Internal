@@ -21,7 +21,7 @@ class Company_LeadController extends Dataservice_Controller_Action
 	    try 
 	    {
 		$lead_data	= $this->_params["lead"];
-		$Employee	= $this->_em->find("Entities\Company\Location\Employee", $lead_data["employee"]);
+		$Employee	= $this->_em->find("Entities\Company\Employee", $lead_data["employee"]);
 		
 		$Lead->setEmployee($Employee);
 		$Lead->populate($lead_data);

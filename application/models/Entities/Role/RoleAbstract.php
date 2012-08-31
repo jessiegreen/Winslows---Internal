@@ -7,7 +7,10 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @Table(name="role_roleabstracts") 
  * @InheritanceType("JOINED")
  * @DiscriminatorColumn(name="discr", type="string")
- * @DiscriminatorMap({"company_employee_role" = "\Entities\Company\Employee\Role"})
+ * @DiscriminatorMap({
+ *			"company_employee_role" = "Entities\Company\Employee\Role",
+ *			"website_guest_role" = "Entities\Website\Guest\Role"
+ *		    })
  * @HasLifecycleCallbacks
  */
 class RoleAbstract extends \Dataservice_Doctrine_Entity

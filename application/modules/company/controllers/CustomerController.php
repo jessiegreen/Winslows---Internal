@@ -29,7 +29,7 @@ class Company_CustomerController extends Dataservice_Controller_Action
 	    try 
 	    {
 		$customer_data	= $this->_params["company_customer"];
-		$Employee	= $this->_em->find("Entities\Company\Location\Employee", $customer_data["employee"]);
+		$Employee	= $this->_em->find("Entities\Company\Employee", $customer_data["employee"]);
 		
 		$Customer->setEmployee($Employee);
 		$Customer->populate($customer_data);

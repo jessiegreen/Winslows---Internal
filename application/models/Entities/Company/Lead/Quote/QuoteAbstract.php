@@ -7,7 +7,7 @@ namespace Entities\Company\Lead\Quote;
  * @Table(name="company_lead_quote_quoteabstracts") 
  * @InheritanceType("JOINED")
  * @DiscriminatorColumn(name="discr", type="string")
- * @DiscriminatorMap({"company_lead_quote" = "\Entities\Company\Lead\Quote", "company_customer_order" = "\Entities\Company\Customer\Order"})
+ * @DiscriminatorMap({"company_lead_quote" = "\Entities\Company\Lead\Quote"})
  * @HasLifecycleCallbacks
  */
 class QuoteAbstract extends \Dataservice_Doctrine_Entity

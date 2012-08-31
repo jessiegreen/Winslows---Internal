@@ -3,6 +3,10 @@ namespace Entities\Company\Employee;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
+/** 
+ * @Entity (repositoryClass="Repositories\Company\Employee\Role") 
+ * @Table(name="company_employee_roles") 
+ */
 class Role extends \Entities\Role\RoleAbstract
 {
     /**

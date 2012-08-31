@@ -140,7 +140,7 @@ class MaintenanceController extends Dataservice_Controller_Action
 	    $role_id	= $this->_params['id'];
 	    /* @var $em \Doctrine\ORM\EntityManager */
 	    $em		= $this->_helper->EntityManager();
-	    /* @var $employee \Entities\Company\Location\Employee */
+	    /* @var $employee \Entities\Company\Employee */
 	    $employee   = $em->getRepository('Entities\Company\Website\Account\Role')->findOneById($role_id);
 	    
 	    if(!$employee)

@@ -17,7 +17,7 @@ class RtoProvider_IndexController extends Dataservice_Controller_Action
     
     public function manageProductsAction()
     {
-	/* @var $RtoProvider Entities\RtoProvider */
+	/* @var $RtoProvider Entities\Company\RtoProvider */
 	$RtoProvider = $this->getEntityFromParamFields("RtoProvider", array("id"));
 	
 	if($RtoProvider)
@@ -87,7 +87,7 @@ class RtoProvider_IndexController extends Dataservice_Controller_Action
     
     public function viewAllAction()
     {
-	$RtoProviders		    = $this->_em->getRepository("Entities\RtoProvider")->findAll();
+	$RtoProviders		    = $this->_em->getRepository("Entities\Company\RtoProvider")->findAll();
 	$this->view->RtoProviders   = $RtoProviders;
     }
     

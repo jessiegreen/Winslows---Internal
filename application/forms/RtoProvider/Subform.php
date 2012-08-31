@@ -14,7 +14,7 @@ class Subform extends \Zend_Form_SubForm
 {
     private $_RtoProvider;
     
-    public function __construct($options = null, \Entities\RtoProvider $RtoProvider = null)
+    public function __construct($options = null, \Entities\Company\RtoProvider $RtoProvider = null)
     {
 	$this->_RtoProvider = $RtoProvider;
 	parent::__construct($options);

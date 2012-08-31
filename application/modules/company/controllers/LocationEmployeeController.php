@@ -31,7 +31,7 @@ class Company_LocationEmployeeController extends Dataservice_Controller_Action
     
     public function viewallAction()
     {
-	$EmployeeRepos		= $this->_em->getRepository("Entities\Company\Location\Employee");
+	$EmployeeRepos		= $this->_em->getRepository("Entities\Company\Employee");
 	$this->view->Employees	= $EmployeeRepos->findAll();
     }
     

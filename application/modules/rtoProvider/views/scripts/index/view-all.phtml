@@ -9,7 +9,7 @@
 <fieldset class="padded_frame blue_frame">
     <legend>RTO Providers</legend>
     <?php
-    /* @var $RtoProvider \Entities\RtoProvider */
+    /* @var $RtoProvider \Entities\Company\RtoProvider */
     foreach($this->RtoProviders as $RtoProvider){
 	echo "<div rto_provider_id='".$RtoProvider->getId()."'>";
 	echo HTML::buttonIcon(

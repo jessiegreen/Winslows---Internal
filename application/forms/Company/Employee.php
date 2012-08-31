@@ -14,7 +14,7 @@ class Employee extends \Zend_Form
 {    
     private $_Employee;
     
-    public function __construct($options = null, \Entities\Company\Location\Employee $Employee = null) 
+    public function __construct($options = null, \Entities\Company\Employee $Employee = null) 
     {
 	$this->_Employee = $Employee;
 	parent::__construct($options, $this->_Employee);
@@ -24,7 +24,7 @@ class Employee extends \Zend_Form
     {	
 	$form = new Employee\Subform($options, $this->_Employee);
 	
-        $this->addSubForm($form, "company_location_employee");
+        $this->addSubForm($form, "company_employee");
 
         $this->addElement('submit', 'submit', array(
             'ignore'	    => true,
