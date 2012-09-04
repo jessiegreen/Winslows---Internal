@@ -11,7 +11,15 @@ class Account extends \Entities\Website\Account\AccountAbstract
      * @OneToOne(targetEntity="\Entities\Company\Lead", inversedBy="Account", cascade={"persist"})
      * @var \Entities\Company\Lead $Lead
      */
-    private $Lead;
+    protected $Lead;
+    
+    /**
+     * @return \Entities\Company\Lead
+     */
+    public function getPerson()
+    {
+	return $this->Lead;
+    }
     
     /**
      * @return \Entities\Company\Lead

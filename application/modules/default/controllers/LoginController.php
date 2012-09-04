@@ -5,7 +5,7 @@
  * @author Jessie
  */
 
-class LoginController extends Zend_Controller_Action
+class LoginController extends Dataservice_Controller_Action
 {
     public function getForm()
     {
@@ -25,16 +25,21 @@ class LoginController extends Zend_Controller_Action
 
     public function preDispatch()
     {
-        if (Zend_Auth::getInstance()->hasIdentity()) {
+        if (Zend_Auth::getInstance()->hasIdentity())
+	{
             // If the user is logged in, we don't want to show the login form;
             // however, the logout action should still be available
-            if ($this->getRequest()->getActionName() != 'logout') {
+            if ($this->getRequest()->getActionName() != 'logout') 
+	    {
                 $this->_helper->redirector('index', 'index');
             }
-        } else {
+        } 
+	else 
+	{
             // If they aren't, they can't logout, so that action should
             // redirect to the login form
-            if ('logout' == $this->getRequest()->getActionName()) {
+            if ('logout' == $this->getRequest()->getActionName())
+	    {
                 $this->_helper->redirector('index');
             }
         }
@@ -50,17 +55,25 @@ class LoginController extends Zend_Controller_Action
         $request = $this->getRequest();
 
         // Check if we have a POST request
-        if (!$request->isPost()) {
+        if (!$request->isPost())
+	{
             return $this->_helper->redirector('index');
         }
-
         // Get our form and validate it
         $form = $this->getForm();
-        if (!$form->isValid($request->getPost())) {
+	
+        if (!$form->isValid($request->getPost()))
+	{
+	    exit;
             // Invalid entries
 	    $form->populate($request->getPost());
+	    
             $this->view->form = $form;
+	    
 	    Zend_Auth::getInstance()->clearIdentity();
+	    
+	    exit;
+	    
             return $this->render('index'); // re-render the login form
         }
         // Get our authentication adapter and check credentials
@@ -69,29 +82,42 @@ class LoginController extends Zend_Controller_Action
 	
 	$result	    = $adapter->authenticate();
 	
-	$auth	    = Zend_Auth::getInstance();
-	$data	    = $adapter->getAccount();
-        $auth->getStorage()->write($data);
-	
-        if (!$result->isValid()) {
+        if (!$result->isValid())
+	{
             // Invalid credentials
 	    $string = "";
+	    
 	    foreach($result->getMessages() as $message){
 		$string .= "$message \n";
 	    }
+	    
 	    $string .= "";
+	    
 	    $form->setDecorators(array('Description',
 		'FormElements',
 		'Form'
 	    ));
+	    
+	    $this->_FlashMessenger->addErrorMessage($string);
+	    
 	    $form->setDescription($string);
+	    
             $this->view->form = $form;
+	    
 	    Zend_Auth::getInstance()->clearIdentity();
+	    echo "yes";
+	    exit;
             return $this->render('index'); // re-render the login form
         }
+	
+	$auth	    = Zend_Auth::getInstance();
+	$data	    = $adapter->getAccountId();
+	
+        $auth->getStorage()->write($data);
 
         // We're authenticated! Redirect to the home page
         $session    = new Zend_Session_Namespace('Dataservice');
+	
 	$session->redirect ? $this->_helper->redirector->gotoUrl($session->redirect) : $this->_helper->redirector('index', 'index');
     }
 

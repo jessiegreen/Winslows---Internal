@@ -6,7 +6,7 @@ class Company_LocationAddressController extends Dataservice_Controller_Action
     {
 	/* @var $LocationAddress \Entities\Company\Location\Address */
 	$LocationAddress    = $this->getEntityFromParamFields("Company\Location\Address", array("id"));
-	$form		    = new Form_LocationAddress(array("method" => "post"), $LocationAddress);
+	$form		    = new Forms\Company\Location\Address(array("method" => "post"), $LocationAddress);
 	
 	$form->addElement("button", "cancel", 
 		array("onclick" => "location='".$this->_History->getPreviousUrl(1)."'")
@@ -16,7 +16,7 @@ class Company_LocationAddressController extends Dataservice_Controller_Action
 	{
 	    try 
 	    {
-		$data	= $this->_params["locationaddress"];
+		$data	= $this->_params["company_location_address"];
 		
 		$LocationAddress->populate($data);
 		
@@ -28,7 +28,7 @@ class Company_LocationAddressController extends Dataservice_Controller_Action
 		    if(!$Location)
 			throw new Exception("Can not add address. No Location with that Id");
 
-		    $Location->setLocationAddress($LocationAddress);
+		    $Location->setAddress($LocationAddress);
 		    $this->_em->persist($Location);
 		}
 		else $this->_em->persist($LocationAddress);

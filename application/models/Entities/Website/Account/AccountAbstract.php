@@ -3,7 +3,7 @@
 namespace Entities\Website\Account;
 
 /** 
- * @Entity (repositoryClass="Repositories\Website\Account\AccountAbstracts") 
+ * @Entity (repositoryClass="Repositories\Website\Account\AccountAbstract") 
  * @Table(name="website_account_accountabstracts") 
  * @InheritanceType("JOINED")
  * @DiscriminatorColumn(name="discr", type="string")
@@ -16,6 +16,9 @@ namespace Entities\Website\Account;
  */
 class AccountAbstract extends \Dataservice_Doctrine_Entity
 {
+    const TYPE_Employee	    = "Employee";
+    const TYPE_Guest	    = "Guest";
+    
     /**
      * @Id @Column(type="integer")
      * @GeneratedValue(strategy="AUTO")
@@ -118,5 +121,13 @@ class AccountAbstract extends \Dataservice_Doctrine_Entity
     public function getSalt()
     {
 	return $this->salt;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getDescriminator()
+    {
+	return null;
     }
 }

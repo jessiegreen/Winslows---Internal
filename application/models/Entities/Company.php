@@ -15,31 +15,31 @@ class Company extends \Dataservice_Doctrine_Entity
      * @GeneratedValue(strategy="AUTO")
      * @var integer $id
      */
-    private $id;
+    protected $id;
     
     /** 
      * @Column(type="string", length=255) 
      * @var string $name
      */
-    private $name;
+    protected $name;
     
     /** 
      * @Column(type="string", length=255) 
      * @var string $dba
      */
-    private $dba;
+    protected $dba;
     
     /** 
      * @Column(type="string", length=255) 
      * @var string $name_index
      */
-    private $name_index;
+    protected $name_index;
     
     /** 
      * @Column(type="string", length=50000)
      * @var string $description
      */
-    private $description;
+    protected $description;
 
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
@@ -47,13 +47,13 @@ class Company extends \Dataservice_Doctrine_Entity
      * @OneToMany(targetEntity="\Entities\Company\Location", mappedBy="Company", cascade={"persist"})
      * @var array $Locations
      */
-    private $Locations;
+    protected $Locations;
     
     /**
      * @ManytoMany(targetEntity="\Entities\Company\Supplier", mappedBy="Companies", cascade={"persist"})
      * @var array $Suppliers
      */
-    private $Suppliers;
+    protected $Suppliers;
     
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
@@ -63,8 +63,17 @@ class Company extends \Dataservice_Doctrine_Entity
      */
     private $Websites;
     
+    /**
+     * Bidirectional - One-To-Many (INVERSE SIDE)
+     *
+     * @OneToMany(targetEntity="\Entities\Company\Employee", mappedBy="Company", cascade={"persist"})
+     * @var ArrayCollection $Employees
+     */
+    private $Employees;
+    
     public function __construct()
     {
+	$this->Employees = new ArrayCollection();
 	$this->Locations = new ArrayCollection();
 	$this->Suppliers = new ArrayCollection();
 	
@@ -130,6 +139,23 @@ class Company extends \Dataservice_Doctrine_Entity
     public function removeSupplier(Company\Supplier $Supplier)
     {
 	$this->getSuppliers()->removeElement($Supplier);
+    }
+    
+    /**
+     * @param \Entities\Company\Employee $Employee
+     */
+    public function addEmployee(\Entities\Company\Employee $Employee)
+    {
+	$Employee->setCompany($this);
+        $this->Employees[] = $Employee;
+    }
+    
+    /**
+     * @return ArrayCollection
+     */
+    public function getEmployees()
+    {
+	return $this->Employees;
     }
 
     /**

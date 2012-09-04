@@ -178,13 +178,6 @@ class MaintenanceController extends Dataservice_Controller_Action
 	$this->_redirect('/maintenance/groupsview');
     }
     
-    public function navigationviewAction()
-    {
-	$this->view->headScript()->appendFile("/javascript/maintenance/navigation/navigation.js");
-	
-	$this->view->menu_items = Services\Company\Website\Menu::factory()->getMenuParentItems("Top");
-    }
-    
     public function navigationremoveAction()
     {
 	$this->_helper->viewRenderer->setNoRender(true);
@@ -200,9 +193,9 @@ class MaintenanceController extends Dataservice_Controller_Action
 	if($menuitem_id){
 	    /* @var $em \Doctrine\ORM\EntityManager */
 	    $em		= $this->_helper->EntityManager();
-	    /* @var $Resource \Entities\Company\Website\Menu */
-	    $Menu	= $em->find("Entities\Company\Website\Menu", $menu_id);
-	    $MenuItem	= $em->find("Entities\Company\Website\Menu\Item", $menuitem_id);
+	    /* @var $Resource \Entities\Website\Menu */
+	    $Menu	= $em->find("Entities\Website\Menu", $menu_id);
+	    $MenuItem	= $em->find("Entities\Website\Menu\Item", $menuitem_id);
 	    
 	    if($Menu && $MenuItem)
 	    {
@@ -227,132 +220,6 @@ class MaintenanceController extends Dataservice_Controller_Action
 	    $this->_redirect('/maintenance/resourcesview');
 	}
     }
-    
-    public function resourcecleanAction()
-    {
-	try 
-	{
-	    /* @var $em \Doctrine\ORM\EntityManager */
-	    $objResources	= new Dataservice_ACL_Resources;
-	    $this->view->result = $objResources->cleanDB($this->_em);
-	} 
-	catch (Exception $exc) 
-	{
-	    $this->_FlashMessenger->addErrorMessage($exc->getMessage());
-	}
-    }
-    
-    public function resourcebuildAction()
-    {
-	/* @var $em \Doctrine\ORM\EntityManager */
-	$objResources	= new Dataservice_ACL_Resources;
-	
-	$objResources->buildAllArrays();
-	$objResources->writeToDB($this->_em);
-    }
-    
-    public function resourcesviewAction()
-    {
-	$this->view->headScript()->appendFile("/javascript/maintenance/resource/resource.js");
-	
-	$this->view->Resources	= $this->_em->getRepository("Entities\Company\Website\Resource")->findAll();
-    }
-    
-    public function resourceeditAction()
-    {
-	$this->view->headScript()->appendFile("/javascript/maintenance/resource/resource.js");
-	
-	if(isset($this->_params["id"]))
-	{
-	    /* @var $Resource \Entities\Company\Website\Resource */
-	    $Resource		    = $this->_em->find("\Entities\Company\Website\Resource",$this->_params["id"]); 
-	    $this->view->Resource   = $Resource;
-	    $this->view->Roles	    = $this->_em->getRepository("Entities\Company\Website\Account\Role")->findAll();
-	}
-    }
-    
-    public function removeroleAction()
-    {
-	$this->_helper->viewRenderer->setNoRender(true);
-	$this->_helper->layout->disableLayout();
-	
-	$ACL = new Dataservice_Controller_Plugin_ACL();
-	
-	$ACL->preDispatch($this->_request);
-	
-	$resource_id	= isset($this->_params["resource_id"]) ? $this->_params["resource_id"] : null;
-	$role_id	= isset($this->_params["role_id"]) ? $this->_params["role_id"] : null;
-	
-	if($resource_id && $role_id)
-	{
-	    /* @var $Resource \Entities\Company\Website\Resource */
-	    $Resource	= $this->_em->find("Entities\Company\Website\Resource", $resource_id);
-	    $Role	= $this->_em->find("Entities\Company\Website\Account\Role", $role_id);
-	    
-	    if($Resource && $Role)
-	    {
-		if(!$Resource->removeRole($Role))
-		{
-		    $this->_FlashMessenger->addErrorMessage("Could Not Remove Role");
-		    $this->_redirect('/maintenance/resourceedit/id/'.$resource_id);
-		}
-		
-		$this->_em->persist($Resource);
-		$this->_em->flush();
-		$this->_FlashMessenger->addSuccessMessage("Role Removed");
-		$this->_redirect('/maintenance/resourceedit/id/'.$resource_id);
-	    }
-	    else
-	    {
-		$this->_FlashMessenger->addErrorMessage("Error Removing Role - Resource or Role Not Found");
-		$this->_redirect('/maintenance/resourceedit/id/'.$resource_id);
-	    }
-	}
-	else
-	{
-	    $this->_FlashMessenger->addErrorMessage("Error Removing Role - Resource or Role Not Sent");
-	    $this->_redirect('/maintenance/resourcesview');
-	}
-    }
-    
-    public function addroleAction()
-    {
-	$this->_helper->viewRenderer->setNoRender(true);
-	$this->_helper->layout->disableLayout();
-	
-	$ACL = new Dataservice_Controller_Plugin_ACL();
-	
-	$ACL->preDispatch($this->_request);
-	
-	$resource_id	= isset($this->_params["resource_id"]) ? $this->_params["resource_id"] : null;
-	$role_id	= isset($this->_params["role_id"]) ? $this->_params["role_id"] : null;
-	
-	if($resource_id && $role_id)
-	{
-	    /* @var $Resource \Entities\Company\Website\Resource */
-	    $Resource	= $this->_em->find("Entities\Company\Website\Resource", $resource_id);
-	    $Role	= $this->_em->find("Entities\Company\Website\Account\Role", $role_id);
-	    
-	    if($Resource && $Role)
-	    {
-		$Resource->addRole($Role);
-		$this->_em->persist($Resource);
-		$this->_em->flush();
-		$this->_FlashMessenger->addSuccessMessage("Role Added");
-		$this->_redirect('/maintenance/resourceedit/id/'.$resource_id);
-	    }
-	    else
-	    {
-		$this->_FlashMessenger->addErrorMessage("Error Adding Role - Resource or Role Not Available");
-		$this->_redirect('/maintenance/resourcesview');
-	    }
-	}
-	else
-	{
-	    $this->_FlashMessenger->addErrorMessage("Error Adding Role - Resource or Role Not Sent");
-	    $this->_redirect('/maintenance/resourcesview');
-	}
-    }    
     
     public function locationaddAction()
     {	

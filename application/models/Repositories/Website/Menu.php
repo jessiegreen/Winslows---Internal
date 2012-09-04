@@ -9,7 +9,7 @@ class Menu extends EntityRepository
     /**
      * Get a menu by name
      * @param string $name
-     * @return \Entities\Company\Website\Menu 
+     * @return \Entities\Website\Menu 
      */
     public function getMenuByName($name)
     {
@@ -20,7 +20,7 @@ class Menu extends EntityRepository
     /**
      * Get a menu by id
      * @param string $id
-     * @return \Entities\Company\Website\Menu
+     * @return \Entities\Website\Menu
      */
     public function getMenuById($id)
     {

@@ -24,7 +24,7 @@ echo($this->flashMessages());
     <input type="hidden" id="account_id" value="<?php echo $this->Account->getId();?>" />
     <ul>
     <?php
-    $Roles = $this->Account->getRoles();
+    $Roles = $this->Account->getPerson()->getRoles();
     if(count($Roles)>0){
 	/* @var $Role \Entities\Company\Employee\Role */
 	foreach($Roles as $Role){

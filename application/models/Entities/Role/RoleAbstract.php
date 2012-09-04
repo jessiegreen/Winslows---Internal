@@ -20,32 +20,32 @@ class RoleAbstract extends \Dataservice_Doctrine_Entity
      * @GeneratedValue(strategy="AUTO")
      * @var integer $id
      */
-    private $id;
+    protected $id;
 
     /** 
      * @Column(type="string", length=255) 
      * @var string $name
      */
-    private $name;
+    protected $name;
     
     /** 
      * @Column(type="string", length=2000) 
      * @var string $description
      */
-    private $description;
+    protected $description;
     
     /**
      * @OneToMany(targetEntity="\Entities\Role\Privilege", mappedBy="Role", cascade={"persist"}, orphanRemoval=true)
      * @var ArrayCollection Privileges
      */
-    private $Privileges;
+    protected $Privileges;
     
     /**
-     * @ManytoMany(targetEntity="\Entities\Website\Resource", inversedBy="Roles", cascade={"persist"})
+     * @ManytoMany(targetEntity="\Entities\Website\Resource", inversedBy="Roles", cascade={"persist, remove"})
      * @JoinTable(name="role_resource_joins")
      * @var ArrayCollection $Resources
      */
-    private $Resources;
+    protected $Resources;
     
     public function __construct()
     {
@@ -85,7 +85,6 @@ class RoleAbstract extends \Dataservice_Doctrine_Entity
      */
     public function removeResource(\Entities\Website\Resource $Resource)
     {
-	$Resource->removeRole($this);
 	$this->getResources()->removeElement($Resource);
     }
     

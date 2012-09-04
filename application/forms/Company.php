@@ -31,5 +31,3 @@ class Company extends \Zend_Form
         ));
     }
 }
-
-?>

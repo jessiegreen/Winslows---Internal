@@ -14,13 +14,19 @@ class Employee extends PersonAbstract
      * @Column(type="string", length=255) 
      * @var string $title
      */
-    private $title;
+    protected $title;
     
     /**
      * @ManyToOne(targetEntity="\Entities\Company\Location", inversedBy="Employees")
      * @var \Entities\Company\Location $Location
      */
-    private $Location;
+    protected $Location;
+    
+    /**
+     * @ManyToOne(targetEntity="\Entities\Company", inversedBy="Employees")
+     * @var \Entities\Company $Company
+     */
+    protected $Company;
     
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
@@ -28,14 +34,14 @@ class Employee extends PersonAbstract
      * @OneToMany(targetEntity="\Entities\Company\Lead", mappedBy="Employee", cascade={"persist"})
      * @var ArrayCollection $Leads
      */
-    private $Leads;
+    protected $Leads;
     
     /**
      * @ManytoMany(targetEntity="\Entities\Company\Employee\Role", cascade={"persist"})
      * @JoinTable(name="company_employee_role_joins")
      * @var ArrayCollection $Roles
      */
-    private $Roles;
+    protected $Roles;
     
     /**
      * @OneToOne(targetEntity="\Entities\Company\Employee\Account", mappedBy="Employee", cascade={"persist"}, orphanRemoval=true)
@@ -112,6 +118,22 @@ class Employee extends PersonAbstract
     public function setLocation(\Entities\Company\Location $Location)
     {
 	$this->Location = $Location;
+    }
+    
+    /** 
+     * @return \Entities\Company
+     */
+    public function getCompany()
+    {
+	return $this->Company;
+    }
+    
+    /**
+     * @param \Entities\Company $Location
+     */
+    public function setCompany(\Entities\Company $Company)
+    {
+	$this->Company = $Company;
     }
     
     /** 

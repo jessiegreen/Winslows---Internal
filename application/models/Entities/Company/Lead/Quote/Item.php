@@ -14,33 +14,33 @@ class Item extends \Dataservice_Doctrine_Entity
      * @GeneratedValue(strategy="AUTO")
      * @var integer $id
      */
-    private $id;
+    protected $id;
     
     /** 
      * @Column(type="integer")
      * @var integer $quantity
      */
-    private $quantity;
+    protected $quantity;
     
     /** 
      * @Column(type="string")
      * @var string $sale_type
      */
-    private $sale_type;
+    protected $sale_type;
     
     /**
      * @ManyToOne(targetEntity="\Entities\Company\Lead\Quote", inversedBy="Items")
      * @var \Entities\Company\Lead\Quote $Quote
      */
-    private $Quote;
+    protected $Quote;
     
     /**
      * @OneToOne(targetEntity="\Entities\Company\Supplier\Product\Instance\InstanceAbstract", cascade={"persist", "remove"}, orphanRemoval=true)
      * @var \Entities\Company\Supplier\Product\Instance\InstanceAbstract $Instance
      */
-    private $Instance;
+    protected $Instance;
     
-    private $cash_sale_type_index = "cash";
+    protected $cash_sale_type_index = "cash";
     
     /**
      * @return integer

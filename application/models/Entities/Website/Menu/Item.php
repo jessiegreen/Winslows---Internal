@@ -16,68 +16,68 @@ class Item extends \Dataservice_Doctrine_Entity
      * @GeneratedValue(strategy="AUTO")
      * @var integer $id
      */
-    private $id;
+    protected $id;
     
     /** 
      * @Column(type="integer") 
      * @var integer $id
      */
-    private $Menu_id;
+    protected $Menu_id;
     
     /** 
      * @Column(type="string", length=255) 
      * @var string $name_index
      */
-    private $name_index;
+    protected $name_index;
     
     /** 
      * @Column(type="string", length=255) 
      * @var string $label
      */
-    private $label;
+    protected $label;
     
     /** 
      * @Column(type="string", length=255) 
      * @var string $icon
      */
-    private $icon;
+    protected $icon;
     
     /** 
      * @Column(type="string", length=255) 
      * @var string $link_module
      */
-    private $link_module;
+    protected $link_module;
     
     /** 
      * @Column(type="string", length=255) 
      * @var string $link_controller
      */
-    private $link_controller;
+    protected $link_controller;
     
     /** 
      * @Column(type="string", length=255) 
      * @var string $link_action
      */
-    private $link_action;
+    protected $link_action;
     
     /** 
      * @Column(type="string", length=255) 
      * @var string $link_params
      */
-    private $link_params;
+    protected $link_params;
     
     /** 
      * @ManyToOne(targetEntity="\Entities\Website\Menu", inversedBy="Items")
      * @var \Entities\Website\Menu $Menu
      */     
-    private $Menu;
+    protected $Menu;
     
     /**
      * @ManyToOne(targetEntity="\Entities\Website\Menu\Item", inversedBy="children")
      * @JoinColumn(name="parent", referencedColumnName="id")
      * @var $parent null | Item
      */
-    private $parent;
+    protected $parent;
     
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
@@ -130,7 +130,7 @@ class Item extends \Dataservice_Doctrine_Entity
     /**
      * @param \Entities\Website\Menu $Menu
      */
-    public function setMenu(\Entities\Company\Website\Menu $Menu)
+    public function setMenu(\Entities\Website\Menu $Menu)
     {
         $this->Menu = $Menu;
     }

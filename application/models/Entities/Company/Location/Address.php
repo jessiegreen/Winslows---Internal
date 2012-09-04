@@ -18,7 +18,7 @@ class Address extends \Entities\Address\AddressAbstract
      * @OneToOne(targetEntity="\Entities\Company\Location", inversedBy="Address")
      * @var \Entities\Company\Location $Location 
      */     
-    private $Location;
+    protected $Location;
     
     /**
      * Add Location to address.

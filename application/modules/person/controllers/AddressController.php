@@ -34,7 +34,7 @@ class Person_AddressController extends Dataservice_Controller_Action
 		    if(!$Person)
 			throw new Exception("Can not add address. No Person with that Id");
 
-		    $Person->addPersonAddress($Address);
+		    $Person->addAddress($Address);
 		    $this->_em->persist($Person);
 		}
 		else $this->_em->persist($Address);

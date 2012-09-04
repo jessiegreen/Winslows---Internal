@@ -1,6 +1,5 @@
 <?php
 namespace Forms\Company\Location;
-use Entities\Company\Location\Address as Address;
 /**
  * Name:
  * Location:
@@ -15,7 +14,7 @@ class Address extends \Zend_Form
 {    
     private $_Address;
     
-    public function __construct($options = null, Address $Address = null) {
+    public function __construct($options = null, \Entities\Company\Location\Address $Address = null) {
 	$this->_Address = $Address;
 	parent::__construct($options, $this->_Address);
     }

@@ -1,0 +1,235 @@
+<?php 
+echo($this->flashMessages()); 
+echo "<div>";
+echo HTML::backAnchorIcon("Employees - All", "/company/employee/viewall");
+echo "</div>";
+?>
+<h1 class="header1">Employee - View</h1>
+<?php
+/* @var $Employee \Entities\Company\Employee */
+$Employee	= $this->Employee;
+$employee_id	= $Employee->getId();
+$addresses	= $Employee->getAddresses();
+$phones		= $Employee->getPhoneNumbers();
+$emails		= $Employee->getEmailAddresses();
+$Account	= $Employee->getAccount();
+?>
+<div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
+    <h3 class="no_space" style="color: #2000EE;">
+	Info
+	<?php
+	echo HTML::anchorIcon(
+		"pencil.png", 
+		"", 
+		"/company/employee/edit/id/".$employee_id,
+		"margin-left:5px;"
+		);
+	?>
+    </h4>
+    <div>
+	Name:<?php echo $Employee->getFullName(); ?> &nbsp;&nbsp;&nbsp; 
+	Company:<?php echo $Employee->getLocation()->getCompany()->getName(); ?> &nbsp;&nbsp;&nbsp; 
+	Location:<?php echo $Employee->getLocation()->getName(); ?>
+    </div>
+</div>
+<div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">
+    <div id="accordion">
+	<h3>
+	    <a href="#">Address</a>
+	    <?php echo HTML::buttonBlue("building_add.png", "Add Address", "address_add", "float:right;width:110px;");?>
+	</h3>
+	<div>
+	    <?php
+	    /* @var $Address \Entities\Address */
+	    foreach ($addresses as $Address) {
+		?>
+		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
+		    <?php 
+		    echo $Address->getName();
+		    echo HTML::anchorIcon(
+			    "pencil.png", 
+			    "", 
+			    "/person/address/edit/person_id/".$employee_id."/id/".$Address->getId(),
+			    "margin-left:5px;"
+			    );
+		    ?>
+		</h4>
+		<label for="addr_1_addr1">Address 1:</label>
+		<div id="addr_1_addr1" style="display: inline;"><?php echo $Address->getAddress1(); ?></div><br />
+		<label for="addr_1_addr2">Address 2:</label>
+		<div id="addr_1_addr2" style="display: inline;"><?php echo $Address->getAddress2(); ?></div><br />
+		<label for="addr_1_csz">City/ST/Zip:</label>
+		<div id="addr_1_csz" style="display: inline;">
+		    <?php 
+		    echo $Address->getCity().", ".
+			    $Address->getState()." ".
+			    $Address->getZip1()."-".
+			    $Address->getZip2(); ?>
+		</div>
+		<?php
+	    }
+	    ?>
+	</div>
+	<hr />
+	<h3>
+	    <a href="#">Phone</a>
+	    <?php 
+	    echo HTML::buttonBlue(
+		    "phone_add.png", 
+		    "Add Phone", 
+		    "phone_add", "float:right;width:110px;"
+		    );?>
+	</h3>
+	<div>
+	    <?php
+	    /* @var $PhoneNumber \Entities\Person\PhoneNumber */
+	    foreach ($phones as $PhoneNumber) {
+		?>
+		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
+		    <?php 
+		    echo $PhoneNumber->getType(); 
+		    echo HTML::anchorIcon(
+			    "pencil.png", 
+			    "", 
+			    "/person/phone-number/edit/person_id/".$employee_id."/id/".
+				$PhoneNumber->getId(), 
+			    "margin-left:5px;"
+			    );
+		    ?>
+		</h4>
+		<label for="phone1">Num:</label>
+		<div id="phone1" style="display: inline;">
+		    <?php 
+		    echo "(".$PhoneNumber->getAreaCode().") ".$PhoneNumber->getNum1()."-".$PhoneNumber->getNum2(); 
+		    ?>
+		</div><br />
+		<label for="ext1">Ext:</label>
+		<div id="ext1" style="display: inline;">
+		    <?php 
+		    echo $PhoneNumber->getExtension(); 
+		    ?>
+		</div>
+		<?php
+	    }
+	    ?>
+	</div>
+	<hr />
+	<h3>
+	    <a href="#">Email</a>
+	    <?php 
+	    echo HTML::buttonBlue(
+		    "email_add.png", 
+		    "Add Email", 
+		    "email_add", "float:right;width:110px;"
+		    );?>
+	</h3>
+	<div>
+	    <?php
+	    /* @var $Emailaddress \Entities\Person\EmailAddress */
+	    foreach ($emails as $EmailAddress) {
+		?>
+		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
+		    <?php 
+		    echo $EmailAddress->getType(); 
+		    echo HTML::anchorIcon(
+			    "pencil.png", 
+			    "", 
+			    "/person/email-address/edit/person_id/".$employee_id."/id/".
+				$EmailAddress->getId(), 
+			    "margin-left:5px;"
+			    );
+		    ?>
+		</h4>
+		<label for="emailaddress">Address:</label>
+		<div id="emailaddress" style="display: inline;">
+		    <?php 
+		    echo $EmailAddress->getAddress(); 
+		    ?>
+		</div>
+		<?php
+	    }
+	    ?>
+	</div>
+    </div>
+</div>
+<div class="padded_frame" style="width: 415px;float: right;padding-top: 0px;">
+    <h3>
+	<a href="#">Account</a>
+	<?php
+	if(!$Account)
+	    echo HTML::buttonBlue(
+		    "lock_add.png", 
+		    "Add Account", 
+		    "account_add", 
+		    "float:right;width:140px;"
+		    );
+	?>
+    </h3>
+    <div>
+	<?php
+	/* @var $Account \Entities\Company\Employee\Account */
+	if($Account)
+	{
+	    ?>
+	    <h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
+		<?php 
+		echo $Account->getUsername(); 
+		echo HTML::anchorIcon(
+			"pencil.png", 
+			"", 
+			"/company/website-account/edit/person_id/".$employee_id."/id/".
+			    $Account->getId(), 
+			"margin-left:5px;",
+			"Edit Username"
+			);
+		echo HTML::anchorIcon(
+			"lock_edit.png", 
+			"", 
+			"/company/website-account/edit/pwd/1/person_id/".$employee_id."/id/".
+			    $Account->getId(), 
+			"margin-left:5px;",
+			"Reset Password"
+			);
+		echo HTML::anchorIcon(
+			"creditcards.png", 
+			"", 
+			"/company/website-account/roles/id/".$Account->getId(), 
+			"margin-left:5px;",
+			"Edit Roles"
+			);
+		?>
+	    </h4>
+	    <label>Roles:</label>
+	    <div style="display: inline;">
+		<?php 
+		$roles = array();
+		
+		/* @var $Role \Entities\Company\Employee\Role */
+		foreach($Employee->getRoles() as $Role)
+		{
+		    $roles[] = $Role->getName();
+		}
+		
+		if(count($roles)>0)
+		{
+		    echo implode(", ",$roles);
+		}
+		else echo "No roles";
+		?>
+	    </div><br />
+	    <?php
+	}
+	else echo "No Web Account";
+	?>
+    </div>
+    <h3><a href="#">Documents</a></h3>
+    <div>Put Documents here</div>
+</div>
+<div style="clear: both;"><input type="hidden" id="employee_id" value="<?php echo $employee_id;?>" /></div>
+<script type="text/javascript">
+    Employee = new Employee();
+    Employee.AddPhoneClickBind("phone_add");
+    Employee.AddAddressClickBind("address_add");
+    Employee.AddEmailClickBind("email_add");
+    Employee.AddAccountClickBind("account_add");
+</script>

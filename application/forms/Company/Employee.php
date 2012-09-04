@@ -1,5 +1,5 @@
 <?php
-namespace Forms\Company\Location;
+namespace Forms\Company;
 /**
  * Name:
  * Location:
@@ -31,5 +31,3 @@ class Employee extends \Zend_Form
         ));
     }
 }
-
-?>

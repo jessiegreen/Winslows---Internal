@@ -10,7 +10,7 @@ class Dataservice_Form_Element_EmployeeSelect extends Zend_Form_Element_Select
     {	
         $this->addMultiOption("", 'Please select...');
 	
-        foreach (Services\Company\Location\Employee::factory()->getEmployees() as $Employee) 
+        foreach (Services\Company\Employee::factory()->getEmployees() as $Employee) 
 	{
             $this->addMultiOption($Employee->getId(), $Employee->getFullName());
         }

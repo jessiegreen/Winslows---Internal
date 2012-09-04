@@ -20,7 +20,7 @@ class PhoneNumber extends \Entities\PhoneNumber\PhoneNumberAbstract
      * @OneToOne(targetEntity="\Entities\Company\Location", inversedBy="PhoneNumber")
      * @var \Entities\Company\Location $Location
      */     
-    private $Location;
+    protected $Location;
     
     /**
      * @param \Entities\Company\Location $Location

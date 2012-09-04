@@ -136,7 +136,7 @@ class Company_LeadContactController extends Dataservice_Controller_Action
 		    if(!$Person)
 			throw new Exception("Can not add address. No Person with that Id");
 
-		    $Person->addPersonAddress($PersonAddress);
+		    $Person->addAddress($PersonAddress);
 		    $this->_em->persist($Person);
 		}
 		else $this->_em->persist($PersonAddress);

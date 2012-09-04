@@ -11,7 +11,7 @@ class EmailAddress extends \Entities\EmailAddress\EmailAddressAbstract
      * @ManyToOne(targetEntity="\Entities\Person\PersonAbstract", inversedBy="EmailAddresses")
      * @var \Entities\Person\PersonAbstract
      */     
-    private $Person;
+    protected $Person;
         
     /**
      * @param \Entities\Person\PersonAbstract $Person

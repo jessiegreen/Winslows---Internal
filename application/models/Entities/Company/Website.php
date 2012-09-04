@@ -11,7 +11,7 @@ class Website extends \Entities\Website\WebsiteAbstract
      * @ManyToOne(targetEntity="\Entities\Company", inversedBy="Websites")
      * @var \Entities\Company
      */     
-    private $Company;
+    protected $Company;
     
     /**
      * @return \Entities\Company

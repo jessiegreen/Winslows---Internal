@@ -9,7 +9,7 @@ echo HTML::buttonBlue("application_form_add.png", "Add Parent Item", "menuitem_a
     <legend>Menu Items</legend>
     <ol>
     <?php
-    /* @var $MenuItem \Entities\Company\Website\Menu\Item */
+    /* @var $MenuItem \Entities\Website\Menu\Item */
     foreach($this->menu_items as $MenuItem){
 	$this->Maintenance_Menuitem($MenuItem);
     }

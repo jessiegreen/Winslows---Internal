@@ -15,43 +15,43 @@ class RtoProvider extends \Dataservice_Doctrine_Entity
      * @GeneratedValue(strategy="AUTO")
      * @var integer $id
      */
-    private $id;
+    protected $id;
     
     /** 
      * @Column(type="string", length=255) 
      * @var string $name
      */
-    private $name;
+    protected $name;
     
     /** 
      * @Column(type="string", length=255) 
      * @var string $dba
      */
-    private $dba;
+    protected $dba;
     
     /** 
      * @Column(type="string", length=255) 
      * @var string $name_index
      */
-    private $name_index;
+    protected $name_index;
     
     /** 
      * @Column(type="integer", length=3) 
      * @var int $minimum_points
      */
-    private $minimum_points;
+    protected $minimum_points;
     
     /** 
      * @Column(type="string", length=50000)
      * @var string $description
      */
-    private $description;
+    protected $description;
     
     /**
      * @ManytoMany(targetEntity="\Entities\Company\Supplier\Product\ProductAbstract", mappedBy="RtoProviders", cascade={"ALL"})
      * @var ArrayCollection $Products
      */
-    private $Products;
+    protected $Products;
     
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
@@ -59,7 +59,7 @@ class RtoProvider extends \Dataservice_Doctrine_Entity
      * @OneToMany(targetEntity="\Entities\Company\RtoProvider\Application", mappedBy="RtoProvider", cascade={"persist"})
      * @var ArrayCollection $Applications
      */
-    private $Applications;
+    protected $Applications;
     
     public function __construct()
     {

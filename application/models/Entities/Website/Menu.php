@@ -15,13 +15,13 @@ class Menu extends \Dataservice_Doctrine_Entity
      * @GeneratedValue(strategy="AUTO")
      * @var integer $id
      */
-    private $id;
+    protected $id;
 
     /** 
      * @Column(type="string", length=255) 
      * @var string $name
      */
-    private $name;
+    protected $name;
 
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
@@ -29,13 +29,13 @@ class Menu extends \Dataservice_Doctrine_Entity
      * @OneToMany(targetEntity="\Entities\Website\Menu\Item", mappedBy="Menu", cascade={"persist"}, orphanRemoval=true)
      * @var ArrayCollection $Items
      */
-    private $Items;
+    protected $Items;
     
     /**
      * @ManyToOne(targetEntity="\Entities\Website\WebsiteAbstract", inversedBy="Menus")
      * @var \Entities\Website\WebsiteAbstract
      */
-    private $Website;
+    protected $Website;
 
     public function __construct()
     {
@@ -80,7 +80,7 @@ class Menu extends \Dataservice_Doctrine_Entity
     }
     
     /**
-     * @param \Entities\Company\Website\Menu\Item $Item
+     * @param \Entities\Website\Menu\Item $Item
      * @return boolean
      */
     public function removeItem(Menu\Item $Item)
@@ -111,5 +111,21 @@ class Menu extends \Dataservice_Doctrine_Entity
     public function setName($name)
     {
 	$this->name = $name;
+    }
+    
+    /**
+     * Get menus parent items
+     * @return array 
+     */
+    public function getParentItems()
+    {
+	$parent_items	= $this->getItems()->filter(
+		    function($MenuItem){
+			if(!$MenuItem->getParent())
+			    return true;
+		    }
+		);
+	
+	return $parent_items;
     }
 }

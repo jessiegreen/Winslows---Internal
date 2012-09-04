@@ -14,13 +14,13 @@ class Application extends \Dataservice_Doctrine_Entity
      * @GeneratedValue(strategy="AUTO")
      * @var integer $id
      */
-    private $id;
+    protected $id;
     
     /** 
      * @Column(type="integer", length=3) 
      * @var integer $points
      */
-    private $points;
+    protected $points;
 
     /** 
      * @ManyToOne(targetEntity="\Entities\Company\Lead", inversedBy="Applications")

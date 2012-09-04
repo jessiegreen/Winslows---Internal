@@ -15,19 +15,19 @@ class Location extends \Dataservice_Doctrine_Entity
      * @GeneratedValue(strategy="AUTO")
      * @var integer $id
      */
-    private $id;
+    protected $id;
     
     /** 
      * @Column(type="string", length=255) 
      * @var string $name
      */
-    private $name;
+    protected $name;
     
     /** 
      * @Column(type="string", length=255) 
      * @var string $type
      */
-    private $type;
+    protected $type;
 
     /**
      * @OneToOne(targetEntity="\Entities\Company\Location\Address", mappedBy="Location", cascade={"persist"}, orphanRemoval=true)
@@ -42,10 +42,10 @@ class Location extends \Dataservice_Doctrine_Entity
     protected $PhoneNumber;
     
     /** 
-     * @ManyToOne(targetEntity="\Entities\Company", inversedBy="locations")
+     * @ManyToOne(targetEntity="\Entities\Company", inversedBy="Locations")
      * @var \Entities\Company
      */     
-    private $Company;
+    protected $Company;
     
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
@@ -53,7 +53,7 @@ class Location extends \Dataservice_Doctrine_Entity
      * @OneToMany(targetEntity="\Entities\Company\Employee", mappedBy="Location", cascade={"persist"})
      * @var ArrayCollection $Employees
      */
-    private $Employees;
+    protected $Employees;
     
     public function __construct()
     {
@@ -81,7 +81,7 @@ class Location extends \Dataservice_Doctrine_Entity
     /**
      * @param \Entities\Company\Employee $Employee
      */
-    public function addEmployee(Location\Employee $Employee)
+    public function addEmployee(\Entities\Company\Employee $Employee)
     {
 	$Employee->setLocation($this);
         $this->Employees[] = $Employee;
@@ -169,6 +169,7 @@ class Location extends \Dataservice_Doctrine_Entity
     {
 	if(!key_exists($type, $this->getTypeOptions()))
 	    throw new \Exception("Type option of ".htmlspecialchars ($type)." does not exist");
+	
         $this->type = $type;
     }
     

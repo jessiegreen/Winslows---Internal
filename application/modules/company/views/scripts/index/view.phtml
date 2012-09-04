@@ -9,6 +9,7 @@ echo "</div>";
 /* @var $Company \Entities\Company */
 $Company	= $this->Company;
 $company_id	= $Company->getId();
+/* @var $Locations \Doctrine\Common\Collections\ArrayCollection */
 $Locations	= $Company->getLocations();
 $Suppliers	= $Company->getSuppliers();
 ?>
@@ -39,7 +40,8 @@ $Suppliers	= $Company->getSuppliers();
 	<div>
 	    <?php
 	    /* @var $Location \Entities\Company\Location */
-	    foreach ($Locations as $Location) {
+	    foreach ($Locations as $Location)
+	    {
 		?>
 		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
 		    <?php 

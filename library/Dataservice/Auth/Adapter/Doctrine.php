@@ -34,7 +34,7 @@ class Dataservice_Auth_Adapter_Doctrine implements Zend_Auth_Adapter_Interface
      */
     protected $credential;
     
-    protected $Account;
+    protected $account_id;
 
     /**
     * Constructor sets configuration options.
@@ -45,14 +45,12 @@ class Dataservice_Auth_Adapter_Doctrine implements Zend_Auth_Adapter_Interface
     */
     public function __construct(\Doctrine\ORM\EntityManager $entity_manager, $identity, $credential)
     {
-        $this->_em = $entity_manager;
-
+        $this->_em		= $entity_manager;
         $this->identityField	= 'username';
         $this->credentialField	= 'password';
         $this->identity		= $identity;
         //create encryped password
         $this->credential	= $credential;
-
     }
 
     /**
@@ -67,43 +65,55 @@ class Dataservice_Auth_Adapter_Doctrine implements Zend_Auth_Adapter_Interface
     public function authenticate()
     {
         $this->_authenticateSetup();
-	
         // get details of the user from table
-	/* @var $Account Entities\Company\Website\Account */
-	$repos	    = $this->_em->getRepository('Entities\Company\Website\Account');
-        $Account    = $repos->findOneBy(array("username" => $this->identity));
+	
+	/* @var $Account \Entities\Website\Account\AccountAbstract */
+	$repos	    = $this->_em->getRepository('Entities\Website\Account\AccountAbstract');
+	$Account    = $repos->findOneBy(array("username" => $this->identity));
+	
         $authResult = array(
-            'code' => Zend_Auth_Result::FAILURE,
-            'identity' => null,
-            'messages' => array()
+            'code'	=> Zend_Auth_Result::FAILURE,
+            'identity'	=> null,
+            'messages'	=> array()
         );
-        try {
-
+	
+        try 
+	{
             $resultCount = count($Account);
 
-            if ($resultCount > 1) {
-                $authResult['code'] = Zend_Auth_Result::FAILURE_IDENTITY_AMBIGUOUS;
-                $authResult['messages'][] = 'More than one entity matches the supplied identity.';
-            } else if ($resultCount < 1) {
-                $authResult['code'] = Zend_Auth_Result::FAILURE_IDENTITY_NOT_FOUND;
-                $authResult['messages'][] = 'Username not found.';
-            } else if (1 == $resultCount) {
+            if ($resultCount > 1)
+	    {
+                $authResult['code']	    = Zend_Auth_Result::FAILURE_IDENTITY_AMBIGUOUS;
+                $authResult['messages'][]   = 'More than one entity matches the supplied identity.';
+            } 
+	    else if ($resultCount < 1)
+	    {
+                $authResult['code']	    = Zend_Auth_Result::FAILURE_IDENTITY_NOT_FOUND;
+                $authResult['messages'][]   = 'Username not found.';
+            } 
+	    else if (1 == $resultCount)
+	    {
 		$this->setCredentialTreatment($this->credential, $Account->getSalt() );
-                if ($Account->getPassword() != $this->credentialTreatment ) {
-                    $authResult['code'] = Zend_Auth_Result::FAILURE_CREDENTIAL_INVALID;
-                    $authResult['messages'][] = 'Password is invalid.';
-                } else {
-                    $authResult['code'] = Zend_Auth_Result::SUCCESS;
-                    $authResult['identity'] = $this->identity;
-                    $authResult['messages'][] = 'Authentication successful.';
+		
+                if ($Account->getPassword() != $this->credentialTreatment )
+		{
+                    $authResult['code']		= Zend_Auth_Result::FAILURE_CREDENTIAL_INVALID;
+                    $authResult['messages'][]	= 'Password is invalid.';
+                } 
+		else
+		{
+                    $authResult['code']		= Zend_Auth_Result::SUCCESS;
+                    $authResult['identity']	= $this->identity;
+                    $authResult['messages'][]	= 'Authentication successful.';
 
-                    $this->setAccount($Account);
-
+                    $this->setAccountId($Account->getId());
                 }
             }
-        } catch (\Doctrine\ORM\Query\QueryException $qe) {
-            $authResult['code'] = Zend_Auth_Result::FAILURE_UNCATEGORIZED;
-            $authResult['messages'][] = $qe->getMessage();
+        } 
+	catch (\Doctrine\ORM\Query\QueryException $qe)
+	{
+            $authResult['code']		= Zend_Auth_Result::FAILURE_UNCATEGORIZED;
+            $authResult['messages'][]	= $qe->getMessage();
         }
 
         return new Zend_Auth_Result(
@@ -153,7 +163,7 @@ class Dataservice_Auth_Adapter_Doctrine implements Zend_Auth_Adapter_Interface
     {
         $qb = $this->_em->createQueryBuilder()
             ->select('e')
-            ->from('\Entities\Company\Website\Account', 'e')
+            ->from('\Entities\Website\Account\AccountAbstract', 'e')
             ->where('e.username=:username')
             ->setParameter('username', $this->identity);
         return $qb->getQuery();
@@ -161,15 +171,16 @@ class Dataservice_Auth_Adapter_Doctrine implements Zend_Auth_Adapter_Interface
 
     public function setCredentialTreatment($credential, $salt)
     {
-          $this->credentialTreatment = (SHA1($credential . $salt));
+	$this->credentialTreatment = (SHA1($credential . $salt));
     } 
     
-    public function setAccount(Entities\Company\Website\Account $Account){
-	$this->Account = $Account;
+    public function setAccountId($account_id)
+    {
+	$this->account_id = $account_id;
     }
     
-    public function getAccount(){
-	return $this->Account;
+    public function getAccountId()
+    {
+	return $this->account_id;
     }
 }
-?>

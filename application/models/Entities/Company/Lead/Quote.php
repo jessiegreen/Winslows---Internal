@@ -23,7 +23,7 @@ class Quote extends Quote\QuoteAbstract
      * @ManyToOne(targetEntity="\Entities\Company\Lead", inversedBy="Quotes")
      * @var \Entities\Company\Lead $Lead
      */     
-    private $Lead;
+    protected $Lead;
     
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
@@ -31,7 +31,7 @@ class Quote extends Quote\QuoteAbstract
      * @OneToMany(targetEntity="\Entities\Company\Lead\Quote\Item", mappedBy="Quote", cascade={"persist", "remove"}, orphanRemoval=true)
      * @var array $Items
      */
-    private $Items;
+    protected $Items;
     
     public function __construct()
     {

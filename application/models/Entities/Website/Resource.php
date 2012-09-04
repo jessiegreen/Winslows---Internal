@@ -15,49 +15,49 @@ class Resource extends \Dataservice_Doctrine_Entity
      * @GeneratedValue(strategy="AUTO")
      * @var integer $id
      */
-    private $id;
+    protected $id;
 
     /** 
      * @Column(type="string", length=255) 
      * @var string $module
      */
-    private $module;
+    protected $module;
     
     /**
      * @Column(type="string", length=255) 
      * @var string
      */
-    private $controller;
+    protected $controller;
     
     /** 
      * @Column(type="string", length=255) 
      * @var string $action
      */
-    private $action;
+    protected $action;
     
     /** 
      * @Column(type="string", length=255) 
      * @var string $name
      */
-    private $name;
+    protected $name;
     
     /** 
      * @Column(type="string", length=255) 
      * @var string $routeName
      */
-    private $routeName;
+    protected $routeName;
     
     /**
-     * @ManytoMany(targetEntity="\Entities\Role\RoleAbstract", mappedBy="Resources", cascade={"persist"})
+     * @ManytoMany(targetEntity="\Entities\Role\RoleAbstract", mappedBy="Resources", cascade={"persist, remove"})
      * @var ArrayCollection
      */
-    private $Roles;
+    protected $Roles;
     
     /**
      * @ManyToOne(targetEntity="\Entities\Website\WebsiteAbstract", inversedBy="Resources")
      * @var \Entities\Company\Website
      */
-    private $Website;
+    protected $Website;
     
     public function __construct()
     {

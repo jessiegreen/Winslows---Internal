@@ -9,8 +9,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @InheritanceType("JOINED")
  * @DiscriminatorColumn(name="discr", type="string")
  * @DiscriminatorMap({
- *			"supplier_product_configurable" = "\Entities\Company\Supplier\Product\Configurable", 
- *			"supplier_product_simple" = "\Entities\Company\Supplier\Product\Simple"
+ *			"company_supplier_product_configurable" = "\Entities\Company\Supplier\Product\Configurable", 
+ *			"company_supplier_product_simple" = "\Entities\Company\Supplier\Product\Simple"
  *			})
  * @HasLifecycleCallbacks
  */

@@ -84,6 +84,18 @@ class Company extends \Entities\Company implements \Doctrine\ORM\Proxy\Proxy
         return parent::removeSupplier($Supplier);
     }
 
+    public function addEmployee(\Entities\Company\Employee $Employee)
+    {
+        $this->__load();
+        return parent::addEmployee($Employee);
+    }
+
+    public function getEmployees()
+    {
+        $this->__load();
+        return parent::getEmployees();
+    }
+
     public function getId()
     {
         if ($this->__isInitialized__ === false) {
@@ -180,7 +192,7 @@ class Company extends \Entities\Company implements \Doctrine\ORM\Proxy\Proxy
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'name', 'dba', 'name_index', 'description', 'created', 'updated', 'Locations', 'Suppliers', 'Websites');
+        return array('__isInitialized__', 'id', 'name', 'dba', 'name_index', 'description', 'created', 'updated', 'Locations', 'Suppliers', 'Websites', 'Employees');
     }
 
     public function __clone()

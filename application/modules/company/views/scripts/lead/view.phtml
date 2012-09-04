@@ -27,8 +27,7 @@ $quotes		= $lead->getQuotes();
 	?>
     </h4>
     <div>
-	Name:<?php echo $lead->getFullName(); ?> &nbsp;&nbsp;&nbsp; 
-	Sales Location:<?php echo $lead->getEmployee()->getLocation()->getName(); ?> &nbsp;&nbsp;&nbsp; 
+	Name:<?php echo $lead->getFullName(); ?> &nbsp;&nbsp;&nbsp;
 	Company:<?php echo $lead->getEmployee()->getLocation()->getCompany()->getName(); ?> &nbsp;&nbsp;&nbsp; 
 	Salesman:<?php echo $lead->getEmployee()->getFullName(); ?>
     </div>
@@ -188,12 +187,6 @@ $quotes		= $lead->getQuotes();
 				);
 			?>
 		    </h4>
-		    <label>Employee:</label>
-		    <div style="display: inline;">
-			<?php 
-			echo $Quote->getEmployee()->getFirstName(); 
-			?>
-		    </div><br />
 		    <label>Total:</label>
 		    <div style="display: inline;">
 			<?php 

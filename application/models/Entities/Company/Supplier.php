@@ -15,13 +15,13 @@ class Supplier extends \Dataservice_Doctrine_Entity
      * @GeneratedValue(strategy="AUTO")
      * @var integer $id
      */
-    private $id;
+    protected $id;
 
     /** 
      * @Column(type="string", length=255) 
      * @var string $name
      */
-    private $name;
+    protected $name;
     
     /**
      * @ManytoMany(targetEntity="\Entities\Company", inversedBy="Suppliers", cascade={"persist"})
@@ -31,7 +31,7 @@ class Supplier extends \Dataservice_Doctrine_Entity
      *      )
      * @var ArrayCollection $Companies
      */
-    private $Companies;
+    protected $Companies;
 
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
@@ -39,7 +39,7 @@ class Supplier extends \Dataservice_Doctrine_Entity
      * @OneToMany(targetEntity="\Entities\Company\Supplier\Address", mappedBy="Supplier", cascade={"persist"}, orphanRemoval=true)
      * @var ArrayCollection $Addresses
      */
-    private $Addresses;
+    protected $Addresses;
     
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
@@ -47,7 +47,7 @@ class Supplier extends \Dataservice_Doctrine_Entity
      * @OneToMany(targetEntity="\Entities\Company\Supplier\Product\ProductAbstract", mappedBy="Supplier", cascade={"persist"}, orphanRemoval=true)
      * @var ArrayCollection $Products
      */
-    private $Products;
+    protected $Products;
     
     public function __construct()
     {

@@ -1,7 +1,7 @@
 <?php
 namespace Services\Company\Website;
 
-use \Entities\Company\Website\Menu\Item as Item;
+use \Entities\Website\Menu\Item as Item;
 
 class Menu extends \Dataservice_Service_ServiceAbstract
 {
@@ -15,7 +15,7 @@ class Menu extends \Dataservice_Service_ServiceAbstract
 	$AclService	= \Services\ACL::factory();
 	$Menu		= \Classes\Menu::factory();
 	
-	/* @var $menu_item \Entities\Company\Website\Menu\Item */
+	/* @var $menu_item \Entities\Website\Menu\Item */
 	foreach($parent_items as $MenuItem)
 	{
 	    $Menu   = $this->GetMenuHTMLAdd($MenuItem, $Menu, $AclService);
@@ -24,7 +24,7 @@ class Menu extends \Dataservice_Service_ServiceAbstract
     }    
     
     /**
-     * @param \Entities\Company\Website\Menu\Item $menu_item 
+     * @param \Entities\Website\Menu\Item $menu_item 
      */
     private function GetMenuHTMLAdd(Item $MenuItem, \Classes\Menu $menu, \Services\ACL $AclService)
     {
@@ -35,7 +35,7 @@ class Menu extends \Dataservice_Service_ServiceAbstract
 	    #-- create new list
 	    $menu2 = \Classes\Menu::factory();
 	    
-	    /* @var $menu_item \Entities\Company\Website\Menu\Item */
+	    /* @var $menu_item \Entities\Website\Menu\Item */
 	    foreach($children as $MenuItem2)
 	    {
 		#--Add a children and/or child lists to the newly created list
@@ -58,10 +58,10 @@ class Menu extends \Dataservice_Service_ServiceAbstract
     
     /**
      * Gets url parts from MenuItem and puts them into array
-     * @param \Entities\Company\Website\Menu\Item $MenuItem
+     * @param \Entities\Website\Menu\Item $MenuItem
      * @return array 
      */
-    public function getUrlArray(\Entities\Company\Website\Menu\Item $MenuItem)
+    public function getUrlArray(\Entities\Website\Menu\Item $MenuItem)
     {	
 	return array(
 	    "module"	    => $MenuItem->getLinkModule(),
@@ -73,10 +73,10 @@ class Menu extends \Dataservice_Service_ServiceAbstract
     
     /**
      * Assembles URL string from array
-     * @param \Entities\Company\Website\Menu\Item $MenuItem
+     * @param \Entities\Website\Menu\Item $MenuItem
      * @return string
      */
-    public function getUrlString(\Entities\Company\Website\Menu\Item $MenuItem)
+    public function getUrlString(\Entities\Website\Menu\Item $MenuItem)
     {
 	$url_array  = $this->getUrlArray($MenuItem);
 	$url_helper = new \Zend_Controller_Action_Helper_Url;
@@ -97,9 +97,9 @@ class Menu extends \Dataservice_Service_ServiceAbstract
     public function getMenuParentItems($menu_name)
     {
 	/* @var $MenuRepos \Repositories\Menu */
-	$MenuRepos	= $this->_em->getRepository('Entities\Company\Website\Menu');
+	$MenuRepos	= $this->_em->getRepository('Entities\Website\Menu');
 	/* @var $MenuItemRepos \Repositories\MenuItem */
-	$MenuItemRepos	= $this->_em->getRepository('Entities\Company\Website\Menu\Item');	
+	$MenuItemRepos	= $this->_em->getRepository('Entities\Website\Menu\Item');	
 	$menu_id	= $MenuRepos->getMenuByName($menu_name)->getId();
 	$parent_items	= $MenuItemRepos->getMenuParentItemsByMenuId($menu_id);
 	
@@ -108,20 +108,20 @@ class Menu extends \Dataservice_Service_ServiceAbstract
     
     /**
      * @param string $menu_name
-     * @return \Entities\Company\Website\Menu  
+     * @return \Entities\Website\Menu  
      */
     public function getMenuByName($menu_name){
 	/* @var $MenuRepos \Repositories\Menu */
-	$MenuRepos	= $this->_em->getRepository('Entities\Company\Website\Menu');
+	$MenuRepos	= $this->_em->getRepository('Entities\Website\Menu');
 	return $MenuRepos->findOneBy(array("name" => $menu_name));
     }
     
     /**
      *
-     * @param \Entities\Company\Website\Menu\Item $MenuItem
+     * @param \Entities\Website\Menu\Item $MenuItem
      * @return type 
      */
-    public function decodeLinkParams(\Entities\Company\Website\Menu\Item $MenuItem){
+    public function decodeLinkParams(\Entities\Website\Menu\Item $MenuItem){
 	$params			= array();
 	$link_params		= trim($MenuItem->getLinkParams());
 	if($link_params)$params =  (array) json_decode ($link_params);
@@ -130,13 +130,13 @@ class Menu extends \Dataservice_Service_ServiceAbstract
     
     public function getAllMenus(){
 	/* @var $MenuRepos \Repositories\Menu */
-	$MenuRepos	= $this->_em->getRepository('Entities\Company\Website\Menu');
+	$MenuRepos	= $this->_em->getRepository('Entities\Website\Menu');
 	return $MenuRepos->findBy(array(), array("name" => "ASC"));
     }
     
     public function getAllMenuItems(){
 	/* @var $MenuItemRepos \Repositories\MenuItem */
-	$MenuItemRepos	= $this->_em->getRepository('Entities\Company\Website\Menu\Item');
+	$MenuItemRepos	= $this->_em->getRepository('Entities\Website\Menu\Item');
 	return $MenuItemRepos->findBy(array(), array("label" => "ASC"));
     }
 }

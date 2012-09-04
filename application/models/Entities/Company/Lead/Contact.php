@@ -14,43 +14,43 @@ class Contact extends \Dataservice_Doctrine_Entity
      * @GeneratedValue(strategy="AUTO")
      * @var integer $id
      */
-    private $id;
+    protected $id;
 
     /** 
      * @Column(type="string", length=50000) 
      * @var string $note
      */
-    private $note;
+    protected $note;
     
     /** 
      * @Column(type="string", length=255) 
      * @var string $type
      */
-    private $type;
+    protected $type;
     
     /** 
      * @Column(type="string", length=255) 
      * @var string $type_detail
      */
-    private $type_detail;
+    protected $type_detail;
     
     /** 
      * @Column(type="string", length=255) 
      * @var string $result
      */
-    private $result;
+    protected $result;
     
     /**
      * @ManyToOne(targetEntity="\Entities\Company\Lead", inversedBy="Contacts")
      * @var \Entities\Company\Lead $Lead
      */
-    private $Lead;
+    protected $Lead;
     
     /** 
      * @ManyToOne(targetEntity="\Entities\Company\Employee", cascade="persist")
      * @var \Entities\Company\Employee $Employee
      */     
-    private $Employee;
+    protected $Employee;
 
     /**
      * @param \Entities\Company\Lead $Lead

@@ -14,19 +14,19 @@ class Privilege extends \Dataservice_Doctrine_Entity
      * @GeneratedValue(strategy="AUTO")
      * @var integer $id
      */
-    private $id;
+    protected $id;
 
     /** 
      * @Column(type="string", length=255) 
      * @var string $name
      */
-    private $name;
+    protected $name;
     
     /**
      * @ManyToOne(targetEntity="\Entities\Role\RoleAbstract", inversedBy="Privileges")
      * @var $Role null | \Entities\Role\RoleAbstract
      */
-    private $Role;
+    protected $Role;
     
     /**
      * @param \Entities\Role\RoleAbstract $Role

@@ -208,7 +208,7 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
 	/* @var $Item Entities\Company\Lead\Quote\Item */
 	foreach ($Quote->getItems() as $Item)
 	{
-	    if($Item->isRtoSaleType() && (!)
+	    //if($Item->isRtoSaleType() && (!)
 	}
     }
     

@@ -48,21 +48,29 @@ class Dataservice_ACL_Factory
 	foreach($Roles as $Role)
 	{
 	    if(self::$_debug)echo $Role->getName()."-<ul> ";
+	    
 	    self::$_objAcl->addRole(new Zend_Acl_Role($Role->getName()));
 
 	    /* @var $Resource \Entities\Company\Website\Resource */
-	    foreach($Role->getResources() as $Resource) {
+	    foreach($Role->getResources() as $Resource)
+	    {
 		$url_key = $Resource->getModule() .'::' .$Resource->getController() .'::' .$Resource->getAction();
-		if(!self::$_objAcl->has($url_key)){
+		
+		if(!self::$_objAcl->has($url_key))
+		{
 		    self::$_objAcl->add(new Zend_Acl_Resource($url_key));
 		}
+		
 		if(self::$_debug)echo "<li>".$url_key."</li>";
+		
 		self::$_objAcl->allow($Role->getName(), $url_key);
 	    }
+	    
 	    if(self::$_debug)echo "</ul>";
 	}
 	
 	self::_saveAclToSession();
+	
 	return self::$_objAcl;
     }
 }

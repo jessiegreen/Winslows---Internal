@@ -11,13 +11,13 @@ class Company_LocationPhoneNumberController extends Dataservice_Controller_Actio
     public function editAction()
     {
 	/* @var $LocationPhoneNumber \Entities\Company\Location\PhoneNumber */
-	$LocationPhoneNumber  = $this->getEntityFromParamFields("LocationPhoneNumber", array("id"));
-	$form		    = new Form_LocationPhoneNumber(array("method" => "post"), $LocationPhoneNumber);
+	$LocationPhoneNumber	= $this->getEntityFromParamFields("Company\Location\PhoneNumber", array("id"));
+	$form			= new Forms\Company\Location\PhoneNumber(array("method" => "post"), $LocationPhoneNumber);
 	
 	if($this->isPostAndValid($form)){
 	    try 
 	    {
-		$data	= $this->_params["locationphonenumber"];
+		$data	= $this->_params["company_location_phonenumber"];
 		
 		$LocationPhoneNumber->populate($data);
 		$LocationPhoneNumber->setAreaCode($data["phone_number"]["area"]);
@@ -28,9 +28,9 @@ class Company_LocationPhoneNumberController extends Dataservice_Controller_Actio
 		    /* @var $Location \Entities\Company\Location */
 		    $Location = $this->_em->find("Entities\Company\Location", $this->_params["location_id"]);
 		    if(!$Location)
-			throw new Exception("Can not add address. No Location with that Id");
+			throw new Exception("Can not add phone number. No Location with that Id");
 
-		    $Location->setLocationPhoneNumber($LocationPhoneNumber);
+		    $Location->setPhoneNumber($LocationPhoneNumber);
 		    $this->_em->persist($Location);
 		}
 		else $this->_em->persist($LocationPhoneNumber);

@@ -21,7 +21,7 @@ class Document extends \Entities\Document\DocumentAbstract
      * @ManyToOne(targetEntity="\Entities\Person\PersonAbstract", inversedBy="Documents")
      * @var \Entities\Person\PersonAbstract
      */     
-    private $Person;
+    protected $Person;
     
     /**
      * @var array 

@@ -17,16 +17,15 @@ class Dataservice_View_Helper_Profilelink//  extends Zend_View_Helper_Abstract
     public function profilelink()
     {
         $auth = Zend_Auth::getInstance();
-        if ($auth->hasIdentity()) {
-	    $Account = $auth->getIdentity();
-	    $Person	= $Account->getPerson();
+	
+        if($auth->hasIdentity())
+	{
+	    $Person	    = \Services\Auth::factory()->getIdentityPerson();
+	    $return	    = '<span> Welcome, ' . $Person->getFirstName()." ".$Person->getLastName().'</span>';
+	    $return	    .= ' <a href="/profile/index/id/' . $Person->getId().'">'.HTML::buttonIcon("user_edit.png", "person_account", "Account Settings").'</a> ';
+	    $return	    .= '<a href="/login/logout">'.HTML::buttonIcon("door_out.png", "logout", "Log Out").'</a>';
 	    
-            $return = '<span> Welcome, ' . $Person->getFirstName()." ".$Person->getLastName().'</span>';
-	    $return .= ' <a href="/profile/index/id/' . $Account->getId().'">'.HTML::buttonIcon("user_edit.png", "person_account", "Account Settings").'</a> ';
-	    $return .= '<a href="/login/logout">'.HTML::buttonIcon("door_out.png", "logout", "Log Out").'</a>';
 	    return $return;
         }
     }
 }
-
-?>

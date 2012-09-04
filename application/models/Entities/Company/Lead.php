@@ -37,14 +37,6 @@ class Lead extends PersonAbstract
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="\Entities\Company\Lead", mappedBy="Employee", cascade={"persist"})
-     * @var ArrayCollection $Leads
-     */
-    protected $Leads;
-    
-    /**
-     * Bidirectional - One-To-Many (INVERSE SIDE)
-     *
      * @OneToMany(targetEntity="\Entities\Company\Lead\Quote", mappedBy="Lead", cascade={"persist"})
      * @var ArrayCollection $Quotes
      */
@@ -56,13 +48,13 @@ class Lead extends PersonAbstract
      * @OneToMany(targetEntity="\Entities\Company\RtoProvider\Application", mappedBy="Lead", cascade={"persist"})
      * @var ArrayCollection $Applications
      */
-    private $Applications;
+    protected $Applications;
     
     /** 
      * @OneToOne(targetEntity="\Entities\Company\Lead\Account", inversedBy="Lead")
      * @var \Entities\Company\Lead\Account
      */     
-    private $Account;
+    protected $Account;
     
     public function __construct()
     {
@@ -118,7 +110,7 @@ class Lead extends PersonAbstract
     /**
      * @param \Entities\Company\Employee $Employee
      */
-    public function setEmployee(Location\Employee $Employee)
+    public function setEmployee(\Entities\Company\Employee $Employee)
     {
         $this->Employee = $Employee;
     }

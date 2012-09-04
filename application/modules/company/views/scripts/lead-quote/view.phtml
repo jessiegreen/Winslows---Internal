@@ -16,7 +16,7 @@ echo HTML::buttonBlue("money.png", "Sell", "quote_sell", "position:relative;");
 /* @var $quote \Entities\Company\Lead\Quote */
 $quote		= $this->Quote;
 $quote_id	= $quote->getId();
-$Items	= $quote->getItems();
+$Items		= $quote->getItems();
 ?>
 <div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
     <h4 class="no_space" style="color: #2000EE;">
@@ -32,10 +32,10 @@ $Items	= $quote->getItems();
 	?>
     </h4>
     <div>
-	Date:<?php echo $quote->getCreated()->format("F j, Y, g:i a"); ?> &nbsp;&nbsp;&nbsp; 
-	Lead:<?php echo $quote->getLead()->getFullName(); ?> &nbsp;&nbsp;&nbsp; 
-	Sales Person:<?php echo $quote->getEmployee()->getFullName(); ?> &nbsp;&nbsp;&nbsp; 
-	Total:$<?php echo number_format($quote->getTotalSafe(), 2); ?> &nbsp;&nbsp;&nbsp;
+	Date: <?php echo $quote->getCreated()->format("F j, Y, g:i a"); ?> &nbsp;&nbsp;&nbsp; 
+	Lead: <?php echo $quote->getLead()->getFullName(); ?> &nbsp;&nbsp;&nbsp; 
+	Sales Person: <?php echo $quote->getLead()->getEmployee()->getFullName(); ?> &nbsp;&nbsp;&nbsp; 
+	Total: $<?php echo number_format($quote->getTotalSafe(), 2); ?> &nbsp;&nbsp;&nbsp;
     </div>
 </div>
 <div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">

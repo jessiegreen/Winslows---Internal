@@ -29,10 +29,10 @@ class Dataservice_ACL_Resources
     
     public function cleanDB(\Doctrine\ORM\EntityManager $em)
     {
-	$Resources	= $em->getRepository("Entities\Company\Website\Resource")->findAll();
+	$Resources	= $em->getRepository("Entities\Website\Resource")->findAll();
 	$results_array	= array("removed" => array(), "kept" => array());
 	
-	/* @var $Resource \Entities\Company\Website\Resource */
+	/* @var $Resource \Entities\Website\Resource */
 	foreach ($Resources as $Resource) 
 	{
 	    $remove			= false;
@@ -69,7 +69,8 @@ class Dataservice_ACL_Resources
 
     public function writeToDB(\Doctrine\ORM\EntityManager $em) 
     {
-	$Role = $em->getRepository("Entities\Company\Employee\Role")->findOneBy(array("name" => "Admin"));
+	$Role = $em->getRepository("Entities\Company\Employee\Role")->findOneBy(array("name" => "Web Admin"));
+	
 	$this->checkForData();
 	
 	foreach ($this->arrModules as $strModuleName) 
@@ -82,7 +83,7 @@ class Dataservice_ACL_Resources
 		    {
 			foreach ($this->arrActions[$strModuleName][$strControllerName] as $strActionName)
 			{#--Actions
-			    $existing = $em->getRepository("Entities\Company\Website\Resource")->findBy(
+			    $existing = $em->getRepository("Entities\Website\Resource")->findBy(
 					    array(
 						"module" => $strModuleName, 
 						"controller" => $strControllerName, 
@@ -92,7 +93,7 @@ class Dataservice_ACL_Resources
 			    
 			    if(!$existing)
 			    {
-				$resource = new \Entities\Company\Website\Resource;
+				$resource = new \Entities\Website\Resource;
 				$resource->setName(ucwords($strModuleName.' | '.$strControllerName . " - " . $strActionName));
 				$resource->setModule($strModuleName);
 				$resource->setController($strControllerName);

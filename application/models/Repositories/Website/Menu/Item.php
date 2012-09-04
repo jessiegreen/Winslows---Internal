@@ -9,7 +9,7 @@ class Item extends EntityRepository
     /**
      * Get a menuitem by name
      * @param string $name_index
-     * @return \Entities\Company\Website\Menu\Item
+     * @return \Entities\Website\Menu\Item
      */
     public function getMenuItemByNameIndex($name_index)
     {
@@ -20,7 +20,7 @@ class Item extends EntityRepository
     /**
      * Get a menuitem by id
      * @param string $id
-     * @return \Entities\Company\Website\Menu\Item 
+     * @return \Entities\Website\Menu\Item 
      */
     public function getMenuItemById($id)
     {

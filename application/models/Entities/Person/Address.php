@@ -20,13 +20,13 @@ class Address extends \Entities\Address\AddressAbstract
     /**
      * @var integer 
      */
-    private $person_id;
+    protected $person_id;
     
     /** 
      * @ManyToOne(targetEntity="\Entities\Person\PersonAbstract", inversedBy="Addresses")
      * @var \Enrtities\Person\PersonAbstract
      */     
-    private $Person;
+    protected $Person;
     
     /**
      * Add person to address.

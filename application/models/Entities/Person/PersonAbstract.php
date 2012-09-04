@@ -68,13 +68,13 @@ class PersonAbstract extends \Dataservice_Doctrine_Entity
      * @OneToMany(targetEntity="\Entities\Person\PhoneNumber", mappedBy="Person", cascade={"persist"}, orphanRemoval=true)
      * @var ArrayCollection $PhoneNumbers
      */
-    private $PhoneNumbers;
+    protected $PhoneNumbers;
     
     /**
      * @OneToMany(targetEntity="\Entities\Person\EmailAddress", mappedBy="Person", cascade={"persist"}, orphanRemoval=true)
      * @var ArrayCollection $EmailAddresses
      */
-    private $EmailAddresses;
+    protected $EmailAddresses;
 
     public function __construct()
     {

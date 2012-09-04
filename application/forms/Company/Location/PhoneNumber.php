@@ -1,6 +1,5 @@
 <?php
 namespace Forms\Company\Location;
-use Entities\Company\Location\PhoneNumber as PhoneNumber;
 /**
  * Name:
  * Location:
@@ -15,7 +14,7 @@ class PhoneNumber extends \Zend_Form
 {    
     private $_PhoneNumber;
     
-    public function __construct($options = null, PhoneNumber $PhoneNumber = null)
+    public function __construct($options = null, \Entities\Company\Location\PhoneNumber $PhoneNumber = null)
     {
 	$this->_PhoneNumber = $PhoneNumber;
 	parent::__construct($options);
