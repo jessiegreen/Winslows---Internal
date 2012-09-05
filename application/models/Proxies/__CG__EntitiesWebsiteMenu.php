@@ -93,6 +93,12 @@ class Menu extends \Entities\Website\Menu implements \Doctrine\ORM\Proxy\Proxy
         return parent::setName($name);
     }
 
+    public function getParentItems()
+    {
+        $this->__load();
+        return parent::getParentItems();
+    }
+
     public function updated()
     {
         $this->__load();

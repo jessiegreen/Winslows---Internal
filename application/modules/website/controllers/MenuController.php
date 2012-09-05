@@ -8,7 +8,7 @@ class Website_MenuController extends Dataservice_Controller_Action
     
     public function viewAction()
     {
-	$this->view->headScript()->appendFile("/javascript/maintenance/navigation/navigation.js");
+	$this->view->headScript()->appendFile("/javascript/website/menu.js");
 	
 	$Menu = $this->_getMenu();
 	

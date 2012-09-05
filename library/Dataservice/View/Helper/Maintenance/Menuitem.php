@@ -14,9 +14,9 @@ class Dataservice_View_Helper_Maintenance_Menuitem//  extends Zend_View_Helper_A
         $this->view = $view;
     }
 
-    public function Maintenance_Menuitem(\Entities\Website\Menu\Item $MenuItem)
+    public function Maintenance_Menuitem(\Entities\Website\Menu\Item $MenuItem, $parent = false)
     {
-        $this->render($MenuItem);
+        $this->render($MenuItem, $parent);
 	$children = $MenuItem->getChildren();
 	if($children){
 	    ?>
@@ -32,19 +32,19 @@ class Dataservice_View_Helper_Maintenance_Menuitem//  extends Zend_View_Helper_A
 	}
     }
     
-    private function render(\Entities\Website\Menu\Item $MenuItem){
+    private function render(\Entities\Website\Menu\Item $MenuItem, $parent = false)
+    {
 	?>
-	<li menuitem_id="<?php echo $MenuItem->getId();?>"> 
+	<li menuitem_id="<?php echo $MenuItem->getId();?>" style="padding: 4px;border:solid 1px silver;"> 
 	    <?php 
-	    //HTML::buttonIcon($icon, $id, $title, $class, $style)
-	    echo HTML::buttonIcon("bullet_wrench.png", "menuitem_edit", "Edit Menu Item Details", "menuitem_edit", "padding-right:3px;");
-	    echo HTML::buttonIcon("bullet_add.png", "child_add", "Add Sub to Menu Item", "child_add", "padding-right:3px;");
-	    echo HTML::buttonIcon("bullet_delete.png", "menuitem_remove", "Remove Menu Item", "menuitem_remove", "padding-right:3px;");
+	    //if($parent === false)echo "&rdsh;&nbsp;";
 	    echo $MenuItem->getLabel();
+	    //HTML::buttonIcon($icon, $id, $title, $class, $style)
+	    echo HTML::buttonIcon("pencil.png", "menuitem_edit", "Edit Menu Item Details", "menuitem_edit", "padding-left:5px;width:10px;");
+	    echo HTML::buttonIcon("add.png", "child_add", "Add Sub to Menu Item", "child_add", "padding-left:3px;width:10px;");
+	    echo HTML::buttonIcon("delete.png", "menuitem_remove", "Remove Menu Item", "menuitem_remove", "padding-left:3px;width:10px;");
 	    ?>
 	</li>
 	<?php
     }
 }
-
-?>

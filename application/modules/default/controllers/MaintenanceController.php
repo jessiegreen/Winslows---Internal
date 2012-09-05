@@ -178,49 +178,6 @@ class MaintenanceController extends Dataservice_Controller_Action
 	$this->_redirect('/maintenance/groupsview');
     }
     
-    public function navigationremoveAction()
-    {
-	$this->_helper->viewRenderer->setNoRender(true);
-	$this->_helper->layout->disableLayout();
-	
-	$ACL = new Dataservice_Controller_Plugin_ACL();
-	
-	$ACL->preDispatch($this->_request);
-	
-	$menu_id	= isset($this->_params["menu_id"]) ? $this->_params["menu_id"] : null;
-	$menuitem_id	= isset($this->_params["menuitem_id"]) ? $this->_params["menuitem_id"] : null;
-	
-	if($menuitem_id){
-	    /* @var $em \Doctrine\ORM\EntityManager */
-	    $em		= $this->_helper->EntityManager();
-	    /* @var $Resource \Entities\Website\Menu */
-	    $Menu	= $em->find("Entities\Website\Menu", $menu_id);
-	    $MenuItem	= $em->find("Entities\Website\Menu\Item", $menuitem_id);
-	    
-	    if($Menu && $MenuItem)
-	    {
-		if(!$Menu->removeMenuItem($MenuItem))
-		{
-		    $this->_FlashMessenger->addErrorMessage("Could Not Remove MenuItem");
-		}
-		$em->persist($Menu);
-		$em->flush();
-		$this->_FlashMessenger->addSuccessMessage("Menu Item Removed");
-	    }
-	    else
-	    {
-		$this->_FlashMessenger->addErrorMessage("Error Removing Menu Item - Not Found");
-	    }
-	    
-	    $this->_redirect('/maintenance/navigationview/');
-	}
-	else
-	{
-	    $this->_FlashMessenger->addErrorMessage("Error Removing Menu Item, Id Not Sent");
-	    $this->_redirect('/maintenance/resourcesview');
-	}
-    }
-    
     public function locationaddAction()
     {	
 	try

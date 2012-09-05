@@ -45,13 +45,13 @@ $menu_id    = $Menu->getId();
 	<h3>
 	    <a href="#">Items</a>
 	</h3>
-	<div>
-	    <ol>
+	<div style="width:350px;">
+	    <ol style="margin-left: auto;margin-right: auto;">
 		<?php
 		/* @var $MenuItem \Entities\Website\Menu\Item */
 		foreach($Menu->getParentItems() as $MenuItem)
 		{
-		    $this->Maintenance_Menuitem($MenuItem);
+		    $this->Maintenance_Menuitem($MenuItem, true);
 		}
 		?>
 	    </ol>
@@ -65,14 +65,9 @@ $menu_id    = $Menu->getId();
 </div>
 <div style="clear: both;"><input type="hidden" id="menu_id" value="<?php echo $menu_id;?>" /></div>
 <script type="text/javascript">
-    Product = new Product();
-    Product.ManageOptionGroupsOnclickBind($("#groups_manage"));
-    Product.OptionGroupAddOnclickBind($("#group_add"));
-</script>
-<script type="text/javascript">
-    Navigation = new Navigation();
-    Navigation.AddOnclickBind($("#menuitem_add"));
-    Navigation.EditOnclickBind($(".menuitem_edit"));
-    Navigation.AddChildOnclickBind($(".child_add"));
-    Navigation.RemoveOnclickBind($(".menuitem_remove"));
+    Website_Menu = new Website_Menu();
+    Website_Menu.AddOnclickBind($("#menuitem_add"));
+    Website_Menu.EditOnclickBind($(".menuitem_edit"));
+    Website_Menu.AddChildOnclickBind($(".child_add"));
+    Website_Menu.RemoveOnclickBind($(".menuitem_remove"));
 </script>

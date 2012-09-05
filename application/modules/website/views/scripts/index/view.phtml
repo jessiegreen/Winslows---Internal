@@ -1,0 +1,122 @@
+<?php 
+echo($this->flashMessages()); 
+echo "<div>";
+echo HTML::backAnchorIcon("Website - view all", "/website/view-all");
+echo "</div>";
+?>
+<h1 class="header1">Website - View</h1>
+<?php
+/* @var $Menu \Entities\Website\WebsiteAbstract */
+$Website	    = $this->Website;
+$website_id    = $Website->getId();
+?>
+<div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
+    <h3 class="no_space" style="color: #2000EE;">
+	Info
+	<?php
+	echo HTML::anchorIcon(
+		"pencil.png", 
+		"", 
+		"/website/edit/id/".$website_id,
+		"margin-left:5px;",
+		"Edit Website"
+		);
+	?>
+    </h3>
+    <div>
+	<label>Name:</label> <?php echo $Website->getName(); ?> &nbsp;&nbsp;&nbsp;
+    </div>
+</div>
+<div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">
+    <div id="accordion">
+	<h3>
+	    <a href="#">Menus</a>
+	    <?php 
+	    echo HTML::buttonBlue(
+		    "add.png", 
+		    "Add Menu", 
+		    "menu_add", 
+		    "float:right;margin-right:5px;"
+		    );
+	    ?>
+	</h3>
+	<div>
+	    <ul>
+	    <?php
+	    /* @var $Menu \Entities\Website\Menu */
+	    if($Website->getMenus()->count() > 0)
+	    {
+		foreach ($Website->getMenus() as $Menu)
+		{
+		    ?>
+		    <li>
+			<?php
+			echo HTML::anchorIcon(
+				"eye.png", 
+				"", 
+				"/website/menu/view/id/".$Menu->getId(),
+				"margin-left:5px;"
+				);
+			echo $Menu->getName();
+			?>
+		    </li>
+		    <?php
+		}
+	    }
+	    else echo "<li>No Menus</li>";
+	    ?>
+	    </ul>
+	</div>
+	<hr />
+	<h3>
+	    <a href="#">Resources</a>
+	    <?php 
+	    echo HTML::buttonBlue(
+		    "wrench.png", 
+		    "Build", 
+		    "resources_build", 
+		    "float:right;margin-right:5px;"
+		    );
+	    echo HTML::buttonBlue(
+		    "database_refresh.png", 
+		    "Clean", 
+		    "resources_clean", 
+		    "float:right;margin-right:5px;"
+		    );
+	    ?>
+	</h3>
+	<div>
+	    <ul>
+	    <?php
+	    /* @var $Resource \Entities\Website\Resource */
+	    if($Website->getResources()->count() > 0)
+	    {
+		foreach ($Website->getResources() as $Resource)
+		{
+		    ?>
+		    <li>
+			<?php
+			echo $Resource->getName();
+			?>
+		    </li>
+		    <?php
+		}
+	    }
+	    else echo "<li>No Resources</li>";
+	    ?>
+	    </ul>
+	</div>
+	<hr />
+    </div>
+</div>
+<div class="padded_frame" style="width: 415px;float: right;padding-top: 0px;">
+    <h3><a href="#">Documents</a></h3>
+    <div>Put Documents here</div>
+</div>
+<div style="clear: both;"><input type="hidden" id="website_id" value="<?php echo $website_id;?>" /></div>
+<script type="text/javascript">
+    Website = new Website();
+    Website.AddMenuOnclickBind($("#menu_add"));
+    Website.CleanResourcesOnclickBind($("#resources_clean"));
+    Website.BuildResourcesOnclickBind($("#resources_build"));
+</script>

@@ -1,9 +1,9 @@
 <?php
 
-namespace Repositories\Company;
+namespace Repositories\Website;
 
 use Doctrine\ORM\EntityRepository;
 
-class Website extends EntityRepository
+class WebsiteAbstract extends EntityRepository
 {  
 }
