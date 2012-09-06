@@ -154,7 +154,7 @@ $Account	= $Employee->getAccount();
 </div>
 <div class="padded_frame" style="width: 415px;float: right;padding-top: 0px;">
     <h3>
-	<a href="#">Account</a>
+	<a href="#">Website Account</a>
 	<?php
 	if(!$Account)
 	    echo HTML::buttonBlue(
@@ -173,11 +173,11 @@ $Account	= $Employee->getAccount();
 	    ?>
 	    <h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
 		<?php 
-		echo $Account->getUsername(); 
+		echo $Account->getWebsite()->getName(); 
 		echo HTML::anchorIcon(
 			"pencil.png", 
 			"", 
-			"/company/website-account/edit/person_id/".$employee_id."/id/".
+			"/company/employee-account/edit/id/".
 			    $Account->getId(), 
 			"margin-left:5px;",
 			"Edit Username"
@@ -185,41 +185,60 @@ $Account	= $Employee->getAccount();
 		echo HTML::anchorIcon(
 			"lock_edit.png", 
 			"", 
-			"/company/website-account/edit/pwd/1/person_id/".$employee_id."/id/".
+			"/company/employee-account/edit/pwd/1/id/".
 			    $Account->getId(), 
 			"margin-left:5px;",
 			"Reset Password"
 			);
-		echo HTML::anchorIcon(
-			"creditcards.png", 
-			"", 
-			"/company/website-account/roles/id/".$Account->getId(), 
-			"margin-left:5px;",
-			"Edit Roles"
-			);
 		?>
 	    </h4>
-	    <label>Roles:</label>
+	    <label>Username:</label>
 	    <div style="display: inline;">
-		<?php 
-		$roles = array();
-		
-		/* @var $Role \Entities\Company\Employee\Role */
-		foreach($Employee->getRoles() as $Role)
-		{
-		    $roles[] = $Role->getName();
-		}
-		
-		if(count($roles)>0)
-		{
-		    echo implode(", ",$roles);
-		}
-		else echo "No roles";
-		?>
+		<?php echo $Account->getUsername();?>
+	    </div><br />
+	    <label>Password:</label>
+	    <div style="display: inline;">
+		*********
 	    </div><br />
 	    <?php
 	}
 	else echo "No Web Account";
+	?>
+    </div>
+    <h3>
+	<a href="#">Roles</a>
+	<?php
+	echo HTML::buttonBlue(
+		"text_list_bullets.png", 
+		"Manage Roles", 
+		"roles_manage", 
+		"float:right;width:140px;"
+		);
+	?>
+    </h3>
+    <div>
+    <?php
+	if($Employee->getRoles()->count() > 0)
+	{
+	    /* @var $Role \Entities\Company\Employee\Role */
+	    foreach ($Employee->getRoles() as $Role)
+	    {
+		?>
+		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
+		    <?php 
+		    echo $Role->getName();
+		    ?>
+		</h4>
+		<label>Description:</label>
+		<div style="display: inline;">
+		    <?php 
+		    echo HTML::truncateString($Role->getDescription(), 100);
+		    ?>
+		</div><br /><br />
+		<?php
+	    }
+	}
+	else echo "No Roles";
 	?>
     </div>
     <h3><a href="#">Documents</a></h3>
@@ -232,4 +251,5 @@ $Account	= $Employee->getAccount();
     Employee.AddAddressClickBind("address_add");
     Employee.AddEmailClickBind("email_add");
     Employee.AddAccountClickBind("account_add");
+    Employee.ManageRolesClickBind("roles_manage");
 </script>

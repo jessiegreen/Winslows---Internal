@@ -64,15 +64,12 @@ class LoginController extends Dataservice_Controller_Action
 	
         if (!$form->isValid($request->getPost()))
 	{
-	    exit;
             // Invalid entries
 	    $form->populate($request->getPost());
 	    
             $this->view->form = $form;
 	    
 	    Zend_Auth::getInstance()->clearIdentity();
-	    
-	    exit;
 	    
             return $this->render('index'); // re-render the login form
         }
@@ -98,15 +95,12 @@ class LoginController extends Dataservice_Controller_Action
 		'Form'
 	    ));
 	    
-	    $this->_FlashMessenger->addErrorMessage($string);
-	    
 	    $form->setDescription($string);
 	    
             $this->view->form = $form;
 	    
 	    Zend_Auth::getInstance()->clearIdentity();
-	    echo "yes";
-	    exit;
+	    
             return $this->render('index'); // re-render the login form
         }
 	

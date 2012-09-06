@@ -26,7 +26,7 @@ class Account extends \Zend_Form
     {
 	$form = new \Forms\Website\Account\SubForm($options, $this->_Account, $this->_safe);
 	
-	$this->addSubForm($form, "company_website_account");
+	$this->addSubForm($form, "company_employee_account");
 	
         $this->addElement('submit', 'submit', array(
             'ignore'   => true,

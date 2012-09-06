@@ -2,32 +2,21 @@
 echo($this->flashMessages()); 
 //echo HTML::backAnchorIcon("Employees View", "/maintenance/employeesview");
 ?>
-<h1 class="header1">Web Account - Roles</h1>
-<fieldset class="padded_frame blue_frame">
-    <legend>Menu</legend>
-    <select id="add_role_id">
-	<option value=""></option>
-	<?php
-	/* @var $Role \Entities\Company\Employee\Role */
-	foreach($this->Roles as $Role)
-	{
-	    echo "<option value='".$Role->getId()."'>".$Role->getName()."</option>";
-	}
-	?>
-    </select>
-    <?php
-    echo HTML::buttonBlue("add.png", "Add Role", "add_role", "position:relative;");
-    ?>
-</fieldset>
+<h1 class="header1">Employee - Manage Roles</h1>
 <fieldset class="padded_frame blue_frame center">
-    <legend>Edit '<?php echo $this->Account->getPerson()->getFullName(); ?>' Roles</legend>
-    <input type="hidden" id="account_id" value="<?php echo $this->Account->getId();?>" />
+    <legend>Edit '<?php echo $this->Employee->getFullName(); ?>' Roles</legend>
+    <input type="hidden" id="employee_id" value="<?php echo $this->Employee->getId();?>" />
+    <?php
+    echo $this->form;
+    ?>
     <ul>
     <?php
-    $Roles = $this->Account->getPerson()->getRoles();
+    $Roles = $this->Employee->getRoles();
+    
     if(count($Roles)>0){
 	/* @var $Role \Entities\Company\Employee\Role */
-	foreach($Roles as $Role){
+	foreach($Roles as $Role)
+	{
 	    echo "<li role_id='".$Role->getId()."'>".
 		    HTML::buttonIcon(
 			    "delete.png", 
@@ -45,7 +34,7 @@ echo($this->flashMessages());
     </ul>
 </fieldset>
 <script type="text/javascript">
-    Account_Role = new Account_Role();
-    Account_Role.AddRoleOnclickBind($("#add_role"));
-    Account_Role.RemoveRoleOnclickBind($(".remove_role"));
+    Company_Employee_Role = new Company_Employee_Role();
+    Company_Employee_Role.FormSubmit();
+    Company_Employee_Role.RemoveRoleOnclickBind($(".remove_role"));
 </script>

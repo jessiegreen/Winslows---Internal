@@ -17,7 +17,7 @@ class Company_EmployeeAccountController extends Dataservice_Controller_Action
     public function editAction()
     {
 	/* @var $Account \Entities\Company\Employee\Account */
-	$Account	= $this->getEntityFromParamFields("Company\Employee\Account", array("id"));
+	$Account	= $this->_getAccount();
 	$safe		= !$Account->getId() || $this->getRequest()->getParam("pwd", 0) === "1" ? false : true;
 	$form		= new Forms\Company\Employee\Account(array("method" => "post"), $Account, $safe);
 	
@@ -28,7 +28,7 @@ class Company_EmployeeAccountController extends Dataservice_Controller_Action
 	if($this->isPostAndValid($form)){
 	    try 
 	    {
-		$data	= $this->_params["company_employee_website_account"];
+		$data	= $this->_params["company_employee_account"];
 		
 		$Account->populate($data);
 		
@@ -65,70 +65,21 @@ class Company_EmployeeAccountController extends Dataservice_Controller_Action
 	$this->view->Account	    = $Account;
     }
     
-    public function rolesAction()
+    /**
+     * @return Entities\Company\Employee\Account
+     */
+    private function _getAccount()
     {
-	$this->view->headScript()->appendFile("/javascript/company/website/account/roles.js");
-	
-	/* @var $Account \Entities\Company\Website\Account */
-	$Account		    = $this->_em->find("\Entities\Website\Account\AccountAbstract",$this->_params["id"]); 
-	$this->view->Account	    = $Account;
-	$this->view->Roles	    = $this->_em->getRepository("Entities\Role\RoleAbstract")->findAll();
+	return $this->getEntityFromParamFields("Company\Employee\Account", array("id"));
     }
     
-    public function addroleAction()
+    private function _CheckRequiredAccountExists(Entities\Company\Employee\Account $Account)
     {
-	$this->_helper->viewRenderer->setNoRender(true);
-	$this->_helper->layout->disableLayout();
-	
-	$ACL = new Dataservice_Controller_Plugin_ACL();
-	
-	$ACL->preDispatch($this->_request);
-	
-	$Account = $this->getEntityFromParamFields("Website\Account\AccountAbstract", array("id"));
-	$Role	 = $this->_em->find("Entities\Role\RoleAbstract", $this->_request->getParam("role_id", 0));
-	
-	if($Account && $Role)
+	if(!$Account->getId())
 	{
-	    $Account->getPerson()->addRole($Role);
-	    $this->_em->persist($Account);
-	    $this->_em->flush();
-	    $this->_FlashMessenger->addSuccessMessage("Role Added");
+	    $this->_FlashMessenger->addErrorMessage("Could not get Account");
+	    $this->_History->goBack();
 	}
-	else
-	{
-	    $this->_FlashMessenger->addErrorMessage("Error Adding Role - Account or Role Not Available");
-	}
-	
-	$this->_History->goBack(1);
-    }
-    
-    public function removeroleAction()
-    {
-	$this->_helper->viewRenderer->setNoRender(true);
-	$this->_helper->layout->disableLayout();
-	
-	$ACL = new Dataservice_Controller_Plugin_ACL();
-	
-	$ACL->preDispatch($this->_request);
-	
-	/* @var $Account Entities\Company\Website\Account */
-	$Account = $this->getEntityFromParamFields("Website\Account\AccountAbstract", array("id"));
-	$Role	 = $this->_em->find("Entities\Role\RoleAbstract", $this->_request->getParam("role_id", 0));
-	
-	if($Account && $Role)
-	{
-	    $Account->getPerson()->removeRole($Role);
-	    $this->_em->persist($Account);
-	    $this->_em->flush();
-	    
-	    $this->_FlashMessenger->addSuccessMessage("Role Removed");
-	}
-	else
-	{
-	    $this->_FlashMessenger->addErrorMessage("Error Removing Role - Account or Role Not Available");
-	}
-	
-	$this->_History->goBack(1);
-    }
+    } 
 }
 

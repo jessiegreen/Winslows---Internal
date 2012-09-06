@@ -9,5 +9,3 @@ class Product extends \Dataservice_Service_ServiceAbstract
 		->findBy(array(), array("name" => "ASC"));
     }
 }
-
-?>

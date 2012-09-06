@@ -75,5 +75,98 @@ class Company_EmployeeController extends Dataservice_Controller_Action
 	$this->view->form	= $form;
 	$this->view->Employee	= $Employee;
     }
+    
+    public function manageRolesAction()
+    {
+	$this->view->headScript()->appendFile("/javascript/company/employee/manage-roles.js");
+	
+	$Employee = $this->_getEmployee();
+	
+	$this->_CheckRequiredEmployeeExists($Employee);
+	
+	$this->view->Employee	= $Employee;
+	$this->view->form		= new Forms\Company\Employee\ManageRoles($Employee);
+    }
+    
+    public function addRoleAction()
+    {
+	$this->_helper->viewRenderer->setNoRender(true);
+	$this->_helper->layout->disableLayout();
+	
+	$ACL = new Dataservice_Controller_Plugin_ACL();
+	
+	$ACL->preDispatch($this->_request);
+	
+	$Employee   = $this->_getEmployee();
+	$Role	    = $this->_getRole();
+	
+	$this->_CheckRequiredEmployeeExists($Employee);
+	$this->_CheckRequiredRoleExists($Role);
+
+	$Employee->addRole($Role);
+	$this->_em->persist($Employee);
+	$this->_em->flush();
+	$this->_FlashMessenger->addSuccessMessage("Role Added");
+	
+	$this->_History->goBack(1);
+    }
+    
+    public function removeRoleAction()
+    {
+	$this->_helper->viewRenderer->setNoRender(true);
+	$this->_helper->layout->disableLayout();
+	
+	$ACL = new Dataservice_Controller_Plugin_ACL();
+	
+	$ACL->preDispatch($this->_request);
+	
+	$Employee   = $this->_getEmployee();
+	$Role	    = $this->_getRole();
+	
+	$this->_CheckRequiredEmployeeExists($Employee);
+	$this->_CheckRequiredRoleExists($Role);
+	
+	$Employee->removeRole($Role);
+	$this->_em->persist($Employee);
+	$this->_em->flush();
+	
+	$this->_FlashMessenger->addSuccessMessage("Role Removed");
+	$this->_History->goBack(1);
+    }
+    
+    /**
+     * @return Entities\Company\Employee
+     */
+    private function _getEmployee()
+    {
+	return $this->getEntityFromParamFields("Company\Employee", array("id"));
+    }
+    
+    private function _CheckRequiredEmployeeExists(Entities\Company\Employee $Employee)
+    {
+	if(!$Employee->getId())
+	{
+	    $this->_FlashMessenger->addErrorMessage("Could not get Employee");
+	    $this->_History->goBack();
+	}
+    } 
+    
+    /**
+     * @return \Entities\Company\Employee\Role
+     */
+    private function _getRole()
+    {
+	$id = $this->_request->getParam("role_id", 0);
+	return $this->_em->find("Entities\Company\Employee\Role", $id);
+    }
+    
+    private function _CheckRequiredRoleExists(\Entities\Company\Employee\Role $Role)
+    {
+	if(!$Role->getId())
+	{
+	    $this->_FlashMessenger->addErrorMessage("Could not get Role");
+	    $this->_History->goBack();
+	}
+    }
 }
 
