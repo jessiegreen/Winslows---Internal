@@ -17,6 +17,40 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
         //$view->doctype('XHTML1_STRICT');
 	$view->headTitle()->setSeparator (' ~ ');
+	
+	switch ($_SERVER['HTTP_HOST'])
+	{
+	    case "www.winslowsinc.local":
+		$module = "winslows";
+		
+		define('APPLICATION_ENV', "development");
+		
+		$view->headTitle('DEV - Winslow\'s Inc.');
+		break;
+	    case "www.winslowsinc.com":
+		$module = "winslows";
+		
+		define('APPLICATION_ENV', "production");
+		
+		$view->headTitle('Winslow\'s Inc.');
+		break;
+	    case "company.winslowsinc.local":
+		$module = "winslows";
+		
+		define('APPLICATION_ENV', "development");
+		
+		$view->headTitle('DEV - Winslow\'s Inc. Company');
+		break;
+	    case "company.winslowsinc.com":
+		$module = "winslows";
+		
+		define('APPLICATION_ENV', "production");
+		
+		$view->headTitle('Winslow\'s Inc. Company');
+		break;
+	    default:
+		break;
+	}
 	$view->headTitle('Winslowsinc Internal');
 
 	#--Base Url
@@ -69,12 +103,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	    'namespace' => '',
 	));
 
-//
-//	$resourceLoader->addResourceType('form', 'forms/', 'Form_');
-//	$resourceLoader->addResourceType('service', 'models/Services/', 'Service_');
-//	$resourceLoader->addResourceType('interface', 'models/Interfaces/', 'Interface_');
-//	$resourceLoader->addResourceType('class', 'classes/', 'Classes_');
-
 	$autoLoader->pushAutoloader($resourceLoader);
     }
     
@@ -86,6 +114,52 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	#--Register Controller Action Helpers
 	Zend_Controller_Action_HelperBroker::addHelper(new Dataservice_Controller_Action_Helper_History());
     }
+    
+    protected function _initLayoutHelper()  
+    {  
+	$this->bootstrap('frontController');  
+	$layout = Zend_Controller_Action_HelperBroker::addHelper(  
+	    new Dataservice_Controller_Action_Helper_SetLayoutPath(APPLICATION_PATH));  
+    }  
   
+    protected function _initRouter()
+    {
+	$router			= $this->bootstrap('frontController')
+					->getResource('frontController')
+					->getRouter();
+	
+	
+	$hostnameWwwDevRoute	= new Zend_Controller_Router_Route_Hostname(
+					    'www.winslowsinc.local', 
+					    array('module' => 'default')
+					);
+	$hostnameCompanyDevRoute = new Zend_Controller_Router_Route_Hostname(
+					    'company.winslowsinc.local', 
+					    array('module' => 'company')
+					);
+	$hostnameTexwinDevRoute	= new Zend_Controller_Router_Route_Hostname(
+					    'texwincarports.local', 
+					    array('module' => 'texwin')
+					);
+	$hostnameWwwRoute	= new Zend_Controller_Router_Route_Hostname(
+					    'www.winslowsinc.com', 
+					    array('module' => 'default')
+					);
+	$hostnameCompanyRoute	= new Zend_Controller_Router_Route_Hostname(
+					    'company.winslowsinc.com', 
+					    array('module' => 'company')
+					);
+	$hostnameTexwinRoute	= new Zend_Controller_Router_Route_Hostname(
+					    'texwincarports.com', 
+					    array('module' => 'texwin')
+					);
+	$router
+	    ->addRoute('company', $hostnameCompanyRoute->chain(new Zend_Controller_Router_Route(':controller/:action/*', array('controller'=>'index', 'action'=>'index'))))
+	    ->addRoute('company_dev', $hostnameCompanyDevRoute->chain(new Zend_Controller_Router_Route(':controller/:action/*', array('controller'=>'index', 'action'=>'index'))))
+	    ->addRoute('www_dev', $hostnameWwwDevRoute->chain(new Zend_Controller_Router_Route(':controller/:action/*', array('controller'=>'index', 'action'=>'index'))))
+	    ->addRoute('www', $hostnameWwwRoute->chain(new Zend_Controller_Router_Route(':controller/:action/*', array('controller'=>'index', 'action'=>'index'))))
+	    ->addRoute('texwin', $hostnameTexwinRoute->chain(new Zend_Controller_Router_Route(':controller/:action/*', array('controller'=>'index', 'action'=>'index'))))
+	    ->addRoute('texwin_dev', $hostnameTexwinDevRoute->chain(new Zend_Controller_Router_Route(':controller/:action/*', array('controller'=>'index', 'action'=>'index'))));
+    }
 }
 

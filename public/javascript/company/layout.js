@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-var layout = function (){
+var company_layout = function (){
 //    this.menu_array  = "";
     
 }
@@ -13,7 +13,7 @@ var layout = function (){
  * 
  * @param element_id
  */
-layout.prototype.nav_menu = function (){
+company_layout.prototype.nav_menu = function (){
     $(document).ready(function(){
 	$("ul.sf-menu").superfish({ 
             delay:       300,                            // one second delay on mouseout 

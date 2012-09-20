@@ -1,4 +1,11 @@
-SetEnv APPLICATION_ENV development
+RewriteCond %{HTTP_HOST} ^winslowsinc.local$ [NC]
+RewriteRule ^(.*)$ http://www.winslowsinc.local/$1 [R=301,L]
+RewriteCond %{HTTP_HOST} ^winslowsinc.com$ [NC]
+RewriteRule ^(.*)$ http://www.winslowsinc.com/$1 [R=301,L]
+
+SetEnvIf HTTP_HOST abc.example.com APPLICATION_ENV=production
+SetEnvIf HTTP_HOST def.example.com APPLICATION_ENV=staging 
+SetEnvIf HTTP_HOST ghi.example.com APPLICATION_ENV=development
 
 RewriteEngine On
 RewriteOptions Inherit 

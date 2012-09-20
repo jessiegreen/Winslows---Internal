@@ -1,7 +1,7 @@
 <?php
 class Dataservice_Controller_Plugin_ACL extends Zend_Controller_Plugin_Abstract
 {
-    private $debug = false;
+    private $debug = true;
     
     public function preDispatch(Zend_Controller_Request_Abstract $request) 
     {

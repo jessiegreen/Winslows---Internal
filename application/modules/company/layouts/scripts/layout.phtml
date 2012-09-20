@@ -1,0 +1,70 @@
+<!DOCTYPE>
+<html>
+<head>
+    <?php 
+    echo $this->headTitle();
+    
+    $this->headLink()->prependStylesheet('/css/company/layout.css');
+    $this->headLink()->prependStylesheet('/css/global.css');
+    #--Superfish Menu
+    $this->headLink()->appendStylesheet(BASE_URL.'/css/superfish.css');
+    echo $this->headLink();
+    
+    echo $this->headMeta();
+    $this->headScript()->prependFile('/javascript/common.js');
+    $this->headScript()->prependFile('/javascript/jquery/jquery.js');
+    $this->headScript()->appendFile('/javascript/company/layout.js');
+    
+    #--Superfish Menu
+    $this->headScript()->appendFile(BASE_URL.'/javascript/jquery/hoverIntent.js');
+    $this->headScript()->appendFile(BASE_URL.'/javascript/superfish.js');
+    
+    echo $this->headScript();
+    ?>
+    <script language="JavaScript" type="text/javascript">
+	l = new company_layout;
+	l.nav_menu($("ul.sf-menu"));
+    </script>
+</head>
+<body>
+    <div class="main_outer">
+	<div class="main_header">
+	    <div class="logo_cont">
+		<span class="logo">Winslow's Inc.</span> - Dashboard
+	    </div>
+	    <div style="float: right;padding: 8px;color: #FFF;"><?php echo $this->profilelink();?></div>
+	</div>
+	<?php
+	#--Get Auth Instance
+        $auth = Zend_Auth::getInstance();
+
+	#--Check if user logged in
+        if (!$auth->hasIdentity())
+	{
+//	    if($_SERVER["REQUEST_URI"] != "/login/index")
+//	    header('Location: /login/index');
+	}
+	else
+	{
+	    ?>
+	    <div id="nav_container">
+		<div id="nav_list_cont"> 
+		    <?php
+		    /* @var $menu \Classes\Menu */
+		    $menu = \Services\Company\Website\Menu::factory()->getMenuHTML("Top");
+		    $menu->attrs = array(
+			"class"	=> "sf-menu"
+		    );
+		    echo $menu->render();
+		    ?>
+		</div>
+		<div id="nav_filler"></div>
+	    </div>
+	    <?php 
+	}
+	echo $this->layout()->content 
+	?>
+	<div style="height: 5px;"></div>
+    </div>
+</body>
+</html>
