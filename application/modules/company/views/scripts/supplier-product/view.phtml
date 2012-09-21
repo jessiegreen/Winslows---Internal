@@ -1,7 +1,7 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo HTML::backAnchorIcon("Supplier - view", "/company/supplier/view/id/".$this->Product->getSupplier()->getId());
+echo HTML::backAnchorIcon("Supplier - view", "/supplier/view/id/".$this->Product->getSupplier()->getId());
 echo "</div>";
 ?>
 <h1 class="header1">Product - View</h1>
@@ -32,7 +32,7 @@ switch ($Product->getDescriminator())
 	echo HTML::anchorIcon(
 		"pencil.png", 
 		"", 
-		"/company/supplier-product/edit/id/".$product_id,
+		"/supplier-product/edit/id/".$product_id,
 		"margin-left:5px;"
 		);
 	?>
@@ -83,7 +83,7 @@ switch ($Product->getDescriminator())
 			    echo HTML::anchorIcon(
 				    "eye.png", 
 				    "", 
-				    "/company/supplier-product-configurable-option/view/id/".$Option->getId(),
+				    "/supplier-product-configurable-option/view/id/".$Option->getId(),
 				    "margin-left:5px;"
 				    );
 			    echo $Option->getName();

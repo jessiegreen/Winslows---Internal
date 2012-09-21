@@ -1,0 +1,41 @@
+<?php 
+echo($this->flashMessages()); 
+echo HTML::backAnchorIcon("Resources View", "/website/resource/view-all");
+?>
+<fieldset class="padded_frame blue_frame">
+    <legend>Menu</legend>
+    <select id="add_role_id">
+	<option value=""></option>
+	<?php
+	/* @var $Role \Entities\Company\Employee\Role */
+	foreach($this->Roles as $Role)
+	{
+	    echo "<option value='".$Role->getId()."'>".$Role->getName()."</option>";
+	}
+	?>
+    </select>
+    <?php
+    echo HTML::buttonBlue("add.png", "Add Role To Resource", "add_role", "position:relative;");
+    ?>
+</fieldset>
+<fieldset class="padded_frame blue_frame center">
+    <legend>Edit '<?php echo $this->Resource->getName(); ?>' Resource Item</legend>
+    <input type="hidden" id="resource_id" value="<?php echo $this->Resource->getId();?>" />
+    <ul>
+    <?php
+    $Roles = $this->Resource->getRoles();
+    if(count($Roles)>0){
+	/* @var $Role \Entities\Company\Employee\Role */
+	foreach($Roles as $Role){
+	    echo "<li role_id='".$Role->getId()."'>".  HTML::buttonIcon("delete.png", "delete_role", "Remove Role", "remove_role", "padding-right:5px;").$Role->getName()."</li>";
+	}
+    }
+    else echo "<li>No roles assigned</li>";
+    ?>
+    </ul>
+</fieldset>
+<script type="text/javascript">
+    M = new Website_Resource_ManageRoles();
+    M.AddOnclickBind($("#add_role"));
+    M.RemoveOnclickBind($(".remove_role"));
+</script>

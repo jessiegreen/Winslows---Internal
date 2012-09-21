@@ -22,36 +22,54 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	{
 	    case "www.winslowsinc.local":
 		$module = "winslows";
-		
-		define('APPLICATION_ENV', "development");
-		
 		$view->headTitle('DEV - Winslow\'s Inc.');
 		break;
 	    case "www.winslowsinc.com":
 		$module = "winslows";
-		
-		define('APPLICATION_ENV', "production");
-		
 		$view->headTitle('Winslow\'s Inc.');
 		break;
+	    case "www.texwincarports.local":
+		$module = "texwin";
+		$view->headTitle('DEV - Texwin Carports');
+		break;
+	    case "www.texwincarports.com":
+		$module = "texwin";
+		$view->headTitle('Texwin Carports');
+		break;
 	    case "company.winslowsinc.local":
-		$module = "winslows";
-		
-		define('APPLICATION_ENV', "development");
-		
+		$module = "company";
 		$view->headTitle('DEV - Winslow\'s Inc. Company');
 		break;
 	    case "company.winslowsinc.com":
-		$module = "winslows";
-		
-		define('APPLICATION_ENV', "production");
-		
+		$module = "company";		
 		$view->headTitle('Winslow\'s Inc. Company');
 		break;
 	    default:
+		throw new Exception("Error!!");
 		break;
 	}
-	$view->headTitle('Winslowsinc Internal');
+	
+	$router		= $this->bootstrap('frontController')
+					->getResource('frontController')
+					->getRouter();
+	
+	
+	$hostnameRoute	= new Zend_Controller_Router_Route_Hostname(
+					    $_SERVER['HTTP_HOST'], 
+					    array('module' => $module)
+					);
+	$router
+	    ->addRoute(
+		    $module, 
+		    $hostnameRoute->chain(
+			    new Zend_Controller_Router_Route(
+				    ':controller/:action/*', 
+				    array('controller'=>'index', 
+					'action'=>'index'
+				    )
+			    )
+		    )
+	    );
 
 	#--Base Url
 	$baseUrl = "";
@@ -106,7 +124,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	$autoLoader->pushAutoloader($resourceLoader);
     }
     
-    protected function _initPlugins() {
+    protected function _initPlugins()
+    {
 	#--Register Front controller Plugins
 	$front = Zend_Controller_Front::getInstance();
 	$front->registerPlugin(new Dataservice_Controller_Plugin_ACL(), 1);
@@ -121,45 +140,5 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	$layout = Zend_Controller_Action_HelperBroker::addHelper(  
 	    new Dataservice_Controller_Action_Helper_SetLayoutPath(APPLICATION_PATH));  
     }  
-  
-    protected function _initRouter()
-    {
-	$router			= $this->bootstrap('frontController')
-					->getResource('frontController')
-					->getRouter();
-	
-	
-	$hostnameWwwDevRoute	= new Zend_Controller_Router_Route_Hostname(
-					    'www.winslowsinc.local', 
-					    array('module' => 'default')
-					);
-	$hostnameCompanyDevRoute = new Zend_Controller_Router_Route_Hostname(
-					    'company.winslowsinc.local', 
-					    array('module' => 'company')
-					);
-	$hostnameTexwinDevRoute	= new Zend_Controller_Router_Route_Hostname(
-					    'texwincarports.local', 
-					    array('module' => 'texwin')
-					);
-	$hostnameWwwRoute	= new Zend_Controller_Router_Route_Hostname(
-					    'www.winslowsinc.com', 
-					    array('module' => 'default')
-					);
-	$hostnameCompanyRoute	= new Zend_Controller_Router_Route_Hostname(
-					    'company.winslowsinc.com', 
-					    array('module' => 'company')
-					);
-	$hostnameTexwinRoute	= new Zend_Controller_Router_Route_Hostname(
-					    'texwincarports.com', 
-					    array('module' => 'texwin')
-					);
-	$router
-	    ->addRoute('company', $hostnameCompanyRoute->chain(new Zend_Controller_Router_Route(':controller/:action/*', array('controller'=>'index', 'action'=>'index'))))
-	    ->addRoute('company_dev', $hostnameCompanyDevRoute->chain(new Zend_Controller_Router_Route(':controller/:action/*', array('controller'=>'index', 'action'=>'index'))))
-	    ->addRoute('www_dev', $hostnameWwwDevRoute->chain(new Zend_Controller_Router_Route(':controller/:action/*', array('controller'=>'index', 'action'=>'index'))))
-	    ->addRoute('www', $hostnameWwwRoute->chain(new Zend_Controller_Router_Route(':controller/:action/*', array('controller'=>'index', 'action'=>'index'))))
-	    ->addRoute('texwin', $hostnameTexwinRoute->chain(new Zend_Controller_Router_Route(':controller/:action/*', array('controller'=>'index', 'action'=>'index'))))
-	    ->addRoute('texwin_dev', $hostnameTexwinDevRoute->chain(new Zend_Controller_Router_Route(':controller/:action/*', array('controller'=>'index', 'action'=>'index'))));
-    }
 }
 

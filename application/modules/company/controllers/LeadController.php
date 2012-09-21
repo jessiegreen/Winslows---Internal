@@ -10,7 +10,7 @@ class Company_LeadController extends Dataservice_Controller_Action
     
     public function editAction()
     {
-	$Lead = $this->getEntityFromParamFields("Lead", array("id"));
+	$Lead = $this->getEntityFromParamFields("Company/Lead", array("id"));
 	
 	$form = new Form_Lead(array("method" => "post"), $Lead);
 	$form->addElement("button", "cancel", 

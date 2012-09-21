@@ -1,11 +1,46 @@
+#Dev - winslowsinc - Non Https non-www to www
+RewriteCond %{HTTPS} !=on
 RewriteCond %{HTTP_HOST} ^winslowsinc.local$ [NC]
 RewriteRule ^(.*)$ http://www.winslowsinc.local/$1 [R=301,L]
+#Dev - winslowsinc - Https non-www to www
+RewriteCond %{HTTP_HOST} ^winslowsinc.local$ [NC]
+RewriteRule ^(.*)$ http://www.winslowsinc.local/$1 [R=301,L]
+
+#Live - winslowsinc - Non Https non-www to www
+RewriteCond %{HTTPS} !=on
 RewriteCond %{HTTP_HOST} ^winslowsinc.com$ [NC]
 RewriteRule ^(.*)$ http://www.winslowsinc.com/$1 [R=301,L]
+#Live - winslowsinc - Https non-www to www
+RewriteCond %{HTTP_HOST} ^winslowsinc.com$ [NC]
+RewriteRule ^(.*)$ https://www.winslowsinc.com/$1 [R=301,L]
 
-SetEnvIf HTTP_HOST abc.example.com APPLICATION_ENV=production
-SetEnvIf HTTP_HOST def.example.com APPLICATION_ENV=staging 
-SetEnvIf HTTP_HOST ghi.example.com APPLICATION_ENV=development
+#Dev - texwincarports - Non Https non-www to www
+RewriteCond %{HTTPS} !=on
+RewriteCond %{HTTP_HOST} ^texwincarports.local$ [NC]
+RewriteRule ^(.*)$ http://www.texwincarports.local/$1 [R=301,L]
+#Dev - texwincarports - Https non-www to www
+RewriteCond %{HTTP_HOST} ^texwincarports.local$ [NC]
+RewriteRule ^(.*)$ http://www.texwincarports.local/$1 [R=301,L]
+
+#Live - texwincarports - Non Https non-www to www
+RewriteCond %{HTTPS} !=on
+RewriteCond %{HTTP_HOST} ^texwincarports.com$ [NC]
+RewriteRule ^(.*)$ http://www.texwincarports.com/$1 [R=301,L]
+#Live - texwincarports - Https non-www to www
+RewriteCond %{HTTP_HOST} ^texwincarports.com$ [NC]
+RewriteRule ^(.*)$ https://www.texwincarports.com/$1 [R=301,L]
+
+#winslowsinc - Environment var
+SetEnvIf HTTP_HOST www.winslowsinc.com APPLICATION_ENV=production
+SetEnvIf HTTP_HOST www.winslowsinc.local APPLICATION_ENV=development
+
+#texwin - Environment var
+SetEnvIf HTTP_HOST www.texwincarports.com APPLICATION_ENV=production
+SetEnvIf HTTP_HOST www.texwincarports.local APPLICATION_ENV=development
+
+#company - Environment var
+SetEnvIf HTTP_HOST company.winslowsinc.com APPLICATION_ENV=production
+SetEnvIf HTTP_HOST company.winslowsinc.local APPLICATION_ENV=development
 
 RewriteEngine On
 RewriteOptions Inherit 

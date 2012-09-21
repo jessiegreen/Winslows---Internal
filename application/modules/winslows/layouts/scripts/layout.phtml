@@ -1,0 +1,28 @@
+<!DOCTYPE>
+<html>
+<head>
+    <?php 
+    echo $this->headTitle();
+    
+    $this->headLink()->prependStylesheet('/css/winslows/layout.css');
+    $this->headLink()->prependStylesheet('/css/global.css');
+    echo $this->headLink();
+    
+    echo $this->headMeta();
+    $this->headScript()->prependFile('/javascript/common.js');
+    $this->headScript()->prependFile('/javascript/jquery/jquery.js');
+    $this->headScript()->appendFile('/javascript/winslows/layout.js');
+    
+    echo $this->headScript();
+    ?>
+</head>
+<body>
+    <div class="main_outer">
+	Winslows Inc.<br />
+	<?php
+	echo $this->layout()->content 
+	?>
+	<div style="height: 5px;"></div>
+    </div>
+</body>
+</html>

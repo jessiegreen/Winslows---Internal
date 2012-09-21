@@ -63,12 +63,15 @@ class Menu extends \Dataservice_Service_ServiceAbstract
      */
     public function getUrlArray(\Entities\Website\Menu\Item $MenuItem)
     {	
-	return array(
+	$route_array = array(
 	    "module"	    => $MenuItem->getLinkModule(),
 	    "controller"    => $MenuItem->getLinkController(),
-	    "action"	    => $MenuItem->getLinkAction(),
-	    "params"	    => $this->decodeLinkParams($MenuItem)
+	    "action"	    => $MenuItem->getLinkAction()
 	);
+	
+	$params_array = $this->decodeLinkParams($MenuItem);
+	
+	return array_merge($route_array, $params_array);
     }
     
     /**
@@ -81,11 +84,12 @@ class Menu extends \Dataservice_Service_ServiceAbstract
 	$url_array  = $this->getUrlArray($MenuItem);
 	$url_helper = new \Zend_Controller_Action_Helper_Url;
 	
-	return $url_helper->simple(
-		$url_array["action"],
-		$url_array["controller"],
-		$url_array["module"],
-		$url_array["params"]
+	unset($url_array["module"]);
+	
+	return $url_helper->url(
+		$url_array,	
+		$MenuItem->getLinkModule(),
+		true
 		);
     }
     
@@ -140,5 +144,3 @@ class Menu extends \Dataservice_Service_ServiceAbstract
 	return $MenuItemRepos->findBy(array(), array("label" => "ASC"));
     }
 }
-
-?>

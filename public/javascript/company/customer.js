@@ -22,7 +22,7 @@ Customer.prototype.AddEmailClickBind = function(element_id){
 
 Customer.prototype.AddContactClickBind = function(element_id){
     $("#"+element_id).click(function(){
-	location = "/company/lead-contact/edit/id/0/lead_id/" + $("#customer_id").val();
+	location = "/lead-contact/edit/id/0/lead_id/" + $("#customer_id").val();
     });
 }
 

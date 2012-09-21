@@ -127,7 +127,7 @@ Manual.prototype.submit = function(instance_id, return_url)
     this.form_element.submit(function()
     {
 	$.post(
-	    "/company/supplier-product-configurable-instance/manualsaveajax/id/"+instance_id, 
+	    "/supplier-product-configurable-instance/manualsaveajax/id/"+instance_id, 
 	    this_var.form_element.serialize(),
 	    function(data) {
 		if(data.success === true){
@@ -192,7 +192,7 @@ Manual.prototype.addOptionToRightFrame = function(instance_id, configurable_opti
 	
     $.ajax(
     {
-	url: "/company/supplier-product-configurable-instance/getoptionform/id/"+
+	url: "/supplier-product-configurable-instance/getoptionform/id/"+
 	    instance_id+"/configurable_option_id/"+configurable_option_id+instance_url,
 	success: function(data)
 	{

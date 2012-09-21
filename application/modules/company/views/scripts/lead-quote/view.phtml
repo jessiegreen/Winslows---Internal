@@ -25,7 +25,7 @@ $Items		= $quote->getItems();
 	echo HTML::anchorIcon(
 		"pencil.png", 
 		"", 
-		"/company/lead-quote/edit/id/".$quote_id,
+		"/lead-quote/edit/id/".$quote_id,
 		"margin-left:5px;",
 		"Edit Quote"
 		);
@@ -73,7 +73,7 @@ $Items		= $quote->getItems();
 		    echo HTML::anchorIcon(
 			    "delete.png", 
 			    "", 
-			    "/company/lead-quote/itemremove/id/".$quote->getId()."/item_id/".$Item->getId(),
+			    "/lead-quote/itemremove/id/".$quote->getId()."/item_id/".$Item->getId(),
 			    "margin-left:5px;vertical-align:bottom;",
 			    "Delete Item"
 			    );

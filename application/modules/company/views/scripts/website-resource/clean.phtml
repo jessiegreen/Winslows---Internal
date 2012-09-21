@@ -1,0 +1,20 @@
+<?php echo($this->flashMessages()); ?>
+<h1 class="header1">
+    Clean Resources
+</h1>
+<div class="padded_frame">
+    <?php
+    if($this->result){
+	foreach($this->result as $result => $resources)
+	{
+	    echo "<h4>".ucfirst($result)."</h4>";
+	    echo "<ol>";
+	    foreach ($resources as $resource) {
+		echo "<li>".$resource."</li>";
+	    }
+	    echo "</ol>";
+	}
+    }
+    else echo "No results";
+    ?>
+</div>

@@ -1,7 +1,7 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo HTML::backAnchorIcon("Configurable Product Option - All", "/company/supplier-product-configurable-option/viewall");
+echo HTML::backAnchorIcon("Configurable Product Option - All", "/supplier-product-configurable-option/viewall");
 echo "</div>";
 ?>
 <h1 class="header1">Configurable Product Option - View</h1>
@@ -19,7 +19,7 @@ $Configurables		    = $Option->getConfigurableProducts();
 	echo HTML::anchorIcon(
 		"pencil.png", 
 		"", 
-		"/company/supplier-product-configurable-option/edit/id/".$option_id,
+		"/supplier-product-configurable-option/edit/id/".$option_id,
 		"margin-left:5px;"
 		);
 	?>
@@ -50,7 +50,7 @@ $Configurables		    = $Option->getConfigurableProducts();
 			echo HTML::anchorIcon(
 				"eye.png", 
 				"", 
-				"/company/supplier-product/view/id/".$Configurable->getId(),
+				"/supplier-product/view/id/".$Configurable->getId(),
 				"margin-left:5px;"
 				);
 			echo $Configurable->getName();
@@ -87,7 +87,7 @@ $Configurables		    = $Option->getConfigurableProducts();
 			echo HTML::anchorIcon(
 				"eye.png", 
 				"", 
-				"/company/supplier-product-configurable-option-parameter/view/id/".$Parameter->getId(),
+				"/supplier-product-configurable-option-parameter/view/id/".$Parameter->getId(),
 				"margin-left:5px;"
 				);
 			echo $Parameter->getName();

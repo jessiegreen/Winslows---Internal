@@ -7,7 +7,7 @@
 <script type="text/javascript">
     $("#quote_addproduct").submit(function(){
 	$.ajax({
-	    url: "/company/lead-quote/productadd2/id/<?php echo $this->quote_id;?>/product_id/"+$("#company_lead_quote_addproduct-product_id").val(),
+	    url: "/lead-quote/productadd2/id/<?php echo $this->quote_id;?>/product_id/"+$("#company_lead_quote_addproduct-product_id").val(),
 	    success: function(data) { 
 		c = $("#addproduct_colorbox_content");
 		c.fadeOut('fast', function(){c.html(data).fadeIn('fast')});

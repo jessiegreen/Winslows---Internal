@@ -6,7 +6,7 @@
  *
  */
 
-class Person_PhoneNumberController extends Dataservice_Controller_Action
+class Company_EmployeePhoneNumberController extends Dataservice_Controller_Action
 {    
     public function editAction()
     {

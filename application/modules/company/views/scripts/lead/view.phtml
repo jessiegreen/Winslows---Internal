@@ -1,7 +1,7 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo HTML::backAnchorIcon("Lead Search", "/company/lead/search");
+echo HTML::backAnchorIcon("Lead Search", "/lead/search");
 echo "</div>";
 ?>
 <h1 class="header1">Lead - View</h1>
@@ -21,7 +21,7 @@ $quotes		= $lead->getQuotes();
 	echo HTML::anchorIcon(
 		"pencil.png", 
 		"", 
-		"/company/lead/edit/id/".$lead_id,
+		"/lead/edit/id/".$lead_id,
 		"margin-left:5px;"
 		);
 	?>
@@ -181,7 +181,7 @@ $quotes		= $lead->getQuotes();
 			echo HTML::anchorIcon(
 				"eye.png", 
 				"", 
-				"/company/lead-quote/view/id/".
+				"/lead-quote/view/id/".
 				    $Quote->getId(), 
 				"margin-left:5px;"
 				);
@@ -232,7 +232,7 @@ $quotes		= $lead->getQuotes();
 		    echo HTML::anchorIcon(
 			    "pencil.png", 
 			    "", 
-			    "/company/lead-contact/edit/lead_id/".$lead_id."/id/".
+			    "/lead-contact/edit/lead_id/".$lead_id."/id/".
 				$Contact->getId(), 
 			    "margin-left:5px;"
 			    );

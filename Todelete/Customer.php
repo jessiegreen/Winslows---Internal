@@ -1,13 +1,11 @@
 <?php
 namespace Entities\Company;
 
-use Entities\Company\Lead as Lead;
-
 /** 
  * @Entity (repositoryClass="Repositories\Company\Customer") 
  * @Table(name="company_customers") 
  */
-class Customer extends Lead
+class Customer extends \Entities\Company\Lead
 {
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)

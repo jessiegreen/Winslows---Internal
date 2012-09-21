@@ -1,6 +1,5 @@
 <?php
 namespace Forms\Company\Lead;
-use Entities\Company\Lead as Lead;
 /**
  * Name:
  * Location:
@@ -15,7 +14,7 @@ class Subform extends \Forms\Person\Subform
 {    
     private $_Lead;
     
-    public function __construct($options = null, Lead $Lead = null) {
+    public function __construct($options = null, \Entities\Company\Lead $Lead = null) {
 	$this->_Lead = $Lead;
 	parent::__construct($options, $this->_Lead);
     }

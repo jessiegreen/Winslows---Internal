@@ -1,7 +1,7 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo HTML::backAnchorIcon("Company - View", "/company/index/view/id/".$this->Location->getCompany()->getId());
+echo HTML::backAnchorIcon("Company - View", "/index/view/id/".$this->Location->getCompany()->getId());
 echo "</div>";
 ?>
 <h1 class="header1">Location - View</h1>
@@ -21,7 +21,7 @@ $LocationPhoneNumber    = $Location->getPhoneNumber();
 	echo HTML::anchorIcon(
 		"pencil.png", 
 		"", 
-		"/company/location/edit/id/".$location_id,
+		"/location/edit/id/".$location_id,
 		"margin-left:5px;"
 		);
 	?>
@@ -55,7 +55,7 @@ $LocationPhoneNumber    = $Location->getPhoneNumber();
 		    echo HTML::anchorIcon(
 			    "pencil.png", 
 			    "", 
-			    "/company/location-address/edit/location_id/".$location_id."/id/".$LocationAddress->getId(),
+			    "/location-address/edit/location_id/".$location_id."/id/".$LocationAddress->getId(),
 			    "margin-left:5px;"
 			    );
 		    ?>
@@ -99,7 +99,7 @@ $LocationPhoneNumber    = $Location->getPhoneNumber();
 		    echo HTML::anchorIcon(
 			    "pencil.png", 
 			    "", 
-			    "/company/location-phone-number/edit/location_id/".$location_id."/id/".
+			    "/location-phone-number/edit/location_id/".$location_id."/id/".
 				$LocationPhoneNumber->getId(), 
 			    "margin-left:5px;"
 			    );

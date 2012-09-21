@@ -1,7 +1,7 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo HTML::backAnchorIcon("Employees - All", "/company/employee/viewall");
+echo HTML::backAnchorIcon("Employees - All", "/employee/viewall");
 echo "</div>";
 ?>
 <h1 class="header1">Employee - View</h1>
@@ -21,7 +21,7 @@ $Account	= $Employee->getAccount();
 	echo HTML::anchorIcon(
 		"pencil.png", 
 		"", 
-		"/company/employee/edit/id/".$employee_id,
+		"/employee/edit/id/".$employee_id,
 		"margin-left:5px;"
 		);
 	?>
@@ -177,7 +177,7 @@ $Account	= $Employee->getAccount();
 		echo HTML::anchorIcon(
 			"pencil.png", 
 			"", 
-			"/company/employee-account/edit/id/".
+			"/employee-account/edit/id/".
 			    $Account->getId(), 
 			"margin-left:5px;",
 			"Edit Username"
@@ -185,7 +185,7 @@ $Account	= $Employee->getAccount();
 		echo HTML::anchorIcon(
 			"lock_edit.png", 
 			"", 
-			"/company/employee-account/edit/pwd/1/id/".
+			"/employee-account/edit/pwd/1/id/".
 			    $Account->getId(), 
 			"margin-left:5px;",
 			"Reset Password"

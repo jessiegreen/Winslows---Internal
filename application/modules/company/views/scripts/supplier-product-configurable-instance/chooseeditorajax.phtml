@@ -15,7 +15,7 @@
 	    value = $('input:radio:checked').val();
 
 	    if(value == "manual"){
-		location = "/company/supplier-product-configurable-instance/manual/id/<?php echo $this->Instance->getId();?>"
+		location = "/supplier-product-configurable-instance/manual/id/<?php echo $this->Instance->getId();?>"
 	    }
 	    else if(value == "builder"){
 		location = "/builder?type=carport";

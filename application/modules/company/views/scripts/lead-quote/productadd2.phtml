@@ -7,7 +7,7 @@ if($this->Instance->getProduct()->getDescriminator() != "Configurable")
 <div id="addproduct2_colorbox_content" style="width:500px;height:250px;">..Loading</div>
 <script type="text/javascript">
     $.ajax({
-	url: "/company/supplier-product-configurable-instance/chooseeditorajax/id/<?php echo $this->Instance->getId();?>",
+	url: "/supplier-product-configurable-instance/chooseeditorajax/id/<?php echo $this->Instance->getId();?>",
 	success: function(data) { 
 	    $.colorbox.resize({width:640,height:480})
 	    c = $("#addproduct2_colorbox_content");

@@ -18,7 +18,7 @@ $quantity   = $Item->getQuantity();
 	echo HTML::anchorIcon(
 		"pencil.png", 
 		"", 
-		"/company/lead-quote-item/edit/id/".$Item->getId(),
+		"/lead-quote-item/edit/id/".$Item->getId(),
 		"margin-left:5px;"
 		);
 	?>
@@ -45,7 +45,7 @@ $quantity   = $Item->getQuantity();
 		echo HTML::anchorIcon(
 			"eye.png", 
 			"", 
-			"/company/lead-quote/view/id/".$Item->getQuote()->getId(), 
+			"/lead-quote/view/id/".$Item->getQuote()->getId(), 
 			"margin-left:5px;", 
 			"View Quote"
 			);

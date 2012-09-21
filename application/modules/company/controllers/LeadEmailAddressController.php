@@ -6,7 +6,7 @@
  *
  */
 
-class Person_EmailAddressController extends Dataservice_Controller_Action
+class Company_LeadEmailAddressController extends Dataservice_Controller_Action
 {    
     public function editAction()
     {

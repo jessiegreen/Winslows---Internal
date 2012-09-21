@@ -6,11 +6,11 @@
  *
  */
 
-class RtoProvider_IndexController extends Dataservice_Controller_Action
+class Company_RtoProviderController extends Dataservice_Controller_Action
 {    
     public function init()
     {
-	$this->view->headScript()->appendFile("/javascript/rto_provider.js");
+	$this->view->headScript()->appendFile("/javascript/company/rto_provider.js");
 	
 	parent::init();
     }

@@ -1,7 +1,7 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo HTML::backAnchorIcon("Suppliers - All", "/company-supplier/viewall");
+echo HTML::backAnchorIcon("Suppliers - All", "/supplier/viewall");
 echo "</div>";
 ?>
 <h1 class="header1">Supplier - View</h1>
@@ -20,7 +20,7 @@ $Addresses	= $Supplier->getAddresses();
 	echo HTML::anchorIcon(
 		"pencil.png", 
 		"", 
-		"/company-supplier/edit/id/".$supplier_id,
+		"/supplier/edit/id/".$supplier_id,
 		"margin-left:5px;"
 		);
 	?>
@@ -46,7 +46,7 @@ $Addresses	= $Supplier->getAddresses();
 		    echo HTML::anchorIcon(
 			    "pencil.png", 
 			    "", 
-			    "/company-supplier-address/edit/supplier_id/".$supplier_id."/id/".$Address->getId(),
+			    "/supplier-address/edit/supplier_id/".$supplier_id."/id/".$Address->getId(),
 			    "margin-left:5px;"
 			    );
 		    ?>
@@ -84,7 +84,7 @@ $Addresses	= $Supplier->getAddresses();
 			echo HTML::anchorIcon(
 				"building_go.png", 
 				"", 
-				"/company/view/id/".$Company->getId(),
+				"/view/id/".$Company->getId(),
 				"margin-left:5px;"
 				);
 			?>

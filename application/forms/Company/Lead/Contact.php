@@ -1,7 +1,6 @@
 <?php
 namespace Forms\Company\Lead;
 use Entities\Company\Lead\Contact as Contact;
-use Entities\Company\Lead as Lead;
 /**
  * Name:
  * Location:
@@ -17,7 +16,7 @@ class Contact extends \Zend_Form
     private $_Contact;
     private $_Lead;
     
-    public function __construct(Lead $Lead, $options = null, Contact $Contact = null)
+    public function __construct(\Entities\Company\Lead $Lead, $options = null, Contact $Contact = null)
     {
 	$this->_Contact	    = $Contact;
 	$this->_Lead	    = $Lead;

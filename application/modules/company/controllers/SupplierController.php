@@ -21,7 +21,7 @@ class Company_SupplierController extends Dataservice_Controller_Action
 	if(!$Supplier->getId())
 	{
 	    $this->_FlashMessenger->addErrorMessage("Could not get Supplier");
-	    $this->_redirect('/company-supplier/viewall');
+	    $this->_redirect('/supplier/viewall');
 	}
 	
 	$this->view->Supplier	= $Supplier;

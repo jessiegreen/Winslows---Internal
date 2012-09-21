@@ -6,7 +6,7 @@ Item.prototype.ProductManualOnclickBind = function(element, instance_id)
 {
     element.click(function()
     {
-	location = "/company/supplier-product-configurable-instance/manual/id/" + instance_id
+	location = "/supplier-product-configurable-instance/manual/id/" + instance_id
     });
 }
 

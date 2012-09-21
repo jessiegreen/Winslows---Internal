@@ -7,6 +7,11 @@ class Company_IndexController extends Dataservice_Controller_Action
 	parent::init();
     }
     
+    public function indexAction()
+    {
+	
+    }
+    
     public function viewAction()
     {
 	$Company = $this->getEntityFromParamFields("Company", array("id"));

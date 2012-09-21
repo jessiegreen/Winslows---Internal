@@ -21,7 +21,7 @@ class Company_EmployeeController extends Dataservice_Controller_Action
 	if(!$Employee->getId())
 	{
 	    $this->_FlashMessenger->addErrorMessage("Could not get Employee");
-	    $this->_redirect('/company/employee/viewall');
+	    $this->_redirect('/employee/viewall');
 	}
 	
 	$Company		= \Services\Company::factory()->getCurrentCompany();
@@ -63,12 +63,12 @@ class Company_EmployeeController extends Dataservice_Controller_Action
 		$message = "Employee '".htmlspecialchars($Employee->getFullName())."' saved";
 		
 		$this->_FlashMessenger->addSuccessMessage($message);
-		$this->_redirect('/company/employee/view/id/'.$Employee->getId());
+		$this->_redirect('/employee/view/id/'.$Employee->getId());
 	    } 
 	    catch (Exception $exc)
 	    {
 		$this->_FlashMessenger->addErrorMessage($exc->getMessage());
-		$this->_redirect('/company/employee/viewall/');
+		$this->_redirect('/employee/viewall/');
 	    }
 	}
 	
