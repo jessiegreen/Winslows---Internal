@@ -53,9 +53,9 @@ class Company_WebsiteResourceController extends Dataservice_Controller_Action
 	$this->_helper->viewRenderer->setNoRender(true);
 	$this->_helper->layout->disableLayout();
 	
-	$ACL = new Dataservice_Controller_Plugin_ACL();
-	
-	$ACL->preDispatch($this->_request);
+//	$ACL = new Dataservice_Controller_Plugin_ACL();
+//	
+//	$ACL->preDispatch($this->_request);
 	
 	$resource_id	= isset($this->_params["resource_id"]) ? $this->_params["resource_id"] : null;
 	$role_id	= isset($this->_params["role_id"]) ? $this->_params["role_id"] : null;

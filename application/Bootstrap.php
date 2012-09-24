@@ -10,15 +10,22 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     
     protected function _initBootstrap()
     {
+	$module	    = "default";
+	$host_name  = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : "doctrine";
+	
 	date_default_timezone_set ("America/Mexico_City");
 	#--Set View Environment
 	$this->bootstrap('view');
+	
         $view = $this->getResource('view');
 
         //$view->doctype('XHTML1_STRICT');
 	$view->headTitle()->setSeparator (' ~ ');
-	
-	switch ($_SERVER['HTTP_HOST'])
+
+	if(getenv('WEBSITE_NAME_INDEX') !== false)define ("WEBSITE_NAME_INDEX", getenv('WEBSITE_NAME_INDEX'));
+	else throw new Exception("WEBSITE_NAME_INDEX not set.");
+
+	switch ($host_name)
 	{
 	    case "www.winslowsinc.local":
 		$module = "winslows";
@@ -44,6 +51,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$module = "company";		
 		$view->headTitle('Winslow\'s Inc. Company');
 		break;
+	    case "doctrine":
+		break;
 	    default:
 		throw new Exception("Error!!");
 		break;
@@ -55,7 +64,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	
 	
 	$hostnameRoute	= new Zend_Controller_Router_Route_Hostname(
-					    $_SERVER['HTTP_HOST'], 
+					    $host_name, 
 					    array('module' => $module)
 					);
 	$router
@@ -128,6 +137,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     {
 	#--Register Front controller Plugins
 	$front = Zend_Controller_Front::getInstance();
+	$front->throwExceptions(true);
+
 	$front->registerPlugin(new Dataservice_Controller_Plugin_ACL(), 1);
 	
 	#--Register Controller Action Helpers

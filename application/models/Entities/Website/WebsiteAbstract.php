@@ -28,6 +28,12 @@ class WebsiteAbstract extends \Dataservice_Doctrine_Entity
     
     /** 
      * @Column(type="string", length=255) 
+     * @var string $name_index
+     */
+    protected $name_index;
+    
+    /** 
+     * @Column(type="string", length=255) 
      * @var string $type
      */
     protected $type;
@@ -37,6 +43,12 @@ class WebsiteAbstract extends \Dataservice_Doctrine_Entity
      * @var string $url
      */
     protected $url;
+    
+    /** 
+     * @Column(type="integer", length=1) 
+     * @var string $guest_allowed
+     */
+    protected $guest_allowed = 0;
     
     /**
      * @OneToMany(targetEntity="\Entities\Website\Account\AccountAbstract", mappedBy="Website", cascade={"persist"})
@@ -161,6 +173,22 @@ class WebsiteAbstract extends \Dataservice_Doctrine_Entity
     /**
      * @return string
      */
+    public function getNameIndex()
+    {
+        return $this->name_index;
+    }
+
+    /**
+     * @param string $name_index
+     */
+    public function setNameIndex($name_index)
+    {
+        $this->name_index = $name_index;
+    }
+    
+    /**
+     * @return string
+     */
     public function getUrl()
     {
         return $this->url;
@@ -172,6 +200,22 @@ class WebsiteAbstract extends \Dataservice_Doctrine_Entity
     public function setUrl($url)
     {
         $this->url = $url;
+    }
+    
+    /**
+     * @return bool
+     */
+    public function isGuestAllowed()
+    {
+        return $this->guest_allowed === 1 ? true : false;
+    }
+
+    /**
+     * @param integer $guest_allowed
+     */
+    public function setGuestAllowed($guest_allowed)
+    {
+        $this->guest_allowed = $guest_allowed;
     }
     
     /**

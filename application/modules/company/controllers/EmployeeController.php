@@ -93,9 +93,9 @@ class Company_EmployeeController extends Dataservice_Controller_Action
 	$this->_helper->viewRenderer->setNoRender(true);
 	$this->_helper->layout->disableLayout();
 	
-	$ACL = new Dataservice_Controller_Plugin_ACL();
-	
-	$ACL->preDispatch($this->_request);
+//	$ACL = new Dataservice_Controller_Plugin_ACL();
+//	
+//	$ACL->preDispatch($this->_request);
 	
 	$Employee   = $this->_getEmployee();
 	$Role	    = $this->_getRole();

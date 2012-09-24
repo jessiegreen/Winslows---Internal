@@ -37,11 +37,14 @@ class ACL extends \Dataservice_Service_ServiceAbstract
 	$Person	    = \Services\Auth::factory()->getIdentityPerson();
 	$objAcl	    = \Dataservice_ACL_Factory::get($this->_em);
 	
-	/* @var $Role \Entities\Company\Employee\Role */
-	foreach($Person->getRoles() as $Role)
+	if($Person)
 	{
-	    if($objAcl->isAllowed($Role->getName(), $module .'::' .$controller .'::' .$action))
-		return true;
+	    /* @var $Role \Entities\Company\Employee\Role */
+	    foreach($Person->getRoles() as $Role)
+	    {
+		if($objAcl->isAllowed($Role->getName(), $module .'::' .$controller .'::' .$action))
+		    return true;
+	    }
 	}
 	return false;
     }

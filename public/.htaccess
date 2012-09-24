@@ -31,16 +31,22 @@ RewriteCond %{HTTP_HOST} ^texwincarports.com$ [NC]
 RewriteRule ^(.*)$ https://www.texwincarports.com/$1 [R=301,L]
 
 #winslowsinc - Environment var
-SetEnvIf HTTP_HOST www.winslowsinc.com APPLICATION_ENV=production
-SetEnvIf HTTP_HOST www.winslowsinc.local APPLICATION_ENV=development
+SetEnvIf host www.winslowsinc.com APPLICATION_ENV=production
+SetEnvIf host www.winslowsinc.com WEBSITE_NAME_INDEX=winslows
+SetEnvIf host www.winslowsinc.local APPLICATION_ENV=development
+SetEnvIf host www.winslowsinc.local WEBSITE_NAME_INDEX=winslows
 
 #texwin - Environment var
-SetEnvIf HTTP_HOST www.texwincarports.com APPLICATION_ENV=production
-SetEnvIf HTTP_HOST www.texwincarports.local APPLICATION_ENV=development
+SetEnvIf host www.texwincarports.com APPLICATION_ENV=production
+SetEnvIf host www.texwincarports.com WEBSITE_NAME_INDEX=texwin
+SetEnvIf host www.texwincarports.local APPLICATION_ENV=development
+SetEnvIf host www.texwincarports.local WEBSITE_NAME_INDEX=texwin
 
 #company - Environment var
-SetEnvIf HTTP_HOST company.winslowsinc.com APPLICATION_ENV=production
-SetEnvIf HTTP_HOST company.winslowsinc.local APPLICATION_ENV=development
+SetEnvIf host company.winslowsinc.com APPLICATION_ENV=production
+SetEnvIf host company.winslowsinc.com WEBSITE_NAME_INDEX=company
+SetEnvIf host company.winslowsinc.local APPLICATION_ENV=development
+SetEnvIf host company.winslowsinc.local WEBSITE_NAME_INDEX=company
 
 RewriteEngine On
 RewriteOptions Inherit 

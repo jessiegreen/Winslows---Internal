@@ -98,7 +98,7 @@ class Employee extends PersonAbstract
      */
     public function hasRole($Role)
     {
-	if($this->getLeads()->contains($Role))
+	if($this->getRoles()->contains($Role))
 	    return true;
 	
 	return false;

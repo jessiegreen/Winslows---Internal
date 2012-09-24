@@ -106,9 +106,9 @@ class Company_SupplierProductConfigurableOptionParameterController extends Datas
 	$this->_helper->viewRenderer->setNoRender(true);
 	$this->_helper->layout->disableLayout();
 	
-	$ACL = new Dataservice_Controller_Plugin_ACL();
-	
-	$ACL->preDispatch($this->_request);
+//	$ACL = new Dataservice_Controller_Plugin_ACL();
+//	
+//	$ACL->preDispatch($this->_request);
 	
 	/* @var $Parameter \Entities\Company\Supplier\Product\Configurable\Option\Parameter */
 	$Parameter = $this->getEntityFromParamFields("Company\Supplier\Product\Configurable\Option\Parameter", array("id"));

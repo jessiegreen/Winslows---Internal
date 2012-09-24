@@ -23,28 +23,6 @@ class Company_LoginController extends Dataservice_Controller_Action
         return $authAdapter;
     }
 
-    public function preDispatch()
-    {
-        if (Zend_Auth::getInstance()->hasIdentity())
-	{
-            // If the user is logged in, we don't want to show the login form;
-            // however, the logout action should still be available
-            if ($this->getRequest()->getActionName() != 'logout') 
-	    {
-                $this->_helper->redirector('index', 'index');
-            }
-        } 
-	else 
-	{
-            // If they aren't, they can't logout, so that action should
-            // redirect to the login form
-            if ('logout' == $this->getRequest()->getActionName())
-	    {
-                $this->_helper->redirector('index');
-            }
-        }
-    }
-
     public function indexAction()
     {
         $this->view->form = $this->getForm();

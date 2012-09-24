@@ -81,9 +81,10 @@ class Menu {
 	{
 		static $i;
 		
-		$items = empty($items) ? $this->items : $items;
-		$current = empty($current) ? $this->current : $current;
-		$attrs = empty($attrs) ? $this->attrs : $attrs;
+		$items	    = empty($items) ? $this->items : $items;
+		$items	    = !is_array($items) ? array() : $items;
+		$current    = empty($current) ? $this->current : $current;
+		$attrs	    = empty($attrs) ? $this->attrs : $attrs;
 		
 		$i++;
 		

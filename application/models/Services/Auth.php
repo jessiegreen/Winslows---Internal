@@ -13,6 +13,9 @@ class Auth extends \Dataservice_Service_ServiceAbstract
     public function getIdentityAccount()
     {
 	$account_id	= $this->getIdentity();
+	
+	if(!$account_id)return false;
+	    
 	$Account	= $this->_em->find("Entities\Website\Account\AccountAbstract", $account_id);
 	
 	return $Account;
@@ -22,16 +25,19 @@ class Auth extends \Dataservice_Service_ServiceAbstract
     {
 	$Account = $this->getIdentityAccount();
 	
-	switch ($Account->getDescriminator())
+	if($Account)
 	{
-	    case "Employee":
-		return $Account->getEmployee();
-	    break;
-	    case "Guest":
-		return $Account->getGuest();
-	    break;
-	    default:
-		return null;
+	    switch ($Account->getDescriminator())
+	    {
+		case "Employee":
+		    return $Account->getEmployee();
+		break;
+		case "Guest":
+		    return $Account->getGuest();
+		break;
+		default:
+		    return null;
+	    }
 	}
     }
     

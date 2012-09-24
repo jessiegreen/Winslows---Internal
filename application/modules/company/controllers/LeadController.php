@@ -75,8 +75,8 @@ class Company_LeadController extends Dataservice_Controller_Action
     
     public function searchautocompleteAction()
     {
-	$ACL = new Dataservice_Controller_Plugin_ACL();
-	$ACL->preDispatch($this->_request);
+//	$ACL = new Dataservice_Controller_Plugin_ACL();
+//	$ACL->preDispatch($this->_request);
 	
 	$this->_helper->layout->setLayout("blank");
 	$this->_helper->viewRenderer->setNoRender(true);

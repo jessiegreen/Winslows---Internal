@@ -12,9 +12,9 @@ class Document_ServerController extends Dataservice_Controller_Action
 	parent::init();
 	$this->_helper->layout->disableLayout();
 	
-	$ACL = new Dataservice_Controller_Plugin_ACL();
-	
-	$ACL->preDispatch($this->_request);
+//	$ACL = new Dataservice_Controller_Plugin_ACL();
+//	
+//	$ACL->preDispatch($this->_request);
     }
     
     public function displayAction()

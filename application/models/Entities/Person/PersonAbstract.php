@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @DiscriminatorMap({
  *			"company_employee" = "\Entities\Company\Employee",
  *			"company_lead" = "\Entities\Company\Lead",
+ * *			"website_guest" = "\Entities\Website\Guest",
  *			"person_personabstract" = "\Entities\Person\PersonAbstract"
  *		    })
  * @HasLifecycleCallbacks
