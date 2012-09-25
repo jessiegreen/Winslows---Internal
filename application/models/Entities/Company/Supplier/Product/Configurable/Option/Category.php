@@ -21,32 +21,31 @@ class Category extends \Dataservice_Doctrine_Entity
      * @Column(type="string", length=255) 
      * @var string $index_string
      */
-    private $index_string;
+    protected $index_string;
     
     /** 
      * @Column(type="string", length=255) 
      * @var string $name
      */
-    private $name;
+    protected $name;
     
     /** 
      * @Column(type="integer", length=11) 
      * @var integer $order
      */
-    private $order;
+    protected $order;
 
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="\Entities\Company\Supplier\Product\Configurable\Option", mappedBy="Category", cascade={"persist"}, orphanRemoval=true)
-     * @var array $Options
+     * @var ArrayCollection $Options
      */
     private $Options;
     
     public function __construct()
     {
-	$this->ConfigurableProducts = new ArrayCollection();
-	$this->ConfigurableOptions  = new ArrayCollection();
+	$this->Options  = new ArrayCollection();
 	
 	parent::__construct();
     }
@@ -54,7 +53,7 @@ class Category extends \Dataservice_Doctrine_Entity
     /**
      * @param \Entities\Company\Supplier\Product\Configurable\Option $Option
      */
-    public function addOptions(\Entities\Company\Supplier\Product\Configurable\Option $Option)
+    public function addOption(\Entities\Company\Supplier\Product\Configurable\Option $Option)
     {
 	$Option->setCategory($this);
         $this->Options[] = $Option;

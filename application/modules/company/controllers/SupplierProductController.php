@@ -17,8 +17,31 @@ class Company_SupplierProductController extends Dataservice_Controller_Action
     public function editAction()
     {
 	/* @var $Product \Entities\Company\Supplier\Product\ProductAbstract */
-	$Product	= $this->getEntityFromParamFields('Company\Supplier\Product', array("id"));
-	switch ($Product->getDescriminator()) {
+	$Product = $this->getEntityFromParamFields('Company\Supplier\Product\ProductAbstract', array("id"));
+	
+	if(!$Product->getId())
+	{
+	    $type = $this->_request->getParam("type", null);
+	    
+	    if(!$type)
+	    {
+		$this->_FlashMessenger->addErrorMessage("Could not add product. Type not specified.");
+		$this->_History->goBack(1);
+	    }
+	    
+	    try 
+	    {
+		$model_string	= "Entities\Company\Supplier\Product\\".ucfirst(strtolower($type));
+		$Product	= new $model_string;
+	    } catch (Exception $exc)
+	    {
+		$this->_FlashMessenger->addErrorMessage($exc->getMessage());
+		$this->_History->goBack(1);
+	    }
+	}
+	
+	switch ($Product->getDescriminator())
+	{
 	    case "Configurable":
 		$Product    = $this->getEntityFromParamFields('Company\Supplier\Product\Configurable', array("id"));
 		$form_class = 'Forms\Company\Supplier\Product\Configurable';
@@ -45,22 +68,27 @@ class Company_SupplierProductController extends Dataservice_Controller_Action
 		array("onclick" => "location='".$this->_History->getPreviousUrl(1)."'")
 		);
 	
-	if($this->isPostAndValid($form)){
+	if($this->isPostAndValid($form))
+	{
 	    try 
 	    {
 		$data	= $this->_params[$param_key];
 		
 		$Product->populate($data);
+		
 		/* @var $Supplier \Entities\Company\Supplier */
 		$Supplier = $this->_em->find("Entities\Company\Supplier", $data["supplier_id"]);
+		
 		if(!$Supplier)
 		    throw new Exception("Can not add/edit product. No Supplier with that Id");
 		
-		if(!$Product->getId()){
+		if(!$Product->getId())
+		{
 		    $Supplier->addProduct($Product);
 		    $this->_em->persist($Supplier);
 		}
-		else{
+		else
+		{
 		    $Product->setSupplier($Supplier);
 		    $this->_em->persist($Product);
 		}
@@ -70,10 +98,13 @@ class Company_SupplierProductController extends Dataservice_Controller_Action
 		$message = "Product saved";
 		$this->_FlashMessenger->addSuccessMessage($message);
 
-	    } catch (Exception $exc) {
+	    } 
+	    catch (Exception $exc)
+	    {
 		$this->_FlashMessenger->addErrorMessage($exc->getMessage());
 		$this->_History->goBack(1);
 	    }
+	    
 	    $this->_History->goBack(1);
 	}
 	
@@ -111,7 +142,8 @@ class Company_SupplierProductController extends Dataservice_Controller_Action
 	    
 	    $form->addCancelButton($this->_History->getPreviousUrl(1));
 	    
-	    if($this->isPostAndValid($form)){
+	    if($this->isPostAndValid($form))
+	    {
 		try 
 		{
 		    $data	= $this->_params["company_supplier_product_configurable_manageoptions"];
@@ -119,7 +151,8 @@ class Company_SupplierProductController extends Dataservice_Controller_Action
 
 		    foreach ($Configurable->getOptions() as $Option)
 		    {
-			if(!in_array($Option->getId(), $options)){
+			if(!in_array($Option->getId(), $options))
+			{
 			    $Configurable->removeOption($Option);
 			}
 
@@ -131,12 +164,14 @@ class Company_SupplierProductController extends Dataservice_Controller_Action
 			if(!in_array($value, $current_groups))
 			{
 			    $Option = $this->_em->find("\Entities\Company\Supplier\Product\Configurable\Option", $value);
+			    
 			    $Configurable->addOption($Option);
 			}
 		    }
-
+		    
 		    $this->_em->persist($Configurable);
 		    $this->_em->flush();
+		    
 		    $this->_FlashMessenger->addSuccessMessage("Configurable Option saved.");
 		    $this->_History->goBack();
 		}
@@ -147,7 +182,8 @@ class Company_SupplierProductController extends Dataservice_Controller_Action
 		}
 	    }
 	}
-	else{
+	else
+	{
 	    $this->_FlashMessenger->addErrorMessage("Could not get Product");
 	    $this->_History->goBack();
 	}

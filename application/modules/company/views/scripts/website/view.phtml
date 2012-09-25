@@ -7,8 +7,8 @@ echo "</div>";
 <h1 class="header1">Website - View</h1>
 <?php
 /* @var $Menu \Entities\Website\WebsiteAbstract */
-$Website	    = $this->Website;
-$website_id    = $Website->getId();
+$Website    = $this->Website;
+$website_id = $Website->getId();
 ?>
 <div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
     <h3 class="no_space" style="color: #2000EE;">
@@ -54,7 +54,7 @@ $website_id    = $Website->getId();
 			echo HTML::anchorIcon(
 				"eye.png", 
 				"", 
-				"/website/menu/view/id/".$Menu->getId(),
+				"/website-menu/view/id/".$Menu->getId(),
 				"margin-left:5px;"
 				);
 			echo $Menu->getName();

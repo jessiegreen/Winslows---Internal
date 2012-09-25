@@ -1,0 +1,6 @@
+[05-Feb-2011 14:52:09] PHP Fatal error:  Using $this when not in object context in /home/wdxgksj/public_html/winslows/application/views/scripts/error/error.phtml on line 9
+[08-Feb-2011 21:00:08] PHP Fatal error:  Using $this when not in object context in /home/wdxgksj/public_html/winslows/application/views/scripts/error/error.phtml on line 9
+[08-Feb-2011 23:00:04] PHP Fatal error:  Using $this when not in object context in /home/wdxgksj/public_html/winslows/application/views/scripts/error/error.phtml on line 9
+[11-Feb-2011 21:22:33] PHP Fatal error:  Using $this when not in object context in /home/wdxgksj/public_html/winslows/application/views/scripts/error/error.phtml on line 9
+[14-Feb-2011 18:03:43] PHP Fatal error:  Using $this when not in object context in /home/wdxgksj/public_html/winslows/application/views/scripts/error/error.phtml on line 9
+[14-Feb-2011 20:09:11] PHP Fatal error:  Using $this when not in object context in /home/wdxgksj/public_html/winslows/application/views/scripts/error/error.phtml on line 9

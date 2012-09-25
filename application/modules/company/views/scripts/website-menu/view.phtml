@@ -1,7 +1,7 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo HTML::backAnchorIcon("Website - view", "/website/menu/view-all/id/".$this->Menu->getWebsite()->getId());
+echo HTML::backAnchorIcon("Website - view", "/website-menu/view-all/id/".$this->Menu->getWebsite()->getId());
 echo "</div>";
 ?>
 <h1 class="header1">Menu - View</h1>
@@ -17,7 +17,7 @@ $menu_id    = $Menu->getId();
 	echo HTML::anchorIcon(
 		"pencil.png", 
 		"", 
-		"/website/menu/edit/id/".$menu_id,
+		"/website-menu/edit/id/".$menu_id,
 		"margin-left:5px;"
 		);
 	?>
@@ -35,7 +35,7 @@ $menu_id    = $Menu->getId();
 	    <h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
 		<?php 
 		echo $Menu->getWebsite()->getName();
-		echo HTML::anchorIcon("eye.png", "", "/website/index/id/".$Menu->getId(), "margin-left:3px", "View Website");
+		echo HTML::anchorIcon("eye.png", "", "/website/view/id/".$Menu->getWebsite()->getId(), "margin-left:3px", "View Website");
 		?>
 	    </h4>
 <!--	    <label>Lead:</label>
@@ -44,6 +44,14 @@ $menu_id    = $Menu->getId();
 	<hr />
 	<h3>
 	    <a href="#">Items</a>
+	    <?php
+	    echo HTML::buttonBlue(
+		    "add.png", 
+		    "Add Top Item", 
+		    "menuitem_add", 
+		    "float:right;margin-right:5px;"
+		    );
+	    ?>
 	</h3>
 	<div style="width:350px;">
 	    <ol style="margin-left: auto;margin-right: auto;">

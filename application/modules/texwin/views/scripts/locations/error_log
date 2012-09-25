@@ -1,0 +1,7 @@
+[05-Feb-2011 12:56:56] PHP Fatal error:  Using $this when not in object context in /home/wdxgksj/public_html/winslows/application/views/scripts/locations/index.phtml on line 6
+[05-Feb-2011 18:37:57] PHP Fatal error:  Using $this when not in object context in /home/wdxgksj/public_html/winslows/application/views/scripts/locations/index.phtml on line 6
+[20-Feb-2011 07:57:29] PHP Fatal error:  Using $this when not in object context in /home/wdxgksj/public_html/winslows/application/views/scripts/locations/index.phtml on line 6
+[03-Mar-2011 10:32:30] PHP Fatal error:  Using $this when not in object context in /home/wdxgksj/public_html/winslows/application/views/scripts/locations/index.phtml on line 6
+[10-Mar-2011 13:06:51] PHP Fatal error:  Using $this when not in object context in /home/wdxgksj/public_html/winslows/application/views/scripts/locations/index.phtml on line 6
+[12-Mar-2011 00:14:02] PHP Fatal error:  Using $this when not in object context in /home/wdxgksj/public_html/winslows/application/views/scripts/locations/index.phtml on line 6
+[19-Mar-2011 16:06:39] PHP Fatal error:  Using $this when not in object context in /home/wdxgksj/public_html/winslows/application/views/scripts/locations/index.phtml on line 6

@@ -1,0 +1,84 @@
+<div style="margin: 35px;margin-top: 0px;margin-bottom: 0px;">
+    <h2 style="color: #0092ef;">
+	Products
+    </h2>
+</div>
+<div id="products_menu">
+    <?php
+    //Zend_Debug::dump($this->info);
+    foreach ($this->products as $category) {
+	?>
+	<div class="category_container">
+	    <div class="category">
+		<a href="/products/view/name/<?php echo urlencode($category['category']['categories_name']);?>"><?php echo $category['category']['categories_summary'];?></a>
+	    </div>
+	    <div class="left_cont">
+		<div class="starting_at">
+		    Starting at $<?php echo $category['category']['categories_starting_price'];?>!
+		</div>
+		<div style="padding: 0px;margin: 0px;">
+		    <img src="<?php echo BASE_URL;?>/img/texwin/products/<?php echo $category['category']['categories_index'];?>.jpg" style="z-index: 100;padding: 0px;margin: 0px;"/>
+		    
+		</div>
+		<div style="margin-top: -13px;">
+		    <img id="see_more" src="<?php echo BASE_URL;?>/img/texwin/see_more.png" style="padding: 0px;margin: 0px;margin-top: -71px;"/>
+		    </div>
+		<div class="description_cont" style="">
+		    <div style="font-weight: 700px;font-size: 12px;color: #0092ef;">Description:</div>
+		    <div class="sub_items" style="min-height: 35px;background-color: #FFF;border: solid 1px #0092ef;"><?php echo $category['category']['categories_description'];?></div>
+		</div>
+	    </div>
+	    <div class="details">
+		<div class="sub_header">Applications</div>
+		<?php	    
+		foreach ((array)$category['applications'] as $application) {
+		    ?>
+		    <div class="sub_items">
+			<?php 
+			echo $application['applications_name'];
+			?>
+		    </div>
+		    <?php
+		}
+		?>
+		<br />
+		<div class="sub_header">Styles</div>
+		<?php
+		if(count((array)$category['styles'])>0)
+		{
+		    foreach ((array)$category['styles'] as $style) {
+			?>
+			<div class="sub_items">
+			    <?php echo $style['styles_name'];?>
+			</div>
+			<?php
+		    }
+		}
+		else{
+		    echo '<div class="sub_items">No Styles available</div>';
+		}
+		?>
+		<br />
+		<div class="sub_header">Accessories</div>
+		<?php
+		if(count((array)$category['accessories'])>0)
+		{
+		    foreach ((array)$category['accessories'] as $accessory) {
+			?>
+			<div class="sub_items">
+			    <?php echo $accessory['accessories_name'];?>
+			</div>
+			<?php
+		    }
+		}
+		else{
+		    echo '<div class="sub_items">No Accessories available</div>';
+		}
+		?>
+	    </div>
+	    <div style="clear: both;"></div>
+	</div>
+	<?php
+    }
+?>
+</div>

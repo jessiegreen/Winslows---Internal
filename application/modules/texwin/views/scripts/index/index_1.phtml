@@ -1,0 +1,128 @@
+<?php
+$applications	= array();
+$styles		= array();
+$categories	= array();
+
+foreach ($this->categories as $category) {
+    $applications = array_merge($applications, $category["applications"]);
+    $styles	  = array_merge($styles, $category["styles"]);
+    $categories[] = $category["category"];
+}
+?>
+
+<div style="clear: left;width: 700px;;border-bottom: solid 2px #A7A7A7;padding-bottom: 5px;margin-bottom: 5px;">
+    <table style="width:100%;">
+	<tr>
+	<?php
+	foreach ($categories as $category) {
+	    ?>
+		<td style="text-align: center;font-size: 23px;color: #0052CC;"><h2><?php echo $category['categories_name'];?></h2></td>
+	    <?php
+	}
+	?>
+		<td style="text-align: left;font-size: 23px;color: #0052CC;">and More...</td>
+	</tr>
+    </table>
+</div>
+<div style="float:left;width:420px;">
+    <div id="container">
+	<div id="example">
+	    <img src="<?php echo BASE_URL;?>/img/texwin/slides/new-ribbon.png" width="112" height="112" alt="New Ribbon" id="ribbon">
+	    <div id="slides">
+		    <div class="slides_container">
+			    <a href="/products" title="Barn">
+				<img src="<?php echo BASE_URL;?>/img/texwin/slides/C1.jpg"  alt="Barn"></a>
+			    <a href="/products" title="Garage">
+				<img src="<?php echo BASE_URL;?>/img/texwin/slides/C2.jpg"  alt="Garage"></a>
+			    <a href="/products" title="Carport">
+				<img src="<?php echo BASE_URL;?>/img/texwin/slides/C3.jpg" alt="Carport"></a>
+			    <a href="/products" title="Metal Building">
+				<img src="<?php echo BASE_URL;?>/img/texwin/slides/C4.jpg"  alt="Metal Building"></a>
+			    <a href="/products" title="Loafing Shed">
+				<img src="<?php echo BASE_URL;?>/img/texwin/slides/C5.jpg" alt="Loafing Shed"></a>
+			    <a href="/products" title="Metal Building">
+				<img src="<?php echo BASE_URL;?>/img/texwin/slides/C6.jpg"  alt="Metal Building"></a>
+			    <a href="/products" title="Storage Combo Carport">
+				<img src="<?php echo BASE_URL;?>/img/texwin/slides/C7.jpg" alt="Storage Combo Carport"></a>
+		    </div>
+		    <a href="#" class="prev"><img src="<?php echo BASE_URL;?>/img/texwin/slides/arrow-prev.png" width="24" height="43" alt="Arrow Prev"></a>
+		    <a href="#" class="next"><img src="<?php echo BASE_URL;?>/img/texwin/slides/arrow-next.png" width="24" height="43" alt="Arrow Next"></a>
+	    </div>
+	    <img src="<?php echo BASE_URL;?>/img/texwin/slides/example-frame.png" width="569" height="341" alt="Example Frame" id="frame">
+	</div>
+	<div style="padding-right: 36px;padding-top: 8px;color: #989797;text-align: justify">
+	    We strive for excellence everyday to provide you with the best carport structure for the money in a timely and courteous fashion. 
+	    Give us a chance to show you the Texwin difference.
+	</div>
+    </div>
+    <img src="<?php echo BASE_URL;?>/img/texwin/home/customize.png" style="width:375px;margin-top: 10px;margin-left: 20px;"/>
+    <img src="<?php echo BASE_URL;?>/img/texwin/home/carports.png" style="width:400px;margin-top: 10px;margin-left: 10px;"/> 
+    <div style="margin-top: 15px;margin-left: 60px;width:340px;">
+	<ul id="quality_control_list" style="list-style: url('<?php echo BASE_URL;?>/img/texwin/bullet_check.jpg');color: #0052CC;font-size: 15px;">
+	    <li>Automatically backed by our 25 Year Rust Perforation Warranty</li>
+	    <li>Fire resistant</li>
+	    <li>Stronger than traditional steel building structures</li>
+	    <li>7 times more rust resistant than regular steel</li>
+	    <li>Excellent for heat reflectivity</li>
+	    <li>Easy to assemble and best construction value per square foot</li>
+	    <li>Built on your level site for you or an ideal DIY project geared at virtually any skill level.</li>
+	</ul>
+    </div>
+    <img src="<?php echo BASE_URL;?>/img/texwin/home/usa.png" style="width:400px;height: 85px;margin-top: 10px;margin-left: 20px;" alt="Made in the USA"/>
+</div>
+<div style="float: right;margin-top: 10px;width:260px;margin-right: 15px;">
+    <div style="width:260px;clear:both;">
+	<?php HTML::blue_ribbon("Applications");?>
+	<div style="padding-left:29px;padding-right: 33px;"> 
+	    <table class="ribbon_box">
+		<tr>
+		<?php
+		$i = 0;
+		foreach ($applications as $application) {
+		    if($i==1){
+			echo "</tr><tr>";
+			$i = 0;
+		    }
+		    ?>
+			<td style="padding-left: 8px;"><?php echo $application['applications_name'];?></td>
+		    <?php
+		    $i++;
+		}
+		?>
+		</tr>
+	    </table>
+	</div>
+    </div>
+    <div style="width:260px;margin-top: 10px;">
+	<?php HTML::blue_ribbon("Styles");?>
+	<div style="padding-left:29px;padding-right: 33px;"> 
+	    <table class="ribbon_box">
+		<tr>
+		<?php
+		$i = 0;
+		foreach ($styles as $style) {
+		    if($i==1){
+			echo "</tr><tr>";
+			$i = 0;
+		    }
+		    ?>
+			<td style="padding-left: 8px;"><?php echo $style['styles_name'];?></td>
+		    <?php
+		    $i++;
+		}
+		?>
+		</tr>
+	    </table>
+	</div>
+    </div>
+</div>
+<div style="clear: both;"></div>
+<script>
+  $(function(){
+    $("#slides").slides({
+	slideSpeed: 350,
+	start: 1,
+	play: 3500
+    });
+  });
+</script>

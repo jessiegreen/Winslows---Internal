@@ -75,8 +75,10 @@ $Addresses	= $Supplier->getAddresses();
 	<div>
 	    <?php
 	    /* @var $Company \Entities\Company */
-	    if(count($Companies)>0){
-		foreach ($Companies as $Company) {
+	    if(count($Companies)>0)
+	    {
+		foreach ($Companies as $Company)
+		{
 		    ?>
 		    <div style="padding: 3px;margin-bottom: 3px;">
 			<?php 
@@ -101,13 +103,23 @@ $Addresses	= $Supplier->getAddresses();
 <div class="padded_frame" style="width: 415px;float: right;padding-top: 0px;">
     <h3>
 	<a href="#">Products</a>
-	<?php echo HTML::buttonBlue("package_add.png", "Add Product", "product_add", "float:right;width:110px;");?>
+	<?php 
+	    echo HTML::buttonBlue(
+		    "package_add.png", 
+		    "Add Configurable", 
+		    "product_add_configurable", 
+		    "float:right;margin-left:5px;"
+		    );
+	    echo HTML::buttonBlue("package_add.png", "Add Simple", "product_add_simple", "float:right;");
+	?>
     </h3>
     <div>
 	<?php
 	/* @var $Product \Entities\Company\Supplier\Product\ProductAbstract */
-	if(count($Products)>0){
-	    foreach ($Products as $Product) {
+	if(count($Products)>0)
+	{
+	    foreach ($Products as $Product)
+	    {
 		?>
 		<div style="padding: 3px;margin-bottom: 3px;">
 		    <?php 
@@ -135,5 +147,6 @@ $Addresses	= $Supplier->getAddresses();
     Supplier = new Supplier();
     Supplier.AddAddressOnclickBind($("#address_add"));
     Supplier.AddCompanyOnclickBind($("#company_add"));
-    Supplier.AddProductOnclickBind($("#product_add"));
+    Supplier.AddProductConfigurableOnclickBind($("#product_add_configurable"));
+    Supplier.AddProductSimpleOnclickBind($("#product_add_simple"));
 </script>

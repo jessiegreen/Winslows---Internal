@@ -1,6 +1,5 @@
 <?php
 namespace Forms\Company\Supplier\Product;
-use Entities\Company\Supplier\Product\Simple as Simple;
 /**
  * Name:
  * Product:
@@ -15,7 +14,7 @@ class Simple extends \Zend_Form
 {    
     private $_Simple;
     
-    public function __construct($options = null, Simple $Simple = null)
+    public function __construct($options = null, \Entities\Company\Supplier\Product\Simple  $Simple = null)
     {
 	$this->_Simple = $Simple;
 	parent::__construct($options, $this->_Simple);

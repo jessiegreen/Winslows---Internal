@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="shortcut icon" href="<?php echo BASE_URL;?>/favicon.ico"
+	  mce_href="<?php echo BASE_URL;?>/favicon.ico"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <?php echo $this->headTitle(); $request = Zend_Controller_Front::getInstance()->getRequest();?>
+    <?php
+    //$this->headMeta()->appendName('keywords', $GLOBALS['meta_keywords'].'test');
+    //$this->headMeta()->appendName('description', $GLOBALS['meta_description'].'test');
+    ?>
+    <?php echo $this->headMeta();?>
+    <?php $this->headScript()->prependFile(BASE_URL.'/javascript/common.js') ?>
+    <?php $this->headScript()->prependFile(BASE_URL.'/javascript/jquery.js') ?>
+    <?php echo $this->headScript(); ?>
+
+    <?php $this->headLink()->appendStylesheet(BASE_URL.'/css/texwin/global.css') ?>
+    <?php $this->headLink()->appendStylesheet(BASE_URL.'/css/texwin/layout.css') ?>
+    <?php echo $this->headLink(); ?>
+    
+    <script language="JavaScript" type="text/javascript">
+    </script>
+</head>
+<body>
+    <div  id="outer">
+	<table  id="main_body_cont" cellpadding="0" cellspacing="0">
+	    <tr>
+		<td id="page_top"><div id="side_windmillfill"></div></td>
+	    </tr>
+	    <tr>
+		<td id="page_content">
+		    <table style="width:940px;margin-left: 10px;margin-top: 0px;background-color: #dfe5eb;" cellpadding="0" cellspacing="0">
+			<tr>
+			    <td id="side_bar_container">
+				<?php echo $this->render('sidebar.phtml'); ?>
+			    </td>
+			    <td id="content_container">
+				<div style="width: 708px;padding:12px;background-color: #dfe5eb;overflow: hidden;">
+				    <img src="<?php echo BASE_URL;?>/img/texwin/home/bluebonnets_logo.png" style="width:741px;margin-left: -12px;margin-top: -18px;"/>
+				    <table style="width: 700px;text-align: center;color:#8c8c8c;">
+					<tr>
+					    <td>
+						Quality you can see
+					    </td>
+					    <td style="padding-right: 20px;">
+						~ 800-636-4700 ~
+					    </td>
+					    <td>
+						Quality that lasts
+					    </td>
+					</tr>
+				    </table>
+				    <div style="/*background-image: url('/img/texwin/home/content_bg.png');background-repeat: no-repeat;background-color: #f4f4f4;*/;background-color: #fff;padding:10px;width: 710px;border: solid 1px gray; border-right: none;height: 100%;margin-top: 2px;">
+				    <?php echo $this->layout()->content ?>
+				    </div>
+				</div>
+			    </td>
+			</tr>
+			<tr>
+			    <td colspan="2">
+				<?php echo $this->render('footer.phtml') ?>
+			    </td>
+			</tr>
+			<tr>
+			    <td colspan="2">
+				
+			    </td>
+			</tr>
+		    </table>
+		</td>
+	    </tr>
+	    <tr>
+		<td id="page_bottom"></td>
+	    </tr>
+	</table>
+    </div>
+</body>
+</html>

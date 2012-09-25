@@ -15,9 +15,8 @@ class Company_WebsiteController extends Dataservice_Controller_Action
     
     public function viewAction()
     {
-	
 	$Website = $this->_getWebsite();
-	
+
 	$this->_CheckRequiredWebsiteExists($Website);
 	
 	$this->view->Website = $Website;
@@ -29,7 +28,7 @@ class Company_WebsiteController extends Dataservice_Controller_Action
     }
     
     /**
-     * @return Entities\Company\Supplier\Product\Configurable\Instance
+     * @return Entities\Company\Website
      */
     private function _getWebsite()
     {

@@ -6,14 +6,28 @@ class Company_WebsiteMenuItemController extends Dataservice_Controller_Action
 	/* @var $MenuItem \Entities\Website\Menu\Item */
 	$MenuItem   = $this->getEntityFromParamFields("Website\Menu\Item", array("id"));
 	$parent_id  = $this->_request->getParam("parent_id", null);
+	$menu_id    = $this->_request->getParam("menu_id", null);
 	
-	if(!$MenuItem->getId() && $parent_id)
+	if(!$MenuItem->getId())
 	{
-	    $ParentMenuItem = $this->_em->getRepository("Entities\Website\Menu\Item")->findOneById($this->_params['parent_id']);
+	    if($parent_id)
+	    {
+		$ParentMenuItem = $this->_em->getRepository("Entities\Website\Menu\Item")->findOneById($parent_id);
 	    
-	    if($ParentMenuItem){
-		$MenuItem->setParent($ParentMenuItem);
-		$MenuItem->setMenu($ParentMenuItem->getMenu());
+		if($ParentMenuItem)
+		{
+		    $MenuItem->setParent($ParentMenuItem);
+		    $MenuItem->setMenu($ParentMenuItem->getMenu());
+		}
+	    }
+	    elseif($menu_id)
+	    {
+		$Menu = $this->_em->getRepository("Entities\Website\Menu")->findOneById($menu_id);
+
+		if($Menu)
+		{
+		    $MenuItem->setMenu($Menu);
+		}
 	    }
 	}
 	
@@ -34,9 +48,22 @@ class Company_WebsiteMenuItemController extends Dataservice_Controller_Action
 		
 		if($menuitem_data["parent_id"])
 		{
-		    $Parent = $this->_em->find("Entities\Website\Menu", $menuitem_data["parent_id"]);
+		    $Parent = $this->_em->find("Entities\Website\Menu\Item", $menuitem_data["parent_id"]);
 		    
-		    if($Parent)$MenuItem->setParent($MenuItem);
+		    if($Parent)
+		    {
+			$MenuItem->setParent($Parent);
+			$MenuItem->setMenu($Parent->getMenu());
+		    }
+		}
+		elseif($menuitem_data["menu_id"])
+		{
+		    $Menu = $this->_em->find("Entities\Website\Menu", $menuitem_data["menu_id"]);
+		    
+		    if($Menu)
+		    {
+			$MenuItem->setMenu($Menu);
+		    }
 		}
 		
 		$MenuItem->setMenu($Menu);
@@ -67,7 +94,8 @@ class Company_WebsiteMenuItemController extends Dataservice_Controller_Action
 	$menu_id	= isset($this->_params["menu_id"]) ? $this->_params["menu_id"] : null;
 	$menuitem_id	= isset($this->_params["menuitem_id"]) ? $this->_params["menuitem_id"] : null;
 	
-	if($menuitem_id){
+	if($menuitem_id)
+	{
 	    /* @var $em \Doctrine\ORM\EntityManager */
 	    $em		= $this->_helper->EntityManager();
 	    /* @var $Resource \Entities\Website\Menu */

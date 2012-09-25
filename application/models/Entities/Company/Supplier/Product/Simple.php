@@ -20,7 +20,7 @@ class Simple extends ProductAbstract
      * @Column(type="decimal", precision=40, scale=2)
      * @var decimal $price
      */
-    private $price;
+    protected $price;
     
     /**
      * @return decimal

@@ -23,7 +23,7 @@ class Subform extends \Zend_Form_SubForm
     
     public function init()
     {	
-	$this->addElement(new Dataservice_Form_Element_SupplierSelect("supplier_id", array(
+	$this->addElement(new \Dataservice_Form_Element_SupplierSelect("supplier_id", array(
             'required'	    => true,
             'label'	    => 'Supplier:',
 	    'belongsTo'	    => 'product',

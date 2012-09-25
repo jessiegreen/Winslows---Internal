@@ -90,7 +90,7 @@ class Company_LoginController extends Dataservice_Controller_Action
         // We're authenticated! Redirect to the home page
         $session    = new Zend_Session_Namespace('Dataservice');
 	
-	$session->redirect ? $this->_helper->redirector->gotoUrl($session->redirect) : $this->_helper->redirector('index', 'index');
+	$session->redirect ? $this->_helper->redirector->gotoUrl($session->redirect) : $this->_helper->url("/");
     }
 
     public function logoutAction()

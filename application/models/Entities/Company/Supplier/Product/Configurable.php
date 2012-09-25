@@ -19,13 +19,13 @@ class Configurable extends ProductAbstract
      * @Column(type="string", length=255) 
      * @var string $class_name
      */
-    private $class_name;
+    protected $class_name;
     
     /**
      * @ManytoMany(targetEntity="\Entities\Company\Supplier\Product\Configurable\Option", mappedBy="ConfigurableProducts", cascade={"ALL"})
      * @var array $Options
      */
-    private $Options;
+    protected $Options;
     
     public function __construct()
     {

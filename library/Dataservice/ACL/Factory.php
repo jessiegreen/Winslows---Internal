@@ -9,7 +9,7 @@ class Dataservice_ACL_Factory
     private static $_objAcl;
     private static $_debug = false;
  
-    public static function get(\Doctrine\ORM\EntityManager $em, $clearACL=false)
+    public static function get(\Doctrine\ORM\EntityManager $em, $clearACL=true)
     {
 	self::$_objAclSession = new Zend_Session_Namespace(self::$_sessionNameSpace);
  

@@ -1,0 +1,66 @@
+<?php
+#--- This array will be oursourced to a config file once completed
+        $footer = array(
+            'Site Map'			    => array(
+		"Home"		    => array( 'url' =>"/"),
+		"Carports"	    => array( 'url' => "/carports"),
+		"Gallery"	    => array( 'url' => "/gallery"),
+		"Quality Control"   => array( 'url' => "/index/quality"),
+		"Financing"	    => array( 'url' =>"/index/financing"),
+		"Where to buy"	    => array( 'url' =>"/locations"),
+		"Why Texwin"	    => array( 'url' =>"/index/whytexwin"),
+		"Who are we"	    => array( 'url' =>"/aboutus"),
+		"Contact Us"	    => array( 'url' =>"/contactus")),
+
+            'Customer Care'              => array(
+                'Hows Our Site?'            => array(),
+                'Returns & Refunds'         => array(),
+                'Shipping Rates & Policies' => array(),
+                'Warranty and Guarantee'    => array( 'url' => '/warranty' ),
+                'Contact Us'                => array( 'url' => '/contact' )),
+
+            'Affiliated Websites'	    => array(
+                'Winslows Inc'	    => array( 'url' => 'http://winslowsinc.com' )),
+
+//            'My Account & Shopping Cart' => array(
+//                'Login'                     => array( 'url' => '/login' ),
+//                'Register New Account'      => array( 'url' => '/register' ),
+//                'View Shopping Cart'        => array( 'url' => '/cart' )),
+
+            'Contact Information'        => array(
+                'Texwin Carports'		    => array(),
+                '1501 Goodnight Blvd.'		    => array(),
+                'Wills Point, TX'		    => array(),
+                'Phone: (800) 636-4700'		    => array(),
+		'E-Mail: info@texwincarports.com'   => array()));
+        $nav = '';
+        #--- Open the footer
+        $nav .= '<div id="footer">';
+        foreach( $footer as $section_title => $subsections ):
+            #--- Open Section
+            $nav .= '<div class="nav_foot_container">';
+                #--- Add the section header title
+                $nav .= '<div class="nav_foot_header">'. $section_title .'</div>';
+                #--- Open List
+                    $nav .= '<ul>';
+                #--- Construct each subsection using the menu properties
+                foreach( $subsections as $subsection => $property ):
+                    $nav .= ( $section_title == 'Contact Information' ) ? '<li class="nav_foot addr">' : '<li class="nav_foot">';
+                    $nav .= ( isset( $property['url'] ) ) ? '<a href="'. $property['url'] .'">' . $subsection . '</a>' : $subsection;
+                    $nav .= '</li>';
+                endforeach;
+                #--- Close List
+                    $nav .= '</ul>';
+            #--- Close Section
+            $nav .= '</div>';
+        endforeach;
+	$cxjsklcvjsdlk = "";
+        #--- Add the copyright tag;
+        $nav .= '<div class="copyright"><span id="copyright_tag">Copyright &copy; 2010 - Texwin - All Rights Reserved ~ Keywords: /*'.$cxjsklcvjsdlk/*htmlspecialchars($GLOBALS['meta_keywords'])*/.'</span></div>';
+	#--- Add the keywords;
+        #--- Close the footer
+        $nav .= '</div>';
+
+        #--- Implode the menu
+        echo $nav;
+?>

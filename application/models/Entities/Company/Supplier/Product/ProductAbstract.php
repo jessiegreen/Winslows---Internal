@@ -31,36 +31,43 @@ class ProductAbstract extends \Dataservice_Doctrine_Entity
      * @Column(type="string", length=255) 
      * @var string $name
      */
-    private $name;
+    protected $name;
     
     /** 
      * @Column(type="string", length=255) 
      * @var string $part_number
      */
-    private $part_number;
+    protected $part_number;
     
     /** 
      * @Column(type="string", length=2000) 
      * @var string $part_number
      */
-    private $description;
+    protected $description;
     
     /** 
      * @ManyToOne(targetEntity="\Entities\Company\Supplier", inversedBy="Products")
      * @var \Entities\Company\Supplier $Supplier
      */     
-    private $Supplier;
+    protected $Supplier;
+    
+    /**
+     * @ManytoMany(targetEntity="\Entities\Company\Supplier\Product\Category", mappedBy="Products", cascade={"ALL"})
+     * @var array $Categories
+     */
+    protected $Categories;
     
     /**
      * @ManytoMany(targetEntity="\Entities\Company\RtoProvider", inversedBy="Products", cascade={"persist"})
      * @JoinTable(name="company_supplier_product_rtoprovider_joins")
      * @var ArrayCollection $RtoProviders
      */
-    private $RtoProviders;
+    protected $RtoProviders;
 
     public function __construct()
     {
 	$this->RtoProviders = new ArrayCollection();
+	$this->Categories   = new ArrayCollection();
 	
 	parent::__construct();
     }
@@ -79,6 +86,31 @@ class ProductAbstract extends \Dataservice_Doctrine_Entity
     public function getSupplier()
     {
 	return $this->Supplier;
+    }
+    
+    /**
+     * @param Category $Category
+     */
+    public function addCategory(Category $Category)
+    {
+	if(!$this->Categories->contains($Category))
+	    $this->Categories[] = $Category;
+    }
+    
+    /**
+     * @param Category $Category
+     */
+    public function removeCategory(Category $Category)
+    {
+	$this->Categories->removeElement($Category);
+    }
+    
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getCategories()
+    {
+	return $this->Categories;
     }
     
     /**

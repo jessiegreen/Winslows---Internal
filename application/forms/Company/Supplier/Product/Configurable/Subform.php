@@ -11,7 +11,7 @@ use Entities\Company\Supplier\Product\Configurable as Configurable;
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Subform extends \Form_Product_Subform
+class Subform extends \Forms\Company\Supplier\Product\Subform
 {    
     private $_Configurable;
     
@@ -23,21 +23,13 @@ class Subform extends \Form_Product_Subform
     
     public function init($options = array())
     {
-	$this->addElement('text', 'pricer', array(
+	$this->addElement('text', 'class_name', array(
             'required'	    => true,
-            'label'	    => 'Pricer:',
-	    'belongsTo'	    => 'configurableproduct',
-	    'value'	    => $this->_Configurable ? $this->_Configurable->getPricer() : ""
+            'label'	    => 'Class Name:',
+	    'belongsTo'	    => 'company_product_supplier_configurable',
+	    'value'	    => $this->_Configurable ? $this->_Configurable->getClassName() : ""
         ));
-	
-	$this->addElement('text', 'validator', array(
-            'required'	    => true,
-            'label'	    => 'Validator:',
-	    'belongsTo'	    => 'configurableproduct',
-	    'value'	    => $this->_Configurable ? $this->_Configurable->getValidator() : ""
-        ));
+
 	parent::init($options);
     }
 }
-
-?>

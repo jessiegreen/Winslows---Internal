@@ -1,0 +1,48 @@
+<div style="float: left;width:440px;">
+    <div style="color: #0052CC;font-weight: 500;font-size: 20px;">Quality Carports Built For You</div>
+    <img src="<?php echo BASE_URL;?>/img/texwin/temp/100_0313.JPG" style="width:430px;border: solid 1px #829bd2;" /><br />
+    <img src="<?php echo BASE_URL;?>/img/texwin/temp/100_0310.JPG" style="height:50px;border: solid 1px #829bd2;" />
+    <img src="<?php echo BASE_URL;?>/img/texwin/temp/100_0312.JPG" style="height:50px;border: solid 1px #829bd2;margin-left:15px;" />
+    <img src="<?php echo BASE_URL;?>/img/texwin/temp/Carport_1_026_014.jpg" style="height:50px;border: solid 1px #829bd2;margin-left:15px;" />
+    <img src="<?php echo BASE_URL;?>/img/texwin/temp/boxevecarport1.jpg" style="height: 50px;border: solid 1px #829bd2;margin-left:15px;" /><br />
+    <img src="<?php echo BASE_URL;?>/img/texwin/temp/boxevecarport4.jpg" style="height:50px;border: solid 1px #829bd2;" />
+    <img src="<?php echo BASE_URL;?>/img/texwin/temp/caports2_003_338.jpg" style="height:50px;border: solid 1px #829bd2;margin-left:18px;" />
+    <img src="<?php echo BASE_URL;?>/img/texwin/temp/caports2_018_340.jpg" style="height:50px;border: solid 1px #829bd2;margin-left:18px;" />
+    <img src="<?php echo BASE_URL;?>/img/texwin/temp/Anderson_Carports_096_210.jpg" style="height: 50px;border: solid 1px #829bd2;margin-left:16px;" />
+    <img src="<?php echo BASE_URL;?>/img/texwin/temp/2Mvc-896s_125.jpg" style="height: 50px;border: solid 1px #829bd2;margin-left:16px;" />
+    <img src="<?php echo BASE_URL;?>/img/texwin/home/customize.png" alt="carports" style="width: 426px;"/>
+    <div style="width:400px;color: silver;text-align: justify;padding:15px;">We strive for excellence everyday to provide you with the best carport structure for the money in a timely and courteous fashion.
+	    Give us a chance to will see the Texwin difference.</div>
+    <img src="<?php echo BASE_URL;?>/img/texwin/logo_basic_small.png" style="margin-left: 135px;"/>
+    <img src="<?php echo BASE_URL;?>/img/texwin/home/carports.png" alt="carports" style="width: 426px;"/>
+</div>
+<div style="float: right;margin-right: 15px;">
+    <div style="color: #0052CC;font-weight: 500;font-size: 20px;">Many styles and applications</div>
+    <div style="width:250px;font-size: 12px;font-weight: 100;font-family: sans-serif;border-right: solid 1px #829bd2;">
+	<?php
+	//Zend_Debug::dump($this->info);
+    foreach ($this->info['categories'] as $category) {
+	?>
+	<div style="background-color: #829bd2;color: white;padding-left: 10px;">
+	    <?php echo $category['category']['categories_name'];?> &raquo;
+	</div>
+	<?php	    
+	foreach ($category['subcategories'] as $subcategory) {
+	    ?>
+	    <div style="background-color: #99ccff;color: #0092ef;margin-left: 30px;padding-left: 10px;">
+		<?php echo $subcategory['subcategory']['subcategories_name'];?> &raquo;
+	    </div>
+	    <?php
+	    foreach ($subcategory['products'] as $product) {
+		?>
+		<div style="background-color: white;color: #0092ef;margin-left: 60px;padding-left: 10px;font-size: 10px;border-left: solid 1px #99ccff;border-bottom: solid 1px #99ccff;">
+		<?php echo $product['product']['products_name'];?>
+		</div>
+		<?php
+	    }
+	}
+    }
+    ?>
+    </div>
+</div>
+<div style="clear: both;"></div>

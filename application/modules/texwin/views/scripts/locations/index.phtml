@@ -1,0 +1,91 @@
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBzhjGVr1inh2d4PkiBaCem_AQhSdWSN-I&sensor=false"></script>
+<!--<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyA_s_vbQFYQxHjuphEmJXf6lWc-HnLM-bE&sensor=false"></script>-->
+
+<script type="text/javascript">
+function initialize()
+{
+    var latlng = new google.maps.LatLng(<?php echo $this->searchkey->latitude; ?> , <?php echo $this->searchkey->longitude; ?>);
+    var myOptions = {
+        zoom: 7,
+        center: latlng,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    var map = new google.maps.Map(document.getElementById("map_canvas"),myOptions);
+
+    <?php echo $this->partialLoop('locations/_getmarkers.phtml',$this->locations); ?>
+}
+</script>
+<div style="margin: 35px;margin-top: 0px;">
+    <h2 style="color: #0092ef;">
+	Where to buy Texwin products?
+    </h2>
+    <hr></hr>
+    <table class="menu" cellspacing="15px" style="padding:0px;width:700px;margin-left: auto;margin-right:auto;">
+	<tr>
+	    <td align="top" style="vertical-align: top;width:620px; " colspan="2">
+		<div class="contentbox_outside">
+		    <h4>Search Locations Near You</h4>
+		    <form id="<?php echo $this->form->getName() ?>" action="<?php echo $this->form->getAction() ?>" method="<?php echo $this->form->getMethod() ?>" style="float: left;">
+			<table style="width:375px;border-collapse: collapse;float: left;" >
+			    <tr>
+				<td style="color: #0092ef;width:75px;">
+				    Enter:
+				</td>
+				<td>
+				    <?php echo $this->form->city; ?>
+				</td>
+				<td style="padding-bottom: 12px;width:175px;">
+				    <?php echo $this->form->state; ?>
+				</td>
+			    </tr>
+			    <tr>
+				<td style="padding-top: 12px;color: #0092ef;width:75px;"> Or: </td>
+				<td style="padding-top: 12px;border-top: solid 1px silver;" colspan="2"><?php echo $this->form->zipcode; ?></td>
+			    </tr>
+			    <tr>
+				<td style="padding-top: 12px;color: #0092ef;width:75px;">Within: </td>
+				<td style="padding-top: 12px;" colspan="2">
+				    <?php echo $this->form->distance; ?>
+				</td>
+			    </tr>
+			    <tr>
+				<td colspan="3">
+				    <?php echo $this->form->submit;?>
+				</td>
+			    </tr>
+			    <tr>
+				<td colspan="3" style="padding-top: 30px;">
+				    <div id="map_canvas" style="width:360px; height:300px;border: solid 1px #0092ef">
+					<img src="<?php echo BASE_URL;?>/img/texwin/logo_basic_small.png"  style="width: 300px;margin-left:15px;margin-top: 50px;"/>
+					<h4 style="margin-left:30px;color: #0092ef;">No Results Please broaden your search</h4>
+				    </div>
+				</td>
+			    </tr>
+			</table>
+			<table style="width:225px;margin-left: 20px;float: right;">
+			    <tr>
+				
+				<td>
+				    <div style="color: #0092ef;font-weight: 700;">Results</div>
+				    <div style="padding-left: 15px;padding-right: 15px;">
+					<?php if(count($this->locations) > 0)
+					      {
+						echo $this->partialLoop('locations/_placeRow.phtml',$this->locations);
+					      }
+					      else
+					      {
+						echo "No Locations matched your query";
+					      }
+						  ?>
+				    <div style="clear: both;"></div>
+				    </div>
+				</td>
+			    </tr>
+			</table>
+		    </form>
+		</div>
+	    </td>
+	</tr>
+    </table>
+</div>
+<script type="text/javascript">initialize();</script>

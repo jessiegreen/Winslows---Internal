@@ -23,8 +23,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	$view->headTitle()->setSeparator (' ~ ');
 
 	if(getenv('WEBSITE_NAME_INDEX') !== false)define ("WEBSITE_NAME_INDEX", getenv('WEBSITE_NAME_INDEX'));
-	else throw new Exception("WEBSITE_NAME_INDEX not set.");
-
+	//else throw new Exception("WEBSITE_NAME_INDEX not set.");
+	else define ("WEBSITE_NAME_INDEX", "winslows");
 	switch ($host_name)
 	{
 	    case "www.winslowsinc.local":

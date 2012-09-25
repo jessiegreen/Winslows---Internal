@@ -1,0 +1,642 @@
+<?php
+$rows	    = 3;
+$columns    = 2;
+$colors	    = array(
+		'darkgreen'	    => 'H. Moss',
+		'mediumseagreen'    => 'Evergreen',
+		'tan'		    => 'Tan',
+		'brown'		    => 'Cocoa',
+		'white'		    => 'White',
+		'sandybrown'	    => 'Lt. Stone',
+		'black'		    => 'Charcoal',
+		'gray'		    => 'Gray',
+		'silver'	    => 'Lt. Gray',
+		'red'		    => 'Brick Red',
+		'#8c8c8c'	    => 'Ash Gray',
+		'blue'		    => 'C. Blue',
+		'ivory'		    => 'Ivory',
+		);
+
+$this->form = new Zend_Form();
+$covered_options = array(
+    "front" => array("None" => "None","Gable" => "Gable", "Full" => "Full"),
+    "back" => array("None" => "None","Gable" => "Gable", "Full" => "Full"),
+    "left" => array("None" => "None","Half" => "Half", "Full" => "Full"),
+    "right" => array("None" => "None","Half" => "Half", "Full" => "Full"),
+);
+
+$this->form->setAction('')
+	->setMethod('post')
+	->setAttrib('enctype', 'multipart/form-data')
+	->setAttrib('id', 'builder')
+	->setAttrib('name', 'builder');
+
+foreach($covered_options as $location => $multioptions){
+    $this->form->addElement('radio','builder_covered_'.$location,
+	array(
+	    'label'		    => "Covered: ",
+	    'value'		    => "None",
+	    'multioptions'	    => $multioptions,
+	    'required'	=> true
+	)
+    );
+
+    $this->form->{"builder_covered_".$location}->setSeparator("");
+    $this->form->{"builder_covered_".$location}->setDecorators(array(
+	'ViewHelper',
+	'Description',
+	'Errors',
+	array('HtmlTag', array('tag' => 'span')),
+	array('Label', array('tag' => 'span')),
+    ));
+}
+
+$door_options = array(
+    "front",
+    "back",
+    "left",
+    "right",
+);
+
+$door_types = array(
+    "Residential 3'"	=> "Residential 3'",
+    "4' Standard "	=> "4' Standard ",
+    "4' 9-lite"		=> "4' 9-lite",
+    "5' Double"		=> "5' Double",
+    "6' Roll Up"	=> "6' Roll Up",
+);
+
+$window_types = array(
+    'Divided Lite 24" x 24"' => 'Divided Lite 24" x 24"',
+    'Divided Lite 24" x 27"' => 'Divided Lite 24" x 27"',
+    'Divided Lite 30" x 27"' => 'Divided Lite 30" x 27"',
+    'Divided Lite 30" x 40"' => 'Divided Lite 30" x 40"',
+    'White 24" x 24"'	     => 'White 24" x 24"'
+);
+
+$rollup_types = array(
+    "Roll-up Door 5'" => "Roll-up Door 5'",
+    "Roll-up Door 6'" => "Roll-up Door 6'"
+);
+
+foreach($door_options as $location){
+    $this->form->addElement('checkbox','builder_door_checkbox_'.$location,
+	array(
+	    'label'		    => "Entry Door: ",
+	    'value'		    => "yes"
+	)
+    );
+    $this->form->{"builder_door_checkbox_".$location}->setDecorators(array(
+	'ViewHelper',
+	'Description',
+	'Errors',
+	array('HtmlTag', array('tag' => 'span')),
+	array('Label', array('tag' => 'span')),
+    ));
+
+    $this->form->addElement('select','builder_door_select_'.$location,
+	array(
+	    'label'		    => "Type: ",
+	    'multioptions'	    => $door_types
+	)
+    );
+    $this->form->{"builder_door_select_".$location}->setDecorators(array(
+	'ViewHelper',
+	'Description',
+	'Errors',
+	array('HtmlTag', array('tag' => 'span')),
+	array('Label', array('tag' => 'span')),
+    ));
+}
+
+foreach($door_options as $location){
+    $this->form->addElement('checkbox','builder_window_checkbox_'.$location,
+	array(
+	    'label'		    => "Window: ",
+	    'value'		    => "yes"
+	)
+    );
+    $this->form->{"builder_window_checkbox_".$location}->setDecorators(array(
+	'ViewHelper',
+	'Description',
+	'Errors',
+	array('HtmlTag', array('tag' => 'span')),
+	array('Label', array('tag' => 'span')),
+    ));
+
+    $this->form->addElement('select','builder_window_select_'.$location,
+	array(
+	    'label'		    => "Type: ",
+	    'multioptions'	    => $window_types
+	)
+    );
+    $this->form->{"builder_window_select_".$location}->setDecorators(array(
+	'ViewHelper',
+	'Description',
+	'Errors',
+	array('HtmlTag', array('tag' => 'span')),
+	array('Label', array('tag' => 'span')),
+    ));
+}
+
+foreach($door_options as $location){
+    $this->form->addElement('checkbox','builder_rollup_checkbox_'.$location,
+	array(
+	    'label'		    => "Rollup Door: ",
+	    'value'		    => "yes"
+	)
+    );
+    $this->form->{"builder_rollup_checkbox_".$location}->setDecorators(array(
+	'ViewHelper',
+	'Description',
+	'Errors',
+	array('HtmlTag', array('tag' => 'span')),
+	array('Label', array('tag' => 'span')),
+    ));
+
+    $this->form->addElement('select','builder_rollup_select_'.$location,
+	array(
+	    'label'		    => "Type: ",
+	    'multioptions'	    => $rollup_types
+	)
+    );
+    $this->form->{"builder_rollup_select_".$location}->setDecorators(array(
+	'ViewHelper',
+	'Description',
+	'Errors',
+	array('HtmlTag', array('tag' => 'span')),
+	array('Label', array('tag' => 'span')),
+    ));
+}
+?>
+<div style="padding:30px;padding-top: 0px;">
+    <h2 style="color: #0092ef;">Build your own carport</h4>
+    <hr></hr>
+</div>
+<table id="builder" cellpadding="0px;" cellspacing="0px;">
+    <tr>
+	<td style="width: 150px;">
+	    <table style="width: 100%;">
+		<tr>
+		    <td class="options_header">General</td>
+		</tr>
+		<tr>
+		    <td>
+			Building Style<br />
+			<select>
+			    <option value="">Choose a style</option>
+			</select>
+		    </td>
+		</tr>
+		<tr>
+		    <td>
+			Width: <br />
+			<select>
+			    <?php
+			    foreach(range(10, 60, 10) as $width){
+				?>
+				<option value="<?php echo $width;?>"><?php echo $width;?></option>
+				<?php
+			    }
+			    ?>
+			</select> Feet
+		    </td>
+		</tr>
+		<tr>
+		    <td>
+			Length: <br />
+			<select>
+			    <?php
+			    foreach(range(10, 100, 10) as $width){
+				?>
+				<option value="<?php echo $width;?>"><?php echo $width;?></option>
+				<?php
+			    }
+			    ?>
+			</select> Feet
+		    </td>
+		</tr>
+		<tr>
+		    <td>
+			Main color: <br />
+			<select id="main_color">
+			    <?php
+			    foreach($colors as $code => $color){
+				?>
+				<option
+				    code="<?php echo $code;?>"
+				    value="<?php echo $color;?>"
+				    <?php echo $color == "Tan" ? "selected" : ""?>
+				>
+				    <?php echo $color;?>
+				</option>
+				<?php
+			    }
+			    ?>
+			</select>
+		    </td>
+		</tr>
+		<tr>
+		    <td>
+			Trim color:<br />
+			<select>
+			    <?php
+			    foreach($colors as $code => $color){
+				?>
+			    <option 
+				code="<?php echo $code;?>"
+				value="<?php echo $color;?>"
+				<?php echo $color == "White" ? "selected" : "";?>
+			    >
+				<?php echo $color;?>
+			    </option>
+				<?php
+			    }
+			    ?>
+			</select>
+		    </td>
+		</tr>
+		<tr>
+		    <td>
+			Roof color:<br />
+			<select id="roof_color">
+			    <?php
+			    foreach($colors as  $code => $color){
+				?>
+				<option 
+				    code="<?php echo $code;?>"
+				    value="<?php echo $color;?>"
+				    <?php echo ($color == "White" ? "selected" : "");?>
+				>
+				    <?php echo $color;?>
+				</option>
+				<?php
+			    }
+			    ?>
+			</select>
+		    </td>
+		</tr>
+	    </table>
+	</td>
+	<td  style="width: 500px;padding-left: 20px;">
+	    <table style="width: 100%">
+		<tr>
+		    <td class="options_header">Front</td>
+		    <td class="options_header">Back</td>
+		</tr>
+		<tr>
+		    <td style="width:50%;">
+			<?php
+			    echo "<fieldset>".$this->form->builder_covered_front."</fieldset>";
+			    echo "<fieldset id='builder_door_fieldset_front'>".$this->form->builder_door_checkbox_front;
+			    echo $this->form->builder_door_select_front."</fieldset>";
+			    echo "<fieldset id='builder_window_fieldset_front'>".$this->form->builder_window_checkbox_front;
+			    echo $this->form->builder_window_select_front."</fieldset>";
+			    echo "<fieldset id='builder_rollup_fieldset_front'>".$this->form->builder_rollup_checkbox_front;
+			    echo $this->form->builder_rollup_select_front."</fieldset>";
+			?>
+		    </td>
+		    <td style="width:50%;">
+			<?php
+			    echo "<fieldset>".$this->form->builder_covered_back."</fieldset>";
+			    echo "<fieldset id='builder_door_fieldset_back'>".$this->form->builder_door_checkbox_back;
+			    echo $this->form->builder_door_select_back."</fieldset>";
+			    echo "<fieldset id='builder_window_fieldset_back'>".$this->form->builder_window_checkbox_back;
+			    echo $this->form->builder_window_select_back."</fieldset>";
+			    echo "<fieldset id='builder_rollup_fieldset_back'>".$this->form->builder_rollup_checkbox_back;
+			    echo $this->form->builder_rollup_select_back."</fieldset>";
+			?>
+		    </td>
+		</tr>
+		<tr>
+		    <td id="front" style="border: solid 1px silver;width:50%;">
+			<div class="builder_end" style="">
+			    <table class="builders_tables" cellpadding="0px" cellspacing="0px">
+				<tr>
+				    <td id="covered_ends_front_top" class="covered_ends" style="">
+				    </td>
+				</tr>
+				<tr>
+				    <td id="covered_ends_front_bottom" class="covered_ends">
+					<img id="builder_door_image_front" src="<?php echo BASE_URL;?>/img/texwin/builder/builder_residential_door.png" class="door_image"/>
+					<img id="builder_window_image_front" src="<?php echo BASE_URL;?>/img/texwin/builder/builder_9lite_window.png" class="window_image"/>
+					<img id="builder_rollup_image_front" src="<?php echo BASE_URL;?>/img/texwin/builder/builder_rollup_door.png" class="rollup_image"/>
+				    </td>
+				</tr>
+			    </table>
+			</div>
+		    </td>
+		    <td id="back" style="border: solid 1px silver;width:50%;">
+			<div class = "builder_end" style="">
+			    <table class="builders_tables" cellpadding="0px" cellspacing="0px">
+				<tr>
+				    <td id="covered_ends_back_top" class="covered_ends" style=""></td>
+				</tr>
+				<tr>
+				    <td id="covered_ends_back_bottom" class="covered_ends" style="">
+					<img id="builder_door_image_back" src="<?php echo BASE_URL;?>/img/texwin/builder/builder_residential_door.png" class="door_image"/>
+					<img id="builder_window_image_back" src="<?php echo BASE_URL;?>/img/texwin/builder/builder_9lite_window.png" class="window_image"/>
+					<img id="builder_rollup_image_back" src="<?php echo BASE_URL;?>/img/texwin/builder/builder_rollup_door.png" class="rollup_image"/>
+				    </td>
+				</tr>
+			    </table>
+			</div>
+		    </td>
+		</tr>
+		<tr>
+		    <td colspan="2" style="text-align: center;" class="options_header">Left Side</td>
+		</tr>
+		<tr>
+		    <td colspan="2">
+			<?php
+			    echo "<fieldset>".$this->form->builder_covered_left."</fieldset>";
+			    echo "<fieldset id='builder_door_fieldset_left'>".$this->form->builder_door_checkbox_left;
+			    echo $this->form->builder_door_select_left."</fieldset>";
+			    echo "<fieldset id='builder_window_fieldset_left'>".$this->form->builder_window_checkbox_left;
+			    echo $this->form->builder_window_select_left."</fieldset>";
+			    echo "<fieldset id='builder_rollup_fieldset_left'>".$this->form->builder_rollup_checkbox_left;
+			    echo $this->form->builder_rollup_select_left."</fieldset>";
+			?>
+		    </td>
+		</tr>
+		<tr>
+		    <td id="left-side"  style="border: solid 1px silver;" colspan="2">
+			<div class="builder_side" style="">
+			    <table class="builders_tables" cellpadding="0px" cellspacing="0px">
+				<tr>
+				    <td id="covered_sides_left_roof" class="covered_roof" style=""></td>
+				</tr>
+				<tr>
+				    <td id="covered_sides_left_middle" class="covered_sides" style=""></td>
+				</tr>
+				<tr>
+				    <td id="covered_sides_left_bottom" class="covered_sides" style="">
+					<img id="builder_door_image_left" src="<?php echo BASE_URL;?>/img/texwin/builder/builder_residential_door.png" class="door_image"/>
+					<img id="builder_window_image_left" src="<?php echo BASE_URL;?>/img/texwin/builder/builder_9lite_window.png" class="window_image"/>
+					<img id="builder_rollup_image_left" src="<?php echo BASE_URL;?>/img/texwin/builder/builder_rollup_door.png" class="rollup_image"/>
+				    </td>
+				</tr>
+			    </table>
+			</div>
+		    </td>
+		</tr>
+		<tr>
+		    <td colspan="2" style="text-align: center;">Right Side</td>
+		</tr>
+		<tr>
+		    <td colspan="2">
+			<?php
+			    echo "<fieldset>".$this->form->builder_covered_right."</fieldset>";
+			    echo "<fieldset id='builder_door_fieldset_right'>".$this->form->builder_door_checkbox_right;
+			    echo $this->form->builder_door_select_right."</fieldset>";
+			    echo "<fieldset id='builder_window_fieldset_right'>".$this->form->builder_window_checkbox_right;
+			    echo $this->form->builder_window_select_right."</fieldset>";
+			    echo "<fieldset id='builder_rollup_fieldset_right'>".$this->form->builder_rollup_checkbox_right;
+			    echo $this->form->builder_rollup_select_right."</fieldset>";
+			?>
+		    </td>
+		</tr>
+		<tr>
+		    <td id="right-side"  style="border: solid 1px silver;" colspan="2">
+			<div class="builder_side" style="">
+			    <table class="builders_tables" cellpadding="0px" cellspacing="0px">
+				<tr>
+				    <td id="covered_sides_right_roof" class="covered_roof" style=""></td>
+				</tr>
+				<tr>
+				    <td id="covered_sides_right_middle" class="covered_sides" style=""></td>
+				</tr>
+				<tr>
+				    <td id="covered_sides_right_bottom" class="covered_sides" style="">
+					<img id="builder_door_image_right" src="<?php echo BASE_URL;?>/img/texwin/builder/builder_residential_door.png" class="door_image"/>
+					<img id="builder_window_image_right" src="<?php echo BASE_URL;?>/img/texwin/builder/builder_9lite_window.png" class="window_image"/>
+					<img id="builder_rollup_image_right" src="<?php echo BASE_URL;?>/img/texwin/builder/builder_rollup_door.png" class="rollup_image"/>
+				    </td>
+				</tr>
+			    </table>
+			</div>
+		    </td>
+		</tr>
+	    </table>
+	</td>
+    </tr>
+    <tr>
+	<td colspan="<?php echo $columns;?>" class="footer">
+	    Submit it to us for a price today!
+	</td>
+    </tr>
+</table>
+<script type="text/javascript">
+    //$(document).ready(function() {$('.menu').initMenu();});
+
+    //***set defaults
+    end_toggle("front");
+    end_toggle("back");
+
+    side_toggle("left");
+    side_toggle("right");
+
+    door_toggle("front");
+    door_toggle("back");
+    door_toggle("left");
+    door_toggle("right");
+
+    window_toggle("front");
+    window_toggle("back");
+    window_toggle("left");
+    window_toggle("right");
+
+    rollup_toggle("front");
+    rollup_toggle("back");
+    rollup_toggle("left");
+    rollup_toggle("right");
+
+    update_main_color();
+    update_roof_color();
+    //***end set defaults
+
+    //***element actions
+    $('input[name=builder_covered_front]').change(function(){
+	end_toggle("front")
+    });
+    $('input[name=builder_covered_back]').change(function(){
+	end_toggle("back");
+    });
+    $('input[name=builder_covered_left]').change(function(){
+	side_toggle("left");
+    });
+    $('input[name=builder_covered_right]').change(function(){
+	side_toggle("right");
+    });
+
+    $('#builder_door_checkbox_front').change(function(){
+	door_toggle("front");
+    });
+    $('#builder_door_checkbox_back').change(function(){
+	door_toggle("back");
+    });
+    $('#builder_door_checkbox_left').change(function(){
+	door_toggle("left");
+    });
+    $('#builder_door_checkbox_right').change(function(){
+	door_toggle("right");
+    });
+
+    $('#builder_rollup_checkbox_front').change(function(){
+	rollup_toggle("front");
+    });
+    $('#builder_rollup_checkbox_back').change(function(){
+	rollup_toggle("back");
+    });
+    $('#builder_rollup_checkbox_left').change(function(){
+	rollup_toggle("left");
+    });
+    $('#builder_rollup_checkbox_right').change(function(){
+	rollup_toggle("right");
+    });
+
+    $('#builder_window_checkbox_front').change(function(){
+	window_toggle("front");
+    });
+    $('#builder_window_checkbox_back').change(function(){
+	window_toggle("back");
+    });
+    $('#builder_window_checkbox_left').change(function(){
+	window_toggle("left");
+    });
+    $('#builder_window_checkbox_right').change(function(){
+	window_toggle("right");
+    });
+
+    $("#main_color").change(function(){
+	update_main_color();
+    });
+    $("#roof_color").change(function(){
+	update_roof_color();
+    });
+    //***end element actions
+
+    //***general functions
+    function end_toggle(location){
+	value = $('input[name=builder_covered_'+location+']:checked').val();
+	switch(value){
+	    case "None":
+		$('#covered_ends_'+location+'_top').hide();
+		$('#covered_ends_'+location+'_bottom').hide();
+		$('#builder_door_fieldset_'+location).hide();
+		$('#builder_window_fieldset_'+location).hide();
+		$('#builder_rollup_fieldset_'+location).hide();
+
+	    break;
+	    case "Gable":
+		$('#covered_ends_'+location+'_top').show();
+		$('#covered_ends_'+location+'_bottom').hide();
+		$('#builder_door_fieldset_'+location).hide();
+		$('#builder_window_fieldset_'+location).hide();
+		$('#builder_rollup_fieldset_'+location).hide();
+	    break;
+	    case "Full":
+		$('#covered_ends_'+location+'_top').show();
+		$('#covered_ends_'+location+'_bottom').show();
+		$('#builder_door_fieldset_'+location).show();
+		$('#builder_window_fieldset_'+location).show();
+		$('#builder_rollup_fieldset_'+location).show();
+	    break;
+	}
+    }
+
+    function side_toggle(location){
+	value = $('input[name=builder_covered_'+location+']:checked').val();
+
+	switch(value){
+	    case "None":
+		$('#covered_sides_'+location+'_middle').hide();
+		$('#covered_sides_'+location+'_bottom').hide();
+		$('#builder_door_fieldset_'+location).hide();
+		$('#builder_window_fieldset_'+location).hide();
+		$('#builder_rollup_fieldset_'+location).hide();
+	    break;
+	    case "Half":
+		$('#covered_sides_'+location+'_middle').show();
+		$('#covered_sides_'+location+'_bottom').hide();
+		$('#builder_door_fieldset_'+location).hide();
+		$('#builder_window_fieldset_'+location).hide();
+		$('#builder_rollup_fieldset_'+location).hide();
+	    break;
+	    case "Full":
+		$('#covered_sides_'+location+'_middle').show();
+		$('#covered_sides_'+location+'_bottom').show();
+		$('#builder_door_fieldset_'+location).show();
+		$('#builder_window_fieldset_'+location).show();
+		$('#builder_rollup_fieldset_'+location).show();
+	    break;
+	}
+    }
+
+    function door_toggle(location){
+
+	if($('#builder_door_checkbox_'+location).attr("checked")){
+	    $('#builder_door_select_'+location).show();
+	    $('#builder_door_image_'+location).show();
+	}
+	else{
+	    $('#builder_door_select_'+location).hide();
+	    $('#builder_door_image_'+location).hide();
+	}
+    }
+
+    function window_toggle(location){
+
+	if($('#builder_window_checkbox_'+location).attr("checked")){
+	    $('#builder_window_select_'+location).show();
+	    $('#builder_window_image_'+location).show();
+	}
+	else{
+	    $('#builder_window_select_'+location).hide();
+	    $('#builder_window_image_'+location).hide();
+	}
+    }
+
+    function rollup_toggle(location){
+
+	if($('#builder_rollup_checkbox_'+location).attr("checked")){
+	    $('#builder_rollup_select_'+location).show();
+	    $('#builder_rollup_image_'+location).show();
+	}
+	else{
+	    $('#builder_rollup_select_'+location).hide();
+	    $('#builder_rollup_image_'+location).hide();
+	}
+    }
+
+    function update_main_color(){
+	$('.covered_ends').css({"background-color" : $("#main_color option:selected").attr("code")});
+	$('.covered_sides').css({"background-color" : $("#main_color option:selected").attr("code")});
+    }
+
+    function update_roof_color(){
+	$('.covered_roof').css({"background-color" : $("#roof_color option:selected").attr("code")});
+    }
+    //***end general functions
+</script>
+
+<!--<ul class="menu">
+    <li>
+	<a href="#doors">Doors</a>
+	<ul class="acitem">
+	    <li><a href="#">Standard 4'</a></li>
+	    <li><a href="#">Double 5'</a></li>
+	    <li><a href="#">Roll Up 6'</a></li>
+	    <li><a href="#">9-lite 4'</a></li>
+	    <li><a href="#">Residential 3'</a></li>
+	</ul>
+	<a href="#windows">Windows</a>
+	<ul class="acitem">
+	    <li><a href="#">Divided Lite 24" x 24"</a></li>
+	    <li><a href="#">Divided Lite 24" x 27"</a></li>
+	    <li><a href="#">Divided Lite 30" x 27"</a></li>
+	    <li><a href="#">Divided Lite 30" x 40"</a></li>
+	    <li><a href="#">White 24" x 24"</a></li>
+	</ul>
+    </li>
+</ul>-->

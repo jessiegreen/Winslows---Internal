@@ -14,10 +14,9 @@ class Dataservice_Controller_Plugin_ACL extends Zend_Controller_Plugin_Abstract
 	$WebsiteService = Services\Website::factory();
 	$Website	= $WebsiteService->getCurrentWebsite();
 	$AuthService	= Services\Auth::factory();
- 
-	// initially treat the user as a guest so we can determine if the current
-	// resource is accessible by guest users
-	$role = 'Guest';
+	$sess		= new Zend_Session_Namespace('Dataservice');
+	$allowed	= false;
+	$error_temp	= false;
  
 	// if its not accessible then we need to check for a user login
 	// if the user is logged in then we check if the role of the logged
@@ -68,33 +67,40 @@ class Dataservice_Controller_Plugin_ACL extends Zend_Controller_Plugin_Abstract
 	    }
 	    
 	    if($this->debug)echo "Has Identity<br />";
-
-	    $Auth_Service	= \Services\Auth::factory();
-	    $sess		= new Zend_Session_Namespace('Dataservice');
-	    $allowed		= false;
-
+	    
 	    if($sess->clearACL)
 	    {
 		$clearACL = true;
-		 unset($sess->clearACL);
+		unset($sess->clearACL);
 	    }
-
+	    $clearACL = true;
 	    $objAcl = Dataservice_ACL_Factory::get($em, $clearACL);
 	    
-	    $Person = $Auth_Service->getIdentityPerson();
+	    $Person = $AuthService->getIdentityPerson();
 
-	    /* @var $Role \Entities\Company\Employee\Role */
-	    foreach($Person->getRoles() as $Role)
+	    try
 	    {
-		if($this->debug)echo "**".$Role->getName()."**<br />";
+		/* @var $Role \Entities\Company\Employee\Role */
+		foreach($Person->getRoles() as $Role)
+		{
+		    if($this->debug)echo "**".$Role->getName()."**<br />";
 
-		if($objAcl->isAllowed($Role->getName(), $request->getModuleName() .'::' .$request->getControllerName() .'::' .$request->getActionName()))
-			$allowed = true;
-	    }
+		    if($objAcl->isAllowed($Role->getName(), $request->getModuleName() .'::' .$request->getControllerName() .'::' .$request->getActionName()))
+			    $allowed = true;
+		}
+	    } 
+	    catch (Exception $exc)
+	    {
+		$error_temp = true;
+	    }	    
 	    
-	    if(!$allowed)
+	    if($error_temp)
 	    {
-		$request->setModuleName('default');
+		$request->setControllerName('error');
+		$request->setActionName('noresource');
+	    }
+	    elseif(!$allowed)
+	    {
 		$request->setControllerName('error');
 		$request->setActionName('noauth');
 	    }
@@ -107,7 +113,6 @@ class Dataservice_Controller_Plugin_ACL extends Zend_Controller_Plugin_Abstract
 		exit;
 	    }
 	    
-            $request->setModuleName('default');
             $request->setControllerName('error');
             $request->setActionName('noresource');
         }
