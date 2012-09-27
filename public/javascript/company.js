@@ -47,3 +47,12 @@ Company.prototype.AddWebsiteOnclickBind = function(element)
     });
 }
 
+Company.prototype.AddRtoProviderOnclickBind = function(element)
+{
+    element.click(function()
+    {
+	company_id  = $("#company_id").val()
+	location    ='/rto-provider/edit/id/0/company_id/'+company_id;
+    });
+}
+

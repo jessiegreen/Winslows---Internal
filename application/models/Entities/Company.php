@@ -58,6 +58,14 @@ class Company extends \Dataservice_Doctrine_Entity
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
+     * @OneToMany(targetEntity="\Entities\Company\RtoProvider", mappedBy="Company", cascade={"persist"})
+     * @var array $RtoProviders
+     */
+    private $RtoProviders;
+    
+    /**
+     * Bidirectional - One-To-Many (INVERSE SIDE)
+     *
      * @OneToMany(targetEntity="\Entities\Company\Website", mappedBy="Company", cascade={"persist"})
      * @var array $Websites
      */
@@ -73,9 +81,10 @@ class Company extends \Dataservice_Doctrine_Entity
     
     public function __construct()
     {
-	$this->Employees = new ArrayCollection();
-	$this->Locations = new ArrayCollection();
-	$this->Suppliers = new ArrayCollection();
+	$this->Employees    = new ArrayCollection();
+	$this->Locations    = new ArrayCollection();
+	$this->Suppliers    = new ArrayCollection();
+	$this->RtoProviders = new ArrayCollection();
 	
 	parent::__construct();
     }
@@ -113,6 +122,23 @@ class Company extends \Dataservice_Doctrine_Entity
     {
 	$Website->setCompany($this);
 	$this->Websites[] = $Website;
+    }
+    
+    /**
+     * @return array
+     */
+    public function getRtoProviders()
+    {
+	return $this->RtoProviders;
+    }
+    
+    /**
+     * @param \Entities\Company\RtoProvider $RtoProvider
+     */
+    public function addRtoProvider(\Entities\Company\RtoProvider $RtoProvider)
+    {
+	$RtoProvider->setCompany($this);
+	$this->RtoProviders[] = $RtoProvider;
     }
     
     /**

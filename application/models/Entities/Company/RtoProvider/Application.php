@@ -3,8 +3,8 @@
 namespace Entities\Company\RtoProvider;
 
 /**
- * @Entity (repositoryClass="Repositories\RtoProvider\Application") 
- * @Table(name="rtoprovider_applications")
+ * @Entity (repositoryClass="Repositories\Company\RtoProvider\Application") 
+ * @Table(name="company_rtoprovider_applications")
  * @HasLifecycleCallbacks
  */
 class Application extends \Dataservice_Doctrine_Entity

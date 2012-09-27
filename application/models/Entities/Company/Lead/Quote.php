@@ -83,7 +83,18 @@ class Quote extends Quote\QuoteAbstract
 	/* @var $Item \Entities\Company\Lead\Quote\Item */
 	foreach ($this->getItems() as $Item)
 	{
-	    $this->total += $Item->getQuantity() * $Item->getInstance()->getPrice()->getPrice();
+	    try 
+	    {
+		$this->total += 
+			$Item->getQuantity() * 
+			$Item->getInstance()
+			    ->getPriceSafe()
+			    ->getPrice();
+	    } 
+	    catch (\Exception $exc) 
+	    {
+		$this->total = 0;
+	    }
 	}
 	
         return $this->total;

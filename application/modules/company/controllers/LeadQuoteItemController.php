@@ -30,10 +30,11 @@ class Company_LeadQuoteItemController extends Dataservice_Controller_Action
 	if(!$Item->getInstance())$form->getSubform("company_lead_quote_item")->getElement("product_id")->setAttrib("required", true);
 	
 	$form->addCancelButton($this->_History->getPreviousUrl(1));
-		    /* @var $Instance \Entities\Company\Supplier\Product\Instance\InstanceAbstract */
 	
 	if($this->isPostAndValid($form))
 	{
+	    $valid = true;
+	    
 	    try 
 	    {
 		$item_data  = $this->_params["company_lead_quote_item"];
@@ -52,6 +53,10 @@ class Company_LeadQuoteItemController extends Dataservice_Controller_Action
 			$class	    = "Entities\Company\Supplier\Product\\".$Product->getDescriminator()."\Instance";
 			/* @var $Instance Entities\Company\Supplier\Product\Instance\InstanceAbstract */
 			$Instance   = new $class($Product);
+		    }
+		    else
+		    {
+			$valid = false;
 		    }
 		}
 		

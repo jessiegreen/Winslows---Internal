@@ -10,7 +10,7 @@ namespace Forms;
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class RtoProvider extends \Zend_Form
+class RtoProvider extends \Dataservice_Form
 {    
     private $_RtoProvider;
     
@@ -24,7 +24,7 @@ class RtoProvider extends \Zend_Form
     {	
         $form = new RtoProvider\Subform($options, $this->_RtoProvider);
 	
-	$this->addSubForm($form, "rto_provider");
+	$this->addSubForm($form, "company_rto_provider");
 	
 	$this->addElement('submit', 'submit', array(
             'ignore'   => true,

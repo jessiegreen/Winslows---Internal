@@ -14,6 +14,7 @@ $Locations	= $Company->getLocations();
 $Suppliers	= $Company->getSuppliers();
 $Websites	= $Company->getWebsites();
 $Employees	= $Company->getEmployees();
+$RtoProviders	= $Company->getRtoProviders();
 ?>
 <div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
     <h4 class="no_space" style="color: #2000EE;">
@@ -42,7 +43,7 @@ $Employees	= $Company->getEmployees();
 		    "add.png", 
 		    "Add Location", 
 		    "location_add", 
-		    "float:right;width:110px;");
+		    "float:right;width:130px;");
 	    ?>
 	</h3>
 	<div>
@@ -74,7 +75,7 @@ $Employees	= $Company->getEmployees();
 		    "add.png", 
 		    "Add Employee", 
 		    "employee_add", 
-		    "float:right;width:110px;");
+		    "float:right;width:130px;");
 	    ?>
 	</h3>
 	<div>
@@ -130,13 +131,49 @@ $Employees	= $Company->getEmployees();
     </div>
     <hr />
     <h3>
+	<a href="#">Rto Providers</a>
+	<?php 
+	    echo HTML::buttonBlue(
+		"add.png", 
+		"Add Rto Provider", 
+		"rto_provider_add", 
+		"float:right;width:130px;");
+	?>
+    </h3>
+    <div>
+	<?php
+	/* @var $RtoProvider \Entities\Company\RtoProvider */
+	if(count($RtoProviders)>0)
+	{
+	    foreach ($RtoProviders as $RtoProvider)
+	    {
+		?>
+		<div style="padding: 3px;margin-bottom: 3px;">
+		    <?php 
+		    echo $RtoProvider->getName();
+		    echo HTML::anchorIcon(
+			    "bullet_go.png", 
+			    "", 
+			    "/rto-provider/view/id/".$RtoProvider->getId(),
+			    "margin-left:5px;"
+			    );
+		    ?>
+		</div>
+		<?php
+	    }
+	}
+	else echo "No Suppliers";
+	?>
+    </div>
+    <hr />
+    <h3>
 	<a href="#">Websites</a>
 	<?php 
 	    echo HTML::buttonBlue(
 		"add.png", 
 		"Add Website", 
 		"website_add", 
-		"float:right;width:110px;");
+		"float:right;width:130px;");
 	?>
     </h3>
     <div>
@@ -174,4 +211,5 @@ $Employees	= $Company->getEmployees();
     Company.AddLocationOnclickBind($("#location_add"));
     Company.AddEmployeeOnclickBind($("#employee_add"));
     Company.AddWebsiteOnclickBind($("#website_add"));
+    Company.AddRtoProviderOnclickBind($("#rto_provider_add"));
 </script>

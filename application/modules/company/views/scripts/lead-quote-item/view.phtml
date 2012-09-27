@@ -1,5 +1,8 @@
 <?php 
 echo($this->flashMessages()); 
+echo "<div>";
+echo HTML::backAnchorIcon("Quote - View", "/lead-quote/view/id/".$this->Item->getQuote()->getId());
+echo "</div>";
 ?>
 <h1 class="header1">Quote Item - View</h1>
 <?php
@@ -31,30 +34,6 @@ $quantity   = $Item->getQuantity();
 </div>
 <div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">
     <div id="accordion">
-	<h3>
-	    <a href="#">Quote</a>
-	</h3>
-	<div>
-	    <?php
-	    /* @var $Lead \Entities\Company\Lead */
-	    $Lead = $Item->getQuote()->getLead();
-	    ?>
-	    <h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
-		<?php 
-		echo "#".$Item->getQuote()->getId();
-		echo HTML::anchorIcon(
-			"bullet_go.png", 
-			"", 
-			"/lead-quote/view/id/".$Item->getQuote()->getId(), 
-			"margin-left:5px;", 
-			"View Quote"
-			);
-		?>
-	    </h4>
-	    <label>Lead:</label>
-	    <div style="display: inline;"><?php echo $Lead->getFullName(); ?></div>
-	</div>
-	<hr />
 	<h3>
 	    <a href="#">Product</a>
 	    <?php

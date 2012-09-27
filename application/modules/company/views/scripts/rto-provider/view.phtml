@@ -1,7 +1,7 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo HTML::backAnchorIcon("Companies - All", "/rtoProvider/index/viewall");
+echo HTML::backAnchorIcon("Company - View", "/index/view/id/".$this->RtoProvider->getCompany()->getId());
 echo "</div>";
 ?>
 <h1 class="header1">RTO Provider - View</h1>
@@ -18,7 +18,7 @@ $Products	    = $RtoProvider->getProducts();
 	echo HTML::anchorIcon(
 		"pencil.png", 
 		"", 
-		"/rtoProvider/index/edit/id/".$rto_provider_id,
+		"/rto-provider/edit/id/".$rto_provider_id,
 		"margin-left:5px;"
 		);
 	?>

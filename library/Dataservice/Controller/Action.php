@@ -69,7 +69,8 @@ class Dataservice_Controller_Action extends Zend_Controller_Action
 	return !$Entity ? new $entity_string : $Entity;
     }
     
-    public function isPostAndValid(Zend_Form $form, $params = null){
+    public function isPostAndValid(Zend_Form $form, $params = null)
+    {
 	if($params === null){
 	    $params = $this->_params;
 	}

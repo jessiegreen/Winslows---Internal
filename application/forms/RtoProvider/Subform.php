@@ -22,31 +22,38 @@ class Subform extends \Zend_Form_SubForm
     
     public function init()
     {		
+	$this->addElement(new \Dataservice_Form_Element_CompanySelect("company_id", array(
+            'required'	    => true,
+            'label'	    => 'Company:',
+	    'belongsTo'	    => 'company_rto_provider',
+	    'value'	    => $this->_RtoProvider && $this->_RtoProvider->getCompany() ? $this->_RtoProvider->getCompany()->getId() : ""
+        )));
+	
 	$this->addElement('text', 'name', array(
             'required'	    => true,
             'label'	    => 'Name:',
-	    'belongsTo'	    => 'rto_provider',
+	    'belongsTo'	    => 'company_rto_provider',
 	    'value'	    => $this->_RtoProvider ? $this->_RtoProvider->getName() : ""
         ));
 	
 	$this->addElement('text', 'dba', array(
             'required'	    => true,
             'label'	    => 'DBA:',
-	    'belongsTo'	    => 'rto_provider',
+	    'belongsTo'	    => 'company_rto_provider',
 	    'value'	    => $this->_RtoProvider ? $this->_RtoProvider->getDba() : ""
         ));
 	
 	$this->addElement('text', 'name_index', array(
             'required'	    => true,
             'label'	    => 'Name Index:',
-	    'belongsTo'	    => 'rto_provider',
+	    'belongsTo'	    => 'company_rto_provider',
 	    'value'	    => $this->_RtoProvider ? $this->_RtoProvider->getNameIndex() : ""
         ));
 	
 	$this->addElement('textarea', 'description', array(
             'required'	    => false,
             'label'	    => 'Description:',
-	    'belongsTo'	    => 'rto_provider',
+	    'belongsTo'	    => 'company_rto_provider',
 	    'rows'	    => '10',
 	    'cols'	    => '35',
 	    'value'	    => $this->_RtoProvider ? $this->_RtoProvider->getDescription() : ""

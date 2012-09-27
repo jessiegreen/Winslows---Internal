@@ -23,11 +23,15 @@ class Simple extends ProductAbstract
     protected $price;
     
     /**
-     * @return decimal
+     * @return \Dataservice_Price
      */
     public function getPrice()
     {
-	return $this->price;
+	$Price = new \Dataservice_Price();
+	
+	$Price->setPrice($this->price);
+	
+	return $Price;
     }
     
     /**

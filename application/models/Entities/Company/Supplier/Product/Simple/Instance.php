@@ -24,4 +24,21 @@ class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstr
     {
 	return $this->getProduct()->getPrice();
     }
+    
+    /**
+     * @return \Dataservice_Price
+     */
+    public function getPriceSafe()
+    {
+	try
+	{
+	    $Price = $this->getPrice();
+	}
+	catch (\Exception $exc)
+	{
+	    $Price = new \Dataservice_Price();
+	}
+	
+	return $Price;
+    }
 }

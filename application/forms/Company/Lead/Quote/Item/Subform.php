@@ -51,6 +51,7 @@ class Subform extends \Zend_Form_SubForm
 				"label"		=> "Sale Type",
 				"multioptions"  => $sales_options,
 				"required"	=> true,
+				'validators'	=> array(new \Dataservice_Validate_Company_Lead_Quote_Item_SaleType("turd", $this->_Item)),
 				"value"		=> $this->_Item  ? $this->_Item->getSaleType() : ""
 			    ));
 	

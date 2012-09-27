@@ -47,6 +47,12 @@ class RtoProvider extends \Dataservice_Doctrine_Entity
      */
     protected $description;
     
+    /** 
+     * @ManyToOne(targetEntity="\Entities\Company", inversedBy="RtoProviders")
+     * @var \Entities\Company $Company
+     */  
+    protected $Company;
+    
     /**
      * @ManytoMany(targetEntity="\Entities\Company\Supplier\Product\ProductAbstract", mappedBy="RtoProviders", cascade={"ALL"})
      * @var ArrayCollection $Products
@@ -67,6 +73,19 @@ class RtoProvider extends \Dataservice_Doctrine_Entity
 	$this->Applications = new ArrayCollection();
 	
 	parent::__construct();
+    }
+    
+    public function setCompany(\Entities\Company $Company)
+    {
+	$this->Company = $Company;
+    }
+    
+    /**
+     * @return \Entities\Company
+     */
+    public function getCompany()
+    {
+	return $this->Company;
     }
     
     /**
