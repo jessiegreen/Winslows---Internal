@@ -29,7 +29,7 @@ class Configurable extends ProductAbstract
     
     public function __construct()
     {
-	$this->Options = new ArrayCollection();
+	$this->Options = new \Doctrine\Common\Collections\ArrayCollection();
 	
 	parent::__construct();
     }

@@ -52,7 +52,7 @@ class ProductAbstract extends \Dataservice_Doctrine_Entity
     protected $Supplier;
     
     /**
-     * @ManytoMany(targetEntity="\Entities\Company\Supplier\Product\Category", mappedBy="Products", cascade={"ALL"})
+     * @ManytoMany(targetEntity="\Entities\Company\Supplier\Product\Category", mappedBy="Products", cascade={"persist"})
      * @var array $Categories
      */
     protected $Categories;

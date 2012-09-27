@@ -10,7 +10,59 @@ class Company_WebsiteController extends Dataservice_Controller_Action
     
     public function editAction()
     {	
+	$Website	= $this->_getWebsite();
+	$company_id	= $this->_request->getParam("company_id", null);
+	$CompanyRepos	= $this->_em->getRepository("Entities\Company");
 	
+	if(!$Website->getId())
+	{
+	    if($company_id)
+	    {
+		$Company = $CompanyRepos->find($company_id);
+		
+		if($Company)
+		{
+		    $Website->setCompany($Company);
+		}
+	    }
+	}
+	
+	$form = new Forms\Company\Website($Website, array("method" => "post"));
+	
+	$form->addElement("button", "cancel", 
+		array("onclick" => "location='".$this->_History->getPreviousUrl(1)."'")
+		);
+	
+	if($this->isPostAndValid($form))
+	{
+	    $data = $this->_params["company_website"];
+	    
+	    try 
+	    {
+		$Website->populate($data);
+
+		$Company = $CompanyRepos->find($data["company_id"]);
+
+		if($Company)
+		{
+		    $Website->setCompany($Company);
+		}
+
+		$this->_em->persist($Website);
+		$this->_em->flush();
+	    
+		$this->_FlashMessenger->addSuccessMessage("Website Saved"); 
+		$this->_History->goBack();
+	    }
+	    catch (Exception $exc)
+	    {
+		$this->_FlashMessenger->addErrorMessage($exc->getMessage());
+		$this->_History->goBack();
+	    }
+	}
+	
+	$this->view->Website	= $Website;
+	$this->view->form	= $form;
     }
     
     public function viewAction()

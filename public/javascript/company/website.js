@@ -32,7 +32,8 @@ Website.prototype.BuildResourcesOnclickBind = function(element)
 {
     element.click(function()
     {
-	location='/website-resource/build/';
+	website_id = $("#website_id").val();
+	location='/website-resource/build/website_id/' + website_id;
     });
 }
 

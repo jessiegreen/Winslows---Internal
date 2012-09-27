@@ -12,6 +12,8 @@ $company_id	= $Company->getId();
 /* @var $Locations \Doctrine\Common\Collections\ArrayCollection */
 $Locations	= $Company->getLocations();
 $Suppliers	= $Company->getSuppliers();
+$Websites	= $Company->getWebsites();
+$Employees	= $Company->getEmployees();
 ?>
 <div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
     <h4 class="no_space" style="color: #2000EE;">
@@ -35,7 +37,13 @@ $Suppliers	= $Company->getSuppliers();
     <div id="accordion">
 	<h3>
 	    <a href="#">Locations</a>
-	    <?php echo HTML::buttonBlue("building_add.png", "Add Location", "location_add", "float:right;width:110px;");?>
+	    <?php 
+		echo HTML::buttonBlue(
+		    "add.png", 
+		    "Add Location", 
+		    "location_add", 
+		    "float:right;width:110px;");
+	    ?>
 	</h3>
 	<div>
 	    <?php
@@ -43,19 +51,49 @@ $Suppliers	= $Company->getSuppliers();
 	    foreach ($Locations as $Location)
 	    {
 		?>
-		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
+		<div style="padding: 3px;margin-bottom: 3px;">
 		    <?php 
 		    echo $Location->getName();
 		    echo HTML::anchorIcon(
-			    "building_go.png", 
+			    "bullet_go.png", 
 			    "", 
 			    "/location/view/id/".$Location->getId(),
 			    "margin-left:5px;"
 			    );
 		    ?>
-		</h4>
-		<label>Type: </label>
-		<div style="display: inline;"><?php echo $Location->getTypeDisplay(); ?></div>
+		</div>
+		<?php
+	    }
+	    ?>
+	</div>
+	<hr />
+	<h3>
+	    <a href="#">Employees</a>
+	    <?php 
+		echo HTML::buttonBlue(
+		    "add.png", 
+		    "Add Employee", 
+		    "employee_add", 
+		    "float:right;width:110px;");
+	    ?>
+	</h3>
+	<div>
+	    <?php
+	    /* @var $Employee \Entities\Company\Employee */
+	    foreach ($Employees as $Employee)
+	    {
+		?>
+		<div style="padding: 3px;margin-bottom: 3px;">
+		    <?php 
+		    echo $Employee->getFullName();
+		    echo HTML::anchorIcon(
+			    "bullet_go.png", 
+			    "", 
+			    "/employee/view/id/".$Employee->getId(),
+			    "margin-left:5px;"
+			    );
+		    ?>
+		</div>
 		<?php
 	    }
 	    ?>
@@ -77,7 +115,7 @@ $Suppliers	= $Company->getSuppliers();
 		    <?php 
 		    echo $Supplier->getName();
 		    echo HTML::anchorIcon(
-			    "tag_blue.png", 
+			    "bullet_go.png", 
 			    "", 
 			    "/supplier/view/id/".$Supplier->getId(),
 			    "margin-left:5px;"
@@ -91,6 +129,42 @@ $Suppliers	= $Company->getSuppliers();
 	?>
     </div>
     <hr />
+    <h3>
+	<a href="#">Websites</a>
+	<?php 
+	    echo HTML::buttonBlue(
+		"add.png", 
+		"Add Website", 
+		"website_add", 
+		"float:right;width:110px;");
+	?>
+    </h3>
+    <div>
+	<?php
+	/* @var $Website \Entities\Company\Website */
+	if(count($Websites)>0)
+	{
+	    foreach ($Websites as $Website)
+	    {
+		?>
+		<div style="padding: 3px;margin-bottom: 3px;">
+		    <?php 
+		    echo $Website->getName();
+		    echo HTML::anchorIcon(
+			    "bullet_go.png", 
+			    "", 
+			    "/website/view/id/".$Website->getId(),
+			    "margin-left:5px;"
+			    );
+		    ?>
+		</div>
+		<?php
+	    }
+	}
+	else echo "No Websites";
+	?>
+    </div>
+    <hr />
     <h3><a href="#">Documents</a></h3>
     <div>Put Documents here</div>
 </div>
@@ -98,4 +172,6 @@ $Suppliers	= $Company->getSuppliers();
 <script type="text/javascript">
     Company = new Company();
     Company.AddLocationOnclickBind($("#location_add"));
+    Company.AddEmployeeOnclickBind($("#employee_add"));
+    Company.AddWebsiteOnclickBind($("#website_add"));
 </script>

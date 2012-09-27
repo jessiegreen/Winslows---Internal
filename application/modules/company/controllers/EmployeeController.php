@@ -38,6 +38,21 @@ class Company_EmployeeController extends Dataservice_Controller_Action
     public function editAction()
     {
 	$Employee   = $this->getEntityFromParamFields("Company\Employee", array("id"));
+	$company_id = $this->_request->getParam("company_id", null);
+	
+	if(!$Employee->getId())
+	{
+	    if($company_id)
+	    {
+		$Company = $this->_em->getRepository("Entities\Company")->findOneById($company_id);
+	    
+		if($Company)
+		{
+		    $Employee->setCompany($Company);
+		}
+	    }
+	}	
+	
 	$form	    = new Forms\Company\Employee(array("method" => "post"), $Employee);
 	
 	$form->addElement("button", "cancel", 
@@ -49,12 +64,17 @@ class Company_EmployeeController extends Dataservice_Controller_Action
 	    try 
 	    {
 		$employee_data	= $this->_params["company_employee"];
-		$Location	= $this->_em->find("Entities\Company\Location",$employee_data["location"]);
+		$Location	= $this->_em->find("Entities\Company\Location",$employee_data["location_id"]);
+		$Company	= $this->_em->find("Entities\Company",$employee_data["company_id"]);
 
-		if(!$Location)
-		    throw new Exception("Can not edit employee. No Location with that Id");
+		if($Location)
+		    $Employee->setLocation($Location);
+		else throw new Exception("Can not edit employee. No Location with that Id");
+		
+		if($Company)
+		    $Employee->setCompany($Company);
+		else throw new Exception("Can not edit employee. No Company with that Id");
 
-		$Employee->setLocation($Location);
 
 		$Employee->populate($employee_data);
 		$this->_em->persist($Employee);
@@ -93,22 +113,24 @@ class Company_EmployeeController extends Dataservice_Controller_Action
 	$this->_helper->viewRenderer->setNoRender(true);
 	$this->_helper->layout->disableLayout();
 	
-//	$ACL = new Dataservice_Controller_Plugin_ACL();
-//	
-//	$ACL->preDispatch($this->_request);
-	
-	$Employee   = $this->_getEmployee();
-	$Role	    = $this->_getRole();
-	
-	$this->_CheckRequiredEmployeeExists($Employee);
-	$this->_CheckRequiredRoleExists($Role);
+	try{
+	    $Employee   = $this->_getEmployee();
+	    $Role	= $this->_getRole();
 
-	$Employee->addRole($Role);
-	$this->_em->persist($Employee);
-	$this->_em->flush();
-	$this->_FlashMessenger->addSuccessMessage("Role Added");
-	
-	$this->_History->goBack(1);
+	    $this->_CheckRequiredEmployeeExists($Employee);
+	    $this->_CheckRequiredRoleExists($Role);
+
+	    $Employee->addRole($Role);
+	    $this->_em->persist($Employee);
+	    $this->_em->flush();
+	    $this->_FlashMessenger->addSuccessMessage("Role Added");
+	    $this->_History->goBack(1);
+	} 
+	catch (Exception $exc)
+	{
+	    $this->_FlashMessenger->addErrorMessage($exc->getMessage());
+	    $this->_History->goBack(1);
+	}
     }
     
     public function removeRoleAction()
@@ -116,22 +138,26 @@ class Company_EmployeeController extends Dataservice_Controller_Action
 	$this->_helper->viewRenderer->setNoRender(true);
 	$this->_helper->layout->disableLayout();
 	
-	$ACL = new Dataservice_Controller_Plugin_ACL();
-	
-	$ACL->preDispatch($this->_request);
-	
-	$Employee   = $this->_getEmployee();
-	$Role	    = $this->_getRole();
-	
-	$this->_CheckRequiredEmployeeExists($Employee);
-	$this->_CheckRequiredRoleExists($Role);
-	
-	$Employee->removeRole($Role);
-	$this->_em->persist($Employee);
-	$this->_em->flush();
-	
-	$this->_FlashMessenger->addSuccessMessage("Role Removed");
-	$this->_History->goBack(1);
+	try
+	{
+	    $Employee   = $this->_getEmployee();
+	    $Role	= $this->_getRole();
+
+	    $this->_CheckRequiredEmployeeExists($Employee);
+	    $this->_CheckRequiredRoleExists($Role);
+
+	    $Employee->removeRole($Role);
+	    $this->_em->persist($Employee);
+	    $this->_em->flush();
+
+	    $this->_FlashMessenger->addSuccessMessage("Role Removed");
+	    $this->_History->goBack(1);
+	} 
+	catch (Exception $exc)
+	{
+	    $this->_FlashMessenger->addErrorMessage($exc->getMessage());
+	    $this->_History->goBack(1);
+	}
     }
     
     /**

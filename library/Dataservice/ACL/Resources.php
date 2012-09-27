@@ -67,7 +67,7 @@ class Dataservice_ACL_Resources
 	return $results_array;
     }
 
-    public function writeToDB(\Doctrine\ORM\EntityManager $em) 
+    public function writeToDB(\Doctrine\ORM\EntityManager $em, Entities\Website\WebsiteAbstract $Website) 
     {
 	$Role = $em->getRepository("Entities\Company\Employee\Role")->findOneBy(array("name" => "Web Admin"));
 	
@@ -83,6 +83,7 @@ class Dataservice_ACL_Resources
 		    {
 			foreach ($this->arrActions[$strModuleName][$strControllerName] as $strActionName)
 			{#--Actions
+			    echo $strActionName."<br />";
 			    $existing = $em->getRepository("Entities\Website\Resource")->findBy(
 					    array(
 						"module" => $strModuleName, 
@@ -93,6 +94,7 @@ class Dataservice_ACL_Resources
 			    
 			    if(!$existing)
 			    {
+				echo 
 				$resource = new \Entities\Website\Resource;
 				$resource->setName(ucwords($strModuleName.' | '.$strControllerName . " - " . $strActionName));
 				$resource->setModule($strModuleName);
@@ -100,6 +102,7 @@ class Dataservice_ACL_Resources
 				$resource->setAction($strActionName);
 				$resource->setRouteName("$strModuleName/$strControllerName/$strActionName");
 				$resource->addRole($Role);
+				$resource->setWebsite($Website);
 				$em->persist($resource);
 				$em->flush();
 			    }
@@ -108,6 +111,7 @@ class Dataservice_ACL_Resources
 		}
 	    }
 	}
+	exit;
 	return $this;
     }
 
@@ -118,15 +122,15 @@ class Dataservice_ACL_Resources
 	if(count($this->arrActions) < 1)throw new Exception('No Actions found.');
     }
 
-    public function buildAllArrays() 
+    public function buildAllArrays($website_index) 
     {
-	$this->buildModulesArray();
-	$this->buildControllerArrays();
-	$this->buildActionArrays();
+	$this->buildModulesArray($website_index);
+	$this->buildControllerArrays($website_index);
+	$this->buildActionArrays($website_index);
 	return $this;
     }
 
-    public function buildModulesArray() 
+    public function buildModulesArray($website_index) 
     {
 	$dstApplicationModules	= opendir(APPLICATION_PATH.'/modules');
 	
@@ -134,7 +138,7 @@ class Dataservice_ACL_Resources
 	{	    
 	    if(!in_array($dstFile, $this->arrIgnore)) 
 	    {
-		if(is_dir(APPLICATION_PATH . '/modules/' . $dstFile) )
+		if($website_index == $dstFile && is_dir(APPLICATION_PATH . '/modules/' . $dstFile) )
 		{
 		    $this->arrModules[] = $dstFile;
 		}

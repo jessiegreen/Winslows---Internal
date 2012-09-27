@@ -219,6 +219,14 @@ class WebsiteAbstract extends \Dataservice_Doctrine_Entity
     }
     
     /**
+     * @return int
+     */
+    public function getGuestAllowed()
+    {
+	return $this->guest_allowed;
+    }
+    
+    /**
      * @return string
      */
     public function getType()

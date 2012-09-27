@@ -14,6 +14,10 @@ class Company_EmployeePhoneNumberController extends Dataservice_Controller_Actio
 	$PhoneNumber	= $this->getEntityFromParamFields("Person\PhoneNumber", array("id"));
 	$form		= new Forms\Person\PhoneNumber(array("method" => "post"), $PhoneNumber);
 	
+	$form->addElement("button", "cancel", 
+		array("onclick" => "location='".$this->_History->getPreviousUrl(1)."'")
+		);
+	
 	if($this->isPostAndValid($form)){
 	    try 
 	    {

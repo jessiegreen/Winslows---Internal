@@ -22,7 +22,14 @@ class Subform extends \Forms\Person\Subform
     
     public function init($options = array())
     {	
-	$this->addElement(new \Dataservice_Form_Element_LocationSelect("location", array(
+	$this->addElement(new \Dataservice_Form_Element_CompanySelect("company_id", array(
+            'required'	    => true,
+            'label'	    => 'Company:',
+	    'belongsTo'	    => 'company_employee',
+	    'value'	    => $this->_Employee && $this->_Employee->getCompany() ? $this->_Employee->getCompany()->getId() : ""
+        )));
+	
+	$this->addElement(new \Dataservice_Form_Element_LocationSelect("location_id", array(
             'required'	    => true,
             'label'	    => 'Location:',
 	    'belongsTo'	    => 'company_employee',

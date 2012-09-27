@@ -1,7 +1,7 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo HTML::backAnchorIcon("Employees - All", "/employee/viewall");
+echo HTML::backAnchorIcon("Company - view", "/index/view/id/".$this->Employee->getCompany()->getId());
 echo "</div>";
 ?>
 <h1 class="header1">Employee - View</h1>
@@ -36,7 +36,7 @@ $Account	= $Employee->getAccount();
     <div id="accordion">
 	<h3>
 	    <a href="#">Address</a>
-	    <?php echo HTML::buttonBlue("building_add.png", "Add Address", "address_add", "float:right;width:110px;");?>
+	    <?php echo HTML::buttonBlue("add.png", "Add Address", "address_add", "float:right;width:110px;");?>
 	</h3>
 	<div>
 	    <?php
@@ -49,7 +49,7 @@ $Account	= $Employee->getAccount();
 		    echo HTML::anchorIcon(
 			    "pencil.png", 
 			    "", 
-			    "/person/address/edit/person_id/".$employee_id."/id/".$Address->getId(),
+			    "/employee-address/edit/person_id/".$employee_id."/id/".$Address->getId(),
 			    "margin-left:5px;"
 			    );
 		    ?>
@@ -91,7 +91,7 @@ $Account	= $Employee->getAccount();
 		    echo HTML::anchorIcon(
 			    "pencil.png", 
 			    "", 
-			    "/person/phone-number/edit/person_id/".$employee_id."/id/".
+			    "/employee-phone-number/edit/person_id/".$employee_id."/id/".
 				$PhoneNumber->getId(), 
 			    "margin-left:5px;"
 			    );
@@ -134,7 +134,7 @@ $Account	= $Employee->getAccount();
 		    echo HTML::anchorIcon(
 			    "pencil.png", 
 			    "", 
-			    "/person/email-address/edit/person_id/".$employee_id."/id/".
+			    "/employee-email-address/edit/person_id/".$employee_id."/id/".
 				$EmailAddress->getId(), 
 			    "margin-left:5px;"
 			    );

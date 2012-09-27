@@ -87,10 +87,6 @@ class Company_WebsiteMenuItemController extends Dataservice_Controller_Action
 	$this->_helper->viewRenderer->setNoRender(true);
 	$this->_helper->layout->disableLayout();
 	
-//	$ACL = new Dataservice_Controller_Plugin_ACL();
-//	
-//	$ACL->preDispatch($this->_request);
-	
 	$menu_id	= isset($this->_params["menu_id"]) ? $this->_params["menu_id"] : null;
 	$menuitem_id	= isset($this->_params["menuitem_id"]) ? $this->_params["menuitem_id"] : null;
 	
@@ -104,11 +100,7 @@ class Company_WebsiteMenuItemController extends Dataservice_Controller_Action
 	    
 	    if($Menu && $MenuItem)
 	    {
-		if(!$Menu->removeItem($MenuItem))
-		{
-		    $this->_FlashMessenger->addErrorMessage("Could Not Remove MenuItem");
-		}
-		
+		$Menu->removeItem($MenuItem);		
 		$em->persist($Menu);
 		$em->flush();
 		

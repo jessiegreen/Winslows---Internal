@@ -1,6 +1,6 @@
 <?php 
 echo($this->flashMessages()); 
-//echo HTML::backAnchorIcon("Employees View", "/maintenance/employeesview");
+echo HTML::backAnchorIcon("Employee - View", "/employee/view/id/".$this->Employee->getId());
 ?>
 <h1 class="header1">Employee - Manage Roles</h1>
 <fieldset class="padded_frame blue_frame center">

@@ -1,7 +1,7 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo HTML::backAnchorIcon("Website - view all", "/website/view-all");
+echo HTML::backAnchorIcon("Company - view", "/index/view/id/".$this->Website->getCompany()->getId());
 echo "</div>";
 ?>
 <h1 class="header1">Website - View</h1>
@@ -52,7 +52,7 @@ $website_id = $Website->getId();
 		    <li>
 			<?php
 			echo HTML::anchorIcon(
-				"eye.png", 
+				"bullet_go.png", 
 				"", 
 				"/website-menu/view/id/".$Menu->getId(),
 				"margin-left:5px;"

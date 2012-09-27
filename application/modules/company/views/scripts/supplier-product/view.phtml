@@ -9,6 +9,7 @@ echo "</div>";
 /* @var $Product \Entities\Company\Supplier\Product\ProductAbstract */
 $Product	= $this->Product;
 $product_id	= $Product->getId();
+$Categories	= $Product->getCategories();
 $Options	= null;
 $price		= null;
 $className	= null;
@@ -52,8 +53,54 @@ switch ($Product->getDescriminator())
 </div>
 <div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">
     <div id="accordion">
+	<h3>
+	    <a href="#">Categories</a>
+	    <?php 
+	    echo HTML::buttonBlue(
+		    "text_list_bullets.png",
+		    "Manage",
+		    "categories_manage",
+		    "float:right;width:80px;"
+		    );
+	    echo HTML::buttonBlue(
+		    "add.png",
+		    "Add New",
+		    "category_add",
+		    "float:right;width:80px;margin-right:5px;"
+		    );
+	    ?>
+	</h3>
+	<div>
+	    <ul>
+	    <?php
+	    /* @var $Category \Entities\Company\Supplier\Product\Category */
+	    if(count($Categories) > 0)
+	    {
+		foreach ($Categories as $Category)
+		{
+		    ?>
+		    <li>
+			<?php
+			echo HTML::anchorIcon(
+				"bullet_go.png", 
+				"", 
+				"/supplier-product-category/view/id/".$Category->getId(),
+				"margin-left:5px;"
+				);
+			echo $Category->getNameWithParentsString();
+			?>
+		    </li>
+		    <?php
+		}
+	    }
+	    else echo "<li>No Categories</li>";
+	    ?>
+	    </ul>
+	</div>
+	<hr />
 	<?php
-	if($Options){
+	if($Options)
+	{
 	    ?>
 	    <h3>
 		<a href="#">Option Groups</a>
@@ -65,7 +112,7 @@ switch ($Product->getDescriminator())
 			"float:right;width:80px;"
 			);
 		echo HTML::buttonBlue(
-			"bullet_add.png", 
+			"add.png", 
 			"Add New", 
 			"group_add", 
 			"float:right;width:80px;margin-right:5px;"
@@ -82,7 +129,7 @@ switch ($Product->getDescriminator())
 			<li>
 			    <?php
 			    echo HTML::anchorIcon(
-				    "eye.png", 
+				    "bullet_go.png", 
 				    "", 
 				    "/supplier-product-configurable-option/view/id/".$Option->getId(),
 				    "margin-left:5px;"
@@ -112,4 +159,6 @@ switch ($Product->getDescriminator())
     Product = new Product();
     Product.ManageOptionGroupsOnclickBind($("#groups_manage"));
     Product.OptionGroupAddOnclickBind($("#group_add"));
+    Product.ManageCategoriesOnclickBind($("#categories_manage"));
+    Product.CategoryAddOnclickBind($("#category_add"));
 </script>

@@ -31,9 +31,9 @@ class Category extends \Dataservice_Doctrine_Entity
     
     /** 
      * @Column(type="integer", length=11) 
-     * @var integer $order
+     * @var integer $sort_order
      */
-    protected $order;
+    protected $sort_order;
     
     /**
      * @ManyToOne(targetEntity="\Entities\Company\Supplier\Product\Category", inversedBy="children")
@@ -82,6 +82,49 @@ class Category extends \Dataservice_Doctrine_Entity
     }
     
     /**
+     * @param \Entities\Company\Supplier\Product\ProductAbstract $Product
+     */
+    public function removeProduct(ProductAbstract $Product)
+    {
+	$Product->removeCategory($this);
+	$this->Products->removeElement($Product);
+    }
+    
+    /**
+     * @param Category $Category
+     */
+    public function setParent(Category $Category)
+    {
+	$this->parent = $Category;
+    }
+    
+    /**
+     * @return null | Category
+     */
+    public function getParent()
+    {
+	return $this->parent;
+    }
+    
+    /**
+     * @param Category $child
+     */
+    public function AddChild(Category $Category)
+    {
+	$Category->setParent($this);
+	
+	$this->children[] = $Category;
+    }
+    
+    /**
+     * @return ArrayCollection
+     */
+    public function getChildren()
+    {
+	return $this->children;
+    }
+    
+    /**
      * @return integer
      */
     public function getId()
@@ -124,16 +167,36 @@ class Category extends \Dataservice_Doctrine_Entity
     /**
      * @return integer
      */
-    public function getOrder()
+    public function getSortOrder()
     {
-        return $this->order;
+        return $this->sort_order;
     }
 
     /**
-     * @param integer $order
+     * @param integer $sort_order
      */
-    public function setOrder($order)
+    public function setSortOrder($order)
     {
-        $this->order = $order;
+        $this->sort_order = $order;
+    }
+    
+    public function getNameWithParentsString()
+    {
+	$string = "";
+	
+	return $this->_prependParentString($string, $this);
+    }
+    
+    private function _prependParentString($string, Category $Category)
+    {
+	$string = $Category->getName().(!$string ? "" : " - ").$string;
+	
+	if($Category->getParent())
+	{
+	    $TempCategory   = $Category->getParent();
+	    $string	    = $this->_prependParentString($string, $TempCategory);
+	}
+	
+	return $string;
     }
 }

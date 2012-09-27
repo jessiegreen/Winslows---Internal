@@ -11,9 +11,22 @@ class Company_WebsiteResourceController extends Dataservice_Controller_Action
     {
 	/* @var $em \Doctrine\ORM\EntityManager */
 	$objResources	= new Dataservice_ACL_Resources;
+	$website_id	= $this->_request->getParam("website_id");
 	
-	$objResources->buildAllArrays();
-	$objResources->writeToDB($this->_em);
+	if($website_id)$Website = $this->_em->getRepository ("Entities\Company\Website")->find ($website_id);
+	else $this->_FlashMessenger->addErrorMessage("Could not build resources. Company id not sent");
+	
+	if(!$Website->getId())
+	{
+	    $this->_FlashMessenger->addErrorMessage("Could not build resources. Could not get company");
+	    $this->_History->goBack();
+	}	
+	
+	$objResources->buildAllArrays($Website->getNameIndex());
+	$objResources->writeToDB($this->_em, $Website);
+	
+	$this->_FlashMessenger->addSuccessMessage("Resources built");
+	$this->_History->goBack();
     }
     
     public function cleanAction()

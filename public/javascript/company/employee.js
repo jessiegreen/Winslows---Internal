@@ -24,7 +24,7 @@ Employee.prototype.AddAddressClickBind = function(element_id)
 {
     $("#"+element_id).click(function()
     {
-	location = "/person/address/edit/id/0/person_id/" + $("#employee_id").val();
+	location = "/employee-address/edit/id/0/person_id/" + $("#employee_id").val();
     });
 }
 
@@ -32,7 +32,7 @@ Employee.prototype.AddPhoneClickBind = function(element_id)
 {
     $("#"+element_id).click(function()
     {
-	location = "/person/phone-number/edit/id/0/person_id/" + $("#employee_id").val();
+	location = "/employee-phone-number/edit/id/0/person_id/" + $("#employee_id").val();
     });
 }
 
@@ -40,7 +40,7 @@ Employee.prototype.AddEmailClickBind = function(element_id)
 {
     $("#"+element_id).click(function()
     {
-	location = "/person/email-address/edit/id/0/person_id/" + $("#employee_id").val();
+	location = "/employee-email-address/edit/id/0/person_id/" + $("#employee_id").val();
     });
 }
 

@@ -43,7 +43,7 @@ $Items		= $quote->getItems();
 	<h3>
 	    <a href="#">Items</a>
 	    <?php echo HTML::buttonBlue(
-		    "package_add.png", 
+		    "add.png", 
 		    "Add Item", "quote_item_add", 
 		    "float:right;width:110px;");
 	    ?>
@@ -64,7 +64,7 @@ $Items		= $quote->getItems();
 		    <?php 
 		    echo $Instance->getProduct()->getName();
 		    echo HTML::buttonIcon(
-			    "eye.png", 
+			    "bullet_go.png", 
 			    "view_item_".$Item->getId(), 
 			    "View Item", "quote_item_view", 
 			    "margin-left:5px;vertical-align:bottom;",

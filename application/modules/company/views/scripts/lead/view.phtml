@@ -36,7 +36,7 @@ $quotes		= $lead->getQuotes();
     <div id="accordion">
 	<h3>
 	    <a href="#">Addresses</a>
-	    <?php echo HTML::buttonBlue("building_add.png", "Add address", "address_add", "float:right;width:110px;");?>
+	    <?php echo HTML::buttonBlue("add.png", "Add address", "address_add", "float:right;width:110px;");?>
 	</h3>
 	<div>
 	    <?php
@@ -93,7 +93,7 @@ $quotes		= $lead->getQuotes();
 		    echo HTML::anchorIcon(
 			    "pencil.png", 
 			    "", 
-			    "/person/phone-number/edit/person_id/".$lead_id."/id/".
+			    "/lead-phone-number/edit/person_id/".$lead_id."/id/".
 				$PhoneNumber->getId(), 
 			    "margin-left:5px;"
 			    );
@@ -179,7 +179,7 @@ $quotes		= $lead->getQuotes();
 			<?php 
 			echo $Quote->getCreated()->format("m-d-Y, g:i a"); 
 			echo HTML::anchorIcon(
-				"eye.png", 
+				"bullet_go.png", 
 				"", 
 				"/lead-quote/view/id/".
 				    $Quote->getId(), 

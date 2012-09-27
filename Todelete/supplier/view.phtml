@@ -33,7 +33,7 @@ $Addresses	= $Supplier->getAddresses();
     <div id="accordion">
 	<h3>
 	    <a href="#">Address</a>
-	    <?php echo HTML::buttonBlue("building_add.png", "Add Address", "address_add", "float:right;width:110px;");?>
+	    <?php echo HTML::buttonBlue("add.png", "Add Address", "address_add", "float:right;width:110px;");?>
 	</h3>
 	<div>
 	    <?php
@@ -70,7 +70,7 @@ $Addresses	= $Supplier->getAddresses();
 	<hr />
 	<h3>
 	    <a href="#">Companies</a>
-	    <?php echo HTML::buttonBlue("building_add.png", "Add Company", "company_add", "float:right;width:110px;");?>
+	    <?php echo HTML::buttonBlue("add.png", "Add Company", "company_add", "float:right;width:110px;");?>
 	</h3>
 	<div>
 	    <?php
@@ -82,7 +82,7 @@ $Addresses	= $Supplier->getAddresses();
 			<?php 
 			echo $Company->getName();
 			echo HTML::anchorIcon(
-				"building_go.png", 
+				"bullet_go.png", 
 				"", 
 				"/view/id/".$Company->getId(),
 				"margin-left:5px;"
@@ -101,7 +101,7 @@ $Addresses	= $Supplier->getAddresses();
 <div class="padded_frame" style="width: 415px;float: right;padding-top: 0px;">
     <h3>
 	<a href="#">Products</a>
-	<?php echo HTML::buttonBlue("package_add.png", "Add Product", "product_add", "float:right;width:110px;");?>
+	<?php echo HTML::buttonBlue("add.png", "Add Product", "product_add", "float:right;width:110px;");?>
     </h3>
     <div>
 	<?php
@@ -113,7 +113,7 @@ $Addresses	= $Supplier->getAddresses();
 		    <?php 
 		    echo $Product->getName();
 		    echo HTML::anchorIcon(
-			    "package_go.png", 
+			    "bullet_go.png", 
 			    "", 
 			    "/product/view/id/".$Product->getId(),
 			    "margin-left:5px;"
