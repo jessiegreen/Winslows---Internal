@@ -1,0 +1,70 @@
+<?php 
+echo($this->flashMessages()); 
+echo "<div>";
+echo HTML::backAnchorIcon("Quote - View ", "/lead-quote/view/id/".$this->Quote->getId());
+echo "</div>";
+/* @var $Quote Entities\Company\Lead\Quote */
+$Quote		= $this->Quote;
+$can_checkout	= true;
+?>
+<h1 class="header1">Quote - Sell</h1>
+<div class="padded_frame">
+    <h3>
+	Sales Types
+    </h3>
+    <div>
+	<?php
+	/* @var $Item \Entities\Company\Lead\Quote\Item */
+	foreach($Quote->getItems() as $Item)
+	{
+	    if($Item->isRtoSaleType())
+	    {
+		$Application = $Item->getQuote()->getLead()->getApplication($Item->getSaleType());
+		
+		if(!$Application)
+		{
+		    echo "<div class='red padded_frame'>";
+		    echo HTML::buttonBlue(
+			    "application_form_edit.png", 
+			    "Application Required", "", "", 
+			    "application_edit", 
+			    "lead_id='".$Item->getQuote()->getLead()->getId()."' rto_provider_id='".
+			    Services\RtoProvider::factory()->findByIndex($Item->getSaleType())->getId()."' "
+			)."&nbsp;";
+		    
+		    $can_checkout = false;
+		}
+		else if(!$Application->isApproved())
+		{
+		    echo "<div class='red padded_frame'>";
+		    echo "<b>APPROVAL DENIED</b>&nbsp;";
+		    
+		    $can_checkout = false;
+		}
+		else
+		{
+		    echo "<div class='green padded_frame'>";
+		    echo "<b>APPROVED</b>&nbsp;";
+		}
+	    }
+	    else echo "<div class='green padded_frame'>";
+	    echo $Item->getSaleTypeDisplay()." - ";
+	    echo $Item->getName()." ".$Item->getInstance()->getProduct()->getName();
+	    echo "</div>";
+	}
+	?>
+    </div>
+    <h3>Payment Type</h3>
+    <?php 
+	/* @var $payment_form \Forms\Company\Lead\Quote\Sell\PaymentTypes */
+	$payment_form = $this->payment_form;
+	
+	if(!$can_checkout)$payment_form->getElement("Checkout")->setAttrib('disabled', 'disabled');
+	
+	echo $this->payment_form;
+    ?>
+</div>
+<script type="text/javascript">
+    Q = new Quote();
+    Q.ApplicationOnClickBind($(".application_edit"));
+</script>

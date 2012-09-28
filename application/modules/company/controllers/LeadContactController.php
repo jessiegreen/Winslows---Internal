@@ -6,26 +6,23 @@ class Company_LeadContactController extends Dataservice_Controller_Action
 	$em		= $this->_helper->EntityManager();
 	$flashMessenger = $this->_helper->getHelper('FlashMessenger');
 	
-	try {
+	try
+	{
 	    if(!isset($this->_params["lead_id"]))throw new Exception("Can not edit contact. No Id");
+	    
 	    /* @var $Lead Entities\Company\Lead */
-	    $Lead  = $em->find("Entities\Company\Lead", $this->_params["lead_id"]);
-	    /* @var $Lead Entities\Contact */
-	    $Contact   = $em->find("Entities\Contact", $this->_params["contact_id"]);
+	    $Lead	= $em->find("Entities\Company\Lead", $this->_params["lead_id"]);
+	    /* @var $Lead \Entities\Company\Lead\Contact */
+	    $Contact	= $em->find("Entities\Company\Lead\Contact", $this->_params["contact_id"]);
 	    
 	    if(!$Lead || !$Contact)throw new Exception("Can not edit contact. No Lead or Contact with that Id");
 	    
-	    $form = new Form_Person_Contact(array("method" => "post"), $Contact);
+	    $form = new Forms\Company\Lead\Contact(array("method" => "post"), $Contact);
 	    
-	    $form->addElement(
-		    "button", 
-		    "cancel", 
-		    array(
-			"label" => "cancel", 
-			"onclick" => "location='/lead/edit/id/".$this->_params["lead_id"]."'"
-			)
-		    );
-	} catch (Exception $exc) {
+	    $form->addCancelButton($this->_History->getPreviousUrl());
+	}
+	catch (Exception $exc)
+	{
 	    $flashMessenger->addMessage(array('message' => $exc->getMessage(), 'status' => 'error'));
 	    $this->_redirect('/lead/edit/id/'.$this->_params["lead_id"]);
 	}
@@ -65,16 +62,34 @@ class Company_LeadContactController extends Dataservice_Controller_Action
     
     public function editAction()
     {
-	/* @var $Contact \Entities\Contact */
-	$Contact	= $this->getEntityFromParamFields("Contact", array("id"));
-	$Lead		= $this->_em->find("Entities\Company\Lead", $this->_request->getParam("lead_id", 0));
+	/* @var $Contact \Entities\Company\Lead\Contact */
+	$Contact    = $this->getEntityFromParamFields("Company\Lead\Contact", array("id"));
+	$lead_id    = $this->_request->getParam("lead_id");
 	
-	if(!$Lead){
-	    $this->_FlashMessenger->addErrorMessage("Can not add contact lead not sent");
-	    $this->_History->goBack(1);
+	if(!$Contact->getId())
+	{
+	    if($lead_id)
+	    {
+		$Lead = $this->_em->getRepository("Entities\Company\Lead")->find($lead_id);
+		
+		if($Lead)
+		{
+		    $Contact->setLead($Lead);
+		}
+		else
+		{
+		    $this->_FlashMessenger->addErrorMessage("Can not get Lead");
+		    $this->_History->goBack();
+		}
+	    }
+	    else
+	    {
+		$this->_FlashMessenger->addErrorMessage("Can not add contact lead not sent");
+		$this->_History->goBack();
+	    }
 	}
 	
-	$form		= new Form_Contact($Lead, array("method" => "post"), $Contact);
+	$form = new Forms\Company\Lead\Contact(array("method" => "post"), $Contact);
 	
 	$form->addElement("button", "cancel", 
 		array("onclick" => "location='".$this->_History->getPreviousUrl(1)."'")
@@ -82,31 +97,36 @@ class Company_LeadContactController extends Dataservice_Controller_Action
 	
 	if($this->isPostAndValid($form))
 	{
-	    try {
-		$contact_data   = $this->_params["contact"];
+	    try
+	    {
+		$contact_data   = $this->_params["company_lead_contact"];
 
 		$Contact->populate($contact_data);
 		
 		$type_data = json_decode($contact_data["type"]);
+		
 		$Contact->setType($type_data->type);
 		$Contact->setTypeDetail($type_data->type_detail);
-		$Contact->setPerson($this->_em->find("Entities\Person\PersonAbstract", $contact_data["person"]));
-
-		if(!$Contact->getId()){
-		   $Lead->addContact($Contact);
-		   $this->_em->persist($Lead);
-		}
-		else{
-		    $this->_em->persist($Contact);
-		}
 		
+		if($contact_data["employee_id"])
+		{
+		    $Employee = $this->_em->getRepository("Entities\Company\Employee")->find($contact_data["employee_id"]);
+		    
+		    if($Employee)
+			$Contact->setEmployee ($Employee);
+		}
+
+		$this->_em->persist($Contact);
 		$this->_em->flush();
 		
 		$this->_FlashMessenger->addSuccessMessage("Contact Saved");
-	    } catch (Exception $exc) {
+	    } 
+	    catch (Exception $exc)
+	    {
 		$this->_FlashMessenger->addErrorMessage($exc->getMessage());
 	    }
-	    $this->_History->goBack(1);
+	    
+	    $this->_History->goBack();
 	}
 	else $form->populate($this->_params);
 	    

@@ -1,5 +1,5 @@
 <?php
-namespace Services\Company\Location;
+namespace Services\Company;
 
 class Employee extends \Dataservice_Service_ServiceAbstract
 {
@@ -9,5 +9,3 @@ class Employee extends \Dataservice_Service_ServiceAbstract
 		->findBy(array(), array("first_name" => "ASC"));
     }
 }
-
-?>

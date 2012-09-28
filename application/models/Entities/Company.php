@@ -79,12 +79,21 @@ class Company extends \Dataservice_Doctrine_Entity
      */
     private $Employees;
     
+    /**
+     * Bidirectional - One-To-Many (INVERSE SIDE)
+     *
+     * @OneToMany(targetEntity="\Entities\Company\Lead", mappedBy="Company", cascade={"persist"})
+     * @var ArrayCollection $Leads
+     */
+    private $Leads;
+    
     public function __construct()
     {
 	$this->Employees    = new ArrayCollection();
 	$this->Locations    = new ArrayCollection();
 	$this->Suppliers    = new ArrayCollection();
 	$this->RtoProviders = new ArrayCollection();
+	$this->Leads	    = new ArrayCollection();
 	
 	parent::__construct();
     }
@@ -122,6 +131,23 @@ class Company extends \Dataservice_Doctrine_Entity
     {
 	$Website->setCompany($this);
 	$this->Websites[] = $Website;
+    }
+    
+    /**
+     * @return ArrayCollection
+     */
+    public function getLeads()
+    {
+	return $this->Leads;
+    }
+    
+    /**
+     * @param Company\Lead $Lead
+     */
+    public function addLead(Company\Lead $Lead)
+    {
+	$Lead->setCompany($this);
+	$this->Leads[] = $Lead;
     }
     
     /**

@@ -56,6 +56,12 @@ class Lead extends PersonAbstract
      */     
     protected $Account;
     
+    /** 
+     * @ManyToOne(targetEntity="\Entities\Company", inversedBy="Leads")
+     * @var \Entities\Company $Company
+     */     
+    protected $Company;
+    
     public function __construct()
     {
 	$this->Contacts	    = new ArrayCollection();
@@ -123,6 +129,23 @@ class Lead extends PersonAbstract
 	return $this->Applications;
     }
     
+    /**
+     * @param string $rto_index
+     * @return null | \Entities\Company\RtoProvider\Application
+     */
+    public function getApplication($rto_index)
+    {
+	/* @var $Application \Entities\Company\RtoProvider\Application */
+	foreach ($this->getApplications() as $Application)
+	{
+	    /** @var $Application \Entities\Company\RtoProvider\Application */
+	    if($Application->getRtoProvider()->getNameIndex() == $rto_index)
+		return $Application;
+	}
+	
+	return null;
+    }
+    
     /** 
      * @return \Entities\Company\Lead\Account
      */
@@ -137,6 +160,22 @@ class Lead extends PersonAbstract
     public function setAccount(\Entities\Company\Lead\Account $Account)
     {
 	$this->Account = $Account;
+    }
+    
+    /** 
+     * @return \Entities\Company
+     */
+    public function getCompany()
+    {
+	return $this->Company;
+    }
+    
+    /**
+     * @param \Entities\Company $Company
+     */
+    public function setCompany(\Entities\Company $Company)
+    {
+	$this->Company = $Company;
     }
     
     /**

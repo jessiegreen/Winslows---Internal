@@ -169,6 +169,16 @@ h1.header1{
     color: silver;
 }
 
+.green{
+    background-color: #00cc66;
+    color: #FFF;
+}
+
+.red{
+    background-color: #ff6666;
+    color: #FFF;
+}
+
 /**** Sizes ****/
 .small{
     font-size: 10px;

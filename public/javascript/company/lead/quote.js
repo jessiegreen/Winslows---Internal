@@ -32,6 +32,17 @@ Quote.prototype.SellOnClickBind = function(element)
 {
     element.click(function(e)
     {
-	location = "/lead-quote/sales-type/id/" + $("#quote_id").val();
+	location = "/lead-quote/sell/id/" + $("#quote_id").val();
+    })
+}
+
+Quote.prototype.ApplicationOnClickBind = function(element)
+{
+    element.click(function(e)
+    {
+	button	    = $(e.target);
+	location    = "/rto-provider-application/edit/id/0/lead_id/" + 
+			button.attr("lead_id") + "/rto_provider_id/" + 
+			button.attr("rto_provider_id");
     })
 }

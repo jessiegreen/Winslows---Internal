@@ -23,6 +23,18 @@ class Subform extends \Zend_Form_SubForm
     public function init() 
     {
 	$this->addElement(
+		"text", 
+		"name", 
+		array(
+		    "label"	=> "Name",
+		    "description" => "Customer friendly name for the Item. (Optional)",
+		    "required"	=> false,
+		    "value"	=> $this->_Item ? $this->_Item->getName() : "",
+		    "belongsTo" => "quote",
+		)
+	    );
+	
+	$this->addElement(
 		"hidden", 
 		"instance_id", 
 		array(
@@ -51,7 +63,7 @@ class Subform extends \Zend_Form_SubForm
 				"label"		=> "Sale Type",
 				"multioptions"  => $sales_options,
 				"required"	=> true,
-				'validators'	=> array(new \Dataservice_Validate_Company_Lead_Quote_Item_SaleType("turd", $this->_Item)),
+				'validators'	=> array(new \Dataservice_Validate_Company_Lead_Quote_Item_SaleType()),
 				"value"		=> $this->_Item  ? $this->_Item->getSaleType() : ""
 			    ));
 	

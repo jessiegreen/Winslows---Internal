@@ -19,41 +19,21 @@ class Dataservice_Validate_Company_Lead_Quote_Item_SaleType extends Zend_Validat
      * @var array
      */
     protected $_messageTemplates = array(
-      self::SALE_TYPE_NOT_ALLOWED  => 'Sale Type not allowed with this product'
+	self::SALE_TYPE_NOT_ALLOWED  => 'Sale Type not allowed with this product'
     );
 
-    /**
-     * Key to test against
-     *
-     * @var integer
-     */
-    protected $_Item;
-
-    public function __construct($value, \Entities\Company\Lead\Quote\Item $Item)
+    public function isValid($value, $context = null)
     {
-	$this->_Item = $Item;
-    }
-
-    public function isValid($value)
-    {
-	  echo $this->_Item;exit;
-	if($this->_Item->isRtoSaleType())
+	$ProductService = Services\Company\Supplier\Product::factory();
+	$Product	= $ProductService->find($context["product_id"]);
+	
+	/* @var $Product Entities\Company\Supplier\Product\ProductAbstract */
+	if($Product->isSaleTypeAllowed($value))
 	{
-	    $sales_options = \Services\Company\Lead\Quote\Item::factory()->getSaleTypeOptions($this->_Item);
-	    print_r($sales_options);
-	    if(!in_array($this->_Item->getSaleType(), $sales_options))
-	    {
-		echo "Invalid";exit;
-		$this->_error(self::SALE_TYPE_NOT_ALLOWED);
-		return false;
-	    }
+	    return true;
 	}
-	echo "Valid";Exit;
-	return true;
-    }
-    
-    public function getMessages()
-    {
-	parent::getMessages();
+	
+	$this->_error(self::SALE_TYPE_NOT_ALLOWED);
+	return false;
     }
 }

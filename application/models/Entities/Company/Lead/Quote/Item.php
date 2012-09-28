@@ -28,6 +28,12 @@ class Item extends \Dataservice_Doctrine_Entity
      */
     protected $sale_type;
     
+    /** 
+     * @Column(type="string")
+     * @var string $name
+     */
+    protected $name;
+    
     /**
      * @ManyToOne(targetEntity="\Entities\Company\Lead\Quote", inversedBy="Items")
      * @var \Entities\Company\Lead\Quote $Quote
@@ -80,6 +86,22 @@ class Item extends \Dataservice_Doctrine_Entity
     public function getInstance()
     {
 	return $this->Instance;
+    }
+    
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+	$this->name = $name;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+	return $this->name;
     }
     
     /**

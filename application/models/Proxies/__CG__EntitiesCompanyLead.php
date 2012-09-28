@@ -84,6 +84,12 @@ class Lead extends \Entities\Company\Lead implements \Doctrine\ORM\Proxy\Proxy
         return parent::getApplications();
     }
 
+    public function getApplication($rto_index)
+    {
+        $this->__load();
+        return parent::getApplication($rto_index);
+    }
+
     public function getAccount()
     {
         $this->__load();

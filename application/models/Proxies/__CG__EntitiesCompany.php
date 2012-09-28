@@ -66,6 +66,18 @@ class Company extends \Entities\Company implements \Doctrine\ORM\Proxy\Proxy
         return parent::addWebsite($Website);
     }
 
+    public function getLeads()
+    {
+        $this->__load();
+        return parent::getLeads();
+    }
+
+    public function addLead(\Entities\Company\Lead $Lead)
+    {
+        $this->__load();
+        return parent::addLead($Lead);
+    }
+
     public function getRtoProviders()
     {
         $this->__load();
@@ -204,7 +216,7 @@ class Company extends \Entities\Company implements \Doctrine\ORM\Proxy\Proxy
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'name', 'dba', 'name_index', 'description', 'created', 'updated', 'Locations', 'Suppliers', 'RtoProviders', 'Websites', 'Employees');
+        return array('__isInitialized__', 'id', 'name', 'dba', 'name_index', 'description', 'created', 'updated', 'Locations', 'Suppliers', 'RtoProviders', 'Websites', 'Employees', 'Leads');
     }
 
     public function __clone()

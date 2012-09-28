@@ -201,15 +201,13 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
     
     public function sellAction()
     {
-	$Quote = $this->_getQuote();
+	$Quote		= $this->_getQuote();
+	$payment_form	= new \Forms\Company\Lead\Quote\Sell\PaymentTypes();
 	
 	$this->_CheckRequiredQuoteExists($Quote);
 	
-	/* @var $Item Entities\Company\Lead\Quote\Item */
-	foreach ($Quote->getItems() as $Item)
-	{
-	    //if($Item->isRtoSaleType() && (!)
-	}
+	$this->view->Quote	    = $Quote;
+	$this->view->payment_form   = $payment_form;
     }
     
     /**

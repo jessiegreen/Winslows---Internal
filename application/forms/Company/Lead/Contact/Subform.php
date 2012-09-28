@@ -1,7 +1,5 @@
 <?php
-namespace Forms\Company\Lead\Quote\Contact;
-use Entities\Company\Lead\Contact as Contact;
-use Entities\Company\Lead as Lead;
+namespace Forms\Company\Lead\Contact;
 /**
  * Name:
  * Location:
@@ -15,12 +13,11 @@ use Entities\Company\Lead as Lead;
 class Subform extends \Zend_Form_SubForm
 {
     private $_Contact;
-    private $_Lead;
     
-    public function __construct(Lead $Lead, $options = null, Contact $Contact = null) 
+    public function __construct($options = null, \Entities\Company\Lead\Contact $Contact = null) 
     {
 	$this->_Contact	    = $Contact;
-	$this->_Lead	    = $Lead;
+	
 	parent::__construct($options);
     }
   
@@ -35,9 +32,9 @@ class Subform extends \Zend_Form_SubForm
 	    $result_options = $Contact->getResultOptions();
 	}
 	
-	$this->addElement(new Dataservice_Form_Element_ContactMediumSelect(
+	$this->addElement(new \Dataservice_Form_Element_ContactMediumSelect(
 		"type",
-		$this->_Lead, 
+		$this->_Contact->getLead(), 
 		$this->_Contact, 
 		array(
 		    'required'	    => true,
@@ -53,12 +50,12 @@ class Subform extends \Zend_Form_SubForm
 	    )
 	);
 	
-	$this->addElement(new Dataservice_Form_Element_EmployeeSelect("person", array(
+	$this->addElement(new \Dataservice_Form_Element_EmployeeSelect("employee_id", array(
             'required'	    => true,
             'label'	    => 'By:',
 	    'belongsTo'	    => 'contact',
-	    'value'	    => $this->_Contact && $this->_Contact->getPerson() ? 
-				$this->_Contact->getPerson()->getId() : 
+	    'value'	    => $this->_Contact && $this->_Contact->getEmployee() ? 
+				$this->_Contact->getEmployee()->getId() : 
 				\Services\Auth::factory()->getIdentityPerson()->getId()
         )));
 	

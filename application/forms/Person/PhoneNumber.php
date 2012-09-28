@@ -10,7 +10,7 @@ namespace Forms\Person;
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class PhoneNumber extends \Zend_Form
+class PhoneNumber extends \Dataservice_Form
 {    
     private $_PhoneNumber;
     

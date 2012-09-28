@@ -73,8 +73,8 @@ class HTML
 	}
     }
     
-    public static function buttonBlue($icon, $text, $id = "", $style = "") {
-	return "<div class='button_blue' id='$id' style='$style'>".self::superFish_icon(array("icon" => $icon), false)." $text</div>";
+    public static function buttonBlue($icon, $text, $id = "", $style = "", $class = "", $attr="") {
+	return "<div class='button_blue $class' id='$id' style='$style' ".$attr.">".self::superFish_icon(array("icon" => $icon), false)." $text</div>";
     }
     
     public static function buttonIcon($icon, $id = "", $title = "", $class = "", $style = "", $attr="") {

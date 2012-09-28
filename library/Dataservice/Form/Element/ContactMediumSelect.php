@@ -15,7 +15,7 @@ class Dataservice_Form_Element_ContactMediumSelect extends Zend_Form_Element_Sel
     protected $_Lead;
     protected $_Contact;
     
-    public function __construct($spec, \Entities\Company\Lead $Lead, Entities\Contact $Contact = null, $options = null)
+    public function __construct($spec, \Entities\Company\Lead $Lead, \Entities\Company\Lead\Contact $Contact = null, $options = null)
     {
 	$this->_Lead	    = $Lead;
 	$this->_Contact	    = $Contact;

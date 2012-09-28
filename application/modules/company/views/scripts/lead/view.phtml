@@ -1,7 +1,7 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo HTML::backAnchorIcon("Lead Search", "/lead/search");
+echo HTML::backAnchorIcon("Company - View", "/index/view/id/".$this->Lead->getCompany()->getId());
 echo "</div>";
 ?>
 <h1 class="header1">Lead - View</h1>
@@ -50,7 +50,7 @@ $quotes		= $lead->getQuotes();
 		    echo HTML::anchorIcon(
 			    "pencil.png", 
 			    "", 
-			    "/person/address/edit/person_id/".$lead_id."/id/".$Address->getId(),
+			    "/lead-address/edit/person_id/".$lead_id."/id/".$Address->getId(),
 			    "margin-left:5px;"
 			    );
 		    ?>

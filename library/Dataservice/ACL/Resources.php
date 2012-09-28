@@ -83,7 +83,6 @@ class Dataservice_ACL_Resources
 		    {
 			foreach ($this->arrActions[$strModuleName][$strControllerName] as $strActionName)
 			{#--Actions
-			    echo $strActionName."<br />";
 			    $existing = $em->getRepository("Entities\Website\Resource")->findBy(
 					    array(
 						"module" => $strModuleName, 
@@ -94,7 +93,6 @@ class Dataservice_ACL_Resources
 			    
 			    if(!$existing)
 			    {
-				echo 
 				$resource = new \Entities\Website\Resource;
 				$resource->setName(ucwords($strModuleName.' | '.$strControllerName . " - " . $strActionName));
 				$resource->setModule($strModuleName);
@@ -111,7 +109,7 @@ class Dataservice_ACL_Resources
 		}
 	    }
 	}
-	exit;
+	
 	return $this;
     }
 

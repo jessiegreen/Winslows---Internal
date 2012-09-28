@@ -1,8 +1,8 @@
 <?php
-namespace Forms\Company;
+namespace Forms\RtoProvider;
 /**
  * Name:
- * Location:
+ * Company:
  *
  * Description for class (if any)...
  *
@@ -10,21 +10,21 @@ namespace Forms\Company;
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Lead extends \Dataservice_Form
-{    
-    private $_Lead;
+class Application extends \Dataservice_Form
+{
+    private $_Application;
     
-    public function __construct($options = null, \Entities\Company\Lead $Lead = null)
+    public function __construct(\Entities\Company\RtoProvider\Application $Application, $options = null)
     {
-	$this->_Lead = $Lead;
+	$this->_Application = $Application;
 	parent::__construct($options);
     }
     
     public function init($options = array())
-    {
-	$form = new Lead\Subform($options, $this->_Lead);
+    {	
+        $form = new Application\Subform($this->_Application, $options);
 	
-	$this->addSubForm($form, "company_lead");
+	$this->addSubForm($form, "company_rto_provider_application");
 	
 	$this->addElement('submit', 'submit', array(
             'ignore'   => true,

@@ -201,4 +201,23 @@ class ProductAbstract extends \Dataservice_Doctrine_Entity
     {
 	return static::TYPE_Base;
     }
+    
+    public function isSaleTypeAllowed($sale_type_index)
+    {
+	if($sale_type_index == "cash")
+	    return true;
+	else
+	{
+	    $indexes_array = array();
+	    /* @var $RtoProvider \Entities\Company\RtoProvider */ 
+	    foreach ($this->getRtoProviders() as $RtoProvider)
+	    {
+		$indexes_array[] = $RtoProvider->getNameIndex();
+	    }
+	    
+	    if(in_array($sale_type_index, $indexes_array)) return true;
+	}
+	
+	return false;
+    }
 }

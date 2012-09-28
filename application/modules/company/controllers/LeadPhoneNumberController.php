@@ -14,7 +14,10 @@ class Company_LeadPhoneNumberController extends Dataservice_Controller_Action
 	$PhoneNumber	= $this->getEntityFromParamFields("Person\PhoneNumber", array("id"));
 	$form		= new Forms\Person\PhoneNumber(array("method" => "post"), $PhoneNumber);
 	
-	if($this->isPostAndValid($form)){
+	$form->addCancelButton($this->_History->getPreviousUrl());
+	
+	if($this->isPostAndValid($form))
+	{
 	    try 
 	    {
 		$data	= $this->_params["person_phonenumber"];
