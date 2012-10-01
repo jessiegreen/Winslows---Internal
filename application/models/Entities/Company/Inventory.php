@@ -40,7 +40,7 @@ class Inventory extends \Dataservice_Doctrine_Entity
     /**
      * @param \Entities\Company $Company
      */
-    public function setLead(\Entities\Company $Company)
+    public function setCompany(\Entities\Company $Company)
     {
 	$this->Company = $Company;
     }
