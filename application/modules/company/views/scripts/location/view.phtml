@@ -9,9 +9,9 @@ echo "</div>";
 /* @var $Location \Entities\Company\Location */
 $Location		= $this->Location;
 $location_id		= $Location->getId();
- /* @var $LocationAddress \Entities\Company\Location\Address */
+ /* @var $LocationAddress \Entities\Location\Address */
 $LocationAddress	= $Location->getAddress();
-/* @var $LocationPhoneNumber \Entities\Company\Location\PhoneNumber */
+/* @var $LocationPhoneNumber \Entities\Location\PhoneNumber */
 $LocationPhoneNumber    = $Location->getPhoneNumber();
 ?>
 <div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
@@ -91,7 +91,8 @@ $LocationPhoneNumber    = $Location->getPhoneNumber();
 	</h3>
 	<div>
 	    <?php
-	    if($LocationPhoneNumber) {
+	    if($LocationPhoneNumber)
+	    {
 		?>
 		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
 		    <?php 

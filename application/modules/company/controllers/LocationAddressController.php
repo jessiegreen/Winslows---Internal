@@ -5,7 +5,7 @@ class Company_LocationAddressController extends Dataservice_Controller_Action
     public function editAction()
     {
 	/* @var $LocationAddress \Entities\Company\Location\Address */
-	$LocationAddress    = $this->getEntityFromParamFields("Company\Location\Address", array("id"));
+	$LocationAddress    = $this->getEntityFromParamFields("Location\Address", array("id"));
 	$form		    = new Forms\Company\Location\Address(array("method" => "post"), $LocationAddress);
 	
 	$form->addElement("button", "cancel", 

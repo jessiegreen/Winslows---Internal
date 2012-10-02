@@ -10,7 +10,7 @@ namespace Entities\Address;
  * @DiscriminatorMap({
  *			"person_address" = "\Entities\Person\Address", 
  *			"company_supplier_address" = "\Entities\Company\Supplier\Address", 
- *			"company_location_address" = "\Entities\Company\Location\Address"
+ *			"location_address" = "\Entities\Location\Address"
  *		    })
  * @HasLifecycleCallbacks
  */

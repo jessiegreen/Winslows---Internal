@@ -7,7 +7,10 @@ namespace Entities\Company\Inventory\Item;
  * @Table(name="company_inventory_item_itemabstracts") 
  * @InheritanceType("JOINED")
  * @DiscriminatorColumn(name="discr", type="string")
- * @DiscriminatorMap({"company_inventory_item_product_configurable" = "\Entities\Company\Inventory"})
+ * @DiscriminatorMap({
+ *			"company_inventory_item_product_configurable" = "\Entities\Company\Inventory\Item\ProductConfigurable",
+ *			"company_inventory_item_product_simple" = "\Entities\Company\Inventory\Item\ProductSimple"
+ *		    })
  * @HasLifecycleCallbacks
  */
 class ItemAbstract extends \Dataservice_Doctrine_Entity

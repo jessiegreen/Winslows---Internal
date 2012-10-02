@@ -87,6 +87,14 @@ class Company extends \Dataservice_Doctrine_Entity
      */
     private $Leads;
     
+    /**
+     * Bidirectional - One-To-Many (INVERSE SIDE)
+     *
+     * @OneToMany(targetEntity="\Entities\Company\Dealer", mappedBy="Company", cascade={"persist"})
+     * @var ArrayCollection $Dealers
+     */
+    private $Dealers;
+    
     public function __construct()
     {
 	$this->Employees    = new ArrayCollection();
@@ -94,6 +102,7 @@ class Company extends \Dataservice_Doctrine_Entity
 	$this->Suppliers    = new ArrayCollection();
 	$this->RtoProviders = new ArrayCollection();
 	$this->Leads	    = new ArrayCollection();
+	$this->Dealers	    = new ArrayCollection();
 	
 	parent::__construct();
     }
@@ -114,6 +123,24 @@ class Company extends \Dataservice_Doctrine_Entity
     public function getLocations()
     {
       return $this->Locations;
+    }
+    
+    /**
+     * @param \Entities\Company\Dealer $Dealer
+     */
+    public function addDealer(Company\Dealer $Dealer)
+    {
+	$Dealer->setCompany($this);
+	
+        $this->Dealers[] = $Dealer;
+    }
+    
+    /**
+     * @return array
+     */
+    public function getDealers()
+    {
+      return $this->Dealers;
     }
     
     /**

@@ -35,18 +35,16 @@ class LocationAbstract extends \Dataservice_Doctrine_Entity
     protected $type;
 
     /**
-     * @OneToOne(targetEntity="\Entities\Company\Location\Address", mappedBy="Location", cascade={"persist"}, orphanRemoval=true)
-     * @var Entities\Company\Location\Address $Address
+     * @OneToOne(targetEntity="\Entities\Location\Address", mappedBy="Location", cascade={"persist"}, orphanRemoval=true)
+     * @var Entities\Location\Address $Address
      */
     protected $Address;
     
     /**
-     * @OneToOne(targetEntity="\Entities\Company\Location\PhoneNumber", mappedBy="Location", cascade={"persist"}, orphanRemoval=true)
-     * @var \Entities\Company\Location\PhoneNumber $PhoneNumber
+     * @OneToOne(targetEntity="\Entities\Location\PhoneNumber", mappedBy="Location", cascade={"persist"}, orphanRemoval=true)
+     * @var \Entities\Location\PhoneNumber $PhoneNumber
      */
     protected $PhoneNumber;
-
-    
 
     /**
      * @return integer 
@@ -73,16 +71,16 @@ class LocationAbstract extends \Dataservice_Doctrine_Entity
     }
     
     /**
-     * @param \Entities\Company\Location\PhoneNumber $PhoneNumber
+     * @param \Entities\Location\PhoneNumber $PhoneNumber
      */
-    public function setPhoneNumber(Location\PhoneNumber $PhoneNumber)
+    public function setPhoneNumber(\Entities\Location\PhoneNumber $PhoneNumber)
     {
 	$PhoneNumber->setLocation($this);
         $this->PhoneNumber = $PhoneNumber;
     }
     
     /**
-     * @return \Entities\Company\Location\PhoneNumber
+     * @return \Entities\Location\PhoneNumber
      */
     public function getPhoneNumber()
     {
@@ -90,16 +88,16 @@ class LocationAbstract extends \Dataservice_Doctrine_Entity
     }
 
     /**
-     * @param \Entities\Company\Location\Address $Address
+     * @param \Entities\Location\Address $Address
      */
-    public function setAddress(Location\Address $Address)
+    public function setAddress(\Entities\Location\Address $Address)
     {
 	$Address->setLocation($this);
         $this->Address = $Address;
     }
     
     /**
-     * @return \Entities\Company\Location\Address
+     * @return \Entities\Location\Address
      */
     public function getAddress()
     {

@@ -68,9 +68,6 @@ class Location extends \Entities\Company\Location implements \Doctrine\ORM\Proxy
 
     public function getId()
     {
-        if ($this->__isInitialized__ === false) {
-            return (int) $this->_identifier["id"];
-        }
         $this->__load();
         return parent::getId();
     }
@@ -87,7 +84,7 @@ class Location extends \Entities\Company\Location implements \Doctrine\ORM\Proxy
         return parent::setName($name);
     }
 
-    public function setPhoneNumber(\Entities\Company\Location\PhoneNumber $PhoneNumber)
+    public function setPhoneNumber(\Entities\Location\PhoneNumber $PhoneNumber)
     {
         $this->__load();
         return parent::setPhoneNumber($PhoneNumber);
@@ -99,7 +96,7 @@ class Location extends \Entities\Company\Location implements \Doctrine\ORM\Proxy
         return parent::getPhoneNumber();
     }
 
-    public function setAddress(\Entities\Company\Location\Address $Address)
+    public function setAddress(\Entities\Location\Address $Address)
     {
         $this->__load();
         return parent::setAddress($Address);

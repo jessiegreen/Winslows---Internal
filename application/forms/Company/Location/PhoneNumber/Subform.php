@@ -1,6 +1,5 @@
 <?php
 namespace Forms\Company\Location\PhoneNumber;
-use Entities\Company\Location\PhoneNumber as PhoneNumber;
 /**
  * Name:
  * Location:
@@ -15,10 +14,9 @@ class Subform extends \Forms\PhoneNumber\Subform
 {
     private $_PhoneNumber;
     
-    public function __construct($options = null, PhoneNumber $PhoneNumber = null) {
+    public function __construct($options = null, \Entities\Location\PhoneNumber $PhoneNumber = null)
+    {
 	$this->_PhoneNumber = $PhoneNumber;
 	parent::__construct($options, $this->_PhoneNumber);
     }
 }
-
-?>

@@ -4,7 +4,7 @@ namespace Entities\Company\Inventory\Item;
 
 /** 
  * @Entity (repositoryClass="Repositories\Company\Inventory\Item\ProductSimples") 
- * @Table(name="company_inventory_item_productconfigurables") 
+ * @Table(name="company_inventory_item_productsimples") 
  * @HasLifecycleCallbacks
  */
 class ProductSimple extends ItemAbstract implements \Interfaces\Company\Inventory\Item

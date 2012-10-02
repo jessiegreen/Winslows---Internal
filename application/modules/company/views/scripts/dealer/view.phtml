@@ -1,0 +1,77 @@
+<?php 
+echo($this->flashMessages()); 
+echo "<div>";
+echo HTML::backAnchorIcon("Company - View", "/index/view/id/".$this->Dealer->getCompany()->getId());
+echo "</div>";
+?>
+<h1 class="header1">Dealer - View</h1>
+<?php
+/* @var $Dealer \Entities\Company\Dealer */
+$Dealer		= $this->Dealer;
+$dealer_id	= $Dealer->getId();
+$Locations	= $Dealer->getLocations();
+?>
+<div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
+    <h4 class="no_space" style="color: #2000EE;">
+	Info
+	<?php
+	echo HTML::anchorIcon(
+		"pencil.png", 
+		"", 
+		"/dealer/edit/id/".$dealer_id,
+		"margin-left:5px;"
+		);
+	?>
+    </h4>
+    <div>
+	Name: <?php echo $Dealer->getName(); ?> &nbsp;&nbsp;&nbsp; 
+	DBA: <?php echo $Dealer->getDba(); ?> <br /> 
+	Description: <span class="small"><?php echo $Dealer->getDescription(); ?></span>
+    </div>
+</div>
+<div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">
+    <div id="accordion">
+	<h3>
+	    <a href="#">Locations</a>
+	    <?php 
+		echo HTML::buttonBlue(
+		    "add.png", 
+		    "Add Location", 
+		    "location_add", 
+		    "float:right;width:130px;");
+	    ?>
+	</h3>
+	<div>
+	    <?php
+	    /* @var $Location \Entities\Company\Location */
+	    foreach ($Locations as $Location)
+	    {
+		?>
+		<div style="padding: 3px;margin-bottom: 3px;">
+		    <?php 
+		    echo $Location->getName();
+		    echo HTML::anchorIcon(
+			    "bullet_go.png", 
+			    "", 
+			    "/dealer-location/view/id/".$Location->getId(),
+			    "margin-left:5px;"
+			    );
+		    ?>
+		</div>
+		<?php
+	    }
+	    ?>
+	</div>
+	<hr />
+    </div>
+</div>
+<div class="padded_frame" style="width: 415px;float: right;padding-top: 0px;">
+    <h3><a href="#">Documents</a></h3>
+    <div>Put Documents here</div>
+    <hr />
+</div>
+<div style="clear: both;"><input type="hidden" id="dealer_id" value="<?php echo $dealer_id;?>" /></div>
+<script type="text/javascript">
+    Company_Dealer = new Company_Dealer();
+    Company_Dealer.AddLocationOnclickBind($("#location_add"));
+</script>
