@@ -1,6 +1,5 @@
 <?php
 namespace Forms\Company\Supplier\Address;
-use Entities\Company\Supplier\Address as Address;
 /**
  * Name:
  * Supplier:
@@ -15,8 +14,10 @@ class Subform extends \Forms\Address\Subform
 {    
     private $_Address;
     
-    public function __construct($options = null, Address $Address = null) {
+    public function __construct($options = null, Entities\Company\Supplier\Address $Address = null)
+    {
 	$this->_Address = $Address;
+	
 	parent::__construct($options, $this->_Address);
     }
     
@@ -25,5 +26,3 @@ class Subform extends \Forms\Address\Subform
 	parent::init($options);
     }
 }
-
-?>

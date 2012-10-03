@@ -71,13 +71,18 @@ class Dataservice_Controller_Action extends Zend_Controller_Action
     
     public function isPostAndValid(Zend_Form $form, $params = null)
     {
-	if($params === null){
+	if($params === null)
+	{
 	    $params = $this->_params;
 	}
-	if($this->_request->isPost()){
+	
+	if($this->_request->isPost())
+	{
 	    if($form->isValid($params))return true;
-	    else{
+	    else
+	    {
 		$form->populate($params);
+		
 		return false;
 	    }
 	}

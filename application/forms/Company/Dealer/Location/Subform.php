@@ -1,5 +1,5 @@
 <?php
-namespace Forms\Company\Location;
+namespace Forms\Company\Dealer\Location;
 /**
  * Name:
  * Location:
@@ -14,7 +14,7 @@ class Subform extends \Forms\Location\Subform
 {
     private $_Location;
     
-    public function __construct($options = null, \Entities\Company\Location $Location = null)
+    public function __construct($options = null, \Entities\Company\Dealer\Location $Location = null)
     {
 	$this->_Location = $Location;
 	
@@ -22,13 +22,13 @@ class Subform extends \Forms\Location\Subform
     }
     
     public function init()
-    {	
-	$this->addElement(new \Dataservice_Form_Element_CompanySelect("company_id", array(
+    {
+	$this->addElement(new \Dataservice_Form_Element_Company_DealerSelect("dealer_id", array(
             'required'	    => true,
-            'label'	    => 'Company:',
-	    'belongsTo'	    => 'company_location',
-	    'value'	    => $this->_Location && $this->_Location->getCompany() ? 
-				$this->_Location->getCompany()->getId() : 
+            'label'	    => 'Dealer:',
+	    'belongsTo'	    => 'company_dealer_location',
+	    'value'	    => $this->_Location && $this->_Location->getDealer() ? 
+				$this->_Location->getDealer()->getId() : 
 				""
         )));
 	

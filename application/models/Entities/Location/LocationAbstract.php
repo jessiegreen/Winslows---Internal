@@ -2,6 +2,8 @@
 
 namespace Entities\Location;
 
+use Doctrine\Common\Collections\ArrayCollection as ArrayCollection;
+
 /** 
  * @Entity (repositoryClass="Repositories\Location\LocationAbstract") 
  * @Table(name="location_locationabstracts") 
@@ -45,6 +47,35 @@ class LocationAbstract extends \Dataservice_Doctrine_Entity
      * @var \Entities\Location\PhoneNumber $PhoneNumber
      */
     protected $PhoneNumber;
+    
+    /**
+     * Bidirectional - One-To-Many (INVERSE SIDE)
+     *
+     * @OneToMany(targetEntity="\Entities\Company\Inventory\Item\ItemAbstract", mappedBy="Location", cascade={"persist"})
+     * @var ArrayCollection $InventoryItems
+     */
+    protected $InventoryItems;
+    
+    public function __construct()
+    {
+	$this->InventoryItems = new ArrayCollection();
+	
+	parent::__construct();
+    }
+    
+    /**
+     * @param \Entities\Company\Inventory\Item\ItemAbstract $Item
+     */
+    public function addInventoryItem(\Entities\Company\Inventory\Item\ItemAbstract $Item)
+    {
+	$Item->setLocation($this);
+	$this->InventoryItems->add($Item);
+    }
+    
+    public function getInventoryItems()
+    {
+	return $this->InventoryItems;
+    }
 
     /**
      * @return integer 

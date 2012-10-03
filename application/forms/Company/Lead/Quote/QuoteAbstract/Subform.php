@@ -18,6 +18,7 @@ class Subform extends \Zend_Form_SubForm
     public function __construct($options = null, QuoteAbstract $QuoteAbstract = null) 
     {
 	$this->_QuoteAbstract = $QuoteAbstract;
+	
 	parent::__construct($options);
     }
 }

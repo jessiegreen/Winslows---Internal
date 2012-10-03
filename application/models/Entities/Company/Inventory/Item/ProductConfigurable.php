@@ -25,6 +25,9 @@ class ProductConfigurable extends ItemAbstract implements \Interfaces\Company\In
 	return $this->Instance;
     }
     
+    /**
+     * @return array
+     */
     public function getDisplayFields()
     {
 	$Instance	= $this->getInstance();

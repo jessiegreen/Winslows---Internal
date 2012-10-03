@@ -17,6 +17,7 @@ class Subform extends \Zend_Form_SubForm
     public function __construct(\Entities\Company\Lead\Quote\Item $Item, $options = null)
     {
 	$this->_Item = $Item;
+	
 	parent::__construct($options);
     }
     
@@ -34,26 +35,29 @@ class Subform extends \Zend_Form_SubForm
 		)
 	    );
 	
-	$this->addElement(
-		"hidden", 
-		"instance_id", 
-		array(
-		    "required"	=> false,
-		    "value"	=> $this->_Item && $this->_Item->getInstance() ? $this->_Item->getInstance()->getId() : "",
-		    "belongsTo" => "quote",
-		)
-	    );
-	
 	if(!$this->_Item || !$this->_Item->getInstance())
 	{
-	    $this->addElement(new \Dataservice_Form_Element_ProductSelect("product_id", array(
+	    $this->addElement(new \Dataservice_Form_Element_Company_Supplier_ProductRadio("product_id", array(
 		'label'	    => 'Product:',
 		'belongsTo' => 'quote',
 		'value'	    => $this->_Item && $this->_Item->getInstance() && $this->_Item->getInstance()->getProduct()
 				    ? $this->_Item->getInstance()->getProduct()->getId() 
 				    : ""
-	    )));
-	    
+	    )));	    
+	}
+	else
+	{
+	    $this->addElement(
+		"hidden", 
+		"product_id", 
+		array(
+		    "required"	=> true,
+		    "value"	=> $this->_Item && $this->_Item->getInstance() && $this->_Item->getInstance()->getProduct()
+				    ? $this->_Item->getInstance()->getProduct()->getId() : "",
+		    "belongsTo" => "quote",
+		    'decorators' => array('ViewHelper')
+		)
+	    );
 	}
 	
 	$sales_options = \Services\Company\Lead\Quote\Item::factory()->getSaleTypeOptions($this->_Item);

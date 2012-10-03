@@ -38,6 +38,28 @@ class ItemAbstract extends \Dataservice_Doctrine_Entity
     protected $Inventory;
     
     /**
+     * @ManyToOne(targetEntity="\Entities\Location\LocationAbstract", inversedBy="InventoryItems")
+     * @var \Entities\Location\LocationAbstract $Location
+     */
+    protected $Location;
+    
+    /**
+     * @param \Entities\Location\LocationAbstract $Location
+     */
+    public function setLocation(\Entities\Location\LocationAbstract $Location)
+    {
+	$this->Location = $Location;
+    }
+    
+    /**
+     * @return \Entities\Location\LocationAbstract
+     */
+    public function getLocation()
+    {
+	return $this->Location;
+    }
+    
+    /**
      * @param \Entities\Company\Inventory $Inventory
      */
     public function setInventory(\Entities\Company\Inventory $Inventory)
@@ -83,5 +105,13 @@ class ItemAbstract extends \Dataservice_Doctrine_Entity
     public function getDescriminator()
     {
 	return static::TYPE_Base;
+    }
+    
+    /**
+     * @return array
+     */
+    public function getDisplayFields()
+    {
+	
     }
 }

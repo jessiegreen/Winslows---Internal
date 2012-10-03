@@ -132,6 +132,18 @@ class Company extends \Entities\Company implements \Doctrine\ORM\Proxy\Proxy
         return parent::getEmployees();
     }
 
+    public function setInventory(\Entities\Company\Inventory $Inventory)
+    {
+        $this->__load();
+        return parent::setInventory($Inventory);
+    }
+
+    public function getInventory()
+    {
+        $this->__load();
+        return parent::getInventory();
+    }
+
     public function getId()
     {
         if ($this->__isInitialized__ === false) {
@@ -228,7 +240,7 @@ class Company extends \Entities\Company implements \Doctrine\ORM\Proxy\Proxy
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'name', 'dba', 'name_index', 'description', 'created', 'updated', 'Locations', 'Suppliers', 'RtoProviders', 'Websites', 'Employees', 'Leads', 'Dealers');
+        return array('__isInitialized__', 'id', 'name', 'dba', 'name_index', 'description', 'created', 'updated', 'Locations', 'Suppliers', 'RtoProviders', 'Websites', 'Employees', 'Leads', 'Dealers', 'Inventory');
     }
 
     public function __clone()

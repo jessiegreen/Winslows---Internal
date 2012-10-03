@@ -1,7 +1,7 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo HTML::backAnchorIcon("Back ", $this->back);
+echo HTML::backAnchorIcon("Lead - View", "/lead/view/id/".$this->Quote->getLead()->getId());
 echo "</div>";
 ?>
 <h1 class="header1">Quote - View</h1>

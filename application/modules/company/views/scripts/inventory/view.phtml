@@ -1,0 +1,69 @@
+<?php 
+echo($this->flashMessages()); 
+echo "<div>";
+echo HTML::backAnchorIcon("Company - View", "/index/view/id/".$this->Inventory->getCompany()->getId());
+echo "</div>";
+?>
+<h1 class="header1">Inventory - View</h1>
+<?php
+/* @var $Inventory \Entities\Company\Inventory */
+$Inventory	= $this->Inventory;
+$inventory_id	= $Inventory->getId();
+$Items		= $Inventory->getItems();
+?>
+<div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
+    <h4 class="no_space" style="color: #2000EE;">
+	Info
+    </h4>
+    <div>
+	Company: <?php echo $Inventory->getCompany()->getName(); ?> &nbsp;&nbsp;&nbsp;
+    </div>
+</div>
+<div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">
+    <div id="accordion">
+	<h3>
+	    <a href="#">Items</a>
+	    <?php 
+		echo HTML::buttonBlue(
+		    "add.png", 
+		    "Add Configurable", 
+		    "configurable_add", 
+		    "float:right;width:130px;");
+	    ?>
+	</h3>
+	<div>
+	    <?php
+	    /* @var $Item \Entities\Company\Inventory\Item\ItemAbstract */
+	    if($Items->count() > 0)
+	    {
+		foreach ($Items as $Item)
+		{
+		    ?>
+		    <div style="padding: 3px;margin-bottom: 3px;">
+			<?php 
+			print_r($Item->getDisplayFields());
+			echo HTML::anchorIcon(
+				"bullet_go.png", 
+				"", 
+				"/inventory-item/view/id/".$Item->getId(),
+				"margin-left:5px;"
+				);
+			?>
+		    </div>
+		    <?php
+		}
+	    }
+	    else echo "No Items"; 
+	    ?>
+	</div>
+    </div>
+</div>
+<div class="padded_frame" style="width: 415px;float: right;padding-top: 0px;">
+    <h3><a href="#">Documents</a></h3>
+    <div>Put Documents here</div>
+</div>
+<div style="clear: both;"><input type="hidden" id="inventory_id" value="<?php echo $inventory_id;?>" /></div>
+<script type="text/javascript">
+    Company_Inventory = new Company_Inventory();
+    Company_Inventory.AddConfigurableOnclickBind($("#configurable_add"));
+</script>

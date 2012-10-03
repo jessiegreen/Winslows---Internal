@@ -6,7 +6,7 @@ echo "</div>";
 ?>
 <h1 class="header1">Quote Item - View</h1>
 <?php
-/* @var $RtoProvider \Entities\Company\RtoProvider */
+/* @var $Item \Entities\Company\Lead\Quote\Item */
 $Item	    = $this->Item;
 /* @var $Instance \Entities\Company\Supplier\Product\Instance */
 $Instance   = $Item->getInstance();
@@ -27,8 +27,9 @@ $quantity   = $Item->getQuantity();
 	?>
     </h4>
     <div>
+	Name:	    <?php echo $Item->getName();?> &nbsp;&nbsp;&nbsp;
 	Quantity:    <?php echo $quantity;?> &nbsp;&nbsp;&nbsp; 
-	Product:    <?php echo $Product->getName(); ?> &nbsp;&nbsp;&nbsp; 
+	Product:    <?php echo $Product->getName(); ?> &nbsp;&nbsp;&nbsp;
 	Sale Type:  <?php echo $Item->getSaleTypeDisplay(); ?> <br />
     </div>
 </div>

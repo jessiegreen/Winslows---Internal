@@ -95,6 +95,12 @@ class Company extends \Dataservice_Doctrine_Entity
      */
     private $Dealers;
     
+    /**
+     * @OneToOne(targetEntity="\Entities\Company\Inventory", mappedBy="Company", cascade={"persist"}, orphanRemoval=true)
+     * @var \Entities\Company\Inventory $Inventory
+     */
+    protected $Inventory;
+    
     public function __construct()
     {
 	$this->Employees    = new ArrayCollection();
@@ -235,6 +241,23 @@ class Company extends \Dataservice_Doctrine_Entity
     public function getEmployees()
     {
 	return $this->Employees;
+    }
+    
+    /**
+     * @param \Entities\Company\Inventory $Inventory
+     */
+    public function setInventory(Company\Inventory $Inventory)
+    {
+	$Inventory->setCompany($this);
+	$this->Inventory = $Inventory;
+    }
+    
+    /**
+     * @return Company\Inventory
+     */
+    public function getInventory()
+    {
+	return $this->Inventory;
     }
 
     /**

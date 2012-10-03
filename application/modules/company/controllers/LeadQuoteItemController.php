@@ -18,19 +18,21 @@ class Company_LeadQuoteItemController extends Dataservice_Controller_Action
     
     public function editAction()
     {
-	$Item  = $this->_getItem();
+	$Item	    = $this->_getItem();
+	$quote_id   = $this->_request->getParam("quote_id");
 	
-	if(!$Item->getId() && isset($this->_params["quote_id"]) && ($Quote = $this->_getQuote()) && $Quote->getId())
+	if(!$Item->getId() && $quote_id && ($Quote = $this->_getQuote()) && $Quote->getId())
 	{
 	    $Item->setQuote($Quote);
 	}
 	
 	$form = new Forms\Company\Lead\Quote\Item($Item, array("method" => "post"));
 	
-	if(!$Item->getInstance())$form->getSubform("company_lead_quote_item")->getElement("product_id")->setAttrib("required", true);
-	
-	$form->addCancelButton($this->_History->getPreviousUrl(1));
-	
+	if($form->getSubform("company_lead_quote_item")->getElement("product_id"))
+	    $form->getSubform("company_lead_quote_item")->getElement("product_id")->setAttrib("required", true);
+
+	$form->addCancelButton($this->_History->getPreviousUrl());
+
 	if($this->isPostAndValid($form))
 	{
 	    $valid = true;
@@ -39,7 +41,7 @@ class Company_LeadQuoteItemController extends Dataservice_Controller_Action
 	    {
 		$item_data  = $this->_params["company_lead_quote_item"];
 		
-		if($item_data["instance_id"] > 0)
+		if(isset($item_data["instance_id"]) && $item_data["instance_id"] > 0)
 		{
 		    /* @var $Instance \Entities\Company\Supplier\Product\Instance\InstanceAbstract */
 		    $Instance = $this->_em->find("Entities\Company\Supplier\Product\Instance\InstanceAbstract", $item_data["instance_id"]);

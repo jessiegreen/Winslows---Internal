@@ -102,6 +102,18 @@ class Lead extends \Entities\Company\Lead implements \Doctrine\ORM\Proxy\Proxy
         return parent::setAccount($Account);
     }
 
+    public function getCompany()
+    {
+        $this->__load();
+        return parent::getCompany();
+    }
+
+    public function setCompany(\Entities\Company $Company)
+    {
+        $this->__load();
+        return parent::setCompany($Company);
+    }
+
     public function getContactOptionsArray()
     {
         $this->__load();
@@ -255,7 +267,7 @@ class Lead extends \Entities\Company\Lead implements \Doctrine\ORM\Proxy\Proxy
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'first_name', 'middle_name', 'last_name', 'suffix', 'created', 'updated', 'Addresses', 'Documents', 'PhoneNumbers', 'EmailAddresses', 'Employee', 'Contacts', 'Quotes', 'Applications', 'Account');
+        return array('__isInitialized__', 'id', 'first_name', 'middle_name', 'last_name', 'suffix', 'created', 'updated', 'Addresses', 'Documents', 'PhoneNumbers', 'EmailAddresses', 'Employee', 'Contacts', 'Quotes', 'Applications', 'Account', 'Company');
     }
 
     public function __clone()
