@@ -20,12 +20,13 @@ function Company_Inventory()
 //    });
 //}
 
-Company_Inventory.prototype.AddLocationOnclickBind = function(element)
+Company_Inventory.prototype.AddItemOnclickBind = function(element)
 {
     element.click(function()
     {
-	dealer_id  = $("#dealer_id").val()
-	location    ='/dealer-location/edit/id/0/dealer_id/' + dealer_id;
+	inventory_id	= $("#inventory_id").val();
+	product_id	= $("#product_select").val();
+	location	= '/inventory/add-item/id/' + inventory_id + '/product_id/' + product_id;
     });
 }
 

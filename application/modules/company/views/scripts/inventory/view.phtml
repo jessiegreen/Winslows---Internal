@@ -19,51 +19,62 @@ $Items		= $Inventory->getItems();
 	Company: <?php echo $Inventory->getCompany()->getName(); ?> &nbsp;&nbsp;&nbsp;
     </div>
 </div>
-<div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">
+<div class="padded_frame" style="float: left;padding-top: 0px;">
     <div id="accordion">
 	<h3>
 	    <a href="#">Items</a>
 	    <?php 
 		echo HTML::buttonBlue(
 		    "add.png", 
-		    "Add Configurable", 
-		    "configurable_add", 
-		    "float:right;width:130px;");
+		    "Add Item", 
+		    "item_add", 
+		    "float:right;margin-left:5px;");
+		
+		$select = new Dataservice_Form_Element_ProductSelect(
+					    "product_select", 
+					    array(
+						"decorators"	=> array("ViewHelper"),
+						"id"		=> "product_select",
+						"style"		=> "float:right"
+						)
+					);
+		echo $select;
 	    ?>
 	</h3>
-	<div>
+	<div style="width: 800px;height:250px;overflow: auto;">
+	    <table style="font-size: 10px;width:3000px;text-align: center;">
 	    <?php
+	    $keys = array();
 	    /* @var $Item \Entities\Company\Inventory\Item\ItemAbstract */
 	    if($Items->count() > 0)
 	    {
 		foreach ($Items as $Item)
 		{
-		    ?>
-		    <div style="padding: 3px;margin-bottom: 3px;">
-			<?php 
-			print_r($Item->getDisplayFields());
-			echo HTML::anchorIcon(
+		    $display_array  = $Item->getInstance()->getDisplayArray();
+		    $display_keys   = array_keys($display_array);
+		    
+		    if(count(array_diff_key($display_keys, $keys)) > 0)
+			    echo "<tr><th>&nbsp</th><th>Location</th><th>".implode ("</th><th>", $display_keys)."</th></tr>";
+		    
+		    $keys = $display_keys;
+		    
+		    $button = HTML::anchorIcon(
 				"bullet_go.png", 
 				"", 
 				"/inventory-item/view/id/".$Item->getId(),
 				"margin-left:5px;"
 				);
-			?>
-		    </div>
-		    <?php
+		    echo "<tr><td>$button</td><td>".($Item->getLocation() ? $Item->getLocation()->getName() : "-")."</td><td>".implode ("</td><td>", $display_array)."</td></tr>";
 		}
 	    }
 	    else echo "No Items"; 
 	    ?>
+	    </table>
 	</div>
     </div>
-</div>
-<div class="padded_frame" style="width: 415px;float: right;padding-top: 0px;">
-    <h3><a href="#">Documents</a></h3>
-    <div>Put Documents here</div>
 </div>
 <div style="clear: both;"><input type="hidden" id="inventory_id" value="<?php echo $inventory_id;?>" /></div>
 <script type="text/javascript">
     Company_Inventory = new Company_Inventory();
-    Company_Inventory.AddConfigurableOnclickBind($("#configurable_add"));
+    Company_Inventory.AddItemOnclickBind($("#item_add"));
 </script>

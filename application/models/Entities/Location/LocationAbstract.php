@@ -51,7 +51,7 @@ class LocationAbstract extends \Dataservice_Doctrine_Entity
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="\Entities\Company\Inventory\Item\ItemAbstract", mappedBy="Location", cascade={"persist"})
+     * @OneToMany(targetEntity="\Entities\Company\Inventory\Item", mappedBy="Location", cascade={"persist"})
      * @var ArrayCollection $InventoryItems
      */
     protected $InventoryItems;
@@ -66,7 +66,7 @@ class LocationAbstract extends \Dataservice_Doctrine_Entity
     /**
      * @param \Entities\Company\Inventory\Item\ItemAbstract $Item
      */
-    public function addInventoryItem(\Entities\Company\Inventory\Item\ItemAbstract $Item)
+    public function addInventoryItem(\Entities\Company\Inventory\Item $Item)
     {
 	$Item->setLocation($this);
 	$this->InventoryItems->add($Item);

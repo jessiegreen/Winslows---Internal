@@ -24,7 +24,7 @@ class Inventory extends \Dataservice_Doctrine_Entity
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="\Entities\Company\Inventory\Item\ItemAbstract", mappedBy="Inventory", cascade={"persist"})
+     * @OneToMany(targetEntity="\Entities\Company\Inventory\Item", mappedBy="Inventory", cascade={"persist"})
      * @var \Doctrine\Common\Collections\ArrayCollection $Items
      */
     protected $Items;
@@ -53,7 +53,7 @@ class Inventory extends \Dataservice_Doctrine_Entity
 	$this->Company = $Company;
     }
     
-    public function addItem(Inventory\Item\ItemAbstract $Item)
+    public function addItem(Inventory\Item $Item)
     {
 	$Item->setInventory($this);
 	$this->Items->add($Item);

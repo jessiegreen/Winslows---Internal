@@ -218,4 +218,49 @@ class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstr
 	    }
 	);
     }
+    
+    /**
+     * @return array
+     */
+    public function getDisplayArray()
+    {
+	/** @var Entities\Company\Supplier\Product\Configurable $Configurable */
+	$Configurable	= $this->getProduct();
+	
+	$static_array = array(
+	    "Part#"	=> $Configurable->getPartNumber(),
+	    "Supplier"	=> $Configurable->getSupplier()->getName(),
+	    "Name"	=> $Configurable->getName(),
+	    "Price"	=> $this->getPriceSafe()->getPrice()
+	);
+	
+	$options_array	= array();
+	
+	/* @var $ConfigurableOption \Entities\Company\Supplier\Product\Configurable\Option */	
+	/* @var $InstanceOption \Entities\Company\Supplier\Product\Configurable\Instance\Option */
+	/* @var $InstanceValue \Repositories\Company\Supplier\Product\Configurable\Option\Parameter\Value */
+	
+	foreach ($Configurable->getOptionsOrderedByCategory() as $ConfigurableOption)
+	{
+	    $option_key_name	    = $ConfigurableOption->getName()." - ";
+	    $parameter_key_names    = array();
+	    $value_key_names	    = array();
+	    
+	    /* @var $Parameter \Entities\Company\Supplier\Product\Configurable\Option\Parameter */
+	    foreach($ConfigurableOption->getParameters() as $Parameter)
+	    {
+		$parameter_key_names[] = $Parameter->getName();
+		
+		$InstanceValue = $this->getFirstValueFromIndexes($ConfigurableOption->getIndex(), $Parameter->getIndex());
+		
+		if($InstanceValue)$value_key_names[] = $InstanceValue->getName();
+		else $value_key_names[] = "--";
+	    }
+	    
+	    $option_key_name			.= implode("/", $parameter_key_names);
+	    $options_array[$option_key_name]	= implode("/", $value_key_names);
+	}
+	
+	return array_merge($static_array, $options_array);
+    }
 }

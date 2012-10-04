@@ -41,4 +41,16 @@ class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstr
 	
 	return $Price;
     }
+    
+    public function getDisplayArray()
+    {
+	$Simple = $this->getProduct();
+	
+	return array(
+	    "Part#"	=> $Simple->getPartNumber(),
+	    "Supplier"	=> $Simple->getSupplier()->getName(),
+	    "Name"	=> $Simple->getName(),
+	    "Price"	=> $Simple->getPrice()->getPrice()
+	);
+    }
 }

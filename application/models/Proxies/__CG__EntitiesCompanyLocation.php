@@ -66,7 +66,7 @@ class Location extends \Entities\Company\Location implements \Doctrine\ORM\Proxy
         return parent::getEmployees();
     }
 
-    public function addInventoryItem(\Entities\Company\Inventory\Item\ItemAbstract $Item)
+    public function addInventoryItem(\Entities\Company\Inventory\Item $Item)
     {
         $this->__load();
         return parent::addInventoryItem($Item);
