@@ -53,4 +53,16 @@ class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstr
 	    "Price"	=> $Simple->getPrice()->getPrice()
 	);
     }
+    
+    /**
+     * @return \Entities\Company\Supplier\Product\Simple\Instance
+     */
+    public function cloneInstance()
+    {
+	$Clone = new Instance($this->getProduct());
+	
+	$Clone->setNote("Cloned from Instance id:".$this->getId());
+	
+	return $Clone;
+    }
 }

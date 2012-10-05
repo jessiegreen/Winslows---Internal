@@ -1,0 +1,79 @@
+<?php 
+echo($this->flashMessages()); 
+echo "<div>";
+echo HTML::backAnchorIcon("RTO Provider - View", "/rto-provider/view/id/".$this->Program->getRtoProvider()->getId());
+echo "</div>";
+?>
+<h1 class="header1">RTO Provider Program - View</h1>
+<?php
+/* @var $Program \Entities\Company\RtoProvider\Program */
+$Program    = $this->Program;
+$program_id = $Program->getId();
+$Products   = $Program->getProducts();
+?>
+<div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
+    <h4 class="no_space" style="color: #2000EE;">
+	Info
+	<?php
+	echo HTML::anchorIcon(
+		"pencil.png", 
+		"", 
+		"/rto-provider-program/edit/id/".$program_id,
+		"margin-left:5px;"
+		);
+	?>
+    </h4>
+    <div>
+	Name: <?php echo $Program->getName(); ?> &nbsp;&nbsp;&nbsp; 
+	Index: <?php echo $Program->getNameIndex(); ?>
+    </div>
+</div>
+<div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">
+    <div id="accordion">
+	<h3>
+	    <a href="#">Products</a>
+	    <?php
+		echo HTML::buttonBlue(
+			"text_list_bullets.png", 
+			"Manage", 
+			"products_manage", 
+			"float:right;width:80px;margin-left:5px;"
+			);
+	    ?>
+	</h3>
+	<div>
+	    <?php
+	    /* @var $Product \Entities\Company\Supplier\Product\ProductAbstract */
+	    foreach ($Products as $Product)
+	    {
+		?>
+		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
+		    <?php 
+		    echo $Product->getName();
+		    echo HTML::anchorIcon(
+			    "bullet_go.png", 
+			    "", 
+			    "/supplier-product/view/id/".$Product->getId(),
+			    "margin-left:5px;"
+			    );
+		    ?>
+		</h4>
+		<label>Type: </label>
+		<div style="display: inline;"><?php echo $Product->getDescriminator(); ?></div>
+		<?php
+	    }
+	    ?>
+	</div>
+	<hr />
+    </div>
+</div>
+<div class="padded_frame" style="width: 415px;float: right;padding-top: 0px;">
+    <h3><a href="#">Documents</a></h3>
+    <div>Put Documents here</div>
+    <hr />
+</div>
+<div style="clear: both;"><input type="hidden" id="program_id" value="<?php echo $program_id;?>" /></div>
+<script type="text/javascript">
+    Company_RtoProvider_Program = new Company_RtoProvider_Program();
+    Company_RtoProvider_Program.ManageProductsOnclickBind($("#products_manage"));
+</script>

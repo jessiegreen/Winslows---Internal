@@ -1,5 +1,5 @@
 <?php
-namespace Services;
+namespace Services\Company;
 
 class RtoProvider extends \Dataservice_Service_ServiceAbstract
 {   

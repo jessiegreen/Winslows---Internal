@@ -31,7 +31,7 @@ class Subform extends \Zend_Form_SubForm
 		    "description" => "Customer friendly name for the Item. (Optional)",
 		    "required"	=> false,
 		    "value"	=> $this->_Item ? $this->_Item->getName() : "",
-		    "belongsTo" => "quote",
+		    "belongsTo" => "company_lead_quote_item",
 		)
 	    );
 	
@@ -39,7 +39,7 @@ class Subform extends \Zend_Form_SubForm
 	{
 	    $this->addElement(new \Dataservice_Form_Element_Company_Supplier_ProductRadio("product_id", array(
 		'label'	    => 'Product:',
-		'belongsTo' => 'quote',
+		'belongsTo' => 'company_lead_quote_item',
 		'value'	    => $this->_Item && $this->_Item->getInstance() && $this->_Item->getInstance()->getProduct()
 				    ? $this->_Item->getInstance()->getProduct()->getId() 
 				    : ""
@@ -54,22 +54,20 @@ class Subform extends \Zend_Form_SubForm
 		    "required"	=> true,
 		    "value"	=> $this->_Item && $this->_Item->getInstance() && $this->_Item->getInstance()->getProduct()
 				    ? $this->_Item->getInstance()->getProduct()->getId() : "",
-		    "belongsTo" => "quote",
+		    "belongsTo" => "company_lead_quote_item",
 		    'decorators' => array('ViewHelper')
 		)
 	    );
 	}
 	
-	$sales_options = \Services\Company\Lead\Quote\Item::factory()->getSaleTypeOptions($this->_Item);
-	
-	$this->addElement("select", "sale_type", 
-			    array(
-				"label"		=> "Sale Type",
-				"multioptions"  => $sales_options,
-				"required"	=> true,
-				'validators'	=> array(new \Dataservice_Validate_Company_Lead_Quote_Item_SaleType()),
-				"value"		=> $this->_Item  ? $this->_Item->getSaleType() : ""
-			    ));
+	$this->addElement(new \Dataservice_Form_Element_Company_Lead_Quote_Item_SaleTypeSelect("sale_type_id", array(
+		'label'		=> 'Sale Type:',
+		'belongsTo'	=> 'company_lead_quote_item',
+		'validators'	=> array(new \Dataservice_Validate_Company_Lead_Quote_Item_SaleType()),
+		'value'		=> $this->_Item && $this->_Item->getSaleType() && $this->_Item->getSaleType()->getId()
+				    ? $this->_Item->getSaleType()->getId() 
+				    : ""
+	    )));
 	
 	foreach(range(1, 50) as $i)
 	{
@@ -84,7 +82,7 @@ class Subform extends \Zend_Form_SubForm
 		    "required"	    => true,
 		    "value"	    => $this->_Item ? $this->_Item->getQuantity() : 0,
 		    "multioptions"  => $options,
-		    "belongsTo"	    => "quote",
+		    "belongsTo"	    => "company_lead_quote_item",
 		)
 	    );
 	

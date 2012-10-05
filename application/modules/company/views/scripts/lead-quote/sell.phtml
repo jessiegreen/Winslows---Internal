@@ -17,9 +17,21 @@ $can_checkout	= true;
 	/* @var $Item \Entities\Company\Lead\Quote\Item */
 	foreach($Quote->getItems() as $Item)
 	{
-	    if($Item->isRtoSaleType())
+	    if(!$Item->getSaleType())
 	    {
-		$Application = $Item->getQuote()->getLead()->getApplication($Item->getSaleType());
+		echo "<div class='red padded_frame'>";
+		    echo HTML::buttonBlue(
+			    "bullet_go.png", 
+			    "Sale Type Not Set", "", "", 
+			    "view_item", 
+			    "item_id='".$Item->getId()."' "
+			)."&nbsp;";
+		    
+		    $can_checkout = false;
+	    }
+	    elseif($Item->isRtoSaleType())
+	    {
+		$Application = $Item->getQuote()->getLead()->getApplication($Item->getSaleType()->getProgram()->getRtoProvider()->getNameIndex());
 		
 		if(!$Application)
 		{
@@ -29,7 +41,7 @@ $can_checkout	= true;
 			    "Application Required", "", "", 
 			    "application_edit", 
 			    "lead_id='".$Item->getQuote()->getLead()->getId()."' rto_provider_id='".
-			    Services\RtoProvider::factory()->findByIndex($Item->getSaleType())->getId()."' "
+			    $Item->getSaleType()->getProgram()->getRtoProvider()->getId()."' "
 			)."&nbsp;";
 		    
 		    $can_checkout = false;
@@ -67,4 +79,5 @@ $can_checkout	= true;
 <script type="text/javascript">
     Q = new Quote();
     Q.ApplicationOnClickBind($(".application_edit"));
+    Q.ViewItemOnClickBind($(".view_item"));
 </script>

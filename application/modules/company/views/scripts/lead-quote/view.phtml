@@ -42,10 +42,15 @@ $Items		= $quote->getItems();
     <div id="accordion">
 	<h3>
 	    <a href="#">Items</a>
-	    <?php echo HTML::buttonBlue(
+	    <?php 
+	    echo HTML::buttonBlue(
 		    "add.png", 
-		    "Add Item", "quote_item_add", 
-		    "float:right;width:110px;");
+		    "Add New Item", "quote_item_add", 
+		    "float:right;margin-left:5px;");
+	    echo HTML::buttonBlue(
+		    "add.png", 
+		    "Add Inventory Item", "inventory_quote_item_add", 
+		    "float:right;");
 	    ?>
 	</h3>
 	<div>
@@ -110,6 +115,7 @@ $Items		= $quote->getItems();
 <script type="text/javascript">
     Quote = new Quote();
     Quote.AddItemOnClickBind($("#quote_item_add"));
+    Quote.AddInventoryItemOnClickBind($("#inventory_quote_item_add"));
     Quote.ViewItemOnClickBind($(".quote_item_view"));
     Quote.PrintOnClickBind($("#quote_print"));
     Quote.SellOnClickBind($("#quote_sell"));

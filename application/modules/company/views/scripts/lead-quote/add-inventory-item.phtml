@@ -1,0 +1,58 @@
+<?php 
+echo($this->flashMessages()); 
+echo "<div>";
+echo HTML::backAnchorIcon("Quote - View", "/lead-quote/view/id/".$this->Quote->getId());
+echo "</div>";
+?>
+<h1 class="header1">
+    Add Inventory Item To Quote
+</h1>
+<div class="padded_frame" style="padding-top: 0;padding-left: 0;">
+    <div style="width:800px;overflow: auto;">
+	<form action="" method="post">
+	    <table style="font-size: 10px;width:3000px;text-align: center;">
+		<?php
+		$Items = $this->Quote->getLead()->getCompany()->getInventory()->getItems();
+		$keys = array();
+		/* @var $Item \Entities\Company\Inventory\Item\ItemAbstract */
+		if($Items->count() > 0)
+		{
+		    foreach ($Items as $Item)
+		    {
+			$display_array  = $Item->getInstance()->getDisplayArray();
+			$display_keys   = array_keys($display_array);
+
+			if($display_keys != $keys)
+				echo "<tr><th>&nbsp</th><th>Location</th><th>".implode ("</th><th>", $display_keys)."</th></tr>";
+
+			$keys = $display_keys;
+
+			$button = HTML::buttonIcon(
+				    "bullet_add.png", 
+				    "", 
+				    "",
+				    "inventory_item_add",
+				    "margin-left:5px;",
+				    "item_id='".$Item->getId()."'"
+				    );
+			echo "<tr><td>$button</td><td>".($Item->getLocation() ? $Item->getLocation()->getName() : "-")."</td><td>".implode ("</td><td>", $display_array)."</td></tr>";
+		    }
+		}
+		else echo "No Items"; 
+		?>
+		</table>
+	    <input type="hidden" id="inventory_item_id" name="inventory_item_id" value="" />
+	</form>
+    </div>
+</div>
+<script type="text/javascript">
+    $(".inventory_item_add").click(function(e)
+    {
+	element = $(e.target);
+	item_id = element.attr("item_id");
+	
+	$("#inventory_item_id").val(item_id);
+	
+	$("form").submit();
+    })
+</script>

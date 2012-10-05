@@ -128,4 +128,16 @@ class Option extends \Dataservice_Doctrine_Entity
 	
 	return false;
     }
+    
+    public function cloneOption()
+    {
+	$Clone = new Option($this->getOption());
+	
+	foreach ($this->getValues() as $Value)
+	{
+	    $Clone->addValue($Value);
+	}
+	
+	return $Clone;
+    }
 }

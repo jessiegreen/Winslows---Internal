@@ -35,18 +35,11 @@ class Company_LeadQuoteItemController extends Dataservice_Controller_Action
 
 	if($this->isPostAndValid($form))
 	{
-	    $valid = true;
-	    
 	    try 
 	    {
 		$item_data  = $this->_params["company_lead_quote_item"];
-		
-		if(isset($item_data["instance_id"]) && $item_data["instance_id"] > 0)
-		{
-		    /* @var $Instance \Entities\Company\Supplier\Product\Instance\InstanceAbstract */
-		    $Instance = $this->_em->find("Entities\Company\Supplier\Product\Instance\InstanceAbstract", $item_data["instance_id"]);
-		}
-		elseif($item_data["product_id"] > 0)
+
+		if(!$Item->getInstance())
 		{
 		    $Product = $this->_em->find("Entities\Company\Supplier\Product\ProductAbstract", $item_data["product_id"]);
 		    
@@ -55,16 +48,22 @@ class Company_LeadQuoteItemController extends Dataservice_Controller_Action
 			$class	    = "Entities\Company\Supplier\Product\\".$Product->getDescriminator()."\Instance";
 			/* @var $Instance Entities\Company\Supplier\Product\Instance\InstanceAbstract */
 			$Instance   = new $class($Product);
+			
+			if($Instance)$Item->setInstance($Instance);
 		    }
-		    else
-		    {
-			$valid = false;
-		    }
+		    
+		    $Item->getInstance()->setNote("Added To Quote #".$Item->getQuote()->getId());
 		}
 		
-		$Instance->setNote("Added To Quote #".$Item->getQuote()->getId());
-		
-		if($Instance)$Item->setInstance($Instance);
+		if($item_data["sale_type_id"])
+		{
+		    $SaleType = Services\Company\Lead\Quote\Item\SaleType::factory()->find($item_data["sale_type_id"]);
+		    
+		    if($SaleType)
+		    {
+			$Item->setSaleType($SaleType);
+		    }
+		}
 		
 		$Item->populate($item_data);
 		$this->_em->persist($Item);
@@ -108,7 +107,7 @@ class Company_LeadQuoteItemController extends Dataservice_Controller_Action
     }
     
     /**
-     * @return Entities\Company\Quote
+     * @return Entities\Company\Lead\Quote
      */
     private function _getQuote()
     {
@@ -116,7 +115,7 @@ class Company_LeadQuoteItemController extends Dataservice_Controller_Action
 	return $this->_em->find("Entities\Company\Lead\Quote", $id);
     }
     
-    private function _CheckRequiredLeadExists(\Entities\Company\Quote $Quote)
+    private function _CheckRequiredLeadExists(\Entities\Company\Lead\Quote $Quote)
     {
 	if(!$Quote->getId())
 	{

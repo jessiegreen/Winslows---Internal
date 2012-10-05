@@ -15,64 +15,6 @@ class Company_RtoProviderController extends Dataservice_Controller_Action
 	parent::init();
     }
     
-    public function manageProductsAction()
-    {
-	/* @var $RtoProvider Entities\Company\RtoProvider */
-	$RtoProvider	= $this->getEntityFromParamFields("Company\RtoProvider", array("id"));
-	
-	if($RtoProvider)
-	{	    
-	    $form = new Forms\RtoProvider\ManageProducts($RtoProvider, array("method" => "post"));
-	    
-	    $form->addCancelButton($this->_History->getPreviousUrl(1));
-	    
-	    if($this->isPostAndValid($form))
-	    {
-		try 
-		{
-		    $data		= $this->_params["rto_provider_manageproducts"];
-		    $products		= $data["products_checks"];
-		    $current_products	= array();
-		    
-		    foreach ($RtoProvider->getProducts() as $Product)
-		    {
-			if(!in_array($Product->getId(), $products)){
-			    $RtoProvider->removeProduct($Product);
-			}
-
-			$current_products[] = $Product->getId();
-		    }
-
-		    foreach ($products as $product) 
-		    {
-			if(!in_array($product, $current_products))
-			{
-			    $Product = $this->_em->find("\Entities\Company\Supplier\Product\ProductAbstract", $product);
-			    $RtoProvider->addProduct($Product);
-			}
-		    }
-		    
-		    $this->_em->persist($RtoProvider);
-		    $this->_em->flush();
-		    $this->_FlashMessenger->addSuccessMessage("Product saved.");
-		    $this->_History->goBack();
-		}
-		catch (Exception $exc)
-		{
-		    $this->_FlashMessenger->addErrorMessage($exc->getMessage());
-		    $this->_History->goBack();
-		}
-	    }
-	}
-	else
-	{
-	    $this->_FlashMessenger->addErrorMessage("Could not get RtoProvider");
-	    $this->_History->goBack();
-	}
-	
-	$this->view->form = $form;
-    }
-    
     public function viewAction()
     {
 	$RtoProvider = $this->getEntityFromParamFields("Company\RtoProvider", array("id"));
@@ -107,7 +49,7 @@ class Company_RtoProviderController extends Dataservice_Controller_Action
 	    }
 	}
 	
-	$form = new Forms\RtoProvider(array("method" => "post"), $RtoProvider);
+	$form = new Forms\Company\RtoProvider(array("method" => "post"), $RtoProvider);
 	
 	$form->addCancelButton($this->_History->getPreviousUrl());
 	

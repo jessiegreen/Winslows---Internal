@@ -10,7 +10,7 @@
  *
  * @author jgreen
  */
-class Dataservice_Form_Element_RtoProvider_Products_MultiCheckbox extends Zend_Form_Element_MultiCheckbox
+class Dataservice_Form_Element_Company_RtoProvider_Program_ProductsMultiCheckbox extends Zend_Form_Element_MultiCheckbox
 {
     public function init()
     {

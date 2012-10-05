@@ -8,4 +8,6 @@ interface InstanceAbstract
     public function getPriceSafe();
     
     public function getDisplayArray();
+    
+    public function cloneInstance();
 }

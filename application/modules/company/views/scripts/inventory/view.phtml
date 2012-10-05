@@ -53,7 +53,7 @@ $Items		= $Inventory->getItems();
 		    $display_array  = $Item->getInstance()->getDisplayArray();
 		    $display_keys   = array_keys($display_array);
 		    
-		    if(count(array_diff_key($display_keys, $keys)) > 0)
+		    if($display_keys != $keys)
 			    echo "<tr><th>&nbsp</th><th>Location</th><th>".implode ("</th><th>", $display_keys)."</th></tr>";
 		    
 		    $keys = $display_keys;

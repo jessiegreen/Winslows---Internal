@@ -1,5 +1,5 @@
 <?php
-namespace Forms\RtoProvider;
+namespace Forms\Company\RtoProvider;
 /**
  * Name:
  * Company:
@@ -10,21 +10,21 @@ namespace Forms\RtoProvider;
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Application extends \Dataservice_Form
+class Program extends \Dataservice_Form
 {
-    private $_Application;
+    private $_Program;
     
-    public function __construct(\Entities\Company\RtoProvider\Application $Application, $options = null)
+    public function __construct(\Entities\Company\RtoProvider\Program $Program, $options = null)
     {
-	$this->_Application = $Application;
+	$this->_Program = $Program;
 	parent::__construct($options);
     }
     
     public function init($options = array())
     {	
-        $form = new Application\Subform($this->_Application, $options);
+        $form = new Program\Subform($this->_Program, $options);
 	
-	$this->addSubForm($form, "company_rto_provider_application");
+	$this->addSubForm($form, "company_rto_provider_program");
 	
 	$this->addElement('submit', 'submit', array(
             'ignore'   => true,

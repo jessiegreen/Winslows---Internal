@@ -58,16 +58,17 @@ class ProductAbstract extends \Dataservice_Doctrine_Entity
     protected $Categories;
     
     /**
-     * @ManytoMany(targetEntity="\Entities\Company\RtoProvider", inversedBy="Products", cascade={"persist"})
-     * @JoinTable(name="company_supplier_product_rtoprovider_joins")
-     * @var ArrayCollection $RtoProviders
+     * @ManytoMany(targetEntity="\Entities\Company\RtoProvider\Program", inversedBy="Products", cascade={"persist"})
+     * @JoinTable(name="company_supplier_product_program_joins")
+     * @var ArrayCollection $Programs
      */
-    protected $RtoProviders;
+    protected $Programs;
 
     public function __construct()
     {
 	$this->RtoProviders = new ArrayCollection();
 	$this->Categories   = new ArrayCollection();
+	$this->Programs	    = new ArrayCollection();
 	
 	parent::__construct();
     }
@@ -114,28 +115,28 @@ class ProductAbstract extends \Dataservice_Doctrine_Entity
     }
     
     /**
-     * @param \Entities\Company\RtoProvider $RtoProvider
+     * @param \Entities\Company\RtoProvider\Program $Program
      */
-    public function addRtoProvider(\Entities\Company\RtoProvider $RtoProvider)
+    public function addProgram(\Entities\Company\RtoProvider\Program $Program)
     {
-	if(!$this->RtoProviders->contains($RtoProvider))
-	    $this->RtoProviders[] = $RtoProvider;
+	if(!$this->Programs->contains($Program))
+	    $this->Programs[] = $Program;
     }
     
     /**
-     * @param \Entities\Company\RtoProvider $RtoProvider
+     * @param \Entities\Company\RtoProvider\Program $Program
      */
-    public function removeRtoProvider(\Entities\Company\RtoProvider $RtoProvider)
+    public function removeProgram(\Entities\Company\RtoProvider\Program $Program)
     {
-	$this->RtoProviders->removeElement($RtoProvider);
+	$this->Programs->removeElement($Program);
     }
     
     /**
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
-    public function getRtoProviders()
+    public function getPrograms()
     {
-	return $this->RtoProviders;
+	return $this->Programs;
     }
 
     /**

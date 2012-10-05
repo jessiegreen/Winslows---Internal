@@ -120,6 +120,12 @@ class Instance extends \Entities\Company\Supplier\Product\Configurable\Instance 
         return parent::getDisplayArray();
     }
 
+    public function cloneInstance()
+    {
+        $this->__load();
+        return parent::cloneInstance();
+    }
+
     public function getId()
     {
         $this->__load();

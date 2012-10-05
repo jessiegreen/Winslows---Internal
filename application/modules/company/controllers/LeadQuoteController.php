@@ -24,15 +24,18 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
     
     public function editAction()
     {
-	$Quote  = $this->_getQuote();
+	$Quote	    = $this->_getQuote();
+	$lead_id    = $this->_request->getParam("lead_id");
 	
-	if(!$Quote->getId() && isset($this->_params["lead_id"]) && ($Lead = $this->_getLead()) && $Lead->getId())
+	if(!$Quote->getId())
 	{
-	    $Quote->setLead($Lead);
-	    
-	    $Employee = Services\Auth::factory()->getIdentityPerson();
-	    
-	    $Quote->setEmployee($Employee);
+	    if($lead_id)
+	    {
+		$Lead = $this->_em->getRepository("Entities\Company\Lead")->find($lead_id);
+		
+		if($Lead)
+		    $Quote->setLead($Lead);
+	    }
 	}
 	
 	$form = new Forms\Company\Lead\Quote(array("method" => "post"), $Quote);
@@ -45,11 +48,8 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
 	    {
 		$quote_data = $this->_params["company_lead_quote"];
 		$Lead	    = $this->_em->find("Entities\Company\Lead", $quote_data["lead_id"]);
-		$Employee   = $this->_em->find("Entities\Company\Employee", $quote_data["employee_id"]);
 		
 		if($Lead)$Quote->setLead($Lead);
-		
-		if($Employee)$Quote->setEmployee($Employee);
 		
 		$Quote->populate($quote_data);
 		$this->_em->persist($Quote);
@@ -67,6 +67,53 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
 	
 	$this->view->form	= $form;
 	$this->view->Quote	= $Quote;
+    }
+    
+    public function addInventoryItemAction()
+    {
+	$Quote = $this->_getQuote();
+	
+	$this->_CheckRequiredQuoteExists($Quote);
+	
+	if($this->_request->isPost())
+	{
+	    $inventory_item_id = $this->_request->getParam("inventory_item_id");
+	    
+	    if($inventory_item_id)
+	    {
+		$Item = $this->_em->getRepository("Entities\Company\Inventory\Item")->find($inventory_item_id);
+		
+		if($Item)
+		{
+		    try
+		    {
+			/* @var $Instance Entities\Company\Supplier\Product\Instance\InstanceAbstract */
+			$Instance	= $Item->getInstance();
+			$clonedInstance = $Instance->cloneInstance();
+			$QuoteItem	= new Entities\Company\Lead\Quote\Item;
+			
+			$QuoteItem->setInstance($clonedInstance);
+			$QuoteItem->setName("");
+			$QuoteItem->setQuantity(1);
+
+			$Quote->addItem($QuoteItem);
+
+			$this->_em->persist($Quote);
+			$this->_em->flush();
+			
+			$this->_FlashMessenger->addSuccessMessage("Item Added");
+		    } 
+		    catch (Exception $exc)
+		    {
+			$this->_FlashMessenger->addErrorMessage($exc->getMessage());
+		    }
+		}
+	    }
+	    
+	    $this->_History->goBack();
+	}
+	
+	$this->view->Quote = $Quote;
     }
     
     public function itemremoveAction()

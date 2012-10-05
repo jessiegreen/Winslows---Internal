@@ -54,12 +54,6 @@ class RtoProvider extends \Dataservice_Doctrine_Entity
     protected $Company;
     
     /**
-     * @ManytoMany(targetEntity="\Entities\Company\Supplier\Product\ProductAbstract", mappedBy="RtoProviders", cascade={"ALL"})
-     * @var ArrayCollection $Products
-     */
-    protected $Products;
-    
-    /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="\Entities\Company\RtoProvider\Application", mappedBy="RtoProvider", cascade={"persist"})
@@ -67,10 +61,19 @@ class RtoProvider extends \Dataservice_Doctrine_Entity
      */
     protected $Applications;
     
+    /**
+     * Bidirectional - One-To-Many (INVERSE SIDE)
+     *
+     * @OneToMany(targetEntity="\Entities\Company\RtoProvider\Program", mappedBy="RtoProvider", cascade={"persist"})
+     * @var ArrayCollection $Programs
+     */
+    protected $Programs;
+    
     public function __construct()
     {
 	$this->Products	    = new ArrayCollection();
 	$this->Applications = new ArrayCollection();
+	$this->Programs	    = new ArrayCollection();
 	
 	parent::__construct();
     }
@@ -91,27 +94,27 @@ class RtoProvider extends \Dataservice_Doctrine_Entity
     /**
      * @return ArrayCollection
      */
-    public function getProducts()
+    public function getPrograms()
     {
-	return $this->Products;
+	return $this->Programs;
     }
     
     /**
-     * @param \Entities\Company\Supplier\Product\ProductAbstract $Product
+     * @param RtoProvider\Program $Application
      */
-    public function addProduct(\Entities\Company\Supplier\Product\ProductAbstract $Product)
+    public function addProgram(RtoProvider\Program $Program)
     {
-	if(!$this->getProducts()->contains($Product))
-	{
-	    $Product->addRtoProvider($this);
-	    $this->Products[] = $Product;
-	}
+	$Program->setRtoProvider($this);
+	
+	$this->Programs[] = $Program;
     }
     
-    public function removeProduct(\Entities\Company\Supplier\Product\ProductAbstract $Product)
+    /**
+     * @param RtoProvider\Program $Program
+     */
+    public function removeProgram(RtoProvider\Program $Program)
     {
-	$Product->removeRtoProvider($this);
-	$this->getProducts()->removeElement($Product);
+	$this->getPrograms()->removeElement($Program);
     }
     
     /**

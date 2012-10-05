@@ -9,7 +9,7 @@ echo "</div>";
 /* @var $RtoProvider \Entities\Company\RtoProvider */
 $RtoProvider	    = $this->RtoProvider;
 $rto_provider_id    = $RtoProvider->getId();
-$Products	    = $RtoProvider->getProducts();
+$Programs	    = $RtoProvider->getPrograms();
 ?>
 <div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
     <h4 class="no_space" style="color: #2000EE;">
@@ -32,34 +32,33 @@ $Products	    = $RtoProvider->getProducts();
 <div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">
     <div id="accordion">
 	<h3>
-	    <a href="#">Products</a>
+	    <a href="#">Programs</a>
 	    <?php
 		echo HTML::buttonBlue(
-			"text_list_bullets.png", 
-			"Manage", 
-			"products_manage", 
-			"float:right;width:80px;margin-left:5px;"
+			"add.png", 
+			"Add Program", 
+			"program_add", 
+			"float:right;margin-left:5px;"
 			);
 	    ?>
 	</h3>
 	<div>
 	    <?php
-	    /* @var $Product \Entities\Company\Supplier\Product\ProductAbstract */
-	    foreach ($Products as $Product) {
+	    /* @var $Program \Entities\Company\RtoProvider\Program */
+	    foreach ($Programs as $Program)
+	    {
 		?>
-		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
+		<div style="padding: 3px;margin-bottom: 3px;">
 		    <?php 
-		    echo $Product->getName();
+		    echo $Program->getName();
 		    echo HTML::anchorIcon(
 			    "bullet_go.png", 
 			    "", 
-			    "/supplier-product/view/id/".$Product->getId(),
+			    "/rto-provider-program/view/id/".$Program->getId(),
 			    "margin-left:5px;"
 			    );
 		    ?>
-		</h4>
-		<label>Type: </label>
-		<div style="display: inline;"><?php echo $Product->getDescriminator(); ?></div>
+		</div>
 		<?php
 	    }
 	    ?>
@@ -75,5 +74,5 @@ $Products	    = $RtoProvider->getProducts();
 <div style="clear: both;"><input type="hidden" id="rto_provider_id" value="<?php echo $rto_provider_id;?>" /></div>
 <script type="text/javascript">
     RtoProvider = new RtoProvider();
-    RtoProvider.ManageProductsOnclickBind($("#products_manage"));
+    RtoProvider.AddProgramOnclickBind($("#program_add"));
 </script>

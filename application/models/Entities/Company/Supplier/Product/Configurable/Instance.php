@@ -263,4 +263,24 @@ class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstr
 	
 	return array_merge($static_array, $options_array);
     }
+    
+    /**
+     * @return \Entities\Company\Supplier\Product\Configurable\Instance
+     */
+    public function cloneInstance()
+    {
+	$Clone = new Instance($this->getProduct());
+	
+	/* @var $Option \Entities\Company\Supplier\Product\Configurable\Instance\Option */
+	foreach ($this->getOptions() as $Option)
+	{
+	    $CloneOption = $Option->cloneOption();
+	    
+	    $Clone->addOption($CloneOption);
+	}
+	
+	$Clone->setNote("Cloned from Instance id:".$this->getId());
+	
+	return $Clone;
+    }
 }

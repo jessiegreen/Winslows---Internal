@@ -1,5 +1,5 @@
 <?php
-namespace Forms\RtoProvider\ManageProducts;
+namespace Forms\Company\RtoProvider\Program\ManageProducts;
 /**
  * Name:
  * Product:
@@ -12,11 +12,12 @@ namespace Forms\RtoProvider\ManageProducts;
  */
 class Subform extends \Zend_Form_SubForm
 {
-    private $_RtoProvider;
+    private $_Program;
     
-    public function __construct(\Entities\Company\RtoProvider $RtoProvider, $options = null)
+    public function __construct(\Entities\Company\RtoProvider\Program $Program, $options = null)
     {
-	$this->_RtoProvider = $RtoProvider;
+	$this->_Program = $Program;
+	
 	parent::__construct($options);
     }
     
@@ -24,21 +25,19 @@ class Subform extends \Zend_Form_SubForm
     {	
 	$values = array();
 	
-	if($this->_RtoProvider)
+	if($this->_Program)
 	{
-	    foreach($this->_RtoProvider->getProducts() as $Product)
+	    foreach($this->_Program->getProducts() as $Product)
 	    {
 		$values[] = $Product->getId();
 	    }
 	}
 	
-	$this->addElement(new \Dataservice_Form_Element_RtoProvider_Products_MultiCheckbox("products_checks", array(
+	$this->addElement(new \Dataservice_Form_Element_Company_RtoProvider_Program_ProductsMultiCheckbox("products_checks", array(
             'required'	    => false,
             'label'	    => 'Products:',
-	    'belongsTo'	    => 'rto_provider_manageproducts',
+	    'belongsTo'	    => 'company_rto_provider_manageproducts',
 	    'value'	    => $values
         )));
     }
 }
-
-?>

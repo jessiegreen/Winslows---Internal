@@ -1,5 +1,5 @@
 <?php
-namespace Forms\RtoProvider;
+namespace Forms\Company;
 /**
  * Name:
  * Company:
@@ -10,21 +10,21 @@ namespace Forms\RtoProvider;
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class ManageProducts extends \Dataservice_Form
-{
+class RtoProvider extends \Dataservice_Form
+{    
     private $_RtoProvider;
     
-    public function __construct(\Entities\Company\RtoProvider $RtoProvider, $options = null)
+    public function __construct($options = null, \Entities\Company\RtoProvider $RtoProvider = null)
     {
 	$this->_RtoProvider = $RtoProvider;
-	parent::__construct($options);
+	parent::__construct($options, $this->_RtoProvider);
     }
     
     public function init($options = array())
     {	
-        $form = new ManageProducts\Subform($this->_RtoProvider, $options);
+        $form = new RtoProvider\Subform($options, $this->_RtoProvider);
 	
-	$this->addSubForm($form, "rto_provider_manageproducts");
+	$this->addSubForm($form, "company_rto_provider");
 	
 	$this->addElement('submit', 'submit', array(
             'ignore'   => true,

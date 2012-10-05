@@ -73,7 +73,7 @@ class Company_RtoProviderApplicationController extends Dataservice_Controller_Ac
 	}
 	else $RtoProvider = $Application->getRtoProvider ();
 	
-	$form = new Forms\RtoProvider\Application($Application, array("method" => "post"));
+	$form = new Forms\Company\RtoProvider\Application($Application, array("method" => "post"));
 	
 	$form->addCancelButton($this->_History->getPreviousUrl());
 	

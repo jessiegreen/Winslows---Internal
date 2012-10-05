@@ -32,16 +32,6 @@ class Subform extends QuoteAbstract\Subform
 				: ""
         )));
 	
-	$this->addElement(new \Dataservice_Form_Element_EmployeeSelect("employee_id", array(
-            'required'	    => true,
-            'label'	    => 'Sales Person:',
-	    'belongsTo'	    => 'quote',
-	    'value'	    => $this->_Quote && 
-				    $this->_Quote->getEmployee()
-				? $this->_Quote->getEmployee()->getId() 
-				: ""
-        )));
-	
 	parent::init();
     }
 }

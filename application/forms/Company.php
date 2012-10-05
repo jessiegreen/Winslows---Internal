@@ -17,6 +17,7 @@ class Company extends \Zend_Form
     public function __construct($options = null, \Entities\Company $Company = null)
     {
 	$this->_Company = $Company;
+	
 	parent::__construct($options, $this->_Company);
     }
     

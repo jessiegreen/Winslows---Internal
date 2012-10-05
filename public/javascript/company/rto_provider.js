@@ -20,12 +20,12 @@ RtoProvider.prototype.AddOnclickBind = function(element)
     });
 }
 
-RtoProvider.prototype.ManageProductsOnclickBind = function(element)
+RtoProvider.prototype.AddProgramOnclickBind = function(element)
 {
     element.click(function()
     {
-	rto_provider_id  = $("#rto_provider_id").val()
-	location    ='/rto-provider/manage-products/id/'+rto_provider_id;
+	rto_provider_id	    = $("#rto_provider_id").val()
+	location	    = '/rto-provider-program/edit/id/0/rto_provider_id/' + rto_provider_id;
     });
 }
 

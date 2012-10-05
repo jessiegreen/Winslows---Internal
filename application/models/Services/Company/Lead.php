@@ -60,9 +60,11 @@ class Lead extends \Dataservice_Service_ServiceAbstract
     {
 	$Employee   = \Services\Auth::factory()->getIdentityPerson();
 	
-	if($Employee->getAccount()->hasRole('Admin') || $Employee->getAccount()->hasRole('Sales_Manager')){
+	if($Employee->hasRole('Web Admin') || $Employee->hasRole('Sales Manager'))
+	{
 	    return $this->_em->getRepository("Entities\Company\Lead")->findBy(array(), array("last_name" => "ASC", "first_name" => "ASC"));
 	}
+	
 	/* @var $Employee \Entities\Company\Employee */
 	return $Employee->getLeads();
     }

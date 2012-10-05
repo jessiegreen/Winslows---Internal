@@ -67,7 +67,7 @@ class Company_InventoryController extends Dataservice_Controller_Action
 		    $this->_em->persist($Inventory);
 		    $this->_em->flush();
 		    
-		    $this->_redirect("/inventory-item/id/".$InventoryItem->getId());
+		    $this->_redirect("/inventory-item/view/id/".$InventoryItem->getId());
 		} 
 		catch (Exception $exc)
 		{

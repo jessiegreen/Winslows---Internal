@@ -1,5 +1,5 @@
 <?php
-namespace Forms\RtoProvider\Application;
+namespace Forms\Company\RtoProvider\Application;
 /**
  * Name:
  * Product:

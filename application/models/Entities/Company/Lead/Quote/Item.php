@@ -22,11 +22,11 @@ class Item extends \Dataservice_Doctrine_Entity
      */
     protected $quantity;
     
-    /** 
-     * @Column(type="string")
-     * @var string $sale_type
+    /**
+     * @ManyToOne(targetEntity="\Entities\Company\Lead\Quote\Item\SaleType\SaleTypeAbstract", inversedBy="Items")
+     * @var \Entities\Company\Lead\Quote\Item\SaleType\SaleTypeAbstract $SaleType
      */
-    protected $sale_type;
+    protected $SaleType;
     
     /** 
      * @Column(type="string")
@@ -121,19 +121,19 @@ class Item extends \Dataservice_Doctrine_Entity
     }
     
     /**
-     * @param string $sale_type
+     * @param Item\SaleType\SaleTypeAbstract $SaleType
      */
-    public function setSaleType($sale_type)
+    public function setSaleType(Item\SaleType\SaleTypeAbstract $SaleType)
     {
-	$this->sale_type = $sale_type;
+	$this->SaleType = $SaleType;
     }
     
     /**
-     * @return string
+     * @return Item\SaleType\SaleTypeAbstract
      */
     public function getSaleType()
     {
-	return $this->sale_type;
+	return $this->SaleType;
     }
     
     /**
@@ -141,7 +141,7 @@ class Item extends \Dataservice_Doctrine_Entity
      */
     public function isRtoSaleType()
     {
-	if(!$this->getSaleType() || $this->getSaleType() === $this->cash_sale_type_index)
+	if(!$this->getSaleType() || $this->getSaleType()->getDescriminator() !== "Rto")
 	    return false;
 	
 	return true;
@@ -152,11 +152,8 @@ class Item extends \Dataservice_Doctrine_Entity
      */
     public function getSaleTypeDisplay()
     {
-	$options = \Services\Company\Lead\Quote\Item::factory()->getSaleTypeOptions($this);
+	if($this->getSaleType())return $this->getSaleType()->getName();
 	
-	if(key_exists($this->sale_type, $options))
-	    return $options[$this->sale_type];
-	
-	return "";
+	return "Not Set";
     }
 }
