@@ -10,9 +10,10 @@
  *
  * @author jgreen
  */
-class Dataservice_Form_Element_LeadSelect extends Zend_Form_Element_Select {
-    public function init() {	
-	
+class Dataservice_Form_Element_LeadSelect extends Zend_Form_Element_Select
+{
+    public function init()
+    {		
         $this->addMultiOption("", 'Please select...');
 	
 	$options = array();
@@ -27,5 +28,3 @@ class Dataservice_Form_Element_LeadSelect extends Zend_Form_Element_Select {
 	$this->addMultiOptions($options);
     }
 }
-
-?>

@@ -1,5 +1,6 @@
 <?php
 namespace Entities\Company\Lead\Quote\Item\SaleType;
+
 /** 
  * @Entity (repositoryClass="Repositories\Company\Lead\Quote\Item\SaleType\Rto") 
  * @Table(name="company_lead_quote_item_saletype_rtos") 
@@ -62,13 +63,44 @@ class Rto extends \Entities\Company\Lead\Quote\Item\SaleType\SaleTypeAbstract
 	
     }
     
-    public function getDue()
+    public function getProductPrice(\Dataservice_Price $Price)
     {
+	$ProductPrice = $this->getPaymentsAmountPrice($Price);
 	
+	$ProductPrice->multiply($this->getPaymentsCount());
+	
+	return $ProductPrice;
     }
     
-    public function getFees()
+    public function getFeesPrice(\Dataservice_Price $Price)
     {
+	$FeesPrice = new \Dataservice_Price();
 	
+	/* @var $Fee \Entities\Company\RtoProvider\Program\Fee\FeeAbstract */
+	foreach($this->getProgram()->getFees() as $Fee)
+	{
+	    $FeePrice = $Fee->getFeePrice($Price);
+	    
+	    $FeesPrice->addPrice($FeePrice);
+	}
+	
+	return $FeesPrice;
+    }
+    
+    public function getDownPaymentPrice(\Dataservice_Price $Price)
+    {
+	return $this->getDownPaymentPrice($Price);
+    }
+    
+    public function getPaymentsCount()
+    {
+	return $this->getProgram()->getPaymentCount();
+    }
+    
+    public function getPaymentsAmountPrice(\Dataservice_Price $Price)
+    {
+	$Price->divide($this->getProgram()->getFactor());
+	
+	return $Price;
     }
 }

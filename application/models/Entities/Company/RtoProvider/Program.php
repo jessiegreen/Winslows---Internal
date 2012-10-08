@@ -2,6 +2,8 @@
 
 namespace Entities\Company\RtoProvider;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * @Entity (repositoryClass="Repositories\Company\RtoProvider\Program") 
  * @Table(name="company_rtoprovider_programs")
@@ -29,6 +31,18 @@ class Program extends \Dataservice_Doctrine_Entity
     protected $name_index;
     
     /** 
+     * @Column(type="integer", length=5) 
+     * @var integer $payment_count
+     */
+    protected $payment_count;
+    
+    /**
+     * @Column(type="decimal", precision=40, scale=2)
+     * @var integer $factor
+     */
+    protected $factor;
+    
+    /** 
      * @ManyToOne(targetEntity="\Entities\Company\RtoProvider", inversedBy="Programs")
      * @var \Entities\Company\RtoProvider
      */  
@@ -39,6 +53,20 @@ class Program extends \Dataservice_Doctrine_Entity
      * @var ArrayCollection $Products
      */
     protected $Products;
+    
+    /**
+     * @ManytoMany(targetEntity="\Entities\Company\RtoProvider\Program\Fee\FeeAbstract", mappedBy="Programs", cascade={"ALL"})
+     * @var ArrayCollection $Fees
+     */
+    protected $Fees;
+    
+    public function __construct()
+    {
+	$this->Products = new ArrayCollection();
+	$this->Fees	= new ArrayCollection();
+	
+	parent::__construct();
+    }
     
     /**
      * @return \Entities\Company\RtoProvider
@@ -83,6 +111,32 @@ class Program extends \Dataservice_Doctrine_Entity
     }
     
     /**
+     * @return ArrayCollection
+     */
+    public function getFees()
+    {
+	return $this->Fees;
+    }
+    
+    /**
+     * @param \Entities\Company\Supplier\Product\ProductAbstract $Fee
+     */
+    public function addFee(Program\Fee\FeeAbstract $Fee)
+    {
+	if(!$this->getFees()->contains($Fee))
+	{
+	    $Fee->addProgram($this);
+	    $this->Fees[] = $Fee;
+	}
+    }
+    
+    public function removeFee(Program\Fee\FeeAbstract $Fee)
+    {
+	$Fee->removeProgram($this);
+	$this->getFees()->removeElement($Fee);
+    }
+    
+    /**
      * @return integer 
      */
     public function getId()
@@ -104,6 +158,38 @@ class Program extends \Dataservice_Doctrine_Entity
     public function setName($name)
     {
         $this->name = $name;
+    }
+    
+    /**
+     * @return integer
+     */
+    public function getPaymentCount()
+    {
+        return $this->payment_count;
+    }
+
+    /**
+     * @param integer $payment_count
+     */
+    public function setPaymentCount($payment_count)
+    {
+        $this->payment_count = $payment_count;
+    }
+    
+    /**
+     * @return integer
+     */
+    public function getFactor()
+    {
+        return $this->factor;
+    }
+
+    /**
+     * @param type $factor
+     */
+    public function setFactor($factor)
+    {
+        $this->factor = $factor;
     }
     
     /**

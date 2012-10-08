@@ -43,5 +43,19 @@ class Subform extends \Zend_Form_SubForm
 	    'belongsTo'	    => 'company_rto_provider_program',
 	    'value'	    => $this->_Program ? $this->_Program->getNameIndex() : ""
         ));
+	
+	$this->addElement('text', 'payment_count', array(
+            'required'	    => true,
+            'label'	    => 'Payment Count:',
+	    'belongsTo'	    => 'company_rto_provider_program',
+	    'value'	    => $this->_Program ? $this->_Program->getPaymentCount() : ""
+        ));
+	
+	$this->addElement('text', 'factor', array(
+            'required'	    => true,
+            'label'	    => 'Payment Factor:',
+	    'belongsTo'	    => 'company_rto_provider_program',
+	    'value'	    => $this->_Program ? $this->_Program->getFactor() : ""
+        ));
     }
 }

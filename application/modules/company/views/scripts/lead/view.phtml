@@ -6,13 +6,15 @@ echo "</div>";
 ?>
 <h1 class="header1">Lead - View</h1>
 <?php
-$lead	= $this->Lead;
+/* @var $lead \Entities\Company\Lead */
+$lead		= $this->Lead;
 $lead_id	= $lead->getId();
 $addresses	= $lead->getAddresses();
 $phones		= $lead->getPhoneNumbers();
 $emails		= $lead->getEmailAddresses();
 $contacts	= $lead->getContacts();
 $quotes		= $lead->getQuotes();
+$Applications	= $lead->getApplications();
 ?>
 <div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
     <h4 class="no_space" style="color: #2000EE;">
@@ -153,6 +155,32 @@ $quotes		= $lead->getQuotes();
 	    }
 	    ?>
 	</div>
+	<hr />
+	<h3>
+	    <a href="#">Rto Applications</a>
+	</h3>
+	<div>
+	    <?php
+	    /* @var $Application \Entities\Company\RtoProvider\Application */
+	    foreach ($Applications as $Application)
+	    {
+		?>
+		<div style="padding: 3px;margin-bottom: 3px;">
+		    <?php 
+		    echo $Application->getRtoProvider()->getDba();
+		    echo HTML::anchorIcon(
+			    "bullet_go.png", 
+			    "", 
+			    "/rto-provider-application/edit/id/".$Application->getId(),
+			    "margin-left:5px;"
+			    );
+		    ?>
+		</div>
+		<?php
+	    }
+	    ?>
+	</div>
+	<hr />
     </div>
 </div>
 <div class="padded_frame" style="width: 415px;float: right;padding-top: 0px;">

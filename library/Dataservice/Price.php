@@ -33,7 +33,34 @@ class Dataservice_Price
     {
 	$int		    = round($int, 2);
 	$this->_price	    += $int;
-	$this->_history[]    = "+".$int;
+	$this->_history[]   = "+".$int;
+    }
+    
+    /**
+     * @param int $int
+     */
+    public function multiply($int)
+    {
+	$int		    = round($int, 2);
+	$this->_price	    *= $int;
+	$this->_history[]   = "*".$int;
+    }
+    
+    /**
+     * @param int $int
+     */
+    public function divide($int)
+    {
+	$int		    = round($int, 2);
+	$this->_price	    /= $int;
+	$this->_history[]   = "/".$int;
+    }
+    
+    public function addPrice(Dataservice_Price $Price)
+    {
+	$this->add($Price->getPrice());
+	
+	$this->_details = array_merge($this->_details, $Price->getDetails());
     }
     
     /**

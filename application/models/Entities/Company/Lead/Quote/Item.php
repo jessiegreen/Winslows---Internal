@@ -46,8 +46,6 @@ class Item extends \Dataservice_Doctrine_Entity
      */
     protected $Instance;
     
-    protected $cash_sale_type_index = "cash";
-    
     /**
      * @return integer
      */
@@ -155,5 +153,134 @@ class Item extends \Dataservice_Doctrine_Entity
 	if($this->getSaleType())return $this->getSaleType()->getName();
 	
 	return "Not Set";
+    }
+    
+    public function getTotalWithFeesPrice()
+    {
+	$Price = $this->getTotalWithFeesEachPrice();
+	
+	$Price->multiply($this->getQuantity());
+	
+	return $Price;
+    }
+    
+    /**
+     * @return \Dataservice_Price
+     */
+    public function getTotalWithFeesEachPrice()
+    {
+	$Price = new \Dataservice_Price();
+	
+	$Price->addPrice($this->getProductEachPrice());	
+	$Price->addPrice($this->getFeesEachPrice());
+	
+	return $Price;
+    }
+    
+    public function getDueAtSaleEachPrice()
+    {
+	$Price = new \Dataservice_Price();
+	
+	$Price->addPrice($this->getDownPaymentEachPrice());
+	$Price->addPrice($this->getFeesEachPrice());
+	
+	return $Price;
+    }
+    
+    public function getDueAtSaleTotalPrice()
+    {
+	$Price = $this->getDueAtSaleEachPrice();
+	
+	$Price->multiply($this->quantity);
+	
+	return $Price;
+    }
+    
+    public function getRemainderDueEachPrice()
+    {
+	$Price = $this->getProductEachPrice();
+	
+	$Price->subtract($this->getDownPaymentEachPrice());
+	
+	return $Price;
+    }
+    
+    public function getRemainderDueTotalPrice()
+    {
+	$Price = $this->getRemainderDueEachPrice();
+	
+	$Price->multiply($this->getQuantity());
+	
+	return $Price;
+    }
+    
+    public function getFeesEachPrice()
+    {
+	$Price = new \Dataservice_Price();
+	
+	$this->getSaleType()->getFeesPrice($this->_getInstancePrice());
+	
+	return $Price;
+    }
+    
+    public function getFeesTotalPrice()
+    {
+	$Price = $this->getFeesEachPrice();
+	
+	$Price->multiply($this->getQuantity());
+	
+	return $Price;
+    }
+    
+    public function getProductEachPrice()
+    {
+	return $this->getSaleType()->getProductPrice($this->_getInstancePrice());
+    }
+    
+    public function getProductTotalPrice()
+    {
+	$Price = $this->getProductEachPrice();
+	
+	$Price->multiply($this->getQuantity());
+	
+	return $Price;
+    }
+    
+    public function getDownPaymentEachPrice()
+    {
+	return $this->getSaleType()->getDownPaymentPrice($this->_getInstancePrice());
+    }
+    
+    public function getRemainingPaymentsCount()
+    {
+	return ($this->getSaleType()->getPaymentsCount($this->_getInstancePrice()) - 1);
+    }
+    
+    public function getRemainingPaymentsAmountEach()
+    {
+	return $this->getSaleType()->getPaymentsAmountPrice($this->_getInstancePrice());
+    }
+    
+    public function getRemainingPaymentsAmountTotal()
+    {
+	$Price = $this->getRemainingPaymentsAmountEach();
+	
+	$Price->multiply($this->getQuantity());
+	
+	return $Price;
+    }
+    
+    public function getDownPaymentTotalPrice()
+    {
+	$Price = $this->getDownPaymentEachPrice();
+	
+	$Price->multiply($this->getQuantity());
+	
+	return $Price;
+    }
+    
+    private function _getInstancePrice()
+    {
+	return $this->getInstance()->getPriceSafe();
     }
 }

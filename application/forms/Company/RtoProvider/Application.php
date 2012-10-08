@@ -17,6 +17,7 @@ class Application extends \Dataservice_Form
     public function __construct(\Entities\Company\RtoProvider\Application $Application, $options = null)
     {
 	$this->_Application = $Application;
+	
 	parent::__construct($options);
     }
     
@@ -25,7 +26,6 @@ class Application extends \Dataservice_Form
         $form = new Application\Subform($this->_Application, $options);
 	
 	$this->addSubForm($form, "company_rto_provider_application");
-	
 	$this->addElement('submit', 'submit', array(
             'ignore'   => true,
         ));

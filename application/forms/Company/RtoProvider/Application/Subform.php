@@ -17,6 +17,7 @@ class Subform extends \Zend_Form_SubForm
     public function __construct(\Entities\Company\RtoProvider\Application $Application, $options = null)
     {
 	$this->_Application = $Application;
+	
 	parent::__construct($options);
     }
     
@@ -40,7 +41,8 @@ class Subform extends \Zend_Form_SubForm
 				    )),
 
 				),
-				"required"	=> true
+				"required"	=> true,
+				"value"		=> $this->_Application ? $this->_Application->getPoints() : ""
 			    ));
     }
 }

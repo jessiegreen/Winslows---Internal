@@ -83,12 +83,27 @@ class SaleTypeAbstract extends \Dataservice_Doctrine_Entity implements \Interfac
 	
     }
     
-    public function getDue()
+    public function getProductPrice(\Dataservice_Price $Price)
     {
 	
     }
     
-    public function getFees()
+    public function getFeesPrice(\Dataservice_Price $Price)
+    {
+	
+    }
+    
+    public function getDownPaymentPrice(\Dataservice_Price $Price)
+    {
+	
+    }
+    
+    public function getPaymentsCount()
+    {
+	
+    }
+    
+    public function getPaymentsAmountPrice(\Dataservice_Price $Price)
     {
 	
     }

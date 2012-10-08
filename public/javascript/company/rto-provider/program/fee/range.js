@@ -1,9 +1,9 @@
-function Company_RtoProvider_Program()
+function Company_RtoProvider_Program_Fee_Range()
 {
     
 }
 
-Company_RtoProvider_Program.prototype.EditOnclickBind = function(element)
+Company_RtoProvider_Program_Fee_Range.prototype.EditOnclickBind = function(element)
 {
     element.click(function(e)
     {
@@ -12,7 +12,7 @@ Company_RtoProvider_Program.prototype.EditOnclickBind = function(element)
     });
 }
 
-Company_RtoProvider_Program.prototype.AddOnclickBind = function(element)
+Company_RtoProvider_Program_Fee_Range.prototype.AddOnclickBind = function(element)
 {
     element.click(function()
     {
@@ -20,7 +20,7 @@ Company_RtoProvider_Program.prototype.AddOnclickBind = function(element)
     });
 }
 
-Company_RtoProvider_Program.prototype.ManageProductsOnclickBind = function(element)
+Company_RtoProvider_Program_Fee_Range.prototype.ManageProductsOnclickBind = function(element)
 {
     element.click(function()
     {
@@ -29,7 +29,7 @@ Company_RtoProvider_Program.prototype.ManageProductsOnclickBind = function(eleme
     });
 }
 
-Company_RtoProvider_Program.prototype.AddPercentageFeeOnclickBind = function(element)
+Company_RtoProvider_Program_Fee_Range.prototype.AddPercentageFeeOnclickBind = function(element)
 {
     element.click(function()
     {
@@ -38,7 +38,7 @@ Company_RtoProvider_Program.prototype.AddPercentageFeeOnclickBind = function(ele
     });
 }
 
-Company_RtoProvider_Program.prototype.AddRangeFeeOnclickBind = function(element)
+Company_RtoProvider_Program_Fee_Range.prototype.AddRangeFeeOnclickBind = function(element)
 {
     element.click(function()
     {

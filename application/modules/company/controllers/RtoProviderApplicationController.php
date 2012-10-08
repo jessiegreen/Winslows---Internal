@@ -15,19 +15,6 @@ class Company_RtoProviderApplicationController extends Dataservice_Controller_Ac
 	parent::init();
     }
     
-    public function viewAction()
-    {
-	$RtoProvider = $this->getEntityFromParamFields("Company\RtoProvider", array("id"));
-	
-	if(!$RtoProvider->getId())
-	{
-	    $this->_FlashMessenger->addErrorMessage("Could not get RtoProvider");
-	    $this->_History->goBack();
-	}
-	
-	$this->view->RtoProvider	= $RtoProvider;
-    }
-    
     public function editAction()
     {
 	/* @var $Application \Entities\Company\RtoProvider\Application */

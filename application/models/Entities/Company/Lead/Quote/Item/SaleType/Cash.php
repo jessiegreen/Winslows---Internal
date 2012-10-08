@@ -35,13 +35,28 @@ class Cash extends \Entities\Company\Lead\Quote\Item\SaleType\SaleTypeAbstract
 	return true;
     }
     
-    public function getDue()
+    public function getProductPrice(\Dataservice_Price $Price)
     {
-	
+	return $Price;
     }
     
-    public function getFees()
+    public function getFeesPrice(\Dataservice_Price $Price)
     {
-	
+	return new \Dataservice_Price();
+    }
+    
+    public function getDownPaymentPrice(\Dataservice_Price $Price)
+    {
+	return $Price;
+    }
+    
+    public function getPaymentsCount()
+    {
+	return 1;
+    }
+    
+    public function getPaymentsAmountPrice(\Dataservice_Price $Price)
+    {
+	return new \Dataservice_Price();
     }
 }
