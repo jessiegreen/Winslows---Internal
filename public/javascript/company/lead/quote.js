@@ -2,16 +2,6 @@ function Quote() {
     
 }
 
-Quote.prototype.ViewItemOnClickBind = function(element)
-{
-    element.click(function(e)
-    {
-	button = $(e.target);
-	
-	location = "/lead-quote-item/view/id/"+button.attr("item_id");
-    })
-}
-
 Quote.prototype.AddItemOnClickBind = function(element)
 {
     element.click(function()

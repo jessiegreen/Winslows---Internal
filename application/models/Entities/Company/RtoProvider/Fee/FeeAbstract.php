@@ -141,7 +141,11 @@ class FeeAbstract extends \Dataservice_Doctrine_Entity implements \Interfaces\Co
         $this->name_index = $name_index;
     }
     
-    public function getFeePrice()
+    /**
+     * @param \Dataservice_Price $Price
+     * @return \Dataservice_Price
+     */
+    public function getFeePrice(\Dataservice_Price $Price)
     {
 	
     }

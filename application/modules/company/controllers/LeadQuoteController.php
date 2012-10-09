@@ -253,6 +253,14 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
 	
 	$this->_CheckRequiredQuoteExists($Quote);
 	
+	$Result = $Quote->isValid();
+	
+	if(!$Result->isValid())
+	{
+	    $this->_FlashMessenger->addErrorMessage(implode ("<br />",$Result->getErrorMessages()));
+	    $this->_History->goBack();
+	}
+	
 	$this->view->Quote	    = $Quote;
 	$this->view->payment_form   = $payment_form;
     }

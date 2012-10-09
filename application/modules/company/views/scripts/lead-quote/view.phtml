@@ -35,7 +35,7 @@ $Items		= $quote->getItems();
 	Date: <?php echo $quote->getCreated()->format("F j, Y, g:i a"); ?> &nbsp;&nbsp;&nbsp; 
 	Lead: <?php echo $quote->getLead()->getFullName(); ?> &nbsp;&nbsp;&nbsp; 
 	Sales Person: <?php echo $quote->getLead()->getEmployee()->getFullName(); ?> &nbsp;&nbsp;&nbsp; 
-	Total: $<?php echo number_format($quote->getTotalSafe(), 2); ?> &nbsp;&nbsp;&nbsp;
+	Product Total Price: $<?php echo number_format($quote->getTotalSafe(), 2); ?> &nbsp;&nbsp;&nbsp;
     </div>
 </div>
 <div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">
@@ -59,21 +59,16 @@ $Items		= $quote->getItems();
 	    /* @var $Item \Entities\Company\Lead\Quote\Item */
 	    foreach ($Items as $Item)
 	    {
-		/* @var $Instance \Entities\Company\Supplier\Product\Instance */
-		$Instance	    = $Item->getInstance();
-		/* @var $InstancePrice Dataservice_Price */
-		$InstancePrice	    = $Instance->getPriceSafe();
-		$instance_quantity  = $Item->getQuantity();
 		?>
 		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
 		    <?php 
-		    echo $Instance->getProduct()->getName();
-		    echo HTML::buttonIcon(
+		    echo $Item->getInstance()->getProduct()->getName();
+		    echo HTML::anchorIcon(
 			    "bullet_go.png", 
-			    "view_item_".$Item->getId(), 
-			    "View Item", "quote_item_view", 
+			    "", 
+			    "/lead-quote-item/view/id/".$Item->getId(),
 			    "margin-left:5px;vertical-align:bottom;",
-			    'item_id="'.$Item->getId().'"'
+			    "Delete Item"
 			    );
 		    echo HTML::anchorIcon(
 			    "delete.png", 
@@ -91,14 +86,43 @@ $Items		= $quote->getItems();
 		<div style="display: inline;"><?php echo $Item->getSaleTypeDisplay(); ?></div>
 		<br />
 		<label>Quantity:</label>
-		<div style="display: inline;"><?php echo $instance_quantity; ?></div>
+		<div style="display: inline;"><?php echo $Item->getQuantity(); ?></div>
 		<br />
-		<label>Price Each:</label>
-		<div style="display: inline;"><?php echo $InstancePrice->getDisplayPrice(); ?></div>
+		<label>Product Price Each:</label>
+		<div style="display: inline;"><?php echo $Item->getProductEachPrice()->getDisplayPrice(); ?></div>
 		<br />
-		<label>Price Total:</label>
+		<label>Product Price Total:</label>
+		<div style="display: inline;"><?php echo $Item->getProductTotalPrice()->getDisplayPrice(); ?></div>
+		<br />
+		<label>Due At Sale Each:</label>
+		<div style="display: inline;"><?php echo $Item->getDueAtSaleEachPrice()->getDisplayPrice(); ?></div>
+		<br />
+		<label>Due At Sale Total:</label>
+		<div style="display: inline;"><?php echo $Item->getDueAtSaleTotalPrice()->getDisplayPrice(); ?></div>
+		<br />
+		<label>Remaining Payments Count:</label>
 		<div style="display: inline;">
-		    $<?php echo number_format(($instance_quantity * $InstancePrice->getPrice()), 2); ?>
+		    <?php echo $Item->getRemainingPaymentsCount(); ?>
+		</div>
+		<br />
+		<label>Remaining Payments Monthly Amount Each:</label>
+		<div style="display: inline;">
+		    <?php echo $Item->getRemainingPaymentsAmountEach()->getDisplayPrice(); ?>
+		</div>
+		<br />
+		<label>Remaining Payments Monthly Amount Total:</label>
+		<div style="display: inline;">
+		    <?php echo $Item->getRemainingPaymentsAmountTotal()->getDisplayPrice(); ?>
+		</div>
+		<br />
+		<label>Payments Total Each:</label>
+		<div style="display: inline;">
+		    <?php echo $Item->getPaymentsTotalAmountEachPrice()->getDisplayPrice(); ?>
+		</div>
+		<br />
+		<label>Payments Total:</label>
+		<div style="display: inline;">
+		    <?php echo $Item->getPaymentsTotalAmountTotalPrice()->getDisplayPrice(); ?>
 		</div>
 		<br />
 		<?php
@@ -116,7 +140,6 @@ $Items		= $quote->getItems();
     Quote = new Quote();
     Quote.AddItemOnClickBind($("#quote_item_add"));
     Quote.AddInventoryItemOnClickBind($("#inventory_quote_item_add"));
-    Quote.ViewItemOnClickBind($(".quote_item_view"));
     Quote.PrintOnClickBind($("#quote_print"));
     Quote.SellOnClickBind($("#quote_sell"));
 </script>

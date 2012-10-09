@@ -73,6 +73,19 @@ class Quote extends Quote\QuoteAbstract
 	return $this->Lead;
     }
     
+    public function getDueAtSaleTotalPrice()
+    {
+	$DuePrice = new \Dataservice_Price();
+	
+	/* @var $Item \Entities\Company\Lead\Quote\Item */ 
+	foreach ($this->getItems() as $Item)
+	{
+	    $DuePrice->addPrice($Item->getDueAtSaleTotalPrice());
+	}
+	
+	return $DuePrice;
+    }
+    
     /**
      * @return integer
      */
@@ -134,5 +147,23 @@ class Quote extends Quote\QuoteAbstract
     public function removeItem(\Entities\Company\Lead\Quote\Item $Item)
     {
 	$this->Items->removeElement($Item);
+    }
+    
+    public function isValid()
+    {
+	$QuoteResult = new \Dataservice_Result(true);
+	/* @var $Item \Entities\Company\Lead\Quote\Item */
+	foreach ($this->getItems() as $Item)
+	{
+	    $ItemResult = $Item->isValid();
+	    
+	    if(!$ItemResult->isValid())
+	    {
+		$QuoteResult->setValidFalse();
+		$QuoteResult->addErrorMessages($ItemResult->getErrorMessages());
+	    }
+	}
+	
+	return $QuoteResult;
     }
 }

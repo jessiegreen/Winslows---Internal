@@ -44,7 +44,7 @@ class Range extends FeeAbstract
      * @param \Dataservice_Price $Price
      * @return \Dataservice_Price
      */
-    public function getFeesPrice(\Dataservice_Price $Price)
+    public function getFeePrice(\Dataservice_Price $Price)
     {
 	$FeePrice = new \Dataservice_Price();
 	
@@ -59,7 +59,6 @@ class Range extends FeeAbstract
 		break;
 	    }
 	}
-	
 	return $FeePrice;
     }
     

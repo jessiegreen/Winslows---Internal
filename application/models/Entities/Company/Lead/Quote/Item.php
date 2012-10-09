@@ -46,6 +46,18 @@ class Item extends \Dataservice_Doctrine_Entity
      */
     protected $Instance;
     
+    public function __construct()
+    {
+	if(!$this->getSaleType())
+	{
+	    $SaleType = new Item\SaleType\Cash();
+	    
+	    $SaleType->addItem($this);
+	}
+	
+	parent::__construct();
+    }
+    
     /**
      * @return integer
      */
@@ -171,7 +183,7 @@ class Item extends \Dataservice_Doctrine_Entity
     {
 	$Price = new \Dataservice_Price();
 	
-	$Price->addPrice($this->getProductEachPrice());	
+	$Price->addPrice($this->getPaymentsTotalAmountEachPrice());	
 	$Price->addPrice($this->getFeesEachPrice());
 	
 	return $Price;
@@ -198,7 +210,7 @@ class Item extends \Dataservice_Doctrine_Entity
     
     public function getRemainderDueEachPrice()
     {
-	$Price = $this->getProductEachPrice();
+	$Price = $this->getPaymentsTotalAmountEachPrice();
 	
 	$Price->subtract($this->getDownPaymentEachPrice());
 	
@@ -218,7 +230,7 @@ class Item extends \Dataservice_Doctrine_Entity
     {
 	$Price = new \Dataservice_Price();
 	
-	$this->getSaleType()->getFeesPrice($this->_getInstancePrice());
+	$this->getSaleType()->getFeesPrice($this->getProductEachPrice());
 	
 	return $Price;
     }
@@ -232,14 +244,14 @@ class Item extends \Dataservice_Doctrine_Entity
 	return $Price;
     }
     
-    public function getProductEachPrice()
+    public function getPaymentsTotalAmountEachPrice()
     {
-	return $this->getSaleType()->getProductPrice($this->_getInstancePrice());
+	return $this->getSaleType()->getPaymentsTotalAmountPrice($this->getProductEachPrice());
     }
     
-    public function getProductTotalPrice()
+    public function getPaymentsTotalAmountTotalPrice()
     {
-	$Price = $this->getProductEachPrice();
+	$Price = $this->getPaymentsTotalAmountEachPrice();
 	
 	$Price->multiply($this->getQuantity());
 	
@@ -248,17 +260,17 @@ class Item extends \Dataservice_Doctrine_Entity
     
     public function getDownPaymentEachPrice()
     {
-	return $this->getSaleType()->getDownPaymentPrice($this->_getInstancePrice());
+	return $this->getSaleType()->getDownPaymentPrice($this->getProductEachPrice());
     }
     
     public function getRemainingPaymentsCount()
     {
-	return ($this->getSaleType()->getPaymentsCount($this->_getInstancePrice()) - 1);
+	return ($this->getSaleType()->getPaymentsCount($this->getProductEachPrice()) - 1);
     }
     
     public function getRemainingPaymentsAmountEach()
     {
-	return $this->getSaleType()->getPaymentsAmountPrice($this->_getInstancePrice());
+	return $this->getSaleType()->getPaymentsAmountPrice($this->getProductEachPrice());
     }
     
     public function getRemainingPaymentsAmountTotal()
@@ -279,8 +291,40 @@ class Item extends \Dataservice_Doctrine_Entity
 	return $Price;
     }
     
-    private function _getInstancePrice()
+    public function getProductEachPrice()
     {
 	return $this->getInstance()->getPriceSafe();
+    }
+    
+    public function getProductTotalPrice()
+    {
+	$Price = $this->getProductEachPrice();
+	
+	$Price->multiply($this->getQuantity());
+	
+	return $Price;
+    }
+    
+    /**
+     * @return \Dataservice_Result
+     */
+    public function isValid()
+    {
+	$SaleType   = $this->getSaleType();
+	$Result	    = new \Dataservice_Result(true);
+	
+	if(!$SaleType)$Result->setValidFalse("Sale Type Not Set For Item. Check Items");
+	
+	if(!$this->getSaleType()->isProductAllowed($this->getInstance()->getProduct()))
+	    $Result->setValidFalse("Product Not Allowed With That Sale Type. Change Sale Type");
+	
+	if($this->isRtoSaleType())
+	{
+	    $Application = $this->getQuote()->getLead()->getApplication($this->getSaleType()->getProgram()->getRtoProvider()->getNameIndex());
+
+	    if(!$Application)$Result->setValidFalse("No Rto Application On File. Fill Out Rto Provider Application.");
+	}
+	
+	return $Result;
     }
 }

@@ -66,6 +66,12 @@ class Quote extends \Entities\Company\Lead\Quote implements \Doctrine\ORM\Proxy\
         return parent::getLead();
     }
 
+    public function getDueAtSaleTotalPrice()
+    {
+        $this->__load();
+        return parent::getDueAtSaleTotalPrice();
+    }
+
     public function getTotal()
     {
         $this->__load();
@@ -88,6 +94,12 @@ class Quote extends \Entities\Company\Lead\Quote implements \Doctrine\ORM\Proxy\
     {
         $this->__load();
         return parent::removeItem($Item);
+    }
+
+    public function isValid()
+    {
+        $this->__load();
+        return parent::isValid();
     }
 
     public function getId()

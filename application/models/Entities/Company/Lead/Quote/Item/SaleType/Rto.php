@@ -18,6 +18,8 @@ class Rto extends \Entities\Company\Lead\Quote\Item\SaleType\SaleTypeAbstract
      */
     public function setProgram(\Entities\Company\RtoProvider\Program $Program)
     {
+	$Program->setRtoSaleType($this);
+	
 	$this->Program = $Program;
     }
     
@@ -55,15 +57,10 @@ class Rto extends \Entities\Company\Lead\Quote\Item\SaleType\SaleTypeAbstract
     {
 	$Program = $this->getProgram();
 	
-	return $this->getDescriminator()." - ".$Program->getRtoProvider()->getName()." - ".$Program->getName();
+	return $this->getDescriminator()." - ".$Program->getRtoProvider()->getDba()." - ".$Program->getName();
     }
     
-    public function isApproved()
-    {
-	
-    }
-    
-    public function getProductPrice(\Dataservice_Price $Price)
+    public function getPaymentsTotalAmountPrice(\Dataservice_Price $Price)
     {
 	$ProductPrice = $this->getPaymentsAmountPrice($Price);
 	
@@ -89,7 +86,14 @@ class Rto extends \Entities\Company\Lead\Quote\Item\SaleType\SaleTypeAbstract
     
     public function getDownPaymentPrice(\Dataservice_Price $Price)
     {
-	return $this->getDownPaymentPrice($Price);
+	$DownPrice = new \Dataservice_Price();
+	
+	#--First Month
+	$DownPrice->addPrice($this->getPaymentsAmountPrice($Price));
+	#--Fees
+	$DownPrice->addPrice($this->getFeesPrice($Price));
+	
+	return $DownPrice;
     }
     
     public function getPaymentsCount()
@@ -99,8 +103,11 @@ class Rto extends \Entities\Company\Lead\Quote\Item\SaleType\SaleTypeAbstract
     
     public function getPaymentsAmountPrice(\Dataservice_Price $Price)
     {
-	$Price->divide($this->getProgram()->getFactor());
+	$PaymentAmountPrice = new \Dataservice_Price();
 	
-	return $Price;
+	$PaymentAmountPrice->addPrice($Price);
+	$PaymentAmountPrice->divide($this->getProgram()->getFactor());
+	
+	return $PaymentAmountPrice;
     }
 }

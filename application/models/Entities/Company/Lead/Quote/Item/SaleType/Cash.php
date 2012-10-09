@@ -27,15 +27,7 @@ class Cash extends \Entities\Company\Lead\Quote\Item\SaleType\SaleTypeAbstract
 	return "Cash Sale";
     }
     
-    /**
-     * @return boolean
-     */
-    public function isApproved()
-    {
-	return true;
-    }
-    
-    public function getProductPrice(\Dataservice_Price $Price)
+    public function getPaymentsTotalAmountPrice(\Dataservice_Price $Price)
     {
 	return $Price;
     }

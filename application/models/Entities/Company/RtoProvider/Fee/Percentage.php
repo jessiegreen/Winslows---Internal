@@ -4,7 +4,7 @@ namespace Entities\Company\RtoProvider\Fee;
  * @Entity (repositoryClass="Repositories\Company\RtoProvider\Fee\Range") 
  * @Table(name="company_rtoprovider_fee_percentages") 
  */
-class Percentage extends FeeAbstract
+class Percentage extends FeeAbstract implements \Interfaces\Company\RtoProvider\Fee
 {
     /** 
      * @Column(type="integer")
@@ -32,13 +32,17 @@ class Percentage extends FeeAbstract
      * @param \Dataservice_Price $Price
      * @return \Dataservice_Price
      */
-    public function getFeesPrice(\Dataservice_Price $Price)
+    public function getFeePrice(\Dataservice_Price $Price)
     {	
-	$dec = $this->percentage / 100;
+	$FeePrice = new \Dataservice_Price();
 	
-	$Price->multiply($dec);
+	$FeePrice->addPrice($Price);
 	
-	return $Price;
+	$dec = ($this->percentage / 100);
+	
+	$FeePrice->multiply($dec);
+	
+	return $FeePrice;
     }
     
     /**

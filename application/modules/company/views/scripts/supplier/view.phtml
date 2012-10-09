@@ -1,7 +1,7 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo HTML::backAnchorIcon("Suppliers - All", "/supplier/viewall");
+echo HTML::backAnchorIcon("Company - View", "/index/view/id/".Services\Website::factory()->getCurrentWebsite()->getCompany()->getId());
 echo "</div>";
 ?>
 <h1 class="header1">Supplier - View</h1>

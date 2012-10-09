@@ -78,12 +78,7 @@ class SaleTypeAbstract extends \Dataservice_Doctrine_Entity implements \Interfac
 	
     }
     
-    public function isApproved()
-    {
-	
-    }
-    
-    public function getProductPrice(\Dataservice_Price $Price)
+    public function getPaymentsTotalAmountPrice(\Dataservice_Price $Price)
     {
 	
     }

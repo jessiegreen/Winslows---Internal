@@ -60,10 +60,23 @@ class Program extends \Dataservice_Doctrine_Entity
      */
     protected $Fees;
     
+    /**
+     * @OneToOne(targetEntity="\Entities\Company\Lead\Quote\Item\SaleType\Rto", inversedBy="Program", cascade={"persist", "remove"})
+     * @var \Entities\Company\Lead\Quote\Item\SaleType\Rto $RtoSaleType
+     */
+    protected $RtoSaleType;
+    
     public function __construct()
     {
 	$this->Products = new ArrayCollection();
 	$this->Fees	= new ArrayCollection();
+	
+	if(!$this->RtoSaleType)
+	{
+	    $RtoSaleType = new \Entities\Company\Lead\Quote\Item\SaleType\Rto;
+	    
+	    $RtoSaleType->setProgram($this);
+	}
 	
 	parent::__construct();
     }
@@ -82,6 +95,22 @@ class Program extends \Dataservice_Doctrine_Entity
     public function setRtoProvider(\Entities\Company\RtoProvider $RtoProvider)
     {
 	$this->RtoProvider = $RtoProvider;
+    }
+    
+    /**
+     * @return \Entities\Company\Lead\Quote\Item\SaleType\Rto
+     */
+    public function getRtoSaleType()
+    {
+	return $this->RtoSaleType;
+    }
+    
+    /**
+     * @param \Entities\Company\Lead\Quote\Item\SaleType\Rto $RtoProvider
+     */
+    public function setRtoSaleType(\Entities\Company\Lead\Quote\Item\SaleType\Rto $RtoSaleType)
+    {
+	$this->RtoSaleType = $RtoSaleType;
     }
     
     /**

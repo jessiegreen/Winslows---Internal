@@ -7,9 +7,7 @@ interface SaleType
     
     public function getName();
     
-    public function isApproved();
-    
-    public function getProductPrice(\Dataservice_Price $Price);
+    public function getPaymentsTotalAmountPrice(\Dataservice_Price $Price);
     
     public function getFeesPrice(\Dataservice_Price $Price);
     

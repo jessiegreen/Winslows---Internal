@@ -33,7 +33,7 @@ class Subform extends \Zend_Form_SubForm
 	    }
 	}
 	
-	$this->addElement(new \Dataservice_Form_Element_Company_RtoProvider_Program_FeesMultiCheckbox("fees_checks", array(
+	$this->addElement(new \Dataservice_Form_Element_Company_RtoProvider_Program_FeesMultiCheckbox($this->_Program, "fees_checks", array(
             'required'	    => false,
             'label'	    => 'Fees:',
 	    'belongsTo'	    => 'company_rto_provider_program_managefees',

@@ -1,5 +1,4 @@
 <?php 
-echo($this->flashMessages()); 
 echo "<div>";
 echo HTML::backAnchorIcon("Quote - View ", "/lead-quote/view/id/".$this->Quote->getId());
 echo "</div>";
@@ -9,70 +8,13 @@ $can_checkout	= true;
 ?>
 <h1 class="header1">Quote - Sell</h1>
 <div class="padded_frame">
-    <h3>
-	Sales Types
-    </h3>
-    <div>
-	<?php
-	/* @var $Item \Entities\Company\Lead\Quote\Item */
-	foreach($Quote->getItems() as $Item)
-	{
-	    if(!$Item->getSaleType())
-	    {
-		echo "<div class='red padded_frame'>";
-		    echo HTML::buttonBlue(
-			    "bullet_go.png", 
-			    "Sale Type Not Set", "", "", 
-			    "view_item", 
-			    "item_id='".$Item->getId()."' "
-			)."&nbsp;";
-		    
-		    $can_checkout = false;
-	    }
-	    elseif($Item->isRtoSaleType())
-	    {
-		$Application = $Item->getQuote()->getLead()->getApplication($Item->getSaleType()->getProgram()->getRtoProvider()->getNameIndex());
-		
-		if(!$Application)
-		{
-		    echo "<div class='red padded_frame'>";
-		    echo HTML::buttonBlue(
-			    "application_form_edit.png", 
-			    "Application Required", "", "", 
-			    "application_edit", 
-			    "lead_id='".$Item->getQuote()->getLead()->getId()."' rto_provider_id='".
-			    $Item->getSaleType()->getProgram()->getRtoProvider()->getId()."' "
-			)."&nbsp;";
-		    
-		    $can_checkout = false;
-		}
-		else if(!$Application->isApproved())
-		{
-		    echo "<div class='red padded_frame'>";
-		    echo "<b>APPROVAL DENIED</b>&nbsp;";
-		    
-		    $can_checkout = false;
-		}
-		else
-		{
-		    echo "<div class='green padded_frame'>";
-		    echo "<b>APPROVED</b>&nbsp;";
-		}
-	    }
-	    else echo "<div class='green padded_frame'>";
-	    echo $Item->getSaleTypeDisplay()." - ";
-	    echo $Item->getName()." ".$Item->getInstance()->getProduct()->getName();
-	    echo "</div>";
-	}
-	?>
+    <h3>Total Due Today:</h3>
+    <div class="padded_frame">
+	<?php echo $Quote->getDueAtSaleTotalPrice()->getDisplayPrice();?>
     </div>
     <h3>Payment Type</h3>
+    <?php echo($this->flashMessages());?>; 
     <?php 
-	/* @var $payment_form \Forms\Company\Lead\Quote\Sell\PaymentTypes */
-	$payment_form = $this->payment_form;
-	
-	if(!$can_checkout)$payment_form->getElement("Checkout")->setAttrib('disabled', 'disabled');
-	
 	echo $this->payment_form;
     ?>
 </div>

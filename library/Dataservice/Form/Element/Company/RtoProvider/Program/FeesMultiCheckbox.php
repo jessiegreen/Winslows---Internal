@@ -12,11 +12,21 @@
  */
 class Dataservice_Form_Element_Company_RtoProvider_Program_FeesMultiCheckbox extends Zend_Form_Element_MultiCheckbox
 {
+    private $_Program;
+    
+    public function __construct(\Entities\Company\RtoProvider\Program $Program, $spec, $options = null)
+    {
+	$this->_Program = $Program;
+	
+	parent::__construct($spec, $options);
+    }
+    
     public function init()
     {
-        foreach(Services\Company\RtoProvider\Fee::factory()->getAllFees() as $Fee)
+	/* @var $Fee Entities\Company\RtoProvider\Fee\FeeAbstract */
+        foreach($this->_Program->getRtoProvider()->getFees() as $Fee)
 	{
-            $this->addMultiOption($Fee->getId(), $Fee->getName());
+            $this->addMultiOption($Fee->getId(), $Fee->getRtoProvider()->getDba()." - ".$Fee->getName());
         }
     }
 }

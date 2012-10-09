@@ -21,7 +21,6 @@ class Dataservice_Price
      */
     public function setPrice($price)
     {
-	$price		    = round((int) $price, 2);
 	$this->_price	    = $price;
 	$this->_history[]   = "=".$price;
     }
@@ -31,7 +30,6 @@ class Dataservice_Price
      */
     public function add($int)
     {
-	$int		    = round($int, 2);
 	$this->_price	    += $int;
 	$this->_history[]   = "+".$int;
     }
@@ -41,7 +39,6 @@ class Dataservice_Price
      */
     public function multiply($int)
     {
-	$int		    = round($int, 2);
 	$this->_price	    *= $int;
 	$this->_history[]   = "*".$int;
     }
@@ -78,7 +75,7 @@ class Dataservice_Price
      */
     public function getPrice()
     {
-	return $this->_price;
+	return round($this->_price, 2);
     }
     
     /**
@@ -90,7 +87,7 @@ class Dataservice_Price
 	
 	if($dollar_sign !== false) $string .= "$";
 	
-	$string .= number_format($this->_price, 2);
+	$string .= number_format($this->getPrice(), 2);
 	
 	return $string;
     }
