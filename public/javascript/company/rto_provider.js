@@ -29,3 +29,22 @@ RtoProvider.prototype.AddProgramOnclickBind = function(element)
     });
 }
 
+
+
+RtoProvider.prototype.AddPercentageFeeOnclickBind = function(element)
+{
+    element.click(function()
+    {
+	rto_provider_id	= $("#rto_provider_id").val()
+	location	= '/rto-provider-fee-percentage/edit/id/0/rto_provider_id/' + rto_provider_id;
+    });
+}
+
+RtoProvider.prototype.AddRangeFeeOnclickBind = function(element)
+{
+    element.click(function()
+    {
+	rto_provider_id	= $("#rto_provider_id").val()
+	location	= '/rto-provider-fee-range/edit/id/0/rto_provider_id/' + rto_provider_id;
+    });
+}

@@ -1,10 +1,10 @@
 <?php
 
-namespace Entities\Company\RtoProvider\Program\Fee\Range;
+namespace Entities\Company\RtoProvider\Fee\Range;
 
 /** 
- * @Entity (repositoryClass="Repositories\Company\RtoProvider\Program\Fee\Range\Value") 
- * @Table(name="company_rtoprovider_program_fee_range_values") 
+ * @Entity (repositoryClass="Repositories\Company\RtoProvider\Fee\Range\Value") 
+ * @Table(name="company_rtoprovider_fee_range_values") 
  * @HasLifecycleCallbacks
  */
 class Value extends \Dataservice_Doctrine_Entity
@@ -33,6 +33,28 @@ class Value extends \Dataservice_Doctrine_Entity
      * @var integer $value
      */
     protected $value;
+    
+    /** 
+     * @ManyToOne(targetEntity="\Entities\Company\RtoProvider\Fee\Range", inversedBy="Fees")
+     * @var \Entities\Company\RtoProvider\Fee\Range $Range
+     */  
+    protected $Range;
+    
+    /**
+     * @param \Entities\Company\RtoProvider\Fee\Range $Range
+     */
+    public function setRange(\Entities\Company\RtoProvider\Fee\Range $Range)
+    {
+	$this->Range = $Range;
+    }
+    
+    /**
+     * @return \Entities\Company\RtoProvider\Fee\Range
+     */
+    public function getRange()
+    {
+	return $this->Range;
+    }
     
     /**
      * @return integer

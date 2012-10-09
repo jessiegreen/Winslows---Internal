@@ -1,5 +1,5 @@
 <?php
-namespace Interfaces\Company\RtoProvider\Program;
+namespace Interfaces\Company\RtoProvider;
 
 interface Fee
 {

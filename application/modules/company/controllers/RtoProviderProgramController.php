@@ -142,5 +142,65 @@ class Company_RtoProviderProgramController extends Dataservice_Controller_Action
 	
 	$this->view->Program	= $Program;
     }
+    
+    public function manageFeesAction()
+    {
+	/* @var $Program Entities\Company\RtoProvider\Program */
+	$Program	= $this->getEntityFromParamFields("Company\RtoProvider\Program", array("id"));
+	
+	if($Program)
+	{	    
+	    $form = new Forms\Company\RtoProvider\Program\ManageFees($Program, array("method" => "post"));
+	    
+	    $form->addCancelButton($this->_History->getPreviousUrl(1));
+	    
+	    if($this->isPostAndValid($form))
+	    {
+		try 
+		{
+		    $data		= $this->_params["company_rto_provider_program_managefees"];
+		    $fees		= $data["fees_checks"];
+		    $current_fees	= array();
+		    
+		    foreach ($Program->getFees() as $Fee)
+		    {
+			if(!in_array($Fee->getId(), $fees))
+			{
+			    $Program->removeFee($Fee);
+			}
+
+			$current_fees[] = $Fee->getId();
+		    }
+
+		    foreach ($fees as $fee) 
+		    {
+			if(!in_array($fee, $current_fees))
+			{
+			    $Fee = $this->_em->find("\Entities\Company\RtoProvider\Fee\FeeAbstract", $fee);
+			    $Program->addFee($Fee);
+			}
+		    }
+		    
+		    $this->_em->persist($Program);
+		    $this->_em->flush();
+		    $this->_FlashMessenger->addSuccessMessage("Fees saved.");
+		    $this->_History->goBack();
+		}
+		catch (Exception $exc)
+		{
+		    $this->_FlashMessenger->addErrorMessage($exc->getMessage());
+		    $this->_History->goBack();
+		}
+	    }
+	}
+	else
+	{
+	    $this->_FlashMessenger->addErrorMessage("Could not get Program");
+	    $this->_History->goBack();
+	}
+	
+	$this->view->form	= $form;
+	$this->view->Program	= $Program;
+    }
 }
 

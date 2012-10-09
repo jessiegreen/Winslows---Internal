@@ -1,8 +1,8 @@
 <?php
-namespace Entities\Company\RtoProvider\Program\Fee;
+namespace Entities\Company\RtoProvider\Fee;
 /** 
- * @Entity (repositoryClass="Repositories\Company\RtoProvider\Program\Fee\Range") 
- * @Table(name="company_rtoprovider_program_fee_percentages") 
+ * @Entity (repositoryClass="Repositories\Company\RtoProvider\Fee\Range") 
+ * @Table(name="company_rtoprovider_fee_percentages") 
  */
 class Percentage extends FeeAbstract
 {
@@ -28,6 +28,10 @@ class Percentage extends FeeAbstract
 	return $this->percentage;
     }
     
+    /**
+     * @param \Dataservice_Price $Price
+     * @return \Dataservice_Price
+     */
     public function getFeesPrice(\Dataservice_Price $Price)
     {	
 	$dec = $this->percentage / 100;
@@ -35,5 +39,13 @@ class Percentage extends FeeAbstract
 	$Price->multiply($dec);
 	
 	return $Price;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getDescriminator()
+    {
+	return static::TYPE_Percentage;
     }
 }

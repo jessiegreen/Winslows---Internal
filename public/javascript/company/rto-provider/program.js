@@ -29,20 +29,11 @@ Company_RtoProvider_Program.prototype.ManageProductsOnclickBind = function(eleme
     });
 }
 
-Company_RtoProvider_Program.prototype.AddPercentageFeeOnclickBind = function(element)
+Company_RtoProvider_Program.prototype.ManageFeesOnclickBind = function(element)
 {
     element.click(function()
     {
 	program_id  = $("#program_id").val()
-	location    = '/rto-provider-program-fee-percentage/edit/id/0/program_id/' + program_id;
-    });
-}
-
-Company_RtoProvider_Program.prototype.AddRangeFeeOnclickBind = function(element)
-{
-    element.click(function()
-    {
-	program_id  = $("#program_id").val()
-	location    = '/rto-provider-program-fee-range/edit/id/0/program_id/' + program_id;
+	location    = '/rto-provider-program/manage-fees/id/' + program_id;
     });
 }

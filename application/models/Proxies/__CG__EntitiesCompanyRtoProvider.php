@@ -72,6 +72,24 @@ class RtoProvider extends \Entities\Company\RtoProvider implements \Doctrine\ORM
         return parent::removeProgram($Program);
     }
 
+    public function getFees()
+    {
+        $this->__load();
+        return parent::getFees();
+    }
+
+    public function addFee(\Entities\Company\RtoProvider\Fee\FeeAbstract $Fee)
+    {
+        $this->__load();
+        return parent::addFee($Fee);
+    }
+
+    public function removeFee(\Entities\Company\RtoProvider\Fee\FeeAbstract $Fee)
+    {
+        $this->__load();
+        return parent::removeFee($Fee);
+    }
+
     public function getApplications()
     {
         $this->__load();
@@ -210,7 +228,7 @@ class RtoProvider extends \Entities\Company\RtoProvider implements \Doctrine\ORM
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'name', 'dba', 'name_index', 'minimum_points', 'description', 'created', 'updated', 'Company', 'Applications', 'Programs');
+        return array('__isInitialized__', 'id', 'name', 'dba', 'name_index', 'minimum_points', 'description', 'created', 'updated', 'Company', 'Applications', 'Fees', 'Programs');
     }
 
     public function __clone()

@@ -64,6 +64,14 @@ class RtoProvider extends \Dataservice_Doctrine_Entity
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
+     * @OneToMany(targetEntity="\Entities\Company\RtoProvider\Fee\FeeAbstract", mappedBy="RtoProvider", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @var \Doctrine\Common\Collections\ArrayCollection $Fees
+     */
+    protected $Fees;
+    
+    /**
+     * Bidirectional - One-To-Many (INVERSE SIDE)
+     *
      * @OneToMany(targetEntity="\Entities\Company\RtoProvider\Program", mappedBy="RtoProvider", cascade={"persist"})
      * @var ArrayCollection $Programs
      */
@@ -74,10 +82,14 @@ class RtoProvider extends \Dataservice_Doctrine_Entity
 	$this->Products	    = new ArrayCollection();
 	$this->Applications = new ArrayCollection();
 	$this->Programs	    = new ArrayCollection();
+	$this->Fees	    = new ArrayCollection();
 	
 	parent::__construct();
     }
     
+    /**
+     * @param \Entities\Company $Company
+     */
     public function setCompany(\Entities\Company $Company)
     {
 	$this->Company = $Company;
@@ -115,6 +127,32 @@ class RtoProvider extends \Dataservice_Doctrine_Entity
     public function removeProgram(RtoProvider\Program $Program)
     {
 	$this->getPrograms()->removeElement($Program);
+    }
+    
+    /**
+     * @return ArrayCollection
+     */
+    public function getFees()
+    {
+	return $this->Fees;
+    }
+    
+    /**
+     * @param RtoProvider\Fee\FeeAbstract $Fee
+     */
+    public function addFee(RtoProvider\Fee\FeeAbstract $Fee)
+    {
+	$Fee->setRtoProvider($this);
+	
+	$this->Fees[] = $Fee;
+    }
+    
+    /**
+     * @param RtoProvider\Fee\FeeAbstract $Fee
+     */
+    public function removeFee(RtoProvider\Fee\FeeAbstract $Fee)
+    {
+	$this->getFees()->removeElement($Fee);
     }
     
     /**

@@ -10,6 +10,7 @@ echo "</div>";
 $RtoProvider	    = $this->RtoProvider;
 $rto_provider_id    = $RtoProvider->getId();
 $Programs	    = $RtoProvider->getPrograms();
+$Fees		    = $RtoProvider->getFees();
 ?>
 <div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
     <h4 class="no_space" style="color: #2000EE;">
@@ -67,6 +68,45 @@ $Programs	    = $RtoProvider->getPrograms();
     </div>
 </div>
 <div class="padded_frame" style="width: 415px;float: right;padding-top: 0px;">
+    <h3>
+	<a href="#">Fees</a>
+	<?php
+	    echo HTML::buttonBlue(
+		    "add.png", 
+		    "Add Range Fee", 
+		    "range_fee_add", 
+		    "float:right;margin-left:5px;"
+		    );
+	    echo HTML::buttonBlue(
+		    "add.png", 
+		    "Add Percentage Fee", 
+		    "percentage_fee_add", 
+		    "float:right;margin-left:5px;"
+		    );
+	?>
+    </h3>
+    <div>
+	<?php
+	/* @var $Fee Entities\Company\RtoProvider\Fee\FeeAbstract */
+	foreach ($Fees as $Fee)
+	{
+	    ?>
+	    <div style="padding: 3px;margin-bottom: 3px;">
+		<?php 
+		echo $Fee->getName();
+		echo HTML::anchorIcon(
+			"bullet_go.png", 
+			"", 
+			"/rto-provider-fee-".$Fee->getUrlKey()."/view/id/".$Fee->getId(),
+			"margin-left:5px;"
+			);
+		?>
+	    </div>
+	    <?php
+	}
+	?>
+    </div>
+    <hr />
     <h3><a href="#">Documents</a></h3>
     <div>Put Documents here</div>
     <hr />
@@ -75,4 +115,6 @@ $Programs	    = $RtoProvider->getPrograms();
 <script type="text/javascript">
     RtoProvider = new RtoProvider();
     RtoProvider.AddProgramOnclickBind($("#program_add"));
+    RtoProvider.AddPercentageFeeOnclickBind($("#percentage_fee_add"));
+    RtoProvider.AddRangeFeeOnclickBind($("#range_fee_add"));
 </script>

@@ -1,0 +1,103 @@
+<?php 
+echo($this->flashMessages()); 
+echo "<div>";
+echo HTML::backAnchorIcon("RTO Provider - View", "/rto-provider/view/id/".$this->Range->getRtoProvider()->getId());
+echo "</div>";
+?>
+<h1 class="header1">RTO Provider Program - View</h1>
+<?php
+/* @var $Range Entities\Company\RtoProvider\Fee\Range */
+$Range	    = $this->Range;
+$range_id   = $Range->getId();
+$Programs   = $Range->getPrograms();
+$Values	    = $Range->getValues();
+?>
+<div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
+    <h4 class="no_space" style="color: #2000EE;">
+	Info
+	<?php
+	echo HTML::anchorIcon(
+		"pencil.png", 
+		"", 
+		"/rto-provider-fee-range/edit/id/".$range_id,
+		"margin-left:5px;"
+		);
+	?>
+    </h4>
+    <div>
+	Rto Provider: <?php echo $Range->getRtoProvider()->getName(); ?> &nbsp;&nbsp;&nbsp; 
+	Name: <?php echo $Range->getName(); ?> &nbsp;&nbsp;&nbsp; 
+	Index: <?php echo $Range->getNameIndex(); ?>
+    </div>
+</div>
+<div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">
+    <div id="accordion">
+	<h3>
+	    <a href="#">Programs</a>
+	</h3>
+	<div>
+	    <?php
+	    /* @var $Program \Entities\Company\RtoProvider\Program */
+	    foreach ($Programs as $Program)
+	    {
+		?>
+		<div style="padding: 3px;margin-bottom: 3px;">
+		    <?php 
+		    echo $Program->getName();
+		    echo HTML::anchorIcon(
+			    "bullet_go.png", 
+			    "", 
+			    "/rto-provider-program/view/id/".$Program->getId(),
+			    "margin-left:5px;"
+			    );
+		    ?>
+		</div>
+		<?php
+	    }
+	    ?>
+	</div>
+	<hr />
+    </div>
+</div>
+<div class="padded_frame" style="width: 415px;float: right;padding-top: 0px;">
+    <h3>
+	<a href="#">Values</a>
+	<?php 
+	    echo HTML::buttonBlue(
+		"add.png", 
+		"Add Value", 
+		"value_add", 
+		"float:right;width:130px;");
+	?>
+    </h3>
+    <div>
+	<?php
+	/* @var $Value \Entities\Company\RtoProvider\Fee\Range\Value */
+	foreach ($Values as $Value)
+	{
+	    ?>
+	    <div style="padding: 3px;margin-bottom: 3px;">
+		<?php 
+		echo $Value->getValue()." : ".$Value->getLow()." - ".$Value->getHigh();
+		echo HTML::anchorIcon(
+			"bullet_go.png", 
+			"", 
+			"/rto-provider-fee-range-value/edit/id/".$Value->getId(),
+			"margin-left:5px;"
+			);
+		?>
+	    </div>
+	    <?php
+	}
+	?>
+    </div>
+    <hr />
+    <h3><a href="#">Documents</a></h3>
+    <div>Put Documents here</div>
+    <hr />
+</div>
+<div style="clear: both;"><input type="hidden" id="range_id" value="<?php echo $range_id;?>" /></div>
+<script type="text/javascript">
+    Company_RtoProvider_Fee_Range = new Company_RtoProvider_Fee_Range();
+    Company_RtoProvider_Fee_Range.AddValueOnclickBind($("#value_add"));
+</script>

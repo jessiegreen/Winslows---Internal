@@ -76,7 +76,7 @@ class Rto extends \Entities\Company\Lead\Quote\Item\SaleType\SaleTypeAbstract
     {
 	$FeesPrice = new \Dataservice_Price();
 	
-	/* @var $Fee \Entities\Company\RtoProvider\Program\Fee\FeeAbstract */
+	/* @var $Fee \Entities\Company\RtoProvider\Fee\FeeAbstract */
 	foreach($this->getProgram()->getFees() as $Fee)
 	{
 	    $FeePrice = $Fee->getFeePrice($Price);

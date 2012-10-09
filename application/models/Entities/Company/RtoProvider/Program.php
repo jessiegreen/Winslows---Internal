@@ -55,7 +55,7 @@ class Program extends \Dataservice_Doctrine_Entity
     protected $Products;
     
     /**
-     * @ManytoMany(targetEntity="\Entities\Company\RtoProvider\Program\Fee\FeeAbstract", mappedBy="Programs", cascade={"ALL"})
+     * @ManytoMany(targetEntity="\Entities\Company\RtoProvider\Fee\FeeAbstract", mappedBy="Programs", cascade={"ALL"})
      * @var ArrayCollection $Fees
      */
     protected $Fees;
@@ -119,9 +119,9 @@ class Program extends \Dataservice_Doctrine_Entity
     }
     
     /**
-     * @param \Entities\Company\Supplier\Product\ProductAbstract $Fee
+     * @param Fee\FeeAbstract $Fee
      */
-    public function addFee(Program\Fee\FeeAbstract $Fee)
+    public function addFee(Fee\FeeAbstract $Fee)
     {
 	if(!$this->getFees()->contains($Fee))
 	{
@@ -130,7 +130,10 @@ class Program extends \Dataservice_Doctrine_Entity
 	}
     }
     
-    public function removeFee(Program\Fee\FeeAbstract $Fee)
+    /**
+     * @param \Entities\Company\RtoProvider\Fee\FeeAbstract $Fee
+     */
+    public function removeFee(Fee\FeeAbstract $Fee)
     {
 	$Fee->removeProgram($this);
 	$this->getFees()->removeElement($Fee);

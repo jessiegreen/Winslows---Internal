@@ -73,20 +73,16 @@ $Fees	    = $Program->getFees();
 	<a href="#">Fees</a>
 	<?php 
 	    echo HTML::buttonBlue(
-		"add.png", 
-		"Add Percent Fee", 
-		"percent_fee_add", 
-		"float:right;width:130px;");
-	    echo HTML::buttonBlue(
-		"add.png", 
-		"Add Range Fee", 
-		"range_fee_add", 
-		"float:right;width:130px;");
+			"text_list_bullets.png", 
+			"Manage", 
+			"fees_manage", 
+			"float:right;width:80px;margin-left:5px;"
+			);
 	?>
     </h3>
     <div>
 	<?php
-	/* @var $Fee \Entities\Company\RtoProvider\Program\Fee\FeeAbstract */
+	/* @var $Fee \Entities\Company\RtoProvider\Fee\FeeAbstract */
 	foreach ($Fees as $Fee)
 	{
 	    ?>
@@ -114,6 +110,5 @@ $Fees	    = $Program->getFees();
 <script type="text/javascript">
     Company_RtoProvider_Program = new Company_RtoProvider_Program();
     Company_RtoProvider_Program.ManageProductsOnclickBind($("#products_manage"));
-    Company_RtoProvider_Program.AddPercentageFeeOnclickBind($("#percent_fee_add"));
-    Company_RtoProvider_Program.AddRangeFeeOnclickBind($("#range_fee_add"));
+    Company_RtoProvider_Program.ManageFeesOnclickBind($("#fees_manage"));
 </script>
