@@ -93,7 +93,7 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
 			$QuoteItem	= new Entities\Company\Lead\Quote\Item;
 			
 			$QuoteItem->setInstance($clonedInstance);
-			$QuoteItem->setName("");
+			$QuoteItem->setName("Inventory Item #".$inventory_item_id);
 			$QuoteItem->setQuantity(1);
 
 			$Quote->addItem($QuoteItem);
@@ -102,7 +102,7 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
 			$this->_em->flush();
 			
 			$this->_FlashMessenger->addSuccessMessage("Item Added");
-		    } 
+		    }
 		    catch (Exception $exc)
 		    {
 			$this->_FlashMessenger->addErrorMessage($exc->getMessage());

@@ -23,7 +23,7 @@ class Item extends \Dataservice_Doctrine_Entity
     protected $quantity;
     
     /**
-     * @ManyToOne(targetEntity="\Entities\Company\Lead\Quote\Item\SaleType\SaleTypeAbstract", inversedBy="Items")
+     * @ManyToOne(targetEntity="\Entities\Company\Lead\Quote\Item\SaleType\SaleTypeAbstract", inversedBy="Items", cascade={"persist"})
      * @var \Entities\Company\Lead\Quote\Item\SaleType\SaleTypeAbstract $SaleType
      */
     protected $SaleType;
@@ -167,6 +167,9 @@ class Item extends \Dataservice_Doctrine_Entity
 	return "Not Set";
     }
     
+    /**
+     * @return \Dataservice_Price
+     */
     public function getTotalWithFeesPrice()
     {
 	$Price = $this->getTotalWithFeesEachPrice();
@@ -189,6 +192,9 @@ class Item extends \Dataservice_Doctrine_Entity
 	return $Price;
     }
     
+    /**
+     * @return \Dataservice_Price
+     */
     public function getDueAtSaleEachPrice()
     {
 	$Price = new \Dataservice_Price();
@@ -199,6 +205,9 @@ class Item extends \Dataservice_Doctrine_Entity
 	return $Price;
     }
     
+    /**
+     * @return \Dataservice_Price
+     */
     public function getDueAtSaleTotalPrice()
     {
 	$Price = $this->getDueAtSaleEachPrice();
@@ -208,6 +217,9 @@ class Item extends \Dataservice_Doctrine_Entity
 	return $Price;
     }
     
+    /**
+     * @return \Dataservice_Price
+     */
     public function getRemainderDueEachPrice()
     {
 	$Price = $this->getPaymentsTotalAmountEachPrice();
@@ -217,6 +229,9 @@ class Item extends \Dataservice_Doctrine_Entity
 	return $Price;
     }
     
+    /**
+     * @return \Dataservice_Price
+     */
     public function getRemainderDueTotalPrice()
     {
 	$Price = $this->getRemainderDueEachPrice();
@@ -226,6 +241,9 @@ class Item extends \Dataservice_Doctrine_Entity
 	return $Price;
     }
     
+    /**
+     * @return \Dataservice_Price
+     */
     public function getFeesEachPrice()
     {
 	$Price = new \Dataservice_Price();
@@ -235,6 +253,9 @@ class Item extends \Dataservice_Doctrine_Entity
 	return $Price;
     }
     
+    /**
+     * @return \Dataservice_Price
+     */
     public function getFeesTotalPrice()
     {
 	$Price = $this->getFeesEachPrice();
@@ -244,11 +265,17 @@ class Item extends \Dataservice_Doctrine_Entity
 	return $Price;
     }
     
+    /**
+     * @return \Dataservice_Price
+     */
     public function getPaymentsTotalAmountEachPrice()
     {
 	return $this->getSaleType()->getPaymentsTotalAmountPrice($this->getProductEachPrice());
     }
     
+    /**
+     * @return \Dataservice_Price
+     */
     public function getPaymentsTotalAmountTotalPrice()
     {
 	$Price = $this->getPaymentsTotalAmountEachPrice();
@@ -258,21 +285,33 @@ class Item extends \Dataservice_Doctrine_Entity
 	return $Price;
     }
     
+    /**
+     * @return \Dataservice_Price
+     */
     public function getDownPaymentEachPrice()
     {
 	return $this->getSaleType()->getDownPaymentPrice($this->getProductEachPrice());
     }
     
+    /**
+     * @return int
+     */
     public function getRemainingPaymentsCount()
     {
 	return ($this->getSaleType()->getPaymentsCount($this->getProductEachPrice()) - 1);
     }
     
+    /**
+     * @return \Dataservice_Price
+     */
     public function getRemainingPaymentsAmountEach()
     {
 	return $this->getSaleType()->getPaymentsAmountPrice($this->getProductEachPrice());
     }
     
+    /**
+     * @return \Dataservice_Price
+     */
     public function getRemainingPaymentsAmountTotal()
     {
 	$Price = $this->getRemainingPaymentsAmountEach();
@@ -282,6 +321,9 @@ class Item extends \Dataservice_Doctrine_Entity
 	return $Price;
     }
     
+    /**
+     * @return \Dataservice_Price
+     */
     public function getDownPaymentTotalPrice()
     {
 	$Price = $this->getDownPaymentEachPrice();
@@ -291,11 +333,17 @@ class Item extends \Dataservice_Doctrine_Entity
 	return $Price;
     }
     
+    /**
+     * @return \Dataservice_Price
+     */
     public function getProductEachPrice()
     {
 	return $this->getInstance()->getPriceSafe();
     }
     
+    /**
+     * @return \Dataservice_Price
+     */
     public function getProductTotalPrice()
     {
 	$Price = $this->getProductEachPrice();
@@ -314,6 +362,9 @@ class Item extends \Dataservice_Doctrine_Entity
 	$Result	    = new \Dataservice_Result(true);
 	
 	if(!$SaleType)$Result->setValidFalse("Sale Type Not Set For Item. Check Items");
+	
+	if($this->getProductTotalPrice()->getPrice() < 1 || $this->getDownPaymentTotalPrice()->getPrice() < 1)
+	    $Result->setValidFalse("Price can not be 0. Please edit item.");
 	
 	if(!$this->getSaleType()->isProductAllowed($this->getInstance()->getProduct()))
 	    $Result->setValidFalse("Product Not Allowed With That Sale Type. Change Sale Type");

@@ -10,6 +10,7 @@
  * @version    Release: @package_version@
  */
 namespace Entities\Company\Lead;
+
 use Doctrine\Common\Collections\ArrayCollection;
 
 /** 
@@ -32,6 +33,12 @@ class Quote extends Quote\QuoteAbstract
      * @var array $Items
      */
     protected $Items;
+    
+    /** 
+     * @OneToOne(targetEntity="\Entities\Company\Lead\Quote\Sale", inversedBy="Quote")
+     * @var \Entities\Company\Lead\Quote\Sale
+     */     
+    protected $Sale;
     
     public function __construct()
     {
@@ -71,6 +78,24 @@ class Quote extends Quote\QuoteAbstract
     public function getLead()
     {
 	return $this->Lead;
+    }
+    
+    /** 
+     * @return Quote\Sale
+     */
+    public function getSale()
+    {
+	return $this->Sale;
+    }
+    
+    /**
+     * @param Quote\Sale $Sale
+     */
+    public function setSale(Quote\Sale $Sale)
+    {
+	$Sale->setQuote($this);
+	
+	$this->Sale = $Sale;
     }
     
     public function getDueAtSaleTotalPrice()
@@ -152,6 +177,13 @@ class Quote extends Quote\QuoteAbstract
     public function isValid()
     {
 	$QuoteResult = new \Dataservice_Result(true);
+	$Items	     = $this->getItems();
+	
+	if($Items->count() < 1)
+	{
+	    $QuoteResult->setValidFalse("Quote has no Items. Please add an Item.");
+	}
+	
 	/* @var $Item \Entities\Company\Lead\Quote\Item */
 	foreach ($this->getItems() as $Item)
 	{

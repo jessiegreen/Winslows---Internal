@@ -1,10 +1,10 @@
 <?php 
+echo($this->flashMessages());
 echo "<div>";
 echo HTML::backAnchorIcon("Quote - View ", "/lead-quote/view/id/".$this->Quote->getId());
 echo "</div>";
 /* @var $Quote Entities\Company\Lead\Quote */
-$Quote		= $this->Quote;
-$can_checkout	= true;
+$Quote = $this->Quote;
 ?>
 <h1 class="header1">Quote - Sell</h1>
 <div class="padded_frame">
@@ -13,7 +13,6 @@ $can_checkout	= true;
 	<?php echo $Quote->getDueAtSaleTotalPrice()->getDisplayPrice();?>
     </div>
     <h3>Payment Type</h3>
-    <?php echo($this->flashMessages());?>; 
     <?php 
 	echo $this->payment_form;
     ?>

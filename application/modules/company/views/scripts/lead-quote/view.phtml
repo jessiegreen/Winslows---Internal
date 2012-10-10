@@ -9,7 +9,13 @@ echo "</div>";
     <legend>Menu</legend>
 <?php
 echo HTML::buttonBlue("printer.png", "Print", "quote_print", "margin-right:5px;position:relative;");
-echo HTML::buttonBlue("money.png", "Sell", "quote_sell", "position:relative;");
+echo HTML::buttonBlue(
+			"money.png", 
+			"Sell", 
+			"quote_sell", 
+			"position:relative;".
+			    (!$this->Quote->isValid()->isValid() ? "background-color:silver;'" : "")
+		    );
 ?>
 </fieldset>
 <?php
@@ -35,7 +41,8 @@ $Items		= $quote->getItems();
 	Date: <?php echo $quote->getCreated()->format("F j, Y, g:i a"); ?> &nbsp;&nbsp;&nbsp; 
 	Lead: <?php echo $quote->getLead()->getFullName(); ?> &nbsp;&nbsp;&nbsp; 
 	Sales Person: <?php echo $quote->getLead()->getEmployee()->getFullName(); ?> &nbsp;&nbsp;&nbsp; 
-	Product Total Price: $<?php echo number_format($quote->getTotalSafe(), 2); ?> &nbsp;&nbsp;&nbsp;
+	Product Total Price: $<?php echo number_format($quote->getTotalSafe(), 2); ?> &nbsp;&nbsp;&nbsp;<br />
+	Quote Status: <?php echo $quote->isValid()->isValid() ? "Ready For Sale" : $quote->isValid()->getDisplayErrorMessages();?>
     </div>
 </div>
 <div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">
