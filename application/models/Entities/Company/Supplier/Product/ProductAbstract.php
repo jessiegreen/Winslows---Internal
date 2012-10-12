@@ -63,12 +63,20 @@ class ProductAbstract extends \Dataservice_Doctrine_Entity
      * @var ArrayCollection $Programs
      */
     protected $Programs;
+    
+    /**
+     * @ManytoMany(targetEntity="\Entities\Company\Supplier\Product\DeliveryType\DeliveryTypeAbstract", inversedBy="Products", cascade={"persist"})
+     * @JoinTable(name="company_supplier_product_productabstract_deliverytype_joins")
+     * @var ArrayCollection $DeliveryTypes
+     */
+    private $DeliveryTypes;
 
     public function __construct()
     {
-	$this->RtoProviders = new ArrayCollection();
-	$this->Categories   = new ArrayCollection();
-	$this->Programs	    = new ArrayCollection();
+	$this->RtoProviders	= new ArrayCollection();
+	$this->Categories	= new ArrayCollection();
+	$this->Programs		= new ArrayCollection();
+	$this->DeliveryTypes	= new ArrayCollection();
 	
 	parent::__construct();
     }
@@ -137,6 +145,35 @@ class ProductAbstract extends \Dataservice_Doctrine_Entity
     public function getPrograms()
     {
 	return $this->Programs;
+    }
+    
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getDeliveryTypes()
+    {
+	return $this->DeliveryTypes;
+    }
+    
+    /**
+     * @param DeliveryType\DeliveryTypeAbstract $DeliveryType
+     */
+    public function addDeliveryType(DeliveryType\DeliveryTypeAbstract $DeliveryType)
+    {
+	if(!$this->DeliveryTypes->contains($DeliveryType))
+	{
+	    $DeliveryType->addDeliveryType($this);
+	    
+	    $this->DeliveryTypes[] = $DeliveryType;
+	}
+    }
+    
+    /**
+     * @param DeliveryType\DeliveryTypeAbstract $DeliveryType
+     */
+    public function removeDeliveryType(DeliveryType\DeliveryTypeAbstract $DeliveryType)
+    {
+	$this->DeliveryTypes->removeElement($DeliveryType);
     }
 
     /**

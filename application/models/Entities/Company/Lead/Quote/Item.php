@@ -46,6 +46,12 @@ class Item extends \Dataservice_Doctrine_Entity
      */
     protected $Instance;
     
+    /**
+     * @OneToOne(targetEntity="\Entities\Company\Lead\Quote\Item\Delivery", mappedBy="Item", cascade={"persist"}, orphanRemoval=true)
+     * @var Item\Delivery $Delivery
+     */
+    protected $Delivery;
+    
     public function __construct()
     {
 	if(!$this->getSaleType())
@@ -53,6 +59,13 @@ class Item extends \Dataservice_Doctrine_Entity
 	    $SaleType = new Item\SaleType\Cash();
 	    
 	    $SaleType->addItem($this);
+	}
+	
+	if(!$this->getDelivery() && $this->getDeliveryTypes()->count() === 1)
+	{
+	    $Delivery = new Item\Delivery($this->getDeliveryTypes()->first());
+	    
+	    $this->setDelivery($Delivery);
 	}
 	
 	parent::__construct();
@@ -80,6 +93,24 @@ class Item extends \Dataservice_Doctrine_Entity
     public function getQuote()
     {
 	return $this->Quote;
+    }
+    
+    /**
+     * @param Item\Delivery $Item\Delivery
+     */
+    public function setDelivery(Item\Delivery $Delivery)
+    {
+	$Delivery->setItem($this);
+	
+	$this->Delivery = $Delivery;
+    }
+    
+    /**
+     * @return Item\Delivery
+     */
+    public function getDelivery()
+    {
+	return $this->Delivery;
     }
     
     /**
@@ -165,6 +196,21 @@ class Item extends \Dataservice_Doctrine_Entity
 	if($this->getSaleType())return $this->getSaleType()->getName();
 	
 	return "Not Set";
+    }
+    
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getDeliveryTypes()
+    {
+	$DeliveryTypes = new \Doctrine\Common\Collections\ArrayCollection;
+	
+	if($this->getInstance())
+	{
+	    $DeliveryTypes = $this->getInstance()->getDeliveryTypes();
+	}
+	
+	return $DeliveryTypes;
     }
     
     /**

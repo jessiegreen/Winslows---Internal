@@ -10,6 +10,7 @@ echo "</div>";
 $Product	= $this->Product;
 $product_id	= $Product->getId();
 $Categories	= $Product->getCategories();
+$DeliveryTypes	= $Product->getDeliveryTypes();
 $Options	= null;
 $price		= null;
 $className	= null;
@@ -151,6 +152,51 @@ switch ($Product->getDescriminator())
     </div>
 </div>
 <div class="padded_frame" style="width: 415px;float: right;padding-top: 0px;">
+    <h3>
+	<a href="#">Delivery Types</a>
+	<?php 
+	echo HTML::buttonBlue(
+		"text_list_bullets.png",
+		"Manage",
+		"delivery_types_manage",
+		"float:right;width:80px;"
+		);
+	echo HTML::buttonBlue(
+		"add.png",
+		"Add New",
+		"delivery_type_add",
+		"float:right;width:80px;margin-right:5px;"
+		);
+	?>
+    </h3>
+    <div>
+	<ul>
+	<?php
+	/* @var $DeliveryType \Entities\Company\Supplier\Product\DeliveryType\DeliveryTypeAbstract */
+	if(count($DeliveryTypes) > 0)
+	{
+	    foreach ($DeliveryTypes as $DeliveryType)
+	    {
+		?>
+		<li>
+		    <?php
+		    echo HTML::anchorIcon(
+			    "bullet_go.png", 
+			    "", 
+			    "/supplier-product-delivery-type/view/id/".$DeliveryType->getId(),
+			    "margin-left:5px;"
+			    );
+		    echo $DeliveryType->getName();
+		    ?>
+		</li>
+		<?php
+	    }
+	}
+	else echo "<li>No Delivery Types</li>";
+	?>
+	</ul>
+    </div>
+    <hr />
     <h3><a href="#">Documents</a></h3>
     <div>Put Documents here</div>
 </div>
@@ -161,4 +207,6 @@ switch ($Product->getDescriminator())
     Product.OptionGroupAddOnclickBind($("#group_add"));
     Product.ManageCategoriesOnclickBind($("#categories_manage"));
     Product.CategoryAddOnclickBind($("#category_add"));
+    Product.ManageDeliveryTypesOnclickBind($("#delivery_types_manage"));
+    Product.DeliveryTypeAddOnclickBind($("#delivery_type_add"));
 </script>

@@ -72,12 +72,6 @@ class Rto extends \Entities\Company\Lead\Quote\Item\SaleType\Rto implements \Doc
         return parent::getName();
     }
 
-    public function isApproved()
-    {
-        $this->__load();
-        return parent::isApproved();
-    }
-
     public function getPaymentsTotalAmountPrice(\Dataservice_Price $Price)
     {
         $this->__load();

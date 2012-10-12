@@ -72,4 +72,12 @@ class InstanceAbstract extends \Dataservice_Doctrine_Entity
     {
 	return $this->note;
     }
+    
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getDeliveryTypes()
+    {
+	return $this->getProduct()->getDeliveryTypes();
+    }
 }

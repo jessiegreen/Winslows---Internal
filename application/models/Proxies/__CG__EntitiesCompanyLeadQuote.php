@@ -66,6 +66,18 @@ class Quote extends \Entities\Company\Lead\Quote implements \Doctrine\ORM\Proxy\
         return parent::getLead();
     }
 
+    public function getSale()
+    {
+        $this->__load();
+        return parent::getSale();
+    }
+
+    public function setSale(\Entities\Company\Lead\Quote\Sale $Sale)
+    {
+        $this->__load();
+        return parent::setSale($Sale);
+    }
+
     public function getDueAtSaleTotalPrice()
     {
         $this->__load();
@@ -147,7 +159,7 @@ class Quote extends \Entities\Company\Lead\Quote implements \Doctrine\ORM\Proxy\
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'total', 'created', 'updated', 'Lead', 'Items');
+        return array('__isInitialized__', 'id', 'total', 'created', 'updated', 'Lead', 'Items', 'Sale');
     }
 
     public function __clone()

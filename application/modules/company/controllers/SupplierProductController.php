@@ -252,5 +252,67 @@ class Company_SupplierProductController extends Dataservice_Controller_Action
 	
 	$this->view->form = $form;
     }
+    
+    public function manageDeliveryTypesAction()
+    {
+	/* @var $Product Entities\Company\Supplier\Product\ProductAbstract */
+	$Product = $this->getEntityFromParamFields("Company\Supplier\Product\ProductAbstract", array("id"));
+	
+	if($Product)
+	{
+	    $form = new Forms\Company\Supplier\Product\ManageCategories($Product, array("method" => "post"));
+	    
+	    $form->addCancelButton($this->_History->getPreviousUrl(1));
+	    
+	    if($this->isPostAndValid($form))
+	    {
+		try 
+		{
+		    $data		= $this->_request->getParam("company_supplier_product_managecategories", array("product_managecategories" => array()));
+		    $categories		= $data["product_managecategories"];
+		    $current_categories	= array();
+
+		    foreach ($Product->getCategories() as $Category)
+		    {
+			if(!in_array($Category->getId(), $categories))
+			{
+			    $Category->removeProduct($Product);
+			    $this->_em->persist($Category);
+			}
+
+			$current_categories[] = $Category->getId();
+		    }
+
+		    foreach ($categories as $value) 
+		    {
+			if(!in_array($value, $current_categories))
+			{
+			    $Category = $this->_em->find("\Entities\Company\Supplier\Product\Category", $value);
+			    
+			    $Category->addProduct($Product);
+			    $this->_em->persist($Category);
+			}
+		    }
+		    
+		    $this->_em->flush();
+		    
+		    $this->_FlashMessenger->addSuccessMessage("Product categories saved.");
+		    $this->_History->goBack();
+		}
+		catch (Exception $exc)
+		{
+		    $this->_FlashMessenger->addErrorMessage($exc->getMessage());
+		    $this->_History->goBack();
+		}
+	    }
+	}
+	else
+	{
+	    $this->_FlashMessenger->addErrorMessage("Could not get Product");
+	    $this->_History->goBack();
+	}
+	
+	$this->view->form = $form;
+    }
 }
 

@@ -38,3 +38,21 @@ Product.prototype.CategoryAddOnclickBind = function(element)
 	location    = '/supplier-product-category/edit/id/0/product_id/' + product_id;
     });
 }
+
+Product.prototype.ManageDeliveryTypesOnclickBind = function(element)
+{
+    element.click(function()
+    {
+	product_id  = $("#product_id").val()
+	location    = '/supplier-product/manage-delivery-types/id/' + product_id;
+    });
+}
+
+Product.prototype.DeliveryTypeAddOnclickBind = function(element)
+{
+    element.click(function()
+    {
+	product_id  = $("#product_id").val()
+	location    = '/supplier-product-delivery-type/edit/id/0/product_id/' + product_id;
+    });
+}

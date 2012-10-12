@@ -12,6 +12,7 @@ $Item	    = $this->Item;
 $Instance   = $Item->getInstance();
 /* @var $Product Entities\Company\Supplier\Product\ProductAbstract */
 $Product    = $Instance->getProduct();
+$Delivery   = $Item->getDelivery();
 $quantity   = $Item->getQuantity();
 ?>
 <div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
@@ -94,6 +95,32 @@ $quantity   = $Item->getQuantity();
     </div>
 </div>
 <div class="padded_frame" style="width: 415px;float: right;padding-top: 0px;">
+    <h3>
+	<a href="#">Delivery</a>
+    </h3>
+    <div>
+	<?php
+	if($Delivery)
+	{
+	    ?>
+	    <div style="padding: 3px;margin-bottom: 3px;">
+		<?php 
+		echo "View";
+		echo HTML::anchorIcon(
+			"bullet_go.png", 
+			"", 
+			"/lead-quote-item-delivery/view/id/".$Delivery->getId(),
+			"margin-left:5px;"
+			);
+		?>
+	    </div>
+	    <?php
+	}
+	else if($Item->getDeliveryTypes()->isEmpty())echo "Delivery Not Required";
+	else echo "Not Set";
+	?>
+    </div>
+    <hr />
     <h3><a href="#">Documents</a></h3>
     <div>Put Documents here</div>
     <hr />
