@@ -61,13 +61,6 @@ class Item extends \Dataservice_Doctrine_Entity
 	    $SaleType->addItem($this);
 	}
 	
-	if(!$this->getDelivery() && $this->getDeliveryTypes()->count() === 1)
-	{
-	    $Delivery = new Item\Delivery($this->getDeliveryTypes()->first());
-	    
-	    $this->setDelivery($Delivery);
-	}
-	
 	parent::__construct();
     }
     
@@ -103,6 +96,14 @@ class Item extends \Dataservice_Doctrine_Entity
 	$Delivery->setItem($this);
 	
 	$this->Delivery = $Delivery;
+    }
+    
+    /**
+     * Sets Delivery to null
+     */
+    public function clearDelivery()
+    {
+	$this->Delivery = null;
     }
     
     /**
@@ -211,6 +212,18 @@ class Item extends \Dataservice_Doctrine_Entity
 	}
 	
 	return $DeliveryTypes;
+    }
+    
+    public function getDeliveryTypesKeyNameArray()
+    {
+	$array = array();
+	
+	foreach ($this->getDeliveryTypes() as $DeliveryType)
+	{
+	    $array[$DeliveryType->getId()] = $DeliveryType->getName();
+	}
+	
+	return $array;
     }
     
     /**
@@ -405,21 +418,36 @@ class Item extends \Dataservice_Doctrine_Entity
     public function isValid()
     {
 	$SaleType   = $this->getSaleType();
+	$Delivery   = $this->getDelivery();
 	$Result	    = new \Dataservice_Result(true);
 	
-	if(!$SaleType)$Result->setValidFalse("Sale Type Not Set For Item. Check Items");
-	
-	if($this->getProductTotalPrice()->getPrice() < 1 || $this->getDownPaymentTotalPrice()->getPrice() < 1)
-	    $Result->setValidFalse("Price can not be 0. Please edit item.");
+	#--Sale Type
+	if(!$SaleType)$Result->setValidFalse("Sale Type Not Set For Item.");
 	
 	if(!$this->getSaleType()->isProductAllowed($this->getInstance()->getProduct()))
 	    $Result->setValidFalse("Product Not Allowed With That Sale Type. Change Sale Type");
 	
+	#--Price
+	if($this->getProductTotalPrice()->getPrice() < 1 || $this->getDownPaymentTotalPrice()->getPrice() < 1)
+	    $Result->setValidFalse("Price can not be 0. Please edit item.");
+	
+	#--Rto
 	if($this->isRtoSaleType())
 	{
 	    $Application = $this->getQuote()->getLead()->getApplication($this->getSaleType()->getProgram()->getRtoProvider()->getNameIndex());
 
 	    if(!$Application)$Result->setValidFalse("No Rto Application On File. Fill Out Rto Provider Application.");
+	}
+	
+	#--Delivery
+	if(!$Delivery)$Result->setValidFalse("Delivery Not Set For Item.");
+	else
+	{
+	    if(!$Delivery->getAddress())
+		$Result->setValidFalse("Delivery Address Not Set For Item.");
+	    
+	    if(!$this->getDeliveryTypes()->contains($Delivery->getDeliveryType()))
+		$Result->setValidFalse("Delivery type not allowed for item. Change delivery type.");
 	}
 	
 	return $Result;

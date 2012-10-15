@@ -98,7 +98,7 @@ class PersonAbstract extends \Dataservice_Doctrine_Entity
     }
     
     /** 
-     * @return array
+     * @return ArrayCollection
      */
     public function getAddresses()
     {

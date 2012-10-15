@@ -260,43 +260,35 @@ class Company_SupplierProductController extends Dataservice_Controller_Action
 	
 	if($Product)
 	{
-	    $form = new Forms\Company\Supplier\Product\ManageCategories($Product, array("method" => "post"));
+	    $form = new Forms\Company\Supplier\Product\ManageDeliveryTypes($Product, array("method" => "post"));
 	    
-	    $form->addCancelButton($this->_History->getPreviousUrl(1));
+	    $form->addCancelButton($this->_History->getPreviousUrl());
 	    
 	    if($this->isPostAndValid($form))
 	    {
 		try 
 		{
-		    $data		= $this->_request->getParam("company_supplier_product_managecategories", array("product_managecategories" => array()));
-		    $categories		= $data["product_managecategories"];
-		    $current_categories	= array();
+		    $data		= $this->_request->getParam(
+						"company_supplier_product_managedeliverytypes", 
+						array("product_managedeliverytypes" => array())
+					    );
+		    $delivery_types	= $data["product_managedeliverytypes"];
+		    $current_types	= array();
 
-		    foreach ($Product->getCategories() as $Category)
+		    $Product->getDeliveryTypes()->clear();
+		    
+		    foreach ($delivery_types as $value) 
 		    {
-			if(!in_array($Category->getId(), $categories))
-			{
-			    $Category->removeProduct($Product);
-			    $this->_em->persist($Category);
-			}
+			$DeliveryType = $this->_em->find("\Entities\Company\Supplier\Product\DeliveryType\DeliveryTypeAbstract", $value);
 
-			$current_categories[] = $Category->getId();
-		    }
-
-		    foreach ($categories as $value) 
-		    {
-			if(!in_array($value, $current_categories))
-			{
-			    $Category = $this->_em->find("\Entities\Company\Supplier\Product\Category", $value);
-			    
-			    $Category->addProduct($Product);
-			    $this->_em->persist($Category);
-			}
+			if($DeliveryType)
+			    $Product->addDeliveryType($DeliveryType);
 		    }
 		    
+		    $this->_em->persist($Product);		    
 		    $this->_em->flush();
 		    
-		    $this->_FlashMessenger->addSuccessMessage("Product categories saved.");
+		    $this->_FlashMessenger->addSuccessMessage("Product delivery types saved.");
 		    $this->_History->goBack();
 		}
 		catch (Exception $exc)

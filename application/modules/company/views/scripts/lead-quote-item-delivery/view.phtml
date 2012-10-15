@@ -1,0 +1,77 @@
+<?php 
+echo($this->flashMessages()); 
+echo "<div>";
+echo HTML::backAnchorIcon("Quote Item - View", "/lead-quote-item/view/id/".$this->Delivery->getItem()->getId());
+echo "</div>";
+?>
+<h1 class="header1">Quote Item Delivery - View</h1>
+<?php
+/* @var $Delivery \Entities\Company\Lead\Quote\Item\Delivery */
+$Delivery	= $this->Delivery;
+$DeliveryType	= $Delivery->getDeliveryType();
+$Address	= $Delivery->getAddress();
+?>
+<div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
+    <h4 class="no_space" style="color: #2000EE;">
+	Info
+	<?php
+	echo HTML::anchorIcon(
+		"pencil.png", 
+		"", 
+		"/lead-quote-item/set-delivery-type/id/".$Delivery->getItem()->getId(),
+		"margin-left:5px;"
+		);
+	?>
+    </h4>
+    <div>
+	Type: <?php echo $DeliveryType->getName();?> &nbsp;&nbsp;&nbsp;
+    </div>
+</div>
+<div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">
+    <div id="accordion">
+	<h3>
+	    <a href="#"><?php echo $Delivery->getAddressLabel();?></a>
+	    <?php
+	    echo HTML::buttonBlue("add.png", "Set ".$Delivery->getAddressLabel(), "set_address", "float:right;");
+	    ?>
+	</h3>
+	<div>
+	    <?php
+	    if($Address):
+		?>
+		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
+		    <?php 
+		    echo $Address->getName();
+		    ?>
+		</h4>
+		<label>Address 1:</label>
+		<div style="display: inline;"><?php echo $Address->getAddress1(); ?></div>
+		<br />
+		<label>Address 2:</label>
+		<div style="display: inline;"><?php echo $Address->getAddress2(); ?></div>
+		<br />
+		<label>City/State/Zip:</label>
+		<div style="display: inline;">
+		    <?php 
+		    echo $Address->getCity().", ".$Address->getState()." ".$Address->getZip1(); 
+		    ?>
+		</div>
+		<?php
+	    else:
+		echo "Address Not Set";
+	    endif;
+	    ?>
+	</div>
+	<hr />
+    </div>
+</div>
+<div class="padded_frame" style="width: 415px;float: right;padding-top: 0px;">
+    <h3><a href="#">Documents</a></h3>
+    <div>Put Documents here</div>
+    <hr />
+</div>
+<div style="clear: both;"><input type="hidden" id="delivery_id" value="<?php echo $Delivery->getId();?>" /></div>
+<script type="text/javascript">
+    D = new Company_Lead_Quote_Item_Delivery();
+    D.SetAddressOnclickBind($("#set_address"));
+</script>

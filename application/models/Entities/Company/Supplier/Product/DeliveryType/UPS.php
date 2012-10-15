@@ -2,11 +2,11 @@
 
 namespace Entities\Company\Supplier\Product\DeliveryType;
 /** 
- * @Entity (repositoryClass="Repositories\Company\Supplier\DeliveryType\MetalFrame") 
- * @Table(name="company_supplier_product_deliverytype_metalframes") 
+ * @Entity (repositoryClass="Repositories\Company\Supplier\DeliveryType\UPS") 
+ * @Table(name="company_supplier_product_deliverytype_ups") 
  */
 
-class MetalFrame extends DeliveryTypeAbstract
+class UPS extends DeliveryTypeAbstract
 {
     public function getAddresses(\Entities\Company\Lead\Quote\Item $Item)
     {
@@ -18,6 +18,6 @@ class MetalFrame extends DeliveryTypeAbstract
      */
     public function getDescriminator() 
     {
-	return parent::TYPE_MetalFrame;
+	return parent::TYPE_UPS;
     }
 }

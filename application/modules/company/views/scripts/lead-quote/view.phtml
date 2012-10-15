@@ -132,6 +132,10 @@ $Items		= $quote->getItems();
 		    <?php echo $Item->getPaymentsTotalAmountTotalPrice()->getDisplayPrice(); ?>
 		</div>
 		<br />
+		<label>Item Status:</label>
+		<div style="display: inline;color:<?php echo $Item->isValid()->isValid() ? "green" : "red;"?>">
+		    <?php echo $Item->isValid()->isValid() ? "Item Ready For Sale" : $Item->isValid()->getDisplayErrorMessages(); ?>
+		</div>
 		<?php
 	    }
 	    ?>

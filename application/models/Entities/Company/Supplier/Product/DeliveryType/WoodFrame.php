@@ -8,6 +8,11 @@ namespace Entities\Company\Supplier\Product\DeliveryType;
 
 class WoodFrame extends DeliveryTypeAbstract
 {
+    public function getAddresses(\Entities\Company\Lead\Quote\Item $Item)
+    {
+	return $Item->getQuote()->getLead()->getAddresses();
+    }
+    
     /**
      * @return string
      */

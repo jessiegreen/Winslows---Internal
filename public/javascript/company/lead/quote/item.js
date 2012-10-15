@@ -18,4 +18,14 @@ Item.prototype.ProductBuilderOnclickBind = function(element, instance_id)
     });
 }
 
+Item.prototype.DeliverySetOnclickBind = function(element)
+{
+    element.click(function()
+    {
+	item_id = $("#item_id").val();
+
+	location = "/lead-quote-item/set-delivery-type/id/" + item_id;
+    });
+}
+
 

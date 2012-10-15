@@ -83,6 +83,49 @@ class Company_LeadQuoteItemController extends Dataservice_Controller_Action
 	$this->view->Item	= $Item;
     }
     
+    public function setDeliveryTypeAction()
+    {
+	$Item = $this->_getItem();
+	
+	$this->_CheckRequiredItemExists($Item);
+	
+	$form = new Forms\Company\Lead\Quote\Item\SetDeliveryType($Item);
+	
+	$form->addCancelButton($this->_History->getPreviousUrl());
+	
+	if($this->isPostAndValid($form))
+	{
+	    $data = $this->_request->getParam("company_lead_quote_item_setdeliverytype");
+	    
+	    $DeliveryType = $this->_em->getRepository("Entities\Company\Supplier\Product\DeliveryType\DeliveryTypeAbstract")->find($data["delivery_type_id"]);
+	    
+	    if($DeliveryType)
+	    {
+		$Delivery = new Entities\Company\Lead\Quote\Item\Delivery ($DeliveryType, $Item);
+		
+		$Item->clearDelivery();
+		
+		$this->_em->persist($Item);
+		$this->_em->flush();
+		
+		$Item->setDelivery($Delivery);
+		
+		$this->_em->persist($Item);
+		$this->_em->flush();
+		
+		$this->_FlashMessenger->addSuccessMessage("Delivery Type Saved");
+		$this->_History->goBack();
+	    }
+	    else
+	    {
+		$this->_FlashMessenger->addErrorMessage("Delivery Type does not exist");
+		$this->_History->goBack();
+	    }
+	}
+    
+	$this->view->form = $form;
+    }
+    
     /**
      * @return Entities\Company\Lead\Quote\Item
      */

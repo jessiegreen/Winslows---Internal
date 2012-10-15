@@ -4,19 +4,23 @@ namespace Entities\Company\Supplier\Product\DeliveryType;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /** 
- * @Entity (repositoryClass="Repositories\Company\Supplier\Product\DeliveryType\DeliveryAbstract") 
+ * @Entity (repositoryClass="Repositories\Company\Supplier\Product\DeliveryType\DeliveryTypeAbstract") 
  * @Table(name="company_supplier_product_deliverytype_deliverytypeabstracts") 
  * @InheritanceType("JOINED")
  * @DiscriminatorColumn(name="discr", type="string")
  * @DiscriminatorMap({
- *			"company_supplier_product_delivery_woodframe" = "\Entities\Company\Supplier\Product\DeliveryType\WoodFrame", 
- *			"company_supplier_product_delivery_metalframe" = "\Entities\Company\Supplier\Product\DeliveryType\MetalFrame",
+ *			"company_supplier_product_deliverytype_woodframe" = "\Entities\Company\Supplier\Product\DeliveryType\WoodFrame", 
+ *			"company_supplier_product_deliverytype_metalframe" = "\Entities\Company\Supplier\Product\DeliveryType\MetalFrame",
+ *			"company_supplier_product_deliverytype_locationpickup" = "\Entities\Company\Supplier\Product\DeliveryType\LocationPickup",
+ *			"company_supplier_product_deliverytype_ups" = "\Entities\Company\Supplier\Product\DeliveryType\UPS"
  *			})
  * @HasLifecycleCallbacks
  */
 class DeliveryTypeAbstract extends \Dataservice_Doctrine_Entity
 {
     const TYPE_MetalFrame   = "MetalFrame";
+    const TYPE_Location	    = "LocationPickup";
+    const TYPE_UPS	    = "UPS";
     const TYPE_WoodFrame    = "WoodFrame";
     const TYPE_Base	    = "Base";
 
@@ -38,6 +42,18 @@ class DeliveryTypeAbstract extends \Dataservice_Doctrine_Entity
      * @var string $index_string
      */
     protected $index_string;
+    
+    /** 
+     * @Column(type="string", length=255) 
+     * @var string $address_label
+     */
+    protected $address_label;
+    
+    /** 
+     * @Column(type="string", length=255) 
+     * @var string $address_entity
+     */
+    protected $address_entity;
     
     /** 
      * @Column(type="string", length=2000) 
@@ -164,6 +180,38 @@ class DeliveryTypeAbstract extends \Dataservice_Doctrine_Entity
     public function setDescription($description)
     {
         $this->description = $description;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getAddressLabel()
+    {
+	return $this->address_label;
+    }
+    
+    /**
+     * @param string $address_label
+     */
+    public function setAddressLabel($address_label)
+    {
+	$this->address_label = $address_label;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getAddressEntity()
+    {
+	return $this->address_entity;
+    }
+    
+    /**
+     * @param string $address_entity
+     */
+    public function setAddressEntity($address_entity)
+    {
+	$this->address_entity = $address_entity;
     }
     
     /**

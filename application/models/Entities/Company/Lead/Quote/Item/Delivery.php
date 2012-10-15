@@ -34,9 +34,10 @@ class Delivery extends \Dataservice_Doctrine_Entity
      */
     protected $Address;
     
-    public function __construct(\Entities\Company\Supplier\Product\DeliveryType\DeliveryTypeAbstract $DeliveryType)
+    public function __construct(\Entities\Company\Supplier\Product\DeliveryType\DeliveryTypeAbstract $DeliveryType, \Entities\Company\Lead\Quote\Item $Item)
     {
 	$this->DeliveryType = $DeliveryType;
+	$this->Item	    = $Item;
 	
 	parent::__construct();
     }
@@ -47,14 +48,6 @@ class Delivery extends \Dataservice_Doctrine_Entity
     public function getId()
     {
 	return $this->id;
-    }
-
-    /**
-     * @param \Entities\Company\Supplier\Product\DeliveryType\DeliveryTypeAbstract $DeliveryType
-     */
-    public function setDeliveryType(\Entities\Company\Supplier\Product\DeliveryType\DeliveryTypeAbstract $DeliveryType)
-    {
-	$this->DeliveryType = $DeliveryType;
     }
     
     /**
@@ -95,5 +88,15 @@ class Delivery extends \Dataservice_Doctrine_Entity
     public function setAddress(\Entities\Person\Address $Address)
     {
 	$this->Address = $Address;
+    }
+    
+    public function getAddressLabel()
+    {
+	return $this->getDeliveryType()->getAddressLabel();
+    }
+    
+    public function getAddresses()
+    {
+	return $this->getDeliveryType()->getAddresses($this->getItem());
     }
 }

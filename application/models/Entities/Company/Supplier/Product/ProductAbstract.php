@@ -162,7 +162,7 @@ class ProductAbstract extends \Dataservice_Doctrine_Entity
     {
 	if(!$this->DeliveryTypes->contains($DeliveryType))
 	{
-	    $DeliveryType->addDeliveryType($this);
+	    $DeliveryType->addProduct($this);
 	    
 	    $this->DeliveryTypes[] = $DeliveryType;
 	}

@@ -24,7 +24,7 @@ switch ($Product->getDescriminator())
     break;
     case "Simple":
 	/* @var $Product \Entities\SimpleProduct */
-	$price		= $Product->getPrice();
+	$price		= $Product->getPrice()->getDisplayPrice();
     break;
 }
 ?>
