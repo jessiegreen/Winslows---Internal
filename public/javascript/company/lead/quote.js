@@ -28,9 +28,9 @@ Quote.prototype.PrintOnClickBind = function(element)
 
 Quote.prototype.SellOnClickBind = function(element)
 {
-    element.click(function(e)
+    element.click(function()
     {
-	location = "/lead-quote/sell/id/" + $("#quote_id").val();
+	location = "/lead-quote-sale/summary/quote_id/" + $("#quote_id").val();
     })
 }
 

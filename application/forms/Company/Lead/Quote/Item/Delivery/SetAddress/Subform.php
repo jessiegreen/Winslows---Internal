@@ -25,18 +25,37 @@ class Subform extends \Zend_Form_SubForm
     {
 	$options = array();
 	
-	foreach ($this->_Delivery->getAddresses() as $Address)
+	foreach ($this->_Delivery->getOriginationAddresses() as $Address)
 	{
-	    $options[$Address->getId()] = $Address->getName()." ".$Address->getAddress1()." ".$Address->getCity().", ".$Address->getState();
+	    $options[$Address->getId()] = $Address->getName()." - ".$Address->getAddress1()." ".$Address->getCity().", ".$Address->getState();
 	}
 	
 	$this->addElement(
 		"radio", 
-		"address_id", 
+		"origination_address_id", 
 		array(
-		    "label"	    => "Delivery Type",
+		    "label"	    => "Origination Address",
 		    "required"	    => false,
-		    "value"	    => $this->_Delivery && $this->_Delivery->getAddress()? $this->_Delivery->getAddress()->getId() : "",
+		    "value"	    => $this->_Delivery && $this->_Delivery->getOriginationAddress()? $this->_Delivery->getOriginationAddress()->getId() : "",
+		    "belongsTo"	    => "company_lead_quote_item_delivery_setaddress",
+		    "multioptions"  => $options
+		)
+	    );
+	
+	$options = array();
+	
+	foreach ($this->_Delivery->getDestinationAddresses() as $Address)
+	{
+	    $options[$Address->getId()] = $Address->getName()." - ".$Address->getAddress1()." ".$Address->getCity().", ".$Address->getState();
+	}
+	
+	$this->addElement(
+		"radio", 
+		"destination_address_id", 
+		array(
+		    "label"	    => "Destination Address",
+		    "required"	    => false,
+		    "value"	    => $this->_Delivery && $this->_Delivery->getDestinationAddress()? $this->_Delivery->getDestinationAddress()->getId() : "",
 		    "belongsTo"	    => "company_lead_quote_item_delivery_setaddress",
 		    "multioptions"  => $options
 		)

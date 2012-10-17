@@ -20,7 +20,8 @@ class Company_LeadQuoteItemDeliveryController extends Dataservice_Controller_Act
     
     public function setAddressAction()
     {
-	$Delivery = $this->_getDelivery();
+	$Delivery	= $this->_getDelivery();
+	$AddressRepos	= $this->_em->getRepository("Entities\Address\AddressAbstract");
 	
 	$this->_CheckRequiredDeliveryExists($Delivery);
 	
@@ -30,25 +31,26 @@ class Company_LeadQuoteItemDeliveryController extends Dataservice_Controller_Act
 	
 	if($this->isPostAndValid($form))
 	{
-	    $data    = $this->_request->getParam("company_lead_quote_item_delivery_setaddress");
+	    $data		= $this->_request->getParam("company_lead_quote_item_delivery_setaddress");
+	    $OriginationAddress = $AddressRepos->find($data["origination_address_id"]);
+	    $DestinationAddress = $AddressRepos->find($data["destination_address_id"]);
 	    
-	    $Address = $this->_em->getRepository("Entities\Address\AddressAbstract")->find($data["address_id"]);
-	    
-	    if($Address)
+	    if($OriginationAddress && $DestinationAddress)
 	    {		
-		$Delivery->setAddress($Address);
-		
-		$this->_em->persist($Delivery);
-		$this->_em->flush();
-		
-		$this->_FlashMessenger->addSuccessMessage("Delivery Address Saved");
-		$this->_History->goBack();
+		$Delivery->setOriginationAddress($OriginationAddress);
+		$Delivery->setDestinationAddress($DestinationAddress);
 	    }
 	    else
 	    {
 		$this->_FlashMessenger->addErrorMessage("Address does not exist");
 		$this->_History->goBack();
 	    }
+		
+	    $this->_em->persist($Delivery);
+	    $this->_em->flush();
+
+	    $this->_FlashMessenger->addSuccessMessage("Delivery Addresses Saved");
+	    $this->_History->goBack();
 	}
     
 	$this->view->form = $form;

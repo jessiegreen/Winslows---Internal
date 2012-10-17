@@ -1,0 +1,44 @@
+<?php 
+echo($this->flashMessages());
+echo "<div>";
+echo HTML::backAnchorIcon("Quote - View ", "/lead-quote/view/id/".$this->Sale->getQuote()->getId());
+echo "</div>";
+/* @var $Sale Entities\Company\Lead\Quote\Sale */
+$Sale = $this->Sale;
+?>
+<h1 class="header1">Quote - Sale</h1>
+<div class="padded_frame">
+    <h3>Total Due Today:</h3>
+    <div class="padded_frame">
+	<?php 
+	echo $Sale->getTotalDueAtSalePrice()->getDisplayPrice();
+	?>
+    </div>
+    <h3>Total Paid Today:</h3>
+    <div class="padded_frame">
+	<?php 
+	echo $Sale->getTotalPaidPrice()->getDisplayPrice();
+	?>
+    </div>
+    <h3>Balance Due Today:</h3>
+    <div class="padded_frame">
+	<?php 
+	echo $Sale->getBalanceDueAtSalePrice()->getDisplayPrice();
+	?>
+    </div>
+    <?php
+    if($Sale->getBalanceDueAtSalePrice()->getPrice() > 0):
+	?>
+	<h3>Add Payment</h3>
+	<?php 
+	    echo $this->payment_form;
+    else:
+	echo "<input type='button' value='Complete Sale' />";
+    endif;
+    ?>
+</div>
+<div style="clear: both;"><input type="hidden" id="sale_id" value="<?php echo $Sale->getId();?>" /></div>
+<script type="text/javascript">
+    Q = new Company_Lead_Quote_Sale();
+    Q.AddPaymentOnClickBind($( "input:radio" ));
+</script>

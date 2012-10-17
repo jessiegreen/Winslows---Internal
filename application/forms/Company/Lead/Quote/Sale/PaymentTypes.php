@@ -1,5 +1,5 @@
 <?php
-namespace Forms\Company\Lead\Quote\Sell;
+namespace Forms\Company\Lead\Quote\Sale;
 /**
  * Name:
  * Location:
@@ -16,10 +16,6 @@ class PaymentTypes extends \Dataservice_Form
     {
 	$form = new PaymentTypes\Subform();
 	
-	$this->addSubForm($form, "company_lead_quote_sell_payment_types");
-
-        $this->addElement('submit', 'Checkout', array(
-            'ignore'   => true,
-        ));
+	$this->addSubForm($form, "company_lead_quote_sale_payment_types");
     }
 }

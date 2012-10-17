@@ -443,8 +443,11 @@ class Item extends \Dataservice_Doctrine_Entity
 	if(!$Delivery)$Result->setValidFalse("Delivery Not Set For Item.");
 	else
 	{
-	    if(!$Delivery->getAddress())
-		$Result->setValidFalse("Delivery Address Not Set For Item.");
+	    if(!$Delivery->getOriginationAddress())
+		$Result->setValidFalse("Delivery Origination Address Not Set For Item.");
+	    
+	    if(!$Delivery->getDestinationAddress())
+		$Result->setValidFalse("Delivery Destination Address Not Set For Item.");
 	    
 	    if(!$this->getDeliveryTypes()->contains($Delivery->getDeliveryType()))
 		$Result->setValidFalse("Delivery type not allowed for item. Change delivery type.");

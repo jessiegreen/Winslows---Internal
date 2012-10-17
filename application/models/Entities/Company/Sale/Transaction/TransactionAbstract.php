@@ -7,7 +7,10 @@ namespace Entities\Company\Sale\Transaction;
  * @Table(name="company_sale_transaction_transactionabstracts") 
  * @InheritanceType("JOINED")
  * @DiscriminatorColumn(name="discr", type="string")
- * @DiscriminatorMap({"company_paymentgateway_payment" = "\Entities\Company\PaymentGateway\Payment"})
+ * @DiscriminatorMap({
+ *			"company_sale_transaction_payment_paymentgateway" = "\Entities\Company\Sale\Transaction\Payment\PaymentGateway",
+ *			"company_sale_transaction_payment_cash" = "\Entities\Company\Sale\Transaction\Payment\Cash"
+ *			})
  * @HasLifecycleCallbacks
  */
 abstract class TransactionAbstract extends \Dataservice_Doctrine_Entity implements \Interfaces\Company\Sale\Transaction

@@ -9,12 +9,12 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-namespace Entities\Company\Sale\Transaction;
+namespace Entities\Company\Sale\Transaction\Payment;
 
 /** 
- * @Entity (repositoryClass="Repositories\Company\Sale\Transaction\Payment") 
+ * @Entity (repositoryClass="Repositories\Company\Sale\Transaction\Payment\PaymentAbstract") 
  * @Table(name="company_sale_transaction_payments") 
  */
-abstract class PaymentAbstract extends TransactionAbstract
+abstract class PaymentAbstract extends \Entities\Company\Sale\Transaction\TransactionAbstract
 {
 }

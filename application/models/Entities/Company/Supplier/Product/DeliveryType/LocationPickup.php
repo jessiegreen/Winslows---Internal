@@ -8,14 +8,22 @@ namespace Entities\Company\Supplier\Product\DeliveryType;
 
 class LocationPickup extends DeliveryTypeAbstract
 {
-    public function getAddresses(\Entities\Company\Lead\Quote\Item $Item)
+    /**
+     * @param \Entities\Company\Lead\Quote\Item $Item
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getOriginationAddresses(\Entities\Company\Lead\Quote\Item $Item)
     {
-	$Addresses = new \Doctrine\Common\Collections\ArrayCollection;
-	
-	foreach($Item->getQuote()->getLead()->getCompany()->getLocations() as $Location)
-	    $Addresses->add($Location->getAddress());
-	
-	return $Addresses;
+	return $this->_getLocationAddresses($Item);
+    }
+    
+    /**
+     * @param \Entities\Company\Lead\Quote\Item $Item
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getDestinationAddresses(\Entities\Company\Lead\Quote\Item $Item)
+    {
+	return $this->_getLocationAddresses($Item);
     }
     
     /**

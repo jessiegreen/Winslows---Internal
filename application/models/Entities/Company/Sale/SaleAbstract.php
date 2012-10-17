@@ -23,9 +23,15 @@ abstract class SaleAbstract extends \Dataservice_Doctrine_Entity
     
     /**
      * @Column(type="decimal", precision=40, scale=2)
-     * @var integer $price
+     * @var integer $total_due
      */
-    protected $price = 0;
+    protected $total_due = 0;
+    
+    /**
+     * @Column(type="decimal", precision=40, scale=2)
+     * @var integer $total_due_at_sale
+     */
+    protected $total_due_at_sale = 0;
     
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
@@ -68,16 +74,83 @@ abstract class SaleAbstract extends \Dataservice_Doctrine_Entity
         return $this->id;
     }
     
-    public function getBalance()
+    /**
+     * @return \Dataservice_Price
+     */
+    public function getBalancePrice()
     {
 	$BalancePrice = new \Dataservice_Price();
+	
+	$BalancePrice->setPrice($this->getTotalDue());
 	
 	/* @var $Transaction \Entities\Company\Sale\Transaction\TransactionAbstract */
 	foreach ($this->getTransactions() as $Transaction)
 	{
-	    $BalancePrice->add($Transaction->getAmount());
+	    $BalancePrice->subtract($Transaction->getAmount());
 	}
 	
 	return $BalancePrice;
+    }
+    
+    /**
+     * @return \Dataservice_Price
+     */
+    public function getBalanceDueAtSalePrice()
+    {
+	$DueAtSalePrice = $this->getTotalDueAtSalePrice();
+	
+	$DueAtSalePrice->subtract($this->getTotalPaidPrice()->getPrice());
+	
+	return $DueAtSalePrice;
+    }
+    
+    /**
+     * @return \Dataservice_Price
+     */
+    public function getTotalPaidPrice()
+    {
+	$PaidPrice = new \Dataservice_Price();
+	
+	/* @var $Transaction \Entities\Company\Sale\Transaction\TransactionAbstract */
+	foreach ($this->getTransactions() as $Transaction)
+	{
+	    $PaidPrice->add($Transaction->getAmount());
+	}
+	
+	return $PaidPrice;
+    }
+    
+    public function getTotalDue()
+    {
+	return $this->total_due;
+    }
+    
+    public function getTotalDueAtSale()
+    {
+	return $this->total_due_at_sale;
+    }
+    
+    /**
+     * @return \Dataservice_Price
+     */
+    public function getTotalDueAtSalePrice()
+    {
+	$Price = new \Dataservice_Price();
+	
+	$Price->setPrice($this->getTotalDueAtSale());
+	
+	return $Price;
+    }
+    
+    /**
+     * @return \Dataservice_Price
+     */
+    public function getTotalDuePrice()
+    {
+	$Price = new \Dataservice_Price();
+	
+	$Price->setPrice($this->getTotalDue());
+	
+	return $Price;
     }
 }

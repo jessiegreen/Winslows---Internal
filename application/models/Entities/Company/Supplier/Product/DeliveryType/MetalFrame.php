@@ -7,10 +7,23 @@ namespace Entities\Company\Supplier\Product\DeliveryType;
  */
 
 class MetalFrame extends DeliveryTypeAbstract
-{
-    public function getAddresses(\Entities\Company\Lead\Quote\Item $Item)
+{    
+    /**
+     * @param \Entities\Company\Lead\Quote\Item $Item
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getOriginationAddresses(\Entities\Company\Lead\Quote\Item $Item)
     {
-	return $Item->getQuote()->getLead()->getAddresses();
+	return $this->_getLocationAddresses($Item);
+    }
+    
+    /**
+     * @param \Entities\Company\Lead\Quote\Item $Item
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getDestinationAddresses(\Entities\Company\Lead\Quote\Item $Item)
+    {
+	return $this->_getLeadAddresses($Item);
     }
     
     /**

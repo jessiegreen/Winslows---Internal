@@ -50,7 +50,7 @@ class PaymentGateway extends \Dataservice_Doctrine_Entity
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="\Entities\Company\PaymentGateway\Payment", mappedBy="RtoProvider", cascade={"persist"})
+     * @OneToMany(targetEntity="\Entities\Company\Sale\Transaction\Payment\PaymentGateway", mappedBy="PaymentGateway", cascade={"persist"})
      * @var ArrayCollection $Applications
      */
     protected $Payments;

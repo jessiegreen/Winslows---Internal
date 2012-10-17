@@ -24,6 +24,15 @@ class Sale extends \Entities\Company\Sale\SaleAbstract
      */
     protected $Quote;
     
+    public function __construct(\Entities\Company\Lead\Quote $Quote)
+    {
+	$this->Quote = $Quote;
+	
+	$this->_persist();
+	
+	parent::__construct();
+    }
+    
     /**
      * @return \Entities\Company\Lead\Quote
      */
@@ -32,11 +41,9 @@ class Sale extends \Entities\Company\Sale\SaleAbstract
 	return $this->Quote;
     }
     
-    /**
-     * @param \Entities\Company\Lead\Quote $Quote
-     */
-    public function setQuote(\Entities\Company\Lead\Quote $Quote)
+    private function _persist()
     {
-	$this->Quote = $Quote;
+	$this->total_due	    = $this->getQuote()->getTotalSafe();
+	$this->total_due_at_sale    = $this->getQuote()->getDueAtSaleTotalPrice()->getPrice();
     }
 }

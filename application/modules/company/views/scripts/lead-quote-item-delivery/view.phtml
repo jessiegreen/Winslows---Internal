@@ -7,9 +7,10 @@ echo "</div>";
 <h1 class="header1">Quote Item Delivery - View</h1>
 <?php
 /* @var $Delivery \Entities\Company\Lead\Quote\Item\Delivery */
-$Delivery	= $this->Delivery;
-$DeliveryType	= $Delivery->getDeliveryType();
-$Address	= $Delivery->getAddress();
+$Delivery	    = $this->Delivery;
+$DeliveryType	    = $Delivery->getDeliveryType();
+$OriginationAddress = $Delivery->getOriginationAddress();
+$DestinationAddress = $Delivery->getDestinationAddress();
 ?>
 <div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
     <h4 class="no_space" style="color: #2000EE;">
@@ -30,35 +31,61 @@ $Address	= $Delivery->getAddress();
 <div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">
     <div id="accordion">
 	<h3>
-	    <a href="#"><?php echo $Delivery->getAddressLabel();?></a>
+	    <a href="#">Addresses</a>
 	    <?php
-	    echo HTML::buttonBlue("add.png", "Set ".$Delivery->getAddressLabel(), "set_address", "float:right;");
+	    echo HTML::buttonBlue("add.png", "Set Addresses", "set_address", "float:right;");
 	    ?>
 	</h3>
 	<div>
 	    <?php
-	    if($Address):
+	    if($OriginationAddress):
 		?>
 		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
-		    <?php 
-		    echo $Address->getName();
-		    ?>
+		    Origination Address
 		</h4>
+		<label>Name:</label>
+		<div style="display: inline;"><?php echo $OriginationAddress->getName(); ?></div>
+		<br />
 		<label>Address 1:</label>
-		<div style="display: inline;"><?php echo $Address->getAddress1(); ?></div>
+		<div style="display: inline;"><?php echo $OriginationAddress->getAddress1(); ?></div>
 		<br />
 		<label>Address 2:</label>
-		<div style="display: inline;"><?php echo $Address->getAddress2(); ?></div>
+		<div style="display: inline;"><?php echo $OriginationAddress->getAddress2(); ?></div>
 		<br />
 		<label>City/State/Zip:</label>
 		<div style="display: inline;">
 		    <?php 
-		    echo $Address->getCity().", ".$Address->getState()." ".$Address->getZip1(); 
+		    echo $OriginationAddress->getCity().", ".$OriginationAddress->getState()." ".$OriginationAddress->getZip1(); 
 		    ?>
 		</div>
 		<?php
 	    else:
-		echo "Address Not Set";
+		echo "<div>Origination Address Not Set</div>";
+	    endif;
+	    
+	    if($DestinationAddress):
+		?>
+		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
+		    Destination Address
+		</h4>
+		<label>Name:</label>
+		<div style="display: inline;"><?php echo $DestinationAddress->getName(); ?></div>
+		<br />
+		<label>Address 1:</label>
+		<div style="display: inline;"><?php echo $DestinationAddress->getAddress1(); ?></div>
+		<br />
+		<label>Address 2:</label>
+		<div style="display: inline;"><?php echo $DestinationAddress->getAddress2(); ?></div>
+		<br />
+		<label>City/State/Zip:</label>
+		<div style="display: inline;">
+		    <?php 
+		    echo $DestinationAddress->getCity().", ".$DestinationAddress->getState()." ".$DestinationAddress->getZip1(); 
+		    ?>
+		</div>
+		<?php
+	    else:
+		echo "<div>Destination Address Not Set</div>";
 	    endif;
 	    ?>
 	</div>

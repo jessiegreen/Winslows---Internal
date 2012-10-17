@@ -9,13 +9,13 @@
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-namespace Entities\Company\PaymentGateway;
+namespace Entities\Company\Sale\Transaction\Payment;
 
 /** 
- * @Entity (repositoryClass="Repositories\Company\PaymentGateway\Payment") 
- * @Table(name="company_paymentgateway_payments") 
+ * @Entity (repositoryClass="Repositories\Company\Sale\Transaction\Payment\PaymentGateway") 
+ * @Table(name="company_sale_transaction_payment_paymentgateways") 
  */
-class Payment extends \Entities\Company\Sale\Transaction\PaymentAbstract
+class PaymentGateway extends \Entities\Company\Sale\Transaction\Payment\PaymentAbstract
 {
     /**
      * @ManyToOne(targetEntity="\Entities\Company\PaymentGateway", inversedBy="Payments")

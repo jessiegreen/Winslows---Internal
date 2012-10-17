@@ -1,5 +1,5 @@
 <?php
-namespace Forms\Company\Lead\Quote\Sell\PaymentTypes;
+namespace Forms\Company\Lead\Quote\Sale\PaymentTypes;
 /**
  * Name:
  * Location:
@@ -17,8 +17,9 @@ class Subform extends \Zend_Form_SubForm
 	$this->addElement("radio", "payment_type", 
 			    array(
 				"label"		=> "Payment Type",
-				"multioptions"  => array("Cash", "Check", "Credit Card"),
-				"required"	=> true
+				"multioptions"  => array("cash" => "Cash","check" => "Check","cc" => "Credit Card"),
+				"required"	=> true,
+				"belongsTo"	=> "company_lead_quote_sale_payment_types"
 			    ));
 	
 	parent::init();

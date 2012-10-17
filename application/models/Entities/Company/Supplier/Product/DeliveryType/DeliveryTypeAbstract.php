@@ -16,13 +16,12 @@ use Doctrine\Common\Collections\ArrayCollection;
  *			})
  * @HasLifecycleCallbacks
  */
-class DeliveryTypeAbstract extends \Dataservice_Doctrine_Entity
+abstract class DeliveryTypeAbstract extends \Dataservice_Doctrine_Entity implements \Interfaces\Company\Supplier\Product\DeliveryType
 {
     const TYPE_MetalFrame   = "MetalFrame";
     const TYPE_Location	    = "LocationPickup";
     const TYPE_UPS	    = "UPS";
     const TYPE_WoodFrame    = "WoodFrame";
-    const TYPE_Base	    = "Base";
 
     /**
      * @Id @Column(type="integer")
@@ -215,10 +214,20 @@ class DeliveryTypeAbstract extends \Dataservice_Doctrine_Entity
     }
     
     /**
-     * @return string
+     * @param \Entities\Company\Lead\Quote\Item $Item
+     * @return \Doctrine\Common\Collections\ArrayCollection
      */
-    public function getDescriminator()
+    protected function _getLocationAddresses(\Entities\Company\Lead\Quote\Item $Item)
     {
-	return static::TYPE_Base;
+	return \Services\Company\Lead\Quote\Item::getItemsCompanyLocationAddresses($Item);
+    }
+    
+    /**
+     * @param \Entities\Company\Lead\Quote\Item $Item
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    protected function _getLeadAddresses(\Entities\Company\Lead\Quote\Item $Item)
+    {
+	return $Item->getQuote()->getLead()->getAddresses();
     }
 }

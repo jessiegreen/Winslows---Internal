@@ -29,10 +29,16 @@ class Delivery extends \Dataservice_Doctrine_Entity
     protected $DeliveryType;
     
     /**
-     * @ManyToOne(targetEntity="\Entities\Person\Address", cascade={"persist"})
-     * @var \Entities\Person\Address $Address
+     * @ManyToOne(targetEntity="\Entities\Address\AddressAbstract", cascade={"persist"})
+     * @var \Entities\Address\AddressAbstract $Origination_Address
      */
-    protected $Address;
+    protected $Origination_Address;
+    
+    /**
+     * @ManyToOne(targetEntity="\Entities\Address\AddressAbstract", cascade={"persist"})
+     * @var \Entities\Address\AddressAbstract $Destination_Address
+     */
+    protected $Destination_Address;
     
     public function __construct(\Entities\Company\Supplier\Product\DeliveryType\DeliveryTypeAbstract $DeliveryType, \Entities\Company\Lead\Quote\Item $Item)
     {
@@ -75,19 +81,35 @@ class Delivery extends \Dataservice_Doctrine_Entity
     }
     
     /**
-     * @return \Entities\Person\Address
+     * @return \Entities\Address\AddressAbstract
      */
-    public function getAddress()
+    public function getDestinationAddress()
     {
-	return $this->Address;
+	return $this->Destination_Address;
     }
     
     /**
-     * @param \Entities\Person\Address $Address
+     * @param \Entities\Address\AddressAbstract $Address
      */
-    public function setAddress(\Entities\Person\Address $Address)
+    public function setDestinationAddress(\Entities\Address\AddressAbstract $Address)
     {
-	$this->Address = $Address;
+	$this->Destination_Address = $Address;
+    }
+    
+    /**
+     * @return \Entities\Address\AddressAbstract
+     */
+    public function getOriginationAddress()
+    {
+	return $this->Origination_Address;
+    }
+    
+    /**
+     * @param \Entities\Address\AddressAbstract $Address
+     */
+    public function setOriginationAddress(\Entities\Address\AddressAbstract $Address)
+    {
+	$this->Origination_Address = $Address;
     }
     
     public function getAddressLabel()
@@ -95,8 +117,19 @@ class Delivery extends \Dataservice_Doctrine_Entity
 	return $this->getDeliveryType()->getAddressLabel();
     }
     
-    public function getAddresses()
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getOriginationAddresses()
     {
-	return $this->getDeliveryType()->getAddresses($this->getItem());
+	return $this->getDeliveryType()->getOriginationAddresses($this->getItem());
+    }
+    
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getDestinationAddresses()
+    {
+	return $this->getDeliveryType()->getDestinationAddresses($this->getItem());
     }
 }
