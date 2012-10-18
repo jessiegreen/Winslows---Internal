@@ -26,6 +26,8 @@ class Sale extends \Entities\Company\Sale\SaleAbstract
     
     public function __construct(\Entities\Company\Lead\Quote $Quote)
     {
+	$Quote->setSale($this);
+	
 	$this->Quote = $Quote;
 	
 	$this->_persist();

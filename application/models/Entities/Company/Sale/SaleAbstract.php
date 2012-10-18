@@ -53,6 +53,17 @@ abstract class SaleAbstract extends \Dataservice_Doctrine_Entity
      */
     public function addTransaction(Transaction\TransactionAbstract $Transaction)
     {
+//	$TransactionsWithinLastMinute = $this->getTransactions()->filter(
+//		    function ($Transaction2) use ($Transaction) 
+//		    {
+//			$DiffInterval = $Transaction->getCreated()->diff($Transaction2->getCreated());
+//			if($DiffInterval->m < 1)return true;
+//		    }
+//		);
+//		
+//	if(!$TransactionsWithinLastMinute->isEmpty())
+//	    throw new \Exception("Please wait atleast 60 seconds between each transaction.");
+	
 	$Transaction->setSale($this);
 	
         $this->getTransactions()->add($Transaction);

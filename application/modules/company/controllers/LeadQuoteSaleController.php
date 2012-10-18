@@ -27,7 +27,6 @@ class Company_LeadQuoteSaleController extends Dataservice_Controller_Action
 	if(!$Quote->getSale())
 	{
 	    $Sale = new \Entities\Company\Lead\Quote\Sale ($Quote);
-	    
 	    $this->_em->persist($Sale);
 	    $this->_em->flush();
 	}

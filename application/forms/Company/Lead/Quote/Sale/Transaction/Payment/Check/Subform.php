@@ -1,5 +1,5 @@
 <?php
-namespace Forms\Company\Lead\Quote\Sale\Transaction\Payment\Cash;
+namespace Forms\Company\Lead\Quote\Sale\Transaction\Payment\Check;
 /**
  * Name:
  * Location:
@@ -18,7 +18,19 @@ class Subform extends \Zend_Form_SubForm
 			    array(
 				"label"		=> "Amount",
 				"required"	=> true,
-				"belongsTo"	=> "company_lead_quote_sale_payment_transaction_payment_cash",
+				"belongsTo"	=> "company_lead_quote_sale_payment_transaction_payment_check",
+				"validators"	=> array(
+							array('float', true, array('locale' => 'en_US')),
+							array('greaterThan', true, array('min' => 0))
+						    )
+			    ));
+	
+	$this->addElement("text", "check_number", 
+			    array(
+				"label"		=> "Check Number:",
+				"size"		=> 12,
+				"required"	=> true,
+				"belongsTo"	=> "company_lead_quote_sale_payment_transaction_payment_check",
 				"validators"	=> array(
 							array('float', true, array('locale' => 'en_US')),
 							array('greaterThan', true, array('min' => 0))

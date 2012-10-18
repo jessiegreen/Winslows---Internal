@@ -17,8 +17,4 @@ namespace Entities\Company\Sale\Transaction\Payment;
  */
 class Cash extends \Entities\Company\Sale\Transaction\Payment\PaymentAbstract
 {
-    public function getAmount()
-    {
-	
-    }
 }

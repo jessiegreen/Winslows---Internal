@@ -35,7 +35,7 @@ class Quote extends Quote\QuoteAbstract
     protected $Items;
     
     /** 
-     * @OneToOne(targetEntity="\Entities\Company\Lead\Quote\Sale", inversedBy="Quote")
+     * @OneToOne(targetEntity="\Entities\Company\Lead\Quote\Sale", mappedBy="Quote", cascade={"persist"}, orphanRemoval=true)
      * @var \Entities\Company\Lead\Quote\Sale
      */     
     protected $Sale;
@@ -93,8 +93,6 @@ class Quote extends Quote\QuoteAbstract
      */
     public function setSale(Quote\Sale $Sale)
     {
-	$Sale->setQuote($this);
-	
 	$this->Sale = $Sale;
     }
     

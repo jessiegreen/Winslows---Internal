@@ -10,13 +10,13 @@ namespace Forms\Company\Lead\Quote\Sale\Transaction\Payment;
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Cash extends \Dataservice_Form
+class CreditCard extends \Dataservice_Form
 {
     public function init()
     {
-	$form = new Cash\Subform();
+	$form = new CreditCard\Subform();
 	
-	$this->addSubForm($form, "company_lead_quote_sale_payment_transaction_payment_cash");
+	$this->addSubForm($form, "company_lead_quote_sale_payment_transaction_payment_creditcard");
 	
 	$this->addElement('submit', 'submit', array(
             'ignore'   => true,

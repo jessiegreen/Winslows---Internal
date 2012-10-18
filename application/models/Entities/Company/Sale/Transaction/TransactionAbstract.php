@@ -8,8 +8,9 @@ namespace Entities\Company\Sale\Transaction;
  * @InheritanceType("JOINED")
  * @DiscriminatorColumn(name="discr", type="string")
  * @DiscriminatorMap({
- *			"company_sale_transaction_payment_paymentgateway" = "\Entities\Company\Sale\Transaction\Payment\PaymentGateway",
- *			"company_sale_transaction_payment_cash" = "\Entities\Company\Sale\Transaction\Payment\Cash"
+ *			"company_sale_transaction_payment_paymentgateway_creditcard" = "\Entities\Company\Sale\Transaction\Payment\PaymentGateway\CreditCard",
+ *			"company_sale_transaction_payment_cash" = "\Entities\Company\Sale\Transaction\Payment\Cash",
+ *			"company_sale_transaction_payment_check" = "\Entities\Company\Sale\Transaction\Payment\Check"
  *			})
  * @HasLifecycleCallbacks
  */
@@ -56,5 +57,18 @@ abstract class TransactionAbstract extends \Dataservice_Doctrine_Entity implemen
     public function getId()
     {
         return $this->id;
+    }
+    
+    /**
+     * @param float $amount
+     */
+    public function setAmount($amount)
+    {
+	$this->amount = $amount;
+    }
+    
+    public function getAmount()
+    {
+	return $this->amount;
     }
 }

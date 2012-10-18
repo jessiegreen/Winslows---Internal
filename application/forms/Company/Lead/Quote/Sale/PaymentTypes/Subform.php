@@ -17,7 +17,7 @@ class Subform extends \Zend_Form_SubForm
 	$this->addElement("radio", "payment_type", 
 			    array(
 				"label"		=> "Payment Type",
-				"multioptions"  => array("cash" => "Cash","check" => "Check","cc" => "Credit Card"),
+				"multioptions"  => array("cash" => "Cash", "check" => "Check","credit-card" => "Credit Card"),
 				"required"	=> true,
 				"belongsTo"	=> "company_lead_quote_sale_payment_types"
 			    ));
