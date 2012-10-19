@@ -47,11 +47,11 @@ class Company_SupplierProductConfigurableOptionController extends Dataservice_Co
 	{
 	    try 
 	    {
-		$data	= $this->_params["company_supplier_product_configurable_option"];
+		$data = $this->_params["company_supplier_product_configurable_option"];
 
 		$Option->populate($data);
 		
-		$configurable_id = $this->_request->getParam("configurable_id");
+		$configurable_id = $this->_request->getParam("configurableproduct_id");
 		
 		if(!$Option->getId() && $configurable_id)
 		{

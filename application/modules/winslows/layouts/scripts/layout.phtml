@@ -16,13 +16,19 @@
     echo $this->headScript();
     ?>
 </head>
-<body>
+<body style="background-color: #00cc66">
     <div class="main_outer">
-	Winslows Inc.<br />
-	<?php
-	echo $this->layout()->content 
-	?>
-	<div style="height: 5px;"></div>
+	<div style="width: 1000px;margin-left: auto;margin-right: auto;background-color: #FFF;height: 100%;">
+	    <div style="height:125px;background-color: #0092ef;">
+		Winslow's Inc.
+	    </div>
+	    <div>
+		<?php
+		echo $this->layout()->content 
+		?>
+	    </div>
+	    <div style="height: 5px;"></div>
+	</div>
     </div>
 </body>
 </html>

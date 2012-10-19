@@ -1,10 +1,16 @@
 <?php
 namespace Services;
 
-use Doctrine\ORM\EntityManager;
-
 class Company extends \Dataservice_Service_ServiceAbstract
 {    
+    /**
+     * @return Company
+     */
+    public static function factory()
+    {
+	return parent::factory();
+    }
+    
     /**
      *
      * @return \Entities\Company 

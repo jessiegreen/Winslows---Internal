@@ -70,6 +70,14 @@ class ProductAbstract extends \Dataservice_Doctrine_Entity
      * @var ArrayCollection $DeliveryTypes
      */
     private $DeliveryTypes;
+    
+    /**
+     * Bidirectional - One-To-Many (INVERSE SIDE)
+     *
+     * @OneToMany(targetEntity="\Entities\Company\Supplier\Product\Purpose", mappedBy="Product", cascade={"persist"})
+     * @var array $Purposes
+     */
+    protected $Purposes;
 
     public function __construct()
     {
@@ -77,6 +85,7 @@ class ProductAbstract extends \Dataservice_Doctrine_Entity
 	$this->Categories	= new ArrayCollection();
 	$this->Programs		= new ArrayCollection();
 	$this->DeliveryTypes	= new ArrayCollection();
+	$this->Purposes		= new ArrayCollection();
 	
 	parent::__construct();
     }
@@ -165,6 +174,27 @@ class ProductAbstract extends \Dataservice_Doctrine_Entity
 	    $DeliveryType->addProduct($this);
 	    
 	    $this->DeliveryTypes[] = $DeliveryType;
+	}
+    }
+    
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getPurposes()
+    {
+	return $this->Purposes;
+    }
+    
+    /**
+     * @param Purpose $Purpose
+     */
+    public function addPurpose(Purpose $Purpose)
+    {
+	if(!$this->Purposes->contains($Purpose))
+	{
+	    $Purpose->setProduct($this);
+	    
+	    $this->Purposes[] = $Purpose;
 	}
     }
     

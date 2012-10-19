@@ -45,6 +45,16 @@ class Subform extends \Zend_Form_SubForm
 	    'value'	    => $this->_Option ? $this->_Option->getCode() : ""
         ));
 	
+	$this->addElement('text', 'maxcount', array(
+            'required'	    => true,
+	    'maxlength'	    => 4,
+	    'size'	    => 4,
+            'label'	    => 'Max Count:',
+	    'belongsTo'	    => 'company_supplier_product_configurable_option',
+	    'value'	    => $this->_Option ? $this->_Option->getMaxCount() : "",
+	    'validators'    => array("digits")
+        ));
+	
 	$this->addElement('textarea', 'description', array(
             'required'	    => false,
             'label'	    => 'Description:',

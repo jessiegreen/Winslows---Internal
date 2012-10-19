@@ -56,3 +56,12 @@ Product.prototype.DeliveryTypeAddOnclickBind = function(element)
 	location    = '/supplier-product-delivery-type/edit/id/0/product_id/' + product_id;
     });
 }
+
+Product.prototype.PurposeAddOnclickBind = function(element)
+{
+    element.click(function()
+    {
+	product_id  = $("#product_id").val()
+	location    = '/supplier-product-purpose/edit/id/0/product_id/' + product_id;
+    });
+}

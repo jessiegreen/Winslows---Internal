@@ -11,6 +11,7 @@ $Product	= $this->Product;
 $product_id	= $Product->getId();
 $Categories	= $Product->getCategories();
 $DeliveryTypes	= $Product->getDeliveryTypes();
+$Purposes	= $Product->getPurposes();
 $Options	= null;
 $price		= null;
 $className	= null;
@@ -197,6 +198,45 @@ switch ($Product->getDescriminator())
 	</ul>
     </div>
     <hr />
+    <h3>
+	<a href="#">Purposes</a>
+	<?php 
+	echo HTML::buttonBlue(
+		"add.png",
+		"Add Purpose",
+		"purpose_add",
+		"float:right;margin-right:5px;"
+		);
+	?>
+    </h3>
+    <div>
+	<ul>
+	<?php
+	/* @var $Purpose \Entities\Company\Supplier\Product\Purpose */
+	if(count($Purposes) > 0)
+	{
+	    foreach ($Purposes as $Purpose)
+	    {
+		?>
+		<li>
+		    <?php
+		    echo HTML::anchorIcon(
+			    "bullet_go.png", 
+			    "", 
+			    "/supplier-product-purpose/edit/id/".$Purpose->getId(),
+			    "margin-left:5px;"
+			    );
+		    echo $Purpose->getName();
+		    ?>
+		</li>
+		<?php
+	    }
+	}
+	else echo "<li>No Purposes</li>";
+	?>
+	</ul>
+    </div>
+    <hr />
     <h3><a href="#">Documents</a></h3>
     <div>Put Documents here</div>
 </div>
@@ -209,4 +249,5 @@ switch ($Product->getDescriminator())
     Product.CategoryAddOnclickBind($("#category_add"));
     Product.ManageDeliveryTypesOnclickBind($("#delivery_types_manage"));
     Product.DeliveryTypeAddOnclickBind($("#delivery_type_add"));
+    Product.PurposeAddOnclickBind($("#purpose_add"));
 </script>

@@ -21,31 +21,31 @@ class Parameter extends \Dataservice_Doctrine_Entity
      * @Column(type="string", length=255) 
      * @var string $id
      */
-    private $index_string;
+    protected $index_string;
     
     /** 
      * @Column(type="string", length=255) 
      * @var string $name
      */
-    private $name;
+    protected $name;
     
     /** 
      * @Column(type="string", length=1000) 
      * @var string $description
      */
-    private $description;
+    protected $description;
     
     /** 
      * @Column(type="boolean") 
      * @var boolean $required
      */
-    private $required;
+    protected $required;
     
     /** 
      * @Column(type="integer", length=10) 
      * @var integer $length
      */
-    private $length;
+    protected $length;
     
     /**
      * @ManyToOne(targetEntity="\Entities\Company\Supplier\Product\Configurable\Option", inversedBy="Parameters")

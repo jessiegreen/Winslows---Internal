@@ -21,37 +21,37 @@ class Option extends \Dataservice_Doctrine_Entity
      * @Column(type="string", length=255)
      * @var string $index_string 
      */
-    private $index_string;
+    protected $index_string;
 
     /**
      * @Column(type="string", length=2) 
      * @var string $code
      */
-    private $code;
+    protected $code;
     
     /** 
      * @Column(type="string", length=255) 
      * @var string $name
      */
-    private $name;
+    protected $name;
     
     /** 
      * @Column(type="string", length=1000) 
      * @var string $description
      */
-    private $description;
+    protected $description;
     
     /** 
      * @Column(type="integer", length=1000) 
      * @var integer $maxcount
      */
-    private $maxcount;
+    protected $maxcount;
     
     /** 
      * @Column(type="boolean") 
      * @var boolean $required
      */
-    private $required;
+    protected $required;
     
     /**
      * @ManyToOne(targetEntity="\Entities\Company\Supplier\Product\Configurable\Option\Category", inversedBy="Options")
@@ -83,6 +83,8 @@ class Option extends \Dataservice_Doctrine_Entity
     {
 	$this->ConfigurableProducts = new ArrayCollection();
 	$this->Parameters	    = new ArrayCollection();
+	
+	parent::__construct();
     }
     
     /**

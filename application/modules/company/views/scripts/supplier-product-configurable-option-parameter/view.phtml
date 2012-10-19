@@ -1,7 +1,7 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo HTML::backAnchorIcon("Configurable Product Option Parameter - All", "/supplier-product-configurable-option-parameter/viewall");
+echo HTML::backAnchorIcon("Configurable Product Option", "/supplier-product-configurable-option/view/id/".$this->Parameter->getOption()->getId());
 echo "</div>";
 ?>
 <h1 class="header1">Configurable Product Option Parameter - View</h1>
