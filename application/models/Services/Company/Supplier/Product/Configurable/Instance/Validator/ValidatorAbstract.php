@@ -1,7 +1,7 @@
 <?php
 namespace Services\Company\Supplier\Product\Configurable\Instance\Validator;
 
-class ValidatorAbstract extends \Dataservice_Service_ServiceAbstract implements \Interfaces\Company\Supplier\Product\Configurable\Instance\Validator
+abstract class ValidatorAbstract extends \Dataservice_Service_ServiceAbstract implements \Interfaces\Company\Supplier\Product\Configurable\Instance\Validator
 {
     /**
      *  @var \Entities\Company\Supplier\Product\Configurable\Instance $_Instance 

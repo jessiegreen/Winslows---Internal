@@ -10,14 +10,15 @@ namespace Forms\Company\Supplier\Product\Configurable;
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Option extends \Zend_Form
+class Option extends \Dataservice_Form
 {    
     private $_Option;
     
     public function __construct($options = null, \Entities\Company\Supplier\Product\Configurable\Option $Option = null)
     {
 	$this->_Option = $Option;
-	parent::__construct($options, $this->_Option);
+	
+	parent::__construct($options);
     }
     
     public function init($options = array())

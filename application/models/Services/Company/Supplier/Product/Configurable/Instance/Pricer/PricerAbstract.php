@@ -1,7 +1,7 @@
 <?php
 namespace Services\Company\Supplier\Product\Configurable\Instance\Pricer;
 
-class PricerAbstract extends \Dataservice_Service_ServiceAbstract implements \Interfaces\Company\Supplier\Product\Configurable\Instance\Pricer
+abstract class PricerAbstract extends \Dataservice_Service_ServiceAbstract implements \Interfaces\Company\Supplier\Product\Configurable\Instance\Pricer
 {
    /**
      * @var \Dataservice_Price $_Price
@@ -39,8 +39,8 @@ class PricerAbstract extends \Dataservice_Service_ServiceAbstract implements \In
 	$this->_Price	    = new \Dataservice_Price();
     }
     
-    public function price()
+    protected function _addDetail($name = "", $price = 0, $note = "")
     {
-	
+	$this->_details[] = array("name" => $name, "price" => $price, "note" => $note);
     }
 }

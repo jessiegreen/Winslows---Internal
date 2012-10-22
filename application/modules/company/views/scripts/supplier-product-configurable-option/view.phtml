@@ -7,10 +7,10 @@ echo "</div>";
 <h1 class="header1">Configurable Product Option - View</h1>
 <?php
 /* @var $Option \Entities\Company\Supplier\Product\Configurable\Option */
-$Option	    = $this->Option;
-$option_id  = $Option->getId();
-$Parameters	    = $Option->getParameters();
-$Configurables		    = $Option->getConfigurableProducts();
+$Option		= $this->Option;
+$option_id	= $Option->getId();
+$Parameters	= $Option->getParameters();
+$Configurables	= $Option->getConfigurableProducts();
 ?>
 <div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
     <h4 class="no_space" style="color: #2000EE;">
@@ -30,6 +30,7 @@ $Configurables		    = $Option->getConfigurableProducts();
 	<label>Length:</label> <?php echo $Option->getLength(); ?> &nbsp;&nbsp;&nbsp;
 	<label>Code:</label> <?php echo $Option->getCode(); ?> &nbsp;&nbsp;&nbsp;
 	<label>Required:</label> <?php echo $Option->isRequiredString(); ?> <br /> 
+	<label>Category:</label> <?php echo $Option->getCategory()->getName(); ?> <br /> 
 	<label>Description:</label> <span class="small"><?php echo $Option->getDescription(); ?></span>
     </div>
 </div>

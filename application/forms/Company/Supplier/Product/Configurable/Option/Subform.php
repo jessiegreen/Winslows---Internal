@@ -22,6 +22,15 @@ class Subform extends \Zend_Form_SubForm
     
     public function init()
     {
+	$this->addElement(new \Dataservice_Form_Element_Company_Supplier_Product_Configurable_Option_CategorySelect("category_id", array(
+		'label'		=> 'Category:',
+		'required'	=> true,
+		'belongsTo'	=> 'company_supplier_product_configurable_option',
+		'value'		=> $this->_Option && $this->_Option->getCategory() && $this->_Option->getCategory()->getId()
+				    ? $this->_Option->getCategory()->getId() 
+				    : ""
+	    )));
+	
 	$this->addElement('text', 'name', array(
             'required'	    => true,
             'label'	    => 'Name:',

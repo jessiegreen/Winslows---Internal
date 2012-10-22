@@ -7,10 +7,10 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Ma
      * @var Mapper\Data 
      */
     protected $_Data;
+    
     /**
      * @return false|string
-     */
-    
+     */    
     public function getModel()
     {
 	$ModelValue = $this->_Instance->getFirstValueFromIndexes("metal_model", "name");

@@ -1,0 +1,169 @@
+<?php
+namespace Services\Company\Supplier\Product\Configurable\Instance\MetalBuildingAbstract;
+
+class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Mapper\MapperAbstract
+{    
+    /**
+     * @var Mapper\Data 
+     */
+    protected $_Data;
+    
+    /**
+     * @return false|\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value
+     */
+    protected function _getRoofStyleValue()
+    {
+	return $this->_Instance->getFirstValueFromIndexes("metal_roof_style", "style");
+    }
+    
+    /**
+     * @return false|\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value
+     */
+    protected function _getLegHeightValue()
+    {
+	return $this->_Instance->getFirstValueFromIndexes("leg_height", "height");
+    }
+    
+    /**
+     * @return false|\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value
+     */
+    protected function _getFrameGaugeValue()
+    {
+	return $this->_Instance->getFirstValueFromIndexes("frame_gauge", "gauge");
+    }
+    
+    /**
+     * @return false|\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value
+     */
+    protected function _getFrameWidthValue()
+    {
+	return $this->_Instance->getFirstValueFromIndexes("metal_frame_width", "width");
+    }
+    
+    /**
+     * @return false|\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value
+     */
+    protected function _getFrameLengthValue()
+    {
+	return $this->_Instance->getFirstValueFromIndexes("metal_frame_length", "length");
+    }
+    
+    /**
+     * @return false|\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value
+     */
+    protected function _getWindSnowLoadValue()
+    {
+	return $this->_Instance->getFirstValueFromIndexes("wind_snow_load_type", "type");
+    }
+    
+    /**
+     * @return false|string
+     */
+    public function getRoofStyle()
+    {
+	$Value = $this->_getRoofStyleValue();
+	
+	return $this->_returnCodeOrFalse($Value);
+    }
+    
+    /**
+     * @return false|string
+     */
+    public function getRoofStyleName()
+    {
+	$Value = $this->_getRoofStyleValue();
+	
+	return $this->_returnNameOrFalse($Value);
+    }
+    
+    /**
+     * @return false|string
+     */
+    public function getLegHeight()
+    {
+	$Value = $this->_getLegHeightValue();
+	
+	return $this->_returnCodeOrFalse($Value);
+    }
+    
+    /**
+     * @return false|string
+     */
+    public function getFrameGauge()
+    {
+	$Value = $this->_getFrameGaugeValue();
+	
+	return $this->_returnCodeOrFalse($Value);
+    }
+    
+    /**
+     * @return false|string
+     */
+    public function getFrameGaugeName()
+    {
+	$Value = $this->_getFrameGaugeValue();
+	
+	return $this->_returnNameOrFalse($Value);
+    }
+    
+    /**
+     * @return string|false
+     */
+    public function getFrameWidth()
+    {
+	$Value = $this->_getFrameWidthValue();
+	
+	return $this->_returnCodeOrFalse($Value);
+    }
+    
+    /**
+     * @return string|false
+     */
+    public function getFrameLength()
+    {
+	$Value = $this->_getFrameLengthValue();
+	
+	return $this->_returnCodeOrFalse($Value);
+    }
+    
+    /**
+     * @return string
+     * @throws \Exception
+     */
+    public function getFrameSize()
+    {
+	$width  = $this->getFrameWidth();
+	$length = $this->getFrameLength();
+	
+	if($width === false || $length === false)
+	    throw new \Exception("No width or length selected.");
+	
+	return $width."X".$length;
+    }
+    
+    /**
+     * @return string|false
+     */
+    public function getWindSnowLoad()
+    {
+	$Value = $this->_getWindSnowLoadValue();
+	
+	return $this->_returnCodeOrFalse($Value);
+    }
+    
+    /**
+     * @return array
+     */
+    public function getSidesArray()
+    {
+	return $this->_Data->getSidesArray();
+    }
+    
+    /**
+     * @return array
+     */
+    public function getSidesLocationsArray()
+    {
+	return $this->_Data->getSidesLocationsArray();
+    }
+}

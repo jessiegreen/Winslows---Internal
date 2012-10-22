@@ -3,6 +3,7 @@ namespace Services\Company\Supplier\Product\Configurable\Instance\MetalBuilding\
 
 class Data extends \Services\Company\Supplier\Product\Configurable\Instance\Mapper\DataAbstract
 {
+    #STATIC METHODS AND PROPERTIES ONLY!!!
     static private $_sides_array = array("L" => "left", "R" => "right", "F" => "front", "B" => "back");
     
     static private $_sides_locations_array = array("left" => "side", "right" => "side", "front" => "end", "back" => "end");

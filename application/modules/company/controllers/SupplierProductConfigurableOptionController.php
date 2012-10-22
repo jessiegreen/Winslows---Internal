@@ -39,9 +39,7 @@ class Company_SupplierProductConfigurableOptionController extends Dataservice_Co
 	$Option	    = $this->getEntityFromParamFields("Company\Supplier\Product\Configurable\Option", array("id"));
 	$form	    = new Forms\Company\Supplier\Product\Configurable\Option(array("method" => "post"), $Option);
 	
-	$form->addElement("button", "cancel", 
-		array("onclick" => "location='".$this->_History->getPreviousUrl(1)."'")
-		);
+	$form->addCancelButton($this->_History->getPreviousUrl());
 	
 	if($this->isPostAndValid($form))
 	{
@@ -50,6 +48,26 @@ class Company_SupplierProductConfigurableOptionController extends Dataservice_Co
 		$data = $this->_params["company_supplier_product_configurable_option"];
 
 		$Option->populate($data);
+		
+		if($data["category_id"])
+		{
+		    $Category = $this->_em->getRepository("Entities\Company\Supplier\Product\Configurable\Option\Category")->find($data["category_id"]);
+		    
+		    if($Category)
+		    {
+			$Option->setCategory($Category);
+		    }
+		    else
+		    {
+			$this->_FlashMessenger->addErrorMessage("Could not get Category");
+			$this->_History->goBack();
+		    }
+		}
+		else
+		{
+		    $this->_FlashMessenger->addErrorMessage("Could not get Category Id");
+		    $this->_History->goBack();
+		}
 		
 		$configurable_id = $this->_request->getParam("configurableproduct_id");
 		
@@ -90,10 +108,6 @@ class Company_SupplierProductConfigurableOptionController extends Dataservice_Co
     {
 	$this->_helper->viewRenderer->setNoRender(true);
 	$this->_helper->layout->disableLayout();
-	
-//	$ACL = new Dataservice_Controller_Plugin_ACL();
-//	
-//	$ACL->preDispatch($this->_request);
 	
 	/* @var $Option \Entities\Company\Supplier\Product\Configurable\Option */
 	$Option = $this->getEntityFromParamFields("Company\Supplier\Product\Configurable\Option", array("id"));

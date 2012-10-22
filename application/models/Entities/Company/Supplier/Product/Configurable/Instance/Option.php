@@ -32,6 +32,7 @@ class Option extends \Dataservice_Doctrine_Entity
     /**
      * @ManytoMany(targetEntity="\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value", cascade={"persist"})
      * @JoinTable(name="company_supplier_product_configurable_instance_option_joins")
+     * @OrderBy(value="name")
      * @var ArrayCollection $Values
      */
     private $Values;

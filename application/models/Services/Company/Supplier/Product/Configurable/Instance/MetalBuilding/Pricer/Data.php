@@ -3,6 +3,7 @@ namespace Services\Company\Supplier\Product\Configurable\Instance\MetalBuilding\
 
 class Data extends \Services\Company\Supplier\Product\Configurable\Instance\Pricer\DataAbstract
 {
+    #STATIC METHODS AND PROPERTIES ONLY!!!
     private static $_windows_prices_array = 
 	    array(
 		    "uncertified" => array(

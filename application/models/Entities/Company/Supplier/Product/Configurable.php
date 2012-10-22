@@ -67,6 +67,7 @@ class Configurable extends ProductAbstract
     public function addOption(Configurable\Option $Option)
     {
 	$Option->addConfigurableProduct($this);
+	
 	$this->Options[] = $Option;
     }
     

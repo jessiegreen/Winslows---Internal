@@ -23,4 +23,26 @@ class MapperAbstract extends \Dataservice_Service_ServiceAbstract
 	$this->_Instance    = $Instance;
 	$this->_Data	    = new $data_class;
     }
+    
+    /**
+     * @param \Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value $Value
+     * @return string|false
+     */
+    protected function _returnCodeOrFalse($Value)
+    {
+	if($Value !== false)return $Value->getCode();
+	
+	return false;
+    }
+    
+    /**
+     * @param \Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value $Value
+     * @return string|false
+     */
+    protected function _returnNameOrFalse($Value)
+    {
+	if($Value !== false)return $Value->getName();
+	
+	return false;
+    }
 }
