@@ -88,38 +88,6 @@ abstract class Validator extends \Services\Company\Supplier\Product\Configurable
 	}
     }
     
-    protected function _validateAnchors()
-    {
-	if($this->_Mapper->getAnchorsHasAnchors() === "Y")
-	{
-	    if($this->_Mapper->getAnchorsType() === false)
-		throw new \Exception(
-			    "Installation &raquo; Anchors &raquo; Has Anchors is set to ".
-			    "'Yes' but Type is not set. Set Type."
-			);
-	    
-	    if($this->_Mapper->getAnchorsQuantity() === false)
-		throw new \Exception(
-			    "Installation &raquo; Anchors &raquo; Has Anchors is set to ".
-			    "'Yes' but Quantity is not set. Set Quantity."
-			);
-	}
-	else
-	{
-	    if($this->_Mapper->getAnchorsType() !== false)
-		throw new \Exception(
-			    "Installation &raquo; Anchors &raquo; Has Anchors is set to ".
-			    "'No' but Type is set. Unset Type or set Has Anchors to 'Yes'."
-			);
-	    
-	    if($this->_Mapper->getAnchorsQuantity() !== false)
-		throw new \Exception(
-			    "Installation &raquo; Anchors &raquo; Has Anchors is set to ".
-			    "'No' but Quantity is set. Unset Quantity or set Has Anchors to 'Yes'."
-			);
-	}
-    }
-    
     protected function _validateFrameGauge()
     {
 	$frame_gauge	= $this->_Mapper->getFrameGauge();
@@ -128,13 +96,30 @@ abstract class Validator extends \Services\Company\Supplier\Product\Configurable
 	if(
 	    $WS_code == "4" &&
 	    $frame_gauge !== false && 
-	    strlen($frame_gauge) > 0 && 
-	    $frame_gauge != "12"
+	    strlen($frame_gauge) > 0
 	)
 	{
 	    throw new \Exception(
-		    "Frame &raquo; Frame Gauge option not valid. Maximum frame gauge already standard with model '".
-		    $this->_Mapper->getModelName()."'. Change model or remove frame gauge."
+		    "Frame &raquo; Frame Gauge option not valid. Maximum frame gauge already standard with High Wind Snow Load Frame ".
+		    ". Change Wind Snow Load or remove frame gauge option."
+		    );
+	}
+    }
+    
+    protected function _validateCertified()
+    {
+	$certified	= $this->_Mapper->getCertified();
+	$WS_code	= $this->_Mapper->getWindSnowLoad();
+
+	if(
+	    $WS_code == "4" &&
+	    $certified !== false && 
+	    strlen($certified) > 0
+	)
+	{
+	    throw new \Exception(
+		    "Frame &raquo; Certified option not valid. Certified already standard with High Wind Snow Load Frame ".
+		    ". Change Wind Snow Load or remove certified option."
 		    );
 	}
     }
@@ -143,7 +128,7 @@ abstract class Validator extends \Services\Company\Supplier\Product\Configurable
     {
 	$leg_height		= $this->_Mapper->getLegHeight();
 	$roof_style_code	= $this->_Mapper->getRoofStyle();
-	$allowed_leg_heights	= $this->_Data->getAllowedLegHeightsArray();
+	$allowed_leg_heights	= $this->_Data->getAllowedLegHeights();
 	
 	if(
 	    !key_exists($roof_style_code, $allowed_leg_heights) || 

@@ -63,6 +63,7 @@ class Parameter extends \Dataservice_Doctrine_Entity
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value", mappedBy="Parameter", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @OrderBy({"sort_order" = "ASC", "name" = "ASC"})
      * @var ArrayCollection $Values
      */
     private $Values;
@@ -96,6 +97,7 @@ class Parameter extends \Dataservice_Doctrine_Entity
     public function AddValue(Parameter\Value $Value)
     {
 	$Value->setParameter($this);
+	
 	$this->Values[] = $Value;
     }
     

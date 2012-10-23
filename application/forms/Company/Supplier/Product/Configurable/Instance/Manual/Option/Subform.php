@@ -44,6 +44,7 @@ class Subform extends \Zend_Form_SubForm
 	    foreach ($Parameter->getValues() as $Value)
 	    {
 		$options[$Value->getId()] = $Value->getName();
+		
 		if($Option_Values->contains($Value))$value = $Value->getId();
 	    }
 	    

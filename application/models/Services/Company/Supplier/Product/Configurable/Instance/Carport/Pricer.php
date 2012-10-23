@@ -23,5 +23,7 @@ class Pricer extends \Services\Company\Supplier\Product\Configurable\Instance\Me
 	$this->_priceFrameGauge();
 	$this->_priceWalls();
 	$this->_priceLegHeight();
+	
+	return $this->_Price;
     }
 }

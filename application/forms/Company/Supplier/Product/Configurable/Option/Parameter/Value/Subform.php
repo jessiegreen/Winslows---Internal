@@ -53,6 +53,13 @@ class Subform extends \Zend_Form_SubForm
 	    'value'	    => $this->_Value ? $this->_Value->getCode() : ""
         ));
 	
+	$this->addElement('text', 'sort_order', array(
+            'required'	    => false,
+            'label'	    => 'Order:',
+	    'belongsTo'	    => 'configurableproductoptionparametervalue',
+	    'value'	    => $this->_Value ? $this->_Value->getOrder() : ""
+        ));
+	
 	$this->addElement('textarea', 'description', array(
             'required'	    => false,
             'label'	    => 'Description:',
@@ -63,5 +70,3 @@ class Subform extends \Zend_Form_SubForm
         ));
     }
 }
-
-?>

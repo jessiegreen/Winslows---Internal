@@ -16,9 +16,7 @@ abstract class Pricer extends \Services\Company\Supplier\Product\Configurable\In
     protected function _getBasePrice()
     {
 	$prices_array		= $this->_Data->getBasePricesArray();
-	$wind_snow_code		= $this->_Mapper->getWindSnowLoad();
-	$roof_style_code	= $this->_Mapper->getRoofStyle();
-	$roof_WS_key		= $roof_style_code."_".$wind_snow_code;
+	$roof_WS_key		= $this->_Mapper->getRoofStyleWindSnowLoadKey();
 	$size_code		= $this->_Mapper->getFrameSize();
 	
 	if(
@@ -29,7 +27,7 @@ abstract class Pricer extends \Services\Company\Supplier\Product\Configurable\In
 	    $base_price = $prices_array[$roof_WS_key][$size_code];
 	    
 	    $this->_Price->add((int) $prices_array[$roof_WS_key][$size_code]);
-	    $this->_Price->addDetail($base_price." - Base Price:".$this->_Mapper->getModelName()."-".$size_code);
+	    $this->_Price->addDetail($base_price." - Base: ".$this->_Mapper->getRoofStyleName()."/".$this->_Mapper->getWindSnowLoadName()."/".$size_code);
 	}
 	else throw new \Exception("$size_code is not in Base Price Array");
     }
@@ -40,7 +38,7 @@ abstract class Pricer extends \Services\Company\Supplier\Product\Configurable\In
 	
 	if($framegauge_code !== false)
 	{
-	    $prices_array = $this->_Data->framegauge_prices;
+	    $prices_array = $this->_Data->getFrameGaugePricesArray();
 	    
 	    if(key_exists($framegauge_code, $prices_array))
 	    {
@@ -63,15 +61,16 @@ abstract class Pricer extends \Services\Company\Supplier\Product\Configurable\In
 	{
 	    $side_upper	= ucfirst($side);
 	    
-	    $type	    = $this->_Mapper->getWallCoveredType($side);
-	    $type_name	    = $this->_Mapper->getWallCoveredTypeName($side);
-	    $partial_height = $this->_Mapper->getWallCoveredHeight($side);
-	    $orientation    = $this->_Mapper->getWallOrientationIndex($side) !== "vertical" ? "horizontal" : "vertical";
-	    $certified	    = $this->_Mapper->isCertified() ? "certified" : "noncertified";
-	    $width	    = (int) $this->_Mapper->getFrameWidth();
-	    $length	    = (int) $this->_Mapper->getFrameLength();
-	    $leg_height	    = (int) $this->_Mapper->getLegHeight();
-	    $side_location  = $side_location_array[$side];
+	    $type		= $this->_Mapper->getWallCoveredType($side);
+	    $type_name		= $this->_Mapper->getWallCoveredTypeName($side);
+	    $partial_height	= $this->_Mapper->getWallCoveredHeight($side);
+	    $orientation	= $this->_Mapper->getWallCoveredOrientationIndex($side) !== "vertical" ? "horizontal" : "vertical";
+	    $orientation_name	= $this->_Mapper->getWallCoveredOrientationName($side) !== "Vertical" ? "Horizontal" : "Vertical";
+	    $certified		= $this->_Mapper->isCertified() ? "certified" : "noncertified";
+	    $width		= (int) $this->_Mapper->getFrameWidth();
+	    $length		= (int) $this->_Mapper->getFrameLength();
+	    $leg_height		= (int) $this->_Mapper->getLegHeight();
+	    $side_location	= $side_location_array[$side];
 	    
 	    #--Is it an end or side?
 	    switch ($side_location) 
@@ -80,13 +79,15 @@ abstract class Pricer extends \Services\Company\Supplier\Product\Configurable\In
 		    switch($type)
 		    {
 			case "GB"://gable
-			    $price = $walls_pricing_array["location"][$side_location]
-							["type"]["gable"]
-							["certified"][$certified]
-							["orientation"][$orientation];
-			    $this->_Price->add((int) $price);
-			    $this->_Price->addDetail($price." - ".$side_upper." wall coverage:".$type_name."-".$certified);
-			    break;
+			    $this->_Price->add($this->_Data->getWallEndGablePrice($this->_Mapper->isCertified()));
+			    $this->_Price->addDetail("End wall gable up to 24' wide");
+			    
+			    if($this->_Mapper->isWallCoveredOrientationVertical($side))
+			    {
+				$this->_Price->add($this->_Data->getWallEndGablePrice($this->_Mapper->isCertified()));
+				$this->_Price->addDetail("End wall gable up to 24' wide");
+			    }
+			break;
 			case "PT"://partial top
 			case "PB"://partial bottom
 			    $bracing		= $this->_Data->getWallsPartialCoverageBracingPricesArray();
@@ -96,7 +97,7 @@ abstract class Pricer extends \Services\Company\Supplier\Product\Configurable\In
 			    
 			    $this->_Price->add((int) $price);
 			    $this->_Price->addDetail($price." - ".$side_upper." wall coverage:".
-							$type_name."-".$partial_height."ft w/ bracing");
+							$type_name."-".$partial_height."ft w/ bracing - orientation:".$orientation_name);
 			    break;
 			case "CL"://closed
 			    $price = $walls_pricing_array["location"][$side_location]
@@ -106,7 +107,7 @@ abstract class Pricer extends \Services\Company\Supplier\Product\Configurable\In
 							["width"][$width]
 							["leg_height"][$leg_height];
 			    $this->_Price->add((int) $price);
-			    $this->_Price->addDetail($price." - ".$side_upper." wall coverage:".$type_name."-".$certified);
+			    $this->_Price->addDetail($price." - ".$side_upper." wall coverage:".$type_name."-".$certified." - orientation:".$orientation_name);
 			    break;
 			case "":
 			case "NO"://no wall
@@ -124,7 +125,7 @@ abstract class Pricer extends \Services\Company\Supplier\Product\Configurable\In
 			    $price = ($amount_of_panels*$panel_length_array[$length]);
 			    $this->_Price->add((int) $price);
 			    $this->_Price->addDetail($price." - ".$side_upper." wall coverage:".
-							$type_name." ".$partial_height."ft");
+							$type_name." ".$partial_height."ft  - orientation:".$orientation_name);
 			    break;
 			//closed
 			case "CL"://closed
@@ -133,7 +134,7 @@ abstract class Pricer extends \Services\Company\Supplier\Product\Configurable\In
 							["length"][$length]
 							["leg_height"][$leg_height];
 			    $this->_Price->add((int) $price);
-			    $this->_Price->addDetail($price." - ".$side_upper." wall coverage:".$type_name);
+			    $this->_Price->addDetail($price." - ".$side_upper." wall coverage:".$type_name."  - orientation:".$orientation_name);
 			    break;
 			case "":
 			case "NO":
@@ -149,10 +150,10 @@ abstract class Pricer extends \Services\Company\Supplier\Product\Configurable\In
     protected function _priceLegHeight()
     {
 	$leg_height		= (int)$this->_Mapper->getLegHeight();
-	$model_code		= $this->_Mapper->getModel();
+	$roof_WS_key		= $this->_Mapper->getRoofStyleWindSnowLoadKey();
 	$price_array		= $this->_Data->getModelLegHeightPricesArray();
 	$length			= (int)$this->_Mapper->getFrameLength();
-	$price			= $price_array[$model_code]["leg_height"][$leg_height]["length"][$length];
+	$price			= $price_array[$roof_WS_key]["leg_height"][$leg_height]["length"][$length];
 	
 	$this->_Price->add((int) $price);	
 	$this->_Price->addDetail($price." - Leg Height:".$leg_height." ft");

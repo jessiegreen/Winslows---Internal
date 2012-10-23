@@ -343,11 +343,703 @@ class Data extends \Services\Company\Supplier\Product\Configurable\Instance\Pric
 			    "24X41" => 5095
 		    )
 	    );
+    
+    /**
+     * Gable Prices from carport price sheets
+     */
+    protected static $_wall_end_gable_noncertified_price    = 150;
+    protected static $_wall_end_gable_certified_price	    = 175;
+    
+    /**
+     * Vertical addition are from pricing for upgrades and additions sheet
+     */
+    protected static $_wall_end_gable_vertical_price = 50;
+
+    protected static $_wall_end_closed_standard_windload_uncertified_prices_array = 
+	    array(
+		"width" => array(
+		    "12" => array(
+			"leg_height" => array(
+			    "5"  => 350,
+			    "6"  => 375,
+			    "7"  => 425,
+			    "8"  => 475,
+			    "9"  => 500,
+			    "10" => 575,
+			    "11" => 650,
+			    "12" => 725
+			)
+		    ),
+		    "18" => array(
+			"leg_height" => array(
+			    "5"  => 420,
+			    "6"  => 450,
+			    "7"  => 505,
+			    "8"  => 560,
+			    "9"  => 590,
+			    "10" => 680,
+			    "11" => 770,
+			    "12" => 860
+			)
+		    ),
+		    "20" => array(
+			"leg_height" => array(
+			    "5"  => 490,
+			    "6"  => 525,
+			    "7"  => 585,
+			    "8"  => 645,
+			    "9"  => 680,
+			    "10" => 785,
+			    "11" => 890,
+			    "12" => 995
+			)
+		    ),
+		    "22" => array(
+			"leg_height" => array(
+			    "5"  => 560,
+			    "6"  => 600,
+			    "7"  => 665,
+			    "8"  => 730,
+			    "9"  => 770,
+			    "10" => 890,
+			    "11" => 1010,
+			    "12" => 1130
+			)
+		    ),
+		    "24" => array(
+			"leg_height" => array(
+			    "5"  => 630,
+			    "6"  => 675,
+			    "7"  => 745,
+			    "8"  => 815,
+			    "9"  => 860,
+			    "10" => 995,
+			    "11" => 1130,
+			    "12" => 1265
+			)
+		    )
+		)
+	    );
+    
+    protected static $_wall_end_closed_standard_windload_uncertified_prices_array = 
+	    array(
+		"width"   => array( 
+		    "12"	=> array(
+			"leg_height" => array(
+			    "5"  => 400,
+			    "6"  => 425,
+			    "7"  => 475,
+			    "8"  => 525,
+			    "9"  => 550,
+			    "10" => 625,
+			    "11" => 700,
+			    "12" => 775 
+			)
+		    ),
+		    "18"	=> array(
+			"leg_height" => array(
+			    "5"  => 510,
+			    "6"  => 540,
+			    "7"  => 595,
+			    "8"  => 650,
+			    "9"  => 680,
+			    "10" => 760,
+			    "11" => 840,
+			    "12" => 920 
+			)
+		    ),
+		    "20"	=> array(
+			"leg_height" => array(
+			    "5"  => 620,
+			    "6"  => 655,
+			    "7"  => 715,
+			    "8"  => 775,
+			    "9"  => 810,
+			    "10" => 895,
+			    "11" => 980,
+			    "12" => 1065 
+			)
+		    ),
+		    "22"	=> array(
+			"leg_height" => array(
+			    "5"  => 730,
+			    "6"  => 770,
+			    "7"  => 835,
+			    "8"  => 900,
+			    "9"  => 940,
+			    "10" => 1030,
+			    "11" => 1120,
+			    "12" => 1210
+			)
+		    ),
+		    "24"	=> array(
+			"leg_height" => array(
+			    "5"  => 840,
+			    "6"  => 885,
+			    "7"  => 955,
+			    "8"  => 1025,
+			    "9"  => 1070,
+			    "10" => 1185,
+			    "11" => 1260,
+			    "12" => 1355
+			)
+		    )
+		)
+	    );
+		    "side" => array(
+			"orientation" => array(
+			    "horizontal" => array(
+				"length"   => array(
+				    "21"	=> array(
+					"leg_height" => array(
+					    "5"  => 137.50,
+					    "6"  => 150,
+					    "7"  => 175,
+					    "8"  => 212.50,
+					    "9"  => 225,
+					    "10" => 250,
+					    "11" => 287.50,
+					    "12" => 300
+					)
+				    ),
+				    "26"	=> array(
+					"leg_height" => array(
+					    "5"  => 172.50,
+					    "6"  => 187.50,
+					    "7"  => 217.50,
+					    "8"  => 260,
+					    "9"  => 277.50,
+					    "10" => 310,
+					    "11" => 355,
+					    "12" => 375
+					)
+				    ),
+				    "31"	=> array(
+					"leg_height" => array(
+					    "5"  => 207.50,
+					    "6"  => 225,
+					    "7"  => 260,
+					    "8"  => 307.50,
+					    "9"  => 330,
+					    "10" => 370,
+					    "11" => 422.50,
+					    "12" => 450
+					)
+				    ),
+				    "36"	=> array(
+					"leg_height" => array(
+					    "5"  => 242.50,
+					    "6"  => 262.50,
+					    "7"  => 302.50,
+					    "8"  => 355,
+					    "9"  => 382.50,
+					    "10" => 430,
+					    "11" => 490,
+					    "12" => 525
+					)
+				    ),
+				    "41"	=> array(
+					"leg_height" => array(
+					    "5"  => 275,
+					    "6"  => 300,
+					    "7"  => 345,
+					    "8"  => 402.50,
+					    "9"  => 435,
+					    "10" => 490,
+					    "11" => 557.50,
+					    "12" => 600
+					)
+				    ),
+				)
+			    ),
+			    "vertical" => array(
+				"length"   => array(
+				    "21"	=> array( //Horizontal price + 100
+					"leg_height" => array(
+					    "5"  => 237.50,
+					    "6"  => 250,
+					    "7"  => 275,
+					    "8"  => 312.50,
+					    "9"  => 325,
+					    "10" => 350,
+					    "11" => 387.50,
+					    "12" => 400
+					)
+				    ),
+				    "26"	=> array( //Horizontal price + 125
+					"leg_height" => array(
+					    "5"  => 297.50,
+					    "6"  => 312.50,
+					    "7"  => 342.50,
+					    "8"  => 385,
+					    "9"  => 402.50,
+					    "10" => 435,
+					    "11" => 480,
+					    "12" => 500
+					)
+				    ),
+				    "31"	=> array( //Horizontal price + 150
+					"leg_height" => array(
+					    "5"  => 357.50,
+					    "6"  => 375,
+					    "7"  => 410,
+					    "8"  => 457.50,
+					    "9"  => 480,
+					    "10" => 520,
+					    "11" => 572.50,
+					    "12" => 600
+					)
+				    ),
+				    "36"	=> array( //Horizontal price + 175
+					"leg_height" => array(
+					    "5"  => 417.50,
+					    "6"  => 437.50,
+					    "7"  => 477.50,
+					    "8"  => 530,
+					    "9"  => 557.50,
+					    "10" => 605,
+					    "11" => 665,
+					    "12" => 750
+					)
+				    ),
+				    "41"	=> array( //Horizontal price + 200
+					"leg_height" => array(
+					    "5"  => 475,
+					    "6"  => 500,
+					    "7"  => 545,
+					    "8"  => 602.50,
+					    "9"  => 635,
+					    "10" => 690,
+					    "11" => 757.50,
+					    "12" => 800
+					)
+				    ),
+				)
+			    ),
+			)
+		    )
+		)
+	    );
+    
+    protected static $_leg_height_prices_standard = 
+			    array(
+				"leg_height" => array(
+					"5"	=> array(
+					    "length" => array(
+						"21" => 0,
+						"26" => 0,
+						"31" => 0,
+						"36" => 0,
+						"41" => 0
+					    )
+					),
+					"6"	=> array(
+					    "length" => array(
+						"21" => 50,
+						"26" => 60,
+						"31" => 75,
+						"36" => 85,
+						"41" => 100
+					    )
+					),
+					"7"	=> array(
+					    "length" => array(
+						"21" => 100,
+						"26" => 120,
+						"31" => 150,
+						"36" => 170,
+						"41" => 200
+					    )
+					),
+					"8"	=> array(
+					    "length" => array(
+						"21" => 150,
+						"26" => 180,
+						"31" => 225,
+						"36" => 255,
+						"41" => 300
+					    )
+					),
+					"9"	=> array(
+					    "length" => array(
+						"21" => 200,
+						"26" => 240,
+						"31" => 300,
+						"36" => 340,
+						"41" => 400
+					    )
+					),
+					"10"	=> array(
+					    "length" => array(
+						"21" => 250,
+						"26" => 300,
+						"31" => 375,
+						"36" => 425,
+						"41" => 500
+					    )
+					),
+					"11"	=> array(
+					    "length" => array(
+						"21" => 300,
+						"26" => 360,
+						"31" => 450,
+						"36" => 510,
+						"41" => 600
+					    )
+					),
+					"12"	=> array(
+					    "length" => array(
+						"21" => 350,
+						"26" => 420,
+						"31" => 525,
+						"36" => 595,
+						"41" => 700
+					    )
+					),
+				)
+			    );
+    
+    protected static $_leg_height_prices_aframe = 
+			    array(
+				"leg_height" => array(
+					"6"	=> array(
+					    "length" => array(
+						"21" => 0,
+						"26" => 0,
+						"31" => 0,
+						"36" => 0,
+						"41" => 0
+					    )
+					),
+					"7"	=> array(
+					    "length" => array(
+						"21" => 50,
+						"26" => 60,
+						"31" => 75,
+						"36" => 85,
+						"41" => 100
+					    )
+					),
+					"8"	=> array(
+					    "length" => array(
+						"21" => 100,
+						"26" => 120,
+						"31" => 150,
+						"36" => 170,
+						"41" => 200
+					    )
+					),
+					"9"	=> array(
+					    "length" => array(
+						"21" => 150,
+						"26" => 180,
+						"31" => 225,
+						"36" => 255,
+						"41" => 300
+					    )
+					),
+					"10"	=> array(
+					    "length" => array(
+						"21" => 200,
+						"26" => 240,
+						"31" => 300,
+						"36" => 340,
+						"41" => 400
+					    )
+					),
+					"11"	=> array(
+					    "length" => array(
+						"21" => 250,
+						"26" => 300,
+						"31" => 375,
+						"36" => 425,
+						"41" => 500
+					    )
+					),
+					"12"	=> array(
+					    "length" => array(
+						"21" => 300,
+						"26" => 360,
+						"31" => 450,
+						"36" => 510,
+						"41" => 600
+					    )
+					)
+				)
+			    );
+    
+    protected static $_leg_height_prices_snow_standard = 
+			    array(
+				"leg_height" => array(
+					"5"	=> array(
+					    "length" => array(
+						"21" => 0,
+						"26" => 0,
+						"31" => 0,
+						"36" => 0,
+						"41" => 0
+					    )
+					),
+					"6"	=> array(
+					    "length" => array(
+						"21" => 60,
+						"26" => 70,
+						"31" => 80,
+						"36" => 90,
+						"41" => 100
+					    )
+					),
+					"7"	=> array(
+					    "length" => array(
+						"21" => 120,
+						"26" => 140,
+						"31" => 160,
+						"36" => 180,
+						"41" => 200
+					    )
+					),
+					"8"	=> array(
+					    "length" => array(
+						"21" => 180,
+						"26" => 210,
+						"31" => 240,
+						"36" => 270,
+						"41" => 300
+					    )
+					),
+					"9"	=> array(
+					    "length" => array(
+						"21" => 240,
+						"26" => 280,
+						"31" => 320,
+						"36" => 360,
+						"41" => 400
+					    )
+					),
+					"10"	=> array(
+					    "length" => array(
+						"21" => 300,
+						"26" => 350,
+						"31" => 400,
+						"36" => 450,
+						"41" => 500
+					    )
+					),
+					"11"	=> array(
+					    "length" => array(
+						"21" => 360,
+						"26" => 420,
+						"31" => 480,
+						"36" => 540,
+						"41" => 600
+					    )
+					),
+					"12"	=> array(
+					    "length" => array(
+						"21" => 420,
+						"26" => 490,
+						"31" => 560,
+						"36" => 630,
+						"41" => 700
+					    )
+					),
+				)
+			    );
+    
+    protected static $_leg_height_prices_snow_aframe = 
+			    array(
+				"leg_height" => array(
+					"6"	=> array(
+					    "length" => array(
+						"21" => 0,
+						"26" => 0,
+						"31" => 0,
+						"36" => 0,
+						"41" => 0
+					    )
+					),
+					"7"	=> array(
+					    "length" => array(
+						"21" => 60,
+						"26" => 70,
+						"31" => 80,
+						"36" => 90,
+						"41" => 100
+					    )
+					),
+					"8"	=> array(
+					    "length" => array(
+						"21" => 120,
+						"26" => 140,
+						"31" => 160,
+						"36" => 180,
+						"41" => 200
+					    )
+					),
+					"9"	=> array(
+					    "length" => array(
+						"21" => 180,
+						"26" => 210,
+						"31" => 240,
+						"36" => 270,
+						"41" => 300
+					    )
+					),
+					"10"	=> array(
+					    "length" => array(
+						"21" => 240,
+						"26" => 280,
+						"31" => 320,
+						"36" => 360,
+						"41" => 400
+					    )
+					),
+					"11"	=> array(
+					    "length" => array(
+						"21" => 300,
+						"26" => 350,
+						"31" => 400,
+						"36" => 450,
+						"41" => 500
+					    )
+					),
+					"12"	=> array(
+					    "length" => array(
+						"21" => 360,
+						"26" => 420,
+						"31" => 480,
+						"36" => 540,
+						"41" => 600
+					    )
+					)
+				)
+			    );
+    
+    static protected $_walls_partial_coverage_end_panel_prices = 
+			array(
+			    "12" => 75, 
+			    "18" => 75 ,
+			    "20" => 75, 
+			    "22" => 90, 
+			    "24" => 90
+			    );
+				    
+    static protected $_walls_partial_coverage_side_panel_prices = 
+			array(
+			    "21" => 75, 
+			    "26" => 90, 
+			    "31" => 105, 
+			    "36" => 120, 
+			    "41" => 170
+			    );
+    
+    static protected $_walls_partial_coverage_bracing_prices = 
+			array(
+			    "12" => 150, 
+			    "18" => 150, 
+			    "20" => 150, 
+			    "22" => 175, 
+			    "24" => 175
+			);
+    
+    static protected $_frame_gauge_prices = 
+			array(
+			    "21" => 100,
+			    "26" => 125,
+			    "31" => 150,
+			    "36" => 175,
+			    "41" => 200
+			);
+    
+    /**
+     * @return array
+     */
+    static public function getModelLegHeightPricesArray()
+    {
+	return array(
+		    "1_1" => self::$_leg_height_prices_standard,
+		    "2_1" => self::$_leg_height_prices_aframe,
+		    "3_1" => self::$_leg_height_prices_aframe,
+		    "1_2" => self::$_leg_height_prices_standard,
+		    "2_2" => self::$_leg_height_prices_aframe,
+		    "3_2" => self::$_leg_height_prices_aframe,
+		    "1_3" => self::$_leg_height_prices_standard,
+		    "2_3" => self::$_leg_height_prices_aframe,
+		    "3_3" => self::$_leg_height_prices_aframe,
+		    "1_4" => self::$_leg_height_prices_snow_standard,
+		    "2_4" => self::$_leg_height_prices_snow_aframe,
+		    "3_4" => self::$_leg_height_prices_snow_aframe
+		);
+    }
+    
     /**
      * @return array
      */
     static public function getBasePricesArray()
     {
 	return self::$_base_prices;
+    }
+    
+    /**
+     * @return array
+     */
+    static public function getWallsPricesArray()
+    {
+	return self::$_walls_prices_array;
+    }
+    
+    /**
+     * @return array
+     */
+    static public function getFrameGaugePricesArray()
+    {
+	return self::$_frame_gauge_prices;
+    }
+    
+    /**
+     * @return array
+     */
+    static public function getWallsPartialCoverageBracingPricesArray()
+    {
+	return self::$_walls_partial_coverage_bracing_prices;
+    }
+    
+    /**
+     * @return array
+     */
+    static public function getWallsPartialCoverageEndPanelPricesArray()
+    {
+	return self::$_walls_partial_coverage_end_panel_prices;
+    }
+    
+    /**
+     * @return array
+     */
+    static public function getWallsPartialCoverageSidePanelPricesArray()
+    {
+	return self::$_walls_partial_coverage_side_panel_prices;
+    }
+    
+    /**
+     * @param bool $certified
+     * @return float
+     * @throws \Exception
+     */
+    public function getWallEndGablePrice($certified)
+    {
+	if(!is_bool($certified))
+	    throw new \Exception('$certified passed to getWallEndGablePrice needs to be boolean');
+	
+	if($certified)return (float) self::$_wall_end_gable_certified_price;
+	
+	return (float) self::$_wall_end_gable_noncertified_price;
+    }
+    
+    /**
+     * @return float
+     */
+    public function getWallEndGableVerticalPrice()
+    {
+	return (float) self::$_wall_end_gable_vertical_price;
     }
 }

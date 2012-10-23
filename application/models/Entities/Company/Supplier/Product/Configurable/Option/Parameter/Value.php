@@ -39,6 +39,12 @@ class Value extends \Dataservice_Doctrine_Entity
      * @var string $description
      */
     protected $description;
+    
+    /** 
+     * @Column(type="integer", length=5) 
+     * @var string $sort_order
+     */
+    protected $sort_order;
         
     /**
      * @ManyToOne(targetEntity="\Entities\Company\Supplier\Product\Configurable\Option\Parameter", inversedBy="Values")
@@ -122,6 +128,22 @@ class Value extends \Dataservice_Doctrine_Entity
     public function setCode($code)
     {
         $this->code = $code;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getOrder()
+    {
+        return $this->sort_order;
+    }
+
+    /**
+     * @param integer $order
+     */
+    public function setOrder($order)
+    {
+        $this->sort_order = $order;
     }
     
     /**

@@ -45,4 +45,15 @@ class MapperAbstract extends \Dataservice_Service_ServiceAbstract
 	
 	return false;
     }
+    
+    /**
+     * @param \Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value $Value
+     * @return string|false
+     */
+    protected function _returnIndexOrFalse($Value)
+    {
+	if($Value !== false)return $Value->getIndex();
+	
+	return false;
+    }
 }

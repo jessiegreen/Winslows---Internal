@@ -57,6 +57,41 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Ma
     }
     
     /**
+     * @param string $side left, right, front, back
+     * @return false|\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value
+     */
+    protected function _getWallCoveredTypeValue($side)
+    {
+	return $this->_Instance->getFirstValueFromIndexes("covered_".$side, "type");
+    }
+    
+    /**
+     * @param string $side left, right, front, back
+     * @return false|\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value
+     */
+    protected function _getWallCoveredHeightValue($side)
+    {
+	return $this->_Instance->getFirstValueFromIndexes("covered_".$side, "height");
+    }
+    
+    /**
+     * @param string $side left, right, front, back
+     * @return false|\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value
+     */
+    protected function _getWallCoveredOrientationValue($side)
+    {
+	return $this->_Instance->getFirstValueFromIndexes("covered_".$side, "metal_orientation");
+    }
+    
+    /**
+     * @return false|\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value
+     */
+    protected function _getCertifiedValue()
+    {
+	return $this->_Instance->getFirstValueFromIndexes("certified", "certified");
+    }
+    
+    /**
      * @return false|string
      */
     public function getRoofStyle()
@@ -152,6 +187,24 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Ma
     }
     
     /**
+     * @return string|false
+     */
+    public function getWindSnowLoadName()
+    {
+	$Value = $this->_getWindSnowLoadValue();
+	
+	return $this->_returnNameOrFalse($Value);
+    }
+    
+    /**
+     * @return string
+     */
+    public function getRoofStyleWindSnowLoadKey()
+    {	
+	return $this->getRoofStyle()."_".$this->getWindSnowLoad();
+    }
+    
+    /**
      * @return array
      */
     public function getSidesArray()
@@ -165,5 +218,121 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Ma
     public function getSidesLocationsArray()
     {
 	return $this->_Data->getSidesLocationsArray();
+    }
+    
+    /**
+     * @param string $side
+     * @return boolean
+     */
+    public function isWallClosed($side)
+    {
+	if($this->getWallCoveredType($side) == "CL")return true;
+	
+	return false;
+    }
+    
+    /**
+     * @param string $side
+     * @return false|string
+     */
+    public function getWallCoveredType($side)
+    {
+	$Value = $this->_getWallCoveredTypeValue($side);
+	
+	return $this->_returnCodeOrFalse($Value);
+    }
+    
+    /**
+     * @param string $side
+     * @return false|string
+     */
+    public function getWallCoveredTypeName($side)
+    {
+	$Value = $this->_getWallCoveredTypeValue($side);
+	
+	return $this->_returnNameOrFalse($Value);
+    }
+    
+    /**
+     * @param string $side
+     * @return false|string
+     */
+    public function getWallCoveredHeight($side)
+    {
+	$Value = $this->_getWallCoveredHeightValue($side);
+	
+	return $this->_returnCodeOrFalse($Value);
+    }
+    
+    /**
+     * @param string $side
+     * @return false|string
+     */
+    public function getWallCoveredHeightName($side)
+    {
+	$Value = $this->_getWallCoveredHeightValue($side);
+	
+	return $this->_returnNameOrFalse($Value);
+    }
+    
+    /**
+     * @param string $side
+     * @return false|string
+     */
+    public function getWallCoveredOrientation($side)
+    {
+	$Value = $this->_getWallCoveredOrientationValue($side);
+	
+	return $this->_returnCodeOrFalse($Value);
+    }
+    
+    /**
+     * @param string $side
+     * @return false|string
+     */
+    public function getWallCoveredOrientationName($side)
+    {
+	$Value = $this->_getWallCoveredOrientationValue($side);
+	
+	return $this->_returnNameOrFalse($Value);
+    }
+    
+    /**
+     * @param string $side
+     * @return false|string
+     */
+    public function getWallCoveredOrientationIndex($side)
+    {
+	$Value = $this->_getWallCoveredOrientationValue($side);
+	
+	return $this->_returnIndexOrFalse($Value);
+    }
+    
+    public function isWallCoveredOrientationVertical($side)
+    {
+	if($this->getWallCoveredOrientationIndex($side) == "vertical")return true;
+	
+	return false;
+    }
+    
+    /**
+     * @return boolean
+     */
+    public function isCertified()
+    {
+	if($this->getCertified() === "Y")
+	    return true;
+	
+	return false;
+    }
+    
+    /**
+     * @return false|string
+     */
+    public function getCertified()
+    {
+	$Value = $this->_getCertifiedValue();
+	
+	return $this->_returnCodeOrFalse($Value);
     }
 }

@@ -22,9 +22,9 @@ class Validator extends \Services\Company\Supplier\Product\Configurable\Instance
 	
 	if($location)$this->_validateWindSnowLoad($location);
 	
-	$this->_validateFrameSize();
 	$this->_validateFrameGauge();
+	$this->_validateCertified();
 	$this->_validateLegHeight();
-	$this->_validateAnchors();
+	$this->_validateWallsCovered();
     }
 }
