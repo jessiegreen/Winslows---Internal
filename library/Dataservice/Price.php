@@ -36,6 +36,16 @@ class Dataservice_Price
     
     /**
      * @param int $int
+     * @param string $detail
+     */
+    public function addWithPriceDetail($int, $detail)
+    {
+	$this->add($int);
+	$this->addPriceDetail($int, $detail);
+    }
+    
+    /**
+     * @param int $int
      */
     public function multiply($int)
     {
@@ -98,6 +108,15 @@ class Dataservice_Price
     public function addDetail($detail)
     {
 	$this->_details[] = (string) $detail;
+    }
+    
+    /**
+     * @param float $price
+     * @param string $detail
+     */
+    public function addPriceDetail($price, $detail)
+    {
+	$this->addDetail($price." - ".$detail);
     }
     
     /**

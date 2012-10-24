@@ -59,15 +59,14 @@ abstract class Pricer extends \Services\Company\Supplier\Product\Configurable\In
 	
 	foreach ($sides as $side) 
 	{
-	    $side_upper	= ucfirst($side);
+	    $side_upper_case	= ucfirst($side);
 	    
 	    $type		= $this->_Mapper->getWallCoveredType($side);
 	    $type_name		= $this->_Mapper->getWallCoveredTypeName($side);
 	    $partial_height	= $this->_Mapper->getWallCoveredHeight($side);
 	    $orientation	= $this->_Mapper->getWallCoveredOrientationIndex($side) !== "vertical" ? "horizontal" : "vertical";
 	    $orientation_name	= $this->_Mapper->getWallCoveredOrientationName($side) !== "Vertical" ? "Horizontal" : "Vertical";
-	    $certified		= $this->_Mapper->isCertified() ? "certified" : "noncertified";
-	    $width		= (int) $this->_Mapper->getFrameWidth();
+	    $frame_width	= (int) $this->_Mapper->getFrameWidth();
 	    $length		= (int) $this->_Mapper->getFrameLength();
 	    $leg_height		= (int) $this->_Mapper->getLegHeight();
 	    $side_location	= $side_location_array[$side];
@@ -79,35 +78,14 @@ abstract class Pricer extends \Services\Company\Supplier\Product\Configurable\In
 		    switch($type)
 		    {
 			case "GB"://gable
-			    $this->_Price->add($this->_Data->getWallEndGablePrice($this->_Mapper->isCertified()));
-			    $this->_Price->addDetail("End wall gable up to 24' wide");
-			    
-			    if($this->_Mapper->isWallCoveredOrientationVertical($side))
-			    {
-				$this->_Price->add($this->_Data->getWallEndGablePrice($this->_Mapper->isCertified()));
-				$this->_Price->addDetail("End wall gable up to 24' wide");
-			    }
+			    $this->_addGablePrice($side);
 			break;
 			case "PT"://partial top
 			case "PB"://partial bottom
-			    $bracing		= $this->_Data->getWallsPartialCoverageBracingPricesArray();
-			    $panel_length_array = $this->_Data->getWallsPartialCoverageEndPanelPricesArray();
-			    $amount_of_panels	= ceil($partial_height/3);
-			    $price		= (($amount_of_panels*$panel_length_array[$width])+($bracing[$width]*$amount_of_panels));
-			    
-			    $this->_Price->add((int) $price);
-			    $this->_Price->addDetail($price." - ".$side_upper." wall coverage:".
-							$type_name."-".$partial_height."ft w/ bracing - orientation:".$orientation_name);
+			    $this->_addEndWallPartialPrice($side);
 			    break;
 			case "CL"://closed
-			    $price = $walls_pricing_array["location"][$side_location]
-							["type"]["closed"]
-							["certified"][$certified]
-							["orientation"][$orientation]
-							["width"][$width]
-							["leg_height"][$leg_height];
-			    $this->_Price->add((int) $price);
-			    $this->_Price->addDetail($price." - ".$side_upper." wall coverage:".$type_name."-".$certified." - orientation:".$orientation_name);
+			    $this->_addWallEndClosedPrice($side);
 			    break;
 			case "":
 			case "NO"://no wall
@@ -120,11 +98,13 @@ abstract class Pricer extends \Services\Company\Supplier\Product\Configurable\In
 			//partial
 			case "PB":
 			case "PT":
-			    $panel_length_array = $this->_Data->getWallsPartialCoverageSidePanelPricesArray();
-			    $amount_of_panels	= ceil($partial_height/3);
-			    $price = ($amount_of_panels*$panel_length_array[$length]);
+			    $panel_length	= $this->_calculatePanelLengthToBeUsed($frame_width);
+			    $amount_of_panels	= $this->_calculatePanelsCountToBeUsed($partial_height);
+			    $panel_price	= $this->_Data->getPanelPrice($panel_length);
+			    
+			    $price = ($amount_of_panels * $panel_length_array[$length]);
 			    $this->_Price->add((int) $price);
-			    $this->_Price->addDetail($price." - ".$side_upper." wall coverage:".
+			    $this->_Price->addDetail($price." - ".$side_upper_case." wall coverage:".
 							$type_name." ".$partial_height."ft  - orientation:".$orientation_name);
 			    break;
 			//closed
@@ -134,7 +114,7 @@ abstract class Pricer extends \Services\Company\Supplier\Product\Configurable\In
 							["length"][$length]
 							["leg_height"][$leg_height];
 			    $this->_Price->add((int) $price);
-			    $this->_Price->addDetail($price." - ".$side_upper." wall coverage:".$type_name."  - orientation:".$orientation_name);
+			    $this->_Price->addDetail($price." - ".$side_upper_case." wall coverage:".$type_name."  - orientation:".$orientation_name);
 			    break;
 			case "":
 			case "NO":
@@ -157,5 +137,116 @@ abstract class Pricer extends \Services\Company\Supplier\Product\Configurable\In
 	
 	$this->_Price->add((int) $price);	
 	$this->_Price->addDetail($price." - Leg Height:".$leg_height." ft");
+    }
+    
+    /**
+     * @param string $side
+     */
+    private function _addGablePrice($side)
+    {
+	if(#--Certified or High Wind or High Wind & Snow Loads
+	    $this->_Mapper->isCertified() || 
+	    in_array($this->_Mapper->getWindSnowLoad(), array("2", "4"))
+	)
+	    $this->_Price->addWithPriceDetail(
+		    $this->_Data->getWallEndGableCertifiedPrice(),
+		    "End wall gable certified up to 24' wide"
+		);
+	else
+	    $this->_Price->addWithPriceDetail(
+		    $this->_Data->getWallEndGableUnCertifiedPrice(),
+		    "End wall gable uncertified up to 24' wide"
+		);
+
+	if($this->_Mapper->isWallCoveredOrientationVertical($side))
+	    $this->_Price->addWithPriceDetail(
+			$this->_Data->getWallEndGableVerticalPrice(),
+			"End wall gable vertical charge up to 24' wide"
+		    );
+    }
+    
+    /**
+     * @param string $side
+     */
+    private function _addWallEndClosedPrice($side)
+    {
+	if(#--Certified or High Wind or High Wind & Snow Loads
+	    $this->_Mapper->isCertified() || 
+	    in_array($this->_Mapper->getWindSnowLoad(), array("2", "4"))
+	)
+	    $this->_Price->addWithPriceDetail(
+			$this->_Data->getWallEndClosedCertifiedPrice(),
+			"End wall closed certified"
+		    );
+	else
+	    $this->_Price->addWithPriceDetail(
+			$this->_Data->getWallEndClosedUnCertifiedPrice(),
+			"End wall closed uncertified"
+		    );
+
+	if($this->_Mapper->isWallCoveredOrientationVertical($side))
+	{	    
+	    $this->_Price->addWithPriceDetail(
+			$this->_Data->getWallEndClosedVerticalPrice($this->_Mapper->getFrameWidth()),
+			"End wall closed vertical charge up to 24' wide"
+		    );
+	}
+    }
+    
+    private function _addEndWallPartialPrice($side)
+    {
+	$frame_width	= $this->_Mapper->getFrameWidth();
+	$partial_height	= $this->_Mapper->getWallCoveredHeight($side);
+	$bracing_price  = $this->_calculateWallEndPartialBracingCost($frame_width);
+	$panels_price   = $this->_calculatePanelPrice($frame_width, $partial_height);
+
+	$this->_Price->addWithPriceDetail(
+			($bracing_price + $panels_price),
+			ucfirst($side)." End Wall Partial Coverage ".$partial_height."ft w/ bracing"
+		    );
+    }
+    
+    private function _calculatePanelPrice($width, $height)
+    {
+	return (
+		$this->_calculatePanelsCountToBeUsed($height) * 
+		$this->_Data->getPanelPrice($this->_calculatePanelLengthToBeUsed($width))
+		);
+    }
+    
+    private function _calculatePanelsCountToBeUsed($height)
+    {
+	return ceil($height/3);
+    }
+    
+    private function _calculatePanelLengthToBeUsed($width)
+    {
+	$panel_lengths_array = $this->_Data->getPanelSizes();
+	
+	sort($panel_lengths_array);
+	
+	foreach ($panel_lengths_array as $panel_length)
+	{
+	    if ($panel_length >= $width) return $panel_length;
+	}
+    }
+    
+    private function _calculateWallEndPartialBracingWidthToBeUsed($width)
+    {
+	$bracing_widths = $this->_Data->getWallEndPartialCoverageBracingWidths();
+	
+	sort($bracing_widths);
+	
+	foreach ($bracing_widths as $bracing_width)
+	{
+	    if ($bracing_width >= $width) return $bracing_width;
+	}
+    }
+    
+    private function _calculateWallEndPartialBracingCost($width)
+    {
+	return $this->_Data->getWallEndPartialCoverageBracingPrice(
+		    $this->_calculateWallEndPartialBracingWidthToBeUsed($width)
+		);
     }
 }
