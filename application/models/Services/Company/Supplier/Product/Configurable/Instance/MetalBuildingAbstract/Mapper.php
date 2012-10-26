@@ -101,6 +101,14 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Ma
     }
     
     /**
+     * @return false|\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value
+     */
+    protected function _getAugerAnchorsValue()
+    {
+	return $this->_Instance->getFirstValueFromIndexes("auger_anchors", "quantity");
+    }
+    
+    /**
      * @return false|string
      */
     public function getRoofStyle()
@@ -224,6 +232,22 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Ma
     public function isWindSnowLoadHighWindSnow()
     {
 	return $this->getWindSnowLoad() == "4" ? true : false;
+    }
+    
+    /**
+     * @return boolean
+     */
+    public function isWindSnowLoadStandard()
+    {
+	return $this->getWindSnowLoad() == "1" ? true : false;
+    }
+    
+    /**
+     * @return boolean
+     */
+    public function isWindSnowLoadWindSnow()
+    {
+	return $this->getWindSnowLoad() == "3" ? true : false;
     }
     
     /**
@@ -410,5 +434,20 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Ma
 	$Value = $this->_getCertifiedValue();
 	
 	return $this->_returnCodeOrFalse($Value);
+    }
+    
+    /**
+     * @return false|string
+     */
+    public function getAugerAnchorsCount()
+    {
+	$Value = $this->_getAugerAnchorsValue();
+	
+	return $this->_returnCodeOrFalse($Value);
+    }
+    
+    public function hasAugerAnchors()
+    {
+	return (int) $this->getAugerAnchorsCount() > 0 ? true : false;
     }
 }

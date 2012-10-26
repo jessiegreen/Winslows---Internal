@@ -23,6 +23,8 @@ class Pricer extends \Services\Company\Supplier\Product\Configurable\Instance\Me
 	$this->_addFrameGaugePrice();
 	$this->_addLegHeightPrice();
 	$this->_addCoveredWallsPrice();
+	$this->_addCertifiedPrice();
+	$this->_addAugerAnchorsPrice();
 	
 	return $this->_Price;
     }

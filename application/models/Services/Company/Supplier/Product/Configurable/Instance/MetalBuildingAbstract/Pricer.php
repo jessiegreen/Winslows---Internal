@@ -78,6 +78,39 @@ abstract class Pricer extends \Services\Company\Supplier\Product\Configurable\In
 		);
     }
     
+    protected function _addCertifiedPrice()
+    {
+	if($this->_Mapper->isCertified() && !$this->_Mapper->isWindSnowLoadCertified())
+	{
+	    if($this->_Mapper->isWindSnowLoadStandard())
+		$this->_Price->addWithPriceDetail(
+		    $this->_Data->getCertifiedWindSnowLoadStandardPrice(
+			$this->_Mapper->getFrameLength()
+		    ),
+		    "Certified"
+		);
+	    
+	    if($this->_Mapper->isWindSnowLoadWindSnow())
+		$this->_Price->addWithPriceDetail(
+		    $this->_Data->getCertifiedWindSnowLoadWindSnowPrice(
+			$this->_Mapper->getFrameGauge(),
+			$this->_Mapper->getFrameLength()
+		    ),
+		    "Certified"
+		);
+	}
+    }
+    
+    protected function _addAugerAnchorsPrice()
+    {
+	echo $this->_Mapper->hasAugerAnchors() ? $this->_Mapper->getAugerAnchorsCount() : "Nope";
+	if($this->_Mapper->hasAugerAnchors())
+	    $this->_Price->addWithPriceDetail(
+		((int) $this->_Mapper->getAugerAnchorsCount() * (float) $this->_Data->getAugerAnchorsPrice()),
+		"Auger Anchors"
+	    );
+    }
+    
     /**
      * @param string $side
      */

@@ -43,6 +43,20 @@ class Sale extends \Entities\Company\Sale\SaleAbstract
 	return $this->Quote;
     }
     
+    public function getTotalDue()
+    {
+	$this->_persist();
+	
+	parent::getTotalDue();
+    }
+    
+    public function getTotalDueAtSale()
+    {
+	$this->_persist();
+	
+	return parent::getTotalDueAtSale();
+    }
+
     private function _persist()
     {
 	$this->total_due	    = $this->getQuote()->getTotalSafe();

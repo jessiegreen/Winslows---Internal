@@ -955,10 +955,63 @@ class Data extends \Services\Company\Supplier\Product\Configurable\Instance\Pric
 			);
     
     /**
+     * Frame gauge then frame length Indexes
+     * @var array 
+     */
+    static protected $_certified_wind_snow_load_wind_snow_array = 
+		    array(
+			"0" => array(
+			    "21" => 100,
+			    "26" => 125,
+			    "31" => 150,
+			    "36" => 175,
+			    "41" => 200
+			),
+			"16" => array(
+			    "21" => 100,
+			    "26" => 125,
+			    "31" => 150,
+			    "36" => 175,
+			    "41" => 200
+			),
+			"14" => array(
+			    "21" => 100,
+			    "26" => 125,
+			    "31" => 150,
+			    "36" => 175,
+			    "41" => 200
+			),
+			"12" => array(
+			    "21" => 400,
+			    "26" => 500,
+			    "31" => 600,
+			    "36" => 700,
+			    "41" => 800
+			)
+		    );
+    
+    /**
+     * Frame length Indexes
+     * @var array 
+     */
+    static protected $_certified_wind_snow_load_standard_array = 
+		    array(
+			"21" => 200,
+			"26" => 250,
+			"31" => 300,
+			"36" => 350,
+			"41" => 400
+		    );
+    
+    /**
      * @var float
      */
     static protected $_jtrim_per_foot_price = 1.00;
 
+    /**
+     * @var float
+     */
+    static protected $_auger_anchors_price = 25.00;
 
     /**
      * @return array
@@ -1141,10 +1194,42 @@ class Data extends \Services\Company\Supplier\Product\Configurable\Instance\Pric
 	return (float) $price_array[self::_formatNumberForIndex($frame_width)];
     }
     
-    
+    /**
+     * @return float
+     */
     static public function getJTrimPricePerFoot()
     {
-	return self::$_jtrim_per_foot_price;
+	return (float) self::$_jtrim_per_foot_price;
+    }
+    
+    /**
+     * 
+     */
+    static public function getCertifiedWindSnowLoadStandardPrice($frame_length)
+    {
+	$array = self::$_certified_wind_snow_load_standard_array;
+	
+	return (float) $array[self::_formatNumberForIndex($frame_length)];
+    }
+    
+    /**
+     * @param string|int|float $frame_gauge
+     * @param string|int|float $frame_length
+     * @return float
+     */
+    static public function getCertifiedWindSnowLoadWindSnowPrice($frame_gauge, $frame_length)
+    {
+	$array = self::$_certified_wind_snow_load_wind_snow_array;
+	
+	return (float) $array[self::_formatNumberForIndex($frame_gauge)][self::_formatNumberForIndex($frame_length)];
+    }
+    
+    /**
+     * @return float
+     */
+    public function getAugerAnchorsPrice()
+    {
+	return self::$_auger_anchors_price;
     }
     
     private static function _formatNumberForIndex($number)

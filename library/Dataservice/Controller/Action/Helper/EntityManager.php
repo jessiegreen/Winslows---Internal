@@ -14,6 +14,3 @@ class Dataservice_Controller_Action_Helper_EntityManager extends Zend_Controller
   }
 }
 
-?>
-
-
