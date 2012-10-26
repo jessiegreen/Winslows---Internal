@@ -19,10 +19,10 @@ class Pricer extends \Services\Company\Supplier\Product\Configurable\Instance\Me
     public function price()
     {
 	$this->_Price->setPrice(0);	
-	$this->_getBasePrice();
-	$this->_priceFrameGauge();
-	$this->_priceWalls();
-	$this->_priceLegHeight();
+	$this->_addBasePrice();
+	$this->_addFrameGaugePrice();
+	$this->_addLegHeightPrice();
+	$this->_addCoveredWallsPrice();
 	
 	return $this->_Price;
     }

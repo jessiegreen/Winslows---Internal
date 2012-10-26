@@ -84,6 +84,15 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Ma
     }
     
     /**
+     * @param string $side left, right, front, back
+     * @return false|\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value
+     */
+    protected function _getWallCoveredJTrimValue($side)
+    {
+	return $this->_Instance->getFirstValueFromIndexes("covered_".$side, "j_trimmed");
+    }
+    
+    /**
      * @return false|\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value
      */
     protected function _getCertifiedValue()
@@ -139,6 +148,11 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Ma
 	$Value = $this->_getFrameGaugeValue();
 	
 	return $this->_returnNameOrFalse($Value);
+    }
+    
+    public function isFrameGauge12()
+    {
+	return $this->getFrameGauge() == "12" ? true : false;
     }
     
     /**
@@ -197,6 +211,22 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Ma
     }
     
     /**
+     * @return boolean
+     */
+    public function isWindSnowLoadCertified()
+    {
+	return in_array($this->getWindSnowLoad(), array("2", "4")) ? true : false;
+    }
+    
+    /**
+     * @return boolean
+     */
+    public function isWindSnowLoadHighWindSnow()
+    {
+	return $this->getWindSnowLoad() == "4" ? true : false;
+    }
+    
+    /**
      * @return string
      */
     public function getRoofStyleWindSnowLoadKey()
@@ -227,6 +257,28 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Ma
     public function isWallClosed($side)
     {
 	if($this->getWallCoveredType($side) == "CL")return true;
+	
+	return false;
+    }
+    
+    /**
+     * @param string $side
+     * @return boolean
+     */
+    public function isWallPartiallyCovered($side)
+    {
+	if(in_array($this->getWallCoveredType($side), array("PT", "PB")))return true;
+	
+	return false;
+    }
+    
+    /**
+     * @param string $end front or back
+     * @return boolean
+     */
+    public function doesWallHaveGableEnd($end)
+    {
+	if($this->getWallCoveredType($end) == "GB")return true;
 	
 	return false;
     }
@@ -308,11 +360,35 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Ma
 	return $this->_returnIndexOrFalse($Value);
     }
     
+    /**
+     * @param string $side
+     * @return boolean
+     */
     public function isWallCoveredOrientationVertical($side)
     {
 	if($this->getWallCoveredOrientationIndex($side) == "vertical")return true;
 	
 	return false;
+    }
+    
+    /**
+     * @param string $side
+     * @return false|string
+     */
+    public function getWallCoveredJTrim($side)
+    {
+	$Value = $this->_getWallCoveredJTrimValue($side);
+	
+	return $this->_returnCodeOrFalse($Value);
+    }
+    
+    /**
+     * @param string $side
+     * @return boolean
+     */
+    public function hasWallCoveredJTrim($side)
+    {
+	return $this->getWallCoveredJTrim($side) == "Y" ? true : false;
     }
     
     /**

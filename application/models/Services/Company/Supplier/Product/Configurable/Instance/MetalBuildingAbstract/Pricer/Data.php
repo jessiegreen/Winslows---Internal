@@ -365,7 +365,7 @@ class Data extends \Services\Company\Supplier\Product\Configurable\Instance\Pric
      * Vertical addition are from pricing for upgrades and additions sheet
      * @var int
      */
-    protected static $_wall_end_gable_vertical_price	    = 50;
+    protected static $_wall_end_gable_vertical_price = 50;
     
     /**
      * Frame width indexes
@@ -924,8 +924,7 @@ class Data extends \Services\Company\Supplier\Product\Configurable\Instance\Pric
 			    "21" => 75, 
 			    "26" => 90, 
 			    "31" => 105, 
-			    "36" => 120, 
-			    "41" => 170
+			    "36" => 120
 			    );
     
     /**
@@ -946,7 +945,7 @@ class Data extends \Services\Company\Supplier\Product\Configurable\Instance\Pric
      * Frame length Indexes
      * @var array 
      */
-    static protected $_frame_gauge_prices = 
+    static protected $_frame_gauge_12_gauge_prices = 
 			array(
 			    "21" => 100,
 			    "26" => 125,
@@ -956,11 +955,17 @@ class Data extends \Services\Company\Supplier\Product\Configurable\Instance\Pric
 			);
     
     /**
+     * @var float
+     */
+    static protected $_jtrim_per_foot_price = 1.00;
+
+
+    /**
      * @return array
      */
-    static public function getModelLegHeightPricesArray()
+    static public function getLegHeightPrice($roof_WS_key, $leg_height, $frame_length)
     {
-	return array(
+	$array = array(
 		    "1_1" => self::$_leg_height_prices_standard,
 		    "2_1" => self::$_leg_height_prices_aframe,
 		    "3_1" => self::$_leg_height_prices_aframe,
@@ -974,14 +979,20 @@ class Data extends \Services\Company\Supplier\Product\Configurable\Instance\Pric
 		    "2_4" => self::$_leg_height_prices_snow_aframe,
 		    "3_4" => self::$_leg_height_prices_snow_aframe
 		);
+	
+	return $array[$roof_WS_key]
+			["leg_height"][self::_formatNumberForIndex($leg_height)]
+			["length"][self::_formatNumberForIndex($frame_length, 0, "", "")];
     }
     
     /**
      * @return array
      */
-    static public function getBasePricesArray()
+    static public function getBasePrice($roof_WS_key, $frame_size)
     {
-	return self::$_base_prices;
+	$base_prices_array = self::$_base_prices;
+	
+	return $base_prices_array[$roof_WS_key][$frame_size];
     }
     
     /**
@@ -995,9 +1006,11 @@ class Data extends \Services\Company\Supplier\Product\Configurable\Instance\Pric
     /**
      * @return array
      */
-    static public function getFrameGaugePricesArray()
+    static public function getFrameGauge12Price($frame_length)
     {
-	return self::$_frame_gauge_prices;
+	$array = self::$_frame_gauge_12_gauge_prices;
+	
+	return $array[self::_formatNumberForIndex($frame_length)];
     }
     
     /**
@@ -1008,7 +1021,7 @@ class Data extends \Services\Company\Supplier\Product\Configurable\Instance\Pric
     {
 	$price_array = self::$_wall_end_partial_coverage_bracing_prices;
 	
-	return (float) $price_array[$frame_width];
+	return (float) $price_array[self::_formatNumberForIndex($frame_width)];
     }
     
     static public function getWallEndPartialCoverageBracingWidths()
@@ -1024,11 +1037,11 @@ class Data extends \Services\Company\Supplier\Product\Configurable\Instance\Pric
     {
 	$price_array = self::$_panel_prices;
 	
-	return $price_array[$panel_length];
+	return $price_array[self::_formatNumberForIndex($panel_length)];
     }
     
     /**
-     * @return array
+     * @return type
      */
     static public function getPanelSizes()
     {
@@ -1046,7 +1059,7 @@ class Data extends \Services\Company\Supplier\Product\Configurable\Instance\Pric
     /**
      * @return float
      */
-    public function getWallEndGableCertifiedPrice()
+    static public function getWallEndGableCertifiedPrice()
     {
 	return (float) self::$_wall_end_gable_certified_price;
     }
@@ -1054,7 +1067,7 @@ class Data extends \Services\Company\Supplier\Product\Configurable\Instance\Pric
     /**
      * @return float
      */
-    public function getWallEndGableUnCertifiedPrice()
+    static public function getWallEndGableUnCertifiedPrice()
     {
 	return (float) self::$_wall_end_gable_noncertified_price;
     }
@@ -1064,11 +1077,12 @@ class Data extends \Services\Company\Supplier\Product\Configurable\Instance\Pric
      * @param string $leg_height
      * @return float
      */
-    public function getWallEndClosedUnCertifiedPrice($frame_width, $leg_height)
+    static public function getWallEndClosedUnCertifiedPrice($frame_width, $leg_height)
     {
 	$price_array = self::$_wall_end_closed_uncertified_prices_array;
 	
-	return (float) $price_array["width"][$frame_width]["leg_height"][$leg_height];
+	return (float) $price_array["width"][self::_formatNumberForIndex($frame_width)]
+				    ["leg_height"][self::_formatNumberForIndex($leg_height)];
     }
     
     /**
@@ -1076,11 +1090,12 @@ class Data extends \Services\Company\Supplier\Product\Configurable\Instance\Pric
      * @param string $leg_height
      * @return float
      */
-    public function getWallEndClosedCertifiedPrice($frame_width, $leg_height)
+    static public function getWallEndClosedCertifiedPrice($frame_width, $leg_height)
     {
 	$price_array = self::$_wall_end_closed_certified_prices_array;
 	
-	return (float) $price_array["width"][$frame_width]["leg_height"][$leg_height];
+	return (float) $price_array["width"][self::_formatNumberForIndex($frame_width)]
+				    ["leg_height"][self::_formatNumberForIndex($leg_height)];
     }
     
     /**
@@ -1088,17 +1103,18 @@ class Data extends \Services\Company\Supplier\Product\Configurable\Instance\Pric
      * @param string $leg_height
      * @return float
      */
-    public function getWallSideClosedPrice($frame_length, $leg_height)
+    static public function getWallSideClosedPrice($frame_length, $leg_height)
     {
 	$price_array = self::$_wall_side_closed_prices_array;
 	
-	return (float) $price_array["length"][$frame_length]["leg_height"][$leg_height];
+	return (float) $price_array["length"][self::_formatNumberForIndex($frame_length)]
+				    ["leg_height"][self::_formatNumberForIndex($leg_height)];
     }
     
     /**
      * @return float
      */
-    public function getWallEndGableVerticalPrice()
+    static public function getWallEndGableVerticalPrice()
     {
 	return (float) self::$_wall_end_gable_vertical_price;
     }
@@ -1107,21 +1123,32 @@ class Data extends \Services\Company\Supplier\Product\Configurable\Instance\Pric
      * @param string $frame_length
      * @return float
      */
-    public function getWallSideClosedVerticalPrice($frame_length)
+    static public function getWallSideClosedVerticalPrice($frame_length)
     {
 	$price_array = self::$_wall_side_closed_vertical_pricing_array;
 	
-	return (float) $price_array[$frame_length];
+	return (float) $price_array[self::_formatNumberForIndex($frame_length)];
     }
     
     /**
      * @param string $frame_width
      * @return float
      */
-    public function getWallEndClosedVerticalPrice($frame_width)
+    static public function getWallEndClosedVerticalPrice($frame_width)
     {
 	$price_array = self::$_wall_end_closed_vertical_pricing_array;
 	
-	return (float) $price_array[$frame_width];
+	return (float) $price_array[self::_formatNumberForIndex($frame_width)];
+    }
+    
+    
+    static public function getJTrimPricePerFoot()
+    {
+	return self::$_jtrim_per_foot_price;
+    }
+    
+    private static function _formatNumberForIndex($number)
+    {
+	return number_format($number, 0, "", "");
     }
 }

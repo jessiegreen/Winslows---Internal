@@ -13,155 +13,100 @@ abstract class Pricer extends \Services\Company\Supplier\Product\Configurable\In
      */
     protected $_Mapper;
     
-    protected function _getBasePrice()
+    protected function _addBasePrice()
     {
-	$prices_array		= $this->_Data->getBasePricesArray();
-	$roof_WS_key		= $this->_Mapper->getRoofStyleWindSnowLoadKey();
-	$size_code		= $this->_Mapper->getFrameSize();
-	
-	if(
-	    key_exists($roof_WS_key, $prices_array)
-	    && key_exists($size_code, $prices_array[$roof_WS_key])
-	)
-	{
-	    $base_price = $prices_array[$roof_WS_key][$size_code];
-	    
-	    $this->_Price->add((int) $prices_array[$roof_WS_key][$size_code]);
-	    $this->_Price->addDetail($base_price." - Base: ".$this->_Mapper->getRoofStyleName()."/".$this->_Mapper->getWindSnowLoadName()."/".$size_code);
-	}
-	else throw new \Exception("$size_code is not in Base Price Array");
+	$this->_Price->addWithPriceDetail(
+		$this->_Data->getBasePrice(
+			$this->_Mapper->getRoofStyleWindSnowLoadKey(), 
+			$this->_Mapper->getFrameSize()
+		),
+		"Base: ".$this->_Mapper->getRoofStyleName()."/".$this->_Mapper->getWindSnowLoadName().
+		    "/".$this->_Mapper->getFrameSize()
+	    );
     }
     
-    protected function _priceFrameGauge()
+    protected function _addFrameGaugePrice()
     {
-	$framegauge_code = $this->_Mapper->getFrameGauge();
-	
-	if($framegauge_code !== false)
-	{
-	    $prices_array = $this->_Data->getFrameGaugePricesArray();
-	    
-	    if(key_exists($framegauge_code, $prices_array))
-	    {
-		$price = $prices_array[$framegauge_code];
-		
-		$this->_Price->add((int) $price);		
-		$this->_Price->addDetail($price." - Frame Gauge:".$this->_Mapper->getFrameGaugeName());
-	    }
-	    else throw new \Exception("Frame Gauge '$framegauge_code' not not valid for pricing");
-	}
+	if(!$this->_Mapper->isWindSnowLoadHighWindSnow() && $this->_Mapper->isFrameGauge12())
+	    $this->_Price->addWithPriceDetail(
+		$this->_Data->getFrameGauge12Price($this->_Mapper->getFrameLength()),
+		"Frame Gauge: ".$this->_Mapper->getFrameGaugeName()
+	    );	    
     }
     
-    protected function _priceWalls() 
+    protected function _addCoveredWallsPrice() 
     {
-	$sides			= $this->_Mapper->getSidesArray();
-	$side_location_array	= $this->_Mapper->getSidesLocationsArray();
-	$walls_pricing_array	= $this->_Data->getWallsPricesArray();
+	$side_location_array = $this->_Mapper->getSidesLocationsArray();
 	
-	foreach ($sides as $side) 
-	{
-	    $side_upper_case	= ucfirst($side);
-	    
-	    $type		= $this->_Mapper->getWallCoveredType($side);
-	    $type_name		= $this->_Mapper->getWallCoveredTypeName($side);
-	    $partial_height	= $this->_Mapper->getWallCoveredHeight($side);
-	    $orientation	= $this->_Mapper->getWallCoveredOrientationIndex($side) !== "vertical" ? "horizontal" : "vertical";
-	    $orientation_name	= $this->_Mapper->getWallCoveredOrientationName($side) !== "Vertical" ? "Horizontal" : "Vertical";
-	    $frame_width	= (int) $this->_Mapper->getFrameWidth();
-	    $length		= (int) $this->_Mapper->getFrameLength();
-	    $leg_height		= (int) $this->_Mapper->getLegHeight();
-	    $side_location	= $side_location_array[$side];
-	    
+	foreach ($this->_Mapper->getSidesArray() as $side) 
+	{	    
 	    #--Is it an end or side?
-	    switch ($side_location) 
+	    switch ($side_location_array[$side]) 
 	    {
 		case "end":
-		    switch($type)
-		    {
-			case "GB"://gable
-			    $this->_addGablePrice($side);
-			break;
-			case "PT"://partial top
-			case "PB"://partial bottom
-			    $this->_addEndWallPartialPrice($side);
-			    break;
-			case "CL"://closed
-			    $this->_addWallEndClosedPrice($side);
-			    break;
-			case "":
-			case "NO"://no wall
-			default:
-		    }
-		    break;
-		case "side":
-		    switch($type)
-		    {
-			//partial
-			case "PB":
-			case "PT":
-			    $panel_length	= $this->_calculatePanelLengthToBeUsed($frame_width);
-			    $amount_of_panels	= $this->_calculatePanelsCountToBeUsed($partial_height);
-			    $panel_price	= $this->_Data->getPanelPrice($panel_length);
+		    if($this->_Mapper->doesWallHaveGableEnd($side))
+			$this->_addWallEndGablePrice($side);
+		    
+		    if($this->_Mapper->isWallPartiallyCovered($side))
+			$this->_addWallEndPartialPrice($side);
 			    
-			    $price = ($amount_of_panels * $panel_length_array[$length]);
-			    $this->_Price->add((int) $price);
-			    $this->_Price->addDetail($price." - ".$side_upper_case." wall coverage:".
-							$type_name." ".$partial_height."ft  - orientation:".$orientation_name);
-			    break;
-			//closed
-			case "CL"://closed
-			    $price = $walls_pricing_array["location"][$side_location]
-							["orientation"][$orientation]
-							["length"][$length]
-							["leg_height"][$leg_height];
-			    $this->_Price->add((int) $price);
-			    $this->_Price->addDetail($price." - ".$side_upper_case." wall coverage:".$type_name."  - orientation:".$orientation_name);
-			    break;
-			case "":
-			case "NO":
-			default:
-		    }
-		    break;
+		    if($this->_Mapper->isWallClosed($side))
+			    $this->_addWallEndClosedPrice($side);
+		break;
+		case "side":
+		    if($this->_Mapper->isWallPartiallyCovered($side))
+				$this->_addWallSidePartialPrice($side);
+		    
+		    if($this->_Mapper->isWallClosed($side))
+			    $this->_addWallSideClosedPrice($side);
+		    
+		break;
 		default:
-		    break;
 	    }
 	}
     }
     
-    protected function _priceLegHeight()
-    {
-	$leg_height		= (int)$this->_Mapper->getLegHeight();
-	$roof_WS_key		= $this->_Mapper->getRoofStyleWindSnowLoadKey();
-	$price_array		= $this->_Data->getModelLegHeightPricesArray();
-	$length			= (int)$this->_Mapper->getFrameLength();
-	$price			= $price_array[$roof_WS_key]["leg_height"][$leg_height]["length"][$length];
-	
-	$this->_Price->add((int) $price);	
-	$this->_Price->addDetail($price." - Leg Height:".$leg_height." ft");
+    protected function _addLegHeightPrice()
+    {	
+	$this->_Price->addWithPriceDetail(
+		    $this->_Data->getLegHeightPrice(
+			$this->_Mapper->getRoofStyleWindSnowLoadKey(), 
+			$this->_Mapper->getLegHeight(), 
+			$this->_Mapper->getFrameLength()
+		    ),
+		    "Leg Height"
+		);
     }
     
     /**
      * @param string $side
      */
-    private function _addGablePrice($side)
+    private function _addWallEndGablePrice($side)
     {
 	if(#--Certified or High Wind or High Wind & Snow Loads
 	    $this->_Mapper->isCertified() || 
-	    in_array($this->_Mapper->getWindSnowLoad(), array("2", "4"))
+	    $this->_Mapper->isWindSnowLoadCertified()
 	)
 	    $this->_Price->addWithPriceDetail(
 		    $this->_Data->getWallEndGableCertifiedPrice(),
-		    "End wall gable certified up to 24' wide"
+		    "End wall gable certified"
 		);
 	else
 	    $this->_Price->addWithPriceDetail(
 		    $this->_Data->getWallEndGableUnCertifiedPrice(),
-		    "End wall gable uncertified up to 24' wide"
+		    "End wall gable uncertified"
+		);
+	
+	if($this->_Mapper->hasWallCoveredJTrim($side))
+	    $this->_Price->addWithPriceDetail(
+		    ($this->_Data->getJTrimPricePerFoot() * (float) $this->_Mapper->getFrameWidth()),
+		    "End wall gable j-trim"
 		);
 
 	if($this->_Mapper->isWallCoveredOrientationVertical($side))
 	    $this->_Price->addWithPriceDetail(
 			$this->_Data->getWallEndGableVerticalPrice(),
-			"End wall gable vertical charge up to 24' wide"
+			"End wall gable vertical charge"
 		    );
     }
     
@@ -172,7 +117,7 @@ abstract class Pricer extends \Services\Company\Supplier\Product\Configurable\In
     {
 	if(#--Certified or High Wind or High Wind & Snow Loads
 	    $this->_Mapper->isCertified() || 
-	    in_array($this->_Mapper->getWindSnowLoad(), array("2", "4"))
+	    $this->_Mapper->isWindSnowLoadCertified()
 	)
 	    $this->_Price->addWithPriceDetail(
 			$this->_Data->getWallEndClosedCertifiedPrice(),
@@ -193,12 +138,15 @@ abstract class Pricer extends \Services\Company\Supplier\Product\Configurable\In
 	}
     }
     
-    private function _addEndWallPartialPrice($side)
+    /**
+     * @param string $side
+     */
+    private function _addWallEndPartialPrice($side)
     {
 	$frame_width	= $this->_Mapper->getFrameWidth();
 	$partial_height	= $this->_Mapper->getWallCoveredHeight($side);
 	$bracing_price  = $this->_calculateWallEndPartialBracingCost($frame_width);
-	$panels_price   = $this->_calculatePanelPrice($frame_width, $partial_height);
+	$panels_price   = $this->_calculatePanelsPrice($frame_width, $partial_height);
 
 	$this->_Price->addWithPriceDetail(
 			($bracing_price + $panels_price),
@@ -206,31 +154,146 @@ abstract class Pricer extends \Services\Company\Supplier\Product\Configurable\In
 		    );
     }
     
-    private function _calculatePanelPrice($width, $height)
+    private function _addWallSidePartialPrice($side)
     {
-	return (
-		$this->_calculatePanelsCountToBeUsed($height) * 
-		$this->_Data->getPanelPrice($this->_calculatePanelLengthToBeUsed($width))
+	$frame_length	= $this->_Mapper->getFrameLength();
+	$partial_height	= $this->_Mapper->getWallCoveredHeight($side);
+	$panels_price	= $this->_calculatePanelsPrice($frame_length, $partial_height);
+	
+	$this->_Price->addWithPriceDetail(
+			$panels_price,
+			ucfirst($side)." Side Wall Partial Coverage ".$partial_height."ft w/ bracing"
+		    );
+    }
+    
+    /**
+     * @param string $side
+     */
+    private function _addWallSideClosedPrice($side)
+    {
+	$this->_Price->addWithPriceDetail(
+		    $this->_Data->getWallSideClosedPrice($this->_Mapper->getFrameLength(), $this->_Mapper->getLegHeight()),
+		    "Side wall closed."
 		);
-    }
-    
-    private function _calculatePanelsCountToBeUsed($height)
-    {
-	return ceil($height/3);
-    }
-    
-    private function _calculatePanelLengthToBeUsed($width)
-    {
-	$panel_lengths_array = $this->_Data->getPanelSizes();
-	
-	sort($panel_lengths_array);
-	
-	foreach ($panel_lengths_array as $panel_length)
-	{
-	    if ($panel_length >= $width) return $panel_length;
+
+	if($this->_Mapper->isWallCoveredOrientationVertical($side))
+	{	    
+	    $this->_Price->addWithPriceDetail(
+			$this->_Data->getWallSideClosedVerticalPrice($this->_Mapper->getFrameLength()),
+			"Side wall closed vertical charge."
+		    );
 	}
     }
     
+    /**
+     * @param string $width
+     * @param string $height
+     * @return float
+     */
+    private function _calculatePanelsPrice($width, $height)
+    {
+	$price = 0;
+	
+	foreach ($this->_calculatePanelLengthsToBeUsed($width) as $panel_length => $count)
+	{
+	    $price += ((float) $this->_Data->getPanelPrice($panel_length) * (int) $count);
+	}
+	
+	return (float) (
+		(int) $this->_calculatePanelRowsToBeUsed($height) * 
+		(float) $this->_Data->getPanelPrice($this->_calculatePanelLengthsToBeUsed($width))
+		);
+    }
+    
+    /**
+     * @param string|int|float $height
+     * @return int
+     */
+    private function _calculatePanelRowsToBeUsed($height)
+    {
+	return (int) ceil((float)$height/3);
+    }
+    
+    /**
+     * @param string|float|int $width
+     * @return array
+     */
+    private function _calculatePanelLengthsToBeUsed($width)
+    {
+	$panel_lengths_array	= $this->_Data->getPanelSizes();
+	$panel_counts		= $this->_initializePanelCountsArray($panel_lengths_array);
+	$width			= (float) $width;
+	
+	sort($panel_lengths_array);
+	
+	while($width > 0)
+	{
+	    #--See if one panel will do
+	    $single_panel = $this->getPanelBiggerThanSpan($width);
+
+	    #--If so add the panel to the array
+	    if($single_panel)$panel_counts[$single_panel]++;
+	    else
+	    {
+		$biggest_panel			= $this->_getBiggestPanelSize($panel_lengths_array);
+		
+		$panel_counts[$biggest_panel]++;
+		
+		$width				-= (float) $biggest_panel;
+	    }
+	}
+	
+	return $panel_counts;
+    }
+    
+    private function _initializePanelCountsArray($panel_lengths_array)
+    {
+	$panel_counts		= array();
+	
+	foreach($panel_lengths_array as $panel_length)
+	{
+	    $panel_counts[$panel_length] = 0;
+	}
+	
+	return $panel_counts;
+    }
+    
+    /**
+     * @param array $panel_lengths_array
+     * @return string
+     */
+    public function _getBiggestPanelSize($panel_lengths_array)
+    {
+	$biggest_panel = 0;
+	
+	foreach ($panel_lengths_array as $panel_length)
+	{
+	    if((float) $panel_length > (float) $biggest_panel)$biggest_panel = $panel_length;
+	}
+	
+	return (string) $biggest_panel;
+    }
+    
+    /**
+     * 
+     * @param string|int|float $width
+     * @param array $panel_lengths_array
+     * @return boolean|string
+     */
+    private function getPanelBiggerThanSpan($width, $panel_lengths_array)
+    {
+	foreach ($panel_lengths_array as $panel_length)
+	{
+	    if ((float) $panel_length >= (float) $width) return (string) $panel_length;
+	}
+	
+	return false;
+    }
+    
+    /**
+     * @param string $width
+     * @return string
+     */
     private function _calculateWallEndPartialBracingWidthToBeUsed($width)
     {
 	$bracing_widths = $this->_Data->getWallEndPartialCoverageBracingWidths();
@@ -239,13 +302,17 @@ abstract class Pricer extends \Services\Company\Supplier\Product\Configurable\In
 	
 	foreach ($bracing_widths as $bracing_width)
 	{
-	    if ($bracing_width >= $width) return $bracing_width;
+	    if ((float) $bracing_width >= (float) $width) return (string) $bracing_width;
 	}
     }
     
+    /**
+     * @param string $width
+     * @return float
+     */
     private function _calculateWallEndPartialBracingCost($width)
     {
-	return $this->_Data->getWallEndPartialCoverageBracingPrice(
+	return (float) $this->_Data->getWallEndPartialCoverageBracingPrice(
 		    $this->_calculateWallEndPartialBracingWidthToBeUsed($width)
 		);
     }
