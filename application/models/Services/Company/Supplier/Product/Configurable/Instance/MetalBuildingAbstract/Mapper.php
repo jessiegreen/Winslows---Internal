@@ -3,7 +3,6 @@ namespace Services\Company\Supplier\Product\Configurable\Instance\MetalBuildingA
 //Jessie
 class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Mapper\MapperAbstract
 {
-    //Master
     /**
      * @var Mapper\Data 
      */
