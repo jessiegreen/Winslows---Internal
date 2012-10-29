@@ -1,6 +1,6 @@
 <?php
 namespace Services\Company\Supplier\Product\Configurable\Instance\MetalBuildingAbstract;
-//test
+
 class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Mapper\MapperAbstract
 {    
     /**
