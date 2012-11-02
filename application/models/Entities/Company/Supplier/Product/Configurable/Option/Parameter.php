@@ -47,6 +47,12 @@ class Parameter extends \Dataservice_Doctrine_Entity
      */
     protected $length;
     
+    /** 
+     * @Column(type="integer", length=5) 
+     * @var string $sort_order
+     */
+    protected $sort_order;
+    
     /**
      * @ManyToOne(targetEntity="\Entities\Company\Supplier\Product\Configurable\Option", inversedBy="Parameters")
      * @var \Entities\Company\Supplier\Product\Configurable\Option $Option 
@@ -179,6 +185,22 @@ class Parameter extends \Dataservice_Doctrine_Entity
     public function setDescription($description)
     {
         $this->description = $description;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getOrder()
+    {
+        return $this->sort_order;
+    }
+
+    /**
+     * @param integer $order
+     */
+    public function setOrder($order)
+    {
+        $this->sort_order = $order;
     }
     
     /**

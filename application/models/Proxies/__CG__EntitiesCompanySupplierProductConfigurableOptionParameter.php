@@ -123,6 +123,18 @@ class Parameter extends \Entities\Company\Supplier\Product\Configurable\Option\P
         return parent::setDescription($description);
     }
 
+    public function getOrder()
+    {
+        $this->__load();
+        return parent::getOrder();
+    }
+
+    public function setOrder($order)
+    {
+        $this->__load();
+        return parent::setOrder($order);
+    }
+
     public function setRequired($required)
     {
         $this->__load();
@@ -180,7 +192,7 @@ class Parameter extends \Entities\Company\Supplier\Product\Configurable\Option\P
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'index_string', 'name', 'description', 'required', 'length', 'Option_id', 'created', 'updated', 'Option', 'Values');
+        return array('__isInitialized__', 'id', 'index_string', 'name', 'description', 'required', 'length', 'sort_order', 'Option_id', 'created', 'updated', 'Option', 'Values');
     }
 
     public function __clone()

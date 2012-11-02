@@ -1,9 +1,8 @@
 <?php
 namespace Services\Company\Supplier\Product\Configurable\Instance\MetalBuildingAbstract;
-//test
+
 class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Mapper\MapperAbstract
 {
-    //Master
     /**
      * @var Mapper\Data 
      */
@@ -76,6 +75,15 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Ma
     }
     
     /**
+     * @param string $side left, right
+     * @return false|\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value
+     */
+    protected function _getWallCoveredDepthValue($side)
+    {
+	return $this->_Instance->getFirstValueFromIndexes("covered_".$side, "depth");
+    }
+    
+    /**
      * @param string $side left, right, front, back
      * @return false|\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value
      */
@@ -107,6 +115,38 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Ma
     protected function _getAugerAnchorsValue()
     {
 	return $this->_Instance->getFirstValueFromIndexes("auger_anchors", "quantity");
+    }
+    
+    /**
+     * @return false|\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value
+     */
+    protected function _getExtraKneeBracesHasValue()
+    {
+	return $this->_Instance->getFirstValueFromIndexes("knee_braces", "has_extra");
+    }
+    
+    /**
+     * @return false|\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value
+     */
+    protected function _getExtraKneeBracesSizeValue()
+    {
+	return $this->_Instance->getFirstValueFromIndexes("knee_braces", "size");
+    }
+    
+    /**
+     * @return false|\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value
+     */
+    protected function _getExtraStormBracesHasValue()
+    {
+	return $this->_Instance->getFirstValueFromIndexes("storm_braces", "has_extra_storm_braces");
+    }
+    
+    /**
+     * @return false|\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value
+     */
+    protected function _getExtraStormBracesSizeValue()
+    {
+	return $this->_Instance->getFirstValueFromIndexes("storm_braces", "size");
     }
     
     /**
@@ -292,7 +332,7 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Ma
      */
     public function isWallPartiallyCovered($side)
     {
-	if(in_array($this->getWallCoveredType($side), array("PT", "PB")))return true;
+	if(in_array($this->getWallCoveredType($side), array("PT", "PB", "PS")))return true;
 	
 	return false;
     }
@@ -350,6 +390,17 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Ma
 	$Value = $this->_getWallCoveredHeightValue($side);
 	
 	return $this->_returnNameOrFalse($Value);
+    }
+    
+    /**
+     * @param string $side
+     * @return false|string
+     */
+    public function getWallCoveredDepth($side)
+    {
+	$Value = $this->_getWallCoveredDepthValue($side);
+	
+	return $this->_returnCodeOrFalse($Value);
     }
     
     /**
@@ -447,8 +498,67 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Ma
 	return $this->_returnCodeOrFalse($Value);
     }
     
+    /**
+     * @return bool
+     */
     public function hasAugerAnchors()
     {
 	return (int) $this->getAugerAnchorsCount() > 0 ? true : false;
+    }
+    
+    /**
+     * @return false|string
+     */
+    public function getExtraKneeBracesHas()
+    {
+	$Value = $this->_getExtraKneeBracesHasValue();
+	
+	return $this->_returnCodeOrFalse($Value);
+    }
+    
+    /**
+     * @return bool
+     */
+    public function hasExtraKneeBraces()
+    {
+	return $this->getExtraKneeBracesHas() == "Y" ? true : false;
+    }
+    
+    /**
+     * @return false|string
+     */
+    public function getExtraKneeBracesSize()
+    {
+	$Value = $this->_getExtraKneeBracesSizeValue();
+	
+	return $this->_returnCodeOrFalse($Value);
+    }
+    
+    /**
+     * @return false|string
+     */
+    public function getExtraStormBracesHas()
+    {
+	$Value = $this->_getExtraStormBracesHasValue();
+	
+	return $this->_returnCodeOrFalse($Value);
+    }
+    
+    /**
+     * @return bool
+     */
+    public function hasExtraStormBraces()
+    {
+	return $this->getExtraStormBracesHas() == "Y" ? true : false;
+    }
+    
+    /**
+     * @return false|string
+     */
+    public function getExtraStormBracesSize()
+    {
+	$Value = $this->_getExtraStormBracesSizeValue();
+	
+	return $this->_returnCodeOrFalse($Value);
     }
 }

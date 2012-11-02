@@ -1012,6 +1012,26 @@ class Data extends \Services\Company\Supplier\Product\Configurable\Instance\Pric
      * @var float
      */
     static protected $_auger_anchors_price = 25.00;
+    
+    /**
+     * @var array
+     */
+    static protected $_extra_braces_array = array(
+	"2" => array(
+	    "21" => 60,
+	    "26" => 80,
+	    "31" => 100,
+	    "36" => 120,
+	    "41" => 140,
+	),
+	"4" => array(
+	    "21" => 90,
+	    "26" => 120,
+	    "31" => 150,
+	    "36" => 180,
+	    "41" => 210,
+	)
+    );
 
     /**
      * @return array
@@ -1230,6 +1250,30 @@ class Data extends \Services\Company\Supplier\Product\Configurable\Instance\Pric
     public function getAugerAnchorsPrice()
     {
 	return self::$_auger_anchors_price;
+    }
+    
+    /**
+     * @param string|float|int $size
+     * @param string|float|int $frame_length
+     * @return float
+     */
+    public function getExtraKneeBracesPrice($size, $frame_length)
+    {
+	$array = self::$_extra_braces_array;
+	
+	return (float) $array[self::_formatNumberForIndex($size)][self::_formatNumberForIndex($frame_length)];
+    }
+    
+    /**
+     * @param string|float|int $size
+     * @param string|float|int $frame_length
+     * @return float
+     */
+    public function getExtraStormBracesPrice($size, $frame_length)
+    {
+	$array = self::$_extra_braces_array;
+	
+	return (float) $array[self::_formatNumberForIndex($size)][self::_formatNumberForIndex($frame_length)];
     }
     
     private static function _formatNumberForIndex($number)

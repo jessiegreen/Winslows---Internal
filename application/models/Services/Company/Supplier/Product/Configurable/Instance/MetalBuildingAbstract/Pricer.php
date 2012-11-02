@@ -55,7 +55,7 @@ abstract class Pricer extends \Services\Company\Supplier\Product\Configurable\In
 		break;
 		case "side":
 		    if($this->_Mapper->isWallPartiallyCovered($side))
-				$this->_addWallSidePartialPrice($side);
+			    $this->_addWallSidePartialPrice($side);
 		    
 		    if($this->_Mapper->isWallClosed($side))
 			    $this->_addWallSideClosedPrice($side);
@@ -103,11 +103,34 @@ abstract class Pricer extends \Services\Company\Supplier\Product\Configurable\In
     
     protected function _addAugerAnchorsPrice()
     {
-	echo $this->_Mapper->hasAugerAnchors() ? $this->_Mapper->getAugerAnchorsCount() : "Nope";
 	if($this->_Mapper->hasAugerAnchors())
 	    $this->_Price->addWithPriceDetail(
 		((int) $this->_Mapper->getAugerAnchorsCount() * (float) $this->_Data->getAugerAnchorsPrice()),
 		"Auger Anchors"
+	    );
+    }
+    
+    protected function _addExtraKneeBracesPrice()
+    {
+	if($this->_Mapper->hasExtraKneeBraces())
+	    $this->_Price->addWithPriceDetail(
+		(float) $this->_Data->getExtraKneeBracesPrice(
+			    $this->_Mapper->getExtraKneeBracesSize(),
+			    $this->_Mapper->getFrameLength()
+			),
+		"Extra Knee Braces"
+	    );
+    }
+    
+    protected function _addExtraStormBracesPrice()
+    {
+	if($this->_Mapper->hasExtraStormBraces())
+	    $this->_Price->addWithPriceDetail(
+		(float) $this->_Data->getExtraStormBracesPrice(
+			    $this->_Mapper->getExtraStormBracesSize(),
+			    $this->_Mapper->getFrameLength()
+			),
+		"Extra Storm Braces"
 	    );
     }
     
@@ -191,11 +214,16 @@ abstract class Pricer extends \Services\Company\Supplier\Product\Configurable\In
     {
 	$frame_length	= $this->_Mapper->getFrameLength();
 	$partial_height	= $this->_Mapper->getWallCoveredHeight($side);
-	$panels_price	= $this->_calculatePanelsPrice($frame_length, $partial_height);
+	$partial_depth	= $this->_Mapper->getWallCoveredDepth($side);
+	$leg_height	= $this->_Mapper->getLegHeight();
+	$depth		= $partial_depth ? $partial_depth : $frame_length;
+	$height		= $partial_height ? $partial_height : $leg_height;
+	
+	$panels_price	= $this->_calculatePanelsPrice($depth, $height);
 	
 	$this->_Price->addWithPriceDetail(
 			$panels_price,
-			ucfirst($side)." Side Wall Partial Coverage ".$partial_height."ft w/ bracing"
+			ucfirst($side)." Side Wall Partial Coverage ".$depth."'X".$height."'"
 		    );
     }
     
@@ -228,13 +256,11 @@ abstract class Pricer extends \Services\Company\Supplier\Product\Configurable\In
 	$price = 0;
 	
 	foreach ($this->_calculatePanelLengthsToBeUsed($width) as $panel_length => $count)
-	{
-	    $price += ((float) $this->_Data->getPanelPrice($panel_length) * (int) $count);
-	}
+	    $price += (float)((float) $this->_Data->getPanelPrice($panel_length) * (int) $count);
 	
 	return (float) (
 		(int) $this->_calculatePanelRowsToBeUsed($height) * 
-		(float) $this->_Data->getPanelPrice($this->_calculatePanelLengthsToBeUsed($width))
+		(float) $price
 		);
     }
     
@@ -262,10 +288,15 @@ abstract class Pricer extends \Services\Company\Supplier\Product\Configurable\In
 	while($width > 0)
 	{
 	    #--See if one panel will do
-	    $single_panel = $this->getPanelBiggerThanSpan($width);
+	    $single_panel = $this->getPanelBiggerThanSpan($width, $panel_lengths_array);
 
 	    #--If so add the panel to the array
-	    if($single_panel)$panel_counts[$single_panel]++;
+	    if($single_panel)
+	    {
+		$panel_counts[$single_panel]++;
+		
+		$width -= (float) $single_panel;
+	    }
 	    else
 	    {
 		$biggest_panel			= $this->_getBiggestPanelSize($panel_lengths_array);

@@ -44,22 +44,38 @@ class Subform extends \Zend_Form_SubForm
 	
 	$options = array();
 	
-	foreach ($this->_Delivery->getDestinationAddresses() as $Address)
+	if($this->_Delivery->getDestinationAddresses()->count())
 	{
-	    $options[$Address->getId()] = $Address->getName()." - ".$Address->getAddress1()." ".$Address->getCity().", ".$Address->getState();
-	}
+	    foreach ($this->_Delivery->getDestinationAddresses() as $Address)
+	    {
+		$options[$Address->getId()] = $Address->getName()." - ".$Address->getAddress1()." ".$Address->getCity().", ".$Address->getState();
+	    }
 	
-	$this->addElement(
-		"radio", 
-		"destination_address_id", 
-		array(
-		    "label"	    => "Destination Address",
-		    "required"	    => false,
-		    "value"	    => $this->_Delivery && $this->_Delivery->getDestinationAddress()? $this->_Delivery->getDestinationAddress()->getId() : "",
-		    "belongsTo"	    => "company_lead_quote_item_delivery_setaddress",
-		    "multioptions"  => $options
-		)
-	    );
+	    $this->addElement(
+		    "radio", 
+		    "destination_address_id", 
+		    array(
+			"label"		=> "Destination Address",
+			"required"	=> false,
+			"value"		=> $this->_Delivery && $this->_Delivery->getDestinationAddress()? $this->_Delivery->getDestinationAddress()->getId() : "",
+			"belongsTo"	=> "company_lead_quote_item_delivery_setaddress",
+			"multioptions"  => $options
+		    )
+		);
+	}
+	else
+	{
+	    $this->addElement(
+		    "hidden", 
+		    "destination_address_id", 
+		    array(
+			"label"		=> "Destination Address:",
+			"value"		=> 0,
+			"description"	=> "Lead has no addresses on file. Please add an address.",
+			"belongsTo"	=> "company_lead_quote_item_delivery_setaddress"
+		    )
+		);
+	}
 	
 	parent::init();
     }

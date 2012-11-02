@@ -63,7 +63,7 @@ abstract class Validator extends \Services\Company\Supplier\Product\Configurable
     
     protected function _validateWallsCovered()
     {
-	foreach($this->_Mapper->getSidesArray() as $side_initial => $side)
+	foreach($this->_Mapper->getSidesArray() as $side)
 	{
 	    switch($this->_Mapper->getWallCoveredType($side))
 	    {
@@ -75,6 +75,12 @@ abstract class Validator extends \Services\Company\Supplier\Product\Configurable
 			    $this->_Mapper->getWallCoveredTypeName($side)."' but Height is set. Set type ".
 			    " to Partial Coverage or unset Height."
 			);
+		    if($this->_Mapper->getWallCoveredDepth($side) !== false)
+			throw new \Exception(
+			    "Walls &raquo; Covered ".  ucfirst($side)." &raquo; Type is set to '".
+			    $this->_Mapper->getWallCoveredTypeName($side)."' but Depth is set. Set type ".
+			    " to Partial Coverage or unset Depth."
+			);
 		break;
 		case "PT":
 		case "PB":
@@ -83,6 +89,14 @@ abstract class Validator extends \Services\Company\Supplier\Product\Configurable
 			    "Walls &raquo; Covered ".  ucfirst($side)." &raquo; Type is set to '".
 			    $this->_Mapper->getWallCoveredTypeName($side)."' but Height is not set. Set ".
 			    " Height."
+			);
+		break;
+		case "PS":
+		    if($this->_Mapper->getWallCoveredDepth($side) === false)
+			throw new \Exception(
+			    "Walls &raquo; Covered ".  ucfirst($side)." &raquo; Type is set to '".
+			    $this->_Mapper->getWallCoveredTypeName($side)."' but Depth is not set. Set ".
+			    " Depth."
 			);
 	    }
 	}
@@ -108,18 +122,14 @@ abstract class Validator extends \Services\Company\Supplier\Product\Configurable
     
     protected function _validateCertified()
     {
-	$certified	= $this->_Mapper->getCertified();
-	$WS_code	= $this->_Mapper->getWindSnowLoad();
-
 	if(
-	    $WS_code == "4" &&
-	    $certified !== false && 
-	    strlen($certified) > 0
+	    $this->_Mapper->isCertified() &&
+	    ($this->_Mapper->isWindSnowLoadCertified())
 	)
 	{
 	    throw new \Exception(
-		    "Frame &raquo; Certified option not valid. Certified already standard with High Wind Snow Load Frame ".
-		    ". Change Wind Snow Load or remove certified option."
+		    "Frame &raquo; Certified already standard with ".
+		    "chosen Frame Snow Load. Change Wind Snow Load or remove certified option."
 		    );
 	}
     }
@@ -137,6 +147,54 @@ abstract class Validator extends \Services\Company\Supplier\Product\Configurable
 	    throw new \Exception(
 		"Frame &raquo; Leg Height is not allowed for ".$this->_Mapper->getRoofStyleName().
 		". Change leg height or roof style."
+		);
+    }
+    
+    /**
+     * @throws \Exception
+     */
+    protected function _validateExtraKneeBraces()
+    {
+	if($this->_Mapper->hasExtraKneeBraces())
+	{
+	    if($this->_Mapper->isWindSnowLoadWindSnow() || $this->_Mapper->isWindSnowLoadHighWindSnow())
+		throw new \Exception(
+		    "Frame &raquo; Extra Knee Braces is included in the chosen snow load. Please remove extra knee braces option."
+		    );
+	    elseif(!$this->_Mapper->getExtraKneeBracesSize())
+		throw new \Exception(
+		    "Frame &raquo; Extra Knee Braces is set to yes. Please choose a size."
+		    );
+	}
+	elseif(!$this->_Mapper->hasExtraKneeBraces() && $this->_Mapper->getExtraKneeBracesSize())
+	    throw new \Exception(
+		"Frame &raquo; Extra Knee Braces is set to no but a size has been chosen. Set to yes or unset size."
+		);
+    }
+    
+    /**
+     * @throws \Exception
+     */
+    protected function _validateExtraStormBraces()
+    {
+	if($this->_Mapper->hasExtraStormBraces())
+	{
+	    if($this->_Mapper->isWindSnowLoadWindSnow() || $this->_Mapper->isWindSnowLoadHighWindSnow())
+		throw new \Exception(
+		    "Frame &raquo; Extra Storm Braces is included in the chosen snow load. Please remove extra storm braces option."
+		    );
+	    elseif($this->_Mapper->isCertified() || $this->_Mapper->isWindSnowLoadCertified())
+		throw new \Exception(
+		    "Frame &raquo; Extra Storm Braces is included with certified frame. Please remove extra storm braces option."
+		    );
+	    elseif(!$this->_Mapper->getExtraStormBracesSize())
+		throw new \Exception(
+		    "Frame &raquo; Extra Storm Braces is set to yes. Please choose a size."
+		    );
+	}
+	elseif(!$this->_Mapper->hasExtraStormBraces() && $this->_Mapper->getExtraStormBracesSize())
+	    throw new \Exception(
+		"Frame &raquo; Extra Storm Braces is set to no but a size has been chosen. Set to yes or unset size."
 		);
     }
 }

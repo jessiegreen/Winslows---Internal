@@ -35,15 +35,14 @@ class Company_LeadQuoteItemDeliveryController extends Dataservice_Controller_Act
 	    $OriginationAddress = $AddressRepos->find($data["origination_address_id"]);
 	    $DestinationAddress = $AddressRepos->find($data["destination_address_id"]);
 	    
-	    if($OriginationAddress && $DestinationAddress)
+	    if($OriginationAddress)
 	    {		
 		$Delivery->setOriginationAddress($OriginationAddress);
-		$Delivery->setDestinationAddress($DestinationAddress);
 	    }
-	    else
+	    
+	    if($DestinationAddress)
 	    {
-		$this->_FlashMessenger->addErrorMessage("Address does not exist");
-		$this->_History->goBack();
+		$Delivery->setDestinationAddress($DestinationAddress);
 	    }
 		
 	    $this->_em->persist($Delivery);
