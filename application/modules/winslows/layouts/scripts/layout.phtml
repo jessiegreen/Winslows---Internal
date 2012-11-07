@@ -5,7 +5,8 @@
     echo $this->headTitle();
     
     $this->headLink()->prependStylesheet('/css/winslows/layout.css');
-    $this->headLink()->prependStylesheet('/css/global.css');
+    $this->headLink()->prependStylesheet('/winslows/global.css');
+     $this->headLink()->prependStylesheet('/winslows/global2.css');
     echo $this->headLink();
     
     echo $this->headMeta();
@@ -15,20 +16,53 @@
     
     echo $this->headScript();
     ?>
+        <div id="header-logo">
+            <img src="/img/winslows/layout/logo.png" />
+        </div>
 </head>
-<body style="background-color: #00cc66">
-    <div class="main_outer">
-	<div style="width: 1000px;margin-left: auto;margin-right: auto;background-color: #FFF;height: 100%;">
-	    <div style="height:125px;background-color: #0092ef;">
-		Winslow's Inc.
-	    </div>
-	    <div>
-		<?php
-		echo $this->layout()->content 
-		?>
-	    </div>
-	    <div style="height: 5px;"></div>
-	</div>
+<body>
+    <div id="winslows-layout-header-container">
+        <div id="winslows-layout-header-img">
+            <img src="/img/winslows/layout/header_img.png" />
+        </div>
+            <div id='cssmenu'>
+                <ul>
+                   <li class='active '>
+                   <li><a href='#'><span>Home</span></a></li>
+                   <li><a href='#'><span>Services</span></a></li>
+                   <li><a href='#'><span>Products</span></a></li>
+                   <li><a href='#'><span>Gallery</span></a></li>
+                   <li><a href='#'><span>Locations</span></a></li>
+                   <li><a href='#'><span>Contact Us</span></a></li>
+                </ul>
+            </div>
     </div>
+    <div id="winslows-layout-main">
+        <div id='body-links'>
+                <ul>
+                  <style>
+                        a:link {color:#0044AA;text-decoration:none;} /* unvisited link */
+                        a:visited {color:#0044AA;} /* visited link */
+                        a:hover {color:#FF0000;}   /* mouse over link */
+                        a:active {color:#0044AA;}  /* selected link */
+                 </style>
+                   <font face= "Kalinga" size= "2">
+                   <a href='#'><span>Services</span></a>          
+                   <a href='#'><span>Products</span></a>          
+                   <a href='#'><span>My Account</span></a>
+                   <a href='#'><span>Gallery</span></a>
+                   <a href='#'><span>Locations</span></a>
+                   <a href='#'><span>Contact Us</span></a>
+                   <a href='#'><span>About Us</span></a>
+                   </font>
+                </ul>
+            </div>
+    </div>
+    <div>
+        <?php
+        echo $this->layout()->content 
+        ?>
+    </div>
+        
 </body>
 </html>

@@ -10,7 +10,7 @@ namespace Forms\Company\Employee;
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Account extends \Zend_Form
+class Account extends \Dataservice_Form
 {
     private $_Account;
     private $_safe;
@@ -19,12 +19,13 @@ class Account extends \Zend_Form
     {
 	$this->_Account	    = $Account;
 	$this->_safe	    = $safe;
+        
 	parent::__construct($options);
     }
     
     public function init($options = array())
     {
-	$form = new \Forms\Website\Account\SubForm($options, $this->_Account, $this->_safe);
+	$form = new Account\Subform($options, $this->_Account, $this->_safe);
 	
 	$this->addSubForm($form, "company_employee_account");
 	

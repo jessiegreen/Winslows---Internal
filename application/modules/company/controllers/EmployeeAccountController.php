@@ -18,47 +18,65 @@ class Company_EmployeeAccountController extends Dataservice_Controller_Action
     {
 	/* @var $Account \Entities\Company\Employee\Account */
 	$Account	= $this->_getAccount();
+        $employee_id    = $this->_request->getParam("employee_id");
 	$safe		= !$Account->getId() || $this->getRequest()->getParam("pwd", 0) === "1" ? false : true;
-	$form		= new Forms\Company\Employee\Account(array("method" => "post"), $Account, $safe);
+        
+        if(!$Account->getId() && $employee_id)
+        {
+            $Employee = $this->_em->getRepository("Entities\Company\Employee")->find($employee_id);
+            
+            if($Employee)
+            {
+                $Account->setEmployee($Employee);
+            }
+        }
+        
+	$form = new Forms\Company\Employee\Account(array("method" => "post"), $Account, $safe);
 	
-	$form->addElement("button", "cancel", 
-		array("onclick" => "location='".$this->_History->getPreviousUrl(1)."'")
-		);
+	$form->addCancelButton($this->_History->getPreviousUrl());
 	
-	if($this->isPostAndValid($form)){
+	if($this->isPostAndValid($form))
+        {
 	    try 
 	    {
-		$data	= $this->_params["company_employee_account"];
+		$data = $this->_params["company_employee_account"];
 		
 		$Account->populate($data);
 		
 		if(isset($data["password"]))$Account->setPassword($data["password"]);
 		
-		if(!$Account->getId())
+		if($data["employee_id"])
 		{
-		    /* @var $Person \Entities\Person\PersonAbstract */
-		    $Person = $this->_em->find("Entities\Person\PersonAbstract", $this->_params["person_id"]);
+		    $Employee = $this->_em->find("Entities\Person\PersonAbstract", $data["employee_id"]);
 		    
-		    if(!$Person)
-			throw new Exception("Can not add web account. No Person with that Id");
+		    if(!$Employee)
+			throw new Exception("Can not add web account. No Employee with that Id");
 
-		    $Person->setAccount($Account);
-		    $this->_em->persist($Person);
+		    $Account->setEmployee($Employee);
 		}
-		else $this->_em->persist($Account);
+                
+                if($data["website_id"])
+		{
+		    $Website = $this->_em->find("Entities\Company\Website", $data["website_id"]);
+		    
+		    if(!$Website)
+			throw new Exception("Can not add web account. No Website with that Id");
 
+		    $Account->setWebsite($Website);
+		}
+		
+                $this->_em->persist($Account);
 		$this->_em->flush();
 
 		$message = "Web Account saved";
 		$this->_FlashMessenger->addSuccessMessage($message);
-
 	    } 
 	    catch (Exception $exc)
 	    {
 		$this->_FlashMessenger->addErrorMessage($exc->getMessage());
-		$this->_History->goBack(1);
 	    }
-	    $this->_History->goBack(1);
+            
+	    $this->_History->goBack();
 	}
 	
 	$this->view->form	    = $form;

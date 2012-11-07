@@ -24,6 +24,13 @@ class Subform extends \Zend_Form_SubForm
     
     public function init()
     {
+        $this->addElement(new \Dataservice_Form_Element_Company_Website_Select("website_id", array(
+            'required'	    => true,
+            'label'	    => 'Website:',
+	    'belongsTo'	    => 'website_account',
+	    'value'	    => $this->_Account && $this->_Account->getWebsite() ? $this->_Account->getWebsite()->getId() : ""
+        )));
+        
 	if($this->_safe)
 	{
 	    $this->addElement('text', 'username', array(
