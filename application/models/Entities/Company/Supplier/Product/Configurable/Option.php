@@ -63,6 +63,7 @@ class Option extends \Dataservice_Doctrine_Entity
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="\Entities\Company\Supplier\Product\Configurable\Option\Parameter", mappedBy="Option", cascade={"persist"}, orphanRemoval=true)
+     * @OrderBy({"sort_order" = "ASC", "name" = "ASC"})
      * @var ArrayCollection $Parameters
      */
     private $Parameters;

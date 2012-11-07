@@ -26,5 +26,7 @@ class Validator extends \Services\Company\Supplier\Product\Configurable\Instance
 	$this->_validateCertified();
 	$this->_validateLegHeight();
 	$this->_validateWallsCovered();
+	$this->_validateExtraKneeBraces();
+	$this->_validateExtraStormBraces();
     }
 }

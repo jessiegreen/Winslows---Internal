@@ -65,6 +65,13 @@ class Subform extends \Zend_Form_SubForm
 	    'value'	    => $this->_Parameter ? $this->_Parameter->getDescription() : ""
         ));
 	
+	$this->addElement('text', 'sort_order', array(
+            'required'	    => false,
+            'label'	    => 'Order:',
+	    'belongsTo'	    => 'company_supplier_product_configurable_option_parameter',
+	    'value'	    => $this->_Value ? $this->_Value->getOrder() : ""
+        ));
+	
 	$this->addElement('select', 'required', array(
             'required'	    => true,
             'label'	    => 'Required:',
