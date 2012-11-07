@@ -3,7 +3,11 @@ body
         background-color: #0064F9;
 }
 
-
+a:link {color:#0044AA;text-decoration:none;} /* unvisited link */
+a:visited {color:#0044AA;} /* visited link */
+a:hover {color:#FF0000;}   /* mouse over link */
+a:active {color:#0044AA;}  /* selected link */
+                        
 #header-logo
 {
         margin-left: 455px;
