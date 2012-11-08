@@ -169,19 +169,25 @@ abstract class Pricer extends \Services\Company\Supplier\Product\Configurable\In
     /**
      * @param string $side
      */
-    private function _addWallEndClosedPrice($side)
+    protected function _addWallEndClosedPrice($side)
     {
 	if(#--Certified or High Wind or High Wind & Snow Loads
 	    $this->_Mapper->isCertified() || 
 	    $this->_Mapper->isWindSnowLoadCertified()
 	)
 	    $this->_Price->addWithPriceDetail(
-			$this->_Data->getWallEndClosedCertifiedPrice(),
+			$this->_Data->getWallEndClosedCertifiedPrice(
+				    $this->_Mapper->getFrameWidth(),
+				    $this->_Mapper->getLegHeight()
+				),
 			"End wall closed certified"
 		    );
 	else
 	    $this->_Price->addWithPriceDetail(
-			$this->_Data->getWallEndClosedUnCertifiedPrice(),
+			$this->_Data->getWallEndClosedUnCertifiedPrice(
+				    $this->_Mapper->getFrameWidth(),
+				    $this->_Mapper->getLegHeight()
+				),
 			"End wall closed uncertified"
 		    );
 

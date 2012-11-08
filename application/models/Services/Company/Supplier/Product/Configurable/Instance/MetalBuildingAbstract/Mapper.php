@@ -150,6 +150,22 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Ma
     }
     
     /**
+     * @return false|\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value
+     */
+    protected function _getDoorRollUpSideValue()
+    {
+	return $this->_Instance->getFirstValueFromIndexes("door_rollup", "side");
+    }
+    
+    /**
+     * @return false|\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value
+     */
+    protected function _getDoorRollUpSizeValue()
+    {
+	return $this->_Instance->getFirstValueFromIndexes("door_rollup", "size");
+    }
+    
+    /**
      * @return false|string
      */
     public function getRoofStyle()
@@ -560,5 +576,45 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Ma
 	$Value = $this->_getExtraStormBracesSizeValue();
 	
 	return $this->_returnCodeOrFalse($Value);
+    }
+    
+    /**
+     * @return false|string
+     */
+    public function getDoorRollUpSide()
+    {
+	$Value = $this->_getDoorRollUpSideValue();
+	
+	return $this->_returnCodeOrFalse($Value);
+    }
+    
+    /**
+     * @return false|string
+     */
+    public function getDoorRollUpSideIndex()
+    {
+	$Value = $this->_getDoorRollUpSideValue();
+	
+	return $this->_returnIndexOrFalse($Value);
+    }
+    
+    /**
+     * @return false|string
+     */
+    public function getDoorRollUpSize()
+    {
+	$Value = $this->_getDoorRollUpSizeValue();
+	
+	return $this->_returnCodeOrFalse($Value);
+    }
+    
+    /**
+     * @return false|string
+     */
+    public function getDoorRollUpSizeIndex()
+    {
+	$Value = $this->_getDoorRollUpSizeValue();
+	
+	return $this->_returnIndexOrFalse($Value);
     }
 }
