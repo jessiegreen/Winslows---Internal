@@ -1,24 +1,39 @@
 body
 {
-        background-color: #0064F9;
+    background-image:url('/img/winslows/layout/background.png');
+    background-color:#cccccc;
 }
+/* unvisited link */
+a:link {color:#0044AA;text-decoration:none;} 
+
+/* visited link */
+a:visited {color:#0044AA;} 
+
+/* mouse over link */
+a:hover {color:#FF0000;}  
+
+/* selected link */
+a:active {color:#0044AA;}  
+                        
 #header-logo
 {
         margin-left: 455px;
+        padding-top: 10px;
+        padding-bottom: 15px;
 }
 #winslows-layout-header-img
-    {
+{
         position: absolute;
         right: 15px;
         bottom: 0px;
 }
 
 #winslows-layout-header-container
-    {
+{
         margin-left: 464;
         width: 960;
         height:400px;
-        background-color: #D0D0D0;
+        background-image:url('/img/winslows/layout/banner_bg.png');
         position:relative;
 }
 #winslows-layout-main 
@@ -27,7 +42,7 @@ body
         margin-left: auto;
         margin-right: auto;
         background-color: #FFF;
-        height: 100%;
+        height: 500px;
 }
 #body-links
 {
@@ -35,40 +50,51 @@ body
         padding-right: 30px;
         padding-top: 0px;
 }
- #cssmenu {
+#search-bar
+{
+        margin-left: 750px;
+        padding-top: 0px;
+}
+ #cssmenu 
+ {
         float: left;
 	width:100%;
-/*This background color feature is for full tab background color. Changing this changes the state of the static color of the bar */
-	background:#666;
+        /*This background color feature is for full tab 
+        background color.using background image to match. */
+	background-image:url('/img/winslows/layout/banner_bg.png');
 	font-size:93%;
 	line-height:normal;
 	border-bottom:1px solid #666;
-	}
-#cssmenu ul {
+}
+#cssmenu ul 
+{
 	margin:0;
 	padding:10px 10px 0 50px;
 	list-style:none;
-	}
-#cssmenu li {
+}
+#cssmenu li 
+{
 	display:inline;
 	margin:0;
 	padding:0;
-	}
-#cssmenu a {
+}
+#cssmenu a 
+{
 	float:left;
         background:url('/img/winslows/layout/tableftF.gif') no-repeat left top;
 	margin:0;
 	padding:0 0 0 4px;
 	text-decoration:none;
-	}
-#cssmenu a span {
+}
+#cssmenu a span 
+{
 	float:left;
 	display:block;
 	background:url('/img/winslows/layout/tabrightF.gif') no-repeat right top;
 	padding:5px 15px 4px 6px;
  /*This color feature handles the initial text color */
 	color:#666;
-	}
+}
 	
 /* Commented Backslash Hack hides rule from IE5-Mac */
 #cssmenu a span {float:none;}
