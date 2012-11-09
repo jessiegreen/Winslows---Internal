@@ -200,6 +200,17 @@ abstract class Pricer extends \Services\Company\Supplier\Product\Configurable\In
 	}
     }
     
+    protected function _addRollUpDoorsPrice()
+    {
+	foreach($this->_Mapper->getDoorRollups() as $DoorOption)
+	{
+	    $this->_Price->addWithPriceDetail(
+		$this->_Data->getDoorRollUpPrice($this->_Mapper->getDoorRollUpSizeIndex($DoorOption)),
+		"Roll Up Door - ".$this->_Mapper->getDoorRollUpSizeName($DoorOption)
+	    );
+	}
+    }
+    
     /**
      * @param string $side
      */

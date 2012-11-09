@@ -52,6 +52,11 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Me
 	return $this->_returnCodeOrFalse($Value);
     }
     
+    public function getEndComboDepthInInches()
+    {
+	return ((int) $this->getEndComboDepth() * 12);
+    }
+    
     /**
      * return false|string
      */

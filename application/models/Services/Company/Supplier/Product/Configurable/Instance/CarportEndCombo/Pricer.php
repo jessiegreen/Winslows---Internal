@@ -27,6 +27,7 @@ class Pricer extends \Services\Company\Supplier\Product\Configurable\Instance\Me
 	$this->_addAugerAnchorsPrice();
 	$this->_addExtraKneeBracesPrice();
 	$this->_addExtraStormBracesPrice();
+	$this->_addRollUpDoorsPrice();
 	
 	return $this->_Price;
     }

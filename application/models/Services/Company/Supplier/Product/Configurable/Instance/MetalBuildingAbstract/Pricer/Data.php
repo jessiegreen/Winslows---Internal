@@ -1032,6 +1032,14 @@ class Data extends \Services\Company\Supplier\Product\Configurable\Instance\Pric
 	    "41" => 210,
 	)
     );
+    
+    static protected $_door_rollup_price_array = array(
+	"6X6"	=> 250,
+	"8X8"	=> 300,
+	"9X8"	=> 350,
+	"10X8"	=> 400,
+	"10X10" => 450,
+    );
 
     /**
      * @return array
@@ -1279,5 +1287,16 @@ class Data extends \Services\Company\Supplier\Product\Configurable\Instance\Pric
 	$array = self::$_extra_braces_array;
 	
 	return (float) $array[self::_formatNumberForIndex($size)][self::_formatNumberForIndex($frame_length)];
+    }
+    
+    /**
+     * @param string $size
+     * @return float
+     */
+    static public function getDoorRollUpPrice($size)
+    {
+	$array = self::$_door_rollup_price_array;
+	
+	return (float) $array[$size];
     }
 }
