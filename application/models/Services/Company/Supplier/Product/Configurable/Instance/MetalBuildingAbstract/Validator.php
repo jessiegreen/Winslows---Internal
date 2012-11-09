@@ -21,6 +21,10 @@ abstract class Validator extends \Services\Company\Supplier\Product\Configurable
 	parent::validate($location);
     }
     
+    /**
+     * @param type $location
+     * @throws \Exception
+     */
     protected function _validateWindSnowLoad($location)
     {
 	$valid	    = true;
@@ -61,6 +65,9 @@ abstract class Validator extends \Services\Company\Supplier\Product\Configurable
 		);
     }
     
+    /**
+     * @throws \Exception
+     */
     protected function _validateWallsCovered()
     {
 	foreach($this->_Mapper->getSidesArray() as $side)
@@ -102,6 +109,9 @@ abstract class Validator extends \Services\Company\Supplier\Product\Configurable
 	}
     }
     
+    /**
+     * @throws \Exception
+     */
     protected function _validateFrameGauge()
     {
 	$frame_gauge	= $this->_Mapper->getFrameGauge();
@@ -120,6 +130,9 @@ abstract class Validator extends \Services\Company\Supplier\Product\Configurable
 	}
     }
     
+    /**
+     * @throws \Exception
+     */
     protected function _validateCertified()
     {
 	if(
@@ -134,6 +147,9 @@ abstract class Validator extends \Services\Company\Supplier\Product\Configurable
 	}
     }
     
+    /**
+     * @throws \Exception
+     */
     protected function _validateLegHeight()
     {
 	$leg_height		= $this->_Mapper->getLegHeight();
@@ -196,5 +212,15 @@ abstract class Validator extends \Services\Company\Supplier\Product\Configurable
 	    throw new \Exception(
 		"Frame &raquo; Extra Storm Braces is set to no but a size has been chosen. Set to yes or unset size."
 		);
+    }
+    
+    protected function _validateDoorHeightsForWalls()
+    {
+	#--Check if leg height is sufficient for the chosen doors and windows
+	if($this->_Mapper->getLegHeightInInches() < $this->_Mapper->getDoorsTallestHeightPlusSpaceAboveInInches())
+	    throw new \Exception(
+		"Frame &raquo; Leg Height is insufficient to allow for the chosen door heights. ".
+		"Increase leg height or remove/shorten doors that are too tall for the chosen leg height"
+	    );
     }
 }

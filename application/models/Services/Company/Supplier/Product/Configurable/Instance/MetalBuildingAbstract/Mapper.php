@@ -166,6 +166,38 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Ma
     }
     
     /**
+     * @return false|\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value
+     */
+    protected function _getDoorRollUpAngleCutOutValue()
+    {
+	return $this->_Instance->getFirstValueFromIndexes("door_rollup", "angle_cutout");
+    }
+    
+    /**
+     * @return false|\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value
+     */
+    protected function _getDoorWalkInSideValue()
+    {
+	return $this->_Instance->getFirstValueFromIndexes("door_walkin", "side");
+    }
+    
+    /**
+     * @return false|\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value
+     */
+    protected function _getDoorWalkInSizeValue()
+    {
+	return $this->_Instance->getFirstValueFromIndexes("door_walkin", "size");
+    }
+    
+    /**
+     * @return false|\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value
+     */
+    protected function _getDoorWalkInAngleCutOutValue()
+    {
+	return $this->_Instance->getFirstValueFromIndexes("door_walkin", "angle_cutout");
+    }
+    
+    /**
      * @return false|string
      */
     public function getRoofStyle()
@@ -193,6 +225,14 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Ma
 	$Value = $this->_getLegHeightValue();
 	
 	return $this->_returnCodeOrFalse($Value);
+    }
+    
+    /**
+     * @return int
+     */
+    public function getLegHeightInInches()
+    {
+	return ((int) $this->getLegHeight() * 12);
     }
     
     /**
@@ -627,7 +667,29 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Ma
      * @param \Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption
      * @return false|string
      */
+    public function getDoorWalkInSize(\Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption)
+    {
+	$Value = $DoorOption->getValueFromParameterIndex("size");
+	
+	return $this->_returnCodeOrFalse($Value);
+    }
+    
+    /**
+     * @param \Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption
+     * @return false|string
+     */
     public function getDoorRollUpSizeIndex(\Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption)
+    {
+	$Value = $DoorOption->getValueFromParameterIndex("size");
+	
+	return $this->_returnIndexOrFalse($Value);
+    }
+    
+    /**
+     * @param \Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption
+     * @return false|string
+     */
+    public function getDoorWalkInSizeIndex(\Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption)
     {
 	$Value = $DoorOption->getValueFromParameterIndex("size");
 	
@@ -649,11 +711,73 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Ma
      * @param \Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption
      * @return false|string
      */
+    public function getDoorWalkInSizeName(\Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption)
+    {
+	$Value = $DoorOption->getValueFromParameterIndex("size");
+	
+	return $this->_returnNameOrFalse($Value);
+    }
+    
+    /**
+     * @param \Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption
+     * @return false|string
+     */
     public function getDoorRollUpSide(\Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption)
     {
 	$Value = $DoorOption->getValueFromParameterIndex("side");
 	
 	return $this->_returnCodeOrFalse($Value);
+    }
+    
+    /**
+     * @param \Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption
+     * @return false|string
+     */
+    public function getDoorWalkInSide(\Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption)
+    {
+	$Value = $DoorOption->getValueFromParameterIndex("side");
+	
+	return $this->_returnCodeOrFalse($Value);
+    }
+    
+    /**
+     * @param \Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption
+     * @return false|string
+     */
+    public function getDoorRollUpAngleCutOut(\Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption)
+    {
+	$Value = $DoorOption->getValueFromParameterIndex("angle_cutout");
+	
+	return $this->_returnCodeOrFalse($Value);
+    }
+    
+    /**
+     * @param \Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption
+     * @return false|string
+     */
+    public function getDoorWalkInAngleCutOut(\Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption)
+    {
+	$Value = $DoorOption->getValueFromParameterIndex("angle_cutout");
+	
+	return $this->_returnCodeOrFalse($Value);
+    }
+    
+    /**
+     * @param \Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption
+     * @return bool
+     */
+    public function isDoorRollUpAngleCutOut(\Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption)
+    {
+	return $this->getDoorRollUpAngleCutOut($DoorOption) == "Y" ? true : false;
+    }
+    
+    /**
+     * @param \Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption
+     * @return bool
+     */
+    public function isDoorWalkInAngleCutOut(\Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption)
+    {
+	return $this->getDoorWalkInAngleCutOut($DoorOption) == "Y" ? true : false;
     }
     
     /**
@@ -669,11 +793,49 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Ma
     
     /**
      * @param \Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption
+     * @return false|string
+     */
+    public function getDoorWalkInSideIndex(\Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption)
+    {
+	$Value = $DoorOption->getValueFromParameterIndex("side");
+	
+	return $this->_returnIndexOrFalse($Value);
+    }
+    
+    /**
+     * @param \Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption
      * @return string
      */
     public function getDoorRollUpWidth(\Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption)
     {
-	return $this->_getWidthFromSizeString($this->getDoorRollUpSizeIndex($DoorOption));
+	return $this->_getXFromSizeString($this->getDoorRollUpSizeIndex($DoorOption));
+    }
+    
+    /**
+     * @param \Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption
+     * @return string
+     */
+    public function getDoorWalkInWidth(\Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption)
+    {
+	return $this->_getXFromSizeString($this->getDoorWalkInSizeIndex($DoorOption));
+    }
+    
+    /**
+     * @param \Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption
+     * @return string
+     */
+    public function getDoorRollUpHeight(\Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption)
+    {
+	return $this->_getYFromSizeString($this->getDoorRollUpSizeIndex($DoorOption));
+    }
+    
+    /**
+     * @param \Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption
+     * @return string
+     */
+    public function getDoorWalkInHeight(\Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption)
+    {
+	return $this->_getYFromSizeString($this->getDoorWalkInSizeIndex($DoorOption));
     }
     
     /**
@@ -682,6 +844,14 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Ma
     public function getDoorRollups()
     {
 	return $this->_Instance->getOptionsFromOptionIndex("door_rollup");
+    }
+    
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getDoorWalkIns()
+    {
+	return $this->_Instance->getOptionsFromOptionIndex("door_walkin");
     }
     
     /**
@@ -704,13 +874,95 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Ma
      * @param string $side
      * @return int
      */
+    public function getDoorWalkInsCountForSide($side)
+    {
+	$Mapper = $this;
+	
+	return (int) $this->getDoorWalkIns()->filter(
+		    function ($DoorOption) use ($side, $Mapper)
+		    {
+			return $Mapper->getDoorWalkInSideIndex($DoorOption) == $side ? true : false;
+		    }
+		)->count();
+    }
+    
+    /**
+     * @return int
+     */
+    public function getDoorRollUpsTallestHeight()
+    {
+	$tallest_height = 0;
+	
+	foreach($this->getDoorRollups() as $DoorOption)
+	{
+	    $door_height = (int) $this->getDoorRollUpHeight($DoorOption);
+	    
+	    if($door_height > $tallest_height)
+		$tallest_height = $door_height;
+	}
+	
+	return $tallest_height;
+    }
+    
+    /**
+     * @return int
+     */
+    public function getDoorWalkInsTallestHeight()
+    {
+	$tallest_height = 0;
+	
+	foreach($this->getDoorRollups() as $DoorOption)
+	{
+	    $door_height = (int) $this->getDoorWalkInHeight($DoorOption);
+	    
+	    if($door_height > $tallest_height)
+		$tallest_height = $door_height;
+	}
+	
+	return $tallest_height;
+    }
+    
+    /**
+     * @return int
+     */
+    public function getDoorRollUpsTallestHeightInInches()
+    {
+	return ($this->getDoorRollUpsTallestHeight() * 12);
+    }
+    
+    /**
+     * @param string $side
+     * @return int
+     */
     public function getDoorsCountForSide($side)
     {
 	$count = 0;
 	
 	$count += $this->getDoorRollUpsCountForSide($side);
+	$count += $this->getDoorWalkInsCountForSide($side);
 	
 	return $count;
+    }
+    
+    /**
+     * @return int
+     */
+    public function getDoorsTallestHeightInInches()
+    {
+	$tallest	= 0;
+	$rollup_tallest = $this->getDoorRollUpsTallestHeightInInches();
+	$walkin_tallest = $this->getDoorWalkInsTallestHeight();
+	
+	if($tallest < $rollup_tallest)$tallest = $rollup_tallest;
+	
+	if($tallest < $walkin_tallest)$tallest = $walkin_tallest;
+	
+	return $tallest;
+    }
+    
+    public function getDoorsTallestHeightPlusSpaceAboveInInches()
+    {
+	return $this->getDoorsTallestHeightInInches() + 12;
     }
     
     /**
@@ -757,6 +1009,23 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Ma
     
     /**
      * @param string $side
+     * @return int
+     */
+    public function getDoorWalkInTotalWidthsForSide($side)
+    {
+	$width = 0;
+	
+	foreach($this->getDoorWalkIns() as $DoorOption)
+	{
+	    if($this->getDoorWalkInSideIndex($DoorOption) == $side)
+		$width += (int) $this->getDoorWalkInWidth($DoorOption);
+	}
+	
+	return $width;
+    }
+    
+    /**
+     * @param string $side
      * @return integer
      */
     public function getDoorWidthsTotalForSideInInches($side)
@@ -764,6 +1033,7 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Ma
 	$width = 0;
 	
 	$width += $this->getDoorRollUpTotalWidthsForSideInInches($side);
+	$width += $this->getDoorWalkInTotalWidthsForSide($side);
 	
 	return $width;
     }
@@ -799,10 +1069,21 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Ma
      * @param string $size
      * @return string
      */
-    protected function _getWidthFromSizeString($size)
+    protected function _getXFromSizeString($size)
     {
 	$size_array = explode("X", $size);
 	
 	return $size_array[0];
+    }
+    
+    /**
+     * @param string $size
+     * @return string
+     */
+    protected function _getYFromSizeString($size)
+    {
+	$size_array = explode("X", $size);
+	
+	return $size_array[1];
     }
 }

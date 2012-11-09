@@ -1033,6 +1033,9 @@ class Data extends \Services\Company\Supplier\Product\Configurable\Instance\Pric
 	)
     );
     
+    /**
+     * @var array 
+     */
     static protected $_door_rollup_price_array = array(
 	"6X6"	=> 250,
 	"8X8"	=> 300,
@@ -1040,7 +1043,30 @@ class Data extends \Services\Company\Supplier\Product\Configurable\Instance\Pric
 	"10X8"	=> 400,
 	"10X10" => 450,
     );
-
+    
+    /**
+     * @var array 
+     */
+    static protected $_door_walkin_price_array = array(
+	"32X72"	=> 175,
+	"36X80"	=> 200
+    );
+    
+    /**
+     * @var array 
+     */
+    static protected $_door_window_frameout_price_array = array(
+	"window"    => 50,
+	"walkin"    => 75,
+	"garage"    => 100
+    );
+    
+    /**
+     * I set this arbitrarily till I found out the real price
+     * @var float
+     */
+    static protected $_door_angle_cutout_price = 50;
+    
     /**
      * @return array
      */
@@ -1298,5 +1324,23 @@ class Data extends \Services\Company\Supplier\Product\Configurable\Instance\Pric
 	$array = self::$_door_rollup_price_array;
 	
 	return (float) $array[$size];
+    }
+    
+    /**
+     * @return float
+     */
+    static public function getFrameOutGaragePrice()
+    {
+	$array = self::$_door_window_frameout_price_array;
+	
+	return (float) $array["garage"];
+    }
+    
+    /**
+     * @return float
+     */
+    static public function getDoorAngleCutOutPrice()
+    {
+	return self::$_door_angle_cutout_price;
     }
 }

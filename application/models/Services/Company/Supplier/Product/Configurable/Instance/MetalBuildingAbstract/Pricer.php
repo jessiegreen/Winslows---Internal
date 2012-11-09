@@ -206,8 +206,43 @@ abstract class Pricer extends \Services\Company\Supplier\Product\Configurable\In
 	{
 	    $this->_Price->addWithPriceDetail(
 		$this->_Data->getDoorRollUpPrice($this->_Mapper->getDoorRollUpSizeIndex($DoorOption)),
-		"Roll Up Door - ".$this->_Mapper->getDoorRollUpSizeName($DoorOption)
+		"Roll up door - ".$this->_Mapper->getDoorRollUpSizeName($DoorOption)
 	    );
+	    
+	    if($this->_Mapper->isSideLocationASide($this->_Mapper->getDoorRollUpSideIndex($DoorOption)))
+		$this->_Price->addWithPriceDetail(
+		    $this->_Data->getFrameOutGaragePrice(),
+		    "Garage door frame-out"
+		);
+	    
+	    if($this->_Mapper->isDoorRollUpAngleCutOut($DoorOption))
+		$this->_Price->addWithPriceDetail(
+		    $this->_Data->getDoorAngleCutOutPrice(),
+		    "Roll up door angle cut-out"
+		);
+	}
+    }
+    
+    protected function _addWalkInDoorsPrice()
+    {
+	foreach($this->_Mapper->getDoorWalkIns() as $DoorOption)
+	{
+	    $this->_Price->addWithPriceDetail(
+		$this->_Data->getDoorWalkInPrice($this->_Mapper->getDoorWalkInSizeIndex($DoorOption)),
+		"Walk In door - ".$this->_Mapper->getDoorWalkInSizeName($DoorOption)
+	    );
+	    
+	    if($this->_Mapper->isSideLocationASide($this->_Mapper->getDoorWalkInSideIndex($DoorOption)))
+		$this->_Price->addWithPriceDetail(
+		    $this->_Data->getFrameOutWalkInPrice(),
+		    "Walk in door frame-out"
+		);
+	    
+	    if($this->_Mapper->isDoorWalkInAngleCutOut($DoorOption))
+		$this->_Price->addWithPriceDetail(
+		    $this->_Data->getDoorAngleCutOutPrice(),
+		    "Walk in door angle cut-out"
+		);
 	}
     }
     
