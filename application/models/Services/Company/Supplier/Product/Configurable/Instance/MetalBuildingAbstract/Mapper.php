@@ -150,6 +150,22 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Ma
     }
     
     /**
+     * @return false|\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value
+     */
+    protected function _getDoorRollUpSideValue()
+    {
+	return $this->_Instance->getFirstValueFromIndexes("door_rollup", "side");
+    }
+    
+    /**
+     * @return false|\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value
+     */
+    protected function _getDoorRollUpSizeValue()
+    {
+	return $this->_Instance->getFirstValueFromIndexes("door_rollup", "size");
+    }
+    
+    /**
      * @return false|string
      */
     public function getRoofStyle()
@@ -212,6 +228,11 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Ma
 	$Value = $this->_getFrameWidthValue();
 	
 	return $this->_returnCodeOrFalse($Value);
+    }
+    
+    public function getFrameWidthInInches()
+    {
+	return ((int) $this->getFrameWidth() * 12);
     }
     
     /**
@@ -313,6 +334,35 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Ma
     public function getSidesLocationsArray()
     {
 	return $this->_Data->getSidesLocationsArray();
+    }
+    
+    /**
+     * @param string $side
+     * @return string
+     */
+    public function getSideLocation($side)
+    {
+	$locations_array = $this->getSidesLocationsArray();
+	
+	return $locations_array[$side];
+    }
+    
+    /**
+     * @param string $side
+     * @return bool
+     */
+    public function isSideLocationASide($side)
+    {
+	return $this->getSideLocation($side) == "side" ? true : false;
+    }
+    
+    /**
+     * @param string $side
+     * @return bool
+     */
+    public function isSideLocationAnEnd($side)
+    {
+	return $this->getSideLocation($side) == "end" ? true : false;
     }
     
     /**
@@ -560,5 +610,199 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Ma
 	$Value = $this->_getExtraStormBracesSizeValue();
 	
 	return $this->_returnCodeOrFalse($Value);
+    }
+    
+    /**
+     * @param \Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption
+     * @return false|string
+     */
+    public function getDoorRollUpSize(\Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption)
+    {
+	$Value = $DoorOption->getValueFromParameterIndex("size");
+	
+	return $this->_returnCodeOrFalse($Value);
+    }
+    
+    /**
+     * @param \Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption
+     * @return false|string
+     */
+    public function getDoorRollUpSizeIndex(\Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption)
+    {
+	$Value = $DoorOption->getValueFromParameterIndex("size");
+	
+	return $this->_returnIndexOrFalse($Value);
+    }
+    
+    /**
+     * @param \Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption
+     * @return false|string
+     */
+    public function getDoorRollUpSizeName(\Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption)
+    {
+	$Value = $DoorOption->getValueFromParameterIndex("size");
+	
+	return $this->_returnNameOrFalse($Value);
+    }
+    
+    /**
+     * @param \Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption
+     * @return false|string
+     */
+    public function getDoorRollUpSide(\Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption)
+    {
+	$Value = $DoorOption->getValueFromParameterIndex("side");
+	
+	return $this->_returnCodeOrFalse($Value);
+    }
+    
+    /**
+     * @param \Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption
+     * @return false|string
+     */
+    public function getDoorRollUpSideIndex(\Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption)
+    {
+	$Value = $DoorOption->getValueFromParameterIndex("side");
+	
+	return $this->_returnIndexOrFalse($Value);
+    }
+    
+    /**
+     * @param \Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption
+     * @return string
+     */
+    public function getDoorRollUpWidth(\Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption)
+    {
+	return $this->_getWidthFromSizeString($this->getDoorRollUpSizeIndex($DoorOption));
+    }
+    
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getDoorRollups()
+    {
+	return $this->_Instance->getOptionsFromOptionIndex("door_rollup");
+    }
+    
+    /**
+     * @param string $side
+     * @return int
+     */
+    public function getDoorRollUpsCountForSide($side)
+    {
+	$Mapper = $this;
+	
+	return (int) $this->getDoorRollups()->filter(
+		    function ($DoorOption) use ($side, $Mapper)
+		    {
+			return $Mapper->getDoorRollUpSideIndex($DoorOption) == $side ? true : false;
+		    }
+		)->count();
+    }
+    
+    /**
+     * @param string $side
+     * @return int
+     */
+    public function getDoorsCountForSide($side)
+    {
+	$count = 0;
+	
+	$count += $this->getDoorRollUpsCountForSide($side);
+	
+	return $count;
+    }
+    
+    /**
+     * @param string $side
+     * @return int
+     */
+    public function getWindowsCountForSide($side)
+    {
+	$count = 0;
+	
+	return $count;
+    }
+    
+    /**
+     * @param string $side
+     * @return int
+     */
+    public function getDoorAndWindowCountForSide($side)
+    {
+	$count = 0;
+	
+	$count += $this->getDoorsCountForSide($side);
+	$count += $this->getWindowsCountForSide($side);
+	
+	return $count;
+    }
+    
+    /**
+     * @param string $side
+     * @return int
+     */
+    public function getDoorRollUpTotalWidthsForSideInInches($side)
+    {
+	$width = 0;
+	
+	foreach($this->getDoorRollups() as $DoorOption)
+	{
+	    if($this->getDoorRollUpSideIndex($DoorOption) == $side)
+		$width += ((int) $this->getDoorRollUpWidth($DoorOption) * 12);
+	}
+	
+	return $width;
+    }
+    
+    /**
+     * @param string $side
+     * @return integer
+     */
+    public function getDoorWidthsTotalForSideInInches($side)
+    {
+	$width = 0;
+	
+	$width += $this->getDoorRollUpTotalWidthsForSideInInches($side);
+	
+	return $width;
+    }
+    
+    /**
+     * @param string $side
+     * @return integer
+     */
+    public function getWindowWidthsTotalForSideInInches($side)
+    {
+	$width = 0;
+	
+	return $width;
+    }
+    
+    /**
+     * @param string $side
+     * @return int
+     */
+    public function getDoorAndWindowWidthsTotalForSideInInches($side)
+    {
+	return ($this->getDoorWidthsTotalForSideInInches($side) + $this->getWindowWidthsTotalForSideInInches($side));
+    }
+    
+    public function getDoorAndWindowWidthsTotalPlusSpaceBetweenForSideInInches($side)
+    {
+	$added_inches = (12 * $this->getDoorAndWindowCountForSide($side));
+	
+	return ($this->getDoorAndWindowWidthsTotalForSideInInches($side) + $added_inches);
+    }
+    
+    /**
+     * @param string $size
+     * @return string
+     */
+    protected function _getWidthFromSizeString($size)
+    {
+	$size_array = explode("X", $size);
+	
+	return $size_array[0];
     }
 }

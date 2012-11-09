@@ -17,6 +17,7 @@ class Address extends \Zend_Form
     public function __construct($options = null, \Entities\Person\Address $Address = null)
     {
 	$this->_Address = $Address;
+	
 	parent::__construct($options);
     }
     

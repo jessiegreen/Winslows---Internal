@@ -1032,6 +1032,14 @@ class Data extends \Services\Company\Supplier\Product\Configurable\Instance\Pric
 	    "41" => 210,
 	)
     );
+    
+    static protected $_door_rollup_price_array = array(
+	"6X6"	=> 250,
+	"8X8"	=> 300,
+	"9X8"	=> 350,
+	"10X8"	=> 400,
+	"10X10" => 450,
+    );
 
     /**
      * @return array
@@ -1203,6 +1211,11 @@ class Data extends \Services\Company\Supplier\Product\Configurable\Instance\Pric
 	return (float) $price_array[self::_formatNumberForIndex($frame_length)];
     }
     
+    static public function getWallSideClosedVerticalFrameLengthsArray()
+    {
+	return array_keys(self::$_wall_side_closed_vertical_pricing_array);
+    }
+    
     /**
      * @param string $frame_width
      * @return float
@@ -1247,7 +1260,7 @@ class Data extends \Services\Company\Supplier\Product\Configurable\Instance\Pric
     /**
      * @return float
      */
-    public function getAugerAnchorsPrice()
+    static public function getAugerAnchorsPrice()
     {
 	return self::$_auger_anchors_price;
     }
@@ -1257,7 +1270,7 @@ class Data extends \Services\Company\Supplier\Product\Configurable\Instance\Pric
      * @param string|float|int $frame_length
      * @return float
      */
-    public function getExtraKneeBracesPrice($size, $frame_length)
+    static public function getExtraKneeBracesPrice($size, $frame_length)
     {
 	$array = self::$_extra_braces_array;
 	
@@ -1269,15 +1282,21 @@ class Data extends \Services\Company\Supplier\Product\Configurable\Instance\Pric
      * @param string|float|int $frame_length
      * @return float
      */
-    public function getExtraStormBracesPrice($size, $frame_length)
+    static public function getExtraStormBracesPrice($size, $frame_length)
     {
 	$array = self::$_extra_braces_array;
 	
 	return (float) $array[self::_formatNumberForIndex($size)][self::_formatNumberForIndex($frame_length)];
     }
     
-    private static function _formatNumberForIndex($number)
+    /**
+     * @param string $size
+     * @return float
+     */
+    static public function getDoorRollUpPrice($size)
     {
-	return number_format($number, 0, "", "");
+	$array = self::$_door_rollup_price_array;
+	
+	return (float) $array[$size];
     }
 }

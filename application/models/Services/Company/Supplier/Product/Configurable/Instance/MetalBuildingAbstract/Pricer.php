@@ -169,19 +169,25 @@ abstract class Pricer extends \Services\Company\Supplier\Product\Configurable\In
     /**
      * @param string $side
      */
-    private function _addWallEndClosedPrice($side)
+    protected function _addWallEndClosedPrice($side)
     {
 	if(#--Certified or High Wind or High Wind & Snow Loads
 	    $this->_Mapper->isCertified() || 
 	    $this->_Mapper->isWindSnowLoadCertified()
 	)
 	    $this->_Price->addWithPriceDetail(
-			$this->_Data->getWallEndClosedCertifiedPrice(),
+			$this->_Data->getWallEndClosedCertifiedPrice(
+				    $this->_Mapper->getFrameWidth(),
+				    $this->_Mapper->getLegHeight()
+				),
 			"End wall closed certified"
 		    );
 	else
 	    $this->_Price->addWithPriceDetail(
-			$this->_Data->getWallEndClosedUnCertifiedPrice(),
+			$this->_Data->getWallEndClosedUnCertifiedPrice(
+				    $this->_Mapper->getFrameWidth(),
+				    $this->_Mapper->getLegHeight()
+				),
 			"End wall closed uncertified"
 		    );
 
@@ -191,6 +197,17 @@ abstract class Pricer extends \Services\Company\Supplier\Product\Configurable\In
 			$this->_Data->getWallEndClosedVerticalPrice($this->_Mapper->getFrameWidth()),
 			"End wall closed vertical charge up to 24' wide"
 		    );
+	}
+    }
+    
+    protected function _addRollUpDoorsPrice()
+    {
+	foreach($this->_Mapper->getDoorRollups() as $DoorOption)
+	{
+	    $this->_Price->addWithPriceDetail(
+		$this->_Data->getDoorRollUpPrice($this->_Mapper->getDoorRollUpSizeIndex($DoorOption)),
+		"Roll Up Door - ".$this->_Mapper->getDoorRollUpSizeName($DoorOption)
+	    );
 	}
     }
     
