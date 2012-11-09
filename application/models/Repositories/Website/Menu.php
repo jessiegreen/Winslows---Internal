@@ -14,6 +14,19 @@ class Menu extends EntityRepository
     public function getMenuByName($name)
     {
 	$Menu = $this->findOneByName($name);
+        
+	return $Menu;
+    }
+    
+    /**
+     * Get a menu by name index
+     * @param string $name_index
+     * @return \Entities\Website\Menu 
+     */
+    public function getMenuByNameIndex($name_index)
+    {
+	$Menu = $this->findOneBy(array('name_index' => $name_index));
+        
 	return $Menu;
     }
     

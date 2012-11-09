@@ -22,6 +22,12 @@ class Menu extends \Dataservice_Doctrine_Entity
      * @var string $name
      */
     protected $name;
+    
+    /** 
+     * @Column(type="string", length=255) 
+     * @var string $name_index
+     */
+    protected $name_index;
 
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
@@ -111,6 +117,22 @@ class Menu extends \Dataservice_Doctrine_Entity
     public function setName($name)
     {
 	$this->name = $name;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getNameIndex()
+    {
+        return $this->name_index;
+    }
+    
+    /**
+     * @param string $name_index
+     */
+    public function setNameIndex($name_index)
+    {
+	$this->name_index = $name_index;
     }
     
     /**

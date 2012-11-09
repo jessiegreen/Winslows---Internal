@@ -108,7 +108,7 @@ class Menu {
 			
 			$classes = ! empty($class) ? self::attributes(array('class' => implode(' ', $class))) : NULL;
 			
-			$menu .= '<li'.$classes.'><a href="'.$item['url'].'">'.$item['title'].'</a>';
+			$menu .= '<li'.$classes.'><a href="'.$item['url'].'"><span>'.$item['title'].'</span></a>';
 			$menu .= $has_children ? $this->render(NULL, $current, $item['children']) : NULL;
 			$menu .= '</li>';
 		}

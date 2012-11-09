@@ -6,20 +6,21 @@ use \Entities\Website\Menu\Item as Item;
 class Menu extends \Dataservice_Service_ServiceAbstract
 {
     /**
-     * @param type $menu_name 
+     * @param string $menu_name_index 
      * @return \Classes\Menu
      */
-    public function getMenuHTML($menu_name)
+    public function getMenuHTML($menu_name_index)
     {
-	$parent_items	= $this->getMenuParentItems($menu_name);
+	$parent_items	= $this->getMenuParentItems($menu_name_index);
 	$AclService	= \Services\ACL::factory();
 	$Menu		= \Classes\Menu::factory();
 	
 	/* @var $menu_item \Entities\Website\Menu\Item */
 	foreach($parent_items as $MenuItem)
-	{
-	    $Menu   = $this->GetMenuHTMLAdd($MenuItem, $Menu, $AclService);
+        {
+	    $Menu = $this->GetMenuHTMLAdd($MenuItem, $Menu, $AclService);
 	}
+        
 	return $Menu;
     }    
     
@@ -95,16 +96,16 @@ class Menu extends \Dataservice_Service_ServiceAbstract
     
     /**
      * Get menus parent items
-     * @param string $menu_name
+     * @param string $menu_name_index
      * @return array 
      */
-    public function getMenuParentItems($menu_name)
+    public function getMenuParentItems($menu_name_index)
     {
-	/* @var $MenuRepos \Repositories\Menu */
+	/* @var $MenuRepos \Repositories\Website\Menu */
 	$MenuRepos	= $this->_em->getRepository('Entities\Website\Menu');
-	/* @var $MenuItemRepos \Repositories\MenuItem */
-	$MenuItemRepos	= $this->_em->getRepository('Entities\Website\Menu\Item');	
-	$menu_id	= $MenuRepos->getMenuByName($menu_name)->getId();
+	/* @var $MenuItemRepos \Repositories\Website\MenuItem */
+	$MenuItemRepos	= $this->_em->getRepository('Entities\Website\Menu\Item');
+	$menu_id	= $MenuRepos->getMenuByNameIndex($menu_name_index)->getId();
 	$parent_items	= $MenuItemRepos->getMenuParentItemsByMenuId($menu_id);
 	
 	return $parent_items;
