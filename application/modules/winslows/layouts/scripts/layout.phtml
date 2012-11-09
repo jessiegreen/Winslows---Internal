@@ -5,8 +5,8 @@
     echo $this->headTitle();
     
     $this->headLink()->prependStylesheet('/css/winslows/layout.css');
-    $this->headLink()->prependStylesheet('/winslows/global.css');
-     $this->headLink()->prependStylesheet('/winslows/global2.css');
+    $this->headLink()->prependStylesheet('/css/global.css');
+     $this->headLink()->prependStylesheet('/css/winslows/layout/global2.css');
     echo $this->headLink();
     
     echo $this->headMeta();
@@ -21,18 +21,15 @@
     <div id="winslows-layout-header-logo-container">
         <img src="/img/winslows/layout/logo.png" />
         <div id="body-links">
-           <font face= "Kalinga">
-                <ul>
-                  <a href='#'><span>Log In</span></a>
-                  <a href='#'><span>Contact Us</span></a>
-                  <a href='#'><span>Shopping Cart</span></a>
-                </ul>
-            </font>
+            <ul class="font-kalinga">
+              <a href='#'><span>Log In</span></a>
+              <a href='#'><span>Contact Us</span></a>
+              <a href='#'><span>Shopping Cart</span></a>
+            </ul>
         </div>
         <div id="winslows-layout-header-contact-info">
-            <font face= "Kalinga">
-            <p>Phone: (800) 636-4700</p>
-            </font>
+            
+            <p class="font-kalinga">Phone: (800) 636-4700</p>
         </div>
     </div>
     <div id="winslows-layout-header-content-container">

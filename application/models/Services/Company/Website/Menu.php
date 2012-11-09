@@ -115,7 +115,8 @@ class Menu extends \Dataservice_Service_ServiceAbstract
      * @param string $menu_name
      * @return \Entities\Website\Menu  
      */
-    public function getMenuByName($menu_name){
+    public function getMenuByName($menu_name)
+    {
 	/* @var $MenuRepos \Repositories\Menu */
 	$MenuRepos	= $this->_em->getRepository('Entities\Website\Menu');
 	return $MenuRepos->findOneBy(array("name" => $menu_name));

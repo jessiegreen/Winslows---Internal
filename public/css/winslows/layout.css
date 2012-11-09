@@ -55,6 +55,7 @@ a:active
     right: 25px;
     bottom: 0px;
 }
+
 #winslows-layout-main 
 {
     width: 960px;
@@ -75,6 +76,7 @@ a:active
     top: 10px;
     right: 15px;
 }
+
 #search-bar
 {
     position: absolute;
@@ -99,6 +101,7 @@ a:active
     width: 700px;
     text-align: center;
 }
+
 #cssmenu li 
 {
     display: inline-block;
@@ -126,4 +129,5 @@ a:active
 {
     background-position: 100% -42px;
     color:#FF0000;
+    box-shadow: 10px 10px 5px #888888;
 }
