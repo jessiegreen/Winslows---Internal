@@ -29,9 +29,12 @@ class Validator extends \Services\Company\Supplier\Product\Configurable\Instance
 	$this->_validateExtraKneeBraces();
 	$this->_validateExtraStormBraces();
 	$this->_validateDoorAndWindowWidthsForWalls();
-	$this->_validateDoorAndWindowHeightsForWalls();
+	$this->_validateDoorHeightsForWalls();
     }
     
+    /**
+     * @throws \Exception
+     */
     protected function _validateDoorAndWindowWidthsForWalls()
     {	
 	foreach($this->_Mapper->getSidesArray() as $side)
