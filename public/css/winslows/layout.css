@@ -1,7 +1,10 @@
 body
 {
-    background-image:url('/img/winslows/layout/background.png');
-    background-color:#cccccc;
+    background-image:url('/img/winslows/layout/background3.png');
+    background-repeat: no-repeat;
+    height: 1200px;
+    width: 100%;
+    position: relative;
 }
 /* unvisited link */
 a:link 
@@ -56,15 +59,120 @@ a:active
     bottom: 0px;
 }
 
+#important-links-container
+{
+    width: 960px;
+    height: 80px;
+    border: solid 1px red;
+    clear: both;
+    font-family: arial;
+    font-size: 20px;
+}
+
+#important-links-container a
+{
+    margin: 0px;
+    color: #0046AD;
+    top: 0px;
+    right: 20px;
+    color: #0046AD;
+    float: left;
+   
+}
+
 #winslows-layout-main 
 {
     width: 960px;
     margin-left: auto;
     margin-right: auto;
     background-color: #FFF;
-    height: 500px;
+    position: relative;
 }
 
+#body-information-container
+{
+    position: relative;
+    clear: both;
+    height: 300px;
+    border: solid 1px green;
+}
+
+#winsows-layout-pre-footer-container
+{
+    position: relative;
+    clear: both;
+    height: 200px;
+    border: solid 1px blue;
+}
+
+#winslows-layout-side-navigation-container
+{
+    color:inherit;
+}
+#winslows-layout-side-navigation-container ul
+{
+    padding: 5px;
+}
+
+#winslows-layout-side-navigation-container a
+{
+    font-size: 20px;
+    color:inherit;
+    color:#0046AD;
+}
+
+#get-started-button-img
+{
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+
+#footer-links
+{
+    right: 15px;
+}
+
+#footer-links a
+{
+    font-size: 9px;
+    color:inherit;
+}
+
+#winslows-layout-footer-content-container
+{
+    position: relative;
+    width: 960px;
+    clear: both;
+    height:300px;
+    border: solid 1px yellow;
+    background-image:url("/img/winslows/layout/footer_img.png");
+}
+
+#footer-div-1
+{
+    float: left;
+    width: 300px;
+    height: 300px;
+    border: solid 1px pink;
+}
+
+#footer-div-2
+{
+    float: left;
+    width: 500px;
+    height: 300px;
+    border: solid 1px pink;
+}
+
+#footer-div-3
+{
+    float: left;
+    width: 152px;
+    height: 300px;
+    border: solid 1px pink;
+}
+        
 #menu_container
 {
     position: relative;
@@ -80,8 +188,13 @@ a:active
 #search-bar
 {
     position: absolute;
-    right: 15px;
-    top: 22px;
+    right: 20px;
+    top: 30px;
+}
+
+#social-media-links-footer
+{
+    bottom: 20px;
 }
 
 #cssmenu 
@@ -120,7 +233,8 @@ a:active
     margin: 0;
 }
 
-#cssmenu a span{
+#cssmenu a span
+{
     color: inherit;
 }
 
