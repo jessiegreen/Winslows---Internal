@@ -1,0 +1,48 @@
+#cssmenu 
+{
+    font-size:93%;
+    position: relative;
+    margin-left: 15px;
+    margin-top:15px;
+}
+
+#cssmenu ul 
+{
+    margin:0;
+    list-style:none;
+    width: 600px;
+    padding: 0px;
+    width: 700px;
+    text-align: center;
+}
+
+#cssmenu li 
+{
+    display: inline-block;
+    margin:0;
+    padding: 25px 100px 5px 15px;
+    margin-left: 2px;
+    color:#FFF;
+    background:url('/img/winslows/layout/menu_button_right.png') no-repeat right top;
+}
+
+#cssmenu a 
+{
+    text-decoration:none;
+    color: inherit;
+    padding: 0;
+    margin: 0;
+}
+
+#cssmenu a span
+{
+    color: inherit;
+}
+
+#cssmenu li.active,
+#cssmenu li:hover 
+{
+    background-position: 100% -42px;
+    color:#FF0000;
+    box-shadow: 10px 10px 5px #888888;
+}

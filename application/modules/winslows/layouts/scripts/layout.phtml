@@ -7,29 +7,20 @@
     $this->headLink()->prependStylesheet('/css/winslows/layout.css');
     $this->headLink()->prependStylesheet('/css/global.css');
     $this->headLink()->prependStylesheet('/css/winslows/layout/global2.css');
-    $this->headLink()->prependStylesheet('/css/winslows/layout/superfish.css');
+    $this->headLink()->prependStylesheet('/css/winslows/layout/menu.css');
     echo $this->headLink();
     
     echo $this->headMeta();
     $this->headScript()->prependFile('/javascript/common.js');
     $this->headScript()->prependFile('/javascript/jquery/jquery.js');
     $this->headScript()->appendFile('/javascript/winslows/layout.js');
-    $this->headScript()->appendFile(BASE_URL.'/javascript/superfish.js');
     
     echo $this->headScript();
     ?>
-    <script type="text/javascript">
-        $(document).ready(function(){
-	$("ul.drop_menu").superfish({ 
-            delay:       300,                            // one second delay on mouseout 
-            animation:   {opacity:'show',height:'show'},  // fade-in and slide-down animation 
-            speed:       'fast'});
-        });
-    </script>
 </head>
 <body>
     <div id="winslows-layout-header-logo-container">
-        <img src="/img/winslows/layout/carport_logo.png" />
+        <img src="/img/winslows/layout/logo.png" />
         <div id="body-links">
             <ul class="font-kalinga">
               <a href='#'><span>Log In</span></a>
@@ -37,6 +28,9 @@
               <a href='#'><span>Shopping Cart</span></a>
             </ul>
         </div>
+            <div id="get-started-button-img">
+                <a href='http://www.facebook.com/WinslowsBuildings?fref=ts'><img src="/img/winslows/layout/get_started_button.png" /></a>
+            </div>
         <div id="winslows-layout-header-contact-info">
             <p class="font-kalinga">Phone: (800) 636-4700</p>
         </div>
@@ -57,73 +51,11 @@
                 <img src="/img/winslows/layout/searchbar.png" />
             </div>
         </div>
-        <div id="winslows-layout-header-img">
-            <img src="/img/winslows/layout/header_img.png" />
-        </div>
     </div>
     <div id="winslows-layout-main">
-        <div id="important-links-container">
-            <ul>
-                <a href='http://www.facebook.com/WinslowsBuildings?fref=ts'><img src="/img/winslows/layout/carport_thumb.png" /></a>
-                <a href='http://twitter.com/winslowssales'><img src="/img/winslows/layout/DYS_thumb.png" /></a>
-                <a href='http://mike-winslowscarportsandstorage.blogspot.com/'><img src="/img/winslows/layout/sheet_metal_thumb.png" /></a><br>
-                <a href='http://www.youtube.com/user/winslowsinc'><img src="/img/winslows/layout/storage_thumb.png" /></a>
-                <a href='http://www.youtube.com/user/winslowsinc'><img src="/img/winslows/layout/regular_thumb.png" /></a>
-            </ul>
-                <li><a href='#'>Repos</a></li>
-                <li><a href='#'>Scratch & Dent</a></li>
-                <li><a href='#'>Rent to Own</a></li>
-                <li><a href='#'>Financing</a></li>
-            
-        </div>
-        <div id="body-information-container">
-            <div id="winslows-layout-side-navigation-container">
-                <ul class="font-main-blue font-kalinga"> 
-                    <li><a href='#'><span>Carports</span></a></li>
-                    <li><a href='#'><span>Garages</span></a></li>
-                    <li><a href='#'><span>Storage</span></a></li>
-                    <li><a href='#'><span>Kits</span></a></li>
-                    <li><a href='#'><span>Misc. TBD</span></a></li>
-                </ul>
-            </div>
-            <div id="get-started-button-img">
-                <a href='http://www.facebook.com/WinslowsBuildings?fref=ts'><img src="/img/winslows/layout/start_button1.png" /></a>
-            </div>
-        </div>
-        <div id="winsows-layout-pre-footer-container">
-        </div>
-        <div id="winslows-layout-footer-content-container">
-            <div id="footer-div-1">
-                    
-            </div>
-            <div id="footer-div-2">
-                <div id="social-media-links-footer">
-                    <a href='http://www.facebook.com/WinslowsBuildings?fref=ts'><img src="/img/winslows/layout/facebook_button.png" /></a>
-                    <a href='http://twitter.com/winslowssales'><img src="/img/winslows/layout/twitter_button.png" /></a>
-                    <a href='http://mike-winslowscarportsandstorage.blogspot.com/'><img src="/img/winslows/layout/blog_button.png" /></a><br>
-                    <a href='http://www.youtube.com/user/winslowsinc'><img src="/img/winslows/layout/youtube_button.png" /></a>
-                </div>
-            </div>
-            <div id="footer-div-3">
-                <div id="footer-links">
-                    <ul class="font-main-blue font-kalinga"> 
-                        <li><a href='#'>Contact Us</li></a>
-                        <li><a href='#'>Locations</li></a>
-                        <li><a href='#'>About Us</li></a>
-                        <li><a href='#'>News</li></a>
-                        <li><a href='#'>Careers</li></a>
-                        <li><a href='#'>Mailing List</li></a>
-                        <li><a href='#'>Testimonials</li></a>
-                        <li><a href='#'>Our Partners</li></a>
-                    </ul>
-                </div>
-           </div>
-    </div>
-            
-            
-        </div>
         <?php
-            //echo $this->layout()->content 
+            echo $this->layout()->content;
+            echo $this->partial("footer.phtml")
         ?>
     </div>
 </body>

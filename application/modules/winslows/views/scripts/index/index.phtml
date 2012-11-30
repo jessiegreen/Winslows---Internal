@@ -1,1 +1,50 @@
-Winslow's Inc. INDEX!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+<div id="winslows-header-slideshow">
+    <div id="bullets-container">
+        
+    </div>
+    <div id="winslows-header-slideshow-content">
+    
+    </div>
+</div>
+<div id="important-links-container">
+    <img id="testimonial_image" src="/img/winslows/layout/barn_test.png" />
+    <div id="important-links-icons-container">
+        <?php echo $this->partial("index/important-links.phtml");?>
+    </div>
+</div>
+<div id="slider-arrow-container">
+    <img id="left-arrow" class="product-slider-left-arrow" src="/img/winslows/index/index/slides/slider_arrow_left.png">
+    <img id="left-arrow-red" class="product-slider-left-arrow" src="/img/winslows/index/index/slides/slider_arrow_left_red.png">
+    <img id="right-arrow" class="product-slider-right-arrow" src="/img/winslows/index/index/slides/slider_arrow_right.png">
+    <img id="right-arrow-red" class="product-slider-right-arrow" src="/img/winslows/index/index/slides/slider_arrow_right_red.png">
+    <div id="product-slider-container">
+        <div id="product-slider">
+            <?php 
+                echo $this->partialLoop("index/slideshow-slide.phtml", $this->slides); 
+            ?>
+        </div>
+    </div>
+</div>
+<div id="body-information-container">
+    <div id="info-left">
+        <div id="info-left-label">
+            <a href='http://www.facebook.com/WinslowsBuildings?fref=ts' title="metal frame building">
+                <img src="/img/winslows/index/index/rounded_link_metal_image.png" />
+            </a>
+        </div>
+    </div>
+    <div id="info-right">
+        <div id="info-right-label">
+            <a href='http://twitter.com/winslowssales' title="wood frame building">
+                <img src="/img/winslows/index/index/rounded_link_wood_image.png" />
+            </a>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    Slider  = new Winslows_Index_Index_Slider();
+    Banner  = new Winslows_Index_Index_Banner();
+    
+    Slider.init(<?php echo count($this->slides);?>);
+    Banner.init(<?php echo json_encode($this->Winslows_Index_Banner()); ?>);
+</script>

@@ -1,0 +1,251 @@
+#virtual_tours_links
+{
+    top: 10px;
+    position: relative;
+    padding-left: 165px;
+    margin-left: 60px;
+    
+}
+
+/*#virtual_tours_image
+{
+    margin-top: 34px;
+    height: 230px;
+    width: 960px;
+    z-index: 1;
+}*/
+
+#body-information-container
+{
+    position: relative;
+    clear: both;
+    height: 228px;
+    background-image:url('/img/winslows/layout/body_bg_grad.png');
+    background-repeat: repeat-x;
+}
+
+#body-information-container #info-left
+{
+    margin-left: 85px; 
+    height: 221px;
+    width: 392px;
+    float: left;
+    background-image:url('/img/winslows/index/index/info_left.png');
+    background-repeat: no-repeat;
+    background-position: bottom;
+}
+
+#info-left-label
+{
+    margin-top: 8px;
+    margin-left: 60px;
+}
+
+#info-right-label
+{
+    margin-top: 8px;
+    margin-left: 6px;
+}
+
+#body-information-container #info-right
+{
+    margin-right: 85px;
+    height: 221px;
+    width: 296px;
+    float: right;
+    background-image:url('/img/winslows/index/index/info_right.png');
+    background-repeat: no-repeat;
+    background-position: bottom;
+}
+
+#winslows-header-slideshow
+{
+    height: 233px;
+    border-bottom: solid 2px #D90000;
+    margin-top: -2px;
+    width: 960px;
+    background-image: url("/img/winslows/index/index/slideshow_bg_grad.png");
+    position: relative;
+}
+
+#winslows-header-slideshow img 
+{
+    position: absolute;
+    left: 25px;
+    bottom: 0;
+    z-index: 100;
+}
+
+.slideshow-slide-container
+{
+    height: 91px;
+    width: 91px;
+    margin: 2px;
+    margin-left: 3px;
+    float: left;
+    position: relative;
+}
+
+.slideshow-slide-container h3
+{
+    background-color: #515151;
+    color: #FFF;
+    z-index: 900;
+    padding: 0;
+    margin: 0;
+}
+
+#product-slider-image-titles
+{
+    background-color: #515151;
+    z-index: 800;
+    position: absolute;
+    top: 71px;
+    width: 84px;
+    font-size: 8pt;
+    height: 15px;
+    font-family: Kalinga;
+    padding: 3px;
+    padding-bottom: 0;
+}
+
+.product-slider-left-arrow
+{
+    z-index: 900;
+    position: absolute;
+    left: -10px;
+    top: 20px;  
+}
+
+.product-slider-right-arrow
+{
+    z-index: 900;
+    position: absolute;
+    left: 927px;
+    top: 20px;  
+}
+
+#slider-arrow-container
+{
+    position: relative;
+}
+
+.slideshow-slide-image
+{
+    z-index: 100;
+}
+
+#product-slider-container
+{
+    height: 94px;
+    width: 960px;
+    border-top: solid 2px #D90000;
+    border-bottom: solid 2px #D90000;
+    overflow: hidden;
+    position: relative;
+}
+
+#product-slider
+{
+    position: absolute;
+    left: 0;
+    width: 10000px;
+    height: 94px;
+}
+
+#product-slider img
+{
+}
+
+#important-links-container #testimonial_image
+{
+    margin: 15px;
+}
+
+#bullets-container
+{
+    position: absolute;
+    left: 850px;
+    top: 200px;
+    width: 150px;
+    height: 20px;
+    z-index: 900;
+}
+
+.banner-bullets
+{
+    cursor: pointer;
+}
+
+.bullet-unselected
+{
+    width: 19px;
+    height: 19px;
+    background-image: url("/img/winslows/index/index/banner/banner_button_on.png");
+    float: left;
+    margin-left: 2px;
+}
+
+.bullet-selected
+{
+    width: 19px;
+    height: 19px;
+    background-image: url("/img/winslows/index/index/banner/banner_button_off.png");
+    float: left;
+    margin-left: 2px;
+        
+}
+
+#important-links-container
+{
+    font-family: arial;
+    font-size: 20px;
+    position: relative;
+    clear: both;
+    height: 250px;
+}
+
+#important-links-icons-container
+{
+    position: absolute;
+    right:0px;
+    top:0px;
+    width: 500px;
+    padding: 15px;
+    margin: 0;
+    text-align: center;
+}
+
+#important-links-icons-container div
+{
+    width: 125px;
+    padding: 0;
+    margin: 0;
+    height: 100px;
+    float: left;
+}
+
+#important-links-icons-container div:hover
+{
+    background-color: #FDFDFD;
+}
+
+#important-links-container img
+{
+    vertical-align: bottom;
+}
+
+#important-links-container h3
+{
+    color: #0044AA;
+    font-size: 14pt;
+    padding: 0;
+    margin: 0;
+    font-weight: 100;
+}
+
+#important-links-container a
+{
+    padding: 0;
+    margin: 0;
+}

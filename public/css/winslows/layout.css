@@ -1,6 +1,6 @@
 body
 {
-    background-image:url('/img/winslows/layout/background3.png');
+    background-color: #F5F5EF;
     background-repeat: no-repeat;
     height: 1200px;
     width: 100%;
@@ -14,7 +14,7 @@ a:link
 /* visited link */
 a:visited 
 {
-    color:#FFFFFF;
+    color:#0044AA;
 } 
 /* mouse over link */
 a:hover 
@@ -24,7 +24,7 @@ a:hover
 /* selected link */
 a:active 
 {
-    color:#FFFFFF;
+    color:#0044AA;
 }                          
 #winslows-layout-header-logo-container
 {
@@ -35,49 +35,25 @@ a:active
     padding-bottom: 15px;
     position: relative;
 }
-#winslows-layout-header-img
-{
-    position: absolute;
-    right: 15px;
-    bottom: 0px;
-}
+
 #winslows-layout-header-content-container
 {
     margin-left: auto;
     margin-right: auto;
     width: 960px;
-    height:400px;
-    background-image:url('/img/winslows/layout/banner_bg.png');
+    height:78px;
+    background-image:url('/img/winslows/layout/header_bg_grad.png');
+    border-top: solid 2px #D90000;
+    border-bottom: solid 2px #D90000;
     position:relative;
 }
 #winslows-layout-header-contact-info
 {
-    color:#FFFFFF;
+    color:#0044AA;
     padding-top: 0px;
     position: absolute;
     right: 25px;
     bottom: 0px;
-}
-
-#important-links-container
-{
-    width: 960px;
-    height: 80px;
-    border: solid 1px red;
-    clear: both;
-    font-family: arial;
-    font-size: 20px;
-}
-
-#important-links-container a
-{
-    margin: 0px;
-    color: #0046AD;
-    top: 0px;
-    right: 20px;
-    color: #0046AD;
-    float: left;
-   
 }
 
 #winslows-layout-main 
@@ -89,54 +65,11 @@ a:active
     position: relative;
 }
 
-#body-information-container
-{
-    position: relative;
-    clear: both;
-    height: 300px;
-    border: solid 1px green;
-}
-
-#winsows-layout-pre-footer-container
-{
-    position: relative;
-    clear: both;
-    height: 200px;
-    border: solid 1px blue;
-}
-
-#winslows-layout-side-navigation-container
-{
-    color:inherit;
-}
-#winslows-layout-side-navigation-container ul
-{
-    padding: 5px;
-}
-
-#winslows-layout-side-navigation-container a
-{
-    font-size: 20px;
-    color:inherit;
-    color:#0046AD;
-}
-
 #get-started-button-img
 {
     position: absolute;
-    top: 10px;
-    right: 20px;
-}
-
-#footer-links
-{
-    right: 15px;
-}
-
-#footer-links a
-{
-    font-size: 9px;
-    color:inherit;
+    top: 30px;
+    right: 340px;
 }
 
 #winslows-layout-footer-content-container
@@ -145,7 +78,6 @@ a:active
     width: 960px;
     clear: both;
     height:300px;
-    border: solid 1px yellow;
     background-image:url("/img/winslows/layout/footer_img.png");
 }
 
@@ -154,23 +86,36 @@ a:active
     float: left;
     width: 300px;
     height: 300px;
-    border: solid 1px pink;
+}
+#our-partners-links-footer
+{
+    margin-top: 70px;
+    margin-left: 35px;
 }
 
-#footer-div-2
+#footer-div-2 
 {
     float: left;
-    width: 500px;
+    width: 475px;
     height: 300px;
-    border: solid 1px pink;
 }
 
 #footer-div-3
 {
     float: left;
-    width: 152px;
+    width: 182px;
     height: 300px;
-    border: solid 1px pink;
+    padding-top: 60px;
+}
+
+#footer-div-3 li
+{
+    
+    margin: 10px;
+    padding: 5px;
+    margin-top: 1px;
+    right: 15px;
+    font-size: 8pt;
 }
         
 #menu_container
@@ -189,59 +134,13 @@ a:active
 {
     position: absolute;
     right: 20px;
-    top: 30px;
+    top: 15px;
 }
 
 #social-media-links-footer
 {
-    bottom: 20px;
-}
-
-#cssmenu 
-{
-    font-size:93%;
-    position: absolute;
-    left: 15px;
-    top:15px;
-}
-
-#cssmenu ul 
-{
-    margin:0;
-    list-style:none;
-    width: 600px;
-    padding: 0px;
-    width: 700px;
+    margin: 100px;
     text-align: center;
-}
-
-#cssmenu li 
-{
-    display: inline-block;
-    margin:0;
-    padding: 25px 100px 5px 15px;
-    margin-left: 2px;
-    color:#FFF;
-    background:url('/img/winslows/layout/menu_button_right.png') no-repeat right top;
-}
-
-#cssmenu a 
-{
-    text-decoration:none;
-    color: inherit;
-    padding: 0;
-    margin: 0;
-}
-
-#cssmenu a span
-{
-    color: inherit;
-}
-
-#cssmenu li.active,
-#cssmenu li:hover 
-{
-    background-position: 100% -42px;
-    color:#FF0000;
-    box-shadow: 10px 10px 5px #888888;
+    bottom: 0px;
+    padding: 4px;
 }
