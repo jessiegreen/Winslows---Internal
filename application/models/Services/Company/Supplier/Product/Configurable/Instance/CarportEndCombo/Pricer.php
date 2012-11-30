@@ -20,6 +20,8 @@ class Pricer extends \Services\Company\Supplier\Product\Configurable\Instance\Me
     {
 	$this->_Price->setPrice(0);	
 	$this->_addBasePrice();
+	#--Create an _addInsulationR7Price that calculates EndCombo size for this
+	$this->_addInsulationR7Price();
 	$this->_addFrameGaugePrice();
 	$this->_addLegHeightPrice();
 	$this->_addStoragePortionPrice();
@@ -27,7 +29,12 @@ class Pricer extends \Services\Company\Supplier\Product\Configurable\Instance\Me
 	$this->_addAugerAnchorsPrice();
 	$this->_addExtraKneeBracesPrice();
 	$this->_addExtraStormBracesPrice();
+	#--Sheet metal pricing must be done right before doors!
+	$this->_addSheetMetalGaugePrice();
+	#--Doors must be last!!
 	$this->_addRollUpDoorsPrice();
+	$this->_addWalkInDoorsPrice();
+	$this->_addWindowsPrice();
 	
 	return $this->_Price;
     }
@@ -42,7 +49,7 @@ class Pricer extends \Services\Company\Supplier\Product\Configurable\Instance\Me
     
     private function _addEndComboSidePrice()
     {
-	$this->_Price->addPriceDetail(
+	$this->_Price->addWithPriceDetail(
 		$this->_Data->getEndComboSidesPrice(
 		    $this->_Mapper->getLegHeight(), 
 		    $this->_Mapper->getEndComboDepth()

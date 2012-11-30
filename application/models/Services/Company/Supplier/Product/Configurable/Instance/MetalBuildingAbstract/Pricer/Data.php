@@ -1055,6 +1055,34 @@ class Data extends \Services\Company\Supplier\Product\Configurable\Instance\Pric
     /**
      * @var array 
      */
+    static protected $_windows_price_array = array(
+	"metal_window_aluminum"	    => array(
+		"30X30"	=> 150
+	    ),
+	"metal_window_div_white"    => array(
+		"30X27"	=> 200,
+		"30X40"	=> 250
+	    )
+    );
+    
+    /**
+     * @var array 
+     */
+    static protected $_insulation_r7_price_array = array(
+	"5" => 3,
+	"6" => 3,
+	"7" => 3,
+	"8" => 3,
+	"9" => 3.50,
+	"10" => 3.50,
+	"11" => 4,
+	"12" => 4,
+	"13" => 4
+    );
+    
+    /**
+     * @var array 
+     */
     static protected $_door_window_frameout_price_array = array(
 	"window"    => 50,
 	"walkin"    => 75,
@@ -1342,5 +1370,59 @@ class Data extends \Services\Company\Supplier\Product\Configurable\Instance\Pric
     static public function getDoorAngleCutOutPrice()
     {
 	return self::$_door_angle_cutout_price;
+    }
+    
+    /**
+     * @param string $size
+     * @return float
+     */
+    static public function getDoorWalkInPrice($size)
+    {
+	$array = self::$_door_walkin_price_array;
+	
+	return (float) $array[$size];
+    }
+    
+    /**
+     * @return float
+     */
+    static public function getFrameOutWalkInPrice()
+    {
+	$array = self::$_door_window_frameout_price_array;
+	
+	return (float) $array["walkin"];
+    }
+    
+    /**
+     * @return float
+     */
+    static public function getFrameOutWindowPrice()
+    {
+	$array = self::$_door_window_frameout_price_array;
+	
+	return (float) $array["window"];
+    }
+    
+    /**
+     * @param string $type
+     * @param string $size
+     * @return float
+     */
+    static public function getWindowPrice($type, $size)
+    {
+	$array = self::$_windows_price_array;
+	
+	return $array[$type][$size];
+    }
+    
+    /**
+     * @param string $leg_height
+     * @return type
+     */
+    static public function getInsulationR7SqFtPrice($leg_height)
+    {
+	$array = self::$_insulation_r7_price_array;
+	
+	return $array[self::_formatNumberForIndex($leg_height)];
     }
 }

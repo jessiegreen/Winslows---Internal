@@ -246,6 +246,53 @@ abstract class Pricer extends \Services\Company\Supplier\Product\Configurable\In
 	}
     }
     
+    protected function _addWindowsPrice()
+    {
+	/* @var $WindowOption \Entities\Company\Supplier\Product\Configurable\Instance\Option */
+	foreach($this->_Mapper->getWindows() as $WindowOption)
+	{
+	    $this->_Price->addWithPriceDetail(
+		$this->_Data->getWindowPrice(
+		    $WindowOption->getOption()->getIndex(), 
+		    $this->_Mapper->getWindowSizeIndex($WindowOption)
+		),
+		$WindowOption->getOption()->getName()." - ".$this->_Mapper->getWindowSizeName($WindowOption)
+	    );
+	    
+	    if($this->_Mapper->isSideLocationASide($this->_Mapper->getWindowSideIndex($WindowOption)))
+		$this->_Price->addWithPriceDetail(
+		    $this->_Data->getFrameOutWindowPrice(),
+		    "Window frame-out"
+		);
+	}
+    }
+    
+    /**
+     * MUST BE CALLED JUST BEFORE DOORS PRICING!!
+     */
+    protected function _addSheetMetalGaugePrice()
+    {
+	if($this->_Mapper->isSheetMetalGauge26())
+	    $this->_Price->addWithPriceDetail(
+		((float)$this->_Price->getPrice() * .10), 
+		"26 gauge sheet metal"
+	    );
+    }
+    
+    protected function _addInsulationR7Price()
+    {
+	if($this->_Mapper->hasInsulationR7())
+	{
+	    $this->_Price->addWithPriceDetail(
+		(
+		    (float) $this->_Data->getInsulationR7SqFtPrice($this->_Mapper->getLegHeight()) * 
+		    $this->_Mapper->getSquareFeet()
+		), 
+		"Insulation R7 Radiant Barrier"
+	    );
+	}
+    }
+    
     /**
      * @param string $side
      */

@@ -198,6 +198,46 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Ma
     }
     
     /**
+     * @return false|\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value
+     */
+    protected function _getWindowSideValue()
+    {
+	return $this->_Instance->getFirstValueFromIndexes("metal_window", "side");
+    }
+    
+    /**
+     * @return false|\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value
+     */
+    protected function _getWindowSizeValue()
+    {
+	return $this->_Instance->getFirstValueFromIndexes("metal_window", "size");
+    }
+    
+    /**
+     * @return false|\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value
+     */
+    protected function _getWindowColorValue()
+    {
+	return $this->_Instance->getFirstValueFromIndexes("metal_window", "color");
+    }
+    
+    /**
+     * @return false|\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value
+     */
+    protected function _getSheetMetalGaugeValue()
+    {
+	return $this->_Instance->getFirstValueFromIndexes("sheet_metal_gauge", "gauge");
+    }
+    
+    /**
+     * @return false|\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value
+     */
+    protected function _getInsulationR7Value()
+    {
+	return $this->_Instance->getFirstValueFromIndexes("metal_insulation_r7_rad", "yes_no");
+    }
+    
+    /**
      * @return false|string
      */
     public function getRoofStyle()
@@ -298,6 +338,32 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Ma
 	    throw new \Exception("No width or length selected.");
 	
 	return $width."X".$length;
+    }
+    
+    /**
+     * @return int
+     */
+    public function getSquareFeet()
+    {
+	return ((int) $this->getFrameWidth() * (int) $this->getFrameLength());
+    }
+    
+    /**
+     * @return fasle|string
+     */
+    public function getInsulationR7()
+    {
+	$Value = $this->_getInsulationR7Value();
+	
+	return $this->_returnCodeOrFalse($Value);
+    }
+    
+    /**
+     * @return bool
+     */
+    public function hasInsulationR7()
+    {
+	return $this->getInsulationR7() == "Y" ? true : false;
     }
     
     /**
@@ -966,14 +1032,124 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Ma
     }
     
     /**
+     * @param \Entities\Company\Supplier\Product\Configurable\Instance\Option $WindowOption
+     * @return false|string
+     */
+    public function getWindowSide(\Entities\Company\Supplier\Product\Configurable\Instance\Option $WindowOption)
+    {
+	$Value = $WindowOption->getValueFromParameterIndex("side");
+	
+	return $this->_returnCodeOrFalse($Value);
+    }
+    
+    /**
+     * @param \Entities\Company\Supplier\Product\Configurable\Instance\Option $WindowOption
+     * @return false|string
+     */
+    public function getWindowSideIndex(\Entities\Company\Supplier\Product\Configurable\Instance\Option $WindowOption)
+    {
+	$Value = $WindowOption->getValueFromParameterIndex("side");
+	
+	return $this->_returnIndexOrFalse($Value);
+    }
+    
+    /**
+     * @param \Entities\Company\Supplier\Product\Configurable\Instance\Option $WindowOption
+     * @return false|string
+     */
+    public function getWindowSize(\Entities\Company\Supplier\Product\Configurable\Instance\Option $WindowOption)
+    {
+	$Value = $WindowOption->getValueFromParameterIndex("size");
+	
+	return $this->_returnCodeOrFalse($Value);
+    }
+    
+    /**
+     * @param \Entities\Company\Supplier\Product\Configurable\Instance\Option $WindowOption
+     * @return false|string
+     */
+    public function getWindowSizeIndex(\Entities\Company\Supplier\Product\Configurable\Instance\Option $WindowOption)
+    {
+	$Value = $WindowOption->getValueFromParameterIndex("size");
+	
+	return $this->_returnIndexOrFalse($Value);
+    }
+    
+    /**
+     * @param \Entities\Company\Supplier\Product\Configurable\Instance\Option $WindowOption
+     * @return false|string
+     */
+    public function getWindowSizeName(\Entities\Company\Supplier\Product\Configurable\Instance\Option $WindowOption)
+    {
+	$Value = $WindowOption->getValueFromParameterIndex("size");
+	
+	return $this->_returnNameOrFalse($Value);
+    }
+    
+    /**
+     * @param \Entities\Company\Supplier\Product\Configurable\Instance\Option $DoorOption
+     * @return string
+     */
+    public function getWindowWidth(\Entities\Company\Supplier\Product\Configurable\Instance\Option $WindowOption)
+    {
+	return $this->_getXFromSizeString($this->getWindowSizeIndex($WindowOption));
+    }
+    
+    /**
+     * @param \Entities\Company\Supplier\Product\Configurable\Instance\Option $WindowOption
+     * @return false|string
+     */
+    public function getWindowColor(\Entities\Company\Supplier\Product\Configurable\Instance\Option $WindowOption)
+    {
+	$Value = $WindowOption->getValueFromParameterIndex("color");
+	
+	return $this->_returnCodeOrFalse($Value);
+    }
+    
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getWindowAluminums()
+    {
+	return $this->_Instance->getOptionsFromOptionIndex("metal_window_aluminum");
+    }
+    
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getWindowDividedWhites()
+    {
+	return $this->_Instance->getOptionsFromOptionIndex("metal_window_div_white");
+    }
+    
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getWindows()
+    {
+	$Windows = new \Doctrine\Common\Collections\ArrayCollection();
+	
+	foreach($this->getWindowAluminums() as $Window)$Windows->add($Window);
+	
+	foreach($this->getWindowDividedWhites() as $Window)$Windows->add($Window);
+	
+	return $Windows;
+    }
+    
+    /**
      * @param string $side
      * @return int
      */
     public function getWindowsCountForSide($side)
     {
-	$count = 0;
+	$Mapper = $this;
 	
-	return $count;
+	return (int) $this->getWindows()->filter(
+		    function ($WindowOption) use ($side, $Mapper)
+		    {
+			return $Mapper->getDoorWalkInSideIndex($WindowOption) == $side ? true : false;
+		    }
+		)->count();
     }
     
     /**
@@ -1046,6 +1222,12 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Ma
     {
 	$width = 0;
 	
+	foreach($this->getWindows() as $WindowOption)
+	{
+	    if($this->getWindowSideIndex($WindowOption) == $side)
+		$width += (int) $this->getWindowWidth($WindowOption);
+	}
+	
 	return $width;
     }
     
@@ -1058,11 +1240,36 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Ma
 	return ($this->getDoorWidthsTotalForSideInInches($side) + $this->getWindowWidthsTotalForSideInInches($side));
     }
     
+    /**
+     * @param string $side
+     * @return int
+     */
     public function getDoorAndWindowWidthsTotalPlusSpaceBetweenForSideInInches($side)
     {
 	$added_inches = (12 * $this->getDoorAndWindowCountForSide($side));
 	
+	#--If has doors/windows then add an extra 12 inches for the outside
+	if($added_inches > 0)$added_inches += 12;
+	
 	return ($this->getDoorAndWindowWidthsTotalForSideInInches($side) + $added_inches);
+    }
+    
+    /**
+     * @return false|string
+     */
+    public function getSheetMetalGauge()
+    {
+	$Value = $this->_getSheetMetalGaugeValue();
+	
+	return $this->_returnCodeOrFalse($Value);
+    }
+    
+    /**
+     * @return bool
+     */
+    public function isSheetMetalGauge26()
+    {
+	return $this->getSheetMetalGauge() == "26" ? true : false;
     }
     
     /**
