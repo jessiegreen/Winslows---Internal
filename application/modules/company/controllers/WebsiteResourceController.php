@@ -13,6 +13,7 @@ class Company_WebsiteResourceController extends Dataservice_Controller_Action
 	$objResources	= new Dataservice_ACL_Resources;
 	$website_id	= $this->_request->getParam("website_id");
 	
+	/* @var $Website \Entities\Website\WebsiteAbstract */ 
 	if($website_id)$Website = $this->_em->getRepository ("Entities\Company\Website")->find ($website_id);
 	else $this->_FlashMessenger->addErrorMessage("Could not build resources. Company id not sent");
 	
@@ -22,8 +23,12 @@ class Company_WebsiteResourceController extends Dataservice_Controller_Action
 	    $this->_History->goBack();
 	}	
 	
+	$default_role_name  = $Website->isGuestAllowed() ? "Guest" : "Web Admin";
+	$Default_Role	    = $this->_em->getRepository("Entities\Role\RoleAbstract")
+				    ->findOneBy(array("name" => $default_role_name));
+	    
 	$objResources->buildAllArrays($Website->getNameIndex());
-	$objResources->writeToDB($this->_em, $Website);
+	$objResources->writeToDB($this->_em, $Website, $Default_Role);
 	
 	$this->_FlashMessenger->addSuccessMessage("Resources built");
 	$this->_History->goBack();

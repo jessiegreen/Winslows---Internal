@@ -67,10 +67,8 @@ class Dataservice_ACL_Resources
 	return $results_array;
     }
 
-    public function writeToDB(\Doctrine\ORM\EntityManager $em, Entities\Website\WebsiteAbstract $Website) 
-    {
-	$Role = $em->getRepository("Entities\Company\Employee\Role")->findOneBy(array("name" => "Web Admin"));
-	
+    public function writeToDB(\Doctrine\ORM\EntityManager $em, Entities\Website\WebsiteAbstract $Website, \Entities\Role\RoleAbstract $DefaultRole) 
+    {	
 	$this->checkForData();
 	
 	foreach ($this->arrModules as $strModuleName) 
@@ -99,8 +97,9 @@ class Dataservice_ACL_Resources
 				$resource->setController($strControllerName);
 				$resource->setAction($strActionName);
 				$resource->setRouteName("$strModuleName/$strControllerName/$strActionName");
-				$resource->addRole($Role);
+				$resource->addRole($DefaultRole);
 				$resource->setWebsite($Website);
+				
 				$em->persist($resource);
 				$em->flush();
 			    }
