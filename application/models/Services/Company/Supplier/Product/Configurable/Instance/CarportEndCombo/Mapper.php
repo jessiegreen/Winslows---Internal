@@ -82,4 +82,12 @@ class Mapper extends \Services\Company\Supplier\Product\Configurable\Instance\Me
     {
 	return $this->getEndComboMetalOrientation() === "2" ? true : false;
     }
+    
+    /**
+     * @return int
+     */
+    public function getEndComboSquareFeet()
+    {
+	return ((int) $this->getFrameWidth() * (int) $this->getEndComboDepth());
+    }
 }

@@ -73,6 +73,23 @@ class Pricer extends \Services\Company\Supplier\Product\Configurable\Instance\Me
     }
     
     /**
+     * Overwrites parent - Metal Building Abstract
+     */
+    protected function _addInsulationR7Price()
+    {
+	if($this->_Mapper->hasInsulationR7())
+	{
+	    $this->_Price->addWithPriceDetail(
+		(
+		    (float) $this->_Data->getInsulationR7SqFtPrice($this->_Mapper->getLegHeight()) * 
+		    $this->_Mapper->getEndComboSquareFeet()
+		), 
+		"Insulation R7 Radiant Barrier"
+	    );
+	}
+    }
+    
+    /**
      * @return string
      */
     private function _getWallSideClosedVerticalPriceClosestToEndComboDepth()
