@@ -155,16 +155,8 @@ class Company_LeadQuoteItemController extends Dataservice_Controller_Action
     private function _getQuote()
     {
 	$id = $this->_request->getParam("quote_id", 0);
+	
 	return $this->_em->find("Entities\Company\Lead\Quote", $id);
-    }
-    
-    private function _CheckRequiredLeadExists(\Entities\Company\Lead\Quote $Quote)
-    {
-	if(!$Quote->getId())
-	{
-	    $this->_FlashMessenger->addErrorMessage("Could not get Quote");
-	    $this->_History->goBack();
-	}
     }
 }
 

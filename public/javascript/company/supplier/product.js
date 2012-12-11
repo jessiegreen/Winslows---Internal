@@ -65,3 +65,12 @@ Product.prototype.PurposeAddOnclickBind = function(element)
 	location    = '/supplier-product-purpose/edit/id/0/product_id/' + product_id;
     });
 }
+
+Product.prototype.ImageAddOnclickBind = function(element)
+{
+    element.click(function()
+    {
+	product_id  = $("#product_id").val()
+	location    = '/supplier-product-file-image/edit/id/0/product_id/' + product_id;
+    });
+}

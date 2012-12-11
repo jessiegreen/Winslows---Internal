@@ -78,6 +78,12 @@ class ProductAbstract extends \Dataservice_Doctrine_Entity
      * @var array $Purposes
      */
     protected $Purposes;
+    
+    /**
+     * @OnetoMany(targetEntity="\Entities\Company\Supplier\Product\File\Image", cascade={"persist", "remove"}, mappedBy="Product", orphanRemoval=true)
+     * @var ArrayCollection $Images
+     */
+    private $Images;
 
     public function __construct()
     {
@@ -86,6 +92,7 @@ class ProductAbstract extends \Dataservice_Doctrine_Entity
 	$this->Programs		= new ArrayCollection();
 	$this->DeliveryTypes	= new ArrayCollection();
 	$this->Purposes		= new ArrayCollection();
+	$this->Images		= new ArrayCollection();
 	
 	parent::__construct();
     }
@@ -154,6 +161,32 @@ class ProductAbstract extends \Dataservice_Doctrine_Entity
     public function getPrograms()
     {
 	return $this->Programs;
+    }
+    
+    /**
+     * @param Image $Image
+     */
+    public function addImage(Image $Image)
+    {
+	$Image->setProduct($this);
+	
+	$this->Images[] = $Image;
+    }
+    
+    /**
+     * @param Image $Image
+     */
+    public function removeImage(Image $Image)
+    {
+	$this->Images->removeElement($Image);
+    }
+    
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getImages()
+    {
+	return $this->Images;
     }
     
     /**

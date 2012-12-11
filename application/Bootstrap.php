@@ -5,12 +5,14 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     protected function _initConfig()
     {
 	$config = new Zend_Config($this->getOptions());
+	
 	Zend_Registry::set('config', $config);
     }
     
     protected function _initBootstrap()
     {
 	$module	    = "default";
+	#--set host as doctrine to be able to run scripts from command line where there is no host. Need to revisit 
 	$host_name  = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : "doctrine";
 	
 	date_default_timezone_set ("America/Mexico_City");

@@ -1,0 +1,216 @@
+<?php
+namespace Entities\File;
+
+/** 
+ * @Entity (repositoryClass="Repositories\File\FileAbstract") 
+ * @MappedSuperclass
+ * @HasLifecycleCallbacks
+ * @Table(name="file_fileabstracts") 
+ * @InheritanceType("JOINED")
+ * @DiscriminatorColumn(name="discr", type="string")
+ * @DiscriminatorMap({"file_image_resizedclone" = "\Entities\File\Image\ResizedClone",
+ *			"company_supplier_product_file_image" = "\Entities\Company\Supplier\Product\File\Image"})
+ */
+abstract class FileAbstract extends \Dataservice_Doctrine_Entity
+{
+    /**
+     * @Id @Column(type="integer")
+     * @GeneratedValue(strategy="AUTO")
+     * @var integer
+     */
+    protected $id;
+    
+    /** 
+     * @Column(type="string", length=255) 
+     * @var string $original_file_name
+     */
+    protected $original_file_name;
+
+    /** 
+     * @Column(type="string", length=8) 
+     * @var string $extension
+     */
+    protected $extension;
+    
+    /** 
+     * @Column(type="string", length=100) 
+     * @var string $file_type
+     */
+    protected $file_type;
+    
+    /** 
+     * @Column(type="integer", length=20) 
+     * @var integer $file_size
+     */
+    protected $file_size;
+    
+    /** 
+     * @Column(type="string", length=255) 
+     * @var string $name
+     */
+    protected $name;
+    
+    /** 
+     * @Column(type="string", length=1500) 
+     * @var string $description
+     */
+    protected $description;
+
+    /**
+     * @var integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getFileType()
+    {
+        return $this->file_type;
+    }
+
+    /**
+     * @param string $file_type
+     */
+    public function setFileType($file_type)
+    {
+        $this->file_type = $file_type;
+    }
+    
+    /**
+     * @return integer
+     */
+    public function getFileSize()
+    {
+        return $this->file_size;
+    }
+
+    /**
+     * @param string $file_size
+     */
+    public function setFileSize($file_size)
+    {
+        $this->file_size = $file_size;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getOriginalFileName()
+    {
+        return $this->original_file_name;
+    }
+
+    /**
+     * @param string $original_file_name
+     */
+    public function setOriginalFileName($original_file_name)
+    {
+        $this->original_file_name = $original_file_name;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getExtension()
+    {
+        return $this->extension;
+    }
+
+    /**
+     * @param string $extension
+     */
+    public function setExtension($extension)
+    {
+        $this->extension = $extension;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getFullPath()
+    {
+	return $this->getFileStoreDirectoryFromConfig()."/".$this->getId().".".$this->getExtension();
+    }
+    
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+    
+    /**
+     * @param type $file_info_array
+     */
+    public function setFileParamsFromArray($file_info_array)
+    {
+	$this->setOriginalFileName(pathinfo($file_info_array["name"], PATHINFO_FILENAME));
+	$this->setExtension(pathinfo($file_info_array["name"], PATHINFO_EXTENSION));
+	$this->setFileSize($file_info_array["size"]);
+	$this->setFileType($file_info_array["type"]);
+    }
+    
+    public function uploadFile($temp_full_path)
+    {
+	$destination_directory	= $this->getFileStoreDirectoryFromConfig();
+	$dest_file_path		= $this->getFileStoreDirectoryFromConfig()."\\".$this->getId().".".$this->getExtension();
+
+	if(!file_exists($temp_full_path))
+	    throw new \Exception("Temp file not found for upload: path=".$temp_full_path);
+
+	if(!is_dir($destination_directory))
+	    if(!mkdir($destination_directory, 0777, true))
+		throw new \Exception("Destination directory not created:".$destination_directory);
+	    
+	if(!move_uploaded_file($temp_full_path, $dest_file_path))
+	    throw new \Exception("Could not move file");
+    }
+    
+    protected function getConfig()
+    {
+	return \Zend_Registry::get('config')->dataService->fileStore;
+    }
+
+    protected function getFileStoreDirectoryFromConfig()
+    {
+	$config = $this->getConfig();
+	
+	return $config->path;
+    }
+    
+    protected function getMaxFileUploadFromConfig()
+    {
+	$config = $this->getConfig();
+	
+	return $config->max_upload_size;
+    }
+}
