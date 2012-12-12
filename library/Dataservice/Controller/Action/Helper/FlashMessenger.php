@@ -21,7 +21,3 @@ class Dataservice_Controller_Action_Helper_FlashMessenger extends Zend_Controlle
 	$this->addMessage(array('message' => $message, 'status' => 'error'));
     }
 }
-
-?>
-
-

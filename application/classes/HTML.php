@@ -105,5 +105,3 @@ class HTML
 	else return "";
     }
 }
-
-?>

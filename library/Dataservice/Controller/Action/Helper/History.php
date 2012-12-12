@@ -18,7 +18,7 @@ class Dataservice_Controller_Action_Helper_History extends Zend_Controller_Actio
      *
      * @var int
      */
-    private $_trackAmount = 5;
+    private $_trackAmount = 10;
 
     /**
      * Track Ajax Requests?
@@ -132,11 +132,17 @@ class Dataservice_Controller_Action_Helper_History extends Zend_Controller_Actio
      *
      * @return Boolean
      */
-    private function trackableRequest() {
+    private function trackableRequest()
+    {
+	Zend_Loader::loadClass('Zend_Controller_Request_Http');
+	
+	$request = new Zend_Controller_Request_Http();
+	    
+	if($request->getParam("nohist", 0) === 1)
+		return false;
+	
 // Decide whether or not we should track Ajax Requests
 	if ($this->_ajax == 0) {
-	    Zend_Loader::loadClass('Zend_Controller_Request_Http');
-	    $request = new Zend_Controller_Request_Http();
 
 	    if ($request->isXmlHttpRequest()) {
 		return false;

@@ -169,7 +169,7 @@ abstract class FileAbstract extends \Dataservice_Doctrine_Entity
     }
     
     /**
-     * @param type $file_info_array
+     * @param array $file_info_array
      */
     public function setFileParamsFromArray($file_info_array)
     {
@@ -179,8 +179,43 @@ abstract class FileAbstract extends \Dataservice_Doctrine_Entity
 	$this->setFileType($file_info_array["type"]);
     }
     
+    public function validateUpload()
+    {
+	$this->validateSize();
+	$this->validateType();
+    }
+    
+    /**
+     * @throws \Exception
+     */
+    public function validateType()
+    {
+	$allowed_types = (array) json_decode($this->getAllowedTypesFromConfig());
+	
+	if(!in_array($this->getExtension(), $allowed_types))
+	    throw new \Exception("File type not allowed. Only ".  implode(", ", $allowed_types));
+    }
+    
+    /**
+     * @throws \Exception
+     */
+    public function validateSize()
+    {
+	$max_size   = $this->getMaxFileUploadFromConfig();
+	$file_size  = $this->getFileSize();
+	
+	if($file_size > $max_size)
+	    throw new \Exception("File size is too big. Upload limited to ".$max_size."MB. ".$file_size."MB uploaded.");
+    }
+    
+    /**
+     * @param string $temp_full_path
+     * @throws \Exception
+     */
     public function uploadFile($temp_full_path)
     {
+	$this->validateUpload();
+	
 	$destination_directory	= $this->getFileStoreDirectoryFromConfig();
 	$dest_file_path		= $this->getFileStoreDirectoryFromConfig()."\\".$this->getId().".".$this->getExtension();
 
@@ -195,22 +230,49 @@ abstract class FileAbstract extends \Dataservice_Doctrine_Entity
 	    throw new \Exception("Could not move file");
     }
     
+    /**
+     * @return type
+     */
     protected function getConfig()
     {
 	return \Zend_Registry::get('config')->dataService->fileStore;
     }
 
+    /**
+     * @return string
+     */
     protected function getFileStoreDirectoryFromConfig()
     {
 	$config = $this->getConfig();
 	
-	return $config->path;
+	return realpath($config->path);
     }
     
+    /**
+     * @return int
+     */
     protected function getMaxFileUploadFromConfig()
     {
 	$config = $this->getConfig();
 	
 	return $config->max_upload_size;
+    }
+    
+    /**
+     * @return array
+     */
+    protected function getAllowedTypesFromConfig()
+    {
+	$config = $this->getConfig();
+
+	return $config->allowed_types;
+    }
+    
+    /**
+     * @PostPersist
+     */
+    public function prePersistValidate()
+    {
+	$this->validateUpload();
     }
 }

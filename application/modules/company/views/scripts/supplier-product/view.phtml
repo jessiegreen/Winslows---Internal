@@ -263,13 +263,14 @@ switch ($Product->getDescriminator())
 		?>
 		<li>
 		    <?php
-		    echo HTML::anchorIcon(
-			    "bullet_go.png", 
-			    "", 
-			    "/supplier-product-file-image/edit/id/".$Image->getId(),
-			    "margin-left:5px;"
-			    );
-		    echo $Image->getName();
+//		    echo HTML::anchorIcon(
+//			    "bullet_go.png", 
+//			    "", 
+//			    "/supplier-product-file-image/edit/id/".$Image->getId(),
+//			    "margin-left:5px;"
+//			    );
+//		    echo $Image->getName();
+		    echo \Services\File\Image::factory()->getHtmlThumbImg($Image);
 		    ?>
 		</li>
 		<?php

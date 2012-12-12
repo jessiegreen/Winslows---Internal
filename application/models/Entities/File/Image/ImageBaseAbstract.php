@@ -51,6 +51,9 @@ abstract class ImageBaseAbstract extends \Entities\File\FileAbstract
 	return $this->height;
     }
     
+    /**
+     * @return Zend_Config
+     */
     protected function getConfig()
     {
 	return \Zend_Registry::get('config')->dataService->fileStore->imageStore;

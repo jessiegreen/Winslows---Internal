@@ -14,5 +14,3 @@ class DateTimeDisplay {
 	return $DateTime->format("F j, Y, g:i a");
     }
 }
-
-?>
