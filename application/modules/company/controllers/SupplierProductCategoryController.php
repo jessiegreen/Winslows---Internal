@@ -58,5 +58,18 @@ class Company_SupplierProductCategoryController extends Dataservice_Controller_A
 	$this->view->form	= $form;
 	$this->view->Category	= $Category;
     }
+    
+    public function viewAction()
+    {
+	$Category = $this->getEntityFromParamFields("Company\Supplier\Product\Category", array("id"));
+	
+	if(!$Category->getId())
+	{
+	    $this->_FlashMessenger->addErrorMessage("Could not get Category");
+	    $this->_History->goBack();
+	}
+	
+	$this->view->Category	= $Category;
+    }
 }
 

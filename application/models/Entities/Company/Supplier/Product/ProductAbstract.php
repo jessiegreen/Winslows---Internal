@@ -164,9 +164,9 @@ class ProductAbstract extends \Dataservice_Doctrine_Entity
     }
     
     /**
-     * @param Image $Image
+     * @param File\Image $Image
      */
-    public function addImage(Image $Image)
+    public function addImage(File\Image $Image)
     {
 	$Image->setProduct($this);
 	
@@ -174,9 +174,9 @@ class ProductAbstract extends \Dataservice_Doctrine_Entity
     }
     
     /**
-     * @param Image $Image
+     * @param File\Image $Image
      */
-    public function removeImage(Image $Image)
+    public function removeImage(File\Image $Image)
     {
 	$this->Images->removeElement($Image);
     }

@@ -57,9 +57,16 @@ class Category extends \Dataservice_Doctrine_Entity
      */
     private $Products;
     
+    /**
+     * @OnetoMany(targetEntity="\Entities\Company\Supplier\Product\Category\File\Image", cascade={"persist", "remove"}, mappedBy="Category", orphanRemoval=true)
+     * @var ArrayCollection $Images
+     */
+    private $Images;
+    
     public function __construct()
     {
 	$this->Products  = new ArrayCollection();
+	$this->Images		= new ArrayCollection();
 	
 	parent::__construct();
     }
@@ -70,6 +77,7 @@ class Category extends \Dataservice_Doctrine_Entity
     public function addProduct(\Entities\Company\Supplier\Product\ProductAbstract $Product)
     {
 	$Product->addCategory($this);
+	
         $this->Products[] = $Product;
     }
     
@@ -88,6 +96,32 @@ class Category extends \Dataservice_Doctrine_Entity
     {
 	$Product->removeCategory($this);
 	$this->Products->removeElement($Product);
+    }
+    
+    /**
+     * @param Image $Image
+     */
+    public function addImage(Category\File\Image $Image)
+    {
+	$Image->setCategory($this);
+	
+	$this->Images[] = $Image;
+    }
+    
+    /**
+     * @param Category\File\Image $Image
+     */
+    public function removeImage(Category\File\Image $Image)
+    {
+	$this->Images->removeElement($Image);
+    }
+    
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getImages()
+    {
+	return $this->Images;
     }
     
     /**

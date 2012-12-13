@@ -1,0 +1,142 @@
+<?php 
+echo($this->flashMessages()); 
+//echo "<div>";
+//echo HTML::backAnchorIcon("Product Category - View", "/supplier-product/view/id/".$this->Range->getRtoProvider()->getId());
+//echo "</div>";
+?>
+<h1 class="header1">Product Category - View</h1>
+<?php
+/* @var $Category \Entities\Company\Supplier\Product\Category */
+$Category	= $this->Category;
+$category_id	= $Category->getId();
+$Products	= $Category->getProducts();
+$Images		= $Category->getImages();
+$Children	= $Category->getChildren();
+?>
+<div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
+    <h4 class="no_space" style="color: #2000EE;">
+	Info
+	<?php
+	echo HTML::anchorIcon(
+		"pencil.png", 
+		"", 
+		"/supplier-product-category/edit/id/".$category_id,
+		"margin-left:5px;"
+		);
+	?>
+    </h4>
+    <div>
+	Name: <?php echo $Category->getName(); ?> &nbsp;&nbsp;&nbsp; 
+	Index: <?php echo $Category->getIndex(); ?>
+    </div>
+</div>
+<div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">
+    <div id="accordion">
+	<h3>
+	    <a href="#">Products</a>
+	</h3>
+	<div>
+	    <?php
+	    /* @var $Product Entities\Company\Supplier\Product\ProductAbstract */
+	    foreach ($Products as $Product)
+	    {
+		?>
+		<div style="padding: 3px;margin-bottom: 3px;">
+		    <?php 
+		    echo $Product->getName();
+		    echo HTML::anchorIcon(
+			    "bullet_go.png", 
+			    "", 
+			    "/supplier-product/view/id/".$Product->getId(),
+			    "margin-left:5px;"
+			    );
+		    ?>
+		</div>
+		<?php
+	    }
+	    ?>
+	</div>
+	<hr />
+    </div>
+</div>
+<div class="padded_frame" style="width: 415px;float: right;padding-top: 0px;">
+    <h3>
+	<a href="#">Child Categories</a>
+	<?php 
+//	    echo HTML::buttonBlue(
+//		"add.png", 
+//		"Add Value", 
+//		"value_add", 
+//		"float:right;width:130px;");
+	?>
+    </h3>
+    <div>
+	<?php
+	/* @var $Child \Entities\Company\Supplier\Product\Category */
+	foreach ($Children as $Child)
+	{
+	    ?>
+	    <div style="padding: 3px;margin-bottom: 3px;">
+		<?php 
+		echo $Child->getName();
+		echo HTML::anchorIcon(
+			"bullet_go.png", 
+			"", 
+			"/supplier-product-category/edit/id/".$Child->getId(),
+			"margin-left:5px;"
+			);
+		?>
+	    </div>
+	    <?php
+	}
+	?>
+    </div>
+    <hr />
+    <h3><a href="#">Documents</a></h3>
+    <div>Put Documents here</div>
+    <hr />
+    <h3>
+	<a href="#">Images</a>
+	<?php 
+	echo HTML::buttonBlue(
+		"add.png",
+		"Add Image",
+		"image_add",
+		"float:right;margin-right:5px;"
+		);
+	?>
+    </h3>
+    <div>
+	<ul>
+	<?php
+	/* @var $Image \Entities\Company\Supplier\Product\File\Image */
+	if(count($Images) > 0)
+	{
+	    foreach ($Images as $Image)
+	    {
+		?>
+		<li>
+		    <?php
+//		    echo HTML::anchorIcon(
+//			    "bullet_go.png", 
+//			    "", 
+//			    "/supplier-product-file-image/edit/id/".$Image->getId(),
+//			    "margin-left:5px;"
+//			    );
+//		    echo $Image->getName();
+		    echo \Services\File\Image::factory()->getHtmlThumbImg($Image);
+		    ?>
+		</li>
+		<?php
+	    }
+	}
+	else echo "<li>No Images</li>";
+	?>
+	</ul>
+    </div>
+</div>
+<div style="clear: both;"><input type="hidden" id="category_id" value="<?php echo $category_id;?>" /></div>
+<script type="text/javascript">
+    Company_Supplier_Product_Category = new Company_Supplier_Product_Category();
+    Company_Supplier_Product_Category.AddImageOnclickBind($("#image_add"));
+</script>

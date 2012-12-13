@@ -7,7 +7,7 @@ namespace Entities\File\Image;
 class ResizedClone extends ImageBaseAbstract
 {
     /** 
-     * @OneToOne(targetEntity="\Entities\File\Image\ImageAbstract", inversedBy="ResizedClone")
+     * @ManyToOne(targetEntity="\Entities\File\Image\ImageAbstract", inversedBy="ResizedClones")
      * @var \Entities\File\Image\ImageAbstract $Image 
      */  
     protected $Image;

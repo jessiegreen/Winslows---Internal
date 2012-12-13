@@ -54,7 +54,6 @@ class Company_SupplierProductFileImageController extends Dataservice_Controller_
 		$info_array = $_FILES["file"];
 		
 		$Image->setFileParamsFromArray($info_array);
-		
 		$Image->setWidth("");
 		$Image->setHeight("");
 		$Image->populate($data);

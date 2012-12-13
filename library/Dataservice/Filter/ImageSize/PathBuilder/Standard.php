@@ -73,11 +73,6 @@ class Dataservice_Filter_ImageSize_PathBuilder_Standard implements Dataservice_F
                 $ext = ".$ext";
         } 
         
-        return sprintf('%s-%sx%s%s',
-            $basename,
-            $this->_config->getWidth(),
-            $this->_config->getHeight(),
-            $ext 
-        );
+        return $basename.$ext;
     }
 }
