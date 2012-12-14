@@ -7,9 +7,11 @@
     </div>
 </div>
 <div id="important-links-container">
-    <img id="testimonial_image" src="/img/winslows/layout/barn_test.png" />
+    <a href='http://www.facebook.com/WinslowsBuildings?fref=ts' title="customer testimonials">
+        <img id="testimonial_image" src="/img/winslows/layout/barn_test.png" />
+    </a >
     <div id="important-links-icons-container">
-        <?php echo $this->partial("index/important-links.phtml");?>
+        <?php echo $this->partial("index/partials/important-links.phtml");?>
     </div>
 </div>
 <div id="slider-arrow-container">
@@ -20,7 +22,7 @@
     <div id="product-slider-container">
         <div id="product-slider">
             <?php 
-                echo $this->partialLoop("index/slideshow-slide.phtml", $this->slides); 
+                echo $this->partialLoop("index/partials/slideshow-slide.phtml", $this->slides); 
             ?>
         </div>
     </div>

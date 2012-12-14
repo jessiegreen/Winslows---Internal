@@ -32,7 +32,7 @@ Winslows_Index_Index_Banner.prototype.timer = function()
                     if(this_var.i == this_var.count)this_var.i = 0;
                     this_var.timer();
                 }
-            }, 3000
+            }, 5000
         );
 }
 

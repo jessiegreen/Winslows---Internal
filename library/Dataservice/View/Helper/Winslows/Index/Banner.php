@@ -9,7 +9,7 @@ class Dataservice_View_Helper_Winslows_Index_Banner extends Zend_View_Helper_Abs
         
         foreach($this->current_strings as $string)
         {
-            $strings[] = $this->view->partial("index/".$string.".phtml");
+            $strings[] = $this->view->partial("index/partials/".$string.".phtml");
         }
         
         return $strings;
