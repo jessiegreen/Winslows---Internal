@@ -69,8 +69,7 @@ $LocationPhoneNumber    = $Location->getPhoneNumber();
 		    <?php 
 		    echo $LocationAddress->getCity().", ".
 			    $LocationAddress->getState()." ".
-			    $LocationAddress->getZip1()."-".
-			    $LocationAddress->getZip2(); ?>
+			    $LocationAddress->getFullZipCode(); ?>
 		</div>
 		<?php
 	    }

@@ -14,7 +14,7 @@ namespace Entities\Address;
  *		    })
  * @HasLifecycleCallbacks
  */
-class AddressAbstract extends \Dataservice_Doctrine_Entity
+abstract class AddressAbstract extends \Dataservice_Doctrine_Entity
 {
     /**
      * @Id @Column(type="integer")
@@ -70,6 +70,18 @@ class AddressAbstract extends \Dataservice_Doctrine_Entity
      * @var string $zip_2
      */
     protected $zip_2;
+    
+    /** 
+     * @Column(type="string", length=50, nullable=true) 
+     * @var string $latitude
+     */
+    protected $latitude;
+    
+    /** 
+     * @Column(type="string", length=50, nullable=true) 
+     * @var string $longitude
+     */
+    protected $longitude;
 
     /**
      * @return integer
@@ -205,5 +217,110 @@ class AddressAbstract extends \Dataservice_Doctrine_Entity
     public function setZip2($zip_2)
     {
         $this->zip_2 = $zip_2;
+    }
+    
+    
+    
+    /**
+     * @return string
+     */
+    public function getLatitude()
+    {
+        return $this->latitude;
+    }
+
+    /**
+     * @param string $latitude
+     * @return boolean
+     */
+    public function setLatitude($latitude = null)
+    {
+	if(!$latitude)
+	{
+	    $array = \Dataservice\Map::getLatLongFromAddress($this->getAddressAsString());
+	    
+	    if(isset($array["latitude"]))
+	    {
+		$this->setLatitude($array["latitude"]);
+		
+		return true;
+	    }
+	    else return false;
+	}
+	
+	$this->latitude = $latitude;
+	
+	return true;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getLongitude()
+    {
+        return $this->longitude;
+    }
+
+    /**
+     * @param string $longitude
+     * @return boolean
+     */
+    public function setLongitude($longitude = null)
+    {
+	if(!$longitude)
+	{
+	    $array = \Dataservice\Map::getLatLongFromAddress($this->getAddressAsString());
+	    
+	    if(isset($array["longitude"]))
+	    {
+		$this->setLongitude($array["longitude"]);
+		
+		return true;
+	    }
+	    else return false;
+	}
+	
+	$this->longitude = $longitude;
+	
+	return true;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getAddressAsString()
+    {
+	$array	= array();
+	
+	if($this->getAddress1())$array[]    = $this->getAddress1();
+	if($this->getAddress2())$array[]    = $this->getAddress2();
+	if($this->getCity())$array[]	    = $this->getCity();
+	if($this->getState())$array[]	    = $this->getState();
+	if($this->getFullZipCode())$array[] = $this->getFullZipCode();
+	
+	return implode(", ", $array);
+    }
+    
+    /**
+     * @return string
+     */
+    public function getFullZipCode()
+    {
+	$string = $this->getZip1();
+	
+	if($this->getZip2())$string .= ", ".$this->getZip2();
+	
+	return $string;
+    }
+    
+    /**
+     * @param array $array
+     */
+    public function populate(array $array)
+    {
+	parent::populate($array);
+	
+	if(!$this->getLatitude())$this->setLatitude();
+	if(!$this->getLongitude())$this->setLongitude();
     }
 }

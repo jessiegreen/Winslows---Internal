@@ -18,6 +18,12 @@ class Company_LocationAddressController extends Dataservice_Controller_Action
 	    {
 		$data	= $this->_params["company_location_address"];
 		
+		if($data["reset_latlong"] === "1")
+		{
+		    $LocationAddress->setLatitude();
+		    $LocationAddress->setLongitude();
+		}
+		
 		$LocationAddress->populate($data);
 		
 		if(!$LocationAddress->getId())

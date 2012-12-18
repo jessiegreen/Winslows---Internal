@@ -16,5 +16,3 @@ class Dataservice_Form_Element_LocationSelect extends Zend_Form_Element_Select
         }
     }
 }
-
-?>

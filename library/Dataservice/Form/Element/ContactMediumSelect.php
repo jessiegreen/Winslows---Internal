@@ -50,5 +50,3 @@ class Dataservice_Form_Element_ContactMediumSelect extends Zend_Form_Element_Sel
         }
     }
 }
-
-?>

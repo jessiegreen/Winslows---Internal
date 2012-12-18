@@ -19,5 +19,3 @@ class Dataservice_Form_Element_OptionMultiCheckbox extends Zend_Form_Element_Mul
         }
     }
 }
-
-?>

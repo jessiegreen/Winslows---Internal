@@ -10,15 +10,15 @@
  *
  * @author jgreen
  */
-class Dataservice_Form_Element_CompanySelect extends Zend_Form_Element_Select
+class Dataservice_Form_Element_StateSelect extends Zend_Form_Element_Select
 {
     public function init()
     {	
         $this->addMultiOption("", 'Please select...');
 	
-        foreach (Services\Company::factory()->getCompanies() as $Company)
+        foreach (\Dataservice\State\Data::getStatesArray() as $short => $long)
 	{
-            $this->addMultiOption($Company->getId(), $Company->getName());
+            $this->addMultiOption($short, $long);
         }
     }
 }

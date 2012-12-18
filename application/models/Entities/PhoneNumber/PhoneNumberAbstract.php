@@ -26,19 +26,19 @@ class PhoneNumberAbstract extends \Dataservice_Doctrine_Entity
     protected $type;
     
     /** 
-     * @Column(type="integer", length=3) 
+     * @Column(type="string", length=3) 
      * @var integer $area_code
      */
     protected $area_code;
     
     /** 
-     * @Column(type="integer", length=3) 
+     * @Column(type="string", length=3) 
      * @var integer $num1
      */
     protected $num1;
     
     /** 
-     * @Column(type="integer", length=4) 
+     * @Column(type="string", length=4) 
      * @var integer $num2
      */
     protected $num2;
@@ -98,7 +98,7 @@ class PhoneNumberAbstract extends \Dataservice_Doctrine_Entity
     }
 
     /**
-     * @return integer
+     * @return string
      */
     public function getNum1()
     {
@@ -106,7 +106,7 @@ class PhoneNumberAbstract extends \Dataservice_Doctrine_Entity
     }
 
     /**
-     * @param integer $num1
+     * @param string $num1
      */
     public function setNum1($num1)
     {
@@ -114,7 +114,7 @@ class PhoneNumberAbstract extends \Dataservice_Doctrine_Entity
     }
 
     /**
-     * @return ineteger
+     * @return string
      */
     public function getNum2()
     {
@@ -122,7 +122,7 @@ class PhoneNumberAbstract extends \Dataservice_Doctrine_Entity
     }
 
     /**
-     * @param integer $num2
+     * @param string $num2
      */
     public function setNum2($num2)
     {
@@ -132,7 +132,8 @@ class PhoneNumberAbstract extends \Dataservice_Doctrine_Entity
     /**
      * @return string
      */
-    public function getNumberDisplay(){
+    public function getNumberDisplay()
+    {
 	return "(".$this->area_code.")".$this->num1."-".$this->num2;
     }
     
@@ -186,13 +187,5 @@ class PhoneNumberAbstract extends \Dataservice_Doctrine_Entity
 	    "work" => "Work",
 	    "fax"  => "Fax"
 	);
-    }
-
-    public function populate(array $array){
-	foreach ($array as $key => $value) {
-	    if(property_exists($this, $key)){
-		$this->$key = $value;
-	    }
-	}
     }
 }

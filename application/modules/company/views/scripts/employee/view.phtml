@@ -63,8 +63,7 @@ $Account	= $Employee->getAccount();
 		    <?php 
 		    echo $Address->getCity().", ".
 			    $Address->getState()." ".
-			    $Address->getZip1()."-".
-			    $Address->getZip2(); ?>
+			    $Address->getFullZipCode(); ?>
 		</div>
 		<?php
 	    }

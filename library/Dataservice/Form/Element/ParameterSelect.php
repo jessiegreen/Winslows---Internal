@@ -21,5 +21,3 @@ class Dataservice_Form_Element_ParameterSelect extends Zend_Form_Element_Select
         }
     }
 }
-
-?>
