@@ -1,8 +1,7 @@
-<div style="height: 500px;">
+<div style="margin:100px;display: block;width:300px;position: relative;display: block;">
     <?php
-    foreach($this->Locations as $Location)
-    {
-	echo $Location->getName()."<br />";
-    }
+    echo $this->partialLoop()
+	    ->setObjectKey('Location')
+	    ->partialLoop("locations/partials/location_loop.phtml", $this->Locations);
     ?>
 </div>

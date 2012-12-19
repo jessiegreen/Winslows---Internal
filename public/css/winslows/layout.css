@@ -1,16 +1,29 @@
+html, body, #layout_main { height: 100%; }
+body > #layout_main { height: auto; min-height: 100%; }
+
 body
 {
     background-color: #F5F5EF;
     background-repeat: no-repeat;
-    height: 1200px;
-    width: 100%;
-    position: relative;
+}
+
+#layout_main
+{
+    width:960px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #FFF;
+    border-left: solid 1px #999999;
+    border-right: solid 1px #999999;
+}
+
+#layout_content
+{
+    padding-bottom: 200px;
 }
 
 #winslows-layout-header-logo-container
 {
-    margin-left: auto;
-    margin-right: auto;
     width: 960px;
     padding-top: 10px;
     padding-bottom: 15px;
@@ -19,8 +32,6 @@ body
 
 #winslows-layout-header-content-container
 {
-    margin-left: auto;
-    margin-right: auto;
     width: 960px;
     height:78px;
     background-image:url('/img/winslows/layout/header_bg_grad.png');
@@ -39,20 +50,20 @@ body
 
 #winslows-layout-footer 
 {
+    clear: both;
+    position: relative;
     width: 960px;
     margin-left: auto;
     margin-right: auto;
     background-color: #FFF;
+    height: 202px;
+    margin-top: -202px;
 }
 
 #winslows-layout-content 
 {
     width: 960px;
-    margin-left: auto;
-    margin-right: auto;
     background-color: #FFF;
-    clear: both;
-   
 }
 
 #get-started-button-img
@@ -66,20 +77,18 @@ body
 {
     position: relative;
     width: 960px;
-    clear: both;
-    height:300px;
-    background-image:url("/img/winslows/layout/footer_img.png");
+    height:200px;
+    border-top: solid 2px #D90000;
 }
 
 #footer-div-1
 {
     float: left;
     width: 300px;
-    height: 300px;
+    height: 200px;
 }
 #our-partners-links-footer
 {
-    margin-top: 70px;
     margin-left: 35px;
 }
 
@@ -87,21 +96,18 @@ body
 {
     float: left;
     width: 475px;
-    height: 300px;
+    height: 200px;
 }
 
 #footer-div-3
 {
     float: left;
     width: 182px;
-    height: 300px;
-    padding-top: 60px;
+    height: 200px;
 }
 
 #footer-div-3 li
 {
-    
-    margin: 10px;
     padding: 5px;
     margin-top: 1px;
     right: 15px;
@@ -129,7 +135,6 @@ body
 
 #social-media-links-footer
 {
-    margin: 100px;
     text-align: center;
     bottom: 0px;
     padding: 4px;

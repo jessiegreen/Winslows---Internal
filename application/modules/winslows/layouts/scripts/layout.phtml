@@ -19,48 +19,52 @@
     ?>
 </head>
 <body>
-    <div id="winslows-layout-header-logo-container">
-        <a href='http://www.facebook.com/WinslowsBuildings?fref=ts'><img src="/img/winslows/layout/logo.png" /></a >
-        <div id="body-links">
-            <ul class="font-kalinga">
-              <a href='#'><span>Log In</span></a>
-              <a href='#'><span>Contact Us</span></a>
-              <a href='#'><span>Shopping Cart</span></a>
-            </ul>
-        </div>
-            <div id="get-started-button-img">
-                <a href='http://www.facebook.com/WinslowsBuildings?fref=ts'><img src="/img/winslows/layout/get_started_button.png" /></a >
-            </div>
-        <div id="winslows-layout-header-contact-info">
-            <p class="font-kalinga">Phone: (800) 636-4700</p>
-        </div>
-    </div>
-    <div id="winslows-layout-header-content-container">
-        <div id="menu_container">
-            <div id='cssmenu'>
-                <?php
-                    $MenuService = new Services\Company\Website\Menu();
-                    $Menu = $MenuService->getMenuHTML("menu_navigation");
-                    $Menu->attrs = array(
-                        "class"	=> "drop_menu"
-                    );
-                    echo $Menu->render();
-                ?>
-            </div>
-            <div id="search-bar">
-                <img src="/img/winslows/layout/searchbar.png" />
-            </div>
-        </div>
-    </div>
-    <div id="winslows-layout-content">
-        <?php
-            echo $this->layout()->content;
-        ?>
+    <div id="layout_main">
+	<div id="layout_content">
+	    <div id="winslows-layout-header-logo-container">
+		<a href='http://www.facebook.com/WinslowsBuildings?fref=ts'><img src="/img/winslows/layout/logo.png" /></a >
+		<div id="body-links">
+		    <ul class="font-kalinga">
+			<li><a href='#'><span>Log In</span></a></li>
+			<li><a href='#'><span>Contact Us</span></a></li>
+			<li><a href='#'><span>Shopping Cart</span></a></li>
+		    </ul>
+		</div>
+		    <div id="get-started-button-img">
+			<a href='http://www.facebook.com/WinslowsBuildings?fref=ts'><img src="/img/winslows/layout/get_started_button.png" /></a >
+		    </div>
+		<div id="winslows-layout-header-contact-info">
+		    <p class="font-kalinga">Phone: (800) 636-4700</p>
+		</div>
+	    </div>
+	    <div id="winslows-layout-header-content-container">
+		<div id="menu_container">
+		    <div id='cssmenu'>
+			<?php
+			    $MenuService = new Services\Company\Website\Menu();
+			    $Menu = $MenuService->getMenuHTML("menu_navigation");
+			    $Menu->attrs = array(
+				"class"	=> "drop_menu"
+			    );
+			    echo $Menu->render();
+			?>
+		    </div>
+		    <div id="search-bar">
+			<img src="/img/winslows/layout/searchbar.png" />
+		    </div>
+		</div>
+	    </div>
+	    <div id="winslows-layout-content">
+		<?php
+		    echo $this->layout()->content;
+		?>
+	    </div>
+	</div>
     </div>
     <div id="winslows-layout-footer">
-        <?php
-            echo $this->partial("footer.phtml");
-        ?>
+	<?php
+	    echo $this->partial("footer.phtml");
+	?>
     </div>
 </body>
 </html>
