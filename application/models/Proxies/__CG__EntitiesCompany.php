@@ -54,6 +54,12 @@ class Company extends \Entities\Company implements \Doctrine\ORM\Proxy\Proxy
         return parent::getLocations();
     }
 
+    public function getLocationsWithinXMilesOfLatLong($distance, $lat, $long)
+    {
+        $this->__load();
+        return parent::getLocationsWithinXMilesOfLatLong($distance, $lat, $long);
+    }
+
     public function addDealer(\Entities\Company\Dealer $Dealer)
     {
         $this->__load();

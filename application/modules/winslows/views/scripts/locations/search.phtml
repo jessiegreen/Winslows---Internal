@@ -1,7 +1,34 @@
+<!--<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDM-Jk5skl6WetVLGOHQlqImV_7It1vY0M&sensor=false"></script>-->
+
+<script type="text/javascript">
+//function initialize()
+//{
+//    var latlng = new google.maps.LatLng(<?php //echo $this->searchkey->latitude; ?> , <?php //echo $this->searchkey->longitude; ?>);
+//    var myOptions = {
+//        zoom: 7,
+//        center: latlng,
+//        mapTypeId: google.maps.MapTypeId.ROADMAP
+//    };
+//    var map = new google.maps.Map(document.getElementById("map_canvas"),myOptions);
+//    var latlng2 = new Array();
+//    var marker = new Array();
+//    <?php //echo $this->partialLoop('locations/_getmarkers.phtml',$this->locations); ?>
+//}
+</script>
 <div style="margin:100px;display: block;width:300px;position: relative;display: block;">
+    <div>
+	<?php echo $this->Form;?>
+    </div>
     <?php
-    echo $this->partialLoop()
+    if(count($this->Locations) > 0)
+	echo $this->partialLoop()
 	    ->setObjectKey('Location')
 	    ->partialLoop("locations/partials/location_loop.phtml", $this->Locations);
+    else echo "No locations within desired search.";
     ?>
+</div>
+<div>
+    <div id="company_locations_map">
+	
+    </div>
 </div>

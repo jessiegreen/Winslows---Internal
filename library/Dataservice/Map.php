@@ -4,6 +4,14 @@ namespace Dataservice;
 class Map 
 {
     /**
+     * @return \Dataservice\Map
+     */
+    public static function factory()
+    {
+	return new Map;
+    }
+
+    /**
      * @param string $address
      * @return array
      */
@@ -32,5 +40,21 @@ class Map
 	}
 	
 	return $return;
+    }
+    
+    /**
+     * @param string $lat_1
+     * @param string $long_1
+     * @param string $lat_2
+     * @param string $long_2
+     * @return float
+     */
+    public function getDistanceInMilesBetweenTwoLocations($lat_1, $long_1, $lat_2, $long_2)
+    {
+//	echo '$lat_1'.$lat_1.', $long_1'.$long_1.', $lat_2'.$lat_2.', $long_2'. $long_2."<br />";
+        $x  = 69.1 * ($lat_1 - $lat_2);
+        $y  = 69.1 * ($long_1 - $long_2);
+	
+        return sqrt(($x*$x) + ($y*$y));
     }
 }

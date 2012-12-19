@@ -124,11 +124,47 @@ class Company extends \Dataservice_Doctrine_Entity
     }
     
     /**
-     * @return array
+     * @return ArrayCollection
      */
     public function getLocations()
     {
-      return $this->Locations;
+	return $this->Locations;
+    }
+    
+    /**
+     * @param integer $distance
+     * @param string $lat
+     * @param string $long
+     * @return array
+     */
+    public function getLocationsWithinXMilesOfLatLong($distance, $lat, $long)
+    {
+	$Map	    = new \Dataservice\Map();
+	$Locations  = $this->getLocations()->filter(
+			function ($Location) use ($lat, $long, $distance, $Map)
+			{
+			    $distance2 = $Map->getDistanceInMilesBetweenTwoLocations(
+				    $lat, 
+				    $long, 
+				    $Location->getAddress()->getLatitude(), 
+				    $Location->getAddress()->getLongitude());
+			    $Location->distance = $distance2;
+			    return $distance2 <= $distance ? 
+				true : false;
+			}
+		    )->toArray();
+	
+	if(count($Locations) > 1)
+	    usort($Locations, function($a, $b)
+	    {
+		$name_a = $a->distance;
+		$name_b = $b->distance;
+
+		return $name_a == $name_b ? 0 : $name_a > $name_b ? 1 : - 1;
+
+	    });	
+	
+	return $Locations;
     }
     
     /**

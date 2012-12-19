@@ -28,6 +28,11 @@ class Location extends \Dataservice_Service_ServiceAbstract
 	return \Services\Company\Location::factory()->getLocations();
     }
     
+    public function getAllCompanyLocationsWithinDistanceOfAddress($distance = null, $address = null)
+    {
+	return \Services\Company\Location::factory()->getAllCompanyLocationsWithinDistanceOfAddress($distance, $address);
+    }
+    
     /**
      * @return array
      */

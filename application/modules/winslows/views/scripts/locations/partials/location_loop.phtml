@@ -1,2 +1,9 @@
 <?php
-echo $this->Location->getName()."<br />";
+/* @var $Location Entities\Company\Location */
+$Location = $this->Location;
+
+echo $Location->getName();
+
+if(property_exists($Location, "distance"))echo " - ".number_format($Location->distance)." miles away";
+
+echo "<br />";
