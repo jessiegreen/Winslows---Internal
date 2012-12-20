@@ -1,0 +1,2 @@
+latlng2[<?php echo $this->Location->getId();?>] = new google.maps.LatLng('<?php echo $this->Location->getAddress()->getLatitude();?>','<?php echo $this->Location->getAddress()->getLongitude();?>');
+marker[<?php echo $this->Location->getId();?>] = new google.maps.Marker({position: latlng2[<?php echo $this->Location->getId();?>],map: map,title:"<?php echo $this->Location->getName()?>"});

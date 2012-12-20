@@ -3,8 +3,8 @@ class Winslows_LocationsController extends Dataservice_Controller_Action
 {
     public function searchAction()
     {
-	$distance = null;
-	$address  = null;
+	$distance = 200;
+	$address  = 75169;
 	$Form	  =  new Forms\Company\Location\Search(array("method" => "post"));
 	
 	if($this->isPostAndValid($Form))
@@ -16,7 +16,8 @@ class Winslows_LocationsController extends Dataservice_Controller_Action
 	$this->view->Locations = Services\Winslows\Location::factory()
 				    ->getAllCompanyLocationsWithinDistanceOfAddress($distance, $address);
 	
-	$this->view->Form = $Form;
+	$this->view->Form	= $Form;
+	$this->view->search_key	= Dataservice\Map::getLatLongFromAddress($address);
     }
 }
 

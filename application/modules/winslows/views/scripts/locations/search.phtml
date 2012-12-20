@@ -1,34 +1,39 @@
-<!--<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDM-Jk5skl6WetVLGOHQlqImV_7It1vY0M&sensor=false"></script>-->
-
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=<?php echo Dataservice\Map::getGoogleApiKey();?>&sensor=false"></script>
 <script type="text/javascript">
-//function initialize()
-//{
-//    var latlng = new google.maps.LatLng(<?php //echo $this->searchkey->latitude; ?> , <?php //echo $this->searchkey->longitude; ?>);
-//    var myOptions = {
-//        zoom: 7,
-//        center: latlng,
-//        mapTypeId: google.maps.MapTypeId.ROADMAP
-//    };
-//    var map = new google.maps.Map(document.getElementById("map_canvas"),myOptions);
-//    var latlng2 = new Array();
-//    var marker = new Array();
-//    <?php //echo $this->partialLoop('locations/_getmarkers.phtml',$this->locations); ?>
-//}
+function initialize()
+{
+    var latlng = new google.maps.LatLng('<?php echo $this->search_key["latitude"]; ?>' , '<?php echo $this->search_key["longitude"]; ?>');
+    var myOptions = {
+        zoom: 6,
+        center: latlng,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    var map = new google.maps.Map(document.getElementById("winslows_locations_search_map"),myOptions);
+    var latlng2 = new Array();
+    var marker = new Array();
+    
+    <?php echo $this->partialLoop()
+	    ->setObjectKey('Location')
+	    ->partialLoop("locations/partials/_getmarkers.phtml", $this->Locations); ?>
+}
 </script>
-<div style="margin:100px;display: block;width:300px;position: relative;display: block;">
-    <div>
-	<?php echo $this->Form;?>
-    </div>
+<div id="winslows_locations_search_map"></div>
+<div id="winslows_locations_search_form">
+    <?php echo $this->Form;?>
+    <div style="clear: both;"></div>
+</div>
+<div id="winslows_locations_search_results">
     <?php
     if(count($this->Locations) > 0)
+    {
+	echo "<table>";
+	echo "<tr><th>&nbsp;</th><th>Name</th><th>Distance</th><th>Address</th><th>Phone</th></tr>";
 	echo $this->partialLoop()
 	    ->setObjectKey('Location')
 	    ->partialLoop("locations/partials/location_loop.phtml", $this->Locations);
+	echo "</table>";
+    }
     else echo "No locations within desired search.";
     ?>
 </div>
-<div>
-    <div id="company_locations_map">
-	
-    </div>
-</div>
+<script type="text/javascript">initialize()</script>

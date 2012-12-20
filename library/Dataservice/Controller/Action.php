@@ -38,6 +38,14 @@ class Dataservice_Controller_Action extends Zend_Controller_Action
 	$this->_em		= $this->_helper->EntityManager();
 	$this->_FlashMessenger	= new Dataservice_Controller_Action_Helper_FlashMessenger;
 	$this->_History		= new Dataservice_Controller_Action_Helper_History();
+	
+	$css_string = "/css/".$this->_request->getModuleName().
+			"/".$this->_request->getControllerName().
+			"/".$this->_request->getActionName().".css";
+	
+	if(file_exists(PUBLIC_PATH.$css_string))
+	    $this->view->headLink()->appendStylesheet(BASE_URL.$css_string);
+	
 	parent::init();
     }
     

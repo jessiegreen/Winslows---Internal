@@ -57,4 +57,15 @@ class Map
 	
         return sqrt(($x*$x) + ($y*$y));
     }
+    
+    /**
+     * @return string
+     */
+    public static function getGoogleApiKey()
+    {
+	$website    = WEBSITE_NAME_INDEX;
+	$key	    = \Zend_Registry::get('config')->googleAPI->$website->key;
+	
+	return $key ? $key : "";
+    }
 }
