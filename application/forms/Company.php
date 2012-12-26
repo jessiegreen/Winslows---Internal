@@ -10,7 +10,7 @@ namespace Forms;
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Company extends \Zend_Form
+class Company extends \Dataservice_Form
 {    
     private $_Company;
     

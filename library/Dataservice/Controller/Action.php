@@ -97,4 +97,9 @@ class Dataservice_Controller_Action extends Zend_Controller_Action
 	}
 	return false;
     }
+    
+    public function getWebsite()
+    {
+	return $this->_Website;
+    }
 }

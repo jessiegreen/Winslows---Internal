@@ -14,14 +14,7 @@ class Company_IndexController extends Dataservice_Controller_Action
     
     public function viewAction()
     {
-	$Company = $this->getEntityFromParamFields("Company", array("id"));
-	
-	if(!$Company->getId()){
-	    $this->_FlashMessenger->addErrorMessage("Could not get Company");
-	    $this->_History->goBack();
-	}
-	
-	$this->view->Company	= $Company;
+	$this->view->Company	= $this->getWebsite()->getCompany();
     }
     
     public function viewallAction()
@@ -32,26 +25,29 @@ class Company_IndexController extends Dataservice_Controller_Action
     
     public function editAction()
     {
-	$Company = $this->getEntityFromParamFields("Company", array("id"));
+	$Company    = $this->getWebsite()->getCompany();
+	$form	    = new Forms\Company(array("method" => "post"), $Company);
 	
-	$form = new Forms\Company(array("method" => "post"), $Company);
-	$form->addElement("button", "cancel", 
-		array("onclick" => "location='".$this->_History->getPreviousUrl(1)."'")
-		);
+	$form->addCancelButton($this->_History->getPreviousUrl());
 	
-	if($this->isPostAndValid($form)){
+	if($this->isPostAndValid($form))
+	{
 	    try 
 	    {
 		$company_data	= $this->_params["company"];
 
 		$Company->populate($company_data);
+		
 		$this->_em->persist($Company);
 		$this->_em->flush();
 
 		$message = "Company '".htmlspecialchars($Company->getName())."' saved";
+		
 		$this->_FlashMessenger->addSuccessMessage($message);
 		$this->_History->goBack();
-	    } catch (Exception $exc) {
+	    } 
+	    catch (Exception $exc)
+	    {
 		$this->_FlashMessenger->addErrorMessage($exc->getMessage());
 		$this->_History->goBack();
 	    }
