@@ -83,6 +83,7 @@ class WebsiteAbstract extends \Dataservice_Doctrine_Entity
     public function addAccount(\Entities\Website\Account\AccountAbstract $Account)
     {
 	$Account->setWebsite($this);
+	
         $this->Accounts[] = $Account;
     }
     
@@ -92,6 +93,11 @@ class WebsiteAbstract extends \Dataservice_Doctrine_Entity
     public function getAccounts()
     {
 	return $this->Accounts;
+    }
+    
+    public function getCurrentAccount()
+    {
+	
     }
     
     /**
@@ -144,6 +150,25 @@ class WebsiteAbstract extends \Dataservice_Doctrine_Entity
     public function getMenus()
     {
 	return $this->Menus;
+    }
+    
+    /**
+     * @param type $index
+     * @return false|\Entities\Website\Menu
+     */
+    public function getMenuByIndex($index)
+    {
+	$MatchedMenus = $this->getMenus()->filter(
+		    function ($Menu) use ($index)
+		    {
+			return $Menu->getNameIndex() == $index ? true : false;
+		    }
+		);
+		
+	if($MatchedMenus->count() > 0)
+	    return $MatchedMenus->first();
+	
+	return false;
     }
 
     /**
@@ -242,6 +267,7 @@ class WebsiteAbstract extends \Dataservice_Doctrine_Entity
     {
 	if(!key_exists($type, $this->getTypeOptions()))
 	    throw new \Exception("Type option of ".htmlspecialchars ($type)." does not exist");
+	
         $this->type = $type;
     }
     

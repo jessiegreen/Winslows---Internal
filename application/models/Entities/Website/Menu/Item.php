@@ -270,4 +270,51 @@ class Item extends \Dataservice_Doctrine_Entity
     {
 	$this->link_params = $link_params;
     }
+    
+    /**
+     * @return array 
+     */
+    public function getUrlArray()
+    {	
+	$route_array = array(
+	    "module"	    => $this->getLinkModule(),
+	    "controller"    => $this->getLinkController(),
+	    "action"	    => $this->getLinkAction()
+	);
+	
+	$params_array = $this->getLinkParamsAsArray();
+	
+	return array_merge($route_array, $params_array);
+    }
+    
+    /**
+     * Assembles URL string from array using \Zend_Controller_Action_Helper_Url
+     * @return string
+     */
+    public function getUrlString()
+    {
+	$url_array  = $this->getUrlArray();
+	$url_helper = new \Zend_Controller_Action_Helper_Url;
+	
+	unset($url_array["module"]);
+	
+	return $url_helper->url(
+		$url_array,	
+		$this->getLinkModule(),
+		true
+		);
+    }
+    
+    /**
+     * @return array 
+     */
+    public function getLinkParamsAsArray()
+    {
+	$params			= array();
+	$link_params		= trim($this->getLinkParams());
+	
+	if($link_params)$params = (array) json_decode ($link_params);
+	
+	return $params;
+    }
 }

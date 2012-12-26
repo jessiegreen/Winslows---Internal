@@ -36,4 +36,12 @@ class Account extends \Entities\Website\Account\AccountAbstract
     {
 	$this->Lead = $Lead;
     }
+    
+    /**
+     * @return string
+     */
+    public function getDescriminator()
+    {
+	return self::TYPE_Lead;
+    }
 }

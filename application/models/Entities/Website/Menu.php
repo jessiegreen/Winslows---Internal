@@ -86,6 +86,22 @@ class Menu extends \Dataservice_Doctrine_Entity
     }
     
     /**
+     * Get menus parent items
+     * @return array 
+     */
+    public function getParentItems()
+    {
+	$parent_items	= $this->getItems()->filter(
+		    function($MenuItem){
+			if(!$MenuItem->getParent())
+			    return true;
+		    }
+		);
+	
+	return $parent_items;
+    }
+    
+    /**
      * @param \Entities\Website\Menu\Item $Item
      * @return boolean
      */
@@ -135,19 +151,8 @@ class Menu extends \Dataservice_Doctrine_Entity
 	$this->name_index = $name_index;
     }
     
-    /**
-     * Get menus parent items
-     * @return array 
-     */
-    public function getParentItems()
+    public function buildHtmlMenuFromItems(\Dataservice\Html\Menu $HtmlMenu)
     {
-	$parent_items	= $this->getItems()->filter(
-		    function($MenuItem){
-			if(!$MenuItem->getParent())
-			    return true;
-		    }
-		);
 	
-	return $parent_items;
     }
 }

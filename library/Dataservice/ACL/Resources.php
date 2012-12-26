@@ -67,7 +67,7 @@ class Dataservice_ACL_Resources
 	return $results_array;
     }
 
-    public function writeToDB(\Doctrine\ORM\EntityManager $em, Entities\Website\WebsiteAbstract $Website, \Entities\Role\RoleAbstract $DefaultRole) 
+    public function writeToDB(\Doctrine\ORM\EntityManager $em, Entities\Website\WebsiteAbstract $Website, \Entities\Website\Role $DefaultRole) 
     {	
 	$this->checkForData();
 	

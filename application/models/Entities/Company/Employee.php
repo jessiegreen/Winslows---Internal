@@ -37,13 +37,6 @@ class Employee extends PersonAbstract
     protected $Leads;
     
     /**
-     * @ManytoMany(targetEntity="\Entities\Company\Employee\Role", cascade={"persist"})
-     * @JoinTable(name="company_employee_role_joins")
-     * @var ArrayCollection $Roles
-     */
-    protected $Roles;
-    
-    /**
      * @OneToOne(targetEntity="\Entities\Company\Employee\Account", mappedBy="Employee", cascade={"persist"}, orphanRemoval=true)
      * @var \Entities\Company\Employee\Account $Account
      */
@@ -52,7 +45,6 @@ class Employee extends PersonAbstract
     public function __construct()
     {
 	$this->Leads	= new ArrayCollection();
-	$this->Roles	= new ArrayCollection();
 	
 	parent::__construct();
     }
@@ -63,45 +55,6 @@ class Employee extends PersonAbstract
     public function getLeads()
     {
 	return $this->Leads;
-    }
-    
-    
-    /**
-     * @param \Entities\Company\Employee\Role $Role
-     */
-    public function addRole(Employee\Role $Role)
-    {
-	$Role->addEmployee($this);
-        $this->Roles[] = $Role;
-    }
-    
-    /**
-     * @param \Entities\Company\Employee\Role $Role
-     * @return boolean
-     */
-    public function removeRole(Employee\Role $Role)
-    {
-	$this->getRoles()->removeElement($Role);
-    }
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getRoles()
-    {
-	return $this->Roles;
-    }
-    
-    /**
-     * @param \Entities\Company\Employee\Role $Role
-     * @return boolean
-     */
-    public function hasRole($Role)
-    {
-	if($this->getRoles()->contains($Role))
-	    return true;
-	
-	return false;
     }
     
     /** 

@@ -41,11 +41,15 @@
 		<div id="menu_container">
 		    <div id='cssmenu'>
 			<?php
-			    $MenuService = new Services\Company\Website\Menu();
-			    $Menu = $MenuService->getMenuHTML("menu_navigation");
+			    $MenuBuilder    = \Classes\Menu::factory();
+			    $Website	    = Services\Website::factory()->getCurrentWebsite();
+			    $Menu	    = $Website->getMenuByIndex("menu_navigation");
+			    $MenuHTMLObject = $MenuService->getMenuHTML($MenuBuilder, $Menu);
+			    
 			    $Menu->attrs = array(
 				"class"	=> "drop_menu"
 			    );
+			    
 			    echo $Menu->render();
 			?>
 		    </div>

@@ -5,8 +5,8 @@ class ACL extends \Dataservice_Service_ServiceAbstract
 {    
     /**
      * @param mixed $url 
-     *	string=module::controller::view 
-     *	array=array("module"=>module,"controller"=>controller,"view"=>view)
+     *	string=module::controller::action 
+     *	array=array("module"=>module,"controller"=>controller,"action"=>action)
      * @return boolean 
      */
     public function isUserAllowed($url)

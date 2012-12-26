@@ -17,6 +17,7 @@ namespace Entities\Website\Account;
 class AccountAbstract extends \Dataservice_Doctrine_Entity
 {
     const TYPE_Employee	    = "Employee";
+    const TYPE_Lead	    = "Lead";
     const TYPE_Guest	    = "Guest";
     
     /**
@@ -49,6 +50,61 @@ class AccountAbstract extends \Dataservice_Doctrine_Entity
      * @var \Entities\Website\WebsiteAbstract
      */
     protected $Website;
+    
+    /**
+     * @ManytoMany(targetEntity="\Entities\Website\Role", cascade={"persist"})
+     * @JoinTable(name="website_account_role_joins")
+     * @var ArrayCollection $Roles
+     */
+    protected $Roles;
+    
+    public function __construct()
+    {
+	$this->Roles = new ArrayCollection();
+	
+	parent::__construct();
+    }
+    
+    /**
+     * @param \Entities\Website\Guest\Role $Role
+     */
+    public function addRole(\Entities\Website\Role $Role)
+    {
+	if($Role->getWebsite() === $this->getWebsite())
+	{
+	    $Role->addAccount($this);
+	    $this->Roles[] = $Role;
+	}
+	else throw new \Exception("Role does not belong to this website");
+    }
+    
+    /**
+     * @param \Entities\Website\Guest\Role $Role
+     */
+    public function removeRole(Guest\Role $Role)
+    {
+	$this->getRoles()->removeElement($Role);
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getRoles()
+    {
+	return $this->Roles;
+    }
+    
+    /**
+     * @param \Entities\Website\Guest\Role $Role
+     * @return boolean
+     */
+    public function hasRole($Role)
+    {
+	if($this->getRoles()->contains($Role))
+	    return true;
+	
+	return false;
+    }
     
     /**
      * @param \Entities\Website\WebsiteAbstract $Website
@@ -104,6 +160,7 @@ class AccountAbstract extends \Dataservice_Doctrine_Entity
     public function setPassword($password)
     {
 	$this->_setSalt(sha1(rand(5, 20000)));
+	
         $this->password = sha1($password.$this->salt);
     }
     

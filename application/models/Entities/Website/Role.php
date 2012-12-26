@@ -1,19 +1,12 @@
 <?php
-namespace Entities\Role;
+namespace Entities\Website;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /** 
- * @Entity (repositoryClass="Repositories\Role\RoleAbstract") 
- * @Table(name="role_roleabstracts") 
- * @InheritanceType("JOINED")
- * @DiscriminatorColumn(name="discr", type="string")
- * @DiscriminatorMap({
- *			"company_employee_role" = "Entities\Company\Employee\Role",
- *			"website_guest_role" = "Entities\Website\Guest\Role"
- *		    })
- * @HasLifecycleCallbacks
+ * @Entity (repositoryClass="Repositories\Website\Role") 
+ * @Table(name="website_roles")
  */
-class RoleAbstract extends \Dataservice_Doctrine_Entity
+class Role extends \Dataservice_Doctrine_Entity
 {
     /**
      * @Id @Column(type="integer")
@@ -35,32 +28,40 @@ class RoleAbstract extends \Dataservice_Doctrine_Entity
     protected $description;
     
     /**
-     * @OneToMany(targetEntity="\Entities\Role\Privilege", mappedBy="Role", cascade={"persist"}, orphanRemoval=true)
+     * @OneToMany(targetEntity="\Entities\Website\Role\Privilege", mappedBy="Role", cascade={"persist"}, orphanRemoval=true)
      * @var ArrayCollection Privileges
      */
     protected $Privileges;
     
     /**
      * @ManytoMany(targetEntity="\Entities\Website\Resource", inversedBy="Roles", cascade={"persist, remove"})
-     * @JoinTable(name="role_resource_joins")
+     * @JoinTable(name="website_role_resource_joins")
      * @var ArrayCollection $Resources
      */
     protected $Resources;
+    
+    /**
+     * @ManyToMany(targetEntity="\Entities\Website\Account\AccountAbstract", mappedBy="Roles", cascade={"persist"})
+     * @var ArrayCollection Accounts
+     */
+    protected $Accounts;
     
     public function __construct()
     {
 	$this->Privileges   = new ArrayCollection();
 	$this->Resources    = new ArrayCollection();
+	$this->Accounts	    = new ArrayCollection();
 	
 	parent::__construct();
     }
     
     /**
-     * @param \Entities\Role\Privilege $Privilege
+     * @param \Entities\Website\Role\Privilege $Privilege
      */
-    public function addPrivilege(\Entities\Role\Privilege $Privilege)
+    public function addPrivilege(\Entities\Website\Role\Privilege $Privilege)
     {
 	$Privilege->setRole($this);
+	
         $this->Privileges[] = $Privilege;
     }
 
@@ -94,6 +95,30 @@ class RoleAbstract extends \Dataservice_Doctrine_Entity
     public function getResources()
     {
 	return $this->Resources;
+    }
+    
+    /**
+     * @param Account\AccountAbstract $Account
+     */
+    public function addAccount(Account\AccountAbstract $Account)
+    {
+        $this->getAccounts()->add($Account);
+    }
+    
+    /**
+     * @param Account\AccountAbstract $Account
+     */
+    public function removeAccount(Account\AccountAbstract $Account)
+    {
+	$this->getAccounts()->removeElement($Account);
+    }
+    
+    /**
+     * @return ArrayCollection
+     */
+    public function getAccounts()
+    {
+	return $this->Accounts;
     }
 
     /**

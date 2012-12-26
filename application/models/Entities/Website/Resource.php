@@ -48,7 +48,7 @@ class Resource extends \Dataservice_Doctrine_Entity
     protected $routeName;
     
     /**
-     * @ManytoMany(targetEntity="\Entities\Role\RoleAbstract", mappedBy="Resources", cascade={"persist, remove"})
+     * @ManytoMany(targetEntity="\Entities\Website\Role", mappedBy="Resources", cascade={"persist, remove"})
      * @var ArrayCollection
      */
     protected $Roles;
@@ -86,26 +86,29 @@ class Resource extends \Dataservice_Doctrine_Entity
     /**
      * @return ArrayCollection
      */
-    public function getRoles(){
+    public function getRoles()
+    {
 	return $this->Roles;
     }
     
     /**
-     * @param \Entities\Role\RoleAbstract $Role
+     * @param Role $Role
      */
-    public function addRole(\Entities\Role\RoleAbstract $Role)
+    public function addRole(Role $Role)
     {
 	$Role->addResource($this);
+	
 	$this->Roles[] = $Role;
     }
     
     /**
-     * @param \Entities\Role\RoleAbstract $Role
+     * @param Role $Role
      * @return boolean
      */
-    public function removeRole(\Entities\Role\RoleAbstract $Role)
+    public function removeRole(Role $Role)
     {
 	$Role->removeResource($this);
+	
 	$this->getRoles()->removeElement($Role);
     }
 
