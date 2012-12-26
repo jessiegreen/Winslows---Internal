@@ -9,8 +9,8 @@ class Winslows_LocationsController extends Dataservice_Controller_Action
 	
 	if($this->isPostAndValid($Form))
 	{
-	    $address	= $this->_request->getParam("address");
-	    $distance	= $this->_request->getParam("range");
+	    $address	= $this->getRequest()->getParam("address");
+	    $distance	= $this->getRequest()->getParam("range");
 	}
 	
 	$this->view->Locations = Services\Winslows\Location::factory()

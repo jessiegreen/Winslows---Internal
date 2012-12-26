@@ -42,7 +42,7 @@ class Company_SupplierProductConfigurableOptionParameterController extends Datas
     {
 	/* @var $Parameter \Entities\Company\Supplier\Product\Configurable\Option\Parameter */ 
 	$Parameter  = $this->getEntityFromParamFields("Company\Supplier\Product\Configurable\Option\Parameter", array("id"));
-	$option_id  = $this->_request->getParam("option_id");
+	$option_id  = $this->getRequest()->getParam("option_id");
 	$new	    = !$Parameter->getId() ? true : false;
 	
 	if($new && $option_id)
@@ -108,7 +108,7 @@ class Company_SupplierProductConfigurableOptionParameterController extends Datas
 	
 //	$ACL = new Dataservice_Controller_Plugin_ACL();
 //	
-//	$ACL->preDispatch($this->_request);
+//	$ACL->preDispatch($this->getRequest());
 	
 	/* @var $Parameter \Entities\Company\Supplier\Product\Configurable\Option\Parameter */
 	$Parameter = $this->getEntityFromParamFields("Company\Supplier\Product\Configurable\Option\Parameter", array("id"));

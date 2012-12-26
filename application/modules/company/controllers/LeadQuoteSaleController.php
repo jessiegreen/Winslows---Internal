@@ -41,7 +41,7 @@ class Company_LeadQuoteSaleController extends Dataservice_Controller_Action
      */
     private function _getQuote()
     {
-	$id	= $this->_request->getParam("quote_id", 0);
+	$id	= $this->getRequest()->getParam("quote_id", 0);
 	$Quote	= $this->_em->find("Entities\Company\Lead\Quote", $id);
 	
 	if(!$Quote)$Quote = new \Entities\Company\Lead\Quote;

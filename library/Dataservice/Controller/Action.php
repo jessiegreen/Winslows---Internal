@@ -8,9 +8,10 @@ class Dataservice_Controller_Action extends Zend_Controller_Action
 {
     /**
      *
-     * @var Zend_Controller_Request_Abstract
+     * @var \Entities\Company\Website
      */
-    protected $_request;
+    protected $_Website;
+    
     /**
      *
      * @var array() 
@@ -33,15 +34,15 @@ class Dataservice_Controller_Action extends Zend_Controller_Action
     
     public function init()
     {
-	$this->_request		= $this->getRequest();
-	$this->_params		= $this->_request->getParams();
+	$this->_params		= $this->getRequest()->getParams();
 	$this->_em		= $this->_helper->EntityManager();
 	$this->_FlashMessenger	= new Dataservice_Controller_Action_Helper_FlashMessenger;
 	$this->_History		= new Dataservice_Controller_Action_Helper_History();
+	$this->_Website		= Services\Website::factory()->getCurrentWebsite();
 	
-	$css_string = "/css/".$this->_request->getModuleName().
-			"/".$this->_request->getControllerName().
-			"/".$this->_request->getActionName().".css";
+	$css_string = "/css/".$this->getRequest()->getModuleName().
+			"/".$this->getRequest()->getControllerName().
+			"/".$this->getRequest()->getActionName().".css";
 	
 	if(file_exists(PUBLIC_PATH.$css_string))
 	    $this->view->headLink()->appendStylesheet(BASE_URL.$css_string);
@@ -84,7 +85,7 @@ class Dataservice_Controller_Action extends Zend_Controller_Action
 	    $params = $this->_params;
 	}
 	
-	if($this->_request->isPost())
+	if($this->getRequest()->isPost())
 	{
 	    if($form->isValid($params))return true;
 	    else

@@ -27,7 +27,7 @@ class Company_LeadContactController extends Dataservice_Controller_Action
 	    $this->_redirect('/lead/edit/id/'.$this->_params["lead_id"]);
 	}
 	
-	if($this->_request->isPost())
+	if($this->getRequest()->isPost())
 	{
 	    if($form->isValid($this->_params))
 	    {
@@ -64,7 +64,7 @@ class Company_LeadContactController extends Dataservice_Controller_Action
     {
 	/* @var $Contact \Entities\Company\Lead\Contact */
 	$Contact    = $this->getEntityFromParamFields("Company\Lead\Contact", array("id"));
-	$lead_id    = $this->_request->getParam("lead_id");
+	$lead_id    = $this->getRequest()->getParam("lead_id");
 	
 	if(!$Contact->getId())
 	{

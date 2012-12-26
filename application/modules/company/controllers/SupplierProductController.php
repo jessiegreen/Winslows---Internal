@@ -21,7 +21,7 @@ class Company_SupplierProductController extends Dataservice_Controller_Action
 	
 	if(!$Product->getId())
 	{
-	    $type = $this->_request->getParam("type", null);
+	    $type = $this->getRequest()->getParam("type", null);
 	    
 	    if(!$type)
 	    {
@@ -57,7 +57,7 @@ class Company_SupplierProductController extends Dataservice_Controller_Action
 		$this->_History->goBack(1);
 	}
 	
-	$supplier_id	= $this->_request->getParam("supplier_id", 0);
+	$supplier_id	= $this->getRequest()->getParam("supplier_id", 0);
 	$Supplier	= $this->_em->find("Entities\Company\Supplier", $supplier_id);
 	
 	if($supplier_id)$Product->setSupplier ($Supplier);
@@ -206,7 +206,7 @@ class Company_SupplierProductController extends Dataservice_Controller_Action
 	    {
 		try 
 		{
-		    $data		= $this->_request->getParam("company_supplier_product_managecategories", array("product_managecategories" => array()));
+		    $data		= $this->getRequest()->getParam("company_supplier_product_managecategories", array("product_managecategories" => array()));
 		    $categories		= $data["product_managecategories"];
 		    $current_categories	= array();
 
@@ -268,7 +268,7 @@ class Company_SupplierProductController extends Dataservice_Controller_Action
 	    {
 		try 
 		{
-		    $data		= $this->_request->getParam(
+		    $data		= $this->getRequest()->getParam(
 						"company_supplier_product_managedeliverytypes", 
 						array("product_managedeliverytypes" => array())
 					    );

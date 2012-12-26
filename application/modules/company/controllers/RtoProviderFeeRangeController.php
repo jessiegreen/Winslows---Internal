@@ -18,7 +18,7 @@ class Company_RtoProviderFeeRangeController extends Dataservice_Controller_Actio
     public function editAction()
     {
 	$Range		    = $this->getEntityFromParamFields("Company\RtoProvider\Fee\Range", array("id"));
-	$rto_provider_id    = $this->_request->getParam("rto_provider_id");
+	$rto_provider_id    = $this->getRequest()->getParam("rto_provider_id");
 	
 	if(!$Range->getId() && $rto_provider_id)
 	{

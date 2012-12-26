@@ -11,7 +11,7 @@ class Company_WebsiteController extends Dataservice_Controller_Action
     public function editAction()
     {	
 	$Website	= $this->_getWebsite();
-	$company_id	= $this->_request->getParam("company_id", null);
+	$company_id	= $this->getRequest()->getParam("company_id", null);
 	$CompanyRepos	= $this->_em->getRepository("Entities\Company");
 	
 	if(!$Website->getId())

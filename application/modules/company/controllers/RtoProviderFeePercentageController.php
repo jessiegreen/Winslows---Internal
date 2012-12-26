@@ -11,7 +11,7 @@ class Company_RtoProviderFeePercentageController extends Dataservice_Controller_
     public function editAction()
     {
 	$Percentage		    = $this->getEntityFromParamFields("Company\RtoProvider\Fee\Percentage", array("id"));
-	$rto_provider_id    = $this->_request->getParam("rto_provider_id");
+	$rto_provider_id    = $this->getRequest()->getParam("rto_provider_id");
 	
 	if(!$Percentage->getId() && $rto_provider_id)
 	{

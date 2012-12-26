@@ -19,7 +19,7 @@ class Company_SupplierProductFileImageController extends Dataservice_Controller_
     {
 	/* @var $Image \Entities\Company\Supplier\Product\File\Image */
 	$Image	    = $this->getEntityFromParamFields('Company\Supplier\Product\File\Image', array("id"));
-	$product_id = $this->_request->getParam("product_id"); 
+	$product_id = $this->getRequest()->getParam("product_id"); 
 	
 	if(!$Image->getId())
 	{	    
@@ -99,7 +99,7 @@ class Company_SupplierProductFileImageController extends Dataservice_Controller_
      */
     private function _getProduct()
     {
-	$id = $this->_request->getParam("product_id", 0);
+	$id = $this->getRequest()->getParam("product_id", 0);
 	
 	return $this->_em->find("Entities\Company\Supplier\Product\ProductAbstract", $id);
     }

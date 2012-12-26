@@ -25,7 +25,7 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
     public function editAction()
     {
 	$Quote	    = $this->_getQuote();
-	$lead_id    = $this->_request->getParam("lead_id");
+	$lead_id    = $this->getRequest()->getParam("lead_id");
 	
 	if(!$Quote->getId())
 	{
@@ -75,9 +75,9 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
 	
 	$this->_CheckRequiredQuoteExists($Quote);
 	
-	if($this->_request->isPost())
+	if($this->getRequest()->isPost())
 	{
-	    $inventory_item_id = $this->_request->getParam("inventory_item_id");
+	    $inventory_item_id = $this->getRequest()->getParam("inventory_item_id");
 	    
 	    if($inventory_item_id)
 	    {
@@ -162,9 +162,9 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
 	
 	$Item->setQuote($Quote);
 	
-	if($this->_request->isPost())
+	if($this->getRequest()->isPost())
 	{	    
-	    $data = $this->_request->getPost();
+	    $data = $this->getRequest()->getPost();
 	    
 	    foreach($data as $option_id => $option_array)
 	    {
@@ -275,7 +275,7 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
      */
     private function _getLead()
     {
-	$id = $this->_request->getParam("lead_id", 0);
+	$id = $this->getRequest()->getParam("lead_id", 0);
 	return $this->_em->find("Entities\Company\Lead", $id);
     }
     
@@ -293,7 +293,7 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
      */
     private function _getProduct()
     {
-	$id = $this->_request->getParam("product_id", 0);
+	$id = $this->getRequest()->getParam("product_id", 0);
 	return $this->_em->find("Entities\Company\Supplier\Product\ProductAbstract", $id);
     }
     
@@ -311,7 +311,7 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
      */
     private function _getItem()
     {
-	$id = $this->_request->getParam("item_id", 0);
+	$id = $this->getRequest()->getParam("item_id", 0);
 	return $this->_em->find("Entities\Company\Lead\Quote\Item", $id);
     }
     

@@ -81,7 +81,7 @@ class Company_WebsiteMenuController extends Dataservice_Controller_Action
      */
     private function _getWebsite()
     {
-	$id	    = $this->_request->getParam("website_id", 0);
+	$id	    = $this->getRequest()->getParam("website_id", 0);
 	$Website    = $this->_em->find("Entities\Company\Website", $id);
 	if($Website)return $Website;
 	else return new Entities\Company\Website;

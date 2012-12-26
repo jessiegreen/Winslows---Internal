@@ -31,9 +31,9 @@ class Texwin_BeADealerController extends Dataservice_Controller_Action
 	$element->removeDecorator('label');
 	$form_display = $form;
 	#--If form is submitted
-	if ($this->_request->isPost()) {
+	if ($this->getRequest()->isPost()) {
 	    #--Get post data
-	    $formData = $this->_request->getPost();
+	    $formData = $this->getRequest()->getPost();
 	    #--Check if posted data is valid
 	    if ($form->isValid($formData)) {
 		$data = $form->getValues();

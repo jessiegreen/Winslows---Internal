@@ -18,7 +18,7 @@ class Company_RtoProviderProgramController extends Dataservice_Controller_Action
     public function editAction()
     {
 	$Program	    = $this->getEntityFromParamFields("Company\RtoProvider\Program", array("id"));
-	$rto_provider_id    = $this->_request->getParam("rto_provider_id");
+	$rto_provider_id    = $this->getRequest()->getParam("rto_provider_id");
 	
 	if(!$Program->getId() && $rto_provider_id)
 	{

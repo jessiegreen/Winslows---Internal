@@ -5,8 +5,8 @@ class Company_WebsiteMenuItemController extends Dataservice_Controller_Action
     {	
 	/* @var $MenuItem \Entities\Website\Menu\Item */
 	$MenuItem   = $this->getEntityFromParamFields("Website\Menu\Item", array("id"));
-	$parent_id  = $this->_request->getParam("parent_id", null);
-	$menu_id    = $this->_request->getParam("menu_id", null);
+	$parent_id  = $this->getRequest()->getParam("parent_id", null);
+	$menu_id    = $this->getRequest()->getParam("menu_id", null);
 	
 	if(!$MenuItem->getId())
 	{

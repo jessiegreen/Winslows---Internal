@@ -69,7 +69,7 @@ class Company_SupplierProductConfigurableOptionController extends Dataservice_Co
 		    $this->_History->goBack();
 		}
 		
-		$configurable_id = $this->_request->getParam("configurableproduct_id");
+		$configurable_id = $this->getRequest()->getParam("configurableproduct_id");
 		
 		if(!$Option->getId() && $configurable_id)
 		{

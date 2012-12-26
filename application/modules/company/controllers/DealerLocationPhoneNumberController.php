@@ -12,7 +12,7 @@ class Company_DealerLocationPhoneNumberController extends Dataservice_Controller
     {
 	/* @var $LocationPhoneNumber \Entities\Location\PhoneNumber */
 	$LocationPhoneNumber	= $this->getEntityFromParamFields("Location\PhoneNumber", array("id"));
-	$location_id		= $this->_request->getParam("location_id");
+	$location_id		= $this->getRequest()->getParam("location_id");
 	
 	if(!$LocationPhoneNumber->getId())
 	{

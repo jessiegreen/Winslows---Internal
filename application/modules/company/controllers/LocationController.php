@@ -30,7 +30,7 @@ class Company_LocationController extends Dataservice_Controller_Action
     public function editAction()
     {
 	$Location   = $this->getEntityFromParamFields("Company\Location", array("id"));
-	$company_id = $this->_request->getParam("company_id", null);
+	$company_id = $this->getRequest()->getParam("company_id", null);
 	
 	if($company_id)
 	{

@@ -15,9 +15,9 @@ class Company_SupplierProductConfigurableInstanceController extends Dataservice_
 	
 	$this->_CheckRequiredInstanceExists($Instance);
 	
-	if($this->_request->isPost())
+	if($this->getRequest()->isPost())
 	{	    
-	    $data = $this->_request->getPost();
+	    $data = $this->getRequest()->getPost();
 	    
 	    $Instance->getOptions()->clear();
 	    
@@ -213,7 +213,7 @@ class Company_SupplierProductConfigurableInstanceController extends Dataservice_
      */
     private function _getConfigurableOption()
     {
-	$id = $this->_request->getParam("configurable_option_id", 0);
+	$id = $this->getRequest()->getParam("configurable_option_id", 0);
 	return $this->_em->find("Entities\Company\Supplier\Product\Configurable\Option", $id);
     }
     
@@ -231,7 +231,7 @@ class Company_SupplierProductConfigurableInstanceController extends Dataservice_
      */
     private function _getOption()
     {
-	$id = $this->_request->getParam("option_id", 0);
+	$id = $this->getRequest()->getParam("option_id", 0);
 	return $this->_em->find("Entities\Company\Supplier\Product\Configurable\Instance\Option", $id);
     }
     

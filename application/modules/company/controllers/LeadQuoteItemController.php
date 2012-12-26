@@ -19,7 +19,7 @@ class Company_LeadQuoteItemController extends Dataservice_Controller_Action
     public function editAction()
     {
 	$Item	    = $this->_getItem();
-	$quote_id   = $this->_request->getParam("quote_id");
+	$quote_id   = $this->getRequest()->getParam("quote_id");
 	
 	if(!$Item->getId() && $quote_id && ($Quote = $this->_getQuote()) && $Quote->getId())
 	{
@@ -95,7 +95,7 @@ class Company_LeadQuoteItemController extends Dataservice_Controller_Action
 	
 	if($this->isPostAndValid($form))
 	{
-	    $data = $this->_request->getParam("company_lead_quote_item_setdeliverytype");
+	    $data = $this->getRequest()->getParam("company_lead_quote_item_setdeliverytype");
 	    
 	    $DeliveryType = $this->_em->getRepository("Entities\Company\Supplier\Product\DeliveryType\DeliveryTypeAbstract")->find($data["delivery_type_id"]);
 	    
@@ -131,7 +131,7 @@ class Company_LeadQuoteItemController extends Dataservice_Controller_Action
      */
     private function _getItem()
     {
-	$id = $this->_request->getParam("id", 0);
+	$id = $this->getRequest()->getParam("id", 0);
 	
 	$Item = $this->_em->find("Entities\Company\Lead\Quote\Item", $id);
 	
@@ -154,7 +154,7 @@ class Company_LeadQuoteItemController extends Dataservice_Controller_Action
      */
     private function _getQuote()
     {
-	$id = $this->_request->getParam("quote_id", 0);
+	$id = $this->getRequest()->getParam("quote_id", 0);
 	
 	return $this->_em->find("Entities\Company\Lead\Quote", $id);
     }

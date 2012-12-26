@@ -38,7 +38,7 @@ class Company_EmployeeController extends Dataservice_Controller_Action
     public function editAction()
     {
 	$Employee   = $this->getEntityFromParamFields("Company\Employee", array("id"));
-	$company_id = $this->_request->getParam("company_id", null);
+	$company_id = $this->getRequest()->getParam("company_id", null);
 	
 	if(!$Employee->getId())
 	{
@@ -182,7 +182,7 @@ class Company_EmployeeController extends Dataservice_Controller_Action
      */
     private function _getRole()
     {
-	$id = $this->_request->getParam("role_id", 0);
+	$id = $this->getRequest()->getParam("role_id", 0);
 	return $this->_em->find("Entities\Company\Employee\Role", $id);
     }
     

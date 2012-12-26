@@ -7,7 +7,7 @@
 
 class Builder_IndexController extends Zend_Controller_Action
 {
-    protected $_request;
+    protected $_Request;
     protected $_params;
     
     private $_default_codes = array(
@@ -97,8 +97,8 @@ class Builder_IndexController extends Zend_Controller_Action
     
     public function init(){
 	header("Cache-Control: no-cache, must-revalidate");
-	$this->_request		= $this->getRequest();
-	$this->_params		= $this->_request->getParams();
+	$this->getRequest()		= $this->getRequest();
+	$this->_params		= $this->getRequest()->getParams();
 	$this->_codebuilder	= new \Services\Codebuilder\Codebuilder();
 	$this->_mapper		= $this->_codebuilder->getBuilderArrayMapper();
 	$this->_session_builder	= new Zend_Session_Namespace('builder');
@@ -203,7 +203,7 @@ class Builder_IndexController extends Zend_Controller_Action
     {	
         $this->_helper->layout->disableLayout();
 	
-	if($this->_request->isPost())
+	if($this->getRequest()->isPost())
 	{
 	    if(
 		isset($this->_params["leg_height"]) 
@@ -268,7 +268,7 @@ class Builder_IndexController extends Zend_Controller_Action
     {	
         $this->_helper->layout->disableLayout();
 	
-	if($this->_request->isPost())
+	if($this->getRequest()->isPost())
 	{
 	    foreach (array("left", "right", "front", "back") as $side) 
 	    {
@@ -344,7 +344,7 @@ class Builder_IndexController extends Zend_Controller_Action
     {	
         $this->_helper->layout->disableLayout();
 	
-	if($this->_request->isPost())
+	if($this->getRequest()->isPost())
 	{
 	    if(isset($this->_params["delete"])){
 		$this->_session_builder->builder["values"] = 
@@ -377,7 +377,7 @@ class Builder_IndexController extends Zend_Controller_Action
     {	
         $this->_helper->layout->disableLayout();
 	
-	if($this->_request->isPost())
+	if($this->getRequest()->isPost())
 	{
 	    if(isset($this->_params["delete"])){
 		$this->_session_builder->builder["values"] = 
@@ -1382,7 +1382,7 @@ class Builder_IndexController extends Zend_Controller_Action
     
     public function getpricefromcodeAction(){
 	header('Content-type: application/json;Cache-Control: no-cache');
-	if($this->_request->isPost() && isset($this->_params["json"]))
+	if($this->getRequest()->isPost() && isset($this->_params["json"]))
 	{
 	    $params = (array) json_decode($this->_params["json"]);
 	    $code   = $params["code"];

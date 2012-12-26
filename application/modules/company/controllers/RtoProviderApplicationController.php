@@ -19,8 +19,8 @@ class Company_RtoProviderApplicationController extends Dataservice_Controller_Ac
     {
 	/* @var $Application \Entities\Company\RtoProvider\Application */
 	$Application	    = $this->getEntityFromParamFields("Company\RtoProvider\Application", array("id"));
-	$lead_id	    = $this->_request->getParam("lead_id");
-	$rto_provider_id    = $this->_request->getParam("rto_provider_id");
+	$lead_id	    = $this->getRequest()->getParam("lead_id");
+	$rto_provider_id    = $this->getRequest()->getParam("rto_provider_id");
 	
 	if(!$Application->getId())
 	{

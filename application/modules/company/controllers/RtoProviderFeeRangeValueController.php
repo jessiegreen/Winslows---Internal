@@ -5,7 +5,7 @@ class Company_RtoProviderFeeRangeValueController extends Dataservice_Controller_
     public function editAction()
     {
 	$Value	    = $this->getEntityFromParamFields("Company\RtoProvider\Fee\Range\Value", array("id"));
-	$range_id   = $this->_request->getParam("range_id");
+	$range_id   = $this->getRequest()->getParam("range_id");
 	
 	if(!$Value->getId() && $range_id)
 	{

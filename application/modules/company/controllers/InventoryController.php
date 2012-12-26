@@ -34,7 +34,7 @@ class Company_InventoryController extends Dataservice_Controller_Action
 	
 	$this->_CheckRequiredInventoryExists($Inventory);
 	
-	$product_id = $this->_request->getParam("product_id");
+	$product_id = $this->getRequest()->getParam("product_id");
 	
 	if($product_id)
 	{

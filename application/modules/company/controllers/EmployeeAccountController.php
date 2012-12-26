@@ -18,7 +18,7 @@ class Company_EmployeeAccountController extends Dataservice_Controller_Action
     {
 	/* @var $Account \Entities\Company\Employee\Account */
 	$Account	= $this->_getAccount();
-        $employee_id    = $this->_request->getParam("employee_id");
+        $employee_id    = $this->getRequest()->getParam("employee_id");
 	$safe		= !$Account->getId() || $this->getRequest()->getParam("pwd", 0) === "1" ? false : true;
         
         if(!$Account->getId() && $employee_id)

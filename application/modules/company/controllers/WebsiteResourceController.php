@@ -11,7 +11,7 @@ class Company_WebsiteResourceController extends Dataservice_Controller_Action
     {
 	/* @var $em \Doctrine\ORM\EntityManager */
 	$objResources	= new Dataservice_ACL_Resources;
-	$website_id	= $this->_request->getParam("website_id");
+	$website_id	= $this->getRequest()->getParam("website_id");
 	
 	/* @var $Website \Entities\Website\WebsiteAbstract */ 
 	if($website_id)$Website = $this->_em->getRepository ("Entities\Company\Website")->find ($website_id);
@@ -73,7 +73,7 @@ class Company_WebsiteResourceController extends Dataservice_Controller_Action
 	
 //	$ACL = new Dataservice_Controller_Plugin_ACL();
 //	
-//	$ACL->preDispatch($this->_request);
+//	$ACL->preDispatch($this->getRequest());
 	
 	$resource_id	= isset($this->_params["resource_id"]) ? $this->_params["resource_id"] : null;
 	$role_id	= isset($this->_params["role_id"]) ? $this->_params["role_id"] : null;
@@ -125,7 +125,7 @@ class Company_WebsiteResourceController extends Dataservice_Controller_Action
 	
 	$ACL = new Dataservice_Controller_Plugin_ACL();
 	
-	$ACL->preDispatch($this->_request);
+	$ACL->preDispatch($this->getRequest());
 	
 	$resource_id	= isset($this->_params["resource_id"]) ? $this->_params["resource_id"] : null;
 	$role_id	= isset($this->_params["role_id"]) ? $this->_params["role_id"] : null;

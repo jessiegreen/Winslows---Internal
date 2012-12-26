@@ -19,7 +19,7 @@ class Company_SupplierProductPurposeController extends Dataservice_Controller_Ac
     {
 	/* @var $Purpose \Entities\Company\Supplier\Product\Purpose */
 	$Purpose    = $this->getEntityFromParamFields('Company\Supplier\Product\Purpose', array("id"));
-	$product_id = $this->_request->getParam("product_id"); 
+	$product_id = $this->getRequest()->getParam("product_id"); 
 	
 	if(!$Purpose->getId())
 	{	    

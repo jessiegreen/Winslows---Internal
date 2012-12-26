@@ -37,7 +37,7 @@ class Company_RtoProviderController extends Dataservice_Controller_Action
     public function editAction()
     {
 	$RtoProvider	= $this->getEntityFromParamFields("Company\RtoProvider", array("id"));
-	$company_id	= $this->_request->getParam("company_id");
+	$company_id	= $this->getRequest()->getParam("company_id");
 	
 	if(!$RtoProvider->getId() && $company_id)
 	{

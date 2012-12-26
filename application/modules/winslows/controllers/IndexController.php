@@ -3,7 +3,6 @@ class Winslows_IndexController extends Dataservice_Controller_Action
 {        
     public function indexAction()
     {
-	$this->view->headLink()->prependStylesheet('/css/winslows/index/index.css');
 	$this->view->headScript()->appendFile("/javascript/winslows/index/index/slider.js");
 	$this->view->headScript()->appendFile("/javascript/winslows/index/index/banner.js");
 

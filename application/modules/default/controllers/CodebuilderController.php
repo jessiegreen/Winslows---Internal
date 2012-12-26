@@ -8,7 +8,7 @@
 
 class CodebuilderController extends Zend_Controller_Action
 {
-    protected $_request;
+    protected $_Request;
     protected $_params;
     
     public function init()
@@ -16,8 +16,8 @@ class CodebuilderController extends Zend_Controller_Action
 	$session		= new Zend_Session_Namespace('Dataservice');
 	$session->redirect	= $_SERVER['REQUEST_URI'];
 
-	$this->_request	    = $this->getRequest();
-	$this->_params	    = $this->_request->getParams();
+	$this->getRequest()	    = $this->getRequest();
+	$this->_params	    = $this->getRequest()->getParams();
     }
     
     public function indexAction()
@@ -42,7 +42,7 @@ class CodebuilderController extends Zend_Controller_Action
 	
 	$form->addElement("button", "cancel", array("label" => "cancel", "onclick" => "location='/codebuilder/optionsview'"));
 	
-	if($this->_request->isPost())
+	if($this->getRequest()->isPost())
 	{
 	    if($form->isValid($this->_params))
 	    {
@@ -91,7 +91,7 @@ class CodebuilderController extends Zend_Controller_Action
 	
 	$form->addElement("button", "cancel", array("label" => "cancel", "onclick" => "location='/codebuilder/optionsview'"));
 	
-	if($this->_request->isPost())
+	if($this->getRequest()->isPost())
 	{
 	    if($form->isValid($this->_params))
 	    {
@@ -146,7 +146,7 @@ class CodebuilderController extends Zend_Controller_Action
 	
 	$form->addElement("button", "cancel", array("label" => "cancel", "onclick" => "location='/codebuilder/optionsview'"));
 	
-	if($this->_request->isPost())
+	if($this->getRequest()->isPost())
 	{
 	    if($form->isValid($this->_params))
 	    {

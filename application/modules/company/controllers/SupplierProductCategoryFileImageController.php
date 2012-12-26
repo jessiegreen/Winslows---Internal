@@ -19,7 +19,7 @@ class Company_SupplierProductCategoryFileImageController extends Dataservice_Con
     {
 	/* @var $Image \Entities\Company\Supplier\Product\Category\File\Image */
 	$Image		= $this->getEntityFromParamFields('Company\Supplier\Product\Category\File\Image', array("id"));
-	$category_id	= $this->_request->getParam("category_id"); 
+	$category_id	= $this->getRequest()->getParam("category_id"); 
 	
 	if(!$Image->getId())
 	{	    

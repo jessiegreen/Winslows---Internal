@@ -37,7 +37,7 @@ class Company_DealerController extends Dataservice_Controller_Action
     public function editAction()
     {
 	$Dealer	= $this->getEntityFromParamFields("Company\Dealer", array("id"));
-	$company_id	= $this->_request->getParam("company_id");
+	$company_id	= $this->getRequest()->getParam("company_id");
 	
 	if(!$Dealer->getId() && $company_id)
 	{

@@ -40,7 +40,7 @@ class MaintenanceController extends Dataservice_Controller_Action
 	
 	$form->addElement("button", "cancel", array("label" => "cancel", "onclick" => "location='/maintenance/groupsview'"));
 	
-	if($this->_request->isPost())
+	if($this->getRequest()->isPost())
 	{
 	    if($form->isValid($this->_params))
 	    {
@@ -97,7 +97,7 @@ class MaintenanceController extends Dataservice_Controller_Action
 	
 	$form->addElement("button", "cancel", array("label" => "cancel", "onclick" => "location='/maintenance/groupsview'"));
 	
-	if($this->_request->isPost())
+	if($this->getRequest()->isPost())
 	{
 	    if($form->isValid($this->_params))
 	    {
@@ -203,7 +203,7 @@ class MaintenanceController extends Dataservice_Controller_Action
 	    $this->_redirect('/maintenance/locationsview');
 	}
 	
-	if($this->_request->isPost())
+	if($this->getRequest()->isPost())
 	{
 	    echo "<pre>";print_r($this->_params);echo "</pre>";
 	    if($form->isValid($this->_params))

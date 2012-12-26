@@ -31,7 +31,7 @@ class Company_LeadQuoteItemDeliveryController extends Dataservice_Controller_Act
 	
 	if($this->isPostAndValid($form))
 	{
-	    $data		= $this->_request->getParam("company_lead_quote_item_delivery_setaddress");
+	    $data		= $this->getRequest()->getParam("company_lead_quote_item_delivery_setaddress");
 	    $OriginationAddress = $AddressRepos->find($data["origination_address_id"]);
 	    $DestinationAddress = $AddressRepos->find($data["destination_address_id"]);
 	    
@@ -60,7 +60,7 @@ class Company_LeadQuoteItemDeliveryController extends Dataservice_Controller_Act
      */
     private function _getDelivery()
     {
-	$id	    = $this->_request->getParam("id", 0);
+	$id	    = $this->getRequest()->getParam("id", 0);
 	$Delivery   = $this->_em->find("Entities\Company\Lead\Quote\Item\Delivery", $id);
 	
 	if(!$Delivery)$Delivery = new Entities\Company\Lead\Quote\Item\Delivery;
