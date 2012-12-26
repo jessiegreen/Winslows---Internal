@@ -13,8 +13,9 @@ class Winslows_LocationsController extends Dataservice_Controller_Action
 	    $distance	= $this->getRequest()->getParam("range");
 	}
 	
-	$this->view->Locations = Services\Winslows\Location::factory()
-				    ->getAllCompanyLocationsWithinDistanceOfAddress($distance, $address);
+	$this->view->Locations = $this->getWebsite()
+				    ->getCompany()
+				    ->getLocationsWithinDistanceOfAddress($distance, $address);
 	
 	$this->view->Form	= $Form;
 	$this->view->search_key	= Dataservice\Map::getLatLongFromAddress($address);

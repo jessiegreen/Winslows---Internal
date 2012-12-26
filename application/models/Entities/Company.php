@@ -167,6 +167,21 @@ class Company extends \Dataservice_Doctrine_Entity
 	return $Locations;
     }
     
+    /** 
+     * @param mixed $distance
+     * @param string $address
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getLocationsWithinDistanceOfAddress($distance = null, $address = null)
+    {
+	if(!$distance || !$address)
+	    return $this->getLocations();
+	
+	$latlong = \Dataservice\Map::getLatLongFromAddress($address);
+	
+	return $this->getLocationsWithinXMilesOfLatLong($distance, $latlong["latitude"], $latlong["longitude"]);
+    }
+    
     /**
      * @param \Entities\Company\Dealer $Dealer
      */
