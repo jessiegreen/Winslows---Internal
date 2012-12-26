@@ -32,4 +32,12 @@ class Location extends \Dataservice_Service_ServiceAbstract
     {
 	return \Services\Company\Location::factory()->getAllCompanyLocationsWithinDistanceOfAddress($distance, $address);
     }
+    
+    /**
+     * @return array
+     */
+    public function getTopProductCategories()
+    {
+	return \Services\Company\Supplier\Product\Category::factory()->getAllCompanyProductTopCategories($this->Company);
+    }
 }

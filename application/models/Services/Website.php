@@ -4,6 +4,14 @@ namespace Services;
 class Website extends \Dataservice_Service_ServiceAbstract
 {   
     /**
+     * @return Website
+     */
+    public static function factory()
+    {
+	return parent::factory();
+    }
+    
+    /**
      * @return string
      */
     public function getCurrentNameIndex()

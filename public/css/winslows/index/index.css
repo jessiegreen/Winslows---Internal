@@ -139,8 +139,8 @@
 {
     height: 94px;
     width: 960px;
-    border-top: solid 2px #D90000;
-    border-bottom: solid 2px #D90000;
+    border-top: solid 2px #dad8d8;
+    border-bottom: solid 2px #dad8d8;
     overflow: hidden;
     position: relative;
 }
@@ -202,7 +202,7 @@
     font-size: 20px;
     position: relative;
     clear: both;
-    height: 250px;
+    height: 240px;
 }
 
 #important-links-icons-container
@@ -221,7 +221,7 @@
     width: 125px;
     padding: 0;
     margin: 0;
-    height: 100px;
+    height: 110px;
     float: left;
 }
 
@@ -233,12 +233,13 @@
 #important-links-container img
 {
     vertical-align: bottom;
+    margin-bottom: 8px;
 }
 
 #important-links-container h3
 {
     color: #0044AA;
-    font-size: 14pt;
+    font-size: 12pt;
     padding: 0;
     margin: 0;
     font-weight: 100;
@@ -248,4 +249,7 @@
 {
     padding: 0;
     margin: 0;
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
 }

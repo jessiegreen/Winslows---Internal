@@ -1,0 +1,6 @@
+<?php
+/* @var $Item Entities\Company\Inventory\Item */
+foreach ($this->Items as $Item)
+{
+    echo $Item->getQuantity()."-".$Item->getLocation()." - ".$Item->getInstance()->getProduct()->getName()."<br />";
+}
