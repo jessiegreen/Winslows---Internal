@@ -74,6 +74,18 @@ class WebsiteAbstract extends \Dataservice_Doctrine_Entity
      */
     protected $Roles;
     
+    /**
+     * @OneToOne(targetEntity="\Entities\Website\Role")
+     * @var \Entities\Website\Role $AdminRole
+     */
+    protected $AdminRole;
+    
+    /**
+     * @OneToOne(targetEntity="\Entities\Website\Role")
+     * @var \Entities\Website\Role $GuestRole
+     */
+    protected $GuestRole;
+    
     public function __construct()
     {
 	$this->Accounts	    = new ArrayCollection();
@@ -135,11 +147,28 @@ class WebsiteAbstract extends \Dataservice_Doctrine_Entity
 	$MatchedAccount = $this->getAccounts()->filter(
 		    function ($Account) use ($id)
 		    {
-			return $Account->getId() === $id ? true : false;
+			return $Account->getId() == $id ? true : false;
 		    }
 		);
 		
 	return $MatchedAccount->count() > 0 ? $MatchedAccount->first() : false;
+    }
+    
+    /**
+     * @param integer|float|string $id
+     * @return false|Role
+     */
+    public function getRoleById($id)
+    {
+	$MatchedRole = $this->getRoles()->filter(
+		    function ($Role) use ($id)
+		    {
+			echo "**$id=".$Role->getId()."**";
+			return $Role->getId() == $id ? true : false;
+		    }
+		);
+		
+	return $MatchedRole->count() > 0 ? $MatchedRole->first() : false;
     }
     
     /**
@@ -187,6 +216,38 @@ class WebsiteAbstract extends \Dataservice_Doctrine_Entity
 	return $this->Roles;
     }
     
+    /**
+     * @param \Entities\Website\Role $Role
+     */
+    public function setAdminRole(Role $Role)
+    {
+	$this->AdminRole = $Role;
+    }
+    
+    /**
+     * @return Role
+     */
+    public function getAdminRole()
+    {
+	return $this->AdminRole;
+    }
+    
+    /**
+     * @param \Entities\Website\Role $Role
+     */
+    public function setGuestRole(Role $Role)
+    {
+	$this->GuestRole = $Role;
+    }
+    
+    /**
+     * @return Role
+     */
+    public function getGuestRole()
+    {
+	return $this->GuestRole;
+    }
+
     /**
      * @param \Entities\Website\Role $Role
      * @return boolean

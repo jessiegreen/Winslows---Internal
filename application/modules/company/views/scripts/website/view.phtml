@@ -112,11 +112,54 @@ $website_id = $Website->getId();
 <div class="padded_frame" style="width: 415px;float: right;padding-top: 0px;">
     <h3><a href="#">Documents</a></h3>
     <div>Put Documents here</div>
+    <hr />
+    <h3>
+	<a href="#">Roles</a>
+	<?php 
+	echo \Dataservice\Html\Button::buttonBlue(
+		"add.png", 
+		"Add Role", 
+		"role_add", 
+		"float:right;margin-right:5px;"
+		);
+	?>
+    </h3>
+    <div>
+	<ul>
+	<?php
+	/* @var $Role \Entities\Website\Role */
+	if($Website->getRoles()->count() > 0)
+	{
+	    foreach ($Website->getRoles() as $Role)
+	    {
+		?>
+		<li>
+		    <?php
+		    echo \Dataservice\Html\Anchor::anchorIcon(
+			    "bullet_go.png", 
+			    "", 
+			    "/website-role/view/id/".$Role->getId(),
+			    "margin-left:5px;"
+			    );
+		    echo $Role->getName();
+		    if($Website->getAdminRole() == $Role)echo " **ADMIN**";
+		    if($Website->getGuestRole() == $Role)echo " **GUEST**";
+		    ?>
+		</li>
+		<?php
+	    }
+	}
+	else echo "<li>No Roles</li>";
+	?>
+	</ul>
+    </div>
+    <hr />
 </div>
 <div style="clear: both;"><input type="hidden" id="website_id" value="<?php echo $website_id;?>" /></div>
 <script type="text/javascript">
     Website = new Website();
     Website.AddMenuOnclickBind($("#menu_add"));
+    Website.AddRoleOnclickBind($("#role_add"));
     Website.CleanResourcesOnclickBind($("#resources_clean"));
     Website.BuildResourcesOnclickBind($("#resources_build"));
 </script>

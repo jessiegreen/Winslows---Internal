@@ -23,9 +23,7 @@ class Company_WebsiteResourceController extends Dataservice_Controller_Action
 	    $this->_History->goBack();
 	}	
 	
-	$default_role_name  = $Website->isGuestAllowed() ? "Guest" : "Web Admin";
-	$Default_Role	    = $this->_em->getRepository("Entities\Role\RoleAbstract")
-				    ->findOneBy(array("name" => $default_role_name));
+	$Default_Role  = $Website->isGuestAllowed() ? $Website->getGuestRole() : $Website->getAdminRole();
 	    
 	$objResources->buildAllArrays($Website->getNameIndex());
 	$objResources->writeToDB($this->_em, $Website, $Default_Role);

@@ -14,6 +14,15 @@ class Company_EmployeeAccountController extends Dataservice_Controller_Action
 	parent::init();
     }
     
+    public function viewAction()
+    {
+	$Account = $this->_getAccount();
+	
+	$this->_CheckRequiredAccountExists($Account);
+	
+	$this->view->Account = $Account;
+    }
+    
     public function editAction()
     {
 	/* @var $Account \Entities\Company\Employee\Account */
@@ -81,6 +90,54 @@ class Company_EmployeeAccountController extends Dataservice_Controller_Action
 	
 	$this->view->form	    = $form;
 	$this->view->Account	    = $Account;
+    }
+    
+    public function manageRolesAction()
+    {
+	/* @var $Account Entities\Website\Account\AccountAbstract */
+	$Account = $this->_getAccount();
+	
+	$this->_CheckRequiredAccountExists($Account);
+	
+	$form = new Forms\Website\Account\ManageRoles($Account);
+	
+	if($this->isPostAndValid($form))
+	{
+	    try
+	    {
+		$data = $this->getRequest()->getParam("website_account_manage_roles");
+	    
+		$Account->getRoles()->clear();
+		
+		if(isset($data["role_id"]) && is_array($data["role_id"]) && count($data["role_id"]))
+		{
+		    $Website = $Account->getWebsite();
+
+		    foreach($data["role_id"] as $role_id)
+		    {
+			$Role = $Website->getRoleById($role_id);
+			
+			if($Role)
+			{
+			    $Account->addRole($Role);
+			}
+		    }
+		}
+
+		$this->_em->persist($Account);
+		$this->_em->flush();
+		
+		$this->_FlashMessenger->addSuccessMessage("Roles saved.");
+		$this->_History->goBack();
+	    }
+	    catch (\Exception $exc)
+	    {
+		$this->_FlashMessenger->addErrorMessage($exc->getMessage());
+		$this->_History->goBack();
+	    }
+	}
+	
+	$this->view->form = $form;
     }
     
     /**

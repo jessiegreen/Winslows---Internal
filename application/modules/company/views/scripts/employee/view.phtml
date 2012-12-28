@@ -170,74 +170,22 @@ $Account	= $Employee->getAccount();
 	if($Account)
 	{
 	    ?>
-	    <h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
-		<?php 
-		echo $Account->getWebsite()->getName(); 
-		echo \Dataservice\Html\Anchor::anchorIcon(
-			"pencil.png", 
-			"", 
-			"/employee-account/edit/id/".
-			    $Account->getId(), 
-			"margin-left:5px;",
-			"Edit Username"
-			);
-		echo \Dataservice\Html\Anchor::anchorIcon(
-			"lock_edit.png", 
-			"", 
-			"/employee-account/edit/pwd/1/id/".
-			    $Account->getId(), 
-			"margin-left:5px;",
-			"Reset Password"
-			);
-		?>
-	    </h4>
-	    <label>Username:</label>
-	    <div style="display: inline;">
-		<?php echo $Account->getUsername();?>
-	    </div><br />
-	    <label>Password:</label>
-	    <div style="display: inline;">
-		*********
-	    </div><br />
+	    <ul>
+		<li>
+		    <?php
+		    echo \Dataservice\Html\Anchor::anchorIcon(
+			    "bullet_go.png", 
+			    "", 
+			    "/employee-account/view/id/".$Account->getId(),
+			    "margin-left:5px;"
+			    );
+		    echo $Account->getUsername();
+		    ?>
+		</li>
+	    </ul>
 	    <?php
 	}
 	else echo "No Web Account";
-	?>
-    </div>
-    <h3>
-	<a href="#">Roles</a>
-	<?php
-	echo \Dataservice\Html\Button::buttonBlue(
-		"text_list_bullets.png", 
-		"Manage Roles", 
-		"roles_manage", 
-		"float:right;width:140px;"
-		);
-	?>
-    </h3>
-    <div>
-    <?php
-	if($Employee->getRoles()->count() > 0)
-	{
-	    /* @var $Role \Entities\Company\Employee\Role */
-	    foreach ($Employee->getRoles() as $Role)
-	    {
-		?>
-		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
-		    <?php 
-		    echo $Role->getName();
-		    ?>
-		</h4>
-		<label>Description:</label>
-		<div style="display: inline;">
-		    <?php 
-		    echo \Dataservice\String::truncate($Role->getDescription(), 100);
-		    ?>
-		</div><br /><br />
-		<?php
-	    }
-	}
-	else echo "No Roles";
 	?>
     </div>
     <h3><a href="#">Documents</a></h3>
@@ -250,5 +198,4 @@ $Account	= $Employee->getAccount();
     Employee.AddAddressClickBind("address_add");
     Employee.AddEmailClickBind("email_add");
     Employee.AddAccountClickBind("account_add");
-    Employee.ManageRolesClickBind("roles_manage");
 </script>

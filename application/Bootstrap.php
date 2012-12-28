@@ -22,7 +22,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
 	$view->headTitle()->setSeparator (' ~ ');
 	
-	$view->headTitle()->prepend(ucfirst(getenv('WEBSITE_NAME_INDEX')));
+	$env_string = getenv('APPLICATION_ENV') == "development" ? " DEV" : "";
+	
+	$view->headTitle()->prepend(ucfirst(getenv('WEBSITE_NAME_INDEX')).$env_string);
     }
 
     protected function _initBootstrap()

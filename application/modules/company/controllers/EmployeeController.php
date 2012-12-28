@@ -16,17 +16,11 @@ class Company_EmployeeController extends Dataservice_Controller_Action
     
     public function viewAction()
     {
-	$Employee = $this->getEntityFromParamFields("Company\Employee", array("id"));
+	$Employee = $this->_getEmployee();
 	
-	if(!$Employee->getId())
-	{
-	    $this->_FlashMessenger->addErrorMessage("Could not get Employee");
-	    $this->_redirect('/employee/viewall');
-	}
+	$this->_CheckRequiredEmployeeExists($Employee);
 	
-	$Company		= \Services\Company::factory()->getCurrentCompany();
 	$this->view->Employee	= $Employee;
-	$this->view->Locations	= $Company->getLocations();
     }
     
     public function viewallAction()
@@ -37,7 +31,7 @@ class Company_EmployeeController extends Dataservice_Controller_Action
     
     public function editAction()
     {
-	$Employee   = $this->getEntityFromParamFields("Company\Employee", array("id"));
+	$Employee   = $this->_getEmployee();
 	$company_id = $this->getRequest()->getParam("company_id", null);
 	
 	if(!$Employee->getId())
@@ -94,70 +88,6 @@ class Company_EmployeeController extends Dataservice_Controller_Action
 	
 	$this->view->form	= $form;
 	$this->view->Employee	= $Employee;
-    }
-    
-    public function manageRolesAction()
-    {
-	$this->view->headScript()->appendFile("/javascript/company/employee/manage-roles.js");
-	
-	$Employee = $this->_getEmployee();
-	
-	$this->_CheckRequiredEmployeeExists($Employee);
-	
-	$this->view->Employee	= $Employee;
-	$this->view->form		= new Forms\Company\Employee\ManageRoles($Employee);
-    }
-    
-    public function addRoleAction()
-    {
-	$this->_helper->viewRenderer->setNoRender(true);
-	$this->_helper->layout->disableLayout();
-	
-	try{
-	    $Employee   = $this->_getEmployee();
-	    $Role	= $this->_getRole();
-
-	    $this->_CheckRequiredEmployeeExists($Employee);
-	    $this->_CheckRequiredRoleExists($Role);
-
-	    $Employee->addRole($Role);
-	    $this->_em->persist($Employee);
-	    $this->_em->flush();
-	    $this->_FlashMessenger->addSuccessMessage("Role Added");
-	    $this->_History->goBack(1);
-	} 
-	catch (Exception $exc)
-	{
-	    $this->_FlashMessenger->addErrorMessage($exc->getMessage());
-	    $this->_History->goBack(1);
-	}
-    }
-    
-    public function removeRoleAction()
-    {
-	$this->_helper->viewRenderer->setNoRender(true);
-	$this->_helper->layout->disableLayout();
-	
-	try
-	{
-	    $Employee   = $this->_getEmployee();
-	    $Role	= $this->_getRole();
-
-	    $this->_CheckRequiredEmployeeExists($Employee);
-	    $this->_CheckRequiredRoleExists($Role);
-
-	    $Employee->removeRole($Role);
-	    $this->_em->persist($Employee);
-	    $this->_em->flush();
-
-	    $this->_FlashMessenger->addSuccessMessage("Role Removed");
-	    $this->_History->goBack(1);
-	} 
-	catch (Exception $exc)
-	{
-	    $this->_FlashMessenger->addErrorMessage($exc->getMessage());
-	    $this->_History->goBack(1);
-	}
     }
     
     /**

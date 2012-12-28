@@ -2,5 +2,5 @@
 /* @var $Item Entities\Company\Inventory\Item */
 foreach ($this->Items as $Item)
 {
-    echo $Item->getQuantity()."-".$Item->getLocation()." - ".$Item->getInstance()->getProduct()->getName()."<br />";
+    echo $Item->getQuantity()."-".$Item->getLocation()->getName()." - ".$Item->getInstance()->getProduct()->getName().$Item->getInstance()->getOptionsDisplay()."<br />";
 }

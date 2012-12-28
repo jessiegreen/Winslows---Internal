@@ -17,8 +17,8 @@ class Company_LoginController extends Dataservice_Controller_Action
 
     public function getAuthAdapter($identity, $credential)
     {
-	$em = $this->_helper->EntityManager();
-        $authAdapter = new Dataservice_Auth_Adapter_Doctrine($em, $identity, $credential);
+	$em		= $this->_helper->EntityManager();
+        $authAdapter	= new Dataservice_Auth_Adapter_Doctrine($em, $identity, $credential);
 	
         return $authAdapter;
     }
@@ -47,8 +47,6 @@ class Company_LoginController extends Dataservice_Controller_Action
 	    
             $this->view->form = $form;
 	    
-	    Zend_Auth::getInstance()->clearIdentity();
-	    
             return $this->render('index'); // re-render the login form
         }
         // Get our authentication adapter and check credentials
@@ -76,8 +74,6 @@ class Company_LoginController extends Dataservice_Controller_Action
 	    $form->setDescription($string);
 	    
             $this->view->form = $form;
-	    
-	    Zend_Auth::getInstance()->clearIdentity();
 	    
             return $this->render('index'); // re-render the login form
         }

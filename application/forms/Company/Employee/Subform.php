@@ -29,7 +29,7 @@ class Subform extends \Forms\Person\Subform
 	    'value'	    => $this->_Employee && $this->_Employee->getCompany() ? $this->_Employee->getCompany()->getId() : ""
         )));
 	
-	$this->addElement(new \Dataservice_Form_Element_LocationSelect("location_id", array(
+	$this->addElement(new \Dataservice_Form_Element_Company_Location_Select($this->_Employee->getCompany(), "location_id", array(
             'required'	    => true,
             'label'	    => 'Location:',
 	    'belongsTo'	    => 'company_employee',

@@ -52,11 +52,3 @@ Employee.prototype.AddAccountClickBind = function(element_id)
     });
 }
 
-Employee.prototype.ManageRolesClickBind = function(element_id)
-{
-    $("#"+element_id).click(function()
-    {
-	location = "/employee/manage-roles/id/" + $("#employee_id").val();
-    });
-}
-

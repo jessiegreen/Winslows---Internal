@@ -1,4 +1,5 @@
-function Website() {
+function Website()
+{
     
 }
 
@@ -17,6 +18,15 @@ Website.prototype.AddMenuOnclickBind = function(element)
     {
 	button = $(e.target);
 	location='/website-menu/edit/id/0/website_id/' + $("#website_id").val();
+    });
+}
+
+Website.prototype.AddRoleOnclickBind = function(element)
+{
+    element.click(function(e)
+    {
+	button = $(e.target);
+	location='/website-role/edit/id/0/website_id/' + $("#website_id").val();
     });
 }
 

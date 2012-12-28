@@ -1,0 +1,132 @@
+<?php 
+echo($this->flashMessages()); 
+echo "<div>";
+echo \Dataservice\Html\Anchor::backAnchorIcon("Website - view", "/website/view/id/".$this->Role->getWebsite()->getId());
+echo "</div>";
+?>
+<h1 class="header1">Role - View</h1>
+<?php
+/* @var $Menu \Entities\Website\Role */
+$Role    = $this->Role;
+$role_id = $Role->getId();
+?>
+<div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
+    <h3 class="no_space" style="color: #2000EE;">
+	Info
+	<?php
+	echo \Dataservice\Html\Anchor::anchorIcon(
+		"pencil.png", 
+		"", 
+		"/website-role/edit/id/".$role_id,
+		"margin-left:5px;",
+		"Edit Role"
+		);
+	?>
+    </h3>
+    <div>
+	<label>Name:</label> <?php echo $Role->getName(); ?> &nbsp;&nbsp;&nbsp;
+    </div>
+</div>
+<div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">
+    <div id="accordion">
+	<h3>
+	    <a href="#">Resources</a>
+	    <?php 
+//	    echo \Dataservice\Html\Button::buttonBlue(
+//		    "add.png", 
+//		    "Add Menu", 
+//		    "menu_add", 
+//		    "float:right;margin-right:5px;"
+//		    );
+	    ?>
+	</h3>
+	<div>
+	    <ul>
+	    <?php
+	    /* @var $Resource \Entities\Website\Resource */
+	    if($Role->getResources()->count() > 0)
+	    {
+		foreach ($Role->getResources() as $Resource)
+		{
+		    ?>
+		    <li>
+			<?php
+			echo \Dataservice\Html\Anchor::anchorIcon(
+				"bullet_go.png", 
+				"", 
+				"/website-resource/view/id/".$Resource->getId(),
+				"margin-left:5px;"
+				);
+			echo $Resource->getName();
+			?>
+		    </li>
+		    <?php
+		}
+	    }
+	    else echo "<li>No Resources</li>";
+	    ?>
+	    </ul>
+	</div>
+	<hr />
+	<h3>
+	    <a href="#">Accounts</a>
+	    <?php 
+//	    echo \Dataservice\Html\Button::buttonBlue(
+//		    "wrench.png", 
+//		    "Build", 
+//		    "resources_build", 
+//		    "float:right;margin-right:5px;"
+//		    );
+//	    echo \Dataservice\Html\Button::buttonBlue(
+//		    "database_refresh.png", 
+//		    "Clean", 
+//		    "resources_clean", 
+//		    "float:right;margin-right:5px;"
+//		    );
+	    ?>
+	</h3>
+	<div>
+	    <ul>
+	    <?php
+	    /* @var $Account \Entities\Website\Account\AccountAbstract */
+	    if($Role->getAccounts()->count() > 0)
+	    {
+		foreach ($Role->getAccounts() as $Account)
+		{
+		    ?>
+		    <li>
+			<?php
+			if($Account->isEmployeeAccount())
+			{
+			    echo \Dataservice\Html\Anchor::anchorIcon(
+				    "bullet_go.png", 
+				    "", 
+				    "/employee-account/view/id/".$Account->getId(),
+				    "margin-left:5px;"
+				    );
+			}
+			echo $Account->getUsername();
+			?>
+		    </li>
+		    <?php
+		}
+	    }
+	    else echo "<li>No Accounts</li>";
+	    ?>
+	    </ul>
+	</div>
+	<hr />
+    </div>
+</div>
+<div class="padded_frame" style="width: 415px;float: right;padding-top: 0px;">
+    <h3><a href="#">Documents</a></h3>
+    <div>Put Documents here</div>
+    <hr />
+</div>
+<div style="clear: both;"><input type="hidden" id="role_id" value="<?php echo $role_id;?>" /></div>
+<script type="text/javascript">
+//    Company_Website_Role = new Company_Website_Role();
+//    Company_Website_Role.AddMenuOnclickBind($("#menu_add"));
+//    Company_Website_Role.CleanResourcesOnclickBind($("#resources_clean"));
+//    Company_Website_Role.BuildResourcesOnclickBind($("#resources_build"));
+</script>

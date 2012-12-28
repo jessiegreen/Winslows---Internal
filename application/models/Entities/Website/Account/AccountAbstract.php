@@ -87,7 +87,7 @@ abstract class AccountAbstract extends \Dataservice_Doctrine_Entity implements \
     }
 
     /**
-     * @return \ArrayCollection
+     * @return ArrayCollection
      */
     public function getRoles()
     {
