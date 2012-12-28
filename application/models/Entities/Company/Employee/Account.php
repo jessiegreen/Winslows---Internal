@@ -18,7 +18,7 @@ class Account extends \Entities\Website\Account\AccountAbstract
      */
     public function getPerson()
     {
-	return $this->Employee;
+	return $this->getEmployee();
     }
     
     /**

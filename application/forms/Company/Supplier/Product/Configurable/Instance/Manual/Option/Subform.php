@@ -70,7 +70,7 @@ class Subform extends \Zend_Form_SubForm
 	}
 	else
 	{
-	    $legend = \HTML::buttonIcon(
+	    $legend = \\Dataservice\Html\Button::buttonIcon(
 			"delete.png", 
 			"", "Delete Option", 
 			"manual_option_delete", 

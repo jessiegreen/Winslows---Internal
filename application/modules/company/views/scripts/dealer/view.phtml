@@ -1,7 +1,7 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo HTML::backAnchorIcon("Company - View", "/index/view/id/".$this->Dealer->getCompany()->getId());
+echo \Dataservice\Html\Anchor::backAnchorIcon("Company - View", "/index/view/id/".$this->Dealer->getCompany()->getId());
 echo "</div>";
 ?>
 <h1 class="header1">Dealer - View</h1>
@@ -15,7 +15,7 @@ $Locations	= $Dealer->getLocations();
     <h4 class="no_space" style="color: #2000EE;">
 	Info
 	<?php
-	echo HTML::anchorIcon(
+	echo \Dataservice\Html\Anchor::anchorIcon(
 		"pencil.png", 
 		"", 
 		"/dealer/edit/id/".$dealer_id,
@@ -34,7 +34,7 @@ $Locations	= $Dealer->getLocations();
 	<h3>
 	    <a href="#">Locations</a>
 	    <?php 
-		echo HTML::buttonBlue(
+		echo \Dataservice\Html\Button::buttonBlue(
 		    "add.png", 
 		    "Add Location", 
 		    "location_add", 
@@ -50,7 +50,7 @@ $Locations	= $Dealer->getLocations();
 		<div style="padding: 3px;margin-bottom: 3px;">
 		    <?php 
 		    echo $Location->getName();
-		    echo HTML::anchorIcon(
+		    echo \Dataservice\Html\Anchor::anchorIcon(
 			    "bullet_go.png", 
 			    "", 
 			    "/dealer-location/view/id/".$Location->getId(),

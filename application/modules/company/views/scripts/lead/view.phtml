@@ -1,7 +1,7 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo HTML::backAnchorIcon("Company - View", "/index/view/id/".$this->Lead->getCompany()->getId());
+echo \Dataservice\Html\Anchor::backAnchorIcon("Company - View", "/index/view/id/".$this->Lead->getCompany()->getId());
 echo "</div>";
 ?>
 <h1 class="header1">Lead - View</h1>
@@ -20,7 +20,7 @@ $Applications	= $lead->getApplications();
     <h4 class="no_space" style="color: #2000EE;">
 	Info
 	<?php
-	echo HTML::anchorIcon(
+	echo \Dataservice\Html\Anchor::anchorIcon(
 		"pencil.png", 
 		"", 
 		"/lead/edit/id/".$lead_id,
@@ -38,7 +38,7 @@ $Applications	= $lead->getApplications();
     <div id="accordion">
 	<h3>
 	    <a href="#">Addresses</a>
-	    <?php echo HTML::buttonBlue("add.png", "Add address", "address_add", "float:right;width:110px;");?>
+	    <?php echo \Dataservice\Html\Button::buttonBlue("add.png", "Add address", "address_add", "float:right;width:110px;");?>
 	</h3>
 	<div>
 	    <?php
@@ -49,7 +49,7 @@ $Applications	= $lead->getApplications();
 		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
 		    <?php 
 		    echo $Address->getName();
-		    echo HTML::anchorIcon(
+		    echo \Dataservice\Html\Anchor::anchorIcon(
 			    "pencil.png", 
 			    "", 
 			    "/lead-address/edit/person_id/".$lead_id."/id/".$Address->getId(),
@@ -77,7 +77,7 @@ $Applications	= $lead->getApplications();
 	<h3>
 	    <a href="#">Phone</a>
 	    <?php 
-	    echo HTML::buttonBlue(
+	    echo \Dataservice\Html\Button::buttonBlue(
 		    "phone_add.png", 
 		    "Add Phone", 
 		    "phone_add", "float:right;width:110px;"
@@ -93,7 +93,7 @@ $Applications	= $lead->getApplications();
 		<h4 class="no_space blue_frame bg_blue_fade" style="padding:3px;margin-bottom: 3px;">
 		    <?php 
 		    echo $PhoneNumber->getType(); 
-		    echo HTML::anchorIcon(
+		    echo \Dataservice\Html\Anchor::anchorIcon(
 			    "pencil.png", 
 			    "", 
 			    "/lead-phone-number/edit/person_id/".$lead_id."/id/".
@@ -122,7 +122,7 @@ $Applications	= $lead->getApplications();
 	<h3>
 	    <a href="#">Email</a>
 	    <?php 
-	    echo HTML::buttonBlue(
+	    echo \Dataservice\Html\Button::buttonBlue(
 		    "email_add.png", 
 		    "Add Email", 
 		    "email_add", "float:right;width:110px;"
@@ -136,7 +136,7 @@ $Applications	= $lead->getApplications();
 		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
 		    <?php 
 		    echo $Emailaddress->getType(); 
-		    echo HTML::anchorIcon(
+		    echo \Dataservice\Html\Anchor::anchorIcon(
 			    "pencil.png", 
 			    "", 
 			    "/person/email-address/edit/person_id/".$lead_id."/id/".
@@ -168,7 +168,7 @@ $Applications	= $lead->getApplications();
 		<div style="padding: 3px;margin-bottom: 3px;">
 		    <?php 
 		    echo $Application->getRtoProvider()->getDba();
-		    echo HTML::anchorIcon(
+		    echo \Dataservice\Html\Anchor::anchorIcon(
 			    "bullet_go.png", 
 			    "", 
 			    "/rto-provider-application/edit/id/".$Application->getId(),
@@ -188,7 +188,7 @@ $Applications	= $lead->getApplications();
 	<a href="#">Quotes</a>
 	<span style="float:right;">
 	    <?php 
-	    echo HTML::buttonBlue(
+	    echo \Dataservice\Html\Button::buttonBlue(
 		    "money_add.png", 
 		    "Add Quote", 
 		    "quote_add", 
@@ -209,7 +209,7 @@ $Applications	= $lead->getApplications();
 		    <h4 class="no_space bg_blue_fade blue_frame" style="padding:3px;margin-bottom: 3px;">
 			<?php 
 			echo $Quote->getCreated()->format("m-d-Y, g:i a"); 
-			echo HTML::anchorIcon(
+			echo \Dataservice\Html\Anchor::anchorIcon(
 				"bullet_go.png", 
 				"", 
 				"/lead-quote/view/id/".
@@ -242,7 +242,7 @@ $Applications	= $lead->getApplications();
 	<a href="#">Contacts</a>
 	<span style="float:right;">
 	    <?php 
-	    echo HTML::buttonBlue(
+	    echo \Dataservice\Html\Button::buttonBlue(
 		    "phone_sound.png", 
 		    "Add Contact", 
 		    "contact_add", 
@@ -260,7 +260,7 @@ $Applications	= $lead->getApplications();
 		<h4 class="no_space bg_blue_fade blue_frame" style="padding:3px;margin-bottom: 3px;">
 		    <?php 
 		    echo $Contact->getCreated()->format("m-d-Y, g:i a"); 
-		    echo HTML::anchorIcon(
+		    echo \Dataservice\Html\Anchor::anchorIcon(
 			    "pencil.png", 
 			    "", 
 			    "/lead-contact/edit/lead_id/".$lead_id."/id/".
@@ -284,7 +284,7 @@ $Applications	= $lead->getApplications();
 		<label>Note:</label>
 		<div style="display: inline;">
 		    <?php 
-		    echo HTML::truncateString($Contact->getNote(), 40);
+		    echo \Dataservice\String::truncate($Contact->getNote(), 40);
 		    ?>
 		</div><br />
 		<label>Result:</label>

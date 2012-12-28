@@ -28,7 +28,11 @@ class Subform extends \Forms\Person\Subform
 	    'belongsTo'	    => 'lead',
 	    'value'	    => $this->_Lead && $this->_Lead->getEmployee() ? 
 				    $this->_Lead->getEmployee()->getId() : 
-				    \Services\Auth::factory()->getIdentityPerson()->getId()
+				    \Services\Website::factory()
+					->getCurrentWebsite()
+					->getCurrentUserAccount(\Zend_Auth::getInstance())
+					->getPerson()
+					->getId()
         )));
 	
 	parent::init($options);

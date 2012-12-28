@@ -42,46 +42,16 @@ class Guest extends \Entities\Website\Guest implements \Doctrine\ORM\Proxy\Proxy
     }
 
     
-    public function addRole(\Entities\Website\Guest\Role $Role)
+    public function setAccount(\Entities\Website\Guest\Account $Account)
     {
         $this->__load();
-        return parent::addRole($Role);
+        return parent::setAccount($Account);
     }
 
-    public function removeRole(\Entities\Website\Guest\Role $Role)
+    public function getAccount()
     {
         $this->__load();
-        return parent::removeRole($Role);
-    }
-
-    public function getRoles()
-    {
-        $this->__load();
-        return parent::getRoles();
-    }
-
-    public function hasRole($Role)
-    {
-        $this->__load();
-        return parent::hasRole($Role);
-    }
-
-    public function addAccount(\Entities\Website\Guest\Account $Account)
-    {
-        $this->__load();
-        return parent::addAccount($Account);
-    }
-
-    public function removeAccount(\Entities\Website\Guest\Account $Account)
-    {
-        $this->__load();
-        return parent::removeAccount($Account);
-    }
-
-    public function getAccounts()
-    {
-        $this->__load();
-        return parent::getAccounts();
+        return parent::getAccount();
     }
 
     public function addAddress(\Entities\Person\Address $Address)
@@ -231,7 +201,7 @@ class Guest extends \Entities\Website\Guest implements \Doctrine\ORM\Proxy\Proxy
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'first_name', 'middle_name', 'last_name', 'suffix', 'created', 'updated', 'Addresses', 'Documents', 'PhoneNumbers', 'EmailAddresses', 'Roles', 'Accounts');
+        return array('__isInitialized__', 'id', 'first_name', 'middle_name', 'last_name', 'suffix', 'created', 'updated', 'Addresses', 'Documents', 'PhoneNumbers', 'EmailAddresses', 'Account');
     }
 
     public function __clone()

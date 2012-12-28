@@ -46,6 +46,12 @@ class Role extends \Dataservice_Doctrine_Entity
      */
     protected $Accounts;
     
+    /**
+     * @ManyToOne(targetEntity="\Entities\Website\WebsiteAbstract", inversedBy="Resources")
+     * @var \Entities\Company\Website
+     */
+    protected $Website;
+    
     public function __construct()
     {
 	$this->Privileges   = new ArrayCollection();
@@ -119,6 +125,22 @@ class Role extends \Dataservice_Doctrine_Entity
     public function getAccounts()
     {
 	return $this->Accounts;
+    }
+    
+    /**
+     * @param \Entities\Website\WebsiteAbstract $Website
+     */
+    public function setWebsite(\Entities\Website\WebsiteAbstract $Website)
+    {
+	$this->Website = $Website;
+    }
+    
+    /**
+     * @return \Entities\Website\WebsiteAbstract
+     */
+    public function getWebsite()
+    {
+	return $this->Website;
     }
 
     /**

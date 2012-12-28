@@ -77,4 +77,12 @@ class Account extends \Entities\Website\Account\AccountAbstract
     {
 	return $this->ip_address;
     }
+    
+    /**
+     * @return \Entities\Website\Guest
+     */
+    public function getPerson()
+    {
+	return $this->getGuest();
+    }
 }

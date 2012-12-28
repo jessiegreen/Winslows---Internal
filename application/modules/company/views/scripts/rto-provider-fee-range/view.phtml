@@ -1,7 +1,7 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo HTML::backAnchorIcon("RTO Provider - View", "/rto-provider/view/id/".$this->Range->getRtoProvider()->getId());
+echo \Dataservice\Html\Anchor::backAnchorIcon("RTO Provider - View", "/rto-provider/view/id/".$this->Range->getRtoProvider()->getId());
 echo "</div>";
 ?>
 <h1 class="header1">RTO Provider Program - View</h1>
@@ -16,7 +16,7 @@ $Values	    = $Range->getValues();
     <h4 class="no_space" style="color: #2000EE;">
 	Info
 	<?php
-	echo HTML::anchorIcon(
+	echo \Dataservice\Html\Anchor::anchorIcon(
 		"pencil.png", 
 		"", 
 		"/rto-provider-fee-range/edit/id/".$range_id,
@@ -44,7 +44,7 @@ $Values	    = $Range->getValues();
 		<div style="padding: 3px;margin-bottom: 3px;">
 		    <?php 
 		    echo $Program->getName();
-		    echo HTML::anchorIcon(
+		    echo \Dataservice\Html\Anchor::anchorIcon(
 			    "bullet_go.png", 
 			    "", 
 			    "/rto-provider-program/view/id/".$Program->getId(),
@@ -63,7 +63,7 @@ $Values	    = $Range->getValues();
     <h3>
 	<a href="#">Values</a>
 	<?php 
-	    echo HTML::buttonBlue(
+	    echo \Dataservice\Html\Button::buttonBlue(
 		"add.png", 
 		"Add Value", 
 		"value_add", 
@@ -79,7 +79,7 @@ $Values	    = $Range->getValues();
 	    <div style="padding: 3px;margin-bottom: 3px;">
 		<?php 
 		echo $Value->getValue()." : ".$Value->getLow()." - ".$Value->getHigh();
-		echo HTML::anchorIcon(
+		echo \Dataservice\Html\Anchor::anchorIcon(
 			"bullet_go.png", 
 			"", 
 			"/rto-provider-fee-range-value/edit/id/".$Value->getId(),

@@ -1,7 +1,7 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo HTML::backAnchorIcon("Supplier - view", "/supplier/view/id/".$this->Product->getSupplier()->getId());
+echo \Dataservice\Html\Anchor::backAnchorIcon("Supplier - view", "/supplier/view/id/".$this->Product->getSupplier()->getId());
 echo "</div>";
 ?>
 <h1 class="header1">Product - View</h1>
@@ -34,7 +34,7 @@ switch ($Product->getDescriminator())
     <h3 class="no_space" style="color: #2000EE;">
 	Info
 	<?php
-	echo HTML::anchorIcon(
+	echo \Dataservice\Html\Anchor::anchorIcon(
 		"pencil.png", 
 		"", 
 		"/supplier-product/edit/id/".$product_id,
@@ -59,13 +59,13 @@ switch ($Product->getDescriminator())
 	<h3>
 	    <a href="#">Categories</a>
 	    <?php 
-	    echo HTML::buttonBlue(
+	    echo \Dataservice\Html\Button::buttonBlue(
 		    "text_list_bullets.png",
 		    "Manage",
 		    "categories_manage",
 		    "float:right;width:80px;"
 		    );
-	    echo HTML::buttonBlue(
+	    echo \Dataservice\Html\Button::buttonBlue(
 		    "add.png",
 		    "Add New",
 		    "category_add",
@@ -84,7 +84,7 @@ switch ($Product->getDescriminator())
 		    ?>
 		    <li>
 			<?php
-			echo HTML::anchorIcon(
+			echo \Dataservice\Html\Anchor::anchorIcon(
 				"bullet_go.png", 
 				"", 
 				"/supplier-product-category/view/id/".$Category->getId(),
@@ -108,13 +108,13 @@ switch ($Product->getDescriminator())
 	    <h3>
 		<a href="#">Option Groups</a>
 		<?php 
-		echo HTML::buttonBlue(
+		echo \Dataservice\Html\Button::buttonBlue(
 			"text_list_bullets.png", 
 			"Manage", 
 			"groups_manage", 
 			"float:right;width:80px;"
 			);
-		echo HTML::buttonBlue(
+		echo \Dataservice\Html\Button::buttonBlue(
 			"add.png", 
 			"Add New", 
 			"group_add", 
@@ -131,7 +131,7 @@ switch ($Product->getDescriminator())
 			?>
 			<li>
 			    <?php
-			    echo HTML::anchorIcon(
+			    echo \Dataservice\Html\Anchor::anchorIcon(
 				    "bullet_go.png", 
 				    "", 
 				    "/supplier-product-configurable-option/view/id/".$Option->getId(),
@@ -157,13 +157,13 @@ switch ($Product->getDescriminator())
     <h3>
 	<a href="#">Delivery Types</a>
 	<?php 
-	echo HTML::buttonBlue(
+	echo \Dataservice\Html\Button::buttonBlue(
 		"text_list_bullets.png",
 		"Manage",
 		"delivery_types_manage",
 		"float:right;width:80px;"
 		);
-	echo HTML::buttonBlue(
+	echo \Dataservice\Html\Button::buttonBlue(
 		"add.png",
 		"Add New",
 		"delivery_type_add",
@@ -182,7 +182,7 @@ switch ($Product->getDescriminator())
 		?>
 		<li>
 		    <?php
-		    echo HTML::anchorIcon(
+		    echo \Dataservice\Html\Anchor::anchorIcon(
 			    "bullet_go.png", 
 			    "", 
 			    "/supplier-product-delivery-type/view/id/".$DeliveryType->getId(),
@@ -202,7 +202,7 @@ switch ($Product->getDescriminator())
     <h3>
 	<a href="#">Purposes</a>
 	<?php 
-	echo HTML::buttonBlue(
+	echo \Dataservice\Html\Button::buttonBlue(
 		"add.png",
 		"Add Purpose",
 		"purpose_add",
@@ -221,7 +221,7 @@ switch ($Product->getDescriminator())
 		?>
 		<li>
 		    <?php
-		    echo HTML::anchorIcon(
+		    echo \Dataservice\Html\Anchor::anchorIcon(
 			    "bullet_go.png", 
 			    "", 
 			    "/supplier-product-purpose/edit/id/".$Purpose->getId(),
@@ -244,7 +244,7 @@ switch ($Product->getDescriminator())
     <h3>
 	<a href="#">Images</a>
 	<?php 
-	echo HTML::buttonBlue(
+	echo \Dataservice\Html\Button::buttonBlue(
 		"add.png",
 		"Add Image",
 		"image_add",
@@ -263,7 +263,7 @@ switch ($Product->getDescriminator())
 		?>
 		<li>
 		    <?php
-//		    echo HTML::anchorIcon(
+//		    echo \Dataservice\Html\Anchor::anchorIcon(
 //			    "bullet_go.png", 
 //			    "", 
 //			    "/supplier-product-file-image/edit/id/".$Image->getId(),

@@ -1,15 +1,15 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo HTML::backAnchorIcon("Lead - View", "/lead/view/id/".$this->Quote->getLead()->getId());
+echo \Dataservice\Html\Anchor::backAnchorIcon("Lead - View", "/lead/view/id/".$this->Quote->getLead()->getId());
 echo "</div>";
 ?>
 <h1 class="header1">Quote - View</h1>
 <fieldset class="padded_frame blue_frame">
     <legend>Menu</legend>
 <?php
-echo HTML::buttonBlue("printer.png", "Print", "quote_print", "margin-right:5px;position:relative;");
-echo HTML::buttonBlue(
+echo \Dataservice\Html\Button::buttonBlue("printer.png", "Print", "quote_print", "margin-right:5px;position:relative;");
+echo \Dataservice\Html\Button::buttonBlue(
 			"money.png", 
 			"Sell", 
 			"quote_sell", 
@@ -28,7 +28,7 @@ $Items		= $quote->getItems();
     <h4 class="no_space" style="color: #2000EE;">
 	Info
 	<?php
-	echo HTML::anchorIcon(
+	echo \Dataservice\Html\Anchor::anchorIcon(
 		"pencil.png", 
 		"", 
 		"/lead-quote/edit/id/".$quote_id,
@@ -50,11 +50,11 @@ $Items		= $quote->getItems();
 	<h3>
 	    <a href="#">Items</a>
 	    <?php 
-	    echo HTML::buttonBlue(
+	    echo \Dataservice\Html\Button::buttonBlue(
 		    "add.png", 
 		    "Add New Item", "quote_item_add", 
 		    "float:right;margin-left:5px;");
-	    echo HTML::buttonBlue(
+	    echo \Dataservice\Html\Button::buttonBlue(
 		    "add.png", 
 		    "Add Inventory Item", "inventory_quote_item_add", 
 		    "float:right;");
@@ -70,14 +70,14 @@ $Items		= $quote->getItems();
 		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
 		    <?php 
 		    echo $Item->getInstance()->getProduct()->getName();
-		    echo HTML::anchorIcon(
+		    echo \Dataservice\Html\Anchor::anchorIcon(
 			    "bullet_go.png", 
 			    "", 
 			    "/lead-quote-item/view/id/".$Item->getId(),
 			    "margin-left:5px;vertical-align:bottom;",
 			    "Delete Item"
 			    );
-		    echo HTML::anchorIcon(
+		    echo \Dataservice\Html\Anchor::anchorIcon(
 			    "delete.png", 
 			    "", 
 			    "/lead-quote/itemremove/id/".$quote->getId()."/item_id/".$Item->getId(),

@@ -1,7 +1,7 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo HTML::backAnchorIcon("Home", "/index/index");
+echo \Dataservice\Html\Anchor::backAnchorIcon("Home", "/index/index");
 echo "</div>";
 ?>
 <h1 class="header1">Company - View</h1>
@@ -23,7 +23,7 @@ $Leads		= $Company->getLeads();
     <h4 class="no_space" style="color: #2000EE;">
 	Info
 	<?php
-	echo HTML::anchorIcon(
+	echo \Dataservice\Html\Anchor::anchorIcon(
 		"pencil.png", 
 		"", 
 		"/index/edit",
@@ -51,7 +51,7 @@ $Leads		= $Company->getLeads();
 		<div style="padding: 3px;margin-bottom: 3px;">
 		    <?php 
 		    echo $Lead->getFullName();
-		    echo HTML::anchorIcon(
+		    echo \Dataservice\Html\Anchor::anchorIcon(
 			    "bullet_go.png", 
 			    "", 
 			    "/lead/view/id/".$Lead->getId(),
@@ -67,7 +67,7 @@ $Leads		= $Company->getLeads();
 	<h3>
 	    <a href="#">Locations</a>
 	    <?php 
-		echo HTML::buttonBlue(
+		echo \Dataservice\Html\Button::buttonBlue(
 		    "add.png", 
 		    "Add Location", 
 		    "location_add", 
@@ -83,7 +83,7 @@ $Leads		= $Company->getLeads();
 		<div style="padding: 3px;margin-bottom: 3px;">
 		    <?php 
 		    echo $Location->getName();
-		    echo HTML::anchorIcon(
+		    echo \Dataservice\Html\Anchor::anchorIcon(
 			    "bullet_go.png", 
 			    "", 
 			    "/location/view/id/".$Location->getId(),
@@ -99,7 +99,7 @@ $Leads		= $Company->getLeads();
 	<h3>
 	    <a href="#">Employees</a>
 	    <?php 
-		echo HTML::buttonBlue(
+		echo \Dataservice\Html\Button::buttonBlue(
 		    "add.png", 
 		    "Add Employee", 
 		    "employee_add", 
@@ -115,7 +115,7 @@ $Leads		= $Company->getLeads();
 		<div style="padding: 3px;margin-bottom: 3px;">
 		    <?php 
 		    echo $Employee->getFullName();
-		    echo HTML::anchorIcon(
+		    echo \Dataservice\Html\Anchor::anchorIcon(
 			    "bullet_go.png", 
 			    "", 
 			    "/employee/view/id/".$Employee->getId(),
@@ -139,7 +139,7 @@ $Leads		= $Company->getLeads();
 		<div style="padding: 3px;margin-bottom: 3px;">
 		    <?php 
 		    echo "View";
-		    echo HTML::anchorIcon(
+		    echo \Dataservice\Html\Anchor::anchorIcon(
 			    "bullet_go.png", 
 			    "", 
 			    "/inventory/view/id/".$Inventory->getId(),
@@ -168,7 +168,7 @@ $Leads		= $Company->getLeads();
 		<div style="padding: 3px;margin-bottom: 3px;">
 		    <?php 
 		    echo $Supplier->getName();
-		    echo HTML::anchorIcon(
+		    echo \Dataservice\Html\Anchor::anchorIcon(
 			    "bullet_go.png", 
 			    "", 
 			    "/supplier/view/id/".$Supplier->getId(),
@@ -186,7 +186,7 @@ $Leads		= $Company->getLeads();
     <h3>
 	<a href="#">Rto Providers</a>
 	<?php 
-	    echo HTML::buttonBlue(
+	    echo \Dataservice\Html\Button::buttonBlue(
 		"add.png", 
 		"Add Rto Provider", 
 		"rto_provider_add", 
@@ -204,7 +204,7 @@ $Leads		= $Company->getLeads();
 		<div style="padding: 3px;margin-bottom: 3px;">
 		    <?php 
 		    echo $RtoProvider->getDba();
-		    echo HTML::anchorIcon(
+		    echo \Dataservice\Html\Anchor::anchorIcon(
 			    "bullet_go.png", 
 			    "", 
 			    "/rto-provider/view/id/".$RtoProvider->getId(),
@@ -222,7 +222,7 @@ $Leads		= $Company->getLeads();
     <h3>
 	<a href="#">Dealers</a>
 	<?php 
-	    echo HTML::buttonBlue(
+	    echo \Dataservice\Html\Button::buttonBlue(
 		"add.png", 
 		"Add Dealer", 
 		"dealer_add", 
@@ -240,7 +240,7 @@ $Leads		= $Company->getLeads();
 		<div style="padding: 3px;margin-bottom: 3px;">
 		    <?php 
 		    echo $Dealer->getName();
-		    echo HTML::anchorIcon(
+		    echo \Dataservice\Html\Anchor::anchorIcon(
 			    "bullet_go.png", 
 			    "", 
 			    "/dealer/view/id/".$Dealer->getId(),
@@ -258,7 +258,7 @@ $Leads		= $Company->getLeads();
     <h3>
 	<a href="#">Websites</a>
 	<?php 
-	    echo HTML::buttonBlue(
+	    echo \Dataservice\Html\Button::buttonBlue(
 		"add.png", 
 		"Add Website", 
 		"website_add", 
@@ -276,7 +276,7 @@ $Leads		= $Company->getLeads();
 		<div style="padding: 3px;margin-bottom: 3px;">
 		    <?php 
 		    echo $Website->getName();
-		    echo HTML::anchorIcon(
+		    echo \Dataservice\Html\Anchor::anchorIcon(
 			    "bullet_go.png", 
 			    "", 
 			    "/website/view/id/".$Website->getId(),

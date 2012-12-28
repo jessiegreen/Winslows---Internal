@@ -5,7 +5,7 @@
     /* @var $Resource \Entities\Company\Website\Resource */
     foreach($this->Resources as $Resource){
 	echo "<div resource_id='".$Resource->getId()."'>";
-	echo HTML::buttonIcon(
+	echo \Dataservice\Html\Button::buttonIcon(
 		"pencil.png", 
 		"editresource_".$Resource->getId(), 
 		"Edit Resource", 

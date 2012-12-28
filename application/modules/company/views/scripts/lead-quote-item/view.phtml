@@ -1,7 +1,7 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo HTML::backAnchorIcon("Quote - View", "/lead-quote/view/id/".$this->Item->getQuote()->getId());
+echo \Dataservice\Html\Anchor::backAnchorIcon("Quote - View", "/lead-quote/view/id/".$this->Item->getQuote()->getId());
 echo "</div>";
 ?>
 <h1 class="header1">Quote Item - View</h1>
@@ -19,7 +19,7 @@ $quantity   = $Item->getQuantity();
     <h4 class="no_space" style="color: #2000EE;">
 	Info
 	<?php
-	echo HTML::anchorIcon(
+	echo \Dataservice\Html\Anchor::anchorIcon(
 		"pencil.png", 
 		"", 
 		"/lead-quote-item/edit/id/".$Item->getId(),
@@ -42,13 +42,13 @@ $quantity   = $Item->getQuantity();
 	    <?php
 	    if($Product->getDescriminator() == "Configurable")
 	    {
-		echo HTML::buttonBlue(
+		echo \Dataservice\Html\Button::buttonBlue(
 			"pencil.png", 
 			"Builder", 
 			"product_builder", 
 			"float:right;width:80px;margin-left:5px;"
 			);
-		echo HTML::buttonBlue(
+		echo \Dataservice\Html\Button::buttonBlue(
 			"pencil.png", 
 			"Manual", 
 			"product_manual", 
@@ -99,7 +99,7 @@ $quantity   = $Item->getQuantity();
     <h3>
 	<a href="#">Delivery</a>
 	<?php
-	echo HTML::buttonBlue(
+	echo \Dataservice\Html\Button::buttonBlue(
 			"add.png", 
 			"Set Delivery Type", 
 			"set_delivery", 
@@ -115,7 +115,7 @@ $quantity   = $Item->getQuantity();
 	    <div style="padding: 3px;margin-bottom: 3px;">
 		<?php 
 		echo "View";
-		echo HTML::anchorIcon(
+		echo \Dataservice\Html\Anchor::anchorIcon(
 			"bullet_go.png", 
 			"", 
 			"/lead-quote-item-delivery/view/id/".$Delivery->getId(),

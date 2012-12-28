@@ -1,6 +1,7 @@
 <?php
 
 // Define application environment
+putenv("WEBSITE_NAME_INDEX=doctrine");
 
   define('APPLICATION_PATH', __DIR__ . '/..');
   

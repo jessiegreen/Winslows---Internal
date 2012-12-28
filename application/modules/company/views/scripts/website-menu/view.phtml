@@ -1,7 +1,7 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo HTML::backAnchorIcon("Website - view", "/website/view/id/".$this->Menu->getWebsite()->getId());
+echo \Dataservice\Html\Anchor::backAnchorIcon("Website - view", "/website/view/id/".$this->Menu->getWebsite()->getId());
 echo "</div>";
 ?>
 <h1 class="header1">Menu - View</h1>
@@ -14,7 +14,7 @@ $menu_id    = $Menu->getId();
     <h3 class="no_space" style="color: #2000EE;">
 	Info
 	<?php
-	echo HTML::anchorIcon(
+	echo \Dataservice\Html\Anchor::anchorIcon(
 		"pencil.png", 
 		"", 
 		"/website-menu/edit/id/".$menu_id,
@@ -35,7 +35,7 @@ $menu_id    = $Menu->getId();
 	    <h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
 		<?php 
 		echo $Menu->getWebsite()->getName();
-		echo HTML::anchorIcon("bullet_go.png", "", "/website/view/id/".$Menu->getWebsite()->getId(), "margin-left:3px", "View Website");
+		echo \Dataservice\Html\Anchor::anchorIcon("bullet_go.png", "", "/website/view/id/".$Menu->getWebsite()->getId(), "margin-left:3px", "View Website");
 		?>
 	    </h4>
 <!--	    <label>Lead:</label>
@@ -45,7 +45,7 @@ $menu_id    = $Menu->getId();
 	<h3>
 	    <a href="#">Items</a>
 	    <?php
-	    echo HTML::buttonBlue(
+	    echo \Dataservice\Html\Button::buttonBlue(
 		    "add.png", 
 		    "Add Top Item", 
 		    "menuitem_add", 

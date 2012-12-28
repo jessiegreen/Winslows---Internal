@@ -7,9 +7,9 @@ class Dataservice_ACL_Factory
      * @var Zend_Acl $_objAcl
      */
     private static $_objAcl;
-    private static $_debug = false;
- 
-    public static function get(\Doctrine\ORM\EntityManager $em, $clearACL=true)
+    //TODO: Create easy way to switch clearAcl manually so we can use the session but clear easily when needed. 
+    // Also need to do it at login etc
+    public static function get(\Entities\Website\WebsiteAbstract $Website, $clearACL = true)
     {
 	self::$_objAclSession = new Zend_Session_Namespace(self::$_sessionNameSpace);
  
@@ -21,7 +21,7 @@ class Dataservice_ACL_Factory
 	} 
 	else
 	{
-	    return self::_loadAclFromDB($em);
+	    return self::_loadAclFromDB($Website);
 	}
     }
  
@@ -35,22 +35,27 @@ class Dataservice_ACL_Factory
         self::$_objAclSession->acl = self::$_objAcl;
     }
  
-    private static function _loadAclFromDB(\Doctrine\ORM\EntityManager $em)
+    private static function _loadAclFromDB(\Entities\Website\WebsiteAbstract $Website)
     {
-        $Roles = $em->getRepository("Entities\Role\RoleAbstract")->findAll();
+        $Roles = $Website->getRoles();
 	
 	self::$_objAcl = new Zend_Acl();
- 
-	//self::$_objAcl->addRole(new Zend_Acl_Role(Entities\Company\Employee\Role::getGuestRoleName()));
-	//self::$_objAcl->addRole(new Zend_Acl_Role("Guest"));
+	
+	foreach($Website->getResources() as $Resource)
+	{
+	    $url_key = $Resource->getModule() .'::' .$Resource->getController() .'::' .$Resource->getAction();
+	    
+	    if(!self::$_objAcl->has($url_key))
+	    {
+		self::$_objAcl->add(new Zend_Acl_Resource($url_key));
+	    }
+	}
 	
 	/* @var $Role \Entities\Company\Employee\Role */
 	foreach($Roles as $Role)
-	{
-	    if(self::$_debug)echo $Role->getName()."-<ul> ";
-	    
+	{	    
 	    self::$_objAcl->addRole(new Zend_Acl_Role($Role->getName()));
-
+	    
 	    /* @var $Resource \Entities\Company\Website\Resource */
 	    foreach($Role->getResources() as $Resource)
 	    {
@@ -61,12 +66,8 @@ class Dataservice_ACL_Factory
 		    self::$_objAcl->add(new Zend_Acl_Resource($url_key));
 		}
 		
-		if(self::$_debug)echo "<li>".$url_key."</li>";
-		
 		self::$_objAcl->allow($Role->getName(), $url_key);
 	    }
-	    
-	    if(self::$_debug)echo "</ul>";
 	}
 	
 	self::_saveAclToSession();

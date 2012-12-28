@@ -48,30 +48,6 @@ class Employee extends \Entities\Company\Employee implements \Doctrine\ORM\Proxy
         return parent::getLeads();
     }
 
-    public function addRole(\Entities\Company\Employee\Role $Role)
-    {
-        $this->__load();
-        return parent::addRole($Role);
-    }
-
-    public function removeRole(\Entities\Company\Employee\Role $Role)
-    {
-        $this->__load();
-        return parent::removeRole($Role);
-    }
-
-    public function getRoles()
-    {
-        $this->__load();
-        return parent::getRoles();
-    }
-
-    public function hasRole($Role)
-    {
-        $this->__load();
-        return parent::hasRole($Role);
-    }
-
     public function getLocation()
     {
         $this->__load();
@@ -267,7 +243,7 @@ class Employee extends \Entities\Company\Employee implements \Doctrine\ORM\Proxy
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'first_name', 'middle_name', 'last_name', 'suffix', 'created', 'updated', 'Addresses', 'Documents', 'PhoneNumbers', 'EmailAddresses', 'title', 'Location', 'Company', 'Leads', 'Roles', 'Account');
+        return array('__isInitialized__', 'id', 'first_name', 'middle_name', 'last_name', 'suffix', 'created', 'updated', 'Addresses', 'Documents', 'PhoneNumbers', 'EmailAddresses', 'title', 'Location', 'Company', 'Leads', 'Account');
     }
 
     public function __clone()

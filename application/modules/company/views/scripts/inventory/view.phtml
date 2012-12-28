@@ -1,7 +1,7 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo HTML::backAnchorIcon("Company - View", "/index/view/id/".$this->Inventory->getCompany()->getId());
+echo \Dataservice\Html\Anchor::backAnchorIcon("Company - View", "/index/view/id/".$this->Inventory->getCompany()->getId());
 echo "</div>";
 ?>
 <h1 class="header1">Inventory - View</h1>
@@ -24,7 +24,7 @@ $Items		= $Inventory->getItems();
 	<h3>
 	    <a href="#">Items</a>
 	    <?php 
-		echo HTML::buttonBlue(
+		echo \Dataservice\Html\Button::buttonBlue(
 		    "add.png", 
 		    "Add Item", 
 		    "item_add", 
@@ -58,7 +58,7 @@ $Items		= $Inventory->getItems();
 		    
 		    $keys = $display_keys;
 		    
-		    $button = HTML::anchorIcon(
+		    $button = \Dataservice\Html\Anchor::anchorIcon(
 				"bullet_go.png", 
 				"", 
 				"/inventory-item/view/id/".$Item->getId(),

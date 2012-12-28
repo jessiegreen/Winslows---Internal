@@ -1,7 +1,7 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo HTML::backAnchorIcon("Inventory - View", "/inventory/view/id/".$this->Item->getInventory()->getId());
+echo \Dataservice\Html\Anchor::backAnchorIcon("Inventory - View", "/inventory/view/id/".$this->Item->getInventory()->getId());
 echo "</div>";
 ?>
 <h1 class="header1">Item Item - View</h1>
@@ -16,7 +16,7 @@ $Product	= $Instance->getProduct();
     <h4 class="no_space" style="color: #2000EE;">
 	Info
 	<?php
-	echo HTML::anchorIcon(
+	echo \Dataservice\Html\Anchor::anchorIcon(
 		"pencil.png", 
 		"", 
 		"/inventory-item/edit/id/".$Item->getId(),
@@ -36,13 +36,13 @@ $Product	= $Instance->getProduct();
 	    <?php
 	    if($Product->getDescriminator() == "Configurable")
 	    {
-		echo HTML::buttonBlue(
+		echo \Dataservice\Html\Button::buttonBlue(
 			"pencil.png", 
 			"Builder", 
 			"product_builder", 
 			"float:right;width:80px;margin-left:5px;"
 			);
-		echo HTML::buttonBlue(
+		echo \Dataservice\Html\Button::buttonBlue(
 			"pencil.png", 
 			"Manual", 
 			"product_manual", 

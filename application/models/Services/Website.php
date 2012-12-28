@@ -27,11 +27,4 @@ class Website extends \Dataservice_Service_ServiceAbstract
 	return $this->_em->getRepository("Entities\Website\WebsiteAbstract")
 		    ->findOneBy(array("name_index" => $this->getCurrentNameIndex()));
     }
-    
-    
-    public function getGenericWebsiteGuest()
-    {
-	return $this->_em->getRepository("Entities\Website\Guest")
-		    ->findOneBy(array("id" => 27));
-    }
 }

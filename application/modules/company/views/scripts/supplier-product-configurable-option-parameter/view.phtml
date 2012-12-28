@@ -1,7 +1,7 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo HTML::backAnchorIcon("Configurable Product Option", "/supplier-product-configurable-option/view/id/".$this->Parameter->getOption()->getId());
+echo \Dataservice\Html\Anchor::backAnchorIcon("Configurable Product Option", "/supplier-product-configurable-option/view/id/".$this->Parameter->getOption()->getId());
 echo "</div>";
 ?>
 <h1 class="header1">Configurable Product Option Parameter - View</h1>
@@ -16,7 +16,7 @@ $Option		= $Parameter->getOption();
     <h4 class="no_space" style="color: #2000EE;">
 	Info
 	<?php
-	echo HTML::anchorIcon(
+	echo \Dataservice\Html\Anchor::anchorIcon(
 		"pencil.png", 
 		"", 
 		"/supplier-product-configurable-option-parameter/edit/id/".$parameter_id,
@@ -48,7 +48,7 @@ $Option		= $Parameter->getOption();
 		?>
 		<li>
 		    <?php
-		    echo HTML::anchorIcon(
+		    echo \Dataservice\Html\Anchor::anchorIcon(
 			    "bullet_go.png", 
 			    "", 
 			    "/supplier-product-configurable-option/view/id/".$Option->getId(),
@@ -67,7 +67,7 @@ $Option		= $Parameter->getOption();
 	<h3>
 	    <a href="#">Values</a>
 	    <?php 
-	    echo HTML::buttonBlue(
+	    echo \Dataservice\Html\Button::buttonBlue(
 		    "add.png", 
 		    "Add New", 
 		    "value_add", 
@@ -86,7 +86,7 @@ $Option		= $Parameter->getOption();
 		    ?>
 		    <li>
 			<?php
-			echo HTML::anchorIcon(
+			echo \Dataservice\Html\Anchor::anchorIcon(
 				"pencil.png", 
 				"", 
 				"/supplier-product-configurable-option-parameter-value/edit/id/".

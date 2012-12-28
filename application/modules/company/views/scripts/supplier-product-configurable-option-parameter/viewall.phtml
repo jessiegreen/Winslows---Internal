@@ -3,7 +3,7 @@
 <fieldset class="padded_frame blue_frame">
     <legend>Menu</legend>
     <?php
-    echo HTML::buttonBlue("add.png", "Add Parameter", "parameter_add", "position:relative;");
+    echo \Dataservice\Html\Button::buttonBlue("add.png", "Add Parameter", "parameter_add", "position:relative;");
     ?>
 </fieldset>
 <fieldset class="padded_frame blue_frame">
@@ -12,14 +12,14 @@
     /* @var $Parameter \Entities\Company\Supplier\Product\Configurable\Option\Parameter */
     foreach($this->Parameters as $Parameter){
 	echo "<div parameter_id='".$Parameter->getId()."'>";
-	echo HTML::buttonIcon(
+	echo \Dataservice\Html\Button::buttonIcon(
 		"bullet_go.png", 
 		"parameter_view_".$Parameter->getId(), 
 		"View Parameter", 
 		"parameter_view", 
 		"padding-right:5px;"
 		);
-	echo HTML::buttonIcon(
+	echo \Dataservice\Html\Button::buttonIcon(
 		"delete.png", 
 		"parameter_delete_".$Parameter->getId(), 
 		"Delete Parameter", 

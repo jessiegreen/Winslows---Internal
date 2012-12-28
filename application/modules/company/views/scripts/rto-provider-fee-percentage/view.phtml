@@ -1,7 +1,7 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo HTML::backAnchorIcon("RTO Provider - View", "/rto-provider/view/id/".$this->Percentage->getRtoProvider()->getId());
+echo \Dataservice\Html\Anchor::backAnchorIcon("RTO Provider - View", "/rto-provider/view/id/".$this->Percentage->getRtoProvider()->getId());
 echo "</div>";
 ?>
 <h1 class="header1">RTO Provider Program - View</h1>
@@ -15,7 +15,7 @@ $Programs	= $Percentage->getPrograms();
     <h4 class="no_space" style="color: #2000EE;">
 	Info
 	<?php
-	echo HTML::anchorIcon(
+	echo \Dataservice\Html\Anchor::anchorIcon(
 		"pencil.png", 
 		"", 
 		"/rto-provider-fee-range/edit/id/".$percentage_id,
@@ -43,7 +43,7 @@ $Programs	= $Percentage->getPrograms();
 		<div style="padding: 3px;margin-bottom: 3px;">
 		    <?php 
 		    echo $Program->getName();
-		    echo HTML::anchorIcon(
+		    echo \Dataservice\Html\Anchor::anchorIcon(
 			    "bullet_go.png", 
 			    "", 
 			    "/rto-provider-program/view/id/".$Program->getId(),

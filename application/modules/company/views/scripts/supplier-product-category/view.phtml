@@ -1,7 +1,7 @@
 <?php 
 echo($this->flashMessages()); 
 //echo "<div>";
-//echo HTML::backAnchorIcon("Product Category - View", "/supplier-product/view/id/".$this->Range->getRtoProvider()->getId());
+//echo \Dataservice\Html\Anchor::backAnchorIcon("Product Category - View", "/supplier-product/view/id/".$this->Range->getRtoProvider()->getId());
 //echo "</div>";
 ?>
 <h1 class="header1">Product Category - View</h1>
@@ -17,7 +17,7 @@ $Children	= $Category->getChildren();
     <h4 class="no_space" style="color: #2000EE;">
 	Info
 	<?php
-	echo HTML::anchorIcon(
+	echo \Dataservice\Html\Anchor::anchorIcon(
 		"pencil.png", 
 		"", 
 		"/supplier-product-category/edit/id/".$category_id,
@@ -44,7 +44,7 @@ $Children	= $Category->getChildren();
 		<div style="padding: 3px;margin-bottom: 3px;">
 		    <?php 
 		    echo $Product->getName();
-		    echo HTML::anchorIcon(
+		    echo \Dataservice\Html\Anchor::anchorIcon(
 			    "bullet_go.png", 
 			    "", 
 			    "/supplier-product/view/id/".$Product->getId(),
@@ -63,7 +63,7 @@ $Children	= $Category->getChildren();
     <h3>
 	<a href="#">Child Categories</a>
 	<?php 
-//	    echo HTML::buttonBlue(
+//	    echo \Dataservice\Html\Button::buttonBlue(
 //		"add.png", 
 //		"Add Value", 
 //		"value_add", 
@@ -79,7 +79,7 @@ $Children	= $Category->getChildren();
 	    <div style="padding: 3px;margin-bottom: 3px;">
 		<?php 
 		echo $Child->getName();
-		echo HTML::anchorIcon(
+		echo \Dataservice\Html\Anchor::anchorIcon(
 			"bullet_go.png", 
 			"", 
 			"/supplier-product-category/edit/id/".$Child->getId(),
@@ -98,7 +98,7 @@ $Children	= $Category->getChildren();
     <h3>
 	<a href="#">Images</a>
 	<?php 
-	echo HTML::buttonBlue(
+	echo \Dataservice\Html\Button::buttonBlue(
 		"add.png",
 		"Add Image",
 		"image_add",
@@ -117,7 +117,7 @@ $Children	= $Category->getChildren();
 		?>
 		<li>
 		    <?php
-//		    echo HTML::anchorIcon(
+//		    echo \Dataservice\Html\Anchor::anchorIcon(
 //			    "bullet_go.png", 
 //			    "", 
 //			    "/supplier-product-file-image/edit/id/".$Image->getId(),

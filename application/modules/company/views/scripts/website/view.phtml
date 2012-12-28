@@ -1,7 +1,7 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo HTML::backAnchorIcon("Company - view", "/index/view/id/".$this->Website->getCompany()->getId());
+echo \Dataservice\Html\Anchor::backAnchorIcon("Company - view", "/index/view/id/".$this->Website->getCompany()->getId());
 echo "</div>";
 ?>
 <h1 class="header1">Website - View</h1>
@@ -14,7 +14,7 @@ $website_id = $Website->getId();
     <h3 class="no_space" style="color: #2000EE;">
 	Info
 	<?php
-	echo HTML::anchorIcon(
+	echo \Dataservice\Html\Anchor::anchorIcon(
 		"pencil.png", 
 		"", 
 		"/website/edit/id/".$website_id,
@@ -32,7 +32,7 @@ $website_id = $Website->getId();
 	<h3>
 	    <a href="#">Menus</a>
 	    <?php 
-	    echo HTML::buttonBlue(
+	    echo \Dataservice\Html\Button::buttonBlue(
 		    "add.png", 
 		    "Add Menu", 
 		    "menu_add", 
@@ -51,7 +51,7 @@ $website_id = $Website->getId();
 		    ?>
 		    <li>
 			<?php
-			echo HTML::anchorIcon(
+			echo \Dataservice\Html\Anchor::anchorIcon(
 				"bullet_go.png", 
 				"", 
 				"/website-menu/view/id/".$Menu->getId(),
@@ -71,13 +71,13 @@ $website_id = $Website->getId();
 	<h3>
 	    <a href="#">Resources</a>
 	    <?php 
-	    echo HTML::buttonBlue(
+	    echo \Dataservice\Html\Button::buttonBlue(
 		    "wrench.png", 
 		    "Build", 
 		    "resources_build", 
 		    "float:right;margin-right:5px;"
 		    );
-	    echo HTML::buttonBlue(
+	    echo \Dataservice\Html\Button::buttonBlue(
 		    "database_refresh.png", 
 		    "Clean", 
 		    "resources_clean", 

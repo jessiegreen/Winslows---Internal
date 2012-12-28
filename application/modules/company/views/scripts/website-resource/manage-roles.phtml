@@ -1,6 +1,6 @@
 <?php 
 echo($this->flashMessages()); 
-echo HTML::backAnchorIcon("Resources View", "/website/resource/view-all");
+echo \Dataservice\Html\Anchor::backAnchorIcon("Resources View", "/website/resource/view-all");
 ?>
 <fieldset class="padded_frame blue_frame">
     <legend>Menu</legend>
@@ -15,7 +15,7 @@ echo HTML::backAnchorIcon("Resources View", "/website/resource/view-all");
 	?>
     </select>
     <?php
-    echo HTML::buttonBlue("add.png", "Add Role To Resource", "add_role", "position:relative;");
+    echo \Dataservice\Html\Button::buttonBlue("add.png", "Add Role To Resource", "add_role", "position:relative;");
     ?>
 </fieldset>
 <fieldset class="padded_frame blue_frame center">
@@ -27,7 +27,7 @@ echo HTML::backAnchorIcon("Resources View", "/website/resource/view-all");
     if(count($Roles)>0){
 	/* @var $Role \Entities\Company\Employee\Role */
 	foreach($Roles as $Role){
-	    echo "<li role_id='".$Role->getId()."'>".  HTML::buttonIcon("delete.png", "delete_role", "Remove Role", "remove_role", "padding-right:5px;").$Role->getName()."</li>";
+	    echo "<li role_id='".$Role->getId()."'>".  \Dataservice\Html\Button::buttonIcon("delete.png", "delete_role", "Remove Role", "remove_role", "padding-right:5px;").$Role->getName()."</li>";
 	}
     }
     else echo "<li>No roles assigned</li>";

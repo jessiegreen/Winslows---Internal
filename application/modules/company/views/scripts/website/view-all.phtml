@@ -6,7 +6,7 @@
     foreach($this->Websites as $Website)
     {
 	echo "<div website_id='".$Website->getId()."'>";
-	echo HTML::buttonIcon(
+	echo \Dataservice\Html\Button::buttonIcon(
 		"bullet_go.png", 
 		"view_website_".$Website->getId(), 
 		"View Website", 

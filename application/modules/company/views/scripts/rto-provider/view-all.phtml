@@ -3,7 +3,7 @@
 <fieldset class="padded_frame blue_frame">
     <legend>Menu</legend>
     <?php
-    echo HTML::buttonBlue("add.png", "Add RTO Provider", "add_rto_provider", "position:relative;");
+    echo \Dataservice\Html\Button::buttonBlue("add.png", "Add RTO Provider", "add_rto_provider", "position:relative;");
     ?>
 </fieldset>
 <fieldset class="padded_frame blue_frame">
@@ -12,7 +12,7 @@
     /* @var $RtoProvider \Entities\Company\RtoProvider */
     foreach($this->RtoProviders as $RtoProvider){
 	echo "<div rto_provider_id='".$RtoProvider->getId()."'>";
-	echo HTML::buttonIcon(
+	echo \Dataservice\Html\Button::buttonIcon(
 		"bullet_go.png", 
 		"edit_rto_provider_".$RtoProvider->getId(), 
 		"Edit RTO Provider", 

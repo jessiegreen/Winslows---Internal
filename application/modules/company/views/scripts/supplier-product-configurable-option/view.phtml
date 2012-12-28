@@ -1,7 +1,7 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo HTML::backAnchorIcon("Configurable Product Option - All", "/supplier-product-configurable-option/viewall");
+echo \Dataservice\Html\Anchor::backAnchorIcon("Configurable Product Option - All", "/supplier-product-configurable-option/viewall");
 echo "</div>";
 ?>
 <h1 class="header1">Configurable Product Option - View</h1>
@@ -16,7 +16,7 @@ $Configurables	= $Option->getConfigurableProducts();
     <h4 class="no_space" style="color: #2000EE;">
 	Info
 	<?php
-	echo HTML::anchorIcon(
+	echo \Dataservice\Html\Anchor::anchorIcon(
 		"pencil.png", 
 		"", 
 		"/supplier-product-configurable-option/edit/id/".$option_id,
@@ -48,7 +48,7 @@ $Configurables	= $Option->getConfigurableProducts();
 		    ?>
 		    <li>
 			<?php
-			echo HTML::anchorIcon(
+			echo \Dataservice\Html\Anchor::anchorIcon(
 				"bullet_go.png", 
 				"", 
 				"/supplier-product/view/id/".$Configurable->getId(),
@@ -68,7 +68,7 @@ $Configurables	= $Option->getConfigurableProducts();
 	<h3>
 	    <a href="#">Parameters</a>
 	    <?php 
-	    echo HTML::buttonBlue(
+	    echo \Dataservice\Html\Button::buttonBlue(
 		    "add.png", 
 		    "Add New", 
 		    "option_add", 
@@ -85,7 +85,7 @@ $Configurables	= $Option->getConfigurableProducts();
 		    ?>
 		    <li>
 			<?php
-			echo HTML::anchorIcon(
+			echo \Dataservice\Html\Anchor::anchorIcon(
 				"bullet_go.png", 
 				"", 
 				"/supplier-product-configurable-option-parameter/view/id/".$Parameter->getId(),

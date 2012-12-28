@@ -73,7 +73,7 @@ class Dataservice_Controller_Action_Helper_SetLayoutPath
        $module = preg_replace(  
 	   '/[^A-Z]/i', '', $this->getRequest()->getModuleName()  
        );  
-
+       
        if ($bootstrap = $this->getActionController()  
 			  ->getInvokeArg('bootstrap')) {  
 

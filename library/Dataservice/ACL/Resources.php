@@ -12,6 +12,7 @@
  */
 class Dataservice_ACL_Resources 
 {
+    //TODO: Move this to a service. Probably in the website service
     private $arrModules = array();
     private $arrControllers = array();
     private $arrActions = array();

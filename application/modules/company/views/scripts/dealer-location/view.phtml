@@ -1,7 +1,7 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo HTML::backAnchorIcon("Dealer - View", "/dealer/view/id/".$this->Location->getDealer()->getId());
+echo \Dataservice\Html\Anchor::backAnchorIcon("Dealer - View", "/dealer/view/id/".$this->Location->getDealer()->getId());
 echo "</div>";
 ?>
 <h1 class="header1">Dealer Location - View</h1>
@@ -18,7 +18,7 @@ $LocationPhoneNumber    = $Location->getPhoneNumber();
     <h4 class="no_space" style="color: #2000EE;">
 	Info
 	<?php
-	echo HTML::anchorIcon(
+	echo \Dataservice\Html\Anchor::anchorIcon(
 		"pencil.png", 
 		"", 
 		"/dealer-location/edit/id/".$location_id,
@@ -38,7 +38,7 @@ $LocationPhoneNumber    = $Location->getPhoneNumber();
 	    <a href="#">Address</a>
 	    <?php 
 		if(!$LocationAddress)
-		    echo HTML::buttonBlue(
+		    echo \Dataservice\Html\Button::buttonBlue(
 			    "add.png", 
 			    "Set Address", 
 			    "address_set", 
@@ -53,7 +53,7 @@ $LocationPhoneNumber    = $Location->getPhoneNumber();
 		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
 		    <?php 
 		    echo $LocationAddress->getName();
-		    echo HTML::anchorIcon(
+		    echo \Dataservice\Html\Anchor::anchorIcon(
 			    "pencil.png", 
 			    "", 
 			    "/dealer-location-address/edit/id/".$LocationAddress->getId(),
@@ -84,7 +84,7 @@ $LocationPhoneNumber    = $Location->getPhoneNumber();
 	    <a href="#">Phone</a>
 	    <?php 
 	    if(!$LocationPhoneNumber)
-		echo HTML::buttonBlue(
+		echo \Dataservice\Html\Button::buttonBlue(
 		    "phone_add.png", 
 		    "Set Phone", 
 		    "phone_set", "float:right;width:110px;"
@@ -98,7 +98,7 @@ $LocationPhoneNumber    = $Location->getPhoneNumber();
 		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
 		    <?php 
 		    echo $LocationPhoneNumber->getType(); 
-		    echo HTML::anchorIcon(
+		    echo \Dataservice\Html\Anchor::anchorIcon(
 			    "pencil.png", 
 			    "", 
 			    "/dealer-location-phone-number/edit/id/".$LocationPhoneNumber->getId(), 

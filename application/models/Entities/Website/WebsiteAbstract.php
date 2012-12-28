@@ -68,10 +68,17 @@ class WebsiteAbstract extends \Dataservice_Doctrine_Entity
      */
     protected $Menus;
     
+    /**
+     * @OneToMany(targetEntity="\Entities\Website\Role", mappedBy="Website", cascade={"persist"})
+     * @var ArrayCollection $Roles
+     */
+    protected $Roles;
+    
     public function __construct()
     {
 	$this->Accounts	    = new ArrayCollection();
 	$this->Resources    = new ArrayCollection();
+	$this->Roles	    = new ArrayCollection();
 	$this->Menus	    = new ArrayCollection();
 	
 	parent::__construct();
@@ -95,9 +102,44 @@ class WebsiteAbstract extends \Dataservice_Doctrine_Entity
 	return $this->Accounts;
     }
     
-    public function getCurrentAccount()
+    /**
+     * @return false|\Services\Website\Guest\Account
+     */
+    public function getGuestAccount()
     {
-	
+	$GuestAccounts = $this->getAccounts()->filter(
+		    function ($Account)
+		    {
+			return $Account->isGuestAccount();
+		    }
+		);
+		
+	return $GuestAccounts->count() > 0 ? $GuestAccounts->first() : false;
+    }
+    
+    /**
+     * @param \Zend_Auth $Auth Instance of Zend_Auth
+     * @return false|Entities\Website\Account\AccountAbstract
+     */
+    public function getCurrentUserAccount(\Zend_Auth $Auth)
+    {
+	return $this->getAccountById($Auth->getIdentity());
+    }
+    
+    /**
+     * @param integer|float|string $id
+     * @return false|Account\AccountAbstract
+     */
+    public function getAccountById($id)
+    {
+	$MatchedAccount = $this->getAccounts()->filter(
+		    function ($Account) use ($id)
+		    {
+			return $Account->getId() === $id ? true : false;
+		    }
+		);
+		
+	return $MatchedAccount->count() > 0 ? $MatchedAccount->first() : false;
     }
     
     /**
@@ -106,6 +148,7 @@ class WebsiteAbstract extends \Dataservice_Doctrine_Entity
     public function addResource(\Entities\Website\Resource $Resource)
     {
 	$Resource->setWebsite($this);
+	
         $this->Resources[] = $Resource;
     }
     
@@ -123,16 +166,34 @@ class WebsiteAbstract extends \Dataservice_Doctrine_Entity
      */
     public function removeResource(Website\Resource $Resource)
     {
-	foreach ($this->Resources as $key => $Resource2) 
-	{
-	    if($Resource->getId() == $Resource2->getId())
-	    {
-		$this->Resources[$key];
-		unset($this->Resources[$key]);
-		return true;
-	    }
-	}
-	return false;
+	$this->getResources()->removeElement($Resource);
+    }
+    
+    /**
+     * @param \Entities\Website\Role $Role
+     */
+    public function addRole(\Entities\Website\Role $Role)
+    {
+	$Role->setWebsite($this);
+	
+        $this->Roles[] = $Role;
+    }
+    
+    /**
+     * @return ArrayCollection
+     */
+    public function getRoles()
+    {
+	return $this->Roles;
+    }
+    
+    /**
+     * @param \Entities\Website\Role $Role
+     * @return boolean
+     */
+    public function removeRole(\Entities\Website\Role $Role)
+    {
+	$this->getResources()->removeElement($Role);
     }
     
     /**
@@ -141,6 +202,7 @@ class WebsiteAbstract extends \Dataservice_Doctrine_Entity
     public function addMenu(\Entities\Website\Menu $Menu)
     {
 	$Menu->setWebsite($this);
+	
         $this->Menus[] = $Menu;
     }
     

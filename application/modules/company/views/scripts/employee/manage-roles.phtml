@@ -1,6 +1,6 @@
 <?php 
 echo($this->flashMessages()); 
-echo HTML::backAnchorIcon("Employee - View", "/employee/view/id/".$this->Employee->getId());
+echo \Dataservice\Html\Anchor::backAnchorIcon("Employee - View", "/employee/view/id/".$this->Employee->getId());
 ?>
 <h1 class="header1">Employee - Manage Roles</h1>
 <fieldset class="padded_frame blue_frame center">
@@ -18,7 +18,7 @@ echo HTML::backAnchorIcon("Employee - View", "/employee/view/id/".$this->Employe
 	foreach($Roles as $Role)
 	{
 	    echo "<li role_id='".$Role->getId()."'>".
-		    HTML::buttonIcon(
+		    \Dataservice\Html\Button::buttonIcon(
 			    "delete.png", 
 			    "delete_role", 
 			    "Remove Role", 

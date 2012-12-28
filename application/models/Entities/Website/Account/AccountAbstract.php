@@ -1,7 +1,7 @@
 <?php
-
 namespace Entities\Website\Account;
 
+use Doctrine\Common\Collections\ArrayCollection as ArrayCollection;
 /** 
  * @Entity (repositoryClass="Repositories\Website\Account\AccountAbstract") 
  * @Table(name="website_account_accountabstracts") 
@@ -14,7 +14,7 @@ namespace Entities\Website\Account;
  *		    })
  * @HasLifecycleCallbacks
  */
-class AccountAbstract extends \Dataservice_Doctrine_Entity
+abstract class AccountAbstract extends \Dataservice_Doctrine_Entity implements \Interfaces\Website\Account
 {
     const TYPE_Employee	    = "Employee";
     const TYPE_Lead	    = "Lead";
@@ -87,7 +87,7 @@ class AccountAbstract extends \Dataservice_Doctrine_Entity
     }
 
     /**
-     * @return ArrayCollection
+     * @return \ArrayCollection
      */
     public function getRoles()
     {
@@ -178,6 +178,103 @@ class AccountAbstract extends \Dataservice_Doctrine_Entity
     public function getSalt()
     {
 	return $this->salt;
+    }
+    
+    /**
+     * @return bool
+     */
+    public function isGuestAccount()
+    {
+	return $this->getDescriminator() == self::TYPE_Guest ? true : false;
+    }
+    
+    /**
+     * @return bool
+     */
+    public function isEmployeeAccount()
+    {
+	return $this->getDescriminator() == self::TYPE_Employee ? true : false;
+    }
+    
+    /**
+     * @return bool
+     */
+    public function isLeadAccount()
+    {
+	return $this->getDescriminator() == self::TYPE_Lead ? true : false;
+    }
+    
+    /**
+     * @param array $route_array
+     * @param \Zend_Acl $Acl
+     * @return boolean
+     * @throws \Exception
+     */
+    public function isAllowedToAccessRouteArray($route_array, \Zend_Acl $Acl)
+    {
+	if(
+	    !isset($route_array["module"]) ||
+	    !isset($route_array["controller"]) || 
+	    !isset($route_array["action"])
+	)
+	    throw new \Exception("Array passed to isAllowedToAccessRouteArray is missing required parameter");
+	
+	return $this->isAllowedToAccessRoute(
+		    $route_array["module"], 
+		    $route_array["controller"], 
+		    $route_array["action"], $Acl
+		);
+    }
+    
+    /**
+     * 
+     * @param \Zend_Controller_Request_Abstract $Request
+     * @param \Zend_Acl $Acl
+     * @return boolean
+     */
+    public function isAllowedToAccessRequest(\Zend_Controller_Request_Abstract $Request, \Zend_Acl $Acl)
+    {
+	return $this->isAllowedToAccessRoute(
+		    $Request->getModuleName(),
+		    $Request->getControllerName(),
+		    $Request->getActionName(), 
+		    $Acl
+		);
+    }
+    
+    /**
+     * @param string $module
+     * @param string $controller
+     * @param string $action
+     * @param \Zend_Acl $Acl
+     * @return boolean
+     */
+    public function isAllowedToAccessRoute($module, $controller, $action, \Zend_Acl $Acl)
+    {
+	$AllowedRoles = $this->getRoles()->filter(
+		    function ($Role) use ($module, $controller, $action, $Acl)
+		    {
+			$allowed = false;
+			
+			try 
+			{
+			    $allowed = $Acl->isAllowed(
+					    $Role->getName(), 
+					    $module.'::'.$controller.'::'.$action
+					) ? 
+					true : false;
+			} 
+			catch (\Exception $exc)
+			{
+			    //TODO: Handle this better
+			    echo $exc->getMessage();
+			}
+			
+			return $allowed;
+		    }
+		);
+		
+	return $AllowedRoles->count() > 0 ? true : false;
     }
     
     /**

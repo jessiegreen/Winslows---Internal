@@ -1,7 +1,7 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo HTML::backAnchorIcon("RTO Provider - View", "/rto-provider/view/id/".$this->Program->getRtoProvider()->getId());
+echo \Dataservice\Html\Anchor::backAnchorIcon("RTO Provider - View", "/rto-provider/view/id/".$this->Program->getRtoProvider()->getId());
 echo "</div>";
 ?>
 <h1 class="header1">RTO Provider Program - View</h1>
@@ -16,7 +16,7 @@ $Fees	    = $Program->getFees();
     <h4 class="no_space" style="color: #2000EE;">
 	Info
 	<?php
-	echo HTML::anchorIcon(
+	echo \Dataservice\Html\Anchor::anchorIcon(
 		"pencil.png", 
 		"", 
 		"/rto-provider-program/edit/id/".$program_id,
@@ -34,7 +34,7 @@ $Fees	    = $Program->getFees();
 	<h3>
 	    <a href="#">Products</a>
 	    <?php
-		echo HTML::buttonBlue(
+		echo \Dataservice\Html\Button::buttonBlue(
 			"text_list_bullets.png", 
 			"Manage", 
 			"products_manage", 
@@ -51,7 +51,7 @@ $Fees	    = $Program->getFees();
 		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
 		    <?php 
 		    echo $Product->getName();
-		    echo HTML::anchorIcon(
+		    echo \Dataservice\Html\Anchor::anchorIcon(
 			    "bullet_go.png", 
 			    "", 
 			    "/supplier-product/view/id/".$Product->getId(),
@@ -72,7 +72,7 @@ $Fees	    = $Program->getFees();
     <h3>
 	<a href="#">Fees</a>
 	<?php 
-	    echo HTML::buttonBlue(
+	    echo \Dataservice\Html\Button::buttonBlue(
 			"text_list_bullets.png", 
 			"Manage", 
 			"fees_manage", 
@@ -89,7 +89,7 @@ $Fees	    = $Program->getFees();
 	    <div style="padding: 3px;margin-bottom: 3px;">
 		<?php 
 		echo $Fee->getName();
-		echo HTML::anchorIcon(
+		echo \Dataservice\Html\Anchor::anchorIcon(
 			"bullet_go.png", 
 			"", 
 			"/rto-provider/view/id/".$Fee->getId(),

@@ -2,6 +2,11 @@
 
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {
+    protected function _initSetPHPOptions()
+    {
+	date_default_timezone_set ("America/Mexico_City");	
+    }
+    
     protected function _initConfig()
     {
 	$config = new Zend_Config($this->getOptions());
@@ -9,58 +14,24 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	Zend_Registry::set('config', $config);
     }
     
-    protected function _initBootstrap()
+    protected function _initViewSetup()
     {
-	$module	    = "default";
-	#--set host as doctrine to be able to run scripts from command line where there is no host. Need to revisit 
-	$host_name  = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : "doctrine";
-	
-	date_default_timezone_set ("America/Mexico_City");
-	#--Set View Environment
 	$this->bootstrap('view');
 	
         $view = $this->getResource('view');
 
-        //$view->doctype('XHTML1_STRICT');
 	$view->headTitle()->setSeparator (' ~ ');
+	
+	$view->headTitle()->prepend(ucfirst(getenv('WEBSITE_NAME_INDEX')));
+    }
 
-	if(getenv('WEBSITE_NAME_INDEX') !== false)define ("WEBSITE_NAME_INDEX", getenv('WEBSITE_NAME_INDEX'));
-	//else throw new Exception("WEBSITE_NAME_INDEX not set.");
-	else define ("WEBSITE_NAME_INDEX", "winslows");
+    protected function _initBootstrap()
+    {	
+	#--set host as doctrine to be able to run scripts from command line where there is no host. Need to revisit 
+	$host_name  = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : "doctrine";
+	$name_index = getenv('WEBSITE_NAME_INDEX');
 	
-	switch ($host_name)
-	{
-	    case "www.winslowsinc.local":
-		$module = "winslows";
-		$view->headTitle('DEV - Winslow\'s Inc.');
-		break;
-	    case "www.winslowsinc.com":
-		$module = "winslows";
-		$view->headTitle('Winslow\'s Inc.');
-		break;
-	    case "www.texwincarports.local":
-		$module = "texwin";
-		$view->headTitle('DEV - Texwin Carports');
-		break;
-	    case "www.texwincarports.com":
-		$module = "texwin";
-		$view->headTitle('Texwin Carports');
-		break;
-	    case "company.winslowsinc.local":
-		$module = "company";
-		$view->headTitle('DEV - Winslow\'s Inc. Company');
-		break;
-	    case "company.winslowsinc.com":
-		$module = "company";		
-		$view->headTitle('Winslow\'s Inc. Company');
-		break;
-	    case "doctrine":
-		break;
-	    default:
-		throw new Exception("Error!!");
-		break;
-	}
-	
+	$module		= $name_index;
 	$router		= $this->bootstrap('frontController')
 					->getResource('frontController')
 					->getRouter();
@@ -82,20 +53,15 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 			    )
 		    )
 	    );
-
-	#--Base Url
-	$baseUrl = "";
-	define('BASE_URL', $baseUrl);
-
-	#--Public Path
-	$public_path = realpath(APPLICATION_PATH."/../public");
+    }
+    
+    protected function _initDefineConstants()
+    {
+	define ("WEBSITE_NAME_INDEX", getenv('WEBSITE_NAME_INDEX'));
 	
-	define('PUBLIC_PATH', $public_path);
+	define('BASE_URL', "");
 	
-	#-- Site Name
-	define('SITE_NAME', 'Dataservice');
-	
-	require_once APPLICATION_PATH."/classes/HTML.php";
+	define('PUBLIC_PATH', realpath(APPLICATION_PATH."/../public"));
     }
 
     protected function _initDoctrine() 
@@ -137,23 +103,25 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	$autoLoader->pushAutoloader($resourceLoader);
     }
     
-    protected function _initPlugins()
+    protected function _initControllerActionHelpers()  
+    {  
+	$this->bootstrap('frontController');
+	
+	#--Layout Path Helper
+	$layout = Zend_Controller_Action_HelperBroker::addHelper(  
+	    new Dataservice_Controller_Action_Helper_SetLayoutPath(APPLICATION_PATH)
+	);  
+	#--History Helper
+	Zend_Controller_Action_HelperBroker::addHelper(new Dataservice_Controller_Action_Helper_History());
+    } 
+    
+    protected function _initControllerPlugins()
     {
 	#--Register Front controller Plugins
 	$front = Zend_Controller_Front::getInstance();
 	$front->throwExceptions(true);
 
 	$front->registerPlugin(new Dataservice_Controller_Plugin_ACL(), 1);
-	
-	#--Register Controller Action Helpers
-	Zend_Controller_Action_HelperBroker::addHelper(new Dataservice_Controller_Action_Helper_History());
-    }
-    
-    protected function _initLayoutHelper()  
-    {  
-	$this->bootstrap('frontController');  
-	$layout = Zend_Controller_Action_HelperBroker::addHelper(  
-	    new Dataservice_Controller_Action_Helper_SetLayoutPath(APPLICATION_PATH));  
-    }  
+    } 
 }
 

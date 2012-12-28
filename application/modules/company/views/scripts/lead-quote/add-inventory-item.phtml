@@ -1,7 +1,7 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo HTML::backAnchorIcon("Quote - View", "/lead-quote/view/id/".$this->Quote->getId());
+echo \Dataservice\Html\Anchor::backAnchorIcon("Quote - View", "/lead-quote/view/id/".$this->Quote->getId());
 echo "</div>";
 ?>
 <h1 class="header1">
@@ -27,7 +27,7 @@ echo "</div>";
 
 			$keys = $display_keys;
 
-			$button = HTML::buttonIcon(
+			$button = \Dataservice\Html\Button::buttonIcon(
 				    "bullet_add.png", 
 				    "", 
 				    "",

@@ -1,10 +1,4 @@
 <?php
-
-/**
- * ProfileLink helper
- *
- * Call as $this->profileLink() in your layout script
- */
 class Dataservice_View_Helper_Maintenance_Menuitem//  extends Zend_View_Helper_Abstract
 {
     public $view;
@@ -39,10 +33,10 @@ class Dataservice_View_Helper_Maintenance_Menuitem//  extends Zend_View_Helper_A
 	    <?php 
 	    //if($parent === false)echo "&rdsh;&nbsp;";
 	    echo $MenuItem->getLabel();
-	    //HTML::buttonIcon($icon, $id, $title, $class, $style)
-	    echo HTML::buttonIcon("pencil.png", "menuitem_edit", "Edit Menu Item Details", "menuitem_edit", "padding-left:5px;width:10px;");
-	    echo HTML::buttonIcon("add.png", "child_add", "Add Sub to Menu Item", "child_add", "padding-left:3px;width:10px;");
-	    echo HTML::buttonIcon("delete.png", "menuitem_remove", "Remove Menu Item", "menuitem_remove", "padding-left:3px;width:10px;");
+	    //\Dataservice\Html\Button::buttonIcon($icon, $id, $title, $class, $style)
+	    echo \Dataservice\Html\Button::buttonIcon("pencil.png", "menuitem_edit", "Edit Menu Item Details", "menuitem_edit", "padding-left:5px;width:10px;");
+	    echo \Dataservice\Html\Button::buttonIcon("add.png", "child_add", "Add Sub to Menu Item", "child_add", "padding-left:3px;width:10px;");
+	    echo \Dataservice\Html\Button::buttonIcon("delete.png", "menuitem_remove", "Remove Menu Item", "menuitem_remove", "padding-left:3px;width:10px;");
 	    ?>
 	</li>
 	<?php

@@ -1,7 +1,7 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo HTML::backAnchorIcon("Quote Item - View", "/lead-quote-item/view/id/".$this->Delivery->getItem()->getId());
+echo \Dataservice\Html\Anchor::backAnchorIcon("Quote Item - View", "/lead-quote-item/view/id/".$this->Delivery->getItem()->getId());
 echo "</div>";
 ?>
 <h1 class="header1">Quote Item Delivery - View</h1>
@@ -16,7 +16,7 @@ $DestinationAddress = $Delivery->getDestinationAddress();
     <h4 class="no_space" style="color: #2000EE;">
 	Info
 	<?php
-	echo HTML::anchorIcon(
+	echo \Dataservice\Html\Anchor::anchorIcon(
 		"pencil.png", 
 		"", 
 		"/lead-quote-item/set-delivery-type/id/".$Delivery->getItem()->getId(),
@@ -33,7 +33,7 @@ $DestinationAddress = $Delivery->getDestinationAddress();
 	<h3>
 	    <a href="#">Addresses</a>
 	    <?php
-	    echo HTML::buttonBlue("add.png", "Set Addresses", "set_address", "float:right;");
+	    echo \Dataservice\Html\Button::buttonBlue("add.png", "Set Addresses", "set_address", "float:right;");
 	    ?>
 	</h3>
 	<div>

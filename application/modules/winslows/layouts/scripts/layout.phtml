@@ -41,16 +41,13 @@
 		<div id="menu_container">
 		    <div id='cssmenu'>
 			<?php
-			    $MenuBuilder    = \Classes\Menu::factory();
-			    $Website	    = Services\Website::factory()->getCurrentWebsite();
-			    $Menu	    = $Website->getMenuByIndex("menu_navigation");
-			    $MenuHTMLObject = $MenuService->getMenuHTML($MenuBuilder, $Menu);
+			    $MenuBuilder	= \Dataservice\Html\Menu::factory();
+			    $MenuBuilder->attrs = array("class"	=> "drop_menu");
+			    $Website		= Services\Website::factory()->getCurrentWebsite();
+			    $Menu		= $Website->getMenuByIndex("menu_navigation");
+			    $MenuHTML		= $Menu->buildHtmlMenu($MenuBuilder, Zend_Auth::getInstance(), Dataservice_ACL_Factory::get($Website));
 			    
-			    $Menu->attrs = array(
-				"class"	=> "drop_menu"
-			    );
-			    
-			    echo $Menu->render();
+			    echo $MenuHTML->render();
 			?>
 		    </div>
 		    <div id="search-bar">

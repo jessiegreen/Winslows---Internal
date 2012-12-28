@@ -56,7 +56,11 @@ class Subform extends \Zend_Form_SubForm
 	    'belongsTo'	    => 'contact',
 	    'value'	    => $this->_Contact && $this->_Contact->getEmployee() ? 
 				$this->_Contact->getEmployee()->getId() : 
-				\Services\Auth::factory()->getIdentityPerson()->getId()
+				\Services\Website::factory()
+				    ->getCurrentWebsite()
+				    ->getCurrentUserAccount(\Zend_Auth::getInstance())
+				    ->getPerson()
+				    ->getId()
         )));
 	
 	$this->addElement('textarea', 'note', array(

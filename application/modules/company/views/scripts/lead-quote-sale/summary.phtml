@@ -1,7 +1,7 @@
 <?php 
 echo($this->flashMessages());
 echo "<div>";
-echo HTML::backAnchorIcon("Quote - View ", "/lead-quote/view/id/".$this->Sale->getQuote()->getId());
+echo \Dataservice\Html\Anchor::backAnchorIcon("Quote - View ", "/lead-quote/view/id/".$this->Sale->getQuote()->getId());
 echo "</div>";
 /* @var $Sale Entities\Company\Lead\Quote\Sale */
 $Sale = $this->Sale;

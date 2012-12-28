@@ -1,7 +1,7 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo HTML::backAnchorIcon("Company - view", "/index/view/id/".$this->Employee->getCompany()->getId());
+echo \Dataservice\Html\Anchor::backAnchorIcon("Company - view", "/index/view/id/".$this->Employee->getCompany()->getId());
 echo "</div>";
 ?>
 <h1 class="header1">Employee - View</h1>
@@ -18,7 +18,7 @@ $Account	= $Employee->getAccount();
     <h3 class="no_space" style="color: #2000EE;">
 	Info
 	<?php
-	echo HTML::anchorIcon(
+	echo \Dataservice\Html\Anchor::anchorIcon(
 		"pencil.png", 
 		"", 
 		"/employee/edit/id/".$employee_id,
@@ -36,7 +36,7 @@ $Account	= $Employee->getAccount();
     <div id="accordion">
 	<h3>
 	    <a href="#">Address</a>
-	    <?php echo HTML::buttonBlue("add.png", "Add Address", "address_add", "float:right;width:110px;");?>
+	    <?php echo \Dataservice\Html\Button::buttonBlue("add.png", "Add Address", "address_add", "float:right;width:110px;");?>
 	</h3>
 	<div>
 	    <?php
@@ -46,7 +46,7 @@ $Account	= $Employee->getAccount();
 		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
 		    <?php 
 		    echo $Address->getName();
-		    echo HTML::anchorIcon(
+		    echo \Dataservice\Html\Anchor::anchorIcon(
 			    "pencil.png", 
 			    "", 
 			    "/employee-address/edit/person_id/".$employee_id."/id/".$Address->getId(),
@@ -73,7 +73,7 @@ $Account	= $Employee->getAccount();
 	<h3>
 	    <a href="#">Phone</a>
 	    <?php 
-	    echo HTML::buttonBlue(
+	    echo \Dataservice\Html\Button::buttonBlue(
 		    "phone_add.png", 
 		    "Add Phone", 
 		    "phone_add", "float:right;width:110px;"
@@ -87,7 +87,7 @@ $Account	= $Employee->getAccount();
 		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
 		    <?php 
 		    echo $PhoneNumber->getType(); 
-		    echo HTML::anchorIcon(
+		    echo \Dataservice\Html\Anchor::anchorIcon(
 			    "pencil.png", 
 			    "", 
 			    "/employee-phone-number/edit/person_id/".$employee_id."/id/".
@@ -116,7 +116,7 @@ $Account	= $Employee->getAccount();
 	<h3>
 	    <a href="#">Email</a>
 	    <?php 
-	    echo HTML::buttonBlue(
+	    echo \Dataservice\Html\Button::buttonBlue(
 		    "email_add.png", 
 		    "Add Email", 
 		    "email_add", "float:right;width:110px;"
@@ -130,7 +130,7 @@ $Account	= $Employee->getAccount();
 		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
 		    <?php 
 		    echo $EmailAddress->getType(); 
-		    echo HTML::anchorIcon(
+		    echo \Dataservice\Html\Anchor::anchorIcon(
 			    "pencil.png", 
 			    "", 
 			    "/employee-email-address/edit/person_id/".$employee_id."/id/".
@@ -156,7 +156,7 @@ $Account	= $Employee->getAccount();
 	<a href="#">Website Account</a>
 	<?php
 	if(!$Account)
-	    echo HTML::buttonBlue(
+	    echo \Dataservice\Html\Button::buttonBlue(
 		    "lock_add.png", 
 		    "Add Account", 
 		    "account_add", 
@@ -173,7 +173,7 @@ $Account	= $Employee->getAccount();
 	    <h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
 		<?php 
 		echo $Account->getWebsite()->getName(); 
-		echo HTML::anchorIcon(
+		echo \Dataservice\Html\Anchor::anchorIcon(
 			"pencil.png", 
 			"", 
 			"/employee-account/edit/id/".
@@ -181,7 +181,7 @@ $Account	= $Employee->getAccount();
 			"margin-left:5px;",
 			"Edit Username"
 			);
-		echo HTML::anchorIcon(
+		echo \Dataservice\Html\Anchor::anchorIcon(
 			"lock_edit.png", 
 			"", 
 			"/employee-account/edit/pwd/1/id/".
@@ -207,7 +207,7 @@ $Account	= $Employee->getAccount();
     <h3>
 	<a href="#">Roles</a>
 	<?php
-	echo HTML::buttonBlue(
+	echo \Dataservice\Html\Button::buttonBlue(
 		"text_list_bullets.png", 
 		"Manage Roles", 
 		"roles_manage", 
@@ -231,7 +231,7 @@ $Account	= $Employee->getAccount();
 		<label>Description:</label>
 		<div style="display: inline;">
 		    <?php 
-		    echo HTML::truncateString($Role->getDescription(), 100);
+		    echo \Dataservice\String::truncate($Role->getDescription(), 100);
 		    ?>
 		</div><br /><br />
 		<?php

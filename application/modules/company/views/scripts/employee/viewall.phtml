@@ -3,7 +3,7 @@
 <fieldset class="padded_frame blue_frame">
     <legend>Menu</legend>
     <?php
-    echo HTML::buttonBlue("add.png", "Add Employee", "add_employee", "position:relative;");
+    echo \Dataservice\Html\Button::buttonBlue("add.png", "Add Employee", "add_employee", "position:relative;");
     ?>
 </fieldset>
 <fieldset class="padded_frame blue_frame">
@@ -12,7 +12,7 @@
     /* @var $Employee \Entities\Company\Employee */
     foreach($this->Employees as $Employee){
 	echo "<div employee_id='".$Employee->getId()."'>";
-	echo HTML::buttonIcon(
+	echo \Dataservice\Html\Button::buttonIcon(
 		"user_edit.png", 
 		"editemployee_".$Employee->getId(), 
 		"Edit Employee", 
