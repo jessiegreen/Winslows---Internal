@@ -75,6 +75,12 @@ class Inventory extends \Entities\Company\Inventory implements \Doctrine\ORM\Pro
         return parent::getItems();
     }
 
+    public function getItemsByProduct()
+    {
+        $this->__load();
+        return parent::getItemsByProduct();
+    }
+
     public function updated()
     {
         $this->__load();

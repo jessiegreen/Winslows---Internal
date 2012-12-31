@@ -47,10 +47,10 @@ class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstr
 	$Simple = $this->getProduct();
 	
 	return array(
-	    "Part#"	=> $Simple->getPartNumber(),
-	    "Supplier"	=> $Simple->getSupplier()->getName(),
 	    "Name"	=> $Simple->getName(),
-	    "Price"	=> $Simple->getPrice()->getPrice()
+	    "Price"	=> $Simple->getPrice()->getDisplayPrice(),
+	    "Part#"	=> $Simple->getPartNumber(),
+	    "Supplier"	=> $Simple->getSupplier()->getName()
 	);
     }
     

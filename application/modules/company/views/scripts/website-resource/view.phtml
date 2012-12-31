@@ -1,0 +1,88 @@
+<?php 
+echo($this->flashMessages()); 
+echo "<div>";
+echo \Dataservice\Html\Anchor::backAnchorIcon("Website - view", "/website/view/id/".$this->Resource->getWebsite()->getId());
+echo "</div>";
+?>
+<h1 class="header1">Resource - View</h1>
+<?php
+/* @var $Resource \Entities\Website\Resource */
+$Resource	= $this->Resource;
+$resource_id    = $Resource->getId();
+?>
+<div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
+    <h3 class="no_space" style="color: #2000EE;">
+	Info
+	<?php
+//	echo \Dataservice\Html\Anchor::anchorIcon(
+//		"pencil.png", 
+//		"", 
+//		"/website-resource/edit/id/".$resource_id,
+//		"margin-left:5px;"
+//		);
+	?>
+    </h3>
+    <div>
+	<label>Name:</label> <?php echo $Resource->getName(); ?> &nbsp;&nbsp;&nbsp;
+    </div>
+</div>
+<div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">
+    <div id="accordion">
+	<h3>
+	    <a href="#">Website</a>
+	</h3>
+	<div>
+	    <h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
+		<?php 
+		echo $Resource->getWebsite()->getName();
+		echo \Dataservice\Html\Anchor::anchorIcon("bullet_go.png", "", "/website/view/id/".$Resource->getWebsite()->getId(), "margin-left:3px", "View Website");
+		?>
+	    </h4>
+<!--	    <label>Lead:</label>
+	    <div style="display: inline;"></div>-->
+	</div>
+	<hr />
+	<h3>
+	    <a href="#">Roles</a>
+	    <?php
+	    echo \Dataservice\Html\Button::buttonBlue(
+		    "text_list_bullets.png", 
+		    "Manage Roles", 
+		    "roles_manage", 
+		    "float:right;margin-right:5px;"
+		    );
+	    ?>
+	</h3>
+	<div>
+	    <?php
+	    $Roles = $Resource->getRoles();
+	    
+	    if($Roles->count() > 0)
+	    {
+		/* @var $Role \Entities\Website\Role */
+		foreach ($Roles as $Role)
+		{
+		    ?>
+		    <div style="padding: 3px;margin-bottom: 3px;">
+			<?php 
+			echo $Role->getName();
+			?>
+		    </div>
+		    <?php
+		}
+	    }
+	    else echo "No Roles";
+	    ?>
+	</div>
+	<hr />
+    </div>
+</div>
+<div class="padded_frame" style="width: 415px;float: right;padding-top: 0px;">
+    <h3><a href="#">Documents</a></h3>
+    <div>Put Documents here</div>
+</div>
+<div style="clear: both;"><input type="hidden" id="resource_id" value="<?php echo $resource_id;?>" /></div>
+<script type="text/javascript">
+    Website_Resource_View = new Website_Resource_View();
+    Website_Resource_View.ManageRolesOnclickBind($("#roles_manage"));
+</script>

@@ -228,10 +228,10 @@ class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstr
 	$Configurable	= $this->getProduct();
 	
 	$static_array = array(
-	    "Part#"	=> $Configurable->getPartNumber(),
-	    "Supplier"	=> $Configurable->getSupplier()->getName(),
 	    "Name"	=> $Configurable->getName(),
-	    "Price"	=> $this->getPriceSafe()->getPrice()
+	    "Price"	=> $this->getPriceSafe()->getDisplayPrice(),
+	    "Part#"	=> $Configurable->getPartNumber(),
+	    "Supplier"	=> $Configurable->getSupplier()->getName()
 	);
 	
 	$options_array	= array();
@@ -242,23 +242,32 @@ class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstr
 	
 	foreach ($Configurable->getOptionsOrderedByCategory() as $ConfigurableOption)
 	{
-	    $option_key_name	    = $ConfigurableOption->getName()." - ";
+	    $option_key_name	    = $ConfigurableOption->getName()." ** ";
 	    $parameter_key_names    = array();
-	    $value_key_names	    = array();
+	    $instance_values_array  = array();
+	    $InstanceOptions	    = $this->getOptionsFromOptionIndex($ConfigurableOption->getIndex());
 	    
 	    /* @var $Parameter \Entities\Company\Supplier\Product\Configurable\Option\Parameter */
 	    foreach($ConfigurableOption->getParameters() as $Parameter)
 	    {
 		$parameter_key_names[] = $Parameter->getName();
 		
-		$InstanceValue = $this->getFirstValueFromIndexes($ConfigurableOption->getIndex(), $Parameter->getIndex());
-		
-		if($InstanceValue)$value_key_names[] = $InstanceValue->getName();
-		else $value_key_names[] = "--";
+		foreach($InstanceOptions as $InstanceOption)
+		{
+		    $InstanceValue = $InstanceOption->getValueFromParameterIndex($Parameter->getIndex());
+		    
+		    $temp_value	    = $InstanceValue ? $InstanceValue->getName() : "--";
+		    
+		    $instance_values_array[$InstanceOption->getId()][] = $temp_value;
+		}
 	    }
 	    
 	    $option_key_name			.= implode("/", $parameter_key_names);
-	    $options_array[$option_key_name]	= implode("/", $value_key_names);
+	    $options_array[$option_key_name]	= "";
+	    
+	    foreach($instance_values_array as $instance_values)
+		$options_array[$option_key_name] .= 
+		    ($options_array[$option_key_name] ? "<br />" : "").implode("/", $instance_values);
 	}
 	
 	return array_merge($static_array, $options_array);

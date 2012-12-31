@@ -126,6 +126,24 @@ class Instance extends \Entities\Company\Supplier\Product\Configurable\Instance 
         return parent::cloneInstance();
     }
 
+    public function addImage(\Entities\Company\Supplier\Product\Instance\File\Image $Image)
+    {
+        $this->__load();
+        return parent::addImage($Image);
+    }
+
+    public function removeImage(\Entities\Company\Supplier\Product\Instance\File\Image $Image)
+    {
+        $this->__load();
+        return parent::removeImage($Image);
+    }
+
+    public function getImages()
+    {
+        $this->__load();
+        return parent::getImages();
+    }
+
     public function getId()
     {
         $this->__load();
@@ -189,7 +207,7 @@ class Instance extends \Entities\Company\Supplier\Product\Configurable\Instance 
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'note', 'created', 'updated', 'Product', 'Options');
+        return array('__isInitialized__', 'id', 'note', 'created', 'updated', 'Product', 'Images', 'Options');
     }
 
     public function __clone()

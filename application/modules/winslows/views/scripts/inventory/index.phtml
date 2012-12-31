@@ -1,6 +1,147 @@
 <?php
 /* @var $Item Entities\Company\Inventory\Item */
-foreach ($this->Items as $Item)
+if(count($this->Items) > 0)
 {
-    echo $Item->getQuantity()."-".$Item->getLocation()->getName()." - ".$Item->getInstance()->getProduct()->getName().$Item->getInstance()->getOptionsDisplay()."<br />";
+    ?>
+    <div id="inventory_filter_container">
+	<?php
+	    $options		= array();
+	    $price_ranges_temp	= range(0, 100000, 1000);
+	    $price_ranges	= array();
+	    
+	    foreach ($price_ranges_temp as $bottom)
+	    {
+		$price_ranges[$bottom] = 0;
+	    }
+	    
+	    foreach ($this->Items as $items_array)
+	    {
+		foreach($items_array as $Item)
+		{
+		    $Instance	= $Item->getInstance();
+		    $Product	= $Instance->getProduct();
+
+		    if(!isset($options["product"][$Product->getName()]))
+			$options["product"][$Product->getName()] = 0;
+		    
+		    $options["product"][$Product->getName()]++;
+		    
+		    if($Item->getLocation())
+		    {
+			if(!isset($options["location"][$Item->getLocation()->getName()]))
+			    $options["location"][$Item->getLocation()->getName()] = 0;
+			
+			 $options["location"][$Item->getLocation()->getName()]++;
+		    }
+		    else
+		    {
+			if(!isset($options["location"]["Not Specified"]))
+			    $options["location"]["Not Specified"] = 0;
+			
+			 $options["location"]["Not Specified"]++;
+		    }
+		    
+		    $price = $Instance->getPrice()->getPrice();
+		    
+		    foreach($price_ranges as $bottom => $count)
+		    {
+			if($price >= $bottom && $price <= $bottom + 999.99)
+			{
+			    $price_ranges[$bottom]++;
+			    break;
+			}
+		    }
+		}
+	    }
+	?>
+	<h4>Product:</h4>
+	<?php 
+	    echo "<ul>";
+	    
+	    foreach($options["product"] as $name => $count)
+		if($count > 0) echo "<li>".$name." (".$count.")</li>";
+	    
+	    echo "</ul>";
+	?>
+	<h4>Location:</h4>
+	<?php 
+	    echo "<ul>";
+	    
+	    foreach($options["location"] as $name => $count)
+		if($count > 0) echo "<li>".$name." (".$count.")</li>";
+	    
+	    echo "</ul>";
+	?>
+	<h4>Price:</h4>
+	<?php 
+	    echo "<ul>";
+	    
+	    foreach($price_ranges as $bottom => $count)
+		if($count > 0) echo "<li>$".$bottom." - $".($bottom+999.99)." (".$count.")</li>";
+	    
+	    echo "</ul>";
+	?>
+    </div>
+    <div id="inventory_main_container">
+	<?php
+	foreach ($this->Items as $items_array)
+	{
+	    $Instance	= $items_array[0]->getInstance();
+	    $Product	= $Instance->getProduct();
+	    $display_array  = $Instance->getDisplayArray();
+	    $display_keys   = array_keys($display_array);
+
+	    echo "<h2>".$Product->getName()."</h2>";
+	    echo "<p>".$Product->getDescription()."</p>";
+	    ?>
+	    <div class="inventory_table_outer_container">
+		<div class="inventory_table_inner_container">
+		    <table class="inventory_table">
+			<tr>
+			    <th style="width:75px;">&nbsp;</th>
+			    <th style="width:110px;">&nbsp;</th>
+			    <th><h4>Location</h4></th>
+			    <?php 
+			    foreach($display_keys as $header)
+			    {
+				$header_array = explode(" ** ", $header);
+				//Zend_Debug::dump($header_array);
+				echo "<th><h4>".$header_array[0]."</h4>".
+					(isset($header_array[1]) ? " ".$header_array[1] : "").
+					(isset($header_array[2]) ? " ".$header_array[2] : "").
+					(isset($header_array[3]) ? " ".$header_array[3] : "").
+					"</th>";
+			    }
+			    ?>
+			</tr>
+			<?php
+			foreach ($items_array as $Item)
+			{
+			    $display_array  = $Item->getInstance()->getDisplayArray();
+			    ?>
+			    <tr>
+				<td class="buy_cell">BUY NOW</td>
+				<td><?php echo $Item->getImage() ? \Services\File\Image::factory()->getHtmlThumbImg($Item->getImage()) : "no image";?></td>
+				<td class='info_cell'>
+				    <?php echo ($Item->getLocation() ? $Item->getLocation()->getName() : "-");?>
+				</td>
+				<td class='info_cell'>
+				    <?php echo implode ("</td><td class='info_cell'>", $display_array);?>
+				</td>
+			    </tr>
+			    <?php
+			}
+			?>
+		    </table>
+		</div>
+	    </div>
+	    <hr>
+	    <?php
+	}
+	?>
+    </div>
+    <?php
 }
+else echo "No Items";
+?>
+<div style="clear: both"></div>

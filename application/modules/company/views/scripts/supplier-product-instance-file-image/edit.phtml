@@ -1,6 +1,7 @@
 <?php echo($this->flashMessages()); ?>
 <h1 class="header1">
-    Web Resource - Manage Roles
+    Product Image - 
+    <?php echo $this->Image->getId() ? "Edit" : "Add";?>
 </h1>
 <div class="padded_frame" style="padding-top: 0;padding-left: 0;">
     <?php

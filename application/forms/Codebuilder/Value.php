@@ -57,5 +57,3 @@ class Form_Codebuilder_Value extends Zend_Form{
 
     }
 }
-
-?>

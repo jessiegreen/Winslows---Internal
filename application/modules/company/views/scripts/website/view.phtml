@@ -96,6 +96,12 @@ $website_id = $Website->getId();
 		    ?>
 		    <li>
 			<?php
+			echo \Dataservice\Html\Anchor::anchorIcon(
+				"bullet_go.png", 
+				"", 
+				"/website-resource/view/id/".$Resource->getId(),
+				"margin-left:5px;"
+				);
 			echo $Resource->getName();
 			?>
 		    </li>

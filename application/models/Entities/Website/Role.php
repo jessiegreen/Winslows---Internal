@@ -34,8 +34,7 @@ class Role extends \Dataservice_Doctrine_Entity
     protected $Privileges;
     
     /**
-     * @ManytoMany(targetEntity="\Entities\Website\Resource", inversedBy="Roles", cascade={"persist, remove"})
-     * @JoinTable(name="website_role_resource_joins")
+     * @ManytoMany(targetEntity="\Entities\Website\Resource", mappedBy="Roles", cascade={"persist, remove"})
      * @var ArrayCollection $Resources
      */
     protected $Resources;

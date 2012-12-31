@@ -111,4 +111,19 @@ class Item extends \Dataservice_Doctrine_Entity
     {
 	return $this->quantity;
     }
+    
+    public function getImage()
+    {
+	$InstanceImages = $this->getInstance()->getImages();
+	
+	if($InstanceImages->count() > 0)
+	    return $InstanceImages->first();
+	
+	$ProductImages = $this->getInstance()->getProduct()->getImages();
+	
+	if($ProductImages->count() > 0)
+	    return $ProductImages->first();
+	
+	return false;
+    }
 }

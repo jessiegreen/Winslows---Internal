@@ -4,6 +4,7 @@ class Company_WebsiteResourceController extends Dataservice_Controller_Action
     public function init()
     {
 	$this->view->headScript()->appendFile("/javascript/company/website/resource/resource.js");
+	
 	parent::init();
     }
 
@@ -53,113 +54,79 @@ class Company_WebsiteResourceController extends Dataservice_Controller_Action
     
     public function manageRolesAction()
     {	
-	$this->view->headScript()->appendFile("/javascript/website/resource/manage-roles.js");
+	/* @var $Resource Entities\Website\Resource */
+	$Resource = $this->_getResource();
 	
-	if(isset($this->_params["id"]))
+	$this->_CheckRequiredResourceExists($Resource);
+	
+	$form = new Forms\Website\Resource\ManageRoles($Resource);
+	
+	if($this->isPostAndValid($form))
 	{
-	    /* @var $Resource \Entities\Website\Resource */
-	    $Resource		    = $this->_em->find("\Entities\Website\Resource",$this->_params["id"]); 
-	    $this->view->Resource   = $Resource;
-	    $this->view->Roles	    = $this->_em->getRepository("Entities\Role\RoleAbstract")->findAll();
-	}
-    }
-    
-    public function removeRoleAction()
-    {
-	$this->_helper->viewRenderer->setNoRender(true);
-	$this->_helper->layout->disableLayout();
-	
-//	$ACL = new Dataservice_Controller_Plugin_ACL();
-//	
-//	$ACL->preDispatch($this->getRequest());
-	
-	$resource_id	= isset($this->_params["resource_id"]) ? $this->_params["resource_id"] : null;
-	$role_id	= isset($this->_params["role_id"]) ? $this->_params["role_id"] : null;
-	
-	if($resource_id && $role_id)
-	{
-	    $Resource	= $this->_em->find("Entities\Website\Resource", $resource_id);
-	    /* @var $Resource \Entities\Website\Resource */
-	    $Role	= $this->_em->find("Entities\Role\RoleAbstract", $role_id);
-	    
-	    if($Role->getName() === "Web Admin")
+	    try
 	    {
-		$this->_FlashMessenger->addErrorMessage("Can not remove admin");
+		$data = $this->getRequest()->getParam("website_resource_manage_roles");
+	    
+		$Resource->getRoles()->clear();
+		
+		if(isset($data["role_id"]) && is_array($data["role_id"]) && count($data["role_id"]))
+		{
+		    $Website = $Resource->getWebsite();
+
+		    foreach($data["role_id"] as $role_id)
+		    {
+			$Role = $Website->getRoleById($role_id);
+			
+			if($Role)
+			{
+			    $Resource->addRole($Role);
+			}
+		    }
+		}
+
+		$this->_em->persist($Resource);
+		$this->_em->flush();
+		
+		$this->_FlashMessenger->addSuccessMessage("Roles saved.");
 		$this->_History->goBack();
 	    }
-	    elseif($Resource && $Role)
+	    catch (\Exception $exc)
 	    {
-		try 
-		{
-		    $Resource->removeRole($Role);
-		
-		    $this->_em->persist($Resource);
-		    $this->_em->flush();
-		    $this->_FlashMessenger->addSuccessMessage("Role Removed");
-		} 
-		catch (Exception $exc)
-		{
-		    $this->_FlashMessenger->addErrorMessage($exc->getMessage());
-		}		
+		$this->_FlashMessenger->addErrorMessage($exc->getMessage());
+		$this->_History->goBack();
 	    }
-	    else
-	    {
-		$this->_FlashMessenger->addErrorMessage("Error Removing Role - Resource or Role Not Found");
-	    }
-	    
-	    $this->_redirect('/website/resource/manage-roles/id/'.$resource_id);
 	}
-	else
-	{
-	    $this->_FlashMessenger->addErrorMessage("Error Removing Role - Resource or Role Not Sent");
-	    $this->_redirect('/website/resource/view-all');
-	}
+	
+	$this->view->form = $form;
     }
     
-    public function addRoleAction()
+    public function viewAction()
     {
-	$this->_helper->viewRenderer->setNoRender(true);
-	$this->_helper->layout->disableLayout();
+	$Resource   = $this->getEntityFromParamFields("Website\Resource", array("id"));
 	
-	$ACL = new Dataservice_Controller_Plugin_ACL();
-	
-	$ACL->preDispatch($this->getRequest());
-	
-	$resource_id	= isset($this->_params["resource_id"]) ? $this->_params["resource_id"] : null;
-	$role_id	= isset($this->_params["role_id"]) ? $this->_params["role_id"] : null;
-	
-	if($resource_id && $role_id)
+	if(!$Resource->getId())
 	{
-	    /* @var $Resource \Entities\Website\Resource */
-	    $Resource	= $this->_em->find("Entities\Website\Resource", $resource_id);
-	    $Role	= $this->_em->find("Entities\Role\RoleAbstract", $role_id);
-	    
-	    if($Resource && $Role)
-	    {
-		try 
-		{
-		    $Resource->addRole($Role);
-		    $this->_em->persist($Resource);
-		    $this->_em->flush();
-		    $this->_FlashMessenger->addSuccessMessage("Role Added");
-		} 
-		catch (Exception $exc)
-		{
-		    $this->_FlashMessenger->addErrorMessage($exc->getMessage());
-		}
-		
-		$this->_redirect('/website/resource/manage-roles/id/'.$resource_id);
-	    }
-	    else
-	    {
-		$this->_FlashMessenger->addErrorMessage("Error Adding Role - Resource or Role Not Available");
-	    }
-	}
-	else
-	{
-	    $this->_FlashMessenger->addErrorMessage("Error Adding Role - Resource or Role Not Sent");
+	    $this->_FlashMessenger->addErrorMessage("Could not get resource");
+	    $this->_History->goBack();
 	}
 	
-	$this->_redirect('/website/resource/view-all');
+	$this->view->Resource = $Resource;
     }
+    
+    /**
+     * @return Entities\Website\Resource
+     */
+    private function _getResource()
+    {
+	return $this->getEntityFromParamFields("Website\Resource", array("id"));
+    }
+    
+    private function _CheckRequiredResourceExists(Entities\Website\Resource $Resource)
+    {
+	if(!$Resource->getId())
+	{
+	    $this->_FlashMessenger->addErrorMessage("Could not get Resource");
+	    $this->_History->goBack();
+	}
+    } 
 }

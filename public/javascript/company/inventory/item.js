@@ -18,4 +18,12 @@ Company_Inventory_Item.prototype.ProductBuilderOnclickBind = function(element, i
     });
 }
 
+Company_Inventory_Item.prototype.ImageAddOnclickBind = function(element, instance_id)
+{
+    element.click(function()
+    {
+	location    = '/supplier-product-instance-file-image/edit/id/0/instance_id/' + instance_id;
+    });
+}
+
 

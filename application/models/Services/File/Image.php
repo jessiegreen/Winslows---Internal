@@ -9,7 +9,7 @@ class Image extends \Dataservice_Service_ServiceAbstract
 		    $Image : 
 		    $this->getResized($Image, $width, $height, $this->_em);
 	
-	return '<img src="/file/view/id/'.$Image->getId().'/nohist/1" />';
+	return '<img title="'.htmlspecialchars($Image->getName()).'" src="/file/view/id/'.$Image->getId().'/nohist/1" />';
     }
     
     public function getHtmlThumbImg(\Entities\File\Image\ImageAbstract $Image)

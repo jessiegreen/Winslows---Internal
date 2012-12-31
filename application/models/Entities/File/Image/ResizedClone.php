@@ -27,4 +27,28 @@ class ResizedClone extends ImageBaseAbstract
     {
 	$this->Image = $Image;
     }
+    
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+	return $this->Image->getName();
+    }
+    
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+	return $this->Image->getDescription();
+    }
+    
+    /**
+     * @return string
+     */
+    public function getOriginalFileName()
+    {
+	return $this->Image->getOriginalFileName();
+    }
 }

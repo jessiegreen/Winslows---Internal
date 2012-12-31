@@ -47,6 +47,13 @@ class Dataservice_Controller_Action extends Zend_Controller_Action
 	if(file_exists(PUBLIC_PATH.$css_string))
 	    $this->view->headLink()->appendStylesheet(BASE_URL.$css_string);
 	
+	$js_string = "/javascript/".$this->getRequest()->getModuleName().
+			"/".str_ireplace("-", "/", $this->getRequest()->getControllerName()).
+			"/".$this->getRequest()->getActionName().".js";
+	
+	if(file_exists(PUBLIC_PATH.$js_string))
+	    $this->view->headScript()->appendFile(BASE_URL.$js_string);
+	
 	parent::init();
     }
     

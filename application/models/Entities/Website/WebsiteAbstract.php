@@ -70,6 +70,7 @@ class WebsiteAbstract extends \Dataservice_Doctrine_Entity
     
     /**
      * @OneToMany(targetEntity="\Entities\Website\Role", mappedBy="Website", cascade={"persist"})
+     * @OrderBy({"name" = "ASC"})
      * @var ArrayCollection $Roles
      */
     protected $Roles;
@@ -163,7 +164,6 @@ class WebsiteAbstract extends \Dataservice_Doctrine_Entity
 	$MatchedRole = $this->getRoles()->filter(
 		    function ($Role) use ($id)
 		    {
-			echo "**$id=".$Role->getId()."**";
 			return $Role->getId() == $id ? true : false;
 		    }
 		);

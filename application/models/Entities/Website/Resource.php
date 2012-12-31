@@ -48,8 +48,9 @@ class Resource extends \Dataservice_Doctrine_Entity
     protected $routeName;
     
     /**
-     * @ManytoMany(targetEntity="\Entities\Website\Role", mappedBy="Resources", cascade={"persist, remove"})
-     * @var ArrayCollection
+     * @ManytoMany(targetEntity="\Entities\Website\Role", inversedBy="Resources", cascade={"persist, remove"})
+     * @JoinTable(name="website_role_resource_joins")
+     * @var ArrayCollection $Roles
      */
     protected $Roles;
     

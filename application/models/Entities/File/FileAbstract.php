@@ -10,7 +10,8 @@ namespace Entities\File;
  * @DiscriminatorColumn(name="discr", type="string")
  * @DiscriminatorMap({"file_image_resizedclone" = "\Entities\File\Image\ResizedClone",
  *			"company_supplier_product_file_image" = "\Entities\Company\Supplier\Product\File\Image",
- * 			"company_supplier_product_category_file_image" = "\Entities\Company\Supplier\Product\Category\File\Image"
+ * 			"company_supplier_product_category_file_image" = "\Entities\Company\Supplier\Product\Category\File\Image",
+ *			"company_supplier_product_instance_file_image" = "\Entities\Company\Supplier\Product\Instance\File\Image"
  *		    })
  */
 abstract class FileAbstract extends \Dataservice_Doctrine_Entity

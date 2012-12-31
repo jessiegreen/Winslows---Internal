@@ -56,6 +56,7 @@ class Inventory extends \Dataservice_Doctrine_Entity
     public function addItem(Inventory\Item $Item)
     {
 	$Item->setInventory($this);
+	
 	$this->Items->add($Item);
     }
     
@@ -65,5 +66,17 @@ class Inventory extends \Dataservice_Doctrine_Entity
     public function getItems()
     {
 	return $this->Items;
+    }
+    
+    public function getItemsByProduct()
+    {
+	$items = array();
+	
+	foreach ($this->getItems() as $Item)
+	{
+	    $items[$Item->getInstance()->getProduct()->getId()][] = $Item;
+	}
+	
+	return $items;
     }
 }
