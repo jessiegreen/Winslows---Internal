@@ -1,2 +1,4 @@
 /nbproject/private/
 /nbproject/
+/application/models/Proxies/
+!/application/models/Proxies/__CG__EntitiesWebsiteGuest.php
