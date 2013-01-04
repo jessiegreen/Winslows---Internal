@@ -77,6 +77,7 @@ class Lead extends PersonAbstract
     public function AddContact(Lead\Contact $Contact)
     {
 	$Contact->setLead($this);
+	
 	$this->Contacts[] = $Contact;
     }
     
@@ -94,6 +95,7 @@ class Lead extends PersonAbstract
     public function AddQuote(Lead\Quote $Quote)
     {
 	$Quote->setLead($this);
+	
 	$this->Quotes[] = $Quote;
     }
     

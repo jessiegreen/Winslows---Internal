@@ -113,6 +113,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	$layout = Zend_Controller_Action_HelperBroker::addHelper(  
 	    new Dataservice_Controller_Action_Helper_SetLayoutPath(APPLICATION_PATH)
 	);  
+	
 	#--History Helper
 	Zend_Controller_Action_HelperBroker::addHelper(new Dataservice_Controller_Action_Helper_History());
     } 

@@ -56,7 +56,6 @@ class Company_WebsiteMenuController extends Dataservice_Controller_Action
 	$this->_CheckRequiredMenuExists($Menu);
 	
 	$this->view->Menu = $Menu;
-	$this->view->menu_items = Services\Company\Website\Menu::factory()->getMenuParentItems("Top");
     }
     
     /**

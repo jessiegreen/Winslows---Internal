@@ -67,6 +67,12 @@ class Item extends \Dataservice_Doctrine_Entity
     protected $link_params;
     
     /** 
+     * @Column(type="integer", length=10) 
+     * @var string $sort_order
+     */
+    protected $sort_order;
+    
+    /** 
      * @ManyToOne(targetEntity="\Entities\Website\Menu", inversedBy="Items")
      * @var \Entities\Website\Menu $Menu
      */     
@@ -269,6 +275,22 @@ class Item extends \Dataservice_Doctrine_Entity
     public function setLinkParams($link_params)
     {
 	$this->link_params = $link_params;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getOrder()
+    {
+        return $this->sort_order;
+    }
+
+    /**
+     * @param integer $order
+     */
+    public function setOrder($order)
+    {
+        $this->sort_order = $order;
     }
     
     /**

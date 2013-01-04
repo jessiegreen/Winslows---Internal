@@ -88,5 +88,13 @@ class Subform extends \Zend_Form_SubForm
 	    'belongsTo'	    => 'website_menu_item',
 	    'value'	    => $this->_MenuItem ? $this->_MenuItem->getIcon() : ""
         ));
+	
+	$this->addElement('select', 'sort_order', array(
+            'required'	    => false,
+            'label'	    => 'Sort Order:',
+	    'belongsTo'	    => 'website_menu_item',
+	    'multioptions'  => range(0, 100),
+	    'value'	    => $this->_MenuItem ? $this->_MenuItem->getOrder() : ""
+        ));
     }
 }

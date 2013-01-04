@@ -27,11 +27,11 @@ class Dataservice_Doctrine_Entity
     }
     
     /**
-     * @return \DateTime
+     * @return \Dataservice\DateTime
      */
     public function getCreated()
     {
-        return $this->created;
+        return \Dataservice\DateTime(strtotime($this->created));
     }
 
     /**
@@ -43,11 +43,11 @@ class Dataservice_Doctrine_Entity
     }
 
     /**
-     * @return \DateTime
+     * @return \Dataservice\DateTime
      */
     public function getUpdated()
     {
-        return $this->updated;
+        return \Dataservice\DateTime(strtotime($this->updated));
     }
     
     public function populate(array $array)
@@ -61,6 +61,18 @@ class Dataservice_Doctrine_Entity
 	}
     }
     
+    public function filterCollectionByfield(\Doctrine\Common\Collections\ArrayCollection $ArrayCollection, $field, $value)
+    {
+	$method = "get".ucfirst(strtolower($field));
+	
+	return $ArrayCollection->filter(
+		    function($Entity) use ($method, $value)
+		    {
+			return $Entity->$method() == $value ? true : false;
+		    }
+		);
+    }
+
     public function toArray() 
     {
         $reflection = new \ReflectionClass($this);

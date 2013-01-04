@@ -5,8 +5,7 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
     public function init()
     {
 	$this->view->headScript()->appendFile("/javascript/company/lead/quote.js");
-	$this->view->headScript()->appendFile("/javascript/jquery/jquery-ui.min.js");
-	$this->view->headLink()->prependStylesheet('/css/jquery-ui/flick/jquery-ui.custom.css');
+	
 	parent::init();
     }
     

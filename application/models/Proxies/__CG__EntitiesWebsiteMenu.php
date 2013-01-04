@@ -66,6 +66,12 @@ class Menu extends \Entities\Website\Menu implements \Doctrine\ORM\Proxy\Proxy
         return parent::getItems();
     }
 
+    public function getParentItems()
+    {
+        $this->__load();
+        return parent::getParentItems();
+    }
+
     public function removeItem(\Entities\Website\Menu\Item $Item)
     {
         $this->__load();
@@ -105,10 +111,10 @@ class Menu extends \Entities\Website\Menu implements \Doctrine\ORM\Proxy\Proxy
         return parent::setNameIndex($name_index);
     }
 
-    public function getParentItems()
+    public function buildHtmlMenu(\Dataservice\Html\Menu $HtmlMenu, \Zend_Auth $Auth, \Zend_Acl $Acl)
     {
         $this->__load();
-        return parent::getParentItems();
+        return parent::buildHtmlMenu($HtmlMenu, $Auth, $Acl);
     }
 
     public function updated()

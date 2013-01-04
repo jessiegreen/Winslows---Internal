@@ -144,6 +144,12 @@ class Company extends \Entities\Company implements \Doctrine\ORM\Proxy\Proxy
         return parent::getEmployees();
     }
 
+    public function getEmployeeById($id)
+    {
+        $this->__load();
+        return parent::getEmployeeById($id);
+    }
+
     public function setInventory(\Entities\Company\Inventory $Inventory)
     {
         $this->__load();
@@ -154,6 +160,18 @@ class Company extends \Entities\Company implements \Doctrine\ORM\Proxy\Proxy
     {
         $this->__load();
         return parent::getInventory();
+    }
+
+    public function setTimeClock(\Entities\Company\TimeClock $TimeClock)
+    {
+        $this->__load();
+        return parent::setTimeClock($TimeClock);
+    }
+
+    public function getTimeClock()
+    {
+        $this->__load();
+        return parent::getTimeClock();
     }
 
     public function getId()
@@ -243,6 +261,12 @@ class Company extends \Entities\Company implements \Doctrine\ORM\Proxy\Proxy
         return parent::populate($array);
     }
 
+    public function filterCollectionByfield(\Doctrine\Common\Collections\ArrayCollection $ArrayCollection, $field, $value)
+    {
+        $this->__load();
+        return parent::filterCollectionByfield($ArrayCollection, $field, $value);
+    }
+
     public function toArray()
     {
         $this->__load();
@@ -252,7 +276,7 @@ class Company extends \Entities\Company implements \Doctrine\ORM\Proxy\Proxy
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'name', 'dba', 'name_index', 'description', 'created', 'updated', 'Locations', 'Suppliers', 'RtoProviders', 'Websites', 'Employees', 'Leads', 'Dealers', 'Inventory');
+        return array('__isInitialized__', 'id', 'name', 'dba', 'name_index', 'description', 'created', 'updated', 'Locations', 'Suppliers', 'RtoProviders', 'Websites', 'Employees', 'Leads', 'Dealers', 'Inventory', 'TimeClock');
     }
 
     public function __clone()

@@ -37,6 +37,14 @@ class Employee extends PersonAbstract
     protected $Leads;
     
     /**
+     * Bidirectional - One-To-Many (INVERSE SIDE)
+     *
+     * @OneToMany(targetEntity="\Entities\Company\TimeClock\Entry", mappedBy="Employee", cascade={"persist", "remove"})
+     * @var ArrayCollection $TimeClockEntries
+     */
+    protected $TimeClockEntries;
+    
+    /**
      * @OneToOne(targetEntity="\Entities\Company\Employee\Account", mappedBy="Employee", cascade={"persist"}, orphanRemoval=true)
      * @var \Entities\Company\Employee\Account $Account
      */
@@ -44,7 +52,8 @@ class Employee extends PersonAbstract
     
     public function __construct()
     {
-	$this->Leads	= new ArrayCollection();
+	$this->Leads		= new ArrayCollection();
+	$this->TimeClockEntries	= new ArrayCollection();
 	
 	parent::__construct();
     }
@@ -55,6 +64,63 @@ class Employee extends PersonAbstract
     public function getLeads()
     {
 	return $this->Leads;
+    }
+    
+    /**
+     * @param \Entities\Company\Lead $Lead
+     */
+    public function addLead(Lead $Lead)
+    {
+	$Lead->setEmployee($this);
+	
+	$this->Leads[] = $Lead;
+    }
+    
+    /**
+     * @return ArrayCollection
+     */
+    public function getAllAllowedLeads()
+    {
+	if($this->getAccount()->hasRoleByRoleName("Admin") || $this->getAccount()->hasRoleByRoleName("Sales Manager"))
+	    $Leads = $this->getCompany()->getLeads();
+	else
+	    $Leads = $this->getLeads();
+	
+	return $Leads;
+    }
+    
+    /**
+     * @return ArrayCollection
+     */
+    public function getTimeClockEntries()
+    {
+	return $this->TimeClockEntries;
+    }
+    
+    /**
+     * @param \Entities\Company\TimeClock\Entry $Entry
+     */
+    public function addTimeClockEntry(TimeClock\Entry $Entry)
+    {
+	$Entry->setEmployee($this);
+	
+	$this->TimeClockEntries[] = $Entry;
+    }
+    
+    public function clockInOut()
+    {
+	\Services\Company\Employee::factory()->clockInOutEmployee($this);
+    }
+    
+    public function getTodaysTimeClockEntries()
+    {
+	return \Services\Company\Employee::factory()->isEmployeeClockedIn($this);
+    }
+    
+    public function isClockedIn()
+    {		
+	echo count($this->getTodaysTimeClockEntries());
+	return count($this->getTodaysTimeClockEntries()) % 2 == 0 ? false : true;
     }
     
     /** 

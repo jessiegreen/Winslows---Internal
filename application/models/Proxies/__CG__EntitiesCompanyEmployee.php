@@ -48,6 +48,48 @@ class Employee extends \Entities\Company\Employee implements \Doctrine\ORM\Proxy
         return parent::getLeads();
     }
 
+    public function addLead(\Entities\Company\Lead $Lead)
+    {
+        $this->__load();
+        return parent::addLead($Lead);
+    }
+
+    public function getAllAllowedLeads()
+    {
+        $this->__load();
+        return parent::getAllAllowedLeads();
+    }
+
+    public function getTimeClockEntries()
+    {
+        $this->__load();
+        return parent::getTimeClockEntries();
+    }
+
+    public function addTimeClockEntry(\Entities\Company\TimeClock\Entry $Entry)
+    {
+        $this->__load();
+        return parent::addTimeClockEntry($Entry);
+    }
+
+    public function clockInOut()
+    {
+        $this->__load();
+        return parent::clockInOut();
+    }
+
+    public function getTodaysTimeClockEntries()
+    {
+        $this->__load();
+        return parent::getTodaysTimeClockEntries();
+    }
+
+    public function isClockedIn()
+    {
+        $this->__load();
+        return parent::isClockedIn();
+    }
+
     public function getLocation()
     {
         $this->__load();
@@ -234,6 +276,12 @@ class Employee extends \Entities\Company\Employee implements \Doctrine\ORM\Proxy
         return parent::populate($array);
     }
 
+    public function filterCollectionByfield(\Doctrine\Common\Collections\ArrayCollection $ArrayCollection, $field, $value)
+    {
+        $this->__load();
+        return parent::filterCollectionByfield($ArrayCollection, $field, $value);
+    }
+
     public function toArray()
     {
         $this->__load();
@@ -243,7 +291,7 @@ class Employee extends \Entities\Company\Employee implements \Doctrine\ORM\Proxy
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'first_name', 'middle_name', 'last_name', 'suffix', 'created', 'updated', 'Addresses', 'Documents', 'PhoneNumbers', 'EmailAddresses', 'title', 'Location', 'Company', 'Leads', 'Account');
+        return array('__isInitialized__', 'id', 'first_name', 'middle_name', 'last_name', 'suffix', 'created', 'updated', 'Addresses', 'Documents', 'PhoneNumbers', 'EmailAddresses', 'title', 'Location', 'Company', 'Leads', 'TimeClockEntries', 'Account');
     }
 
     public function __clone()
