@@ -157,11 +157,6 @@
 {
 }
 
-#important-links-container #testimonial_image #testimonial-link-label div
-{
-    margin: 15px;
-}
-
 #bullets-container
 {
     position: absolute;
@@ -202,8 +197,20 @@
     font-size: 20px;
     position: relative;
     clear: both;
-    height: 240px;
+/*    height: 240px;*/
+    margin: 15px;
 }
+
+#important-links-container-left
+{
+    height: 220px;
+    background-image: url("/img/winslows/layout/barn_test.png");
+    background-repeat: no-repeat;
+    width: 350px;
+    margin-left: 50px;
+}
+
+
 
 #important-links-icons-container
 {
@@ -211,7 +218,7 @@
     right:0px;
     top:0px;
     width: 500px;
-    padding: 15px;
+    padding: 10px;
     margin: 0;
     text-align: center;
 }
@@ -221,7 +228,6 @@
     width: 125px;
     padding: 0;
     margin: 0;
-    height: 110px;
     float: left;
 }
 
@@ -238,11 +244,12 @@
 
 #important-links-container h3
 {
-    color: #0044AA;
+    color: #0046AD;
     font-size: 12pt;
     padding: 0;
     margin: 0;
     font-weight: 100;
+    margin-bottom: 8px;    
 }
 
 #important-links-container a

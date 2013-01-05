@@ -6,7 +6,6 @@
     
     $this->headLink()->prependStylesheet('/css/winslows/layout.css');
     $this->headLink()->prependStylesheet('/css/global.css');
-    $this->headLink()->prependStylesheet('/css/winslows/layout/global2.css');
     $this->headLink()->prependStylesheet('/css/winslows/layout/menu.css');
     echo $this->headLink();
     
@@ -23,16 +22,14 @@
 	<div id="layout_content">
 	    <div id="winslows-layout-header-logo-container">
 		<a href='http://www.facebook.com/WinslowsBuildings?fref=ts'><img src="/img/winslows/layout/logo.png" /></a >
-		<div id="body-links">
-		    <ul class="font-kalinga">
-			<li><a href='#'><span>Log In</span></a></li>
-			<li><a href='#'><span>Contact Us</span></a></li>
-			<li><a href='#'><span>Shopping Cart</span></a></li>
-		    </ul>
+		<div id="body-links" >
+                    <a href='/login'>Log In</a>
+                    <a href='/contact'>Contact Us</a>
+                    <a href='/shop'>Shopping Cart</a>
 		</div>
-		    <div id="get-started-button-img">
-			<a href='http://www.facebook.com/WinslowsBuildings?fref=ts'><img src="/img/winslows/layout/get_started_button.png" /></a >
-		    </div>
+                <div id="get-started-button-img">
+                    <a href='http://www.facebook.com/WinslowsBuildings?fref=ts'><img src="/img/winslows/layout/get_started_button.png" /></a >
+                </div>
 		<div id="winslows-layout-header-contact-info">
 		    <p class="font-kalinga">Phone: (800) 636-4700</p>
 		</div>

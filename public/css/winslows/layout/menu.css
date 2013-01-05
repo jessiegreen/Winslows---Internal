@@ -55,7 +55,7 @@
 /* visited link */
 #menucss a:visited 
 {
-    color:#0044AA;
+    color:#0046AD;
 } 
 /* mouse over link */
 #menucss a:hover 
@@ -65,5 +65,5 @@
 /* selected link */
 #menucss a:active 
 {
-    color:#0044AA;
+    color:#0046AD;
 } 
