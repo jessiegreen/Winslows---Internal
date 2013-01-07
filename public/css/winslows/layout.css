@@ -84,11 +84,9 @@ body
 
 #footer-div-1
 {
-    margin-left: 10px;
-    margin-top: 10px;
     float: left;
     width: 380px;
-    height: 190px;
+    height: 100%;
     overflow: scroll;
 }
 /*#our-partners-links-footer
@@ -130,24 +128,25 @@ body
     right: 15px;
 }
 
-#body-links a
+/*#body-links a
 {
     font-family: Kalinga;
     text-decoration:none;
     color:#0046AD;
     font-size:10pt;
     padding-right:10px;
-}
+}*/
 
-#body-links a:visited
+/*Determine if we want a visited color*/
+/*#body-links a:visited
 {
     color:#000000;
-}
+}*/
 
-#body-links a:hover
+/*#body-links a:hover
 {
     text-decoration:underline;
-}
+}*/
 
 #search-bar
 {
@@ -156,9 +155,9 @@ body
     top: 15px;
 }
 
-#social-media-links-footer
+/*#social-media-links-footer
 {
     text-align: center;
     bottom: 0px;
     padding: 4px;
-}
+}*/
