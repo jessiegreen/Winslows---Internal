@@ -96,9 +96,7 @@ class Company_SupplierProductConfigurableInstanceController extends Dataservice_
     
     public function manualAction()
     {	
-	$this->view->headScript()->appendFile("/javascript/jquery/jquery-ui.min.js");
 	$this->view->headScript()->appendFile("/javascript/company/supplier/product/configurable/instance/manual.js");
-	$this->view->headLink()->prependStylesheet('/css/jquery-ui/flick/jquery-ui.custom.css');
 	
 	$Instance	= $this->_getInstance();
 	$data		= array();

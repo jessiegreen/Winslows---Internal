@@ -101,6 +101,12 @@ class Company extends \Dataservice_Doctrine_Entity
      */
     protected $Inventory;
     
+    /**
+     * @OneToOne(targetEntity="\Entities\Company\TimeClock", mappedBy="Company", cascade={"persist"}, orphanRemoval=true)
+     * @var \Entities\Company\TimeClock $TimeClock
+     */
+    protected $TimeClock;
+    
     public function __construct()
     {
 	$this->Employees    = new ArrayCollection();
@@ -295,11 +301,23 @@ class Company extends \Dataservice_Doctrine_Entity
     }
     
     /**
+     * @param string|integer $id
+     * @return Company\Employee
+     */
+    public function getEmployeeById($id)
+    {
+	$MatchedEmployees = $this->filterCollectionByfield($this->getEmployees(), "Id", $id);
+	
+	return $MatchedEmployees->count() > 0 ? $MatchedEmployees->first() : false; 
+    }
+    
+    /**
      * @param \Entities\Company\Inventory $Inventory
      */
     public function setInventory(Company\Inventory $Inventory)
     {
 	$Inventory->setCompany($this);
+	
 	$this->Inventory = $Inventory;
     }
     
@@ -309,6 +327,24 @@ class Company extends \Dataservice_Doctrine_Entity
     public function getInventory()
     {
 	return $this->Inventory;
+    }
+    
+    /**
+     * @param \Entities\Company\TimeClock $TimeClock
+     */
+    public function setTimeClock(Company\TimeClock $TimeClock)
+    {
+	$TimeClock->setCompany($this);
+	
+	$this->TimeClock = $TimeClock;
+    }
+    
+    /**
+     * @return Company\TimeClock
+     */
+    public function getTimeClock()
+    {
+	return $this->TimeClock;
     }
 
     /**

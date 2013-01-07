@@ -33,6 +33,7 @@ class Menu extends \Dataservice_Doctrine_Entity
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="\Entities\Website\Menu\Item", mappedBy="Menu", cascade={"persist"}, orphanRemoval=true)
+     * @OrderBy({"sort_order" = "ASC"})
      * @var ArrayCollection $Items
      */
     protected $Items;

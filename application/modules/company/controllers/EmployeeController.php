@@ -90,6 +90,28 @@ class Company_EmployeeController extends Dataservice_Controller_Action
 	$this->view->Employee	= $Employee;
     }
     
+    public function clockPunchAction()
+    {
+	$Employee = $this->_getEmployee();
+	
+	$this->_CheckRequiredEmployeeExists($Employee);
+	
+	try
+	{
+	    $Employee->clockInOut();
+	} 
+	catch (Exception $exc)
+	{
+	    $this->_FlashMessenger->addErrorMessage($exc->getMessage());
+	    $this->_History->goBack();
+	}
+	
+	$this->_FlashMessenger->addSuccessMessage($Employee->isClockedIn() ? "Clocked In" : "Clocked Out");
+	$this->_History->goBack();
+	
+	exit;
+    }
+    
     /**
      * @return Entities\Company\Employee
      */
@@ -106,6 +128,30 @@ class Company_EmployeeController extends Dataservice_Controller_Action
 	    $this->_History->goBack();
 	}
     } 
+    
+    public function getLeadsLabelValueJsonAction()
+    {
+	$param_all	    = $this->_getParam("all");
+	$param_employee	    = $this->_getParam("employee");
+	
+	$all		= $param_all == 1 ? true : false;
+	$Employee	= $param_employee ? 
+			    $this->_Website->getCompany()->getEmployeeById($param_employee) : 
+			    $this->_Website->getCurrentUserAccount(Zend_Auth::getInstance())->getPerson();
+	/* @var $Leads \Doctrine\Common\Collections\ArrayCollection */
+	$Leads		= $all ? $Employee->getAllAllowedLeads() : $Employee->getLeads();
+	
+	$return = array();
+
+	foreach ($Leads as $Lead)
+	{
+	    $return[] = array("value" => $Lead->getId(), "label" => $Lead->getFullName());
+	}
+    
+	echo $this->_helper->json($return);
+
+	exit;
+    }
     
     /**
      * @return \Entities\Company\Employee\Role

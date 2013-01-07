@@ -6,18 +6,22 @@
     
     $this->headLink()->prependStylesheet('/css/company/layout.css');
     $this->headLink()->prependStylesheet('/css/global.css');
+    $this->headLink()->prependStylesheet('/css/jquery-ui/flick/jquery-ui.custom.css');
     #--Superfish Menu
     $this->headLink()->appendStylesheet(BASE_URL.'/css/superfish.css');
     echo $this->headLink();
     
     echo $this->headMeta();
     $this->headScript()->prependFile('/javascript/common.js');
+    $this->headScript()->prependFile("/javascript/jquery/jquery-ui.min.js");
     $this->headScript()->prependFile('/javascript/jquery/jquery.js');
     $this->headScript()->appendFile('/javascript/company/layout.js');
     
     #--Superfish Menu
     $this->headScript()->appendFile(BASE_URL.'/javascript/jquery/hoverIntent.js');
     $this->headScript()->appendFile(BASE_URL.'/javascript/superfish.js');
+    
+    echo $this->jQuery();
     
     echo $this->headScript();
     ?>

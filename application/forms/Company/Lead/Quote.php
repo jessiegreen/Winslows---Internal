@@ -31,5 +31,3 @@ class Quote extends \Dataservice_Form
         ));
     }
 }
-
-?>

@@ -1,1 +1,56 @@
-Welcome to the company management site!!!
+<?php 
+echo($this->flashMessages()); 
+?>
+<div style="padding: 15px;">
+    <?php
+    /* @var $Account \Entities\Website\Account\AccountAbstract */
+    $Account    = $this->Account;
+
+    if($Account->isEmployeeAccount())
+    {
+	/* @var $Employee \Entities\Company\Employee */
+	$Employee	= $Account->getPerson();
+	$clocked_in = $Employee->isClockedIn();
+	?>
+	<h2>
+	    Welcome to the 
+	    <?php echo $Account->getWebsite()->getCompany()->getDba();?> 
+	    management site 
+	    <?php echo $Employee->getFirstName();?>
+	    !!!
+	</h2>
+	<?php
+	echo "<div style='margin-bottom:10px;'>".\Dataservice\Html\Button::buttonBlue(
+		"clock.png", 
+		$clocked_in ? "Clock Out" : "Clock In", 
+		"time_clock_button", 
+		"", 
+		"", 
+		"employee_id=".$Employee->getId()
+	    )."</div>";
+
+	$autocomplete   = new Dataservice\Form\Element\Company\Employee\Lead\AutoComplete(
+				$Employee, 
+				'function(event,ui) { console.log(ui.item.value) }',
+				"test", 
+				array('label' => 'Autocomplete:')
+			);    
+	echo $autocomplete;
+	if($Account->hasRoleByRoleName("Sales"))
+	{
+	    ?>
+	    <h4>Sales Stuff</h4>
+	    <?php 
+	    $form = new \Forms\Company\Lead\Search;
+
+	    echo $form;
+	}
+	?>
+	<script type="text/javascript">
+	    Company_Index_Index = new Company_Index_Index();
+	    Company_Index_Index.clockInOutBind($("#time_clock_button"));
+	</script>
+	<?php
+    }
+    ?>
+</div>

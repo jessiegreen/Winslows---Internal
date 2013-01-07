@@ -73,6 +73,7 @@ abstract class AccountAbstract extends \Dataservice_Doctrine_Entity implements \
 	if($Role->getWebsite() === $this->getWebsite())
 	{
 	    $Role->addAccount($this);
+	    
 	    $this->Roles[] = $Role;
 	}
 	else throw new \Exception("Role does not belong to this website");
@@ -102,6 +103,20 @@ abstract class AccountAbstract extends \Dataservice_Doctrine_Entity implements \
     {
 	if($this->getRoles()->contains($Role))
 	    return true;
+	
+	return false;
+    }
+    
+    /**
+     * @param string $name
+     * @return boolean
+     */
+    public function hasRoleByRoleName($name)
+    {
+	foreach ($this->getRoles() as $Role)
+	{
+	    if($Role->getName() == $name)return true;
+	}
 	
 	return false;
     }
