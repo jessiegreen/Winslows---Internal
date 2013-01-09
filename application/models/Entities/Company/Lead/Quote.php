@@ -53,6 +53,7 @@ class Quote extends Quote\QuoteAbstract
     public function addItem(Quote\Item $Item)
     {
 	$Item->setQuote($this);
+	
         $this->Items[] = $Item;
     }
     
@@ -110,44 +111,24 @@ class Quote extends Quote\QuoteAbstract
     }
     
     /**
-     * @return integer
+     * @return \Dataservice_Price
      */
     public function getTotal()
     {
-	$this->total = 0;
+	$Price = new \Dataservice_Price();
 	
 	/* @var $Item \Entities\Company\Lead\Quote\Item */
 	foreach ($this->getItems() as $Item)
 	{
-	    try 
-	    {
-		$this->total += 
-			$Item->getQuantity() * 
-			$Item->getInstance()
-			    ->getPriceSafe()
-			    ->getPrice();
-	    } 
-	    catch (\Exception $exc) 
-	    {
-		$this->total = 0;
-	    }
+	    $Price->add(
+		$Item->getQuantity() * 
+		$Item->getInstance()
+		    ->getPriceSafe()
+		    ->getPrice()
+	    );
 	}
 	
-        return $this->total;
-    }
-    
-    public function getTotalSafe()
-    {
-	try
-	{
-	    $total = $this->getTotal();
-	}
-	catch (\Exception $exc)
-	{
-	    $total = 0;
-	}
-	
-	return $total;
+        return $Price;
     }
     
     public function getTotalItemsQuantity()
@@ -172,7 +153,10 @@ class Quote extends Quote\QuoteAbstract
 	$this->Items->removeElement($Item);
     }
     
-    public function isValid()
+    /**
+     * @return \Dataservice_Result
+     */
+    public function getValidResult()
     {
 	$QuoteResult = new \Dataservice_Result(true);
 	$Items	     = $this->getItems();
@@ -185,7 +169,7 @@ class Quote extends Quote\QuoteAbstract
 	/* @var $Item \Entities\Company\Lead\Quote\Item */
 	foreach ($this->getItems() as $Item)
 	{
-	    $ItemResult = $Item->isValid();
+	    $ItemResult = $Item->getValidResult();
 	    
 	    if(!$ItemResult->isValid())
 	    {
@@ -195,5 +179,13 @@ class Quote extends Quote\QuoteAbstract
 	}
 	
 	return $QuoteResult;
+    }
+    
+    /**
+     * @return string
+     */
+    public function toString()
+    {
+	return $this->getCreated()->format("m-d-Y")." - ".$this->getItems()->count()." Items"." - ".$this->getTotal()->getDisplayPrice();
     }
 }

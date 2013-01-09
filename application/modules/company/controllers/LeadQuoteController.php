@@ -11,12 +11,25 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
     
     public function viewAction()
     {
-	$this->view->headScript()->appendFile("/javascript/jquery/jquery.colorbox.js");
-	$this->view->headLink()->appendStylesheet('/css/jquery.colorbox.css');
-	
 	$Quote = $this->_getQuote();
 	
 	$this->_CheckRequiredQuoteExists($Quote);
+	
+	$this->view->Quote = $Quote;
+    }
+    
+    public function viewSalesAction()
+    {
+	$Quote	    = $this->_getQuote();
+	$Employee   = $this->_Website->getCurrentUserAccount(Zend_Auth::getInstance())->getPerson();
+	
+	$this->_CheckRequiredQuoteExists($Quote);
+	
+	if(!$Employee->canSeeLead($Quote->getLead()))
+	{
+	    $this->_FlashMessenger->addErrorMessage("You are not allowed to view Lead's Quote");
+	    $this->_History->goBack();
+	}
 	
 	$this->view->Quote = $Quote;
     }

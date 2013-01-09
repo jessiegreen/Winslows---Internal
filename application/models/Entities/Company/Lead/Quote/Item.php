@@ -415,7 +415,7 @@ class Item extends \Dataservice_Doctrine_Entity
     /**
      * @return \Dataservice_Result
      */
-    public function isValid()
+    public function getValidResult()
     {
 	$SaleType   = $this->getSaleType();
 	$Delivery   = $this->getDelivery();

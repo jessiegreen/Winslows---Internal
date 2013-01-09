@@ -134,7 +134,7 @@ class PhoneNumberAbstract extends \Dataservice_Doctrine_Entity
      */
     public function getNumberDisplay()
     {
-	return "(".$this->area_code.")".$this->num1."-".$this->num2;
+	return "(".$this->area_code.") ".$this->num1."-".$this->num2;
     }
     
     /**
@@ -175,6 +175,11 @@ class PhoneNumberAbstract extends \Dataservice_Doctrine_Entity
     public function getUpdated()
     {
         return $this->updated;
+    }
+    
+    public function toString()
+    {
+	echo \Dataservice\Inflector::humanize($this->getType())." - ".$this->getNumberDisplay();
     }
 
     /** 

@@ -14,7 +14,7 @@ echo \Dataservice\Html\Button::buttonBlue(
 			"Sell", 
 			"quote_sell", 
 			"position:relative;".
-			    (!$this->Quote->isValid()->isValid() ? "background-color:silver;'" : "")
+			    (!$this->Quote->getValidResult()->isValid() ? "background-color:silver;'" : "")
 		    );
 ?>
 </fieldset>
@@ -41,8 +41,8 @@ $Items		= $quote->getItems();
 	Date: <?php echo $quote->getCreated()->format("F j, Y, g:i a"); ?> &nbsp;&nbsp;&nbsp; 
 	Lead: <?php echo $quote->getLead()->getFullName(); ?> &nbsp;&nbsp;&nbsp; 
 	Sales Person: <?php echo $quote->getLead()->getEmployee()->getFullName(); ?> &nbsp;&nbsp;&nbsp; 
-	Product Total Price: $<?php echo number_format($quote->getTotalSafe(), 2); ?> &nbsp;&nbsp;&nbsp;<br />
-	Quote Status: <?php echo $quote->isValid()->isValid() ? "Ready For Sale" : $quote->isValid()->getDisplayErrorMessages();?>
+	Product Total Price: <?php echo $quote->getTotal()->getDisplayPrice(); ?> &nbsp;&nbsp;&nbsp;<br />
+	Quote Status: <?php echo $quote->getValidResult()->isValid() ? "Ready For Sale" : $quote->getValidResult()->getDisplayErrorMessages();?>
     </div>
 </div>
 <div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">
@@ -133,8 +133,8 @@ $Items		= $quote->getItems();
 		</div>
 		<br />
 		<label>Item Status:</label>
-		<div style="display: inline;color:<?php echo $Item->isValid()->isValid() ? "green" : "red;"?>">
-		    <?php echo $Item->isValid()->isValid() ? "Item Ready For Sale" : $Item->isValid()->getDisplayErrorMessages(); ?>
+		<div style="display: inline;color:<?php echo $Item->getValidResult()->isValid() ? "green" : "red;"?>">
+		    <?php echo $Item->getValidResult()->isValid() ? "Item Ready For Sale" : $Item->getValidResult()->getDisplayErrorMessages(); ?>
 		</div>
 		<?php
 	    }

@@ -32,7 +32,7 @@ $quantity   = $Item->getQuantity();
 	Quantity:    <?php echo $quantity;?> &nbsp;&nbsp;&nbsp; 
 	Product:    <?php echo $Product->getName(); ?> &nbsp;&nbsp;&nbsp;
 	Sale Type:  <?php echo $Item->getSaleTypeDisplay(); ?> <br />
-	Item Status: <?php echo $Item->isValid()->isValid() ? "Ready For Sale" : $Item->isValid()->getDisplayErrorMessages();?>
+	Item Status: <?php echo $Item->getValidResult()->isValid() ? "Ready For Sale" : $Item->getValidResult()->getDisplayErrorMessages();?>
     </div>
 </div>
 <div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">

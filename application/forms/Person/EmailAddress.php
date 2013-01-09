@@ -10,13 +10,14 @@ namespace Forms\Person;
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class EmailAddress extends \Zend_Form
+class EmailAddress extends \Dataservice_Form
 {    
     private $_EmailAddress;
     
     public function __construct($options = null, \Entities\Person\EmailAddress $EmailAddress = null)
     {
 	$this->_EmailAddress = $EmailAddress;
+	
 	parent::__construct($options);
     }
     

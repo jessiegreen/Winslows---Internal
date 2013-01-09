@@ -81,12 +81,37 @@ class Employee extends PersonAbstract
      */
     public function getAllAllowedLeads()
     {
-	if($this->getAccount()->hasRoleByRoleName("Admin") || $this->getAccount()->hasRoleByRoleName("Sales Manager"))
-	    $Leads = $this->getCompany()->getLeads();
-	else
-	    $Leads = $this->getLeads();
+	return $this->canSeeAllLeads() ? $this->getCompany()->getLeads() : $this->getLeads();
+    }
+    
+    /**
+     * @return boolean
+     */
+    public function canSeeAllLeads()
+    {
+	return $this->getAccount()->hasRoleByRoleName("Admin") || 
+	    $this->getAccount()->hasRoleByRoleName("Sales Manager") ? true : false;	
+    }
+    
+    /**
+     * @param \Entities\Company\Lead $Lead
+     * @return bool
+     */
+    public function canSeeLead(Lead $Lead)
+    {
+	return $this->canSeeAllLeads() || $Lead->getEmployee()->getId() == $this->getId() ? true : false;
+    }
+    
+    /**
+     * @param string $term
+     * @param integer $count
+     * @return array
+     */
+    public function getAllAllowedLeadsAutocomplete($term, $count = 20)
+    {
+	$Employee = $this->canSeeAllLeads() ? null : $this;
 	
-	return $Leads;
+	return \Services\Company\Employee::factory()->getAutocompleteLeadsArrayFromTerm($term, $count, $Employee);
     }
     
     /**
@@ -118,8 +143,7 @@ class Employee extends PersonAbstract
     }
     
     public function isClockedIn()
-    {		
-	echo count($this->getTodaysTimeClockEntries());
+    {
 	return count($this->getTodaysTimeClockEntries()) % 2 == 0 ? false : true;
     }
     

@@ -12,7 +12,8 @@ class Company_LeadAddressController extends Dataservice_Controller_Action
     {
 	/* @var $Address \Entities\Person\Address */
 	$Address	= $this->getEntityFromParamFields("Person\Address", array("id"));
-	$form		= new Forms\Person\Address(array("method" => "post"), $Address);
+	
+	$form = new Forms\Person\Address(array("method" => "post"), $Address);
 	
 	$form->addElement("button", "cancel", 
 		array("onclick" => "location='".$this->_History->getPreviousUrl(1)."'")
@@ -24,7 +25,7 @@ class Company_LeadAddressController extends Dataservice_Controller_Action
 	    {
 		$data	= $this->_params["person_address"];
 		
-		if($data["reset_latlong"] === 1)
+		if(isset($data["reset_latlong"]) && $data["reset_latlong"] === 1)
 		{
 		    $Address->setLatitude();
 		    $Address->setLongitude();
@@ -34,28 +35,37 @@ class Company_LeadAddressController extends Dataservice_Controller_Action
 		
 		if(!$Address->getId())
 		{
-		    /* @var $Person \Entities\Person\PersonAbstract */
-		    $Person = $this->_em->find("Entities\Person\PersonAbstract", $this->_params["person_id"]);
-		    
-		    if(!$Person)
-			throw new Exception("Can not add address. No Person with that Id");
+		    $lead_id = $this->_getParam("lead_id");
 
-		    $Person->addAddress($Address);
-		    $this->_em->persist($Person);
+		    if($lead_id)
+		    {
+			$Lead = $this->_em->find("Entities\Company\Lead", $lead_id);
+
+			if($Lead)
+			{
+			    $Lead->addAddress($Address);
+			    $this->_em->persist($Lead);
+			}
+			else
+			{
+			    $this->_FlashMessenger->addErrorMessage("Could not get lead to add address to");
+			    $this->_History->goBack();
+			}
+		    }
 		}
 		else $this->_em->persist($Address);
 
 		$this->_em->flush();
 
-		$message = "Person Address saved";
+		$message = "Lead Address saved";
 		$this->_FlashMessenger->addSuccessMessage($message);
 
 	    }
 	    catch (Exception $exc)
 	    {
 		$this->_FlashMessenger->addErrorMessage($exc->getMessage());
-		$this->_History->goBack(1);
 	    }
+	    
 	    $this->_History->goBack(1);
 	}
 	

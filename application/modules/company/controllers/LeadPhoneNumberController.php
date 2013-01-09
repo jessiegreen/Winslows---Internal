@@ -29,12 +29,17 @@ class Company_LeadPhoneNumberController extends Dataservice_Controller_Action
 		
 		if(!$PhoneNumber->getId()){
 		    /* @var $Person \Entities\Person\PersonAbstract */
-		    $Person = $this->_em->find("Entities\Person\PersonAbstract", $this->_params["person_id"]);
-		    if(!$Person)
-			throw new Exception("Can not add address. No Person with that Id");
+		    $Lead = $this->_em->find("Entities\Company\Lead", $this->_params["lead_id"]);
+		    
+		    if(!$Lead)
+		    {
+			$this->_FlashMessenger->addErrorMessage("Could not get Lead");
+			$this->_History->goBack();
+		    }
 
-		    $Person->addPhoneNumber($PhoneNumber);
-		    $this->_em->persist($Person);
+		    $Lead->addPhoneNumber($PhoneNumber);
+		    
+		    $this->_em->persist($Lead);
 		}
 		else $this->_em->persist($PhoneNumber);
 
@@ -43,15 +48,18 @@ class Company_LeadPhoneNumberController extends Dataservice_Controller_Action
 		$message = "Person Phone Number saved";
 		$this->_FlashMessenger->addSuccessMessage($message);
 
-	    } catch (Exception $exc) {
-		$this->_FlashMessenger->addErrorMessage($exc->getMessage());
-		$this->_History->goBack(1);
 	    }
-	    $this->_History->goBack(1);
+	    catch (Exception $exc)
+	    {
+		$this->_FlashMessenger->addErrorMessage($exc->getMessage());
+		$this->_History->goBack();
+	    }
+	    
+	    $this->_History->goBack();
 	}
 	
-	$this->view->form		= $form;
-	$this->view->PhoneNumber  = $PhoneNumber;
+	$this->view->form	    = $form;
+	$this->view->PhoneNumber    = $PhoneNumber;
     }
 }
 

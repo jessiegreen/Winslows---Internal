@@ -131,24 +131,12 @@ class Company_EmployeeController extends Dataservice_Controller_Action
     
     public function getLeadsLabelValueJsonAction()
     {
-	$param_all	    = $this->_getParam("all");
-	$param_employee	    = $this->_getParam("employee");
+	$term		    = $this->_getParam("term");
 	
-	$all		= $param_all == 1 ? true : false;
-	$Employee	= $param_employee ? 
-			    $this->_Website->getCompany()->getEmployeeById($param_employee) : 
-			    $this->_Website->getCurrentUserAccount(Zend_Auth::getInstance())->getPerson();
-	/* @var $Leads \Doctrine\Common\Collections\ArrayCollection */
-	$Leads		= $all ? $Employee->getAllAllowedLeads() : $Employee->getLeads();
-	
-	$return = array();
+	$Employee	    = $this->_Website->getCurrentUserAccount(Zend_Auth::getInstance())->getPerson();
+	$leads		    = $Employee->getAllAllowedLeadsAutocomplete($term);
 
-	foreach ($Leads as $Lead)
-	{
-	    $return[] = array("value" => $Lead->getId(), "label" => $Lead->getFullName());
-	}
-    
-	echo $this->_helper->json($return);
+	echo $this->_helper->json($leads);
 
 	exit;
     }

@@ -187,4 +187,9 @@ class Lead extends PersonAbstract
     {
 	return array();
     }
+    
+    public function toString()
+    {
+	return parent::toString()." - ".$this->getEmployee()->getFullName();
+    }
 }

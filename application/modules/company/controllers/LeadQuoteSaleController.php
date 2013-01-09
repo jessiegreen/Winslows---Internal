@@ -16,7 +16,7 @@ class Company_LeadQuoteSaleController extends Dataservice_Controller_Action
 	
 	$this->_CheckRequiredQuoteExists($Quote);
 	
-	$Result = $Quote->isValid();
+	$Result = $Quote->getValidResult();
 	
 	if(!$Result->isValid())
 	{

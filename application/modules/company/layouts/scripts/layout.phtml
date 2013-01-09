@@ -5,10 +5,11 @@
     echo $this->headTitle();
     
     $this->headLink()->prependStylesheet('/css/company/layout.css');
-    $this->headLink()->prependStylesheet('/css/global.css');
+    $this->headLink()->prependStylesheet('/css/company/global.css');
     $this->headLink()->prependStylesheet('/css/jquery-ui/flick/jquery-ui.custom.css');
     #--Superfish Menu
     $this->headLink()->appendStylesheet(BASE_URL.'/css/superfish.css');
+    $this->headLink()->prependStylesheet('/css/global.css');
     echo $this->headLink();
     
     echo $this->headMeta();
