@@ -267,3 +267,36 @@ h1.header1{
 form fieldset{
     border: solid 1px #eeeded;
 }
+
+.main_body-link-theme a
+{
+    font-family: Kalinga;
+    text-decoration:none;
+    color:#0046AD;
+    font-size:10pt;
+    padding-right:10px;
+}
+
+.main_body-link-theme a :hover
+{
+    text-decoration:underline;
+}
+
+/*.div-to-scroll
+{
+    background-color: #F5F5F5;
+    border: 1px solid #0046AD;
+    border-radius: 4px 0 4px 0;
+    color: #cccc00;
+    font-size: 12pt;
+    font-weight: bold;
+    left: -1px;
+    padding: 10px 7px 5px;
+}
+
+.div-with-scroll
+{
+    height: 120px;
+    overflow: scroll;
+    overflow: hidden;
+}*/
