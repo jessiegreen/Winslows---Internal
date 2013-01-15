@@ -1,0 +1,107 @@
+/* 
+    Document   : gallery
+    Created on : Jan 14, 2013, 9:00:41 AM
+    Author     : hwalker
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+#gallery-main-container
+{
+    margin: auto;
+    height: 435px;
+    width: 960px;
+}
+
+#gallery-header-container-left
+{
+    width: 476px;
+    height: 40px;
+    float: left;
+}
+
+#gallery-header-container-right
+{
+    width: 476px;
+    height: 40px;
+    float: right;
+}
+
+#gallery-header-content-left h1
+{
+    width: 102px;
+    font-family: Kalinga;
+    color:#0046AD; 
+    font-size: 14pt;
+    text-decoration: underline;
+    padding-left: 27px;
+}
+
+#gallery-header-content-right h1
+{
+    width: 102px;
+    font-family: Kalinga;
+    color:#0046AD; 
+    font-size: 14pt;
+    text-decoration: underline;
+    float: right;
+    padding-right: 30px;
+}
+
+#gallery-left-navigation
+{
+    width: 200px;
+    height: 388px;
+    float: left;
+}
+
+#gallery-left-navigation a
+{
+    width: 115px;
+    font-family: Kalinga;
+    color:#0046AD;
+    font-size: 8pt;
+}
+
+#gallery-left-navigation ul
+{
+    width: 115px; 
+}
+
+#gallery-left-navigation h3
+{
+    width: 110px;
+    font-family: Kalinga;
+    color:#0046AD; 
+    font-size: 10pt;
+}
+#gallery-left-navigation li
+{
+    width: 110px;
+    font-family: Kalinga;
+    color:#0046AD; 
+    font-size: 10pt;
+    padding: 5px;
+}
+
+#gallery-library-container
+{
+      width: 595px;
+      height: 388px;
+      float: right;
+      margin-right: 50px;
+      overflow: scroll;
+}
+
+#gallery-background-container
+{
+    background-image:url('/img/winslows/layout/body_bg_grad.png');
+    background-repeat: repeat-x;
+    height: 438px;
+    width: 960px;
+    background-position:bottom;
+}
+root { 
+    display: block;
+}
+
