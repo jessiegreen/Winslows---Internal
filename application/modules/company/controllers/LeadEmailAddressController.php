@@ -11,8 +11,10 @@ class Company_LeadEmailAddressController extends Dataservice_Controller_Action
     public function editAction()
     {
 	/* @var $EmailAddress \Entities\Person\EmailAddress */
-	$EmailAddress = $this->getEntityFromParamFields("Person\EmailAddress", array("id"));
-	$form		    = new Forms\Person\EmailAddress(array("method" => "post"), $EmailAddress);
+	$EmailAddress	= $this->getEntityFromParamFields("Person\EmailAddress", array("id"));
+	$form		= new Forms\Person\EmailAddress(array("method" => "post"), $EmailAddress);
+	
+	$form->addCancelButton($this->_History->getPreviousUrl());
 	
 	if($this->isPostAndValid($form))
 	{

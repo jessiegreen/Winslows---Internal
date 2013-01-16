@@ -221,7 +221,7 @@ $Applications	= $lead->getApplications();
 		    <label>Total:</label>
 		    <div style="display: inline;">
 			<?php 
-			echo "$".$Quote->getTotal();
+			echo $Quote->getTotal()->getDisplayPrice();
 			?>
 		    </div><br />
 		    <label>Number Of Products:</label>

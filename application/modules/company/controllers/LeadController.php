@@ -5,6 +5,7 @@ class Company_LeadController extends Dataservice_Controller_Action
     public function init()
     {
 	$this->view->headScript()->appendFile("/javascript/company/lead.js");
+	
 	parent::init();
     }
     
@@ -30,14 +31,14 @@ class Company_LeadController extends Dataservice_Controller_Action
 		$this->_em->flush();
 
 		$message = "Lead '".htmlspecialchars($Lead->getFullName())."' saved";
-		$this->_FlashMessenger->addSuccessMessage($message);
 		
-		$this->_redirect("/lead/view/id/".$Lead->getId());		
+		$this->_FlashMessenger->addSuccessMessage($message);
+		$this->_History->goBack();		
 	    } 
 	    catch (Exception $exc)
 	    {
 		$this->_FlashMessenger->addErrorMessage($exc->getMessage());
-		$this->_History->goBack(1);
+		$this->_History->goBack();
 	    }
 	}
 	
@@ -47,48 +48,37 @@ class Company_LeadController extends Dataservice_Controller_Action
     
     public function viewAction()
     {	
-	$redirect	= false;
+	$Lead = $this->getEntityFromParamFields("Company\Lead", array("id"));
 	
-	if(isset($this->_params["id"]))
+	if(!$Lead->getId())
 	{
-	    $Lead = $this->_helper->EntityManager()->find("Entities\Company\Lead", $this->_params["id"]);
-	    
-	    if(!$Lead)$redirect = true;
+	    $this->_FlashMessenger->addErrorMessage("Could not get Lead");
+	    $this->_History->goBack();
 	}
-	else $redirect = true;
 	
-	if($redirect)$this->_FlashMessenger->addErrorMessage("Could not get Lead");
-	
-	$Company		= \Services\Company::factory()->getCurrentCompany();
-	$this->view->Lead	= $Lead;
-	$this->view->Locations	= $Company->getLocations();
+	$this->view->Lead = $Lead;
     }
     
-    public function searchAction()
-    {	
-	$this->view->headScript()->appendFile("/javascript/company/lead/search.js");
-    }
-    
-    public function searchautocompleteAction()
-    {	
-	$this->_helper->layout->setLayout("blank");
-	$this->_helper->viewRenderer->setNoRender(true);
-	
-	$term		= $this->_autocompleteGetTerm();
-	$return		= \Services\Company\Lead::factory()->getAutocompleteLeadsArrayFromTerm($term);
-	echo json_encode($return);
-    }
-
-    private function _autocompleteGetTerm()
+    public function viewSalesAction()
     {
-	$term = '';
-	if (isset($_GET['term'])) {
-	    $term = strtolower($_GET['term']);
+	/* @var $Lead \Entities\Company\Lead */
+	$Lead	    = $this->getEntityFromParamFields("Company\Lead", array("id"));
+	$Employee   = $this->_Website->getCurrentUserAccount(Zend_Auth::getInstance())->getPerson();
+	
+	if(!$Lead->getId())
+	{
+	    $this->_FlashMessenger->addErrorMessage("Could not get Lead");
+	    $this->_History->goBack();
 	}
-	if (!$term) {
-	    exit;
+	
+	if(!$Employee->canSeeLead($Lead))
+	{
+	    $this->_FlashMessenger->addErrorMessage("You are not allowed to view Lead");
+	    $this->_History->goBack();
 	}
-	return $term;
+	
+	$this->view->Lead = $Lead;
+	$this->view->back = $this->_History->getPreviousUrl();
     }
 }
 

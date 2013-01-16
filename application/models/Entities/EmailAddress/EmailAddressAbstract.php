@@ -70,6 +70,11 @@ class EmailAddressAbstract extends \Dataservice_Doctrine_Entity
         $this->address = $address;
     }
     
+    public function toString()
+    {
+	return \Dataservice\Inflector::humanize($this->getType())." - ".strtolower($this->getAddress());
+    }
+    
     /**
      * @return array
      */

@@ -238,4 +238,9 @@ class PersonAbstract extends \Dataservice_Doctrine_Entity
     {
 	return $this->getFirstName()." ".$this->getMiddleName()." ".$this->getLastName()." ".$this->getSuffix();
     }
+    
+    public function toString()
+    {
+	return $this->getFullName();
+    }
 }

@@ -237,7 +237,7 @@ abstract class AddressAbstract extends \Dataservice_Doctrine_Entity
     {
 	if(!$latitude)
 	{
-	    $array = \Dataservice\Map::getLatLongFromAddress($this->getAddressAsString());
+	    $array = \Dataservice\Map::getLatLongFromAddress($this->toString());
 	    
 	    if(isset($array["latitude"]))
 	    {
@@ -269,7 +269,7 @@ abstract class AddressAbstract extends \Dataservice_Doctrine_Entity
     {
 	if(!$longitude)
 	{
-	    $array = \Dataservice\Map::getLatLongFromAddress($this->getAddressAsString());
+	    $array = \Dataservice\Map::getLatLongFromAddress($this->toString());
 	    
 	    if(isset($array["longitude"]))
 	    {
@@ -288,14 +288,14 @@ abstract class AddressAbstract extends \Dataservice_Doctrine_Entity
     /**
      * @return string
      */
-    public function getAddressAsString()
+    public function toString()
     {
 	$array	= array();
 	
-	if($this->getAddress1())$array[]    = $this->getAddress1();
-	if($this->getAddress2())$array[]    = $this->getAddress2();
-	if($this->getCity())$array[]	    = $this->getCity();
-	if($this->getState())$array[]	    = $this->getState();
+	if($this->getAddress1())$array[]    = \Dataservice\Inflector::humanize($this->getAddress1(), true);
+	if($this->getAddress2())$array[]    = \Dataservice\Inflector::humanize($this->getAddress2(), true);
+	if($this->getCity())$array[]	    = \Dataservice\Inflector::humanize($this->getCity(), true);
+	if($this->getState())$array[]	    = strtoupper($this->getState());
 	if($this->getFullZipCode())$array[] = $this->getFullZipCode();
 	
 	return implode(", ", $array);

@@ -31,7 +31,7 @@ class Dataservice_Doctrine_Entity
      */
     public function getCreated()
     {
-        return \Dataservice\DateTime(strtotime($this->created));
+        return $this->created;
     }
 
     /**
