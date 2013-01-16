@@ -192,6 +192,12 @@ class Guest extends \Entities\Website\Guest implements \Doctrine\ORM\Proxy\Proxy
         return parent::populate($array);
     }
 
+    public function filterCollectionByfield(\Doctrine\Common\Collections\ArrayCollection $ArrayCollection, $field, $value)
+    {
+        $this->__load();
+        return parent::filterCollectionByfield($ArrayCollection, $field, $value);
+    }
+
     public function toArray()
     {
         $this->__load();
