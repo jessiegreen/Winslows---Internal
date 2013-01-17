@@ -1,0 +1,31 @@
+<?php 
+echo($this->flashMessages());
+?>
+<h1 class="header1">
+    Employees Time Clocks - View Status
+</h1>
+<div style="padding: 25px;padding-top: 0;">
+<?php
+/* @var $Employee Entities\Company\Employee */
+echo "<table>";
+
+$headers = array("Status", "Employee", "H:M");
+
+echo "<tr><th>".implode("</th><th>", $headers)."</th></tr>";
+
+foreach ($this->Employees as $Employee)
+{
+    $clocked_in = $Employee->isClockedIn();
+    $class	= " class='messenger_".($clocked_in ? "success" : "error")."'";
+    echo "<tr>";
+	echo "<td$class>";
+	echo ($clocked_in ? "IN" : "OUT");
+	echo "</td>";
+	echo "<td$class>".$Employee->getFullName()."</td>";
+	$min = $Employee->getTodaysTimeClockTotalTime();
+	echo "<td$class>".sprintf("%d:%02d", abs((int)$min/60), abs((int)$min%60))."</td>";
+    echo "</tr>";
+}
+echo "</table>";
+?>
+</div>

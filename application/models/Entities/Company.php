@@ -75,6 +75,7 @@ class Company extends \Dataservice_Doctrine_Entity
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="\Entities\Company\Employee", mappedBy="Company", cascade={"persist"})
+     * @OrderBy({"first_name" = "ASC"})
      * @var ArrayCollection $Employees
      */
     private $Employees;

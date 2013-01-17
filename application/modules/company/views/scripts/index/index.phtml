@@ -1,53 +1,50 @@
 <?php 
 echo($this->flashMessages()); 
+/* @var $Account \Entities\Website\Account\AccountAbstract */
+/* @var $Employee \Entities\Company\Employee */
+$Account    = $this->Account;
+$Employee   = $Account->getPerson();
+$clocked_in = $Employee->isClockedIn();
 ?>
-<div style="padding: 15px;">
+<h1 class="header1">
+    Dashboard - <?php echo $Employee->getFirstName();?>
+</h1>
+<div style="padding: 25px;padding-top: 0;">
+    <h3>Timeclock</h3>
     <?php
-    /* @var $Account \Entities\Website\Account\AccountAbstract */
-    $Account    = $this->Account;
-
-    if($Account->isEmployeeAccount())
+    echo "<div style='margin-bottom:10px;'>".\Dataservice\Html\Button::buttonBlue(
+	    "clock.png", 
+	    $clocked_in ? "Clock Out" : "Clock In", 
+	    "time_clock_button", 
+	    "", 
+	    "", 
+	    "employee_id=".$Employee->getId()
+	)."</div>";
+    
+    if($Account->hasRoleByRoleNames(array("Admin", "Sales Manager", "Manager")))
     {
-	/* @var $Employee \Entities\Company\Employee */
-	$Employee	= $Account->getPerson();
-	$clocked_in = $Employee->isClockedIn();
+	echo \Dataservice\Html\Anchor::viewIcon(
+		"View Employee Time Clocks", 
+		"/employees-time-clocks/view-status", 
+		"View Employee Time Clocks"
+		);
+    }
+    
+    if($Account->hasRoleByRoleNames(array("Sales", "Admin", "Sales Manager")))
+    {
 	?>
-	<h4>
-	    Welcome to the 
-	    <?php echo $Account->getWebsite()->getCompany()->getDba();?> 
-	    management site 
-	    <?php echo $Employee->getFirstName();?>
-	    !!!
-	</h4>
-	<h3>Timeclock</h3>
-	<?php
-	echo "<div style='margin-bottom:10px;'>".\Dataservice\Html\Button::buttonBlue(
-		"clock.png", 
-		$clocked_in ? "Clock Out" : "Clock In", 
-		"time_clock_button", 
-		"", 
-		"", 
-		"employee_id=".$Employee->getId()
-	    )."</div>";
-
-	if($Account->hasRoleByRoleNames(array("Sales", "Admin", "Sales Manager")))
-	{
-	    ?>
-	    <h3>Sales</h3>
-	    <?php 
-	    $autocomplete   = new \Dataservice\Form\Element\Company\Employee\Lead\AutoComplete(
-				'function(event,ui) { location = "/lead/view-sales/id/" + ui.item.id }',
-				"test", 
-				array('label' => 'Lead/Customer Lookup:')
-			);    
-	    echo $autocomplete;
-	}
-	?>
-	<script type="text/javascript">
-	    Company_Index_Index = new Company_Index_Index();
-	    Company_Index_Index.clockInOutBind($("#time_clock_button"));
-	</script>
-	<?php
+	<h3>Sales</h3>
+	<?php 
+	$autocomplete   = new \Dataservice\Form\Element\Company\Employee\Lead\AutoComplete(
+			    'function(event,ui) { location = "/lead/view-sales/id/" + ui.item.id }',
+			    "test", 
+			    array('label' => 'Lead/Customer Lookup:')
+		    );    
+	echo $autocomplete;
     }
     ?>
+    <script type="text/javascript">
+	Company_Index_Index = new Company_Index_Index();
+	Company_Index_Index.clockInOutBind($("#time_clock_button"));
+    </script>
 </div>

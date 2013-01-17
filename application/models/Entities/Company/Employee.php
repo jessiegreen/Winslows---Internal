@@ -137,11 +137,47 @@ class Employee extends PersonAbstract
 	\Services\Company\Employee::factory()->clockInOutEmployee($this);
     }
     
+    /**
+     * @return array
+     */
     public function getTodaysTimeClockEntries()
     {
-	return \Services\Company\Employee::factory()->isEmployeeClockedIn($this);
+	return \Services\Company\Employee::factory()->getTimeClockEntriesForToday($this);
     }
     
+    /**
+     * @return int
+     */
+    public function getTodaysTimeClockTotalTime()
+    {
+	$todays_entries = $this->getTodaysTimeClockEntries();
+	$in_time	= null;
+	$total		= 0;
+	$clocked_in	= $this->isClockedIn();
+	
+	/* @var $Entry \Entities\Company\TimeClock\Entry */
+	foreach ($todays_entries as $Entry)
+	{
+	    if($in_time !== null)
+	    {
+		$Interval   = $Entry->getDateTime()->diff($in_time);
+		$total	    += (int) $Interval->format("%i");
+		$in_time    = null;
+	    }
+	    else $in_time = $Entry->getDateTime();
+	}
+	if($clocked_in)
+	{
+	    $Interval   = $Entry->getDateTime()->diff(new \DateTime());
+	    $total	+= (int) $Interval->format("%i");
+	}
+	
+	return $total;
+    }
+    
+    /**
+     * @return bool
+     */
     public function isClockedIn()
     {
 	return count($this->getTodaysTimeClockEntries()) % 2 == 0 ? false : true;

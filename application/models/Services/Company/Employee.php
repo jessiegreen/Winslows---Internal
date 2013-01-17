@@ -25,7 +25,7 @@ class Employee extends \Dataservice_Service_ServiceAbstract
 	$this->_em->flush();
     }
     
-    public function isEmployeeClockedIn(\Entities\Company\Employee $Employee)
+    public function getTimeClockEntriesForToday(\Entities\Company\Employee $Employee)
     {
 	$qb	= $this->_em->createQueryBuilder();
 	$Today	= new \Dataservice\DateTime();
@@ -38,7 +38,6 @@ class Employee extends \Dataservice_Service_ServiceAbstract
 	    ->orderBy('E.datetime');
 	
 	return $qb->getQuery()->getResult();
-	
     }
     
     public function getAutocompleteLeadsArrayFromTerm($term = "", $max_results = 20, \Entities\Company\Employee $Employee = null)
