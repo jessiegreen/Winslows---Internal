@@ -29,7 +29,7 @@ echo($this->flashMessages());
 		"employee_id=".$Employee->getId()
 	    )."</div>";
 
-	$autocomplete   = new Dataservice\Form\Element\Company\Employee\Lead\AutoComplete(
+	$autocomplete   = new \Dataservice\Form\Element\Company\Employee\Lead\AutoComplete(
 				'function(event,ui) { location = "/lead/view-sales/id/" + ui.item.id }',
 				"test", 
 				array('label' => 'Autocomplete:')
