@@ -2,6 +2,8 @@
 
 namespace Entities\Address;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /** 
  * @Entity (repositoryClass="Repositories\Address\AddressAbstract") 
  * @Table(name="address_addressabstracts") 
@@ -82,6 +84,39 @@ abstract class AddressAbstract extends \Dataservice_Doctrine_Entity
      * @var string $longitude
      */
     protected $longitude;
+    
+    /**
+     * Bidirectional - One-To-Many (INVERSE SIDE)
+     *
+     * @OneToMany(targetEntity="\Entities\Address\Mail", mappedBy="Address", cascade={"persist"})
+     * @var \Doctrine\Common\Collections\ArrayCollection $Mail
+     */
+    protected $Mail;
+
+    public function __construct()
+    {
+	$this->Mail = new ArrayCollection();
+	
+	parent::__construct();
+    }
+    
+    /**
+     * @param Mail $Mail
+     */
+    public function addMail(Mail $Mail)
+    {
+	$Mail->setAddress($this);
+	
+        $this->Mail->add($Mail);
+    }
+    
+    /**
+     * @return ArrayCollection
+     */
+    public function getMail()
+    {
+	return $this->Mail;
+    }
 
     /**
      * @return integer

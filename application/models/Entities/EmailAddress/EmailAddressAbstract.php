@@ -1,6 +1,8 @@
 <?php
 namespace Entities\EmailAddress;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /** 
  * @Entity (repositoryClass="Repositories\EmailAddress\EmailAddressAbstract") 
  * @Table(name="emailaddress_emailaddressabstracts") 
@@ -29,6 +31,39 @@ class EmailAddressAbstract extends \Dataservice_Doctrine_Entity
      * @var string $type
      */
     protected $type;
+    
+    /**
+     * Bidirectional - One-To-Many (INVERSE SIDE)
+     *
+     * @OneToMany(targetEntity="\Entities\EmailAddress\Email", mappedBy="EmailAddress", cascade={"persist"})
+     * @var \Doctrine\Common\Collections\ArrayCollection $Emails
+     */
+    protected $Emails;
+    
+    public function __construct()
+    {
+	$this->Emails = new ArrayCollection();
+	
+	parent::__construct();
+    }
+    
+    /**
+     * @param Email $Email
+     */
+    public function addEmail(Email $Email)
+    {
+	$Email->setEmailAddress($this);
+	
+        $this->Emails->add($Email);
+    }
+    
+    /**
+     * @return ArrayCollection
+     */
+    public function getEmails()
+    {
+	return $this->Emails;
+    }
 
     /**
      * @var integer

@@ -56,9 +56,18 @@ class LocationAbstract extends \Dataservice_Doctrine_Entity
      */
     protected $InventoryItems;
     
+    /**
+     * Bidirectional - One-To-Many (INVERSE SIDE)
+     *
+     * @OneToMany(targetEntity="\Entities\Location\Visit", mappedBy="Location", cascade={"persist"})
+     * @var \Doctrine\Common\Collections\ArrayCollection $Visits
+     */
+    protected $Visits;
+    
     public function __construct()
     {
-	$this->InventoryItems = new ArrayCollection();
+	$this->InventoryItems	= new ArrayCollection();
+	$this->Visits		= new ArrayCollection();
 	
 	parent::__construct();
     }
@@ -75,6 +84,24 @@ class LocationAbstract extends \Dataservice_Doctrine_Entity
     public function getInventoryItems()
     {
 	return $this->InventoryItems;
+    }
+    
+    /**
+     * @param Visit $Visit
+     */
+    public function addVisit(Visit $Visit)
+    {
+	$Visit->setLocation($this);
+	
+	$this->Visits->add($Visit);
+    }
+    
+    /**
+     * @return \ArrayCollection
+     */
+    public function getVisits()
+    {
+	return $this->Visits;
     }
 
     /**

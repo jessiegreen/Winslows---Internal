@@ -2,6 +2,8 @@
 
 namespace Entities\PhoneNumber;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /** 
  * @Entity (repositoryClass="Repositories\PhoneNumber\PhoneNumberAbstract") 
  * @Table(name="phonenumber_phonenumberabstracts") 
@@ -50,11 +52,36 @@ class PhoneNumberAbstract extends \Dataservice_Doctrine_Entity
     protected $extension;
 
     /**
-     * @PreUpdate
+     * Bidirectional - One-To-Many (INVERSE SIDE)
+     *
+     * @OneToMany(targetEntity="\Entities\PhoneNumber\Call", mappedBy="PhoneNumber", cascade={"persist"})
+     * @var \Doctrine\Common\Collections\ArrayCollection $Emails
      */
-    public function updated()
+    protected $Calls;
+    
+    public function __construct()
     {
-        $this->updated = new \DateTime("now");
+	$this->Calls = new ArrayCollection();
+	
+	parent::__construct();
+    }
+
+    /**
+     * @param Call $Call
+     */
+    public function addCall(Call $Call)
+    {
+	$Call->setPhoneNumber($this);
+	
+        $this->Calls->add($Call);
+    }
+    
+    /**
+     * @return ArrayCollection
+     */
+    public function getCalls()
+    {
+	return $this->Calls;
     }
 
     /**
