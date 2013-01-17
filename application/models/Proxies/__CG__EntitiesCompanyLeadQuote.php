@@ -90,12 +90,6 @@ class Quote extends \Entities\Company\Lead\Quote implements \Doctrine\ORM\Proxy\
         return parent::getTotal();
     }
 
-    public function getTotalSafe()
-    {
-        $this->__load();
-        return parent::getTotalSafe();
-    }
-
     public function getTotalItemsQuantity()
     {
         $this->__load();
@@ -108,10 +102,16 @@ class Quote extends \Entities\Company\Lead\Quote implements \Doctrine\ORM\Proxy\
         return parent::removeItem($Item);
     }
 
-    public function isValid()
+    public function getValidResult()
     {
         $this->__load();
-        return parent::isValid();
+        return parent::getValidResult();
+    }
+
+    public function toString()
+    {
+        $this->__load();
+        return parent::toString();
     }
 
     public function getId()
@@ -148,6 +148,12 @@ class Quote extends \Entities\Company\Lead\Quote implements \Doctrine\ORM\Proxy\
     {
         $this->__load();
         return parent::populate($array);
+    }
+
+    public function filterCollectionByfield(\Doctrine\Common\Collections\ArrayCollection $ArrayCollection, $field, $value)
+    {
+        $this->__load();
+        return parent::filterCollectionByfield($ArrayCollection, $field, $value);
     }
 
     public function toArray()
