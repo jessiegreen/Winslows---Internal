@@ -146,33 +146,39 @@ class Employee extends PersonAbstract
     }
     
     /**
-     * @return int
+     * @return \DateInterval
      */
     public function getTodaysTimeClockTotalTime()
     {
 	$todays_entries = $this->getTodaysTimeClockEntries();
 	$in_time	= null;
-	$total		= 0;
 	$clocked_in	= $this->isClockedIn();
+	$e		= new \DateTime('00:00');
+	$f		= clone $e;
 	
 	/* @var $Entry \Entities\Company\TimeClock\Entry */
 	foreach ($todays_entries as $Entry)
 	{
 	    if($in_time !== null)
 	    {
-		$Interval   = $Entry->getDateTime()->diff($in_time);
-		$total	    += (int) $Interval->format("%i");
+		$Interval = $in_time->getDateTime()->diff($Entry, true);
+		
+		$e->add($Interval);
+		
 		$in_time    = null;
 	    }
 	    else $in_time = $Entry->getDateTime();
 	}
+	
 	if($clocked_in)
 	{
-	    $Interval   = $Entry->getDateTime()->diff(new \DateTime());
-	    $total	+= (int) $Interval->format("%i");
+	    $Now	= new \DateTime();
+	    $Interval   = $Now->diff($Entry->getDateTime(), true);
+	    
+	    $e->add($Interval);
 	}
 	
-	return $total;
+	return $f->diff($e);
     }
     
     /**

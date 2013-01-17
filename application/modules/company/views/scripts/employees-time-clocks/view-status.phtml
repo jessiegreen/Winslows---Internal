@@ -22,8 +22,7 @@ foreach ($this->Employees as $Employee)
 	echo ($clocked_in ? "IN" : "OUT");
 	echo "</td>";
 	echo "<td$class>".$Employee->getFullName()."</td>";
-	$min = $Employee->getTodaysTimeClockTotalTime();
-	echo "<td$class>".sprintf("%d:%02d", abs((int)$min/60), abs((int)$min%60))."</td>";
+	echo "<td$class>".$Employee->getTodaysTimeClockTotalTime()->format("%H:%I")."</td>";
     echo "</tr>";
 }
 echo "</table>";
