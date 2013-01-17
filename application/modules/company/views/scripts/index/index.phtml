@@ -29,20 +29,17 @@ echo($this->flashMessages());
 		"employee_id=".$Employee->getId()
 	    )."</div>";
 
-	$autocomplete   = new \Dataservice\Form\Element\Company\Employee\Lead\AutoComplete(
-				'function(event,ui) { location = "/lead/view-sales/id/" + ui.item.id }',
-				"test", 
-				array('label' => 'Autocomplete:')
-			);    
-	echo $autocomplete;
 	if($Account->hasRoleByRoleName("Sales"))
 	{
 	    ?>
 	    <h4>Sales Stuff</h4>
 	    <?php 
-	    $form = new \Forms\Company\Lead\Search;
-
-	    echo $form;
+	    $autocomplete   = new \Dataservice\Form\Element\Company\Employee\Lead\AutoComplete(
+				'function(event,ui) { location = "/lead/view-sales/id/" + ui.item.id }',
+				"test", 
+				array('label' => 'Autocomplete:')
+			);    
+	    echo $autocomplete;
 	}
 	?>
 	<script type="text/javascript">
