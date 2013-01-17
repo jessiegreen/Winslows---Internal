@@ -20,8 +20,7 @@ echo($this->flashMessages());
 	    !!!
 	</h2>
 	<?php
-	$Button = new \Dataservice\Html\Button;
-	echo "<div style='margin-bottom:10px;'>".$Button::buttonBlue(
+	echo "<div style='margin-bottom:10px;'>".\Dataservice\Html\Button::buttonBlue(
 		"clock.png", 
 		$clocked_in ? "Clock Out" : "Clock In", 
 		"time_clock_button", 
