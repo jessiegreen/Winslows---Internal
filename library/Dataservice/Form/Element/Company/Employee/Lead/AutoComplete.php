@@ -1,7 +1,7 @@
 <?php
 namespace Dataservice\Form\Element\Company\Employee\Lead;
 
-class AutoComplete// extends \ZendX_JQuery_Form_Element_AutoComplete
+class AutoComplete extends \ZendX_JQuery_Form_Element_AutoComplete
 {    
     public function __construct($select_js, $spec, $options = null)
     {
