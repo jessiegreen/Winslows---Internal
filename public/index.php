@@ -9,7 +9,6 @@ defined('APPLICATION_ENV')
 
 // Ensure library/ is on include_path
 set_include_path(implode(PATH_SEPARATOR, array(
-    realpath(APPLICATION_PATH . '/../../library'),//Zend, Doctrine, ETC shared between sites
     realpath(APPLICATION_PATH . '/models/Entities'),
     realpath(APPLICATION_PATH . '/../library'),//local library
     get_include_path(),
