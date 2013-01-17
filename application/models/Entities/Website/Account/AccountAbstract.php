@@ -122,6 +122,20 @@ abstract class AccountAbstract extends \Dataservice_Doctrine_Entity implements \
     }
     
     /**
+     * @param array $name
+     * @return boolean
+     */
+    public function hasRoleByRoleNames($name_array)
+    {
+	foreach ($this->getRoles() as $Role)
+	{
+	    if(in_array($Role->getName(),$name_array))return true;
+	}
+	
+	return false;
+    }
+    
+    /**
      * @param \Entities\Website\WebsiteAbstract $Website
      */
     public function setWebsite(\Entities\Website\WebsiteAbstract $Website)
