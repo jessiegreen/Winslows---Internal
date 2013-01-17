@@ -78,18 +78,6 @@ class Location extends \Entities\Company\Location implements \Doctrine\ORM\Proxy
         return parent::getInventoryItems();
     }
 
-    public function addVisit(\Entities\Location\Visit $Visit)
-    {
-        $this->__load();
-        return parent::addVisit($Visit);
-    }
-
-    public function getVisits()
-    {
-        $this->__load();
-        return parent::getVisits();
-    }
-
     public function getId()
     {
         $this->__load();
@@ -201,7 +189,7 @@ class Location extends \Entities\Company\Location implements \Doctrine\ORM\Proxy
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'name', 'type', 'created', 'updated', 'Address', 'PhoneNumber', 'InventoryItems', 'Visits', 'Company', 'Employees');
+        return array('__isInitialized__', 'id', 'name', 'type', 'created', 'updated', 'Address', 'PhoneNumber', 'InventoryItems', 'Company', 'Employees');
     }
 
     public function __clone()

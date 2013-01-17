@@ -162,12 +162,6 @@ class Guest extends \Entities\Website\Guest implements \Doctrine\ORM\Proxy\Proxy
         return parent::getFullName();
     }
 
-    public function toString()
-    {
-        $this->__load();
-        return parent::toString();
-    }
-
     public function updated()
     {
         $this->__load();

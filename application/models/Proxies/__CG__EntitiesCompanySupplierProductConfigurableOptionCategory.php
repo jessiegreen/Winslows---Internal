@@ -129,12 +129,6 @@ class Category extends \Entities\Company\Supplier\Product\Configurable\Option\Ca
         return parent::populate($array);
     }
 
-    public function filterCollectionByfield(\Doctrine\Common\Collections\ArrayCollection $ArrayCollection, $field, $value)
-    {
-        $this->__load();
-        return parent::filterCollectionByfield($ArrayCollection, $field, $value);
-    }
-
     public function toArray()
     {
         $this->__load();

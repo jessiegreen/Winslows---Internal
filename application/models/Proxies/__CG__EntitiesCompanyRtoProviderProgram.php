@@ -189,12 +189,6 @@ class Program extends \Entities\Company\RtoProvider\Program implements \Doctrine
         return parent::populate($array);
     }
 
-    public function filterCollectionByfield(\Doctrine\Common\Collections\ArrayCollection $ArrayCollection, $field, $value)
-    {
-        $this->__load();
-        return parent::filterCollectionByfield($ArrayCollection, $field, $value);
-    }
-
     public function toArray()
     {
         $this->__load();

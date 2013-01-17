@@ -135,12 +135,6 @@ class Supplier extends \Entities\Company\Supplier implements \Doctrine\ORM\Proxy
         return parent::populate($array);
     }
 
-    public function filterCollectionByfield(\Doctrine\Common\Collections\ArrayCollection $ArrayCollection, $field, $value)
-    {
-        $this->__load();
-        return parent::filterCollectionByfield($ArrayCollection, $field, $value);
-    }
-
     public function toArray()
     {
         $this->__load();

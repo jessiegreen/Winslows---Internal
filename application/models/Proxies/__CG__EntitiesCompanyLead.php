@@ -120,12 +120,6 @@ class Lead extends \Entities\Company\Lead implements \Doctrine\ORM\Proxy\Proxy
         return parent::getContactOptionsArray();
     }
 
-    public function toString()
-    {
-        $this->__load();
-        return parent::toString();
-    }
-
     public function addAddress(\Entities\Person\Address $Address)
     {
         $this->__load();
@@ -262,12 +256,6 @@ class Lead extends \Entities\Company\Lead implements \Doctrine\ORM\Proxy\Proxy
     {
         $this->__load();
         return parent::populate($array);
-    }
-
-    public function filterCollectionByfield(\Doctrine\Common\Collections\ArrayCollection $ArrayCollection, $field, $value)
-    {
-        $this->__load();
-        return parent::filterCollectionByfield($ArrayCollection, $field, $value);
     }
 
     public function toArray()
