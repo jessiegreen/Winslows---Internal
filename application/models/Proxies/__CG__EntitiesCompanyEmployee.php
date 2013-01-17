@@ -60,6 +60,24 @@ class Employee extends \Entities\Company\Employee implements \Doctrine\ORM\Proxy
         return parent::getAllAllowedLeads();
     }
 
+    public function canSeeAllLeads()
+    {
+        $this->__load();
+        return parent::canSeeAllLeads();
+    }
+
+    public function canSeeLead(\Entities\Company\Lead $Lead)
+    {
+        $this->__load();
+        return parent::canSeeLead($Lead);
+    }
+
+    public function getAllAllowedLeadsAutocomplete($term, $count = 20)
+    {
+        $this->__load();
+        return parent::getAllAllowedLeadsAutocomplete($term, $count);
+    }
+
     public function getTimeClockEntries()
     {
         $this->__load();
@@ -244,6 +262,12 @@ class Employee extends \Entities\Company\Employee implements \Doctrine\ORM\Proxy
     {
         $this->__load();
         return parent::getFullName();
+    }
+
+    public function toString()
+    {
+        $this->__load();
+        return parent::toString();
     }
 
     public function updated()
