@@ -146,18 +146,97 @@ class Employee extends PersonAbstract
     }
     
     /**
+     * @param \DateTime $StartDate
+     * @return array
+     */
+    public function getWeeksTimeClockEntries(\DateTime $StartDate)
+    {
+	return \Services\Company\Employee::factory()->getTimeClockEntriesForWeek($this, $StartDate);
+    }
+    
+    /**
      * @return \DateInterval
      */
     public function getTodaysTimeClockTotalTime()
     {
-	$todays_entries = $this->getTodaysTimeClockEntries();
+	$TimeEntries = $this->getTodaysTimeClockEntries();
+	
+	return $this->getTimeClockTotalTime($TimeEntries);
+    }
+    
+    public function getWeeksTimeClockTotalTime(\DateTime $StartDate)
+    {
+	$TimeEntries	= $this->getWeeksTimeClockEntries($StartDate);
+	
+	return $this->getTimeClockTotalTime($TimeEntries);
+    }
+    
+    public function getTimeClockTotalTime($TimeEntries)
+    {
+	$clocked_in	= false;
+	$e		= new \DateTime('00:00');
+	$f		= clone $e;
+	$Now		= new \DateTime();
+	
+	/* @var $PreviousEntry \Entities\Company\TimeClock\Entry */
+	$PreviousEntry	= null;
+	
+	/* @var $Entry \Entities\Company\TimeClock\Entry */
+	foreach ($TimeEntries as $Entry)
+	{
+	    #--If we are moving to the next day
+	    if($PreviousEntry && $PreviousEntry->getDateTime("Y-m-d") !== $Entry->getDateTime("Y-m-d"))
+	    {
+		#--Finalize the previous day if still clocked in
+		if($clocked_in === true)
+		{
+		    $EndOfDay   = new \DateTime($PreviousEntry->getDateTime()->format("Y-m-d 23:59:59"));
+		    $Interval   = $EndOfDay->diff($PreviousEntry->getDateTime(), true);
+
+		    $e->add($Interval);
+		    
+		    $clocked_in = false;
+		}	
+	    }
+	    
+	    if($clocked_in)
+	    {
+		$Interval = $PreviousEntry->getDateTime()->diff($Entry, true);
+		
+		$e->add($Interval);
+		
+		$clocked_in = false;
+	    }
+	    else $clocked_in = true;
+	    
+	    #--Set Current Entry as Previous and set $clocked in status
+	    $PreviousEntry  = $Entry;	    
+	}
+	
+	if($clocked_in)
+	{
+	    $Now	= new \DateTime();
+	    $Interval   = $Now->diff($Entry->getDateTime(), true);
+	    
+	    $e->add($Interval);
+	}
+	
+	return $f->diff($e);
+    }
+    
+    /**
+     * @param array $time_clock_entries
+     * @return \DateInterval
+     */
+    public function calculateDaysTimeClockTime($time_clock_entries)
+    {
 	$in_time	= null;
 	$clocked_in	= $this->isClockedIn();
 	$e		= new \DateTime('00:00');
 	$f		= clone $e;
 	
 	/* @var $Entry \Entities\Company\TimeClock\Entry */
-	foreach ($todays_entries as $Entry)
+	foreach ($time_clock_entries as $Entry)
 	{
 	    if($in_time !== null)
 	    {

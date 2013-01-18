@@ -11,6 +11,9 @@ class Employee extends \Dataservice_Service_ServiceAbstract
 	return parent::factory();
     }
 
+    /**
+     * @param \Entities\Company\Employee $Employee
+     */
     public function clockInOutEmployee(\Entities\Company\Employee $Employee)
     {
 	$Entry = new \Entities\Company\TimeClock\Entry;
@@ -25,6 +28,10 @@ class Employee extends \Dataservice_Service_ServiceAbstract
 	$this->_em->flush();
     }
     
+    /**
+     * @param \Entities\Company\Employee $Employee
+     * @return array
+     */
     public function getTimeClockEntriesForToday(\Entities\Company\Employee $Employee)
     {
 	$qb	= $this->_em->createQueryBuilder();
@@ -40,6 +47,32 @@ class Employee extends \Dataservice_Service_ServiceAbstract
 	return $qb->getQuery()->getResult();
     }
     
+    /**
+     * @param \Entities\Company\Employee $Employee
+     * @return array
+     */
+    public function getTimeClockEntriesForWeek(\Entities\Company\Employee $Employee, \DateTime $StartDate)
+    {
+	$qb	    = $this->_em->createQueryBuilder();
+	$TempDate   = clone $StartDate;
+	$EndDate    = $TempDate->add(new \DateInterval("P6D"));
+	
+	$qb->select('E')
+	    ->from("Entities\Company\TimeClock\Entry", 'E')
+	    ->where($qb->expr()->eq('E.Employee', $Employee->getId()))
+	    ->andWhere($qb->expr()->gte('E.datetime', "'".$StartDate->format("Y-m-d 00:00:00")."'"))
+	    ->andWhere($qb->expr()->lt('E.datetime', "'".$EndDate->format("Y-m-d 23:59:59")."'"))
+	    ->orderBy('E.datetime');
+	
+	return $qb->getQuery()->getResult();
+    }
+    
+    /**
+     * @param string $term
+     * @param int $max_results
+     * @param \Entities\Company\Employee $Employee
+     * @return array
+     */
     public function getAutocompleteLeadsArrayFromTerm($term = "", $max_results = 20, \Entities\Company\Employee $Employee = null)
     {
 	$max_results	= 20;

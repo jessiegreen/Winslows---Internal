@@ -2,29 +2,35 @@
 echo($this->flashMessages());
 ?>
 <h1 class="header1">
-    Employees Time Clocks - View Status
+    Employees Time Clocks - View Time
 </h1>
 <div style="padding: 25px;padding-top: 0;">
-<?php
-/* @var $Employee Entities\Company\Employee */
-echo "<table>";
+    <div style="padding-top: 8px;padding-bottom: 10px;">
+    <?php
+    echo new Dataservice_Form_Element_Company_TimeClock_WorkWeek_Select(
+	    "start_date", 
+	    array(
+		"value"	    => $this->StartDate->format("Y-m-d"),
+		"label"	    => "Pay Period",
+		"onchange"  => "location = '/employees-time-clocks/view-time/start_date/'+this.value"
+	    )
+	);
+    ?>
+    </div>
+    <?php
+    $headers = array("Employee", "H:M");
 
-$headers = array("Status", "Employee", "H:M");
+    echo "<table>";
+    echo "<tr><th>".implode("</th><th>", $headers)."</th></tr>";
 
-echo "<tr><th>".implode("</th><th>", $headers)."</th></tr>";
-
-foreach ($this->Employees as $Employee)
-{
-    $clocked_in = $Employee->isClockedIn();
-    $class	= " class='messenger_".($clocked_in ? "success" : "error")."'";
-    echo "<tr>";
-	echo "<td$class>";
-	echo ($clocked_in ? "IN" : "OUT");
-	echo "</td>";
-	echo "<td$class>".$Employee->getFullName()."</td>";
-	echo "<td$class>".$Employee->getTodaysTimeClockTotalTime()->format("%H:%I")."</td>";
-    echo "</tr>";
-}
-echo "</table>";
-?>
+    /* @var $Employee Entities\Company\Employee */
+    foreach ($this->Employees as $Employee)
+    {
+	echo "<tr>";
+	    echo "<td>".$Employee->getFullName()."</td>";
+	    echo "<td>".$Employee->getWeeksTimeClockTotalTime($this->StartDate)->format("%H:%I")."</td>";
+	echo "</tr>";
+    }
+    echo "</table>";
+    ?>
 </div>
