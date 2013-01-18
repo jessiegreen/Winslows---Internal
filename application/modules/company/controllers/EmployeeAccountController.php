@@ -40,7 +40,7 @@ class Company_EmployeeAccountController extends Dataservice_Controller_Action
             }
         }
         
-	$form = new Forms\Company\Employee\Account(array("method" => "post"), $Account, $safe);
+	$form = new Forms\Company\Employee\Account(array("method" => "post", "autocomplete" => "off"), $Account, $safe);
 	
 	$form->addCancelButton($this->_History->getPreviousUrl());
 	
