@@ -5,5 +5,10 @@ class Company_EmployeesTimeClocksController extends Dataservice_Controller_Actio
     {
 	$this->view->Employees = $this->_Website->getCompany()->getEmployees();
     }
+    
+    public function viewTimeAction()
+    {
+	$this->view->Employees = $this->_Website->getCompany()->getEmployees();
+    }
 }
 

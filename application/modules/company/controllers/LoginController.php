@@ -96,6 +96,7 @@ class Company_LoginController extends Dataservice_Controller_Action
         Zend_Auth::getInstance()->clearIdentity();
 	$session		= new Zend_Session_Namespace('Dataservice');
 	$session->redirect	= "/index/index";
-        $this->_helper->redirector('index'); // back to login page
+	
+        $this->_helper->redirector->gotoUrl("/"); // back to login page
     }
 }
