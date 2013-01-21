@@ -164,11 +164,27 @@ class Employee extends PersonAbstract
 	return $this->getTimeClockTotalTime($TimeEntries);
     }
     
-    public function getWeeksTimeClockTotalTime(\DateTime $StartDate)
+    /**
+     * @return \DateInterval
+     */
+    public function getThisWeeksTimeClockTotalTime()
     {
-	$TimeEntries	= $this->getWeeksTimeClockEntries($StartDate);
+	$TimeEntries = $this->getThisWeeksTimeClockEntries();
 	
 	return $this->getTimeClockTotalTime($TimeEntries);
+    }
+    
+    /**
+     * @return array
+     */
+    public function getThisWeeksTimeClockEntries()
+    {
+	$StartDate	= new \DateTime();
+	
+	if($StartDate->format("l") !== "Saturday")
+	    $StartDate = $StartDate->createFromFormat("U", strtotime("last Saturday"));
+	
+	return $this->getWeeksTimeClockEntries($StartDate);
     }
     
     public function getTimeClockTotalTime($TimeEntries)
@@ -184,11 +200,11 @@ class Employee extends PersonAbstract
 	/* @var $Entry \Entities\Company\TimeClock\Entry */
 	foreach ($TimeEntries as $Entry)
 	{
-	    #--If we are moving to the next day
-	    if($PreviousEntry && $PreviousEntry->getDateTime("Y-m-d") !== $Entry->getDateTime("Y-m-d"))
+	    #--If there is a previous day and we are moving to the next day
+	    if($PreviousEntry && $PreviousEntry->getDateTime()->format("Y-m-d") !== $Entry->getDateTime()->format("Y-m-d"))
 	    {
 		#--Finalize the previous day if still clocked in
-		if($clocked_in === true)
+		if($clocked_in)
 		{
 		    $EndOfDay   = new \DateTime($PreviousEntry->getDateTime()->format("Y-m-d 23:59:59"));
 		    $Interval   = $EndOfDay->diff($PreviousEntry->getDateTime(), true);
@@ -201,7 +217,7 @@ class Employee extends PersonAbstract
 	    
 	    if($clocked_in)
 	    {
-		$Interval = $PreviousEntry->getDateTime()->diff($Entry, true);
+		$Interval = $PreviousEntry->getDateTime()->diff($Entry->getDateTime(), true);
 		
 		$e->add($Interval);
 		
@@ -211,42 +227,6 @@ class Employee extends PersonAbstract
 	    
 	    #--Set Current Entry as Previous and set $clocked in status
 	    $PreviousEntry  = $Entry;	    
-	}
-	
-	if($clocked_in)
-	{
-	    $Now	= new \DateTime();
-	    $Interval   = $Now->diff($Entry->getDateTime(), true);
-	    
-	    $e->add($Interval);
-	}
-	
-	return $f->diff($e);
-    }
-    
-    /**
-     * @param array $time_clock_entries
-     * @return \DateInterval
-     */
-    public function calculateDaysTimeClockTime($time_clock_entries)
-    {
-	$in_time	= null;
-	$clocked_in	= $this->isClockedIn();
-	$e		= new \DateTime('00:00');
-	$f		= clone $e;
-	
-	/* @var $Entry \Entities\Company\TimeClock\Entry */
-	foreach ($time_clock_entries as $Entry)
-	{
-	    if($in_time !== null)
-	    {
-		$Interval = $in_time->getDateTime()->diff($Entry, true);
-		
-		$e->add($Interval);
-		
-		$in_time    = null;
-	    }
-	    else $in_time = $Entry->getDateTime();
 	}
 	
 	if($clocked_in)
@@ -330,5 +310,10 @@ class Employee extends PersonAbstract
     public function setTitle($title)
     {
         $this->title = $title;
+    }
+    
+    public function toString()
+    {
+	return $this->getFullName()." - ".$this->getLocation()->getName()." - ".$this->getTitle();
     }
 }

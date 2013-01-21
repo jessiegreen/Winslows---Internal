@@ -28,11 +28,11 @@ class Company_EmployeeAddressController extends Dataservice_Controller_Action
 		
 		if(!$Address->getId())
 		{
-		    /* @var $Person \Entities\Person\PersonAbstract */
-		    $Person = $this->_em->find("Entities\Person\PersonAbstract", $this->_params["person_id"]);
+		    /* @var $Employee \Entities\Company\Employee */
+		    $Person = $this->_em->find("Entities\Company\Employee", $this->_params["employee_id"]);
 		    
 		    if(!$Person)
-			throw new Exception("Can not add address. No Person with that Id");
+			throw new Exception("Can not add address. No Employee with that Id");
 
 		    $Person->addAddress($Address);
 		    $this->_em->persist($Person);
@@ -41,16 +41,17 @@ class Company_EmployeeAddressController extends Dataservice_Controller_Action
 
 		$this->_em->flush();
 
-		$message = "Person Address saved";
+		$message = "Employee Address saved";
+		
 		$this->_FlashMessenger->addSuccessMessage($message);
 
 	    }
 	    catch (Exception $exc)
 	    {
 		$this->_FlashMessenger->addErrorMessage($exc->getMessage());
-		$this->_History->goBack(1);
+		$this->_History->goBack();
 	    }
-	    $this->_History->goBack(1);
+	    $this->_History->goBack();
 	}
 	
 	$this->view->form	    = $form;

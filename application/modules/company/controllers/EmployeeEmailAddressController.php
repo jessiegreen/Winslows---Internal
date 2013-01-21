@@ -28,31 +28,34 @@ class Company_EmployeeEmailAddressController extends Dataservice_Controller_Acti
 		
 		if(!$EmailAddress->getId())
 		{
-		    /* @var $Person \Entities\Person\PersonAbstract */
-		    $Person = $this->_em->find("Entities\Person\PersonAbstract", $this->_params["person_id"]);
+		    /* @var $Employee \Entities\Company\Employee */
+		    $Employee = $this->_em->find("Entities\Company\Employee", $this->_params["employee_id"]);
 		    
-		    if(!$Person)
-			throw new Exception("Can not add email address. No Person with that Id");
+		    if(!$Employee)
+			throw new Exception("Can not add email address. No Employee with that Id");
 
-		    $Person->addEmailAddress($EmailAddress);
-		    $this->_em->persist($Person);
+		    $Employee->addEmailAddress($EmailAddress);
+		    $this->_em->persist($Employee);
 		}
 		else $this->_em->persist($EmailAddress);
 
 		$this->_em->flush();
 
-		$message = "Person Email Address saved";
+		$message = "Employee Email Address saved";
+		
 		$this->_FlashMessenger->addSuccessMessage($message);
 
-	    } catch (Exception $exc) {
-		$this->_FlashMessenger->addErrorMessage($exc->getMessage());
-		$this->_History->goBack(1);
 	    }
-	    $this->_History->goBack(1);
+	    catch (Exception $exc)
+	    {
+		$this->_FlashMessenger->addErrorMessage($exc->getMessage());
+		$this->_History->goBack();
+	    }
+	    $this->_History->goBack();
 	}
 	
-	$this->view->form		= $form;
-	$this->view->EmailAddress = $EmailAddress;
+	$this->view->form	    = $form;
+	$this->view->EmailAddress   = $EmailAddress;
     }
 }
 

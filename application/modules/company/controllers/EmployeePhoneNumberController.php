@@ -18,7 +18,8 @@ class Company_EmployeePhoneNumberController extends Dataservice_Controller_Actio
 		array("onclick" => "location='".$this->_History->getPreviousUrl(1)."'")
 		);
 	
-	if($this->isPostAndValid($form)){
+	if($this->isPostAndValid($form))
+	{
 	    try 
 	    {
 		$data	= $this->_params["person_phonenumber"];
@@ -28,30 +29,37 @@ class Company_EmployeePhoneNumberController extends Dataservice_Controller_Actio
 		$PhoneNumber->setNum1($data["phone_number"]["prefix"]);
 		$PhoneNumber->setNum2($data["phone_number"]["line"]);
 		
-		if(!$PhoneNumber->getId()){
-		    /* @var $Person \Entities\Person\PersonAbstract */
-		    $Person = $this->_em->find("Entities\Person\PersonAbstract", $this->_params["person_id"]);
-		    if(!$Person)
-			throw new Exception("Can not add address. No Person with that Id");
+		if(!$PhoneNumber->getId())
+		{
+		    /* @var $Employee \Entities\Company\Employee */
+		    $Employee = $this->_em->find("Entities\Company\Employee", $this->_params["employee_id"]);
+		    
+		    if(!$Employee)
+			throw new Exception("Can not add address. No Employee with that Id");
 
-		    $Person->addPhoneNumber($PhoneNumber);
-		    $this->_em->persist($Person);
+		    $Employee->addPhoneNumber($PhoneNumber);
+		    
+		    $this->_em->persist($Employee);
 		}
 		else $this->_em->persist($PhoneNumber);
 
 		$this->_em->flush();
 
-		$message = "Person Phone Number saved";
+		$message = "Employee Phone Number saved";
+		
 		$this->_FlashMessenger->addSuccessMessage($message);
 
-	    } catch (Exception $exc) {
+	    } 
+	    catch (Exception $exc)
+	    {
 		$this->_FlashMessenger->addErrorMessage($exc->getMessage());
-		$this->_History->goBack(1);
+		$this->_History->goBack();
 	    }
-	    $this->_History->goBack(1);
+	    
+	    $this->_History->goBack();
 	}
 	
-	$this->view->form		= $form;
+	$this->view->form	  = $form;
 	$this->view->PhoneNumber  = $PhoneNumber;
     }
 }

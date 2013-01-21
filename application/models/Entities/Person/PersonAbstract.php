@@ -52,7 +52,7 @@ class PersonAbstract extends \Dataservice_Doctrine_Entity
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="\Entities\Person\Address", mappedBy="Person", cascade={"persist"}, orphanRemoval=true)
+     * @OneToMany(targetEntity="\Entities\Person\Address", mappedBy="Person", cascade={"persist", "remove"}, orphanRemoval=true)
      * @var ArrayCollection $Addresses
      */
     protected $Addresses;
@@ -60,19 +60,19 @@ class PersonAbstract extends \Dataservice_Doctrine_Entity
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="\Entities\Person\Document", mappedBy="Person", cascade={"persist"}, orphanRemoval=true)
+     * @OneToMany(targetEntity="\Entities\Person\Document", mappedBy="Person", cascade={"persist", "remove"}, orphanRemoval=true)
      * @var ArrayCollection $Documents
      */
     protected $Documents;
     
     /**
-     * @OneToMany(targetEntity="\Entities\Person\PhoneNumber", mappedBy="Person", cascade={"persist"}, orphanRemoval=true)
+     * @OneToMany(targetEntity="\Entities\Person\PhoneNumber", mappedBy="Person", cascade={"persist", "remove"}, orphanRemoval=true)
      * @var ArrayCollection $PhoneNumbers
      */
     protected $PhoneNumbers;
     
     /**
-     * @OneToMany(targetEntity="\Entities\Person\EmailAddress", mappedBy="Person", cascade={"persist"}, orphanRemoval=true)
+     * @OneToMany(targetEntity="\Entities\Person\EmailAddress", mappedBy="Person", cascade={"persist", "remove"}, orphanRemoval=true)
      * @var ArrayCollection $EmailAddresses
      */
     protected $EmailAddresses;

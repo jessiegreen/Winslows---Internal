@@ -54,7 +54,7 @@ class PhoneNumberAbstract extends \Dataservice_Doctrine_Entity
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="\Entities\PhoneNumber\Call", mappedBy="PhoneNumber", cascade={"persist"})
+     * @OneToMany(targetEntity="\Entities\PhoneNumber\Call", mappedBy="PhoneNumber", cascade={"persist", "remove"})
      * @var \Doctrine\Common\Collections\ArrayCollection $Emails
      */
     protected $Calls;

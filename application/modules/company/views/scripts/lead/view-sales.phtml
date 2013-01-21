@@ -1,6 +1,6 @@
-<?php echo($this->flashMessages()); ?>
-<h1 class="header1">Lead - View</h1>
-<?php
+<?php 
+echo($this->flashMessages()); 
+$this->CRUD_Header("Lead - View");
 /* @var $lead \Entities\Company\Lead */
 $Lead		= $this->Lead;
 $Addresses	= $Lead->getAddresses();
@@ -10,116 +10,104 @@ $Contacts	= $Lead->getContacts();
 $Quotes		= $Lead->getQuotes();
 $Applications	= $Lead->getApplications();
 $Anchor		= new \Dataservice\Html\Anchor;
-?>
-<div id="tabs" style="width: 951px;">
-    <ul>
-	<li><a href="#tabs-1">Info</a></li>
-        <li><a href="#tabs-2">Contact</a></li>
-        <li><a href="#tabs-3">Quote</a></li>
-        <li><a href="#tabs-4">Rto</a></li>
-    </ul>
-    <div id="tabs-1">
-        <h4>
-	    Information
-	</h4>
-        <ul>
-	    <li>
-		<?php
-		echo $Anchor->editIcon("", "/lead/edit/id/".$Lead->getId(), "Edit Lead");
-		echo $Anchor->deleteIcon("", "/lead/delete/id/".$Lead->getId(), true, "Delete Lead");
-		echo htmlspecialchars($Lead->toString());
-		?>
-	    </li>
-	</ul>
-    </div>
-    <div id="tabs-2">
-        <h4>
-	    Addresses
-	    <?php
-	    echo $Anchor->addIcon("", "/lead-address/edit/id/0/lead_id/".$Lead->getId(), "Add Address");
-	    ?>
-	</h4>
-	<ul>
-        <?php	
-	if(!$Addresses->count())echo "<li>No addresses</li>";
-	else
-	    foreach ($Addresses as $Address)
-	    {
-		echo "<li>";
-		echo $Anchor->editIcon("", "/lead-address/edit/id/".$Address->getId(), "Edit Address");
-		echo $Anchor->deleteIcon("", "/lead-address/delete/id/".$Address->getId(), true, "Delete Address");
-		echo htmlspecialchars($Address->toString());
-		echo "</li>";
-	    }
-	?>
-	</ul>
-	<h4>
-	    Phone Numbers
-	    <?php
-	    echo $Anchor->addIcon("", "/lead-phone-number/edit/id/0/lead_id/".$Lead->getId(), "Add Phone Number");
-	    ?>
-	</h4>
-	<ul>
-        <?php	
-	if(!$PhoneNumbers->count())echo "<li>No phone numbers</li>";
-	else
-	    foreach ($PhoneNumbers as $PhoneNumber)
-	    {
-		echo "<li>";
-		echo $Anchor->editIcon("", "/lead-phone-number/edit/id/".$PhoneNumber->getId(), "Edit Phone Number");
-		echo $Anchor->deleteIcon("", "/lead-phone-number/delete/id/".$PhoneNumber->getId(), true, "Delete Phone Number");
-		echo htmlspecialchars($PhoneNumber->toString());
-		echo "</li>";
-	    }
-	?>
-	</ul>
-	<h4>
-	    Email Addresses
-	    <?php
-	    echo $Anchor->addIcon("", "/lead-email-address/edit/id/0/lead_id/".$Lead->getId(), "Add Email Address");
-	    ?>
-	</h4>
-	<ul>
-        <?php	
-	if(!$EmailAddresses->count())echo "<li>No email addresses</li>";
-	else
-	    foreach ($EmailAddresses as $EmailAddress)
-	    {
-		echo "<li>";
-		echo $Anchor->editIcon("", "/lead-email-address/edit/id/".$EmailAddress->getId(), "Edit Email Address");
-		echo $Anchor->deleteIcon("", "/lead-email-address/delete/id/".$EmailAddress->getId(), true, "Delete Email Address");
-		echo htmlspecialchars($EmailAddress->toString());
-		echo "</li>";
-	    }
-	?>
-	</ul>
-    </div>
-    <div id="tabs-3">
-        <h4>Quotes</h4>
-        <ul>
-	<?php	
-	if(!$Quotes->count())echo "<li>No Quotes</li>";
-	else
-	    foreach ($Quotes as $Quote)
-	    {
-		echo "<li>";
-		echo $Anchor->viewIcon("", "/lead-quote/view-sales/id/".$Quote->getId(), "View Quote");
-		echo htmlspecialchars($Quote->toString());
-		echo "</li>";
-	    }
-	?>
-	</ul>
-    </div>
-    <div id="tabs-4">
-        <h2>Content heading 3</h2>
-        <p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>
-        <p>Duis cursus. Maecenas ligula eros, blandit nec, pharetra at, semper at, magna. Nullam ac lacus. Nulla facilisi. Praesent viverra justo vitae neque. Praesent blandit adipiscing velit. Suspendisse potenti. Donec mattis, pede vel pharetra blandit, magna ligula faucibus eros, id euismod lacus dolor eget odio. Nam scelerisque. Donec non libero sed nulla mattis commodo. Ut sagittis. Donec nisi lectus, feugiat porttitor, tempor ac, tempor vitae, pede. Aenean vehicula velit eu tellus interdum rutrum. Maecenas commodo. Pellentesque nec elit. Fusce in lacus. Vivamus a libero vitae lectus hendrerit hendrerit.</p>
-    </div>
-</div>
 
-<script>
-    $(function() {
-	$( "#tabs" ).tabs().addClass( "ui-tabs-vertical ui-helper-clearfix" );
-	$( "#tabs li" ).removeClass( "ui-corner-top" ).addClass( "ui-corner-left" );
-    });
-</script>
+$this->CRUD_Body()->start();
+$this->CRUD_Tabs()->headers(array("Info", "Contact", "Quote", "Rto"));
+?>
+<div id="Info">
+    <h4>
+	Information
+    </h4>
+    <ul>
+	<li>
+	    <?php
+	    echo $Anchor->editIcon("", "/lead/edit/id/".$Lead->getId(), "Edit Lead");
+	    echo $Anchor->deleteIcon("", "/lead/delete/id/".$Lead->getId(), true, "Delete Lead");
+	    echo htmlspecialchars($Lead->toString());
+	    ?>
+	</li>
+    </ul>
+</div>
+<div id="Contact">
+    <h4>
+	Addresses
+	<?php
+	echo $Anchor->addIcon("", "/lead-address/edit/id/0/lead_id/".$Lead->getId(), "Add Address");
+	?>
+    </h4>
+    <ul>
+    <?php	
+    if(!$Addresses->count())echo "<li>No addresses</li>";
+    else
+	foreach ($Addresses as $Address)
+	{
+	    echo "<li>";
+	    echo $Anchor->editIcon("", "/lead-address/edit/id/".$Address->getId(), "Edit Address");
+	    echo $Anchor->deleteIcon("", "/lead-address/delete/id/".$Address->getId(), true, "Delete Address");
+	    echo htmlspecialchars($Address->toString());
+	    echo "</li>";
+	}
+    ?>
+    </ul>
+    <h4>
+	Phone Numbers
+	<?php
+	echo $Anchor->addIcon("", "/lead-phone-number/edit/id/0/lead_id/".$Lead->getId(), "Add Phone Number");
+	?>
+    </h4>
+    <ul>
+    <?php	
+    if(!$PhoneNumbers->count())echo "<li>No phone numbers</li>";
+    else
+	foreach ($PhoneNumbers as $PhoneNumber)
+	{
+	    echo "<li>";
+	    echo $Anchor->editIcon("", "/lead-phone-number/edit/id/".$PhoneNumber->getId(), "Edit Phone Number");
+	    echo $Anchor->deleteIcon("", "/lead-phone-number/delete/id/".$PhoneNumber->getId(), true, "Delete Phone Number");
+	    echo htmlspecialchars($PhoneNumber->toString());
+	    echo "</li>";
+	}
+    ?>
+    </ul>
+    <h4>
+	Email Addresses
+	<?php
+	echo $Anchor->addIcon("", "/lead-email-address/edit/id/0/lead_id/".$Lead->getId(), "Add Email Address");
+	?>
+    </h4>
+    <ul>
+    <?php	
+    if(!$EmailAddresses->count())echo "<li>No email addresses</li>";
+    else
+	foreach ($EmailAddresses as $EmailAddress)
+	{
+	    echo "<li>";
+	    echo $Anchor->editIcon("", "/lead-email-address/edit/id/".$EmailAddress->getId(), "Edit Email Address");
+	    echo $Anchor->deleteIcon("", "/lead-email-address/delete/id/".$EmailAddress->getId(), true, "Delete Email Address");
+	    echo htmlspecialchars($EmailAddress->toString());
+	    echo "</li>";
+	}
+    ?>
+    </ul>
+</div>
+<div id="Quote">
+    <h4>Quotes</h4>
+    <ul>
+    <?php	
+    if(!$Quotes->count())echo "<li>No Quotes</li>";
+    else
+	foreach ($Quotes as $Quote)
+	{
+	    echo "<li>";
+	    echo $Anchor->viewIcon("", "/lead-quote/view-sales/id/".$Quote->getId(), "View Quote");
+	    echo htmlspecialchars($Quote->toString());
+	    echo "</li>";
+	}
+    ?>
+    </ul>
+</div>
+<div id="Rto">
+    <h2>Coming Soon</h2>
+</div>
+<?php
+$this->CRUD_Body()->end();

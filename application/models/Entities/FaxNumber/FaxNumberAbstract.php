@@ -45,7 +45,7 @@ class FaxNumberAbstract extends \Dataservice_Doctrine_Entity
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="\Entities\FaxNumber\Fax", mappedBy="FaxNumber", cascade={"persist"})
+     * @OneToMany(targetEntity="\Entities\FaxNumber\Fax", mappedBy="FaxNumber", cascade={"persist", "remove"})
      * @var \Doctrine\Common\Collections\ArrayCollection $Faxes
      */
     protected $Faxes;

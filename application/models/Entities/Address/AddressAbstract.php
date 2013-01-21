@@ -88,7 +88,7 @@ abstract class AddressAbstract extends \Dataservice_Doctrine_Entity
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="\Entities\Address\Mail", mappedBy="Address", cascade={"persist"})
+     * @OneToMany(targetEntity="\Entities\Address\Mail", mappedBy="Address", cascade={"persist", "remove"})
      * @var \Doctrine\Common\Collections\ArrayCollection $Mail
      */
     protected $Mail;

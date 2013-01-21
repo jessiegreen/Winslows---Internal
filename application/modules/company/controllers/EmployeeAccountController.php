@@ -101,6 +101,8 @@ class Company_EmployeeAccountController extends Dataservice_Controller_Action
 	
 	$form = new Forms\Website\Account\ManageRoles($Account);
 	
+	$form->addCancelButton($this->_History->getPreviousUrl());
+	
 	if($this->isPostAndValid($form))
 	{
 	    try
