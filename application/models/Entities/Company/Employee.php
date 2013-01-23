@@ -45,7 +45,7 @@ class Employee extends PersonAbstract
     protected $TimeClockEntries;
     
     /**
-     * @OneToOne(targetEntity="\Entities\Company\Employee\Account", mappedBy="Employee", cascade={"persist"}, orphanRemoval=true)
+     * @OneToOne(targetEntity="\Entities\Company\Employee\Account", mappedBy="Employee", cascade={"persist", "remove"}, orphanRemoval=true)
      * @var \Entities\Company\Employee\Account $Account
      */
     protected $Account;

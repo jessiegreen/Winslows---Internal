@@ -37,7 +37,7 @@ class Lead extends PersonAbstract
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="\Entities\Company\Lead\Quote", mappedBy="Lead", cascade={"persist"})
+     * @OneToMany(targetEntity="\Entities\Company\Lead\Quote", mappedBy="Lead", cascade={"persist", "remove"})
      * @var ArrayCollection $Quotes
      */
     protected $Quotes;
@@ -45,7 +45,7 @@ class Lead extends PersonAbstract
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="\Entities\Company\RtoProvider\Application", mappedBy="Lead", cascade={"persist"})
+     * @OneToMany(targetEntity="\Entities\Company\RtoProvider\Application", mappedBy="Lead", cascade={"persist", "remove"})
      * @var ArrayCollection $Applications
      */
     protected $Applications;

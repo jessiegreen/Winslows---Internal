@@ -1,17 +1,8 @@
 <?php
+namespace Dataservice\Html\CRUD;
 
-/**
- * ProfileLink helper
- *
- * Call as $this->profileLink() in your layout script
- */
-class Dataservice_View_Helper_CRUD_Body  extends Zend_View_Helper_Abstract
-{
-    public function CRUD_Body()
-    {
-	return $this;
-    }
-    
+class Body
+{    
     public function start()
     {
 	?><div id="tabs" style="width: 951px;"><?php

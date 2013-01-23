@@ -1,11 +1,8 @@
 <?php 
 echo($this->flashMessages()); 
-echo "<div>";
-echo \Dataservice\Html\Anchor::backAnchorIcon("Home", "/index/index");
-echo "</div>";
-?>
-<h1 class="header1">Company - View</h1>
-<?php
+$this->CRUD_Nav("Dashboard", "index/index");
+$this->CRUD_Header("Company - View");
+
 /* @var $Company \Entities\Company */
 $Company	= $this->Company;
 $company_id	= $Company->getId();
@@ -18,207 +15,71 @@ $RtoProviders	= $Company->getRtoProviders();
 $Dealers	= $Company->getDealers();
 $Inventory	= $Company->getInventory();
 $Leads		= $Company->getLeads();
+$Anchor		= new \Dataservice\Html\Anchor();
+
+$crudBody = new \Dataservice\Html\CRUD\Body();
+$crudTabs = new \Dataservice\Html\CRUD\Tabs();
+
+$crudBody->start();
+
+$InfoTab = new \Dataservice\Html\CRUD\Tabs\Tab();
+
+$LocationsList = new Dataservice\Html\CRUD\CollectionList($Locations);
+$this->CRUD_Tabs()->headers(array("Info", "Leads", "Locations", "Employees", "Suppliers", "RTO Providers", "Dealers", "Websites"));
 ?>
-<div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
-    <h4 class="no_space" style="color: #2000EE;">
-	Info
-	<?php
-	echo \Dataservice\Html\Anchor::anchorIcon(
-		"pencil.png", 
-		"", 
-		"/index/edit",
-		"margin-left:5px;"
-		);
-	?>
+<div id="Info">
+    <h4>
+	Information
     </h4>
-    <div>
-	Name: <?php echo $Company->getName(); ?> &nbsp;&nbsp;&nbsp; 
-	DBA: <?php echo $Company->getDba(); ?> <br /> 
-	Description: <span class="small"><?php echo $Company->getDescription(); ?></span>
-    </div>
+    <ul>
+	<li>
+	    <?php
+	    echo $Anchor->editIcon("", "/company/edit/id/".$Company->getId(), "Edit Company");
+	    echo htmlspecialchars($Company->toString());
+	    ?>
+	</li>
+    </ul>
 </div>
-<div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">
-    <div id="accordion">
-	<h3>
-	    <a href="#">Leads\Customers</a>
-	</h3>
-	<div>
-	    <?php
-	    /* @var $Lead Entities\Company\Lead */
-	    foreach ($Leads as $Lead)
-	    {
-		?>
-		<div style="padding: 3px;margin-bottom: 3px;">
-		    <?php 
-		    echo $Lead->getFullName();
-		    echo \Dataservice\Html\Anchor::anchorIcon(
-			    "bullet_go.png", 
-			    "", 
-			    "/lead/view/id/".$Lead->getId(),
-			    "margin-left:5px;"
-			    );
-		    ?>
-		</div>
-		<?php
-	    }
-	    ?>
-	</div>
-	<hr />
-	<h3>
-	    <a href="#">Locations</a>
-	    <?php 
-		echo \Dataservice\Html\Button::buttonBlue(
-		    "add.png", 
-		    "Add Location", 
-		    "location_add", 
-		    "float:right;width:130px;");
-	    ?>
-	</h3>
-	<div>
-	    <?php
-	    /* @var $Location \Entities\Company\Location */
-	    foreach ($Locations as $Location)
-	    {
-		?>
-		<div style="padding: 3px;margin-bottom: 3px;">
-		    <?php 
-		    echo $Location->getName();
-		    echo \Dataservice\Html\Anchor::anchorIcon(
-			    "bullet_go.png", 
-			    "", 
-			    "/location/view/id/".$Location->getId(),
-			    "margin-left:5px;"
-			    );
-		    ?>
-		</div>
-		<?php
-	    }
-	    ?>
-	</div>
-	<hr />
-	<h3>
-	    <a href="#">Employees</a>
-	    <?php 
-		echo \Dataservice\Html\Button::buttonBlue(
-		    "add.png", 
-		    "Add Employee", 
-		    "employee_add", 
-		    "float:right;width:130px;");
-	    ?>
-	</h3>
-	<div>
-	    <?php
-	    /* @var $Employee \Entities\Company\Employee */
-	    foreach ($Employees as $Employee)
-	    {
-		?>
-		<div style="padding: 3px;margin-bottom: 3px;">
-		    <?php 
-		    echo $Employee->getFullName();
-		    echo \Dataservice\Html\Anchor::anchorIcon(
-			    "bullet_go.png", 
-			    "", 
-			    "/employee/view/id/".$Employee->getId(),
-			    "margin-left:5px;"
-			    );
-		    ?>
-		</div>
-		<?php
-	    }
-	    ?>
-	</div>
-	<hr />
-	<h3>
-	    <a href="#">Inventory</a>
-	</h3>
-	<div>
-	    <?php
-	    if($Inventory)
-	    {
-		?>
-		<div style="padding: 3px;margin-bottom: 3px;">
-		    <?php 
-		    echo "View";
-		    echo \Dataservice\Html\Anchor::anchorIcon(
-			    "bullet_go.png", 
-			    "", 
-			    "/inventory/view/id/".$Inventory->getId(),
-			    "margin-left:5px;"
-			    );
-		    ?>
-		</div>
-		<?php
-	    }
-	    else echo "No Inventory";
-	    ?>
-	</div>
-	<hr />
-    </div>
-</div>
-<div class="padded_frame" style="width: 415px;float: right;padding-top: 0px;">
-    <h3>
-	<a href="#">Suppliers</a>
-    </h3>
-    <div>
-	<?php
-	/* @var $Supplier \Entities\Company\Supplier */
-	if(count($Suppliers)>0){
-	    foreach ($Suppliers as $Supplier) {
-		?>
-		<div style="padding: 3px;margin-bottom: 3px;">
-		    <?php 
-		    echo $Supplier->getName();
-		    echo \Dataservice\Html\Anchor::anchorIcon(
-			    "bullet_go.png", 
-			    "", 
-			    "/supplier/view/id/".$Supplier->getId(),
-			    "margin-left:5px;"
-			    );
-		    ?>
-		</div>
-		<?php
-	    }
-	}
-	else echo "No Suppliers";
-	?>
-    </div>
-    <hr />
-    <h3>
-	<a href="#">Rto Providers</a>
-	<?php 
-	    echo \Dataservice\Html\Button::buttonBlue(
-		"add.png", 
-		"Add Rto Provider", 
-		"rto_provider_add", 
-		"float:right;width:130px;");
-	?>
-    </h3>
-    <div>
-	<?php
-	/* @var $RtoProvider \Entities\Company\RtoProvider */
-	if(count($RtoProviders)>0)
+<div id="Leads">
+    <h4>
+	Leads
+	<?php echo $Anchor->addIcon("", "/lead/edit/id/0/company_id/".$Company->getId(), "Add Lead");?>
+    </h4>
+    <ul>
+    <?php	
+    if(!$Leads->count())echo "<li>No leads</li>";
+    else
+	foreach ($Leads as $Lead)
 	{
-	    foreach ($RtoProviders as $RtoProvider)
-	    {
-		?>
-		<div style="padding: 3px;margin-bottom: 3px;">
-		    <?php 
-		    echo $RtoProvider->getDba();
-		    echo \Dataservice\Html\Anchor::anchorIcon(
-			    "bullet_go.png", 
-			    "", 
-			    "/rto-provider/view/id/".$RtoProvider->getId(),
-			    "margin-left:5px;"
-			    );
-		    ?>
-		</div>
-		<?php
-	    }
+	    echo "<li>";
+	    echo $Anchor->editIcon("", "/lead/edit/id/".$Lead->getId(), "Edit Lead");
+	    echo $Anchor->deleteIcon("", "/lead/delete/id/".$Lead->getId(), true, "Delete Lead");
+	    echo htmlspecialchars($Address->toString());
+	    echo "</li>";
 	}
-	else echo "No Suppliers";
-	?>
-    </div>
-    <hr />
+    ?>
+    </ul>
+</div>
+<div id="Locations">
+    <h4>
+	Leads
+	<?php echo $Anchor->addIcon("", "/lead/edit/id/0/company_id/".$Company->getId(), "Add Lead");?>
+    </h4>
+    <ul>
+    <?php	
+    if(!$Leads->count())echo "<li>No leads</li>";
+    else
+	foreach ($Leads as $Lead)
+	{
+	    echo "<li>";
+	    echo $Anchor->editIcon("", "/lead/edit/id/".$Lead->getId(), "Edit Lead");
+	    echo $Anchor->deleteIcon("", "/lead/delete/id/".$Lead->getId(), true, "Delete Lead");
+	    echo htmlspecialchars($Address->toString());
+	    echo "</li>";
+	}
+    ?>
+    </ul>
+</div>
     <h3>
 	<a href="#">Dealers</a>
 	<?php 

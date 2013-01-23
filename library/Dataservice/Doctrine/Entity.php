@@ -1,4 +1,8 @@
 <?php
+
+use Doctrine\Common\Annotations\AnnotationReader;
+use Doctrine\Common\Annotations\AnnotationRegistry; 
+
 class Dataservice_Doctrine_Entity 
 {
     /** 
@@ -71,6 +75,16 @@ class Dataservice_Doctrine_Entity
 			return $Entity->$method() == $value ? true : false;
 		    }
 		);
+    }
+    
+    /**
+     * @param string $collection_property_name
+     * @
+     */
+    public function getCollectionCrudPermissions($collection_property_name)
+    {
+	return \Services\Entity::factory()
+		->getCollectionCrudPermissions(get_called_class(), $collection_property_name);
     }
 
     public function toArray() 

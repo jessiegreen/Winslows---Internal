@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @Entity (repositoryClass="Repositories\Company") 
  * @Table(name="companies")
  * @HasLifecycleCallbacks
+ * @Crud\Entity\Urls(edit="/index/edit)
+ * @Crud\Entity\Permissions(edit={"Admin"}, create={"Admin"}, delete={"Admin"}
  */
 class Company extends \Dataservice_Doctrine_Entity
 {
@@ -46,12 +48,15 @@ class Company extends \Dataservice_Doctrine_Entity
      *
      * @OneToMany(targetEntity="\Entities\Company\Location", mappedBy="Company", cascade={"persist"})
      * @var array $Locations
+     * @Crud\Collection\Permissions(add={"Admin"}, remove={"Admin"})
+     * @OrderBy({"name" = "ASC"})
      */
     protected $Locations;
     
     /**
      * @ManytoMany(targetEntity="\Entities\Company\Supplier", mappedBy="Companies", cascade={"persist"})
      * @var array $Suppliers
+     * @OrderBy({"name" = "ASC"})
      */
     protected $Suppliers;
     
@@ -60,6 +65,7 @@ class Company extends \Dataservice_Doctrine_Entity
      *
      * @OneToMany(targetEntity="\Entities\Company\RtoProvider", mappedBy="Company", cascade={"persist"})
      * @var array $RtoProviders
+     * @OrderBy({"name" = "ASC"})
      */
     private $RtoProviders;
     
@@ -68,6 +74,7 @@ class Company extends \Dataservice_Doctrine_Entity
      *
      * @OneToMany(targetEntity="\Entities\Company\Website", mappedBy="Company", cascade={"persist"})
      * @var array $Websites
+     * @OrderBy({"name" = "ASC"})
      */
     private $Websites;
     
@@ -77,6 +84,7 @@ class Company extends \Dataservice_Doctrine_Entity
      * @OneToMany(targetEntity="\Entities\Company\Employee", mappedBy="Company", cascade={"persist"})
      * @OrderBy({"first_name" = "ASC"})
      * @var ArrayCollection $Employees
+     * @OrderBy({"first_name" = "ASC"})
      */
     private $Employees;
     
@@ -85,6 +93,7 @@ class Company extends \Dataservice_Doctrine_Entity
      *
      * @OneToMany(targetEntity="\Entities\Company\Lead", mappedBy="Company", cascade={"persist"})
      * @var ArrayCollection $Leads
+     * @OrderBy({"first_name" = "ASC"})
      */
     private $Leads;
     
@@ -93,6 +102,7 @@ class Company extends \Dataservice_Doctrine_Entity
      *
      * @OneToMany(targetEntity="\Entities\Company\Dealer", mappedBy="Company", cascade={"persist"})
      * @var ArrayCollection $Dealers
+     * @OrderBy({"name" = "ASC"})
      */
     private $Dealers;
     
