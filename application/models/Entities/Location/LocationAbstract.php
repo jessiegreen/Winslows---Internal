@@ -204,6 +204,11 @@ class LocationAbstract extends \Dataservice_Doctrine_Entity
 	return $array[$type];
     }
     
+    public function toString()
+    {
+	return $this->getName();
+    }
+    
     /**
      * @return array
      */

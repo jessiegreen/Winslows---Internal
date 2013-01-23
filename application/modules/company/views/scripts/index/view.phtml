@@ -1,7 +1,9 @@
 <?php 
+use Dataservice\Html\CRUD;
+
 echo($this->flashMessages()); 
-$this->CRUD_Nav("Dashboard", "index/index");
-$this->CRUD_Header("Company - View");
+echo CRUD\Nav::factory("Dashboard", "index/index")->getHtml();
+echo CRUD\Header::factory("Company - View")->getHtml();
 
 /* @var $Company \Entities\Company */
 $Company	= $this->Company;
@@ -22,9 +24,15 @@ $crudTabs = new \Dataservice\Html\CRUD\Tabs();
 
 $crudBody->start();
 
-$InfoTab = new \Dataservice\Html\CRUD\Tabs\Tab();
+$LocationTab	= new \Dataservice\Html\CRUD\Tabs\Tab("Locations");
+$LocationsList	= new Dataservice\Html\CRUD\CollectionList($Company, "Locations");
 
-$LocationsList = new Dataservice\Html\CRUD\CollectionList($Locations);
+$LocationTab->addContent($LocationsList->getHtml());
+
+$crudTabs->addTab($LocationTab);
+
+$crudTabs->render();
+exit;
 $this->CRUD_Tabs()->headers(array("Info", "Leads", "Locations", "Employees", "Suppliers", "RTO Providers", "Dealers", "Websites"));
 ?>
 <div id="Info">

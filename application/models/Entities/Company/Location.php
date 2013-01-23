@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @Entity (repositoryClass="Repositories\Company\Location") 
  * @Table(name="company_locations")
+ * @Crud\Entity\Url(value="location")
  * @HasLifecycleCallbacks
  */
 class Location extends \Entities\Location\LocationAbstract

@@ -3,10 +3,20 @@ namespace Dataservice\Html\CRUD;
 
 class Header
 {
-    public function CRUD_Header($title)
+    private $title;
+    
+    public function __construct($title = "")
     {
-        ?>
-	<h1 class="header1"><?php echo $title?></h1>
-	<?php
+        $this->title = $title;
+    }
+    
+    public static function factory($title = "")
+    {
+	return new Header($title);
+    }
+    
+    public function getHtml()
+    {
+	return '<h1 class="header1">'.$this->title.'</h1>';
     }
 }

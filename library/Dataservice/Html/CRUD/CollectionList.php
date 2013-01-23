@@ -3,58 +3,74 @@ namespace Dataservice\Html\CRUD;
 
 class CollectionList
 {
-    /**
-     * @var array 
-     */
-    private $collection	    = array();
+    private $collection;
     
-    /**
-     * @var string 
-     */
-    private $url	    = "";
+    private $collectionName;
+
+    private $parentEntity;
     
-    /**
-     * @var string 
-     */
-    private $header	    = "";
+    private $parentClass;
     
-    /**
-     * @var string 
-     */
-    private $body	    = "";
+    private $parentClassName;
     
-    /**
-     * @return \Dataservice_View_Helper_CRUD_Tabs
-     */
-    public function __construct($collection, $url, $title = "", $permissions = array())
+    private $entityClass;
+    
+    private $entityClassName;
+    
+    private $entityUrl;
+
+    private $permissions    = array("add" => array(), "edit" => array(), "delete" => array(), "remove" => array());
+    
+    public function __construct($parentEntity, $collectionName)
     {
-	$this->collection   = $collection;
-	$this->url	    = $url;
-	$this->permissions  = \Dataservice_Array::merge_unique_recursive($this->permissions, $permissions);
+	$collection_method	= "get".$collectionName;
+	$this->collection	= $parentEntity->$collection_method();
+	$this->collectionName	= $collectionName;
+	$this->parentEntity	= $parentEntity;
+	$entityService		= \Services\Entity::factory();
+	$this->parentClass	= get_class($parentEntity);
+	$this->parentClassName	= end(explode('\\', $this->parentClass));
+	$this->entityClass	= $entityService->getAssociationTargetClass($this->parentClass, $collectionName);
+	$this->entityClassName	= end(explode('\\', $this->entityClass));
+	$entity_permissions	= $entityService->getEntityCrudPermissions($this->entityClass);
+	$this->entityUrl	= $entityService->getEntityUrl($this->entityClass);
+	$collection_permissions	= $entityService->getCollectionCrudPermissions($this->parentClass, $collectionName);
+	$this->permissions	= \Dataservice_Array::merge_unique_recursive($this->permissions, (array) $entity_permissions);
+	$this->permissions	= \Dataservice_Array::merge_unique_recursive($this->permissions, (array) $collection_permissions);
 	
 	return $this;
     }
     
-    /**
-     * @return string
-     */
-    public function getBody()
+    public function getHtml()
     {
-	return $this->body;
-    }
-    
-    /**
-     * @return string
-     */
-    public function getHeader()
-    {
-	return $this->header;
-    }
-    
-    public function returnHtml()
-    {
-	if($title || count($))
-	return $this->getHeader().$this->getBody();
+	$Anchor	    = new \Dataservice\Html\Anchor;
+	$html	    = '<h4>';
+	$html	    .= $this->collectionName;
+	$Account    = \Services\Website::factory()->getCurrentWebsite()->getCurrentUserAccount(\Zend_Auth::getInstance());
+	
+	if($Account->hasRoleByRoleNames($this->permissions["add"]))
+	    $html .= $Anchor->addIcon(
+			"", 
+			"/".$this->entityUrl."/edit/id/0/".strtolower($this->parentClassName).
+			    "_id/".$this->parentEntity->getId(), 
+			"Add ".$this->entityClassName
+		    );
+	$html .= '</h4>';
+	$html .= '<ul>';
+
+	if(!count($this->collection))$html .= "<li>No ".$this->collectionName."</li>";
+	else
+	    foreach ($this->collection as $Entity)
+	    {
+		$html .= "<li>";
+		$html .= $Anchor->editIcon("", "/".$this->entityUrl."/edit/id/".$Entity->getId(), "Edit ".$this->entityClassName);
+		$html .= $Anchor->deleteIcon("", "/".$this->entityUrl."/delete/id/".$Entity->getId(), true, "Delete ".$this->entityClassName);
+		$html .= htmlspecialchars($Entity->toString());
+		$html .= "</li>";
+	    }
+	$html .= "</ul>";
+	    
+	return $html;
     }
     
     public function renderHtml()

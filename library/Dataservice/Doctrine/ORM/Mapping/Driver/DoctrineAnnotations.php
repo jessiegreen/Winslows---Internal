@@ -19,4 +19,4 @@
 
 require_once __DIR__.'/../Crud/Collection/Permissions.php';
 require_once __DIR__.'/../Crud/Entity/Permissions.php';
-require_once __DIR__.'/../Crud/Entity/Urls.php';
+require_once __DIR__.'/../Crud/Entity/Url.php';

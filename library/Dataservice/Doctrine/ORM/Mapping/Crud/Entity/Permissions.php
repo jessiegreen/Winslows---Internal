@@ -3,7 +3,7 @@ namespace Dataservice\Doctrine\ORM\Mapping\Crud\Entity;
 
 /** 
  * @Annotation 
- * @Target("PROPERTY")
+ * @Target("CLASS")
  */
 final class Permissions implements \Doctrine\ORM\Mapping\Annotation
 {

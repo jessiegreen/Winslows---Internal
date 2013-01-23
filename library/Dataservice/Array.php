@@ -25,7 +25,7 @@ class Dataservice_Array
       {
 	if ( is_array($value) )
 	{
-	  $result[$key] = super_unique($value);
+	  $result[$key] = self::unique_recursive($value);
 	}
       }
 

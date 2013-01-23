@@ -14,10 +14,38 @@ class Tabs
     private $permissions    = array("add" => array("Admin"), "edit" => array("Admin"), "delete" => array("Admin"));
     
     /**
-     * @param Dataservice_View_Helper_CRUD_Tab $Tab
+     * @param Tabs/Tab $Tab
      */
-    public function addTab(Tab $Tab)
+    public function addTab(Tabs\Tab $Tab)
     {
-	$this->Tabs[$Tab->getNameIndex()] = $Tab;
+	$this->Tabs[] = $Tab;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getHtml()
+    {
+	$html = "<ul>";
+	/* @var $Tab \Dataservice\Html\CRUD\Tabs\Tab */
+	foreach ($this->Tabs as $Tab)
+	{
+	    $html .= $Tab->getTabHtml();
+	}
+	
+	$html .= "<ul>";
+	
+	/* @var $Tab \Dataservice\Html\CRUD\Tabs\Tab */
+	foreach ($this->Tabs as $Tab)
+	{
+	    $html .= $Tab->getBodyHtml();
+	}
+	
+	return $html;
+    }
+    
+    public function render()
+    {
+	echo $this->getHtml();
     }
 }

@@ -7,8 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @Entity (repositoryClass="Repositories\Company") 
  * @Table(name="companies")
  * @HasLifecycleCallbacks
- * @Crud\Entity\Urls(edit="/index/edit)
- * @Crud\Entity\Permissions(edit={"Admin"}, create={"Admin"}, delete={"Admin"}
+ * @Crud\Entity\Url(value="index")
+ * @Crud\Entity\Permissions(edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
 class Company extends \Dataservice_Doctrine_Entity
 {

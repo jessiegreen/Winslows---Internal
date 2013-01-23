@@ -18,71 +18,27 @@ class Tab
      */
     private $content_html    = "";
     
-    /**
-     * @var array 
-     */
-    private $permissions    = array("add" => array("Admin"), "edit" => array("Admin"), "delete" => array("Admin"));
-    
-    public function header($tabs)
+    public function __construct($name)
     {
-	$html = '<ul>';
+	$this->name = $name;
+    }
+    
+    public function addContent($html)
+    {
+	$this->content_html .= $html;
+    }
+    
+    public function getTabHtml()
+    {
+	return '<li><a href="#'.str_ireplace(" ", "_", $this->name).'">'.$this->name.'</a></li>';
+    }
+    
+    public function getBodyHtml()
+    {
+	$html = '<div id="'.str_ireplace(" ", "_", $this->name).'">';
+	$html .= $this->content_html;
+	$html .= '</div>';
 	
-	foreach($tabs as $tab)
-	{
-	    $html .= '<li><a href="#'.str_ireplace(" ", "_", $tab).'">'.$tab.'</a></li>';
-	}
-	
-	$html .= "</ul>";
-    }
-    
-    public function contentHeaderStart()
-    {
-	return "<h4>";
-    }
-    
-    public function contentHeaderEnd()
-    {
-	return "</h4>";
-    }
-    
-    public function permissionRender($content, $permissions)
-    {
-	
-    }
-    
-    public function contentHeader()
-    {
-	?>
-	<h4>
-	    Leads
-	    <?php echo $Anchor->addIcon("", "/lead/edit/id/0/company_id/".$Company->getId(), "Add Lead");?>
-	</h4>
-	<?php
-    }
-    
-    public function collectionTab($title, $permissions)
-    {
-	?>
-	<div id="Leads">
-	    <h4>
-		Leads
-		<?php echo $Anchor->addIcon("", "/lead/edit/id/0/company_id/".$Company->getId(), "Add Lead");?>
-	    </h4>
-	    <ul>
-	    <?php	
-	    if(!$Leads->count())echo "<li>No leads</li>";
-	    else
-		foreach ($Leads as $Lead)
-		{
-		    echo "<li>";
-		    echo $Anchor->editIcon("", "/lead/edit/id/".$Lead->getId(), "Edit Lead");
-		    echo $Anchor->deleteIcon("", "/lead/delete/id/".$Lead->getId(), true, "Delete Lead");
-		    echo htmlspecialchars($Address->toString());
-		    echo "</li>";
-		}
-	    ?>
-	    </ul>
-	</div>
-	<?php
+	return $html;
     }
 }
