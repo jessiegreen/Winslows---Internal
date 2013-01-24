@@ -70,7 +70,13 @@ class Entity extends \Dataservice_Service_ServiceAbstract
      */
     public function getEntityUrl($entity)
     {
-	return $this->getClassAnnotation($entity, "Dataservice\Doctrine\ORM\Mapping\Crud\Entity\Url")->value;
+	$urlAnnotation	    = "Dataservice\Doctrine\ORM\Mapping\Crud\Entity\Url";
+	$annotationObject   = $this->getClassAnnotation($entity, $urlAnnotation);
+	
+	if(!$annotationObject)
+	    throw new \Exception($entity." does not have an annotation of ".$urlAnnotation);
+	
+	return $annotationObject->value;
     }
     
     /**

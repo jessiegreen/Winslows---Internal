@@ -9,7 +9,11 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @Table(name="phonenumber_phonenumberabstracts") 
  * @InheritanceType("JOINED")
  * @DiscriminatorColumn(name="discr", type="string")
- * @DiscriminatorMap({"person_phonenumber" = "\Entities\Person\PhoneNumber", "location_phonenumber" = "\Entities\Location\PhoneNumber"})
+ * @DiscriminatorMap({
+ *			"company_lead_phonenumber" = "\Entities\Company\Lead\PhoneNumber", 
+ *			"company_employee_phonenumber" = "\Entities\Company\Employee\PhoneNumber", 
+ *			"location_phonenumber" = "\Entities\Location\PhoneNumber"
+ *		    })
  * @HasLifecycleCallbacks
  */
 class PhoneNumberAbstract extends \Dataservice_Doctrine_Entity

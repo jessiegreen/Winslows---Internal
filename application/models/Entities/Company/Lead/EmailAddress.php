@@ -1,0 +1,33 @@
+<?php
+namespace Entities\Company\Lead;
+/** 
+ * @Entity (repositoryClass="Repositories\Company\Lead\EmailAddress") 
+ * @Crud\Entity\Url(value="lead-email-address")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
+ * @Table(name="company_lead_email_addresses") 
+ */
+
+class EmailAddress extends \Entities\EmailAddress\EmailAddressAbstract
+{
+    /** 
+     * @ManyToOne(targetEntity="\Entities\Company\Lead", inversedBy="EmailAddresses")
+     * @var \Entities\Company\Lead
+     */     
+    protected $Lead;
+    
+    /**
+     * @param \Entities\Company\Lead $Lead
+     */
+    public function setLead(\Entities\Company\Lead $Lead)
+    {
+        $this->Lead = $Lead;
+    }
+    
+    /**
+     * @return \Entities\Company\Lead 
+     */
+    public function getLead()
+    {
+	return $this->Lead;
+    }
+}

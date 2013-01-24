@@ -8,7 +8,10 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @Table(name="emailaddress_emailaddressabstracts") 
  * @InheritanceType("JOINED")
  * @DiscriminatorColumn(name="discr", type="string")
- * @DiscriminatorMap({"person_emailaddress" = "\Entities\Person\EmailAddress"})
+ * @DiscriminatorMap({
+ *			"company_lead_emailaddress" = "\Entities\Company\Lead\EmailAddress",
+ *			"company_employee_emailaddress" = "\Entities\Company\Employee\EmailAddress"
+ *		    })
  * @HasLifecycleCallbacks
  */
 class EmailAddressAbstract extends \Dataservice_Doctrine_Entity

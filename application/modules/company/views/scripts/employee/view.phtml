@@ -1,185 +1,33 @@
 <?php 
-echo($this->flashMessages());
-$this->CRUD_Header("Employee - View");
+use Dataservice\Html\CRUD;
+
+echo($this->flashMessages()); 
+echo CRUD\Nav::factory("Company", "index/view")->getHtml();
+echo CRUD\Header::factory("Employee - View")->getHtml();
 
 /* @var $Employee \Entities\Company\Employee */
 $Employee	= $this->Employee;
-$employee_id	= $Employee->getId();
-$Addresses	= $Employee->getAddresses();
-$PhoneNumbers	= $Employee->getPhoneNumbers();
-$EmailAddresses	= $Employee->getEmailAddresses();
-$Account	= $Employee->getAccount();
-$Anchor		= new \Dataservice\Html\Anchor();
 
-$this->CRUD_Body()->start();
-$this->CRUD_Tabs()->headers(array("Info", "Contact Info", "Website Account", "Time Clock"));
-?>
-<div id="Info">
-    <h4>
-	Information
-    </h4>
-    <ul>
-	<li>
-	    <?php
-	    echo $Anchor->editIcon("", "/employee/edit/id/".$Employee->getId(), "Edit Employee");
-	    echo $Anchor->deleteIcon("", "/employee/delete/id/".$Employee->getId(), true, "Delete Employee");
-	    echo htmlspecialchars($Employee->toString());
-	    ?>
-	</li>
-    </ul>
-</div>
-<div id="Contact_Info">
-    <h4>
-	Addresses
-	<?php
-	echo $Anchor->addIcon("", "/employee-address/edit/id/0/employee_id/".$Employee->getId(), "Add Address");
-	?>
-    </h4>
-    <ul>
-    <?php	
-    if(!$Addresses->count())echo "<li>No addresses</li>";
-    else
-	foreach ($Addresses as $Address)
-	{
-	    echo "<li>";
-	    echo $Anchor->editIcon("", "/employee-address/edit/id/".$Address->getId(), "Edit Address");
-	    echo $Anchor->deleteIcon("", "/employee-address/delete/id/".$Address->getId(), true, "Delete Address");
-	    echo htmlspecialchars($Address->toString());
-	    echo "</li>";
-	}
-    ?>
-    </ul>
-    <h4>
-	Phone Numbers
-	<?php
-	echo $Anchor->addIcon("", "/employee-phone-number/edit/id/0/employee_id/".$Employee->getId(), "Add Phone Number");
-	?>
-    </h4>
-    <ul>
-    <?php	
-    if(!$PhoneNumbers->count())echo "<li>No phone numbers</li>";
-    else
-	foreach ($PhoneNumbers as $PhoneNumber)
-	{
-	    echo "<li>";
-	    echo $Anchor->editIcon("", "/employee-phone-number/edit/id/".$PhoneNumber->getId(), "Edit Phone Number");
-	    echo $Anchor->deleteIcon("", "/employee-phone-number/delete/id/".$PhoneNumber->getId(), true, "Delete Phone Number");
-	    echo htmlspecialchars($PhoneNumber->toString());
-	    echo "</li>";
-	}
-    ?>
-    </ul>
-    <h4>
-	Email Addresses
-	<?php
-	echo $Anchor->addIcon("", "/employee-email-address/edit/id/0/employee_id/".$Employee->getId(), "Add Email Address");
-	?>
-    </h4>
-    <ul>
-    <?php	
-    if(!$EmailAddresses->count())echo "<li>No email addresses</li>";
-    else
-	foreach ($EmailAddresses as $EmailAddress)
-	{
-	    echo "<li>";
-	    echo $Anchor->editIcon("", "/employee-email-address/edit/id/".$EmailAddress->getId(), "Edit Email Address");
-	    echo $Anchor->deleteIcon("", "/employee-email-address/delete/id/".$EmailAddress->getId(), true, "Delete Email Address");
-	    echo htmlspecialchars($EmailAddress->toString());
-	    echo "</li>";
-	}
-    ?>
-    </ul>
-</div>
-<div id="Website_Account">
-    <h4>
-	Website Account
-	<?php
-	if(!$Account)
-	    echo $Anchor->addIcon("", "/employee-account/edit/id/0/employee_id/".$Employee->getId(), "Set Website Account");;
-	?>
-    </h4>
-    <div>
-	<?php
-	/* @var $Account \Entities\Company\Employee\Account */
-	if($Account)
-	{
-	    ?>
-	    <ul>
-		<li>
-		    <?php
-		    echo \Dataservice\Html\Anchor::anchorIcon(
-			    "bullet_go.png", 
-			    "", 
-			    "/employee-account/view/id/".$Account->getId(),
-			    "margin-left:5px;"
-			    );
-		    echo $Account->getUsername();
-		    ?>
-		</li>
-	    </ul>
-	    <?php
-	}
-	else echo "No Web Account";
-	?>
-    </div>
-</div>
-<div id="Time_Clock">
-    <h4>
-	Time Clock
-    </h4>
-    <ul>
-	<li>
-	    <?php
-	    echo \Dataservice\Html\Button::buttonBlue(
-	    "clock.png", 
-	    $Employee->isClockedIn() ? "Clock Out" : "Clock In", 
-	    "time_clock_button", 
-	    "margin-bottom:8px;", 
-	    "", 
-	    "onclick='location=\"/employee/clock-punch/id/".$Employee->getId()."\"'");
-	    ?>
-	</li>
-	<li>
-	    <?php echo $Employee->getThisWeeksTimeClockTotalTime()->format("%h hours %I minutes this week.");?>	    
-	</li>
-	<li>
-	    <?php
-	    $i		= 0;
-	    $Previous	= null;
-	    
-	    /* @var $TimeEntry \Entities\Company\TimeClock\Entry */
-	    foreach ($Employee->getThisWeeksTimeClockEntries() as $TimeEntry)
-	    {
-		if(
-		    !$Previous || 
-		    $Previous->getDateTime()->format("Y:m:d") !== $TimeEntry->getDateTime()->format("Y:m:d")
+$crudBody = new CRUD\Body();
+
+$crudBody->start();
+
+$Tabs = CRUD\Tabs::factory();
+
+$Tabs->addEntityViewTab("Information", $Employee)
+    ->addTab(
+	CRUD\Tabs\Tab::factory(("Contact Info"))
+	    ->addCollectionLists(
+		array(
+		    new CRUD\CollectionList($Employee, "PhoneNumbers"),
+		    new CRUD\CollectionList($Employee, "Addresses"),
+		    new CRUD\CollectionList($Employee, "EmailAddresses")
 		)
-		{
-		    echo "<h4>".$TimeEntry->getDateTime()->format("D n-y")."</h4>";
-		}
-		
-		if($i === 0)
-		{
-		    $i = 1;
-		    
-		    echo "<div>";
-		    echo "IN: ".$TimeEntry->getDateTime()->format("g:i a");
-		}
-		else
-		{
-		    $i = 0;
-		    
-		    echo " - OUT: ".$TimeEntry->getDateTime()->format("g:i a");
-		    echo "</div>";
-		}
-		
-		$Previous = $TimeEntry;
-	    }
-	    ?>
-	</li>
-    </ul>
-</div>
-<?php
-$this->CRUD_Body()->end();
-?>
-<div style="clear: both;"><input type="hidden" id="employee_id" value="<?php echo $employee_id;?>" /></div>
+	    )
+    )
+    ->addEntityViewTab("Website Account", $Employee->getAccount())
+    ->render();
+
+$crudBody->end();
+
+echo $Tabs->getJS();

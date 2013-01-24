@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @Entity (repositoryClass="Repositories\Company\Location") 
  * @Table(name="company_locations")
  * @Crud\Entity\Url(value="location")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  * @HasLifecycleCallbacks
  */
 class Location extends \Entities\Location\LocationAbstract

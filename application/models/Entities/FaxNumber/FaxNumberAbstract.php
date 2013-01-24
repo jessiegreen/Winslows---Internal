@@ -10,7 +10,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @InheritanceType("JOINED")
  * @DiscriminatorColumn(name="discr", type="string")
  * @DiscriminatorMap({
- *			"person_faxnumber" = "\Entities\Person\FaxNumber",
+ *			"company_lead_faxnumber" = "\Entities\Company\Lead\FaxNumber",
+ *			"company_employee_faxnumber" = "\Entities\Company\Employee\FaxNumber",
  *			"company_location_faxnumber" = "\Entities\Location\FaxNumber"
  *		    })
  * @HasLifecycleCallbacks

@@ -127,6 +127,8 @@ abstract class AccountAbstract extends \Dataservice_Doctrine_Entity implements \
      */
     public function hasRoleByRoleNames($name_array)
     {
+	if(!$name_array || empty($name_array))return false;
+	
 	foreach ($this->getRoles() as $Role)
 	{
 	    if(in_array($Role->getName(),$name_array))return true;

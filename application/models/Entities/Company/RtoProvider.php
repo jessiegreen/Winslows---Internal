@@ -6,6 +6,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @Entity (repositoryClass="Repositories\Company\RtoProvider") 
  * @Table(name="company_rtoproviders")
+ * @Crud\Entity\Url(value="rtoprovider")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  * @HasLifecycleCallbacks
  */
 class RtoProvider extends \Dataservice_Doctrine_Entity
@@ -314,5 +316,13 @@ class RtoProvider extends \Dataservice_Doctrine_Entity
     public function setDescription($description)
     {
         $this->description = $description;
+    }
+    
+    /**
+     * @return string
+     */
+    public function toString()
+    {
+	return $this->getName();
     }
 }

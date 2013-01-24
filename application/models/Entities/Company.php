@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @Table(name="companies")
  * @HasLifecycleCallbacks
  * @Crud\Entity\Url(value="index")
- * @Crud\Entity\Permissions(edit={"Admin"}, create={"Admin"}, delete={"Admin"})
+ * @Crud\Entity\Permissions(view={"Admin", "Manager"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
 class Company extends \Dataservice_Doctrine_Entity
 {
@@ -56,6 +56,7 @@ class Company extends \Dataservice_Doctrine_Entity
     /**
      * @ManytoMany(targetEntity="\Entities\Company\Supplier", mappedBy="Companies", cascade={"persist"})
      * @var array $Suppliers
+     * @Crud\Collection\Permissions(add={"Admin"}, remove={"Admin"})
      * @OrderBy({"name" = "ASC"})
      */
     protected $Suppliers;
@@ -65,6 +66,7 @@ class Company extends \Dataservice_Doctrine_Entity
      *
      * @OneToMany(targetEntity="\Entities\Company\RtoProvider", mappedBy="Company", cascade={"persist"})
      * @var array $RtoProviders
+     * @Crud\Collection\Permissions(add={"Admin"}, remove={"Admin"})
      * @OrderBy({"name" = "ASC"})
      */
     private $RtoProviders;
@@ -74,6 +76,7 @@ class Company extends \Dataservice_Doctrine_Entity
      *
      * @OneToMany(targetEntity="\Entities\Company\Website", mappedBy="Company", cascade={"persist"})
      * @var array $Websites
+     * @Crud\Collection\Permissions(add={"Admin"}, remove={"Admin"})
      * @OrderBy({"name" = "ASC"})
      */
     private $Websites;
@@ -84,7 +87,7 @@ class Company extends \Dataservice_Doctrine_Entity
      * @OneToMany(targetEntity="\Entities\Company\Employee", mappedBy="Company", cascade={"persist"})
      * @OrderBy({"first_name" = "ASC"})
      * @var ArrayCollection $Employees
-     * @OrderBy({"first_name" = "ASC"})
+     * @Crud\Collection\Permissions(add={"Admin"}, remove={"Admin"})
      */
     private $Employees;
     
@@ -93,6 +96,7 @@ class Company extends \Dataservice_Doctrine_Entity
      *
      * @OneToMany(targetEntity="\Entities\Company\Lead", mappedBy="Company", cascade={"persist"})
      * @var ArrayCollection $Leads
+     * @Crud\Collection\Permissions(add={"Admin"}, remove={"Admin"})
      * @OrderBy({"first_name" = "ASC"})
      */
     private $Leads;
@@ -102,6 +106,7 @@ class Company extends \Dataservice_Doctrine_Entity
      *
      * @OneToMany(targetEntity="\Entities\Company\Dealer", mappedBy="Company", cascade={"persist"})
      * @var ArrayCollection $Dealers
+     * @Crud\Collection\Permissions(add={"Admin"}, remove={"Admin"})
      * @OrderBy({"name" = "ASC"})
      */
     private $Dealers;
@@ -428,5 +433,10 @@ class Company extends \Dataservice_Doctrine_Entity
     public function setDescription($description)
     {
         $this->description = $description;
+    }
+    
+    public function toString()
+    {
+	return $this->getName()." - ".$this->getDba();
     }
 }

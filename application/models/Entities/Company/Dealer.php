@@ -5,6 +5,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @Entity (repositoryClass="Repositories\Company\Dealer") 
+ * @Crud\Entity\Url(value="dealer")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  * @Table(name="company_dealers")
  * @HasLifecycleCallbacks
  */
@@ -170,5 +172,13 @@ class Dealer extends \Dataservice_Doctrine_Entity
     public function setDescription($description)
     {
         $this->description = $description;
+    }
+    
+    /**
+     * @return string
+     */
+    public function toString()
+    {
+	return $this->getName();
     }
 }

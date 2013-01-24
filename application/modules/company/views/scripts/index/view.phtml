@@ -7,168 +7,26 @@ echo CRUD\Header::factory("Company - View")->getHtml();
 
 /* @var $Company \Entities\Company */
 $Company	= $this->Company;
-$company_id	= $Company->getId();
-/* @var $Locations \Doctrine\Common\Collections\ArrayCollection */
-$Locations	= $Company->getLocations();
-$Suppliers	= $Company->getSuppliers();
-$Websites	= $Company->getWebsites();
-$Employees	= $Company->getEmployees();
-$RtoProviders	= $Company->getRtoProviders();
-$Dealers	= $Company->getDealers();
-$Inventory	= $Company->getInventory();
-$Leads		= $Company->getLeads();
-$Anchor		= new \Dataservice\Html\Anchor();
 
-$crudBody = new \Dataservice\Html\CRUD\Body();
-$crudTabs = new \Dataservice\Html\CRUD\Tabs();
+$crudBody = CRUD\Body::factory();
+$crudTabs = CRUD\Tabs::factory();
 
 $crudBody->start();
 
-$LocationTab	= new \Dataservice\Html\CRUD\Tabs\Tab("Locations");
-$LocationsList	= new Dataservice\Html\CRUD\CollectionList($Company, "Locations");
+$crudTabs->addEntityViewTab("Information", $Company);
 
-$LocationTab->addContent($LocationsList->getHtml());
-
-$crudTabs->addTab($LocationTab);
+$crudTabs->addCollectionListTabs(array(
+    array("Leads", $Company, "Leads"),
+    array("Locations", $Company, "Locations"),
+    array("Employees", $Company, "Employees"),
+    array("Suppliers", $Company, "Suppliers"),
+    array("Rto Providers", $Company, "RtoProviders"),
+    array("Dealers", $Company, "Dealers"),
+    array("Websites", $Company, "Websites"),
+));
 
 $crudTabs->render();
-exit;
-$this->CRUD_Tabs()->headers(array("Info", "Leads", "Locations", "Employees", "Suppliers", "RTO Providers", "Dealers", "Websites"));
-?>
-<div id="Info">
-    <h4>
-	Information
-    </h4>
-    <ul>
-	<li>
-	    <?php
-	    echo $Anchor->editIcon("", "/company/edit/id/".$Company->getId(), "Edit Company");
-	    echo htmlspecialchars($Company->toString());
-	    ?>
-	</li>
-    </ul>
-</div>
-<div id="Leads">
-    <h4>
-	Leads
-	<?php echo $Anchor->addIcon("", "/lead/edit/id/0/company_id/".$Company->getId(), "Add Lead");?>
-    </h4>
-    <ul>
-    <?php	
-    if(!$Leads->count())echo "<li>No leads</li>";
-    else
-	foreach ($Leads as $Lead)
-	{
-	    echo "<li>";
-	    echo $Anchor->editIcon("", "/lead/edit/id/".$Lead->getId(), "Edit Lead");
-	    echo $Anchor->deleteIcon("", "/lead/delete/id/".$Lead->getId(), true, "Delete Lead");
-	    echo htmlspecialchars($Address->toString());
-	    echo "</li>";
-	}
-    ?>
-    </ul>
-</div>
-<div id="Locations">
-    <h4>
-	Leads
-	<?php echo $Anchor->addIcon("", "/lead/edit/id/0/company_id/".$Company->getId(), "Add Lead");?>
-    </h4>
-    <ul>
-    <?php	
-    if(!$Leads->count())echo "<li>No leads</li>";
-    else
-	foreach ($Leads as $Lead)
-	{
-	    echo "<li>";
-	    echo $Anchor->editIcon("", "/lead/edit/id/".$Lead->getId(), "Edit Lead");
-	    echo $Anchor->deleteIcon("", "/lead/delete/id/".$Lead->getId(), true, "Delete Lead");
-	    echo htmlspecialchars($Address->toString());
-	    echo "</li>";
-	}
-    ?>
-    </ul>
-</div>
-    <h3>
-	<a href="#">Dealers</a>
-	<?php 
-	    echo \Dataservice\Html\Button::buttonBlue(
-		"add.png", 
-		"Add Dealer", 
-		"dealer_add", 
-		"float:right;width:130px;");
-	?>
-    </h3>
-    <div>
-	<?php
-	/* @var $Dealer \Entities\Company\Dealer */
-	if(count($Dealers)>0)
-	{
-	    foreach ($Dealers as $Dealer)
-	    {
-		?>
-		<div style="padding: 3px;margin-bottom: 3px;">
-		    <?php 
-		    echo $Dealer->getName();
-		    echo \Dataservice\Html\Anchor::anchorIcon(
-			    "bullet_go.png", 
-			    "", 
-			    "/dealer/view/id/".$Dealer->getId(),
-			    "margin-left:5px;"
-			    );
-		    ?>
-		</div>
-		<?php
-	    }
-	}
-	else echo "No Dealers";
-	?>
-    </div>
-    <hr />
-    <h3>
-	<a href="#">Websites</a>
-	<?php 
-	    echo \Dataservice\Html\Button::buttonBlue(
-		"add.png", 
-		"Add Website", 
-		"website_add", 
-		"float:right;width:130px;");
-	?>
-    </h3>
-    <div>
-	<?php
-	/* @var $Website \Entities\Company\Website */
-	if(count($Websites)>0)
-	{
-	    foreach ($Websites as $Website)
-	    {
-		?>
-		<div style="padding: 3px;margin-bottom: 3px;">
-		    <?php 
-		    echo $Website->getName();
-		    echo \Dataservice\Html\Anchor::anchorIcon(
-			    "bullet_go.png", 
-			    "", 
-			    "/website/view/id/".$Website->getId(),
-			    "margin-left:5px;"
-			    );
-		    ?>
-		</div>
-		<?php
-	    }
-	}
-	else echo "No Websites";
-	?>
-    </div>
-    <hr />
-    <h3><a href="#">Documents</a></h3>
-    <div>Put Documents here</div>
-</div>
-<div style="clear: both;"><input type="hidden" id="company_id" value="<?php echo $company_id;?>" /></div>
-<script type="text/javascript">
-    Company = new Company();
-    Company.AddLocationOnclickBind($("#location_add"));
-    Company.AddEmployeeOnclickBind($("#employee_add"));
-    Company.AddWebsiteOnclickBind($("#website_add"));
-    Company.AddRtoProviderOnclickBind($("#rto_provider_add"));
-    Company.AddDealerOnclickBind($("#dealer_add"));
-</script>
+
+$crudBody->end();
+
+echo $crudTabs->getJS();

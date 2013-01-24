@@ -6,6 +6,8 @@ use Entities\Person\PersonAbstract as PersonAbstract;
 
 /** 
  * @Entity (repositoryClass="Repositories\Company\Employee") 
+ * @Crud\Entity\Url(value="employee")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  * @Table(name="company_employees") 
  */
 class Employee extends PersonAbstract
@@ -31,7 +33,38 @@ class Employee extends PersonAbstract
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
+     * @OneToMany(targetEntity="\Entities\Company\Employee\Address", mappedBy="Employee", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @Crud\Collection\Permissions(add={"Admin"}, remove={"Admin"})
+     * @var ArrayCollection $Addresses
+     */
+    protected $Addresses;
+    
+    /**
+     * @OneToMany(targetEntity="\Entities\Company\Employee\FaxNumber", mappedBy="Employee", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @Crud\Collection\Permissions(add={"Admin"}, remove={"Admin"})
+     * @var ArrayCollection $FaxNumbers
+     */
+    protected $FaxNumbers;
+    
+    /**
+     * @OneToMany(targetEntity="\Entities\Company\Employee\PhoneNumber", mappedBy="Employee", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @Crud\Collection\Permissions(add={"Admin"}, remove={"Admin"})
+     * @var ArrayCollection $PhoneNumbers
+     */
+    protected $PhoneNumbers;
+    
+    /**
+     * @OneToMany(targetEntity="\Entities\Company\Employee\EmailAddress", mappedBy="Employee", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @Crud\Collection\Permissions(add={"Admin"}, remove={"Admin"})
+     * @var ArrayCollection $EmailAddresses
+     */
+    protected $EmailAddresses;
+    
+    /**
+     * Bidirectional - One-To-Many (INVERSE SIDE)
+     *
      * @OneToMany(targetEntity="\Entities\Company\Lead", mappedBy="Employee", cascade={"persist"})
+     * @Crud\Collection\Permissions(add={"Admin"}, remove={"Admin"})
      * @var ArrayCollection $Leads
      */
     protected $Leads;
@@ -40,6 +73,7 @@ class Employee extends PersonAbstract
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="\Entities\Company\TimeClock\Entry", mappedBy="Employee", cascade={"persist", "remove"})
+     * @Crud\Collection\Permissions(add={"Admin"}, remove={"Admin"})
      * @var ArrayCollection $TimeClockEntries
      */
     protected $TimeClockEntries;
@@ -52,10 +86,86 @@ class Employee extends PersonAbstract
     
     public function __construct()
     {
+	$this->Addresses	= new ArrayCollection();
+	$this->FaxNumbers	= new ArrayCollection();
+	$this->PhoneNumbers	= new ArrayCollection();
+	$this->EmailAddresses	= new ArrayCollection();
 	$this->Leads		= new ArrayCollection();
 	$this->TimeClockEntries	= new ArrayCollection();
 	
 	parent::__construct();
+    }
+    
+    /**
+     * @param Employee\Address $Address
+     */
+    public function addAddress(Employee\Address $Address)
+    {
+	$Address->setEmployee($this);
+	
+        $this->Addresses[] = $Address;
+    }
+    
+    /** 
+     * @return ArrayCollection
+     */
+    public function getAddresses()
+    {
+	return $this->Addresses;
+    }
+    
+    /**
+     * @param Employee\PhoneNumber $PhoneNumber
+     */
+    public function addPhoneNumber(Employee\PhoneNumber $PhoneNumber)
+    {
+	$PhoneNumber->setEmployee($this);
+	
+        $this->PhoneNumbers[] = $PhoneNumber;
+    }
+    
+    /**
+     * @return array
+     */
+    public function getPhoneNumbers()
+    {
+      return $this->PhoneNumbers;
+    }
+    
+    /**
+     * @param Employee\FaxNumber $FaxNumber
+     */
+    public function addFaxNumber(Employee\FaxNumber $FaxNumber)
+    {
+	$FaxNumber->setEmployee($this);
+	
+        $this->FaxNumbers[] = $FaxNumber;
+    }
+    
+    /**
+     * @return array
+     */
+    public function getFaxNumbers()
+    {
+      return $this->FaxNumbers;
+    }
+    
+    /**
+     * @param Employee\EmailAddress $EmailAddress
+     */
+    public function addEmailAddress(Employee\EmailAddress $EmailAddress)
+    {
+	$EmailAddress->setEmployee($this);
+	
+        $this->EmailAddresses[] = $EmailAddress;
+    }
+    
+    /**
+     * @return array
+     */
+    public function getEmailAddresses()
+    {
+	return $this->EmailAddresses;
     }
     
     /**

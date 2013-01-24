@@ -19,7 +19,23 @@ class CollectionList
     
     private $entityUrl;
 
-    private $permissions    = array("add" => array(), "edit" => array(), "delete" => array(), "remove" => array());
+    private $permissions= array(
+				"add" => array(), 
+				"edit" => array(), 
+				"delete" => array(), 
+				"remove" => array(), 
+				"view" => array()
+			    );
+    
+    /**
+     * @param \Dataservice_Doctrine_Entity $parentEntity
+     * @param string $collectionName
+     * @return \Dataservice\Html\CRUD\CollectionList
+     */
+    public static function factory($parentEntity, $collectionName)
+    {
+	return new CollectionList($parentEntity, $collectionName);
+    }
     
     public function __construct($parentEntity, $collectionName)
     {
@@ -35,8 +51,8 @@ class CollectionList
 	$entity_permissions	= $entityService->getEntityCrudPermissions($this->entityClass);
 	$this->entityUrl	= $entityService->getEntityUrl($this->entityClass);
 	$collection_permissions	= $entityService->getCollectionCrudPermissions($this->parentClass, $collectionName);
-	$this->permissions	= \Dataservice_Array::merge_unique_recursive($this->permissions, (array) $entity_permissions);
-	$this->permissions	= \Dataservice_Array::merge_unique_recursive($this->permissions, (array) $collection_permissions);
+	$this->permissions	= array_merge_recursive($this->permissions, (array) $entity_permissions);
+	$this->permissions	= array_merge_recursive($this->permissions, (array) $collection_permissions);
 	
 	return $this;
     }
@@ -60,11 +76,17 @@ class CollectionList
 
 	if(!count($this->collection))$html .= "<li>No ".$this->collectionName."</li>";
 	else
+	    /* @var $Entity \Dataservice_Doctrine_Entity */
 	    foreach ($this->collection as $Entity)
 	    {
 		$html .= "<li>";
-		$html .= $Anchor->editIcon("", "/".$this->entityUrl."/edit/id/".$Entity->getId(), "Edit ".$this->entityClassName);
-		$html .= $Anchor->deleteIcon("", "/".$this->entityUrl."/delete/id/".$Entity->getId(), true, "Delete ".$this->entityClassName);
+		
+		if($Account->hasRoleByRoleNames($this->permissions["view"]))
+		    $html .= $Anchor->viewIcon("", "/".$this->entityUrl."/view/id/".$Entity->getId(), "View ".$this->entityClassName);
+		
+		if($Account->hasRoleByRoleNames($this->permissions["remove"]))
+		    $html .= $Anchor->deleteIcon("", "/".$this->entityUrl."/delete/id/".$Entity->getId(), true, "Delete ".$this->entityClassName);
+		
 		$html .= htmlspecialchars($Entity->toString());
 		$html .= "</li>";
 	    }

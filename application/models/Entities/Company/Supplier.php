@@ -6,6 +6,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 /** 
  * @Entity (repositoryClass="Repositories\Company\Supplier") 
  * @Table(name="company_suppliers")
+ * @Crud\Entity\Url(value="supplier")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  * @HasLifecycleCallbacks
  */
 class Supplier extends \Dataservice_Doctrine_Entity
@@ -139,5 +141,13 @@ class Supplier extends \Dataservice_Doctrine_Entity
     public function setName($name)
     {
         $this->name = $name;
+    }
+    
+    /**
+     * @return string
+     */
+    public function toString()
+    {
+	return $this->getName();
     }
 }

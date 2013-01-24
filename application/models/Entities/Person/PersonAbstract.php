@@ -48,14 +48,6 @@ class PersonAbstract extends \Dataservice_Doctrine_Entity
      * @var string $suffix
      */
     protected $suffix;
-
-    /**
-     * Bidirectional - One-To-Many (INVERSE SIDE)
-     *
-     * @OneToMany(targetEntity="\Entities\Person\Address", mappedBy="Person", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @var ArrayCollection $Addresses
-     */
-    protected $Addresses;
     
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
@@ -64,45 +56,12 @@ class PersonAbstract extends \Dataservice_Doctrine_Entity
      * @var ArrayCollection $Documents
      */
     protected $Documents;
-    
-    /**
-     * @OneToMany(targetEntity="\Entities\Person\PhoneNumber", mappedBy="Person", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @var ArrayCollection $PhoneNumbers
-     */
-    protected $PhoneNumbers;
-    
-    /**
-     * @OneToMany(targetEntity="\Entities\Person\EmailAddress", mappedBy="Person", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @var ArrayCollection $EmailAddresses
-     */
-    protected $EmailAddresses;
 
     public function __construct()
     {
-	$this->Addresses	= new ArrayCollection();
-	$this->Documents	= new ArrayCollection();
-	$this->PhoneNumbers	= new ArrayCollection();
-	$this->EmailAddresses	= new ArrayCollection();
+	$this->Documents = new ArrayCollection();
       
 	parent::__construct();
-    }
-   
-    /**
-     * Add address to person.
-     * @param \Entities\Person\Address $Address
-     */
-    public function addAddress(Address $Address)
-    {
-	$Address->setPerson($this);
-        $this->Addresses[] = $Address;
-    }
-    
-    /** 
-     * @return ArrayCollection
-     */
-    public function getAddresses()
-    {
-	return $this->Addresses;
     }
     
     /**
@@ -121,42 +80,6 @@ class PersonAbstract extends \Dataservice_Doctrine_Entity
     public function getDocuments()
     {
       return $this->Documents;
-    }
-    
-    /**
-     * Add phonenumber to person.
-     * @param \Entities\Person\PhoneNumber $PhoneNumber
-     */
-    public function addPhoneNumber(PhoneNumber $PhoneNumber)
-    {
-	$PhoneNumber->setPerson($this);
-        $this->PhoneNumbers[] = $PhoneNumber;
-    }
-    
-    /**
-     * @return array
-     */
-    public function getPhoneNumbers()
-    {
-      return $this->PhoneNumbers;
-    }
-    
-    /**
-     * Add email to person.
-     * @param \Entities\Person\EmailAddress $EmailAddress
-     */
-    public function addEmailAddress(EmailAddress $EmailAddress)
-    {
-	$EmailAddress->setPerson($this);
-        $this->EmailAddresses[] = $EmailAddress;
-    }
-    
-    /**
-     * @return array
-     */
-    public function getEmailAddresses()
-    {
-	return $this->EmailAddresses;
     }
 
     /**

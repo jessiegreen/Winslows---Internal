@@ -3,6 +3,8 @@ namespace Entities\Company\Employee;
 
 /** 
  * @Entity (repositoryClass="Repositories\Company\Employee\Account") 
+ * @Crud\Entity\Url(value="employee-account")
+ * @Crud\Entity\Permissions(view={"Admin", "Manager"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  * @Table(name="company_employee_accounts") 
  */
 class Account extends \Entities\Website\Account\AccountAbstract
@@ -40,5 +42,10 @@ class Account extends \Entities\Website\Account\AccountAbstract
     public function getDescriminator()
     {
 	return self::TYPE_Employee;
+    }
+    
+    public function toString()
+    {
+	return $this->getWebsite()->getName()." - ".$this->getUsername();
     }
 }

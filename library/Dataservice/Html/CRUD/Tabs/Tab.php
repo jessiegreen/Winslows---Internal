@@ -23,14 +23,52 @@ class Tab
 	$this->name = $name;
     }
     
+    /**
+     * @param string $name
+     * @return \Dataservice\Html\CRUD\Tabs\Tab
+     */
+    public static function factory($name)
+    {
+	return new Tab($name);
+    }
+    
     public function addContent($html)
     {
 	$this->content_html .= $html;
+	
+	return $this;
+    }
+    
+    public function addCollectionList(\Dataservice\Html\CRUD\CollectionList $List)
+    {
+	$this->content_html .= $List->getHtml();
+	
+	return $this;
+    }
+    
+    public function addEntityView(\Dataservice\Html\CRUD\EntityView $View)
+    {
+	$this->content_html .= $View->getHtml();
+	
+	return $this;
+    }
+    
+    /**
+     * @param array $lists
+     */
+    public function addCollectionLists($lists)
+    {
+	foreach($lists as $List)
+	    $this->addCollectionList($List);
+	
+	return $this;
     }
     
     public function getTabHtml()
     {
 	return '<li><a href="#'.str_ireplace(" ", "_", $this->name).'">'.$this->name.'</a></li>';
+	
+	return $this;
     }
     
     public function getBodyHtml()
@@ -40,5 +78,7 @@ class Tab
 	$html .= '</div>';
 	
 	return $html;
+	
+	return $this;
     }
 }
