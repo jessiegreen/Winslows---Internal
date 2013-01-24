@@ -210,7 +210,7 @@ class PhoneNumberAbstract extends \Dataservice_Doctrine_Entity
     
     public function toString()
     {
-	echo \Dataservice\Inflector::humanize($this->getType())." - ".$this->getNumberDisplay();
+	return \Dataservice\Inflector::humanize($this->getType())." - ".$this->getNumberDisplay();
     }
 
     /** 
@@ -220,8 +220,7 @@ class PhoneNumberAbstract extends \Dataservice_Doctrine_Entity
 	return array(
 	    "home" => "Home",
 	    "cell" => "Cell",
-	    "work" => "Work",
-	    "fax"  => "Fax"
+	    "work" => "Work"
 	);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Repositories\Person;
+namespace Repositories\Company\Employee;
 
 use Doctrine\ORM\EntityRepository;
 

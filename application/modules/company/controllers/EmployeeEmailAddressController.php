@@ -10,34 +10,46 @@ class Company_EmployeeEmailAddressController extends Dataservice_Controller_Acti
 {    
     public function editAction()
     {
-	/* @var $EmailAddress \Entities\Person\EmailAddress */
-	$EmailAddress	= $this->getEntityFromParamFields("Person\EmailAddress", array("id"));
-	$form		= new Forms\Person\EmailAddress(array("method" => "post"), $EmailAddress);
+	/* @var $EmailAddress \Entities\Company\Employee\EmailAddress */
+	$EmailAddress	= $this->getEntityFromParamFields("Company\Employee\EmailAddress", array("id"));
+	$employee_id	= $this->_getParam("employee_id");
 	
-	$form->addElement("button", "cancel", 
-		array("onclick" => "location='".$this->_History->getPreviousUrl(1)."'")
-		);
+	if($employee_id)
+	{
+	    $Employee = $this->_em->find("Entities\Company\Employee", $employee_id);
+		    
+	    if(!$Employee)
+	    {
+		$this->_FlashMessenger->addErrorMessage("Could not get employee Id.");
+		$this->_History->goBack();
+	    }
+	    
+	    $EmailAddress->setEmployee($Employee);
+	}
+	
+	$form = new Forms\Company\Employee\EmailAddress($EmailAddress, array("method" => "post"));
+	
+	$form->addCancelButton($this->_History->getPreviousUrl());
 	
 	if($this->isPostAndValid($form))
 	{
 	    try 
 	    {
-		$data	= $this->_params["person_emailaddress"];
+		$data	= $this->_params["company_employee_email_address"];
 		
 		$EmailAddress->populate($data);
 		
-		if(!$EmailAddress->getId())
-		{
-		    /* @var $Employee \Entities\Company\Employee */
-		    $Employee = $this->_em->find("Entities\Company\Employee", $this->_params["employee_id"]);
+		$Employee = $this->_em->find("Entities\Company\Employee", $data["employee_id"]);
 		    
-		    if(!$Employee)
-			throw new Exception("Can not add email address. No Employee with that Id");
-
-		    $Employee->addEmailAddress($EmailAddress);
-		    $this->_em->persist($Employee);
+		if(!$Employee)
+		{
+		    $this->_FlashMessenger->addErrorMessage("Can not add address. No Employee with that Id");
+		    $this->_History->goBack();
 		}
-		else $this->_em->persist($EmailAddress);
+
+		$EmailAddress->setEmployee($Employee);
+		
+		$this->_em->persist($EmailAddress);
 
 		$this->_em->flush();
 

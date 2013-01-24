@@ -4,6 +4,6 @@ namespace Repositories\Company\Employee;
 
 use Doctrine\ORM\EntityRepository;
 
-class Role extends EntityRepository
+class EmailAddress extends EntityRepository
 {  
 }
