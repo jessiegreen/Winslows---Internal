@@ -1,0 +1,23 @@
+<?php 
+use Dataservice\Html\CRUD;
+
+echo($this->flashMessages()); 
+echo CRUD\Nav::factory("Employee", "employee/view/id/".$this->EmailAddress->getEmployee()->getId())->getHtml();
+echo CRUD\Header::factory("Employee Address - View")->getHtml();
+
+/* @var $EmailAddress \Entities\Company\Employee */
+$EmailAddress = $this->EmailAddress;
+
+$crudBody = new CRUD\Body();
+
+$crudBody->start();
+
+$Tabs = CRUD\Tabs::factory();
+
+$Tabs->addEntityViewTab("Information", $EmailAddress)
+    ->addCollectionListTab("Emails", $EmailAddress, "Emails")
+    ->render();
+
+$crudBody->end();
+
+echo $Tabs->getJS();

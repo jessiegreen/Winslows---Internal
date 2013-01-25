@@ -20,6 +20,7 @@ $Tabs->addEntityViewTab("Information", $Employee)
 	    ->addCollectionLists(
 		array(
 		    new CRUD\CollectionList($Employee, "PhoneNumbers"),
+		    new CRUD\CollectionList($Employee, "FaxNumbers"),
 		    new CRUD\CollectionList($Employee, "Addresses"),
 		    new CRUD\CollectionList($Employee, "EmailAddresses")
 		)

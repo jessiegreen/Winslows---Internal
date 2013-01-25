@@ -105,6 +105,15 @@ class Dataservice_Controller_Action extends Zend_Controller_Action
 	return false;
     }
     
+    protected function _CheckRequiredEntityExists(\Dataservice_Doctrine_Entity $Entity)
+    {
+	if(!$Entity->getId())
+	{
+	    $this->_FlashMessenger->addErrorMessage("Could not get ".$Entity->getClassName());
+	    $this->_History->goBack();
+	}
+    } 
+    
     public function getWebsite()
     {
 	return $this->_Website;

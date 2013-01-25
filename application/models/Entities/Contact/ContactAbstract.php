@@ -5,16 +5,6 @@ namespace Entities\Contact;
 /** 
  * @Entity (repositoryClass="Repositories\Contact\ContactAbstract") 
  * @Table(name="contact_contactabstracts") 
- * @InheritanceType("JOINED")
- * @DiscriminatorColumn(name="discr", type="string")
- * @DiscriminatorMap({
- *			"phonenumberphone_call" = "\Entities\PhoneNumber\Call",
- *			"emailaddress_email" = "\Entities\EmailAddress\Email",
- *			"address_mail" = "\Entities\Address\Mail",
- *			"faxnumber_fax" = "\Entities\FaxNumber\Fax",
- *			"location_visit" = "\Entities\Location\Visit"
- *		    })
- * @HasLifecycleCallbacks
  */
 abstract class ContactAbstract extends \Dataservice_Doctrine_Entity
 {
@@ -36,7 +26,29 @@ abstract class ContactAbstract extends \Dataservice_Doctrine_Entity
      * @var \DateTime $updated
      */
     protected $datetime;
+    
+    /**
+     * @OneToOne(targetEntity="\Entities\Contact\Party", mappedBy="Contact", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @var Party $Inventory
+     */
+    protected $Party;
 
+    /**
+     * @param \Entities\Contact\Party $Party
+     */
+    public function setParty(Party $Party)
+    {
+	$this->Party = $Party;
+    }
+    
+    /**
+     * @return Party
+     */
+    public function getParty()
+    {
+	return $this->Party;
+    }
+    
     /**
      * @return integer 
      */

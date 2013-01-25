@@ -137,6 +137,11 @@ class FaxNumberAbstract extends \Dataservice_Doctrine_Entity
      */
     public function getNumberDisplay()
     {
-	return "(".$this->area_code.")".$this->num1."-".$this->num2;
+	return "(".$this->area_code.") ".$this->num1."-".$this->num2;
+    }
+    
+    public function toString()
+    {
+	return $this->getNumberDisplay();
     }
 }

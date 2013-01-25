@@ -1,8 +1,4 @@
 <?php
-
-use Doctrine\Common\Annotations\AnnotationReader;
-use Doctrine\Common\Annotations\AnnotationRegistry; 
-
 class Dataservice_Doctrine_Entity 
 {
     /** 
@@ -86,6 +82,11 @@ class Dataservice_Doctrine_Entity
 	return \Services\Entity::factory()
 		->getCollectionCrudPermissions(get_called_class(), $collection_property_name);
     }
+    
+    public function toString()
+    {
+	return "";
+    }
 
     public function toArray() 
     {
@@ -100,5 +101,14 @@ class Dataservice_Doctrine_Entity
             }
         }
         return $details;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getClassName(\Dataservice_Doctrine_Entity $Entity = null)
+    {
+	$class = $Entity ? get_class($Entity) : get_called_class();
+	return end(explode('\\', $class));
     }
 }

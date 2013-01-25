@@ -1,29 +1,25 @@
 <?php
 namespace Forms\PhoneNumber;
-/**
- * Name:
- * Location:
- *
- * Description for class (if any)...
- *
- * @author     Jessie Green <jessie.winslows@gmail.com>
- * @copyright  2012 Winslows inc.
- * @version    Release: @package_version@
- */
+
 class Subform extends \Zend_Form_SubForm
 {
     private $_PhoneNumber;
     
-    public function __construct($options = null, \Entities\PhoneNumber\PhoneNumberAbstract $PhoneNumber = null) {
+    public function __construct($options = null, \Entities\PhoneNumber\PhoneNumberAbstract $PhoneNumber = null)
+    {
 	$this->_PhoneNumber = $PhoneNumber;
+	
 	parent::__construct($options);
     }
   
-    public function init(){
-	if($this->_PhoneNumber){
+    public function init()
+    {
+	if($this->_PhoneNumber)
+	{
 	    $type_options   = $this->_PhoneNumber->getTypeOptions();
 	}
-	else{
+	else
+	{
 	    $PhoneNumber    = new \Entities\PhoneNumber();
 	    $type_options   = $PhoneNumber->getTypeOptions();
 	}
@@ -61,5 +57,3 @@ class Subform extends \Zend_Form_SubForm
         ));
     }
 }
-
-?>

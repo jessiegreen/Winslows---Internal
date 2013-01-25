@@ -16,7 +16,7 @@ class Subform extends \Forms\FaxNumber\Subform
     {
 	$this->addElement(new \Dataservice_Form_Element_Company_Employee_Select("employee_id", array(
             'required'	    => true,
-            'label'	    => 'employee:',
+            'label'	    => 'Employee:',
 	    'belongsTo'	    => 'company_employee_fax_number',
 	    'value'	    => $this->_FaxNumber && $this->_FaxNumber->getEmployee() ? $this->_FaxNumber->getEmployee()->getId() : ""
         )));

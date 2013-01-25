@@ -16,7 +16,7 @@ class Subform extends \Forms\EmailAddress\Subform
     {
 	$this->addElement(new \Dataservice_Form_Element_Company_Employee_Select("employee_id", array(
             'required'	    => true,
-            'label'	    => 'employee:',
+            'label'	    => 'Employee:',
 	    'belongsTo'	    => 'company_employee_email_address',
 	    'value'	    => $this->_EmailAddress && $this->_EmailAddress->getEmployee() ? $this->_EmailAddress->getEmployee()->getId() : ""
         )));

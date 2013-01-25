@@ -69,5 +69,14 @@ class Company_EmployeeEmailAddressController extends Dataservice_Controller_Acti
 	$this->view->form	    = $form;
 	$this->view->EmailAddress   = $EmailAddress;
     }
+    
+    public function viewAction()
+    {
+	$EmailAddress	= $this->getEntityFromParamFields("Company\Employee\EmailAddress", array("id"));
+	
+	$this->_CheckRequiredEntityExists($EmailAddress);
+	
+	$this->view->EmailAddress = $EmailAddress;
+    }
 }
 
