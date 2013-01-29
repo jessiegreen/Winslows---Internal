@@ -1,5 +1,4 @@
 <?php
-
 namespace Repositories\Company\Dealer;
 
 use Doctrine\ORM\EntityRepository;

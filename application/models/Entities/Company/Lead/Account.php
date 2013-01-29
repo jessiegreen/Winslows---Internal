@@ -5,7 +5,7 @@ namespace Entities\Company\Lead;
  * @Entity (repositoryClass="Repositories\Company\Lead\Account") 
  * @Table(name="company_lead_accounts") 
  */
-class Account extends \Entities\Website\Account\AccountAbstract
+class Account extends \Entities\Company\Website\Account\AccountAbstract
 {
     /**
      * @OneToOne(targetEntity="\Entities\Company\Lead", inversedBy="Account", cascade={"persist"})

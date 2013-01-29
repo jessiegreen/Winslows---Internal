@@ -3,7 +3,7 @@ class Company_WebsiteMenuItemController extends Dataservice_Controller_Action
 {    
     public function editAction()
     {	
-	/* @var $MenuItem \Entities\Website\Menu\Item */
+	/* @var $MenuItem \Entities\Company\Website\Menu\Item */
 	$MenuItem   = $this->getEntityFromParamFields("Website\Menu\Item", array("id"));
 	$parent_id  = $this->getRequest()->getParam("parent_id", null);
 	$menu_id    = $this->getRequest()->getParam("menu_id", null);
@@ -12,7 +12,7 @@ class Company_WebsiteMenuItemController extends Dataservice_Controller_Action
 	{
 	    if($parent_id)
 	    {
-		$ParentMenuItem = $this->_em->getRepository("Entities\Website\Menu\Item")->findOneById($parent_id);
+		$ParentMenuItem = $this->_em->getRepository("Entities\Company\Website\Menu\Item")->findOneById($parent_id);
 	    
 		if($ParentMenuItem)
 		{
@@ -22,7 +22,7 @@ class Company_WebsiteMenuItemController extends Dataservice_Controller_Action
 	    }
 	    elseif($menu_id)
 	    {
-		$Menu = $this->_em->getRepository("Entities\Website\Menu")->findOneById($menu_id);
+		$Menu = $this->_em->getRepository("Entities\Company\Website\Menu")->findOneById($menu_id);
 
 		if($Menu)
 		{
@@ -31,7 +31,7 @@ class Company_WebsiteMenuItemController extends Dataservice_Controller_Action
 	    }
 	}
 	
-	$form	    = new Forms\Website\Menu\Item(array("method" => "post"), $MenuItem);
+	$form	    = new Forms\Company\Website\Menu\Item(array("method" => "post"), $MenuItem);
 	$form->addElement("button", "cancel", 
 		array("onclick" => "location='".$this->_History->getPreviousUrl(1)."'")
 		);
@@ -41,14 +41,14 @@ class Company_WebsiteMenuItemController extends Dataservice_Controller_Action
 	    try 
 	    {
 		$menuitem_data	= $this->_params["website_menu_item"];
-		/* @var $Menu \Entities\Website\Menu */
-		$Menu		= $this->_em->find("Entities\Website\Menu", $menuitem_data["menu_id"]);
+		/* @var $Menu \Entities\Company\Website\Menu */
+		$Menu		= $this->_em->find("Entities\Company\Website\Menu", $menuitem_data["menu_id"]);
 		
 		$MenuItem->populate($menuitem_data);
 		
 		if($menuitem_data["parent_id"])
 		{
-		    $Parent = $this->_em->find("Entities\Website\Menu\Item", $menuitem_data["parent_id"]);
+		    $Parent = $this->_em->find("Entities\Company\Website\Menu\Item", $menuitem_data["parent_id"]);
 		    
 		    if($Parent)
 		    {
@@ -58,7 +58,7 @@ class Company_WebsiteMenuItemController extends Dataservice_Controller_Action
 		}
 		elseif($menuitem_data["menu_id"])
 		{
-		    $Menu = $this->_em->find("Entities\Website\Menu", $menuitem_data["menu_id"]);
+		    $Menu = $this->_em->find("Entities\Company\Website\Menu", $menuitem_data["menu_id"]);
 		    
 		    if($Menu)
 		    {
@@ -94,9 +94,9 @@ class Company_WebsiteMenuItemController extends Dataservice_Controller_Action
 	{
 	    /* @var $em \Doctrine\ORM\EntityManager */
 	    $em		= $this->_helper->EntityManager();
-	    /* @var $Resource \Entities\Website\Menu */
-	    $Menu	= $em->find("Entities\Website\Menu", $menu_id);
-	    $MenuItem	= $em->find("Entities\Website\Menu\Item", $menuitem_id);
+	    /* @var $Resource \Entities\Company\Website\Menu */
+	    $Menu	= $em->find("Entities\Company\Website\Menu", $menu_id);
+	    $MenuItem	= $em->find("Entities\Company\Website\Menu\Item", $menuitem_id);
 	    
 	    if($Menu && $MenuItem)
 	    {

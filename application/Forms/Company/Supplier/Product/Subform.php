@@ -1,16 +1,8 @@
 <?php
 namespace Forms\Company\Supplier\Product;
+
 use Entities\Company\Supplier\Product\ProductAbstract as ProductAbstract;
-/**
- * Name:
- * Product:
- *
- * Description for class (if any)...
- *
- * @author     Jessie Green <jessie.winslows@gmail.com>
- * @copyright  2012 Winslows inc.
- * @version    Release: @package_version@
- */
+
 class Subform extends \Zend_Form_SubForm
 {
     private $_ProductAbstract;
@@ -18,6 +10,7 @@ class Subform extends \Zend_Form_SubForm
     public function __construct($options = null, ProductAbstract $Product = null)
     {
 	$this->_ProductAbstract = $Product;
+	
 	parent::__construct($options);
     }
     
@@ -56,5 +49,3 @@ class Subform extends \Zend_Form_SubForm
         ));
     }
 }
-
-?>

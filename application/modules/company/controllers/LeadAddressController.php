@@ -10,10 +10,10 @@ class Company_LeadAddressController extends Dataservice_Controller_Action
 {    
     public function editAction()
     {
-	/* @var $Address \Entities\Person\Address */
+	/* @var $Address \Entities\Company\Person\Address */
 	$Address	= $this->getEntityFromParamFields("Person\Address", array("id"));
 	
-	$form = new Forms\Person\Address(array("method" => "post"), $Address);
+	$form = new Forms\Company\Person\Address(array("method" => "post"), $Address);
 	
 	$form->addElement("button", "cancel", 
 		array("onclick" => "location='".$this->_History->getPreviousUrl(1)."'")

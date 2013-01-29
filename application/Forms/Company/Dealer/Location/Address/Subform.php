@@ -10,11 +10,11 @@ namespace Forms\Company\Dealer\Location\Address;
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Subform extends \Forms\Address\Subform
+class Subform extends \Forms\Company\Address\Subform
 {    
     private $_Address;
     
-    public function __construct($options = null, \Entities\Location\Address $Address = null)
+    public function __construct($options = null, \Entities\Company\Location\Address $Address = null)
     {
 	$this->_Address = $Address;
 	

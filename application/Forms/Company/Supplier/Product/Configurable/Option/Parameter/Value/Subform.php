@@ -1,22 +1,16 @@
 <?php
 namespace Forms\Company\Supplier\Product\Configurable\Option\Parameter\Value;
+
 use Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value as Value;
-/**
- * Name:
- * Location:
- *
- * Description for class (if any)...
- *
- * @author     Jessie Green <jessie.winslows@gmail.com>
- * @copyright  2012 Winslows inc.
- * @version    Release: @package_version@
- */
+
 class Subform extends \Zend_Form_SubForm
 {
     private $_Value;
     
-    public function __construct($options = null, Value $Value = null) {
+    public function __construct($options = null, Value $Value = null)
+    {
 	$this->_Value = $Value;
+	
 	parent::__construct($options);
     }
     

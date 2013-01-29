@@ -7,7 +7,7 @@ namespace Entities\Company\Dealer;
  * @Table(name="company_dealer_locations")
  * @HasLifecycleCallbacks
  */
-class Location extends \Entities\Location\LocationAbstract
+class Location extends \Entities\Company\Location\LocationAbstract
 {
     /** 
      * @ManyToOne(targetEntity="\Entities\Company\Dealer", inversedBy="Locations")

@@ -1,16 +1,8 @@
 <?php
 namespace Forms\Company\Supplier\Product\ManageCategories;
+
 use Entities\Company\Supplier\Product\ProductAbstract as Product;
-/**
- * Name:
- * Product:
- *
- * Description for class (if any)...
- *
- * @author     Jessie Green <jessie.winslows@gmail.com>
- * @copyright  2012 Winslows inc.
- * @version    Release: @package_version@
- */
+
 class Subform extends \Zend_Form_SubForm
 {
     private $_Product;
@@ -18,6 +10,7 @@ class Subform extends \Zend_Form_SubForm
     public function __construct(Product $Product, $options = null)
     {
 	$this->_Product = $Product;
+	
 	parent::__construct($options);
     }
     

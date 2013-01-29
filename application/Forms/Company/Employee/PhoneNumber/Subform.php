@@ -1,7 +1,7 @@
 <?php
 namespace Forms\Company\Employee\PhoneNumber;
 
-class Subform extends \Forms\PhoneNumber\Subform
+class Subform extends \Forms\Company\PhoneNumber\Subform
 {    
     protected $_PhoneNumber;
     

@@ -1,16 +1,8 @@
 <?php
 namespace Forms\Company\Supplier\Product\Configurable;
+
 use Entities\Company\Supplier\Product\Configurable as Configurable;
-/**
- * Name:
- * Location:
- *
- * Description for class (if any)...
- *
- * @author     Jessie Green <jessie.winslows@gmail.com>
- * @copyright  2012 Winslows inc.
- * @version    Release: @package_version@
- */
+
 class Subform extends \Forms\Company\Supplier\Product\Subform
 {    
     private $_Configurable;
@@ -18,6 +10,7 @@ class Subform extends \Forms\Company\Supplier\Product\Subform
     public function __construct($options = null, Configurable $Configurable = null) 
     {
 	$this->_Configurable = $Configurable;
+	
 	parent::__construct($options, $this->_Configurable);
     }
     

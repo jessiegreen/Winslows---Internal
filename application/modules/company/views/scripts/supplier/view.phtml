@@ -1,7 +1,7 @@
 <?php 
 echo($this->flashMessages()); 
 echo "<div>";
-echo \Dataservice\Html\Anchor::backAnchorIcon("Company - View", "/index/view/id/".Services\Website::factory()->getCurrentWebsite()->getCompany()->getId());
+echo \Dataservice\Html\Anchor::backAnchorIcon("Company - View", "/index/view/id/".Services\Company\Website::factory()->getCurrentWebsite()->getCompany()->getId());
 echo "</div>";
 ?>
 <h1 class="header1">Supplier - View</h1>
@@ -67,7 +67,7 @@ $Addresses	= $Supplier->getAddresses();
 	</h3>
 	<div>
 	    <?php
-	    /* @var $Address \Entities\Address */
+	    /* @var $Address \Entities\Company\Address */
 	    foreach ($Addresses as $Address) {
 		?>
 		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">

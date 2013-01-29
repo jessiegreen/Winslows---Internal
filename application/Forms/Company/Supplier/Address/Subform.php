@@ -1,16 +1,7 @@
 <?php
 namespace Forms\Company\Supplier\Address;
-/**
- * Name:
- * Supplier:
- *
- * Description for class (if any)...
- *
- * @author     Jessie Green <jessie.winslows@gmail.com>
- * @copyright  2012 Winslows inc.
- * @version    Release: @package_version@
- */
-class Subform extends \Forms\Address\Subform
+
+class Subform extends \Forms\Company\Address\Subform
 {    
     private $_Address;
     

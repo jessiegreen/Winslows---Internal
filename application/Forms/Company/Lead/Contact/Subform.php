@@ -28,7 +28,7 @@ class Subform extends \Zend_Form_SubForm
 	    $result_options = $this->_Contact->getResultOptions();
 	}
 	else{
-	    $Contact	    = new Entities\Contact();
+	    $Contact	    = new Entities\Company\Contact();
 	    $result_options = $Contact->getResultOptions();
 	}
 	
@@ -56,7 +56,7 @@ class Subform extends \Zend_Form_SubForm
 	    'belongsTo'	    => 'contact',
 	    'value'	    => $this->_Contact && $this->_Contact->getEmployee() ? 
 				$this->_Contact->getEmployee()->getId() : 
-				\Services\Website::factory()
+				\Services\Company\Website::factory()
 				    ->getCurrentWebsite()
 				    ->getCurrentUserAccount(\Zend_Auth::getInstance())
 				    ->getPerson()

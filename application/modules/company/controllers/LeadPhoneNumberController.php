@@ -10,9 +10,9 @@ class Company_LeadPhoneNumberController extends Dataservice_Controller_Action
 {    
     public function editAction()
     {
-	/* @var $PhoneNumber \Entities\Person\PhoneNumber */
+	/* @var $PhoneNumber \Entities\Company\Person\PhoneNumber */
 	$PhoneNumber	= $this->getEntityFromParamFields("Person\PhoneNumber", array("id"));
-	$form		= new Forms\Person\PhoneNumber(array("method" => "post"), $PhoneNumber);
+	$form		= new Forms\Company\Person\PhoneNumber(array("method" => "post"), $PhoneNumber);
 	
 	$form->addCancelButton($this->_History->getPreviousUrl());
 	
@@ -28,7 +28,7 @@ class Company_LeadPhoneNumberController extends Dataservice_Controller_Action
 		$PhoneNumber->setNum2($data["phone_number"]["line"]);
 		
 		if(!$PhoneNumber->getId()){
-		    /* @var $Person \Entities\Person\PersonAbstract */
+		    /* @var $Person \Entities\Company\Person\PersonAbstract */
 		    $Lead = $this->_em->find("Entities\Company\Lead", $this->_params["lead_id"]);
 		    
 		    if(!$Lead)

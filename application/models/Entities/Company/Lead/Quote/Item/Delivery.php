@@ -29,14 +29,14 @@ class Delivery extends \Dataservice_Doctrine_Entity
     protected $DeliveryType;
     
     /**
-     * @ManyToOne(targetEntity="\Entities\Address\AddressAbstract", cascade={"persist"})
-     * @var \Entities\Address\AddressAbstract $Origination_Address
+     * @ManyToOne(targetEntity="\Entities\Company\Address\AddressAbstract", cascade={"persist"})
+     * @var \Entities\Company\Address\AddressAbstract $Origination_Address
      */
     protected $Origination_Address;
     
     /**
-     * @ManyToOne(targetEntity="\Entities\Address\AddressAbstract", cascade={"persist"})
-     * @var \Entities\Address\AddressAbstract $Destination_Address
+     * @ManyToOne(targetEntity="\Entities\Company\Address\AddressAbstract", cascade={"persist"})
+     * @var \Entities\Company\Address\AddressAbstract $Destination_Address
      */
     protected $Destination_Address;
     
@@ -81,7 +81,7 @@ class Delivery extends \Dataservice_Doctrine_Entity
     }
     
     /**
-     * @return \Entities\Address\AddressAbstract
+     * @return \Entities\Company\Address\AddressAbstract
      */
     public function getDestinationAddress()
     {
@@ -89,15 +89,15 @@ class Delivery extends \Dataservice_Doctrine_Entity
     }
     
     /**
-     * @param \Entities\Address\AddressAbstract $Address
+     * @param \Entities\Company\Address\AddressAbstract $Address
      */
-    public function setDestinationAddress(\Entities\Address\AddressAbstract $Address)
+    public function setDestinationAddress(\Entities\Company\Address\AddressAbstract $Address)
     {
 	$this->Destination_Address = $Address;
     }
     
     /**
-     * @return \Entities\Address\AddressAbstract
+     * @return \Entities\Company\Address\AddressAbstract
      */
     public function getOriginationAddress()
     {
@@ -105,9 +105,9 @@ class Delivery extends \Dataservice_Doctrine_Entity
     }
     
     /**
-     * @param \Entities\Address\AddressAbstract $Address
+     * @param \Entities\Company\Address\AddressAbstract $Address
      */
-    public function setOriginationAddress(\Entities\Address\AddressAbstract $Address)
+    public function setOriginationAddress(\Entities\Company\Address\AddressAbstract $Address)
     {
 	$this->Origination_Address = $Address;
     }

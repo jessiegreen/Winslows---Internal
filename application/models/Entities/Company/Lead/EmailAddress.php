@@ -7,7 +7,7 @@ namespace Entities\Company\Lead;
  * @Table(name="company_lead_email_addresses") 
  */
 
-class EmailAddress extends \Entities\EmailAddress\EmailAddressAbstract
+class EmailAddress extends \Entities\Company\EmailAddress\EmailAddressAbstract
 {
     /** 
      * @ManyToOne(targetEntity="\Entities\Company\Lead", inversedBy="EmailAddresses")

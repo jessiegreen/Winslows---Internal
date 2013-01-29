@@ -1,15 +1,6 @@
 <?php
 namespace Forms\Company;
-/**
- * Name:
- * Supplier:
- *
- * Description for class (if any)...
- *
- * @author     Jessie Green <jessie.winslows@gmail.com>
- * @copyright  2012 Winslows inc.
- * @version    Release: @package_version@
- */
+
 class Website extends \Zend_Form
 {    
     private $_Website;
@@ -17,6 +8,7 @@ class Website extends \Zend_Form
     public function __construct(\Entities\Company\Website $Website, $options = null)
     {
 	$this->_Website = $Website;
+	
 	parent::__construct($options, $this->_Website);
     }
     
@@ -31,5 +23,3 @@ class Website extends \Zend_Form
         ));
     }
 }
-
-?>

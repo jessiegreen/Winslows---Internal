@@ -1,21 +1,14 @@
 <?php
 namespace Forms\Company\Supplier\Product\Simple;
-/**
- * Name:
- * Location:
- *
- * Description for class (if any)...
- *
- * @author     Jessie Green <jessie.winslows@gmail.com>
- * @copyright  2012 Winslows inc.
- * @version    Release: @package_version@
- */
+
 class Subform extends \Forms\Company\Supplier\Product\Subform
 {    
     private $_Simple;
     
-    public function __construct($options = null, \Entities\Company\Supplier\Product\Simple $Simple = null) {
+    public function __construct($options = null, \Entities\Company\Supplier\Product\Simple $Simple = null)
+    {
 	$this->_Simple = $Simple;
+	
 	parent::__construct($options, $this->_Simple);
     }
     
@@ -31,5 +24,3 @@ class Subform extends \Forms\Company\Supplier\Product\Subform
 	parent::init($options);
     }
 }
-
-?>

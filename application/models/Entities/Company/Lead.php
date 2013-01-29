@@ -1,7 +1,7 @@
 <?php
 namespace Entities\Company;
 
-use Entities\Person\PersonAbstract as PersonAbstract;
+use Entities\Company\Person\PersonAbstract as PersonAbstract;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /** 

@@ -1,15 +1,6 @@
 <?php
 namespace Forms\Company;
-/**
- * Name:
- * Location:
- *
- * Description for class (if any)...
- *
- * @author     Jessie Green <jessie.winslows@gmail.com>
- * @copyright  2012 Winslows inc.
- * @version    Release: @package_version@
- */
+
 class Lead extends \Dataservice_Form
 {    
     private $_Lead;
@@ -17,6 +8,7 @@ class Lead extends \Dataservice_Form
     public function __construct($options = null, \Entities\Company\Lead $Lead = null)
     {
 	$this->_Lead = $Lead;
+	
 	parent::__construct($options);
     }
     

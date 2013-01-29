@@ -59,7 +59,7 @@ class EntityView
 	$Anchor	    = new \Dataservice\Html\Anchor;
 	$html	    = '<h4>';
 	$html	    .= $this->entityClassName;
-	$Account    = \Services\Website::factory()->getCurrentWebsite()->getCurrentUserAccount(\Zend_Auth::getInstance());
+	$Account    = \Services\Company\Website::factory()->getCurrentWebsite()->getCurrentUserAccount(\Zend_Auth::getInstance());
 	$html .= '</h4>';
 	$html .= '<ul>';
 

@@ -1,15 +1,6 @@
 <?php
 namespace Forms\Company\Supplier\Product\Configurable;
-/**
- * Name:
- * Company:
- *
- * Description for class (if any)...
- *
- * @author     Jessie Green <jessie.winslows@gmail.com>
- * @copyright  2012 Winslows inc.
- * @version    Release: @package_version@
- */
+
 class ManageOptions extends \Dataservice_Form
 {
     private $_Product;
@@ -17,6 +8,7 @@ class ManageOptions extends \Dataservice_Form
     public function __construct(\Entities\Company\Supplier\Product\ProductAbstract $Product, $options = null)
     {
 	$this->_Product = $Product;
+	
 	parent::__construct($options);
     }
     
@@ -31,5 +23,3 @@ class ManageOptions extends \Dataservice_Form
         ));
     }
 }
-
-?>

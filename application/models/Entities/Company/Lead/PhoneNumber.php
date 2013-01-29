@@ -7,7 +7,7 @@ namespace Entities\Company\Lead;
  * @Table(name="company_lead_phone_numbers") 
  */
 
-class PhoneNumber extends \Entities\PhoneNumber\PhoneNumberAbstract
+class PhoneNumber extends \Entities\Company\PhoneNumber\PhoneNumberAbstract
 {
     /** 
      * @ManyToOne(targetEntity="\Entities\Company\Lead", inversedBy="PhoneNumbers")

@@ -7,7 +7,7 @@ namespace Entities\Company\Employee;
  * @Crud\Entity\Permissions(view={"Admin", "Manager"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  * @Table(name="company_employee_accounts") 
  */
-class Account extends \Entities\Website\Account\AccountAbstract
+class Account extends \Entities\Company\Website\Account\AccountAbstract
 {
     /**
      * @OneToOne(targetEntity="\Entities\Company\Employee", inversedBy="Account", cascade={"persist"})

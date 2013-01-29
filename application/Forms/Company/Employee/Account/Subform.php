@@ -10,7 +10,7 @@ namespace Forms\Company\Employee\Account;
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Subform extends \Forms\Website\Account\Subform
+class Subform extends \Forms\Company\Website\Account\Subform
 {    
     private $_Account;
     

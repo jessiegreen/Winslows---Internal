@@ -8,7 +8,7 @@ class Dataservice_View_Helper_Maintenance_Menuitem//  extends Zend_View_Helper_A
         $this->view = $view;
     }
 
-    public function Maintenance_Menuitem(\Entities\Website\Menu\Item $MenuItem, $parent = false)
+    public function Maintenance_Menuitem(\Entities\Company\Website\Menu\Item $MenuItem, $parent = false)
     {
         $this->render($MenuItem, $parent);
 	$children = $MenuItem->getChildren();
@@ -26,7 +26,7 @@ class Dataservice_View_Helper_Maintenance_Menuitem//  extends Zend_View_Helper_A
 	}
     }
     
-    private function render(\Entities\Website\Menu\Item $MenuItem, $parent = false)
+    private function render(\Entities\Company\Website\Menu\Item $MenuItem, $parent = false)
     {
 	?>
 	<li menuitem_id="<?php echo $MenuItem->getId();?>" style="padding: 4px;border:solid 1px silver;"> 

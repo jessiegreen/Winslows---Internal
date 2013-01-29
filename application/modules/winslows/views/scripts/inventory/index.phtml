@@ -121,7 +121,7 @@ if(count($this->Items) > 0)
 			    ?>
 			    <tr>
 				<td class="buy_cell">BUY NOW</td>
-				<td><?php echo $Item->getImage() ? \Services\File\Image::factory()->getHtmlThumbImg($Item->getImage()) : "no image";?></td>
+				<td><?php echo $Item->getImage() ? \Services\Company\File\Image::factory()->getHtmlThumbImg($Item->getImage()) : "no image";?></td>
 				<td class='info_cell'>
 				    <?php echo ($Item->getLocation() ? $Item->getLocation()->getName() : "-");?>
 				</td>

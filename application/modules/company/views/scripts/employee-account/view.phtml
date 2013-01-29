@@ -6,7 +6,7 @@ echo "</div>";
 ?>
 <h1 class="header1">Employee Account - View</h1>
 <?php
-/* @var $Menu \Entities\Website\WebsiteAbstract */
+/* @var $Menu \Entities\Company\Website\WebsiteAbstract */
 $Account    = $this->Account;
 $account_id = $Account->getId();
 ?>
@@ -54,7 +54,7 @@ $account_id = $Account->getId();
 	<div>
 	    <ul>
 	    <?php
-	    /* @var $Role \Entities\Website\Role */
+	    /* @var $Role \Entities\Company\Website\Role */
 	    if($Account->getRoles()->count() > 0)
 	    {
 		foreach ($Account->getRoles() as $Role)

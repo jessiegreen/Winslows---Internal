@@ -4,7 +4,7 @@ class Company_DealerLocationAddressController extends Dataservice_Controller_Act
 {    
     public function editAction()
     {
-	/* @var $LocationAddress \Entities\Location\Address */
+	/* @var $LocationAddress \Entities\Company\Location\Address */
 	$LocationAddress    = $this->getEntityFromParamFields("Location\Address", array("id"));
 	$location_id	    = $this->getRequest()->getParam("location_id");
 	

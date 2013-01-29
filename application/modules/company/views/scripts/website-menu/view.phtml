@@ -6,7 +6,7 @@ echo "</div>";
 ?>
 <h1 class="header1">Menu - View</h1>
 <?php
-/* @var $Menu \Entities\Website\Menu */
+/* @var $Menu \Entities\Company\Website\Menu */
 $Menu	    = $this->Menu;
 $menu_id    = $Menu->getId();
 ?>
@@ -56,7 +56,7 @@ $menu_id    = $Menu->getId();
 	<div style="width:350px;">
 	    <ol style="margin-left: auto;margin-right: auto;">
 		<?php
-		/* @var $MenuItem \Entities\Website\Menu\Item */
+		/* @var $MenuItem \Entities\Company\Website\Menu\Item */
 		foreach($Menu->getParentItems() as $MenuItem)
 		{
 		    $this->Maintenance_Menuitem($MenuItem, true);

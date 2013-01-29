@@ -1,15 +1,6 @@
 <?php
 namespace Forms\Company\Supplier\Product\Configurable;
-/**
- * Name:
- * Product:
- *
- * Description for class (if any)...
- *
- * @author     Jessie Green <jessie.winslows@gmail.com>
- * @copyright  2012 Winslows inc.
- * @version    Release: @package_version@
- */
+
 class Option extends \Dataservice_Form
 {    
     private $_Option;

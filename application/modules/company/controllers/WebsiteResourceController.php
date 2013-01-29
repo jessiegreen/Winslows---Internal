@@ -14,7 +14,7 @@ class Company_WebsiteResourceController extends Dataservice_Controller_Action
 	$objResources	= new Dataservice_ACL_Resources;
 	$website_id	= $this->getRequest()->getParam("website_id");
 	
-	/* @var $Website \Entities\Website\WebsiteAbstract */ 
+	/* @var $Website \Entities\Company\Website\WebsiteAbstract */ 
 	if($website_id)$Website = $this->_em->getRepository ("Entities\Company\Website")->find ($website_id);
 	else $this->_FlashMessenger->addErrorMessage("Could not build resources. Company id not sent");
 	
@@ -49,17 +49,17 @@ class Company_WebsiteResourceController extends Dataservice_Controller_Action
     
     public function viewAllAction()
     {	
-	$this->view->Resources	= $this->_em->getRepository("Entities\Website\Resource")->findAll();
+	$this->view->Resources	= $this->_em->getRepository("Entities\Company\Website\Resource")->findAll();
     }
     
     public function manageRolesAction()
     {	
-	/* @var $Resource Entities\Website\Resource */
+	/* @var $Resource Entities\Company\Website\Resource */
 	$Resource = $this->_getResource();
 	
 	$this->_CheckRequiredResourceExists($Resource);
 	
-	$form = new Forms\Website\Resource\ManageRoles($Resource);
+	$form = new Forms\Company\Website\Resource\ManageRoles($Resource);
 	
 	if($this->isPostAndValid($form))
 	{
@@ -114,14 +114,14 @@ class Company_WebsiteResourceController extends Dataservice_Controller_Action
     }
     
     /**
-     * @return Entities\Website\Resource
+     * @return Entities\Company\Website\Resource
      */
     private function _getResource()
     {
 	return $this->getEntityFromParamFields("Website\Resource", array("id"));
     }
     
-    private function _CheckRequiredResourceExists(Entities\Website\Resource $Resource)
+    private function _CheckRequiredResourceExists(Entities\Company\Website\Resource $Resource)
     {
 	if(!$Resource->getId())
 	{

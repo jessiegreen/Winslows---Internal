@@ -10,9 +10,9 @@ class Company_LeadEmailAddressController extends Dataservice_Controller_Action
 {    
     public function editAction()
     {
-	/* @var $EmailAddress \Entities\Person\EmailAddress */
+	/* @var $EmailAddress \Entities\Company\Person\EmailAddress */
 	$EmailAddress	= $this->getEntityFromParamFields("Person\EmailAddress", array("id"));
-	$form		= new Forms\Person\EmailAddress(array("method" => "post"), $EmailAddress);
+	$form		= new Forms\Company\Person\EmailAddress(array("method" => "post"), $EmailAddress);
 	
 	$form->addCancelButton($this->_History->getPreviousUrl());
 	
@@ -26,8 +26,8 @@ class Company_LeadEmailAddressController extends Dataservice_Controller_Action
 		
 		if(!$EmailAddress->getId())
 		{
-		    /* @var $Person \Entities\Person\PersonAbstract */
-		    $Person = $this->_em->find("Entities\Person\PersonAbstract", $this->_params["person_id"]);
+		    /* @var $Person \Entities\Company\Person\PersonAbstract */
+		    $Person = $this->_em->find("Entities\Company\Person\PersonAbstract", $this->_params["person_id"]);
 		    
 		    if(!$Person)
 			throw new Exception("Can not add email address. No Person with that Id");

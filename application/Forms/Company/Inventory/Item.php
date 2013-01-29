@@ -1,15 +1,6 @@
 <?php
 namespace Forms\Company\Inventory;
-/**
- * Name:
- * Quote:
- *
- * Description for class (if any)...
- *
- * @author     Jessie Green <jessie.winslows@gmail.com>
- * @copyright  2012 Winslows inc.
- * @version    Release: @package_version@
- */
+
 class Item extends \Dataservice_Form
 {    
     private $_Item;

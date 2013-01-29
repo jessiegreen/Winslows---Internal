@@ -2,16 +2,7 @@
 namespace Forms\Company\Supplier\Product\ManageDeliveryTypes;
 
 use Entities\Company\Supplier\Product\ProductAbstract as Product;
-/**
- * Name:
- * Product:
- *
- * Description for class (if any)...
- *
- * @author     Jessie Green <jessie.winslows@gmail.com>
- * @copyright  2012 Winslows inc.
- * @version    Release: @package_version@
- */
+
 class Subform extends \Zend_Form_SubForm
 {
     private $_Product;

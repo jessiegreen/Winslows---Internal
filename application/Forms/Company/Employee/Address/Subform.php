@@ -1,7 +1,7 @@
 <?php
 namespace Forms\Company\Employee\Address;
 
-class Subform extends \Forms\Address\Subform
+class Subform extends \Forms\Company\Address\Subform
 {    
     protected $_Address;
     

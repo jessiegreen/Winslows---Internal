@@ -67,8 +67,8 @@ class Dataservice_Auth_Adapter_Doctrine implements Zend_Auth_Adapter_Interface
         $this->_authenticateSetup();
         // get details of the user from table
 	
-	/* @var $Account \Entities\Website\Account\AccountAbstract */
-	$repos	    = $this->_em->getRepository('Entities\Website\Account\AccountAbstract');
+	/* @var $Account \Entities\Company\Website\Account\AccountAbstract */
+	$repos	    = $this->_em->getRepository('Entities\Company\Website\Account\AccountAbstract');
 	$Account    = $repos->findOneBy(array("username" => $this->identity));
 	
         $authResult = array(
@@ -163,7 +163,7 @@ class Dataservice_Auth_Adapter_Doctrine implements Zend_Auth_Adapter_Interface
     {
         $qb = $this->_em->createQueryBuilder()
             ->select('e')
-            ->from('\Entities\Website\Account\AccountAbstract', 'e')
+            ->from('\Entities\Company\Website\Account\AccountAbstract', 'e')
             ->where('e.username=:username')
             ->setParameter('username', $this->identity);
         return $qb->getQuery();

@@ -1,15 +1,6 @@
 <?php
 namespace Forms\Company\Supplier\Product\Configurable\Option\Parameter;
-/**
- * Name:
- * Product:
- *
- * Description for class (if any)...
- *
- * @author     Jessie Green <jessie.winslows@gmail.com>
- * @copyright  2012 Winslows inc.
- * @version    Release: @package_version@
- */
+
 class Value extends \Zend_Form
 {    
     private $_Value;
@@ -17,6 +8,7 @@ class Value extends \Zend_Form
     public function __construct($options = null, \Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value $Value = null)
     {
 	$this->_Value = $Value;
+	
 	parent::__construct($options, $this->_Value);
     }
     
@@ -31,5 +23,3 @@ class Value extends \Zend_Form
         ));
     }
 }
-
-?>

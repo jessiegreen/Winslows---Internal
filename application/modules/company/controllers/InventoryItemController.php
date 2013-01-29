@@ -46,7 +46,7 @@ class Company_InventoryItemController extends Dataservice_Controller_Action
 		
 		if($item_data["location_id"])
 		{
-		    $Location = $this->_em->getRepository("Entities\Location\LocationAbstract")->find($item_data["location_id"]);
+		    $Location = $this->_em->getRepository("Entities\Company\Location\LocationAbstract")->find($item_data["location_id"]);
 		    
 		    if($Location)
 		    {

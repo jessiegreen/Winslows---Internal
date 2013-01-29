@@ -1,15 +1,6 @@
 <?php
 namespace Forms\Company;
-/**
- * Name:
- * Company:
- *
- * Description for class (if any)...
- *
- * @author     Jessie Green <jessie.winslows@gmail.com>
- * @copyright  2012 Winslows inc.
- * @version    Release: @package_version@
- */
+
 class RtoProvider extends \Dataservice_Form
 {    
     private $_RtoProvider;
@@ -17,6 +8,7 @@ class RtoProvider extends \Dataservice_Form
     public function __construct($options = null, \Entities\Company\RtoProvider $RtoProvider = null)
     {
 	$this->_RtoProvider = $RtoProvider;
+	
 	parent::__construct($options, $this->_RtoProvider);
     }
     
@@ -31,5 +23,3 @@ class RtoProvider extends \Dataservice_Form
         ));
     }
 }
-
-?>

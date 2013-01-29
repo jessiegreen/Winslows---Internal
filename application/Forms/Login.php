@@ -1,10 +1,6 @@
 <?php
 namespace Forms;
-/**
- * Description of __Login
- *
- * @author Jessie
- */
+
 class Login extends \Zend_Form
 {
     public function init($options = array())
@@ -26,5 +22,3 @@ class Login extends \Zend_Form
 
     }
 }
-
-?>

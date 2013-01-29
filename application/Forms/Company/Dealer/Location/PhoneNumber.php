@@ -14,7 +14,7 @@ class PhoneNumber extends \Dataservice_Form
 {    
     private $_PhoneNumber;
     
-    public function __construct($options = null, \Entities\Location\PhoneNumber $PhoneNumber = null)
+    public function __construct($options = null, \Entities\Company\Location\PhoneNumber $PhoneNumber = null)
     {
 	$this->_PhoneNumber = $PhoneNumber;
 	

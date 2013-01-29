@@ -1,16 +1,8 @@
 <?php
 namespace Forms\Company\Supplier\Product\Configurable\ManageOptions;
+
 use Entities\Company\Supplier\Product\Configurable as Configurable;
-/**
- * Name:
- * Product:
- *
- * Description for class (if any)...
- *
- * @author     Jessie Green <jessie.winslows@gmail.com>
- * @copyright  2012 Winslows inc.
- * @version    Release: @package_version@
- */
+
 class Subform extends \Zend_Form_SubForm
 {
     private $_Configurable;
@@ -18,14 +10,18 @@ class Subform extends \Zend_Form_SubForm
     public function __construct(Configurable $Configurable, $options = null)
     {
 	$this->_Configurable = $Configurable;
+	
 	parent::__construct($options);
     }
     
     public function init()
     {	
 	$values = array();
-	if($this->_Configurable){
-	    foreach($this->_Configurable->getOptions() as $Option){
+	
+	if($this->_Configurable)
+	{
+	    foreach($this->_Configurable->getOptions() as $Option)
+	    {
 		$values[] = $Option->getId();
 	    }
 	}
@@ -38,5 +34,3 @@ class Subform extends \Zend_Form_SubForm
         )));
     }
 }
-
-?>

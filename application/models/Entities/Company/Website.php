@@ -7,7 +7,7 @@ namespace Entities\Company;
  * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  * @Table(name="company_websites") 
  */
-class Website extends \Entities\Website\WebsiteAbstract
+class Website extends \Entities\Company\Website\WebsiteAbstract
 {
     /** 
      * @ManyToOne(targetEntity="\Entities\Company", inversedBy="Websites")

@@ -9,7 +9,7 @@ class Dataservice_ACL_Factory
     private static $_objAcl;
     //TODO: Create easy way to switch clearAcl manually so we can use the session but clear easily when needed. 
     // Also need to do it at login etc
-    public static function get(\Entities\Website\WebsiteAbstract $Website, $clearACL = true)
+    public static function get(\Entities\Company\Website\WebsiteAbstract $Website, $clearACL = true)
     {
 	self::$_objAclSession = new Zend_Session_Namespace(self::$_sessionNameSpace);
  
@@ -35,7 +35,7 @@ class Dataservice_ACL_Factory
         self::$_objAclSession->acl = self::$_objAcl;
     }
  
-    private static function _loadAclFromDB(\Entities\Website\WebsiteAbstract $Website)
+    private static function _loadAclFromDB(\Entities\Company\Website\WebsiteAbstract $Website)
     {
         $Roles = $Website->getRoles();
 	

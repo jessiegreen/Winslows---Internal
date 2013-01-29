@@ -1,15 +1,6 @@
 <?php
 namespace Forms\Company\Supplier;
-/**
- * Name:
- * Supplier:
- *
- * Description for class (if any)...
- *
- * @author     Jessie Green <jessie.winslows@gmail.com>
- * @copyright  2012 Winslows inc.
- * @version    Release: @package_version@
- */
+
 class Subform extends \Zend_Form_SubForm
 {
     private $_Supplier;
@@ -17,6 +8,7 @@ class Subform extends \Zend_Form_SubForm
     public function __construct($options = null, \Entities\Company\Supplier $Supplier = null)
     {
 	$this->_Supplier = $Supplier;
+	
 	parent::__construct($options);
     }
     
@@ -30,5 +22,3 @@ class Subform extends \Zend_Form_SubForm
         ));
     }
 }
-
-?>

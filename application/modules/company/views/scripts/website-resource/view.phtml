@@ -6,7 +6,7 @@ echo "</div>";
 ?>
 <h1 class="header1">Resource - View</h1>
 <?php
-/* @var $Resource \Entities\Website\Resource */
+/* @var $Resource \Entities\Company\Website\Resource */
 $Resource	= $this->Resource;
 $resource_id    = $Resource->getId();
 ?>
@@ -59,7 +59,7 @@ $resource_id    = $Resource->getId();
 	    
 	    if($Roles->count() > 0)
 	    {
-		/* @var $Role \Entities\Website\Role */
+		/* @var $Role \Entities\Company\Website\Role */
 		foreach ($Roles as $Role)
 		{
 		    ?>

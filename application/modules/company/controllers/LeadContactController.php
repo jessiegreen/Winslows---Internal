@@ -136,7 +136,7 @@ class Company_LeadContactController extends Dataservice_Controller_Action
     
     public function editOld()
     {
-	/* @var $PersonAddress \Entities\Person\Address */
+	/* @var $PersonAddress \Entities\Company\Person\Address */
 	$PersonAddress	= $this->getEntityFromParamFields("PersonAddress", array("id"));
 	$form		= new Form_PersonAddress(array("method" => "post"), $PersonAddress);
 	$form->addElement("button", "cancel", 
@@ -151,8 +151,8 @@ class Company_LeadContactController extends Dataservice_Controller_Action
 		$PersonAddress->populate($data);
 		
 		if(!$PersonAddress->getId()){
-		    /* @var $Person \Entities\Person\PersonAbstract */
-		    $Person = $this->_em->find("Entities\Person\PersonAbstract", $this->_params["person_id"]);
+		    /* @var $Person \Entities\Company\Person\PersonAbstract */
+		    $Person = $this->_em->find("Entities\Company\Person\PersonAbstract", $this->_params["person_id"]);
 		    if(!$Person)
 			throw new Exception("Can not add address. No Person with that Id");
 

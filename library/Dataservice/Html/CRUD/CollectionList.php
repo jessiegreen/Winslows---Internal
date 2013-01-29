@@ -62,7 +62,7 @@ class CollectionList
 	$Anchor	    = new \Dataservice\Html\Anchor;
 	$html	    = '<h4>';
 	$html	    .= $this->collectionName;
-	$Account    = \Services\Website::factory()->getCurrentWebsite()->getCurrentUserAccount(\Zend_Auth::getInstance());
+	$Account    = \Services\Company\Website::factory()->getCurrentWebsite()->getCurrentUserAccount(\Zend_Auth::getInstance());
 	
 	if($Account->hasRoleByRoleNames($this->permissions["add"]))
 	    $html .= $Anchor->addIcon(

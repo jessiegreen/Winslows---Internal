@@ -1,16 +1,7 @@
 <?php
 namespace Forms\Company\Supplier\Product\Instance\File\Image;
-/**
- * Name:
- * Supplier:
- *
- * Description for class (if any)...
- *
- * @author     Jessie Green <jessie.winslows@gmail.com>
- * @copyright  2012 Winslows inc.
- * @version    Release: @package_version@
- */
-class Subform extends \Forms\File\Image\Subform
+
+class Subform extends \Forms\Company\File\Image\Subform
 {
     private $_Image;
     

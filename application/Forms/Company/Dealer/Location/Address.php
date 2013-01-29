@@ -14,7 +14,7 @@ class Address extends \Dataservice_Form
 {    
     private $_Address;
     
-    public function __construct($options = null, \Entities\Location\Address $Address = null)
+    public function __construct($options = null, \Entities\Company\Location\Address $Address = null)
     {
 	$this->_Address = $Address;
 	

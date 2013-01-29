@@ -10,7 +10,7 @@ namespace Forms\Company\Employee;
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Subform extends \Forms\Person\Subform
+class Subform extends \Forms\Company\Person\Subform
 {    
     private $_Employee;
     

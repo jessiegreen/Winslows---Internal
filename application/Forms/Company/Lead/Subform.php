@@ -10,7 +10,7 @@ namespace Forms\Company\Lead;
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Subform extends \Forms\Person\Subform
+class Subform extends \Forms\Company\Person\Subform
 {    
     private $_Lead;
     
@@ -28,7 +28,7 @@ class Subform extends \Forms\Person\Subform
 	    'belongsTo'	    => 'lead',
 	    'value'	    => $this->_Lead && $this->_Lead->getEmployee() ? 
 				    $this->_Lead->getEmployee()->getId() : 
-				    \Services\Website::factory()
+				    \Services\Company\Website::factory()
 					->getCurrentWebsite()
 					->getCurrentUserAccount(\Zend_Auth::getInstance())
 					->getPerson()

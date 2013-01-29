@@ -21,7 +21,7 @@ class Company_LeadQuoteItemDeliveryController extends Dataservice_Controller_Act
     public function setAddressAction()
     {
 	$Delivery	= $this->_getDelivery();
-	$AddressRepos	= $this->_em->getRepository("Entities\Address\AddressAbstract");
+	$AddressRepos	= $this->_em->getRepository("Entities\Company\Address\AddressAbstract");
 	
 	$this->_CheckRequiredDeliveryExists($Delivery);
 	

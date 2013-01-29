@@ -43,7 +43,7 @@ $Applications	= $lead->getApplications();
 	<div>
 	    <?php
 	    echo count($addresses)<1 ? "<span class='small gray'>No Addresses</span>" : "";
-	    /* @var $Address \Entities\Address */
+	    /* @var $Address \Entities\Company\Address */
 	    foreach ($addresses as $Address) {
 		?>
 		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
@@ -86,7 +86,7 @@ $Applications	= $lead->getApplications();
 	<div>
 	    <?php
 	    echo count($phones)<1 ? "<span class='small gray'>No Phones</span>" : "";
-	    /* @var $PhoneNumber \Entities\Person\PhoneNumber */
+	    /* @var $PhoneNumber \Entities\Company\Person\PhoneNumber */
 	    foreach ($phones as $PhoneNumber)
 	    {
 		?>

@@ -2,7 +2,7 @@
 namespace Entities\Company;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Entities\Person\PersonAbstract as PersonAbstract;
+use Entities\Company\Person\PersonAbstract as PersonAbstract;
 
 /** 
  * @Entity (repositoryClass="Repositories\Company\Employee") 

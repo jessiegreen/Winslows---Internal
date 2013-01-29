@@ -1,20 +1,11 @@
 <?php
 namespace Forms\Company\Location\PhoneNumber;
-/**
- * Name:
- * Location:
- *
- * Description for class (if any)...
- *
- * @author     Jessie Green <jessie.winslows@gmail.com>
- * @copyright  2012 Winslows inc.
- * @version    Release: @package_version@
- */
-class Subform extends \Forms\PhoneNumber\Subform
+
+class Subform extends \Forms\Company\PhoneNumber\Subform
 {
     private $_PhoneNumber;
     
-    public function __construct($options = null, \Entities\Location\PhoneNumber $PhoneNumber = null)
+    public function __construct($options = null, \Entities\Company\Location\PhoneNumber $PhoneNumber = null)
     {
 	$this->_PhoneNumber = $PhoneNumber;
 	parent::__construct($options, $this->_PhoneNumber);

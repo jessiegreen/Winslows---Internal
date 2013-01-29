@@ -28,7 +28,7 @@ class Company_WebsiteRoleController extends Dataservice_Controller_Action
 	    }
 	}
 	
-	$form = new \Forms\Website\Role($Role, array("method" => "post"));
+	$form = new \Forms\Company\Website\Role($Role, array("method" => "post"));
 	
 	$form->addCancelButton($this->_History->getPreviousUrl());
 	

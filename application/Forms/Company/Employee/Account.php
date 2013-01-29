@@ -15,7 +15,7 @@ class Account extends \Dataservice_Form
     private $_Account;
     private $_safe;
     
-    public function __construct($options = null, \Entities\Website\Account\AccountAbstract $Account = null, $safe = true)
+    public function __construct($options = null, \Entities\Company\Website\Account\AccountAbstract $Account = null, $safe = true)
     {
 	$this->_Account	    = $Account;
 	$this->_safe	    = $safe;

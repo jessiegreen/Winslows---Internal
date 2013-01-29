@@ -1,22 +1,14 @@
 <?php
 namespace Forms\Company\Website;
-/**
- * Name:
- * Supplier:
- *
- * Description for class (if any)...
- *
- * @author     Jessie Green <jessie.winslows@gmail.com>
- * @copyright  2012 Winslows inc.
- * @version    Release: @package_version@
- */
-class Subform extends \Forms\Website\SubForm
+
+class Subform extends \Forms\Company\Website\SubForm
 {
     private $_Website;
     
-    public function __construct( \Entities\Website\WebsiteAbstract $Website, $options = null)
+    public function __construct( \Entities\Company\Website\WebsiteAbstract $Website, $options = null)
     {
 	$this->_Website = $Website;
+	
 	parent::__construct($Website, $options);
     }
     

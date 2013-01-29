@@ -1,15 +1,6 @@
 <?php
 namespace Forms\Company;
-/**
- * Name:
- * Company:
- *
- * Description for class (if any)...
- *
- * @author     Jessie Green <jessie.winslows@gmail.com>
- * @copyright  2012 Winslows inc.
- * @version    Release: @package_version@
- */
+
 class Subform extends \Zend_Form_SubForm
 {
     private $_Company;
@@ -17,6 +8,7 @@ class Subform extends \Zend_Form_SubForm
     public function __construct($options = null, \Entities\Company $Company = null)
     {
 	$this->_Company = $Company;
+	
 	parent::__construct($options);
     }
     
@@ -53,5 +45,3 @@ class Subform extends \Zend_Form_SubForm
         ));
     }
 }
-
-?>

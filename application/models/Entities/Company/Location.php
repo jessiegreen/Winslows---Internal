@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  * @HasLifecycleCallbacks
  */
-class Location extends \Entities\Location\LocationAbstract
+class Location extends \Entities\Company\Location\LocationAbstract
 {
     /** 
      * @ManyToOne(targetEntity="\Entities\Company", inversedBy="Locations")

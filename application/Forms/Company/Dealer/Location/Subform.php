@@ -10,7 +10,7 @@ namespace Forms\Company\Dealer\Location;
  * @copyright  2012 Winslows inc.
  * @version    Release: @package_version@
  */
-class Subform extends \Forms\Location\Subform
+class Subform extends \Forms\Company\Location\Subform
 {
     private $_Location;
     
