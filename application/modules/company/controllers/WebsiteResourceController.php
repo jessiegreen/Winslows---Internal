@@ -102,7 +102,7 @@ class Company_WebsiteResourceController extends Dataservice_Controller_Action
     
     public function viewAction()
     {
-	$Resource   = $this->getEntityFromParamFields("Website\Resource", array("id"));
+	$Resource   = $this->getEntityFromParamFields("Company\Website\Resource", array("id"));
 	
 	if(!$Resource->getId())
 	{
@@ -118,7 +118,7 @@ class Company_WebsiteResourceController extends Dataservice_Controller_Action
      */
     private function _getResource()
     {
-	return $this->getEntityFromParamFields("Website\Resource", array("id"));
+	return $this->getEntityFromParamFields("Company\Website\Resource", array("id"));
     }
     
     private function _CheckRequiredResourceExists(Entities\Company\Website\Resource $Resource)

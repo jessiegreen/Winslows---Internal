@@ -25,15 +25,11 @@ class Supplier extends \Dataservice_Doctrine_Entity
      */
     protected $name;
     
-    /**
-     * @ManytoMany(targetEntity="\Entities\Company", inversedBy="Suppliers", cascade={"persist"})
-     * @JoinTable(name="company_supplier_company_joins",
-     *      joinColumns={@JoinColumn(name="supplier_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@JoinColumn(name="company_id", referencedColumnName="id")}
-     *      )
-     * @var ArrayCollection $Companies
-     */
-    protected $Companies;
+    /** 
+     * @ManyToOne(targetEntity="\Entities\Company", inversedBy="Locations")
+     * @var \Entities\Company
+     */     
+    protected $Company;
 
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
@@ -53,7 +49,6 @@ class Supplier extends \Dataservice_Doctrine_Entity
     
     public function __construct()
     {
-	$this->Companies	    = new ArrayCollection();
 	$this->Addresses	    = new ArrayCollection();
 	$this->Products		    = new ArrayCollection();
 	
@@ -63,26 +58,17 @@ class Supplier extends \Dataservice_Doctrine_Entity
     /**
      * @param \Entities\Company $Company
      */
-    public function addCompany(\Entities\Company $Company)
+    public function setCompany(\Entities\Company $Company)
     {
-        $this->Companies[] = $Company;
-    }
-    
-    /**
-     * @param \Entities\Company $Company
-     * @return boolean
-     */
-    public function removeCompany(\Entities\Company $Company)
-    {
-	$this->getCompanies()->removeElement($Company);
+        $this->Company = $Company;
     }
     
     /**
      * @return array
      */
-    public function getCompanies()
+    public function getCompany()
     {
-	return $this->Companies;
+	return $this->Company;
     }
    
     /**
@@ -91,6 +77,7 @@ class Supplier extends \Dataservice_Doctrine_Entity
     public function addSupplierAddress(Supplier\Address $Address)
     {
 	$Address->setSupplier($this);
+	
         $this->Addresses[] = $Address;
     }
     

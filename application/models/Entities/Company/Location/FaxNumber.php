@@ -3,6 +3,8 @@ namespace Entities\Company\Location;
 
 /** 
  * @Entity (repositoryClass="Repositories\Company\Location\FaxNumber") 
+ * @Crud\Entity\Url(value="location-address")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  * @Table(name="company_location_faxnumbers")
  */
 class FaxNumber extends \Entities\Company\FaxNumber\FaxNumberAbstract

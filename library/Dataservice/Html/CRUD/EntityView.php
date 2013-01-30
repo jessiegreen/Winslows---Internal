@@ -43,12 +43,12 @@ class EntityView
      */
     public function __construct(\Dataservice_Doctrine_Entity $entity)
     {
-	$entityService		= \Services\Entity::factory();
+	$entityService		= \Services\Company\Entity::factory();
 	$this->entity		= $entity;
 	$this->entityClass	= get_class($this->entity);
 	$this->entityClassName	= end(explode('\\', $this->entityClass));
 	$entity_permissions	= $entityService->getEntityCrudPermissions($this->entityClass);
-	$this->entityUrl	= $entityService->getEntityUrl($this->entityClass);
+	$this->entityUrl	= $entityService->getEntityCrudUrl($this->entityClass);
 	$this->permissions	= array_merge_recursive($this->permissions, (array) $entity_permissions);
 	
 	return $this;

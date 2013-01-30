@@ -1,5 +1,5 @@
 <?php
-namespace Dataservice\Doctrine\ORM\Mapping\Crud\Collection;
+namespace Dataservice\Doctrine\ORM\Mapping\Crud\Relationship;
 
 /** 
  * @Annotation 

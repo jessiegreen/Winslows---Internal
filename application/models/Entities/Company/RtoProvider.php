@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @Entity (repositoryClass="Repositories\Company\RtoProvider") 
  * @Table(name="company_rtoproviders")
- * @Crud\Entity\Url(value="rtoprovider")
+ * @Crud\Entity\Url(value="rto-provider")
  * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  * @HasLifecycleCallbacks
  */

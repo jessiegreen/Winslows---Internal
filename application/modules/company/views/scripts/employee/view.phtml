@@ -2,7 +2,7 @@
 use Dataservice\Html\CRUD;
 
 echo($this->flashMessages()); 
-echo CRUD\Nav::factory("Company", "index/view")->getHtml();
+echo CRUD\Nav::factory("Company", "/index/view/id/".$this->Employee->getCompany()->getId())->getHtml();
 echo CRUD\Header::factory("Employee - View")->getHtml();
 
 /* @var $Employee \Entities\Company\Employee */
@@ -17,14 +17,10 @@ $Tabs = CRUD\Tabs::factory();
 $Tabs->addEntityViewTab("Information", $Employee)
     ->addTab(
 	CRUD\Tabs\Tab::factory(("Contact Info"))
-	    ->addCollectionLists(
-		array(
-		    new CRUD\CollectionList($Employee, "PhoneNumbers"),
-		    new CRUD\CollectionList($Employee, "FaxNumbers"),
-		    new CRUD\CollectionList($Employee, "Addresses"),
-		    new CRUD\CollectionList($Employee, "EmailAddresses")
-		)
-	    )
+	    ->addRelationshipView($Employee, "PhoneNumbers")
+	    ->addRelationshipView($Employee, "FaxNumbers")
+	    ->addRelationshipView($Employee, "Addresses")
+	    ->addRelationshipView($Employee, "EmailAddresses")
     )
     ->addEntityViewTab("Website Account", $Employee->getAccount())
     ->render();

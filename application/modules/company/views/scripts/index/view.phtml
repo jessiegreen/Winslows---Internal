@@ -8,25 +8,19 @@ echo CRUD\Header::factory("Company - View")->getHtml();
 /* @var $Company \Entities\Company */
 $Company	= $this->Company;
 
-$crudBody = CRUD\Body::factory();
-$crudTabs = CRUD\Tabs::factory();
+CRUD\Body::factory()->start();
 
-$crudBody->start();
+CRUD\Tabs::factory()
+	->addEntityViewTab("Information", $Company)
+	->addRelationshipViewTab($Company, "Leads")
+	->addRelationshipViewTab($Company, "Locations")
+	->addRelationshipViewTab($Company, "Employees")
+	->addRelationshipViewTab($Company, "Suppliers")
+	->addRelationshipViewTab($Company, "RtoProviders")
+	->addRelationshipViewTab($Company, "Dealers")
+	->addRelationshipViewTab($Company, "Websites")
+	->render();
 
-$crudTabs->addEntityViewTab("Information", $Company);
+CRUD\Body::factory()->end();
 
-$crudTabs->addCollectionListTabs(array(
-    array("Leads", $Company, "Leads"),
-    array("Locations", $Company, "Locations"),
-    array("Employees", $Company, "Employees"),
-    array("Suppliers", $Company, "Suppliers"),
-    array("Rto Providers", $Company, "RtoProviders"),
-    array("Dealers", $Company, "Dealers"),
-    array("Websites", $Company, "Websites"),
-));
-
-$crudTabs->render();
-
-$crudBody->end();
-
-echo $crudTabs->getJS();
+echo CRUD\Tabs::factory()->getJS();

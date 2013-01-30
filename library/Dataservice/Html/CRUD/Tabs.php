@@ -9,11 +9,6 @@ class Tabs
     private $Tabs	    = array();
     
     /**
-     * @var array 
-     */
-    private $permissions    = array("add" => array("Admin"), "edit" => array("Admin"), "delete" => array("Admin"));
-    
-    /**
      * @return \Dataservice\Html\CRUD\Tabs
      */
     public static function factory()
@@ -32,6 +27,19 @@ class Tabs
     }
     
     /**
+     * @param \Dataservice_Doctrine_Entity $Entity
+     * @param string $relationshipPropertyName
+     * @return \Dataservice\Html\CRUD\Tabs
+     */
+    public function addRelationshipViewTab(\Dataservice_Doctrine_Entity $Entity, $relationshipPropertyName)
+    {
+	$this->addTab(Tabs\Tab::factory($relationshipPropertyName)
+		->addRelationshipView($Entity, $relationshipPropertyName));
+	
+	return $this;
+    }
+    
+    /**
      * @param string $label
      * @param \Dataservice_Doctrine_Entity $Entity
      * @return \Dataservice\Html\CRUD\Tabs
@@ -41,30 +49,6 @@ class Tabs
 	$this->addTab(Tabs\Tab::factory($label)->addEntityView(EntityView::factory($Entity)));
 	
 	return $this;
-    }
-    
-    /**
-     * @param string $label
-     * @param \Dataservice_Doctrine_Entity $Entity
-     * @param string $collection_name
-     * @return \Dataservice\Html\CRUD\Tabs
-     */
-    public function addCollectionListTab($label, \Dataservice_Doctrine_Entity $Entity, $collection_name)
-    {
-	$this->addTab(Tabs\Tab::factory($label)->addCollectionList(CollectionList::factory($Entity, $collection_name)));
-	
-	return $this;
-    }
-    
-    /**
-     * @param array $params array(array($label, \Dataservice_Doctrine_Entity $Entity, $collection_name))
-     */
-    public function addCollectionListTabs($params)
-    {
-	foreach ($params as $value)
-	{
-	    $this->addCollectionListTab($value[0], $value[1], $value[2]);
-	}
     }
     
     /**

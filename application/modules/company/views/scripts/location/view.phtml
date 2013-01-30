@@ -1,160 +1,36 @@
 <?php 
+use Dataservice\Html\CRUD;
+
 echo($this->flashMessages()); 
-echo "<div>";
-echo \Dataservice\Html\Anchor::backAnchorIcon("Company - View", "/index/view/id/".$this->Location->getCompany()->getId());
-echo "</div>";
-?>
-<h1 class="header1">Location - View</h1>
-<?php
+echo CRUD\Nav::factory("Company", "/index/view/id/".$this->Location->getCompany()->getId())->getHtml();
+echo CRUD\Header::factory("Location - View")->getHtml();
+
 /* @var $Location \Entities\Company\Location */
-$Location		= $this->Location;
-$location_id		= $Location->getId();
- /* @var $LocationAddress \Entities\Company\Location\Address */
-$LocationAddress	= $Location->getAddress();
-/* @var $LocationPhoneNumber \Entities\Company\Location\PhoneNumber */
-$LocationPhoneNumber    = $Location->getPhoneNumber();
-?>
-<div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
-    <h4 class="no_space" style="color: #2000EE;">
-	Info
-	<?php
-	echo \Dataservice\Html\Anchor::anchorIcon(
-		"pencil.png", 
-		"", 
-		"/location/edit/id/".$location_id,
-		"margin-left:5px;"
-		);
-	?>
-    </h4>
-    <div>
-	Company: <?php echo $Location->getCompany()->getName(); ?> &nbsp;&nbsp;&nbsp; 
-	Name: <?php echo $Location->getName();?> &nbsp;&nbsp;&nbsp; 
-	Type: <?php echo $Location->getTypeDisplay(); ?>
-    </div>
-</div>
-<div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">
-    <div id="accordion">
-	<h3>
-	    <a href="#">Address</a>
-	    <?php 
-		if(!$LocationAddress)
-		    echo \Dataservice\Html\Button::buttonBlue(
-			    "add.png", 
-			    "Set Address", 
-			    "address_set", 
-			    "float:right;width:110px;"
-			    );?>
-	</h3>
-	<div>
-	    <?php
-	    if($LocationAddress){
-		?>
-		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
-		    <?php 
-		    echo $LocationAddress->getName();
-		    echo \Dataservice\Html\Anchor::anchorIcon(
-			    "pencil.png", 
-			    "", 
-			    "/location-address/edit/location_id/".$location_id."/id/".$LocationAddress->getId(),
-			    "margin-left:5px;"
-			    );
-		    ?>
-		</h4>
-		<label for="addr_1_addr1">Address 1:</label>
-		<div id="addr_1_addr1" style="display: inline;"><?php echo $LocationAddress->getAddress1(); ?></div><br />
-		<label for="addr_1_addr2">Address 2:</label>
-		<div id="addr_1_addr2" style="display: inline;"><?php echo $LocationAddress->getAddress2(); ?></div><br />
-		<label for="addr_1_csz">City/ST/Zip:</label>
-		<div id="addr_1_csz" style="display: inline;">
-		    <?php 
-		    echo $LocationAddress->getCity().", ".
-			    $LocationAddress->getState()." ".
-			    $LocationAddress->getFullZipCode(); ?>
-		</div>
-		<?php
-	    }
-	    else 
-		echo "No Location Address set.";
-	    ?>
-	</div>
-	<hr />
-	<h3>
-	    <a href="#">Phone</a>
-	    <?php 
-	    if(!$LocationPhoneNumber)
-		echo \Dataservice\Html\Button::buttonBlue(
-		    "phone_add.png", 
-		    "Set Phone", 
-		    "phone_set", "float:right;width:110px;"
-		    );?>
-	</h3>
-	<div>
-	    <?php
-	    if($LocationPhoneNumber)
-	    {
-		?>
-		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
-		    <?php 
-		    echo $LocationPhoneNumber->getType(); 
-		    echo \Dataservice\Html\Anchor::anchorIcon(
-			    "pencil.png", 
-			    "", 
-			    "/location-phone-number/edit/location_id/".$location_id."/id/".
-				$LocationPhoneNumber->getId(), 
-			    "margin-left:5px;"
-			    );
-		    ?>
-		</h4>
-		<label>Num:</label>
-		<div style="display: inline;">
-		    <?php 
-		    echo $LocationPhoneNumber->getNumberDisplay(); 
-		    ?>
-		</div><br />
-		<label>Ext:</label>
-		<div style="display: inline;">
-		    <?php 
-		    echo $LocationPhoneNumber->getExtension(); 
-		    ?>
-		</div>
-		<?php
-	    }
-	    else echo "Location Phone Number not set.";
-	    ?>
-	</div>
-	<hr />
-    </div>
-</div>
-<div class="padded_frame" style="width: 415px;float: right;padding-top: 0px;">
-    <div>
-	<h3>
-	    <a href="#">Employee</a>
-	</h3>
-	<div>
-	    <?php
-	    if(count($Location->getEmployees())>0) {
-		foreach($Location->getEmployees() as $Employee){
-		    ?>
-		    <label>Name:</label>
-		    <div style="display: inline;">
-			<?php 
-			echo $Employee->getFullName(); 
-			?>
-		    </div><br />
-		    <?php
-		}
-	    }
-	    else echo "No Employees assigned to this location.";
-	    ?>
-	</div>
-	<hr />
-    </div>
-    <h3><a href="#">Documents</a></h3>
-    <div>Put Documents here</div>
-</div>
-<div style="clear: both;"><input type="hidden" id="location_id" value="<?php echo $location_id;?>" /></div>
-<script type="text/javascript">
-    Location = new Location();
-    Location.SetPhoneOnclickBind($("#phone_set"));
-    Location.SetAddressOnclickBind($("#address_set"));
-</script>
+$Location = $this->Location;
+
+$crudBody = new CRUD\Body();
+
+$crudBody->start();
+
+$Tabs = CRUD\Tabs::factory();
+
+$Tabs->addEntityViewTab("Information", $Location)
+	->addTab(
+		CRUD\Tabs\Tab::factory("Contact Info")
+		    ->addRelationshipView($Location, "Address")
+		    ->addRelationshipView($Location, "PhoneNumber")
+	)
+	->addRelationshipViewTab($Location, "Employees")
+	->render();
+//$Tabs->addEntityViewTab("Information", $Location)
+//    ->addTab(
+//	CRUD\Tabs\Tab::factory(("Contact Info"))
+//	    ->addRelationshipContent(CRUD\Content\Relationship\OneToOne::factory($Location, "Address")
+//	    ->addRelationshipContent(CRUD\EntityView::factory($Location->getPhoneNumber()))
+//    )
+//    ->addCollectionListTab("Employees", $Location, "Employees")
+//    ->render();
+
+$crudBody->end();
+
+echo $Tabs->getJS();

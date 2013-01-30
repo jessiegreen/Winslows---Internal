@@ -38,12 +38,14 @@ class LocationAbstract extends \Dataservice_Doctrine_Entity
 
     /**
      * @OneToOne(targetEntity="\Entities\Company\Location\Address", mappedBy="Location", cascade={"persist"}, orphanRemoval=true)
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var Entities\Company\Location\Address $Address
      */
     protected $Address;
     
     /**
      * @OneToOne(targetEntity="\Entities\Company\Location\PhoneNumber", mappedBy="Location", cascade={"persist"}, orphanRemoval=true)
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var \Entities\Company\Location\PhoneNumber $PhoneNumber
      */
     protected $PhoneNumber;

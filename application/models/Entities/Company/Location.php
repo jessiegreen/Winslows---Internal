@@ -22,6 +22,7 @@ class Location extends \Entities\Company\Location\LocationAbstract
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="\Entities\Company\Employee", mappedBy="Location", cascade={"persist"})
+     * @Crud\Relationship\Permissions()
      * @var ArrayCollection $Employees
      */
     protected $Employees;

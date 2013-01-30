@@ -22,28 +22,28 @@ class Lead extends PersonAbstract
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="\Entities\Company\Lead\Address", mappedBy="Lead", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @Crud\Collection\Permissions(add={"Admin"}, remove={"Admin"})
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var ArrayCollection $Addresses
      */
     protected $Addresses;
     
     /**
      * @OneToMany(targetEntity="\Entities\Company\Lead\FaxNumber", mappedBy="Lead", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @Crud\Collection\Permissions(add={"Admin"}, remove={"Admin"})
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var ArrayCollection $FaxNumbers
      */
     protected $FaxNumbers;
     
     /**
      * @OneToMany(targetEntity="\Entities\Company\Lead\PhoneNumber", mappedBy="Lead", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @Crud\Collection\Permissions(add={"Admin"}, remove={"Admin"})
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var ArrayCollection $PhoneNumbers
      */
     protected $PhoneNumbers;
     
     /**
      * @OneToMany(targetEntity="\Entities\Company\Lead\EmailAddress", mappedBy="Lead", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @Crud\Collection\Permissions(add={"Admin"}, remove={"Admin"})
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var ArrayCollection $EmailAddresses
      */
     protected $EmailAddresses;
@@ -52,7 +52,7 @@ class Lead extends PersonAbstract
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="\Entities\Company\Lead\Contact", mappedBy="Lead", cascade={"persist"})
-     * @Crud\Collection\Permissions(add={"Admin"}, remove={"Admin"})
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var ArrayCollection $Contacts
      */
     protected $Contacts;
@@ -61,7 +61,7 @@ class Lead extends PersonAbstract
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="\Entities\Company\Lead\Quote", mappedBy="Lead", cascade={"persist", "remove"})
-     * @Crud\Collection\Permissions(add={"Admin"}, remove={"Admin"})
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var ArrayCollection $Quotes
      */
     protected $Quotes;
@@ -70,7 +70,7 @@ class Lead extends PersonAbstract
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="\Entities\Company\RtoProvider\Application", mappedBy="Lead", cascade={"persist", "remove"})
-     * @Crud\Collection\Permissions(add={"Admin"}, remove={"Admin"})
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var ArrayCollection $Applications
      */
     protected $Applications;

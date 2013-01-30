@@ -11,7 +11,7 @@ class Company_LocationPhoneNumberController extends Dataservice_Controller_Actio
     public function editAction()
     {
 	/* @var $LocationPhoneNumber \Entities\Company\Location\PhoneNumber */
-	$LocationPhoneNumber	= $this->getEntityFromParamFields("Location\PhoneNumber", array("id"));
+	$LocationPhoneNumber	= $this->getEntityFromParamFields("Company\Location\PhoneNumber", array("id"));
 	$form			= new Forms\Company\Location\PhoneNumber(array("method" => "post"), $LocationPhoneNumber);
 	
 	if($this->isPostAndValid($form)){

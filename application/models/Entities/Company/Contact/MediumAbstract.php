@@ -24,7 +24,7 @@ use \Doctrine\Common\Collections\ArrayCollection;
  *		    })
  * @HasLifecycleCallbacks
  */
-abstract class MediumAbstract
+abstract class MediumAbstract extends \Dataservice_Doctrine_Entity
 {
     /**
      * @Id @Column(type="integer")
@@ -35,7 +35,7 @@ abstract class MediumAbstract
     
     /**
      * @OneToMany(targetEntity="\Entities\Company\Contact", mappedBy="Medium", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @Crud\Collection\Permissions(add={"Admin"}, remove={"Admin"})
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var ArrayCollection $Contacts
      * @OrderBy({"date_time" = "DESC"})
      */

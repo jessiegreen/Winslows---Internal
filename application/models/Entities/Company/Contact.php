@@ -31,7 +31,7 @@ class Contact extends \Dataservice_Doctrine_Entity
     /**
      * @ManytoMany(targetEntity="\Entities\Company\Person\PersonAbstract", mappedBy="Contacts", cascade={"persist"})
      * @var array $People
-     * @Crud\Collection\Permissions(add={"Admin"}, remove={"Admin"})
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @OrderBy({"first_name" = "ASC"})
      */
     protected $People;

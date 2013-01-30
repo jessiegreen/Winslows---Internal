@@ -54,6 +54,18 @@ class Tab
     }
     
     /**
+     * @param \Dataservice_Doctrine_Entity $Entity
+     * @param string $relationshipPropertyName
+     * @return \Dataservice\Html\CRUD\Tabs\Tab
+     */
+    public function addRelationshipView(\Dataservice_Doctrine_Entity $Entity, $relationshipPropertyName)
+    {
+	$this->content_html .= \Dataservice\Html\CRUD\Content\Relationship\View::factory($Entity, $relationshipPropertyName)->getHTML();
+	
+	return $this;
+    }
+    
+    /**
      * @param array $lists
      */
     public function addCollectionLists($lists)

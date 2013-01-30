@@ -3,6 +3,8 @@ namespace Entities\Company\Location;
 
 /** 
  * @Entity (repositoryClass="Repositories\Company\Location\Address") 
+ * @Crud\Entity\Url(value="location-address")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  * @Table(name="company_location_addresses") 
  */
 class Address extends \Entities\Company\Address\AddressAbstract

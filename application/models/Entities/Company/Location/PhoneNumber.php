@@ -3,6 +3,8 @@ namespace Entities\Company\Location;
 
 /** 
  * @Entity (repositoryClass="Repositories\Company\Location\PhoneNumber") 
+ * @Crud\Entity\Url(value="location-phone-number")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  * @Table(name="company_location_phonenumbers")
  */
 class PhoneNumber extends \Entities\Company\PhoneNumber\PhoneNumberAbstract
