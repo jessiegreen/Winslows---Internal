@@ -18,7 +18,7 @@ class Company extends \Dataservice_Service_ServiceAbstract
     public function getCurrentCompany()
     {
 	return $this->_em->getRepository("Entities\Company")->find(
-			\Services\Website::factory()->getCurrentWebsite()->getCompany()->getId()
+			\Services\Company\Website::factory()->getCurrentWebsite()->getCompany()->getId()
 		);
     }
     

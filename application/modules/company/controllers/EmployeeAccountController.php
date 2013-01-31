@@ -40,7 +40,7 @@ class Company_EmployeeAccountController extends Dataservice_Controller_Action
             }
         }
         
-	$form = new Forms\Company\Employee\Account(array("method" => "post"), $Account, $safe);
+	$form = new Forms\Company\Employee\Account(array("method" => "post", "autocomplete" => "off"), $Account, $safe);
 	
 	$form->addCancelButton($this->_History->getPreviousUrl());
 	
@@ -56,7 +56,7 @@ class Company_EmployeeAccountController extends Dataservice_Controller_Action
 		
 		if($data["employee_id"])
 		{
-		    $Employee = $this->_em->find("Entities\Person\PersonAbstract", $data["employee_id"]);
+		    $Employee = $this->_em->find("Entities\Company\Person\PersonAbstract", $data["employee_id"]);
 		    
 		    if(!$Employee)
 			throw new Exception("Can not add web account. No Employee with that Id");
@@ -94,12 +94,14 @@ class Company_EmployeeAccountController extends Dataservice_Controller_Action
     
     public function manageRolesAction()
     {
-	/* @var $Account Entities\Website\Account\AccountAbstract */
+	/* @var $Account Entities\Company\Website\Account\AccountAbstract */
 	$Account = $this->_getAccount();
 	
 	$this->_CheckRequiredAccountExists($Account);
 	
-	$form = new Forms\Website\Account\ManageRoles($Account);
+	$form = new Forms\Company\Website\Account\ManageRoles($Account);
+	
+	$form->addCancelButton($this->_History->getPreviousUrl());
 	
 	if($this->isPostAndValid($form))
 	{

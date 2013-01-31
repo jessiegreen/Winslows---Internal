@@ -1,43 +1,42 @@
 <?php
-
 class Company_DealerLocationAddressController extends Dataservice_Controller_Action
 {    
+    public function init()
+    {
+	$this->_EntityClass = "Entities\Company\Dealer\Location\Address";
+	
+	parent::init();
+    }
+    
     public function editAction()
     {
-	/* @var $LocationAddress \Entities\Location\Address */
-	$LocationAddress    = $this->getEntityFromParamFields("Location\Address", array("id"));
-	$location_id	    = $this->getRequest()->getParam("location_id");
+	$location_id = $this->getRequest()->getParam("location_id");
 	
-	if(!$LocationAddress->getId())
+	if(!$this->_Entity->getId())
 	{
 	    if($location_id)
 	    {
-		$Location = $this->_em->getRepository("Entities\Company\Dealer\Location")->find($location_id);
+		$Location = $this->_em->find("Entities\Company\Dealer\Location", $location_id);
 		
-		if($Location)$LocationAddress->setLocation($Location);
+		if($Location)$this->_Entity->setLocation($Location);
 	    }
 	}
 	
-	$form = new Forms\Company\Dealer\Location\Address(array("method" => "post"), $LocationAddress);
-	
-	$form->addCancelButton($this->_History->getPreviousUrl());
+	$form = $this->_Entity->getEditForm()->addCancelButton($this->_History->getPreviousUrl());
 	
 	if($this->isPostAndValid($form))
 	{
 	    try 
 	    {
-		$data = $this->_params["company_dealer_location_address"];
+		$data = $this->_getParam("company_dealer_location_address", array());
 		
-		if($data["location_id"])
-		{
-		    $Location = $this->_em->getRepository("Entities\Company\Dealer\Location")->find($data["location_id"]);
-		    
-		    if($Location)$LocationAddress->setLocation ($Location);
-		}
-		
-		$LocationAddress->populate($data);
+		$Location = $this->_em->getRepository("Entities\Company\Dealer\Location")->find($data["location_id"]);
 
-		$this->_em->persist($LocationAddress);
+		if($Location)$this->_Entity->setLocation($Location);
+		
+		$this->_Entity->populate($data);
+
+		$this->_em->persist($this->_Entity);
 		$this->_em->flush();
 
 		$message = "Dealer Location Address saved";
@@ -48,13 +47,12 @@ class Company_DealerLocationAddressController extends Dataservice_Controller_Act
 	    catch (Exception $exc) 
 	    {
 		$this->_FlashMessenger->addErrorMessage($exc->getMessage());
-		$this->_History->goBack();
 	    }
 	    
 	    $this->_History->goBack();
 	}
 	
-	$this->view->form		= $form;
-	$this->view->LocationAddress	= $LocationAddress;
+	$this->view->form	= $form;
+	$this->view->Address	= $this->_Entity;
     }
 }

@@ -1,12 +1,14 @@
 <?php
-
 namespace Entities\Company;
+
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @Entity (repositoryClass="Repositories\Company\PaymentGateway") 
  * @Table(name="company_paymentgateways")
  * @HasLifecycleCallbacks
+ * @Crud\Entity\Url(value="payment-gateway")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
 class PaymentGateway extends \Dataservice_Doctrine_Entity
 {

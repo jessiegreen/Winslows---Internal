@@ -1,0 +1,36 @@
+<?php 
+echo($this->flashMessages());
+?>
+<h1 class="header1">
+    Employees Time Clocks - View Time
+</h1>
+<div style="padding: 25px;padding-top: 0;">
+    <div style="padding-top: 8px;padding-bottom: 10px;">
+    <?php
+    echo new Dataservice_Form_Element_Company_TimeClock_WorkWeek_Select(
+	    "start_date", 
+	    array(
+		"value"	    => $this->StartDate->format("Y-m-d"),
+		"label"	    => "Pay Period",
+		"onchange"  => "location = '/employees-time-clocks/view-time/start_date/'+this.value"
+	    )
+	);
+    ?>
+    </div>
+    <?php
+    $headers = array("Employee", "H:M");
+
+    echo "<table>";
+    echo "<tr><th>".implode("</th><th>", $headers)."</th></tr>";
+
+    /* @var $Employee Entities\Company\Employee */
+    foreach ($this->Employees as $Employee)
+    {
+	echo "<tr>";
+	    echo "<td>".$Employee->getFullName()."</td>";
+	    echo "<td>".$Employee->getWeeksTimeClockTotalTime($this->StartDate)->format("%H:%I")."</td>";
+	echo "</tr>";
+    }
+    echo "</table>";
+    ?>
+</div>

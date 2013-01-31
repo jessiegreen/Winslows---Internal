@@ -1,20 +1,13 @@
 <?php
-/**
- * Name:
- * Location:
- *
- * @author     Jessie Green <jessie.winslows@gmail.com>
- * @copyright  2012 Winslows inc.
- * @version    Release: @package_version@
- */
-
 namespace Entities\Company\Supplier\Product\Category\File;
 
 /** 
  * @Entity (repositoryClass="Repositories\Company\Supplier\Product\File\Image") 
  * @Table(name="company_supplier_product_category_file_images") 
+ * @Crud\Entity\Url(value="supplier-product-category-file-image")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
-class Image extends \Entities\File\Image\ImageAbstract
+class Image extends \Entities\Company\File\Image\ImageAbstract
 {
     /** 
      * @ManyToOne(targetEntity="\Entities\Company\Supplier\Product\Category", inversedBy="Images")

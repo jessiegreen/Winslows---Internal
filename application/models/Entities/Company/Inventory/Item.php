@@ -5,6 +5,8 @@ namespace Entities\Company\Inventory;
 /** 
  * @Entity (repositoryClass="Repositories\Company\Inventory\Item") 
  * @Table(name="company_inventory_items") 
+ * @Crud\Entity\Url(value="inventory-item")
+ * @Crud\Entity\Permissions(view={"Admin", "Manager"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  * @HasLifecycleCallbacks
  */
 class Item extends \Dataservice_Doctrine_Entity
@@ -35,8 +37,8 @@ class Item extends \Dataservice_Doctrine_Entity
     protected $Inventory;
     
     /**
-     * @ManyToOne(targetEntity="\Entities\Location\LocationAbstract", inversedBy="InventoryItems")
-     * @var \Entities\Location\LocationAbstract $Location
+     * @ManyToOne(targetEntity="\Entities\Company\Location\LocationAbstract", inversedBy="InventoryItems")
+     * @var \Entities\Company\Location\LocationAbstract $Location
      */
     protected $Location;
     
@@ -57,15 +59,15 @@ class Item extends \Dataservice_Doctrine_Entity
     }
     
     /**
-     * @param \Entities\Location\LocationAbstract $Location
+     * @param \Entities\Company\Location\LocationAbstract $Location
      */
-    public function setLocation(\Entities\Location\LocationAbstract $Location)
+    public function setLocation(\Entities\Company\Location\LocationAbstract $Location)
     {
 	$this->Location = $Location;
     }
     
     /**
-     * @return \Entities\Location\LocationAbstract
+     * @return \Entities\Company\Location\LocationAbstract
      */
     public function getLocation()
     {

@@ -3,7 +3,7 @@ class Company_WebsiteRoleController extends Dataservice_Controller_Action
 {
     public function viewAction()
     {
-	$Role = $this->getEntityFromParamFields("Website\Role", array("id"));
+	$Role = $this->getEntityFromParamFields("Company\Website\Role", array("id"));
 	
 	if(!$Role->getId())
 	{
@@ -15,7 +15,7 @@ class Company_WebsiteRoleController extends Dataservice_Controller_Action
     
     public function editAction()
     {
-	$Role	    = $this->getEntityFromParamFields("Website\Role", array("id"));
+	$Role	    = $this->getEntityFromParamFields("Company\Website\Role", array("id"));
 	$website_id = $this->getRequest()->getParam("website_id");
 	
 	if(!$Role->getId())
@@ -28,7 +28,7 @@ class Company_WebsiteRoleController extends Dataservice_Controller_Action
 	    }
 	}
 	
-	$form = new \Forms\Website\Role($Role, array("method" => "post"));
+	$form = new \Forms\Company\Website\Role($Role, array("method" => "post"));
 	
 	$form->addCancelButton($this->_History->getPreviousUrl());
 	

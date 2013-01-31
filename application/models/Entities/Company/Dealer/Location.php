@@ -6,8 +6,10 @@ namespace Entities\Company\Dealer;
  * @Entity (repositoryClass="Repositories\Company\Dealer\Location") 
  * @Table(name="company_dealer_locations")
  * @HasLifecycleCallbacks
+ * @Crud\Entity\Url(value="dealer")
+ * @Crud\Entity\Permissions(view={"Admin", "Manager"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
-class Location extends \Entities\Location\LocationAbstract
+class Location extends \Entities\Company\Location\LocationAbstract
 {
     /** 
      * @ManyToOne(targetEntity="\Entities\Company\Dealer", inversedBy="Locations")

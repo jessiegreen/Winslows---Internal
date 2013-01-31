@@ -6,7 +6,7 @@ echo "</div>";
 ?>
 <h1 class="header1">Website - View</h1>
 <?php
-/* @var $Menu \Entities\Website\WebsiteAbstract */
+/* @var $Menu \Entities\Company\Website\WebsiteAbstract */
 $Website    = $this->Website;
 $website_id = $Website->getId();
 ?>
@@ -43,7 +43,7 @@ $website_id = $Website->getId();
 	<div>
 	    <ul>
 	    <?php
-	    /* @var $Menu \Entities\Website\Menu */
+	    /* @var $Menu \Entities\Company\Website\Menu */
 	    if($Website->getMenus()->count() > 0)
 	    {
 		foreach ($Website->getMenus() as $Menu)
@@ -88,7 +88,7 @@ $website_id = $Website->getId();
 	<div>
 	    <ul>
 	    <?php
-	    /* @var $Resource \Entities\Website\Resource */
+	    /* @var $Resource \Entities\Company\Website\Resource */
 	    if($Website->getResources()->count() > 0)
 	    {
 		foreach ($Website->getResources() as $Resource)
@@ -133,7 +133,7 @@ $website_id = $Website->getId();
     <div>
 	<ul>
 	<?php
-	/* @var $Role \Entities\Website\Role */
+	/* @var $Role \Entities\Company\Website\Role */
 	if($Website->getRoles()->count() > 0)
 	{
 	    foreach ($Website->getRoles() as $Role)

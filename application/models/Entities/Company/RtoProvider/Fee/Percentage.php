@@ -3,6 +3,8 @@ namespace Entities\Company\RtoProvider\Fee;
 /** 
  * @Entity (repositoryClass="Repositories\Company\RtoProvider\Fee\Range") 
  * @Table(name="company_rtoprovider_fee_percentages") 
+ * @Crud\Entity\Url(value="rto-provider-fee-percentage")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
 class Percentage extends FeeAbstract implements \Interfaces\Company\RtoProvider\Fee
 {

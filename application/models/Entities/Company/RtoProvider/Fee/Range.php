@@ -3,6 +3,8 @@ namespace Entities\Company\RtoProvider\Fee;
 /** 
  * @Entity (repositoryClass="Repositories\Company\RtoProvider\Fee\Range") 
  * @Table(name="company_rtoprovider_fee_ranges") 
+ * @Crud\Entity\Url(value="rto-provider-fee-range")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
 class Range extends FeeAbstract
 {    

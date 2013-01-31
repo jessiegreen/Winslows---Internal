@@ -14,7 +14,7 @@ namespace Entities\Company\Supplier\Product\File;
  * @Entity (repositoryClass="Repositories\Company\Supplier\Product\File\Image") 
  * @Table(name="company_supplier_product_file_images") 
  */
-class Image extends \Entities\File\Image\ImageAbstract
+class Image extends \Entities\Company\File\Image\ImageAbstract
 {
     /** 
      * @ManyToOne(targetEntity="\Entities\Company\Supplier\Product\ProductAbstract", inversedBy="Images")

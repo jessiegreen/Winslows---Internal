@@ -6,5 +6,7 @@ class Dataservice_Form extends \Zend_Form
 	$this->addElement("button", "cancel", 
 		array("onclick" => "location='".$url."'")
 		);
+	
+	return $this;
     }
 }

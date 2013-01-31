@@ -3,9 +3,11 @@ namespace Entities\Company;
 
 /** 
  * @Entity (repositoryClass="Repositories\Company\Website") 
+ * @Crud\Entity\Url(value="website")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  * @Table(name="company_websites") 
  */
-class Website extends \Entities\Website\WebsiteAbstract
+class Website extends \Entities\Company\Website\WebsiteAbstract
 {
     /** 
      * @ManyToOne(targetEntity="\Entities\Company", inversedBy="Websites")
@@ -27,5 +29,13 @@ class Website extends \Entities\Website\WebsiteAbstract
     public function setCompany(\Entities\Company $Company)
     {
 	$this->Company = $Company;
+    }
+    
+    /**
+     * @return string
+     */
+    public function toString()
+    {
+	return $this->getName();
     }
 }

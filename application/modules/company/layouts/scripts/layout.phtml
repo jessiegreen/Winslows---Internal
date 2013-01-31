@@ -46,7 +46,7 @@
 		<?php
 		$MenuBuilder	    = \Dataservice\Html\Menu::factory();
 		$MenuBuilder->attrs = array("class" => "sf-menu");
-		$Website	    = Services\Website::factory()->getCurrentWebsite();
+		$Website	    = Services\Company\Website::factory()->getCurrentWebsite();
 		$Menu		    = $Website->getMenuByIndex("top");
 		$MenuHTML	    = $Menu->buildHtmlMenu($MenuBuilder, Zend_Auth::getInstance(), Dataservice_ACL_Factory::get($Website));
 		

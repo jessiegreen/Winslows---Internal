@@ -1,17 +1,20 @@
 <?php
-
 namespace Entities\Company;
+
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @Entity (repositoryClass="Repositories\Company\Location") 
  * @Table(name="company_locations")
+ * @Crud\Entity\Url(value="location")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  * @HasLifecycleCallbacks
  */
-class Location extends \Entities\Location\LocationAbstract
+class Location extends \Entities\Company\Location\LocationAbstract
 {
     /** 
      * @ManyToOne(targetEntity="\Entities\Company", inversedBy="Locations")
+     * @Crud\Relationship\Permissions()
      * @var \Entities\Company
      */     
     protected $Company;
@@ -20,6 +23,7 @@ class Location extends \Entities\Location\LocationAbstract
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="\Entities\Company\Employee", mappedBy="Location", cascade={"persist"})
+     * @Crud\Relationship\Permissions()
      * @var ArrayCollection $Employees
      */
     protected $Employees;

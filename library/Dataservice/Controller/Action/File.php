@@ -16,7 +16,7 @@ class Dataservice_Controller_Action_File extends Dataservice_Controller_Action
 	    $this->_helper->viewRenderer->setNoRender(true);
 	    $this->_History->doNotTrack();
 
-	    $File	= $this->_em->getRepository("Entities\File\FileAbstract")->find($this->getRequest()->getParam("id", 0));
+	    $File	= $this->_em->getRepository("Entities\Company\File\FileAbstract")->find($this->getRequest()->getParam("id", 0));
 	    $finfo	= finfo_open(FILEINFO_MIME_TYPE);
 	    $file_path  = $File->getFullPath();
 

@@ -6,6 +6,8 @@ namespace Entities\Company\Supplier\Product;
  * @Entity (repositoryClass="Repositories\Company\Supplier\Product\Purpose") 
  * @Table(name="company_supplier_product_purposes")
  * @HasLifecycleCallbacks
+ * @Crud\Entity\Url(value="supplier-product-purpose")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
 class Purpose extends \Dataservice_Doctrine_Entity
 {

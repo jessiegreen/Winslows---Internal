@@ -1,202 +1,31 @@
 <?php 
+use Dataservice\Html\CRUD;
+
 echo($this->flashMessages()); 
-echo "<div>";
-echo \Dataservice\Html\Anchor::backAnchorIcon("Company - view", "/index/view/id/".$this->Employee->getCompany()->getId());
-echo "</div>";
-?>
-<h1 class="header1">Employee - View</h1>
-<?php
+echo CRUD\Header::factory("Employee - View")->getHtml();
+
 /* @var $Employee \Entities\Company\Employee */
 $Employee	= $this->Employee;
-$employee_id	= $Employee->getId();
-$addresses	= $Employee->getAddresses();
-$phones		= $Employee->getPhoneNumbers();
-$emails		= $Employee->getEmailAddresses();
-$Account	= $Employee->getAccount();
-?>
-<div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
-    <h3 class="no_space" style="color: #2000EE;">
-	Info
-	<?php
-	echo \Dataservice\Html\Anchor::anchorIcon(
-		"pencil.png", 
-		"", 
-		"/employee/edit/id/".$employee_id,
-		"margin-left:5px;"
-		);
-	?>
-    </h4>
-    <div>
-	Name:<?php echo $Employee->getFullName(); ?> &nbsp;&nbsp;&nbsp; 
-	Company:<?php echo $Employee->getLocation()->getCompany()->getName(); ?> &nbsp;&nbsp;&nbsp; 
-	Location:<?php echo $Employee->getLocation()->getName(); ?>
-    </div>
-</div>
-<div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">
-    <div id="accordion">
-	<h3>
-	    <a href="#">Address</a>
-	    <?php echo \Dataservice\Html\Button::buttonBlue("add.png", "Add Address", "address_add", "float:right;width:110px;");?>
-	</h3>
-	<div>
-	    <?php
-	    /* @var $Address \Entities\Address */
-	    foreach ($addresses as $Address) {
-		?>
-		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
-		    <?php 
-		    echo $Address->getName();
-		    echo \Dataservice\Html\Anchor::anchorIcon(
-			    "pencil.png", 
-			    "", 
-			    "/employee-address/edit/person_id/".$employee_id."/id/".$Address->getId(),
-			    "margin-left:5px;"
-			    );
-		    ?>
-		</h4>
-		<label for="addr_1_addr1">Address 1:</label>
-		<div id="addr_1_addr1" style="display: inline;"><?php echo $Address->getAddress1(); ?></div><br />
-		<label for="addr_1_addr2">Address 2:</label>
-		<div id="addr_1_addr2" style="display: inline;"><?php echo $Address->getAddress2(); ?></div><br />
-		<label for="addr_1_csz">City/ST/Zip:</label>
-		<div id="addr_1_csz" style="display: inline;">
-		    <?php 
-		    echo $Address->getCity().", ".
-			    $Address->getState()." ".
-			    $Address->getFullZipCode(); ?>
-		</div>
-		<?php
-	    }
-	    ?>
-	</div>
-	<hr />
-	<h3>
-	    <a href="#">Phone</a>
-	    <?php 
-	    echo \Dataservice\Html\Button::buttonBlue(
-		    "phone_add.png", 
-		    "Add Phone", 
-		    "phone_add", "float:right;width:110px;"
-		    );?>
-	</h3>
-	<div>
-	    <?php
-	    /* @var $PhoneNumber \Entities\Person\PhoneNumber */
-	    foreach ($phones as $PhoneNumber) {
-		?>
-		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
-		    <?php 
-		    echo $PhoneNumber->getType(); 
-		    echo \Dataservice\Html\Anchor::anchorIcon(
-			    "pencil.png", 
-			    "", 
-			    "/employee-phone-number/edit/person_id/".$employee_id."/id/".
-				$PhoneNumber->getId(), 
-			    "margin-left:5px;"
-			    );
-		    ?>
-		</h4>
-		<label for="phone1">Num:</label>
-		<div id="phone1" style="display: inline;">
-		    <?php 
-		    echo "(".$PhoneNumber->getAreaCode().") ".$PhoneNumber->getNum1()."-".$PhoneNumber->getNum2(); 
-		    ?>
-		</div><br />
-		<label for="ext1">Ext:</label>
-		<div id="ext1" style="display: inline;">
-		    <?php 
-		    echo $PhoneNumber->getExtension(); 
-		    ?>
-		</div>
-		<?php
-	    }
-	    ?>
-	</div>
-	<hr />
-	<h3>
-	    <a href="#">Email</a>
-	    <?php 
-	    echo \Dataservice\Html\Button::buttonBlue(
-		    "email_add.png", 
-		    "Add Email", 
-		    "email_add", "float:right;width:110px;"
-		    );?>
-	</h3>
-	<div>
-	    <?php
-	    /* @var $Emailaddress \Entities\Person\EmailAddress */
-	    foreach ($emails as $EmailAddress)
-	    {
-		?>
-		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
-		    <?php 
-		    echo $EmailAddress->getType(); 
-		    echo \Dataservice\Html\Anchor::anchorIcon(
-			    "pencil.png", 
-			    "", 
-			    "/employee-email-address/edit/person_id/".$employee_id."/id/".
-				$EmailAddress->getId(), 
-			    "margin-left:5px;"
-			    );
-		    ?>
-		</h4>
-		<label for="emailaddress">Address:</label>
-		<div id="emailaddress" style="display: inline;">
-		    <?php 
-		    echo $EmailAddress->getAddress(); 
-		    ?>
-		</div>
-		<?php
-	    }
-	    ?>
-	</div>
-    </div>
-</div>
-<div class="padded_frame" style="width: 415px;float: right;padding-top: 0px;">
-    <h3>
-	<a href="#">Website Account</a>
-	<?php
-	if(!$Account)
-	    echo \Dataservice\Html\Button::buttonBlue(
-		    "lock_add.png", 
-		    "Add Account", 
-		    "account_add", 
-		    "float:right;width:140px;"
-		    );
-	?>
-    </h3>
-    <div>
-	<?php
-	/* @var $Account \Entities\Company\Employee\Account */
-	if($Account)
-	{
-	    ?>
-	    <ul>
-		<li>
-		    <?php
-		    echo \Dataservice\Html\Anchor::anchorIcon(
-			    "bullet_go.png", 
-			    "", 
-			    "/employee-account/view/id/".$Account->getId(),
-			    "margin-left:5px;"
-			    );
-		    echo $Account->getUsername();
-		    ?>
-		</li>
-	    </ul>
-	    <?php
-	}
-	else echo "No Web Account";
-	?>
-    </div>
-    <h3><a href="#">Documents</a></h3>
-    <div>Put Documents here</div>
-</div>
-<div style="clear: both;"><input type="hidden" id="employee_id" value="<?php echo $employee_id;?>" /></div>
-<script type="text/javascript">
-    Employee = new Employee();
-    Employee.AddPhoneClickBind("phone_add");
-    Employee.AddAddressClickBind("address_add");
-    Employee.AddEmailClickBind("email_add");
-    Employee.AddAccountClickBind("account_add");
-</script>
+
+$crudBody = new CRUD\Body();
+
+$crudBody->start();
+
+$Tabs = CRUD\Tabs::factory();
+
+$Tabs->addEntityViewTab("Information", $Employee)
+    ->addTab(
+	CRUD\Tabs\Tab::factory(("Contact Info"))
+	    ->addRelationshipView($Employee, "PhoneNumbers")
+	    ->addRelationshipView($Employee, "FaxNumbers")
+	    ->addRelationshipView($Employee, "Addresses")
+	    ->addRelationshipView($Employee, "EmailAddresses")
+    )
+    ->addRelationshipViewTab($Employee, "Company")
+    ->addRelationshipViewTab($Employee, "Location")
+    ->addRelationshipViewTab($Employee, "Account")
+    ->render();
+
+$crudBody->end();
+
+echo $Tabs->getJS();

@@ -5,6 +5,8 @@ namespace Entities\Company\Lead\Quote;
 /** 
  * @Entity (repositoryClass="Repositories\Company\Lead\Quote\Item") 
  * @Table(name="company_lead_quote_items") 
+ * @Crud\Entity\Url(value="lead-quote-item")
+ * @Crud\Entity\Permissions(view={"Admin", "Manager"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  * @HasLifecycleCallbacks
  */
 class Item extends \Dataservice_Doctrine_Entity

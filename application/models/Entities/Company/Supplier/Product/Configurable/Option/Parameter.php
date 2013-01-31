@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @Entity (repositoryClass="Repositories\Company\Supplier\Product\Configurable\Option\Parameter") 
  * @Table(name="company_supplier_product_configurable_option_parameters") 
  * @HasLifecycleCallbacks
+ * @Crud\Entity\Url(value="supplier-product-configurable-option-parameter")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
 class Parameter extends \Dataservice_Doctrine_Entity
 {

@@ -1,21 +1,10 @@
 <?php
-/**
- * Name:
- * Location:
- *
- * Description for class (if any)...
- *
- * @author     Jessie Green <jessie.winslows@gmail.com>
- * @copyright  2012 Winslows inc.
- * @version    Release: @package_version@
- */
 namespace Entities\Company\Lead\Quote;
 
 /** 
  * @Entity (repositoryClass="Repositories\Company\Lead\Quote\Sale") 
  * @Table(name="company_lead_quote_sales") 
  */
-
 class Sale extends \Entities\Company\Sale\SaleAbstract
 {
     /**

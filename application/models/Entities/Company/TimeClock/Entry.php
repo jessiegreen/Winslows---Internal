@@ -1,11 +1,12 @@
 <?php
-
 namespace Entities\Company\TimeClock;
 
 /** 
  * @Entity (repositoryClass="Repositories\Company\TimeClock\Entry") 
  * @Table(name="company_timeclock_items") 
  * @HasLifecycleCallbacks
+ * @Crud\Entity\Url(value="time-clock-entry")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
 class Entry extends \Dataservice_Doctrine_Entity
 {    

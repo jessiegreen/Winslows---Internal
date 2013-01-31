@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @Entity (repositoryClass="Repositories\Company\Supplier\Product\Category") 
  * @Table(name="company_supplier_product_categories")
  * @HasLifecycleCallbacks
+ * @Crud\Entity\Url(value="supplier-product-category")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
 class Category extends \Dataservice_Doctrine_Entity
 {

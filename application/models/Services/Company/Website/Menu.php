@@ -7,7 +7,7 @@ class Menu extends \Dataservice_Service_ServiceAbstract
     public function getAllMenus()
     {
 	/* @var $MenuRepos \Repositories\Menu */
-	$MenuRepos = $this->_em->getRepository('Entities\Website\Menu');
+	$MenuRepos = $this->_em->getRepository('Entities\Company\Website\Menu');
 	
 	return $MenuRepos->findBy(array(), array("name" => "ASC"));
     }
@@ -15,7 +15,7 @@ class Menu extends \Dataservice_Service_ServiceAbstract
     public function getAllMenuItems()
     {
 	/* @var $MenuItemRepos \Repositories\MenuItem */
-	$MenuItemRepos = $this->_em->getRepository('Entities\Website\Menu\Item');
+	$MenuItemRepos = $this->_em->getRepository('Entities\Company\Website\Menu\Item');
 	
 	return $MenuItemRepos->findBy(array(), array("label" => "ASC"));
     }

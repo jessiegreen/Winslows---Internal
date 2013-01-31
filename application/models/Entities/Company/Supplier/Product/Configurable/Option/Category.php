@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @Entity (repositoryClass="Repositories\Company\Supplier\Product\Configurable\Option\Category") 
  * @Table(name="company_supplier_product_configurable_option_categories")
  * @HasLifecycleCallbacks
+ * @Crud\Entity\Url(value="supplier-product-configurable-option-category")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
 class Category extends \Dataservice_Doctrine_Entity
 {

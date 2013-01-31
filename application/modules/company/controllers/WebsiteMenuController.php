@@ -3,8 +3,8 @@ class Company_WebsiteMenuController extends Dataservice_Controller_Action
 {    
     public function editAction()
     {	
-	/* @var $Menu \Entities\Website\Menu */
-	$Menu	= $this->getEntityFromParamFields("Website\Menu", array("id"));
+	/* @var $Menu \Entities\Company\Website\Menu */
+	$Menu	= $this->getEntityFromParamFields("Company\Website\Menu", array("id"));
 	
 	if(!$Menu->getId())
 	{
@@ -15,7 +15,7 @@ class Company_WebsiteMenuController extends Dataservice_Controller_Action
 	    $Menu->setWebsite($Website);
 	}
 	
-	$form	= new Forms\Website\Menu(array("method" => "post"), $Menu);
+	$form	= new Forms\Company\Website\Menu(array("method" => "post"), $Menu);
 	$form->addElement("button", "cancel", 
 		array("onclick" => "location='".$this->_History->getPreviousUrl(1)."'")
 		);
@@ -63,10 +63,10 @@ class Company_WebsiteMenuController extends Dataservice_Controller_Action
      */
     private function _getMenu()
     {
-	return $this->getEntityFromParamFields("Website\Menu", array("id"));
+	return $this->getEntityFromParamFields("Company\Website\Menu", array("id"));
     }
     
-    private function _CheckRequiredMenuExists(\Entities\Website\Menu $Menu)
+    private function _CheckRequiredMenuExists(\Entities\Company\Website\Menu $Menu)
     {
 	if(!$Menu->getId())
 	{

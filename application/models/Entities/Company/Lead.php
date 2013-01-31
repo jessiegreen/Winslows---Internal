@@ -1,21 +1,13 @@
 <?php
-/**
- * Name:
- * Location:
- *
- * Description for class (if any)...
- *
- * @author     Jessie Green <jessie.winslows@gmail.com>
- * @copyright  2012 Winslows inc.
- * @version    Release: @package_version@
- */
 namespace Entities\Company;
 
-use Entities\Person\PersonAbstract as PersonAbstract;
+use Entities\Company\Person\PersonAbstract as PersonAbstract;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /** 
  * @Entity (repositoryClass="Repositories\Company\Lead") 
+ * @Crud\Entity\Url(value="lead")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  * @Table(name="company_leads") 
  */
 class Lead extends PersonAbstract
@@ -29,15 +21,38 @@ class Lead extends PersonAbstract
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="\Entities\Company\Lead\Contact", mappedBy="Lead", cascade={"persist"})
-     * @var ArrayCollection $Contacts
+     * @OneToMany(targetEntity="\Entities\Company\Lead\Address", mappedBy="Lead", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
+     * @var ArrayCollection $Addresses
      */
-    protected $Contacts;
+    protected $Addresses;
+    
+    /**
+     * @OneToMany(targetEntity="\Entities\Company\Lead\FaxNumber", mappedBy="Lead", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
+     * @var ArrayCollection $FaxNumbers
+     */
+    protected $FaxNumbers;
+    
+    /**
+     * @OneToMany(targetEntity="\Entities\Company\Lead\PhoneNumber", mappedBy="Lead", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
+     * @var ArrayCollection $PhoneNumbers
+     */
+    protected $PhoneNumbers;
+    
+    /**
+     * @OneToMany(targetEntity="\Entities\Company\Lead\EmailAddress", mappedBy="Lead", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
+     * @var ArrayCollection $EmailAddresses
+     */
+    protected $EmailAddresses;
     
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="\Entities\Company\Lead\Quote", mappedBy="Lead", cascade={"persist"})
+     * @OneToMany(targetEntity="\Entities\Company\Lead\Quote", mappedBy="Lead", cascade={"persist", "remove"})
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var ArrayCollection $Quotes
      */
     protected $Quotes;
@@ -45,30 +60,109 @@ class Lead extends PersonAbstract
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
-     * @OneToMany(targetEntity="\Entities\Company\RtoProvider\Application", mappedBy="Lead", cascade={"persist"})
+     * @OneToMany(targetEntity="\Entities\Company\RtoProvider\Application", mappedBy="Lead", cascade={"persist", "remove"})
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var ArrayCollection $Applications
      */
     protected $Applications;
     
     /** 
      * @OneToOne(targetEntity="\Entities\Company\Lead\Account", inversedBy="Lead")
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var \Entities\Company\Lead\Account
      */     
     protected $Account;
     
     /** 
      * @ManyToOne(targetEntity="\Entities\Company", inversedBy="Leads")
+     * @Crud\Relationship\Permissions()
      * @var \Entities\Company $Company
      */     
     protected $Company;
     
     public function __construct()
     {
-	$this->Contacts	    = new ArrayCollection();
-	$this->Quotes	    = new ArrayCollection();
-	$this->Applications = new ArrayCollection();
+	$this->Addresses	= new ArrayCollection();
+	$this->FaxNumbers	= new ArrayCollection();
+	$this->PhoneNumbers	= new ArrayCollection();
+	$this->EmailAddresses	= new ArrayCollection();
+	$this->Contacts		= new ArrayCollection();
+	$this->Quotes		= new ArrayCollection();
+	$this->Applications	= new ArrayCollection();
 	
 	parent::__construct();
+    }
+    
+    /**
+     * @param Lead\Address $Address
+     */
+    public function addAddress(Lead\Address $Address)
+    {
+	$Address->setLead($this);
+	
+        $this->Addresses[] = $Address;
+    }
+    
+    /** 
+     * @return ArrayCollection
+     */
+    public function getAddresses()
+    {
+	return $this->Addresses;
+    }
+    
+    /**
+     * @param Lead\PhoneNumber $PhoneNumber
+     */
+    public function addPhoneNumber(Lead\PhoneNumber $PhoneNumber)
+    {
+	$PhoneNumber->setLead($this);
+	
+        $this->PhoneNumbers[] = $PhoneNumber;
+    }
+    
+    /**
+     * @return array
+     */
+    public function getPhoneNumbers()
+    {
+      return $this->PhoneNumbers;
+    }
+    
+    /**
+     * @param Lead\FaxNumber $FaxNumber
+     */
+    public function addFaxNumber(Lead\FaxNumber $FaxNumber)
+    {
+	$FaxNumber->setLead($this);
+	
+        $this->FaxNumbers[] = $FaxNumber;
+    }
+    
+    /**
+     * @return array
+     */
+    public function getFaxNumbers()
+    {
+      return $this->FaxNumbers;
+    }
+    
+    /**
+     * @param Lead\EmailAddress $EmailAddress
+     */
+    public function addEmailAddress(Lead\EmailAddress $EmailAddress)
+    {
+	$EmailAddress->setLead($this);
+	
+        $this->EmailAddresses[] = $EmailAddress;
+    }
+    
+    /**
+     * @return array
+     */
+    public function getEmailAddresses()
+    {
+	return $this->EmailAddresses;
     }
     
     /**

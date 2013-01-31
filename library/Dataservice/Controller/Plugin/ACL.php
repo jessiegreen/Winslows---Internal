@@ -13,7 +13,7 @@ class Dataservice_Controller_Plugin_ACL extends Zend_Controller_Plugin_Abstract
     {
 	$front		= \Zend_Controller_Front::getInstance();
 	$bootstrap	= $front->getParam("bootstrap");
-	$Website	= Services\Website::factory()->getCurrentWebsite();
+	$Website	= Services\Company\Website::factory()->getCurrentWebsite();
 	$objAcl		= Dataservice_ACL_Factory::get($Website);
         $objAuth	= Zend_Auth::getInstance();
 	$allowed	= false;

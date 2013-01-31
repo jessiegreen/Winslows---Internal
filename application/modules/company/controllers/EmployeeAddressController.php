@@ -10,9 +10,24 @@ class Company_EmployeeAddressController extends Dataservice_Controller_Action
 {    
     public function editAction()
     {
-	/* @var $Address \Entities\Person\Address */
-	$Address	= $this->getEntityFromParamFields("Person\Address", array("id"));
-	$form		= new Forms\Person\Address(array("method" => "post"), $Address);
+	/* @var $Address \Entities\Company\Employee\Address */
+	$Address	= $this->getEntityFromParamFields("Company\Employee\Address", array("id"));
+	$employee_id	= $this->_getParam("employee_id");
+	
+	if($employee_id)
+	{
+	    $Employee = $this->_em->find("Entities\Company\Employee", $employee_id);
+		    
+	    if(!$Employee)
+	    {
+		$this->_FlashMessenger->addErrorMessage("Could not get employee Id.");
+		$this->_History->goBack();
+	    }
+	    
+	    $Address->setEmployee($Employee);
+	}
+	
+	$form		= new \Forms\Company\Employee\Address($Address, array("method" => "post"));
 	
 	$form->addElement("button", "cancel", 
 		array("onclick" => "location='".$this->_History->getPreviousUrl(1)."'")
@@ -22,35 +37,35 @@ class Company_EmployeeAddressController extends Dataservice_Controller_Action
 	{
 	    try 
 	    {
-		$data	= $this->_params["person_address"];
+		$data	= $this->_params["company_employee_address"];
 		
 		$Address->populate($data);
 		
-		if(!$Address->getId())
-		{
-		    /* @var $Person \Entities\Person\PersonAbstract */
-		    $Person = $this->_em->find("Entities\Person\PersonAbstract", $this->_params["person_id"]);
+		$Employee = $this->_em->find("Entities\Company\Employee", $data["employee_id"]);
 		    
-		    if(!$Person)
-			throw new Exception("Can not add address. No Person with that Id");
-
-		    $Person->addAddress($Address);
-		    $this->_em->persist($Person);
+		if(!$Employee)
+		{
+		    $this->_FlashMessenger->addErrorMessage("Can not add address. No Employee with that Id");
+		    $this->_History->goBack();
 		}
-		else $this->_em->persist($Address);
+
+		$Address->setEmployee($Employee);
+		
+		$this->_em->persist($Address);
 
 		$this->_em->flush();
 
-		$message = "Person Address saved";
+		$message = "Employee Address saved";
+		
 		$this->_FlashMessenger->addSuccessMessage($message);
 
 	    }
 	    catch (Exception $exc)
 	    {
 		$this->_FlashMessenger->addErrorMessage($exc->getMessage());
-		$this->_History->goBack(1);
+		$this->_History->goBack();
 	    }
-	    $this->_History->goBack(1);
+	    $this->_History->goBack();
 	}
 	
 	$this->view->form	    = $form;

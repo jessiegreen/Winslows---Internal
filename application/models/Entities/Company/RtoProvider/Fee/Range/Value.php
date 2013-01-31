@@ -6,6 +6,8 @@ namespace Entities\Company\RtoProvider\Fee\Range;
  * @Entity (repositoryClass="Repositories\Company\RtoProvider\Fee\Range\Value") 
  * @Table(name="company_rtoprovider_fee_range_values") 
  * @HasLifecycleCallbacks
+ * @Crud\Entity\Url(value="rto-provider-fee-range-value")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
 class Value extends \Dataservice_Doctrine_Entity
 {    

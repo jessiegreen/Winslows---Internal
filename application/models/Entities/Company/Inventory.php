@@ -3,6 +3,8 @@ namespace Entities\Company;
 
 /**
  * @Entity (repositoryClass="Repositories\Company\Inventory") 
+ * @Crud\Entity\Url(value="inventory")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  * @Table(name="company_inventories")
  * @HasLifecycleCallbacks
  */
@@ -78,5 +80,13 @@ class Inventory extends \Dataservice_Doctrine_Entity
 	}
 	
 	return $items;
+    }
+    
+    /**
+     * @return string
+     */
+    public function toString()
+    {
+	return $this->getCompany()->getName()." Inventory";
     }
 }

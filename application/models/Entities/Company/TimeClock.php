@@ -5,6 +5,8 @@ namespace Entities\Company;
  * @Entity (repositoryClass="Repositories\Company\TimeClock") 
  * @Table(name="company_timeclocks")
  * @HasLifecycleCallbacks
+ * @Crud\Entity\Url(value="time-clock")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
 class TimeClock extends \Dataservice_Doctrine_Entity
 {
