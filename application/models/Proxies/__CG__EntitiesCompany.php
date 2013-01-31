@@ -231,6 +231,12 @@ class Company extends \Entities\Company implements \Doctrine\ORM\Proxy\Proxy
         return parent::setDescription($description);
     }
 
+    public function toString()
+    {
+        $this->__load();
+        return parent::toString();
+    }
+
     public function updated()
     {
         $this->__load();
@@ -267,10 +273,76 @@ class Company extends \Entities\Company implements \Doctrine\ORM\Proxy\Proxy
         return parent::filterCollectionByfield($ArrayCollection, $field, $value);
     }
 
+    public function getCrudPermissions()
+    {
+        $this->__load();
+        return parent::getCrudPermissions();
+    }
+
+    public function getCrudPermission($permission_name)
+    {
+        $this->__load();
+        return parent::getCrudPermission($permission_name);
+    }
+
+    public function getRelationshipCrudPermissions($collection_property_name)
+    {
+        $this->__load();
+        return parent::getRelationshipCrudPermissions($collection_property_name);
+    }
+
+    public function getRelationshipTypeName($related_property_name)
+    {
+        $this->__load();
+        return parent::getRelationshipTypeName($related_property_name);
+    }
+
+    public function getRelationshipClass($related_property_name)
+    {
+        $this->__load();
+        return parent::getRelationshipClass($related_property_name);
+    }
+
+    public function getRelationshipClassCrudPermissions($related_property_name)
+    {
+        $this->__load();
+        return parent::getRelationshipClassCrudPermissions($related_property_name);
+    }
+
+    public function getCrudUrl()
+    {
+        $this->__load();
+        return parent::getCrudUrl();
+    }
+
+    public function getRelationshipCrudUrl($related_property_name)
+    {
+        $this->__load();
+        return parent::getRelationshipCrudUrl($related_property_name);
+    }
+
     public function toArray()
     {
         $this->__load();
         return parent::toArray();
+    }
+
+    public function getClassName()
+    {
+        $this->__load();
+        return parent::getClassName();
+    }
+
+    public function getClass()
+    {
+        $this->__load();
+        return parent::getClass();
+    }
+
+    public function getEditForm()
+    {
+        $this->__load();
+        return parent::getEditForm();
     }
 
 

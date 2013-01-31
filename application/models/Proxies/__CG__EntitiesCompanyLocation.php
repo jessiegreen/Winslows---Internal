@@ -78,18 +78,6 @@ class Location extends \Entities\Company\Location implements \Doctrine\ORM\Proxy
         return parent::getInventoryItems();
     }
 
-    public function addVisit(\Entities\Location\Visit $Visit)
-    {
-        $this->__load();
-        return parent::addVisit($Visit);
-    }
-
-    public function getVisits()
-    {
-        $this->__load();
-        return parent::getVisits();
-    }
-
     public function getId()
     {
         $this->__load();
@@ -108,7 +96,7 @@ class Location extends \Entities\Company\Location implements \Doctrine\ORM\Proxy
         return parent::setName($name);
     }
 
-    public function setPhoneNumber(\Entities\Location\PhoneNumber $PhoneNumber)
+    public function setPhoneNumber(\Entities\Company\Location\PhoneNumber $PhoneNumber)
     {
         $this->__load();
         return parent::setPhoneNumber($PhoneNumber);
@@ -120,7 +108,7 @@ class Location extends \Entities\Company\Location implements \Doctrine\ORM\Proxy
         return parent::getPhoneNumber();
     }
 
-    public function setAddress(\Entities\Location\Address $Address)
+    public function setAddress(\Entities\Company\Location\Address $Address)
     {
         $this->__load();
         return parent::setAddress($Address);
@@ -148,6 +136,12 @@ class Location extends \Entities\Company\Location implements \Doctrine\ORM\Proxy
     {
         $this->__load();
         return parent::getTypeDisplay($type);
+    }
+
+    public function toString()
+    {
+        $this->__load();
+        return parent::toString();
     }
 
     public function getTypeOptions()
@@ -192,16 +186,82 @@ class Location extends \Entities\Company\Location implements \Doctrine\ORM\Proxy
         return parent::filterCollectionByfield($ArrayCollection, $field, $value);
     }
 
+    public function getCrudPermissions()
+    {
+        $this->__load();
+        return parent::getCrudPermissions();
+    }
+
+    public function getCrudPermission($permission_name)
+    {
+        $this->__load();
+        return parent::getCrudPermission($permission_name);
+    }
+
+    public function getRelationshipCrudPermissions($collection_property_name)
+    {
+        $this->__load();
+        return parent::getRelationshipCrudPermissions($collection_property_name);
+    }
+
+    public function getRelationshipTypeName($related_property_name)
+    {
+        $this->__load();
+        return parent::getRelationshipTypeName($related_property_name);
+    }
+
+    public function getRelationshipClass($related_property_name)
+    {
+        $this->__load();
+        return parent::getRelationshipClass($related_property_name);
+    }
+
+    public function getRelationshipClassCrudPermissions($related_property_name)
+    {
+        $this->__load();
+        return parent::getRelationshipClassCrudPermissions($related_property_name);
+    }
+
+    public function getCrudUrl()
+    {
+        $this->__load();
+        return parent::getCrudUrl();
+    }
+
+    public function getRelationshipCrudUrl($related_property_name)
+    {
+        $this->__load();
+        return parent::getRelationshipCrudUrl($related_property_name);
+    }
+
     public function toArray()
     {
         $this->__load();
         return parent::toArray();
     }
 
+    public function getClassName()
+    {
+        $this->__load();
+        return parent::getClassName();
+    }
+
+    public function getClass()
+    {
+        $this->__load();
+        return parent::getClass();
+    }
+
+    public function getEditForm()
+    {
+        $this->__load();
+        return parent::getEditForm();
+    }
+
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'name', 'type', 'created', 'updated', 'Address', 'PhoneNumber', 'InventoryItems', 'Visits', 'Company', 'Employees');
+        return array('__isInitialized__', 'id', 'name', 'type', 'created', 'updated', 'Address', 'PhoneNumber', 'InventoryItems', 'Company', 'Employees');
     }
 
     public function __clone()

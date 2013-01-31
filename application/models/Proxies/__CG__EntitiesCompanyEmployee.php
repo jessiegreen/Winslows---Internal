@@ -42,6 +42,54 @@ class Employee extends \Entities\Company\Employee implements \Doctrine\ORM\Proxy
     }
 
     
+    public function addAddress(\Entities\Company\Employee\Address $Address)
+    {
+        $this->__load();
+        return parent::addAddress($Address);
+    }
+
+    public function getAddresses()
+    {
+        $this->__load();
+        return parent::getAddresses();
+    }
+
+    public function addPhoneNumber(\Entities\Company\Employee\PhoneNumber $PhoneNumber)
+    {
+        $this->__load();
+        return parent::addPhoneNumber($PhoneNumber);
+    }
+
+    public function getPhoneNumbers()
+    {
+        $this->__load();
+        return parent::getPhoneNumbers();
+    }
+
+    public function addFaxNumber(\Entities\Company\Employee\FaxNumber $FaxNumber)
+    {
+        $this->__load();
+        return parent::addFaxNumber($FaxNumber);
+    }
+
+    public function getFaxNumbers()
+    {
+        $this->__load();
+        return parent::getFaxNumbers();
+    }
+
+    public function addEmailAddress(\Entities\Company\Employee\EmailAddress $EmailAddress)
+    {
+        $this->__load();
+        return parent::addEmailAddress($EmailAddress);
+    }
+
+    public function getEmailAddresses()
+    {
+        $this->__load();
+        return parent::getEmailAddresses();
+    }
+
     public function getLeads()
     {
         $this->__load();
@@ -102,6 +150,36 @@ class Employee extends \Entities\Company\Employee implements \Doctrine\ORM\Proxy
         return parent::getTodaysTimeClockEntries();
     }
 
+    public function getWeeksTimeClockEntries(\DateTime $StartDate)
+    {
+        $this->__load();
+        return parent::getWeeksTimeClockEntries($StartDate);
+    }
+
+    public function getTodaysTimeClockTotalTime()
+    {
+        $this->__load();
+        return parent::getTodaysTimeClockTotalTime();
+    }
+
+    public function getThisWeeksTimeClockTotalTime()
+    {
+        $this->__load();
+        return parent::getThisWeeksTimeClockTotalTime();
+    }
+
+    public function getThisWeeksTimeClockEntries()
+    {
+        $this->__load();
+        return parent::getThisWeeksTimeClockEntries();
+    }
+
+    public function getTimeClockTotalTime($TimeEntries)
+    {
+        $this->__load();
+        return parent::getTimeClockTotalTime($TimeEntries);
+    }
+
     public function isClockedIn()
     {
         $this->__load();
@@ -156,19 +234,13 @@ class Employee extends \Entities\Company\Employee implements \Doctrine\ORM\Proxy
         return parent::setTitle($title);
     }
 
-    public function addAddress(\Entities\Person\Address $Address)
+    public function toString()
     {
         $this->__load();
-        return parent::addAddress($Address);
+        return parent::toString();
     }
 
-    public function getAddresses()
-    {
-        $this->__load();
-        return parent::getAddresses();
-    }
-
-    public function addDocument(\Entities\Person\Document $Document)
+    public function addDocument(\Entities\Company\Person\Document $Document)
     {
         $this->__load();
         return parent::addDocument($Document);
@@ -178,30 +250,6 @@ class Employee extends \Entities\Company\Employee implements \Doctrine\ORM\Proxy
     {
         $this->__load();
         return parent::getDocuments();
-    }
-
-    public function addPhoneNumber(\Entities\Person\PhoneNumber $PhoneNumber)
-    {
-        $this->__load();
-        return parent::addPhoneNumber($PhoneNumber);
-    }
-
-    public function getPhoneNumbers()
-    {
-        $this->__load();
-        return parent::getPhoneNumbers();
-    }
-
-    public function addEmailAddress(\Entities\Person\EmailAddress $EmailAddress)
-    {
-        $this->__load();
-        return parent::addEmailAddress($EmailAddress);
-    }
-
-    public function getEmailAddresses()
-    {
-        $this->__load();
-        return parent::getEmailAddresses();
     }
 
     public function getId()
@@ -264,12 +312,6 @@ class Employee extends \Entities\Company\Employee implements \Doctrine\ORM\Proxy
         return parent::getFullName();
     }
 
-    public function toString()
-    {
-        $this->__load();
-        return parent::toString();
-    }
-
     public function updated()
     {
         $this->__load();
@@ -306,16 +348,82 @@ class Employee extends \Entities\Company\Employee implements \Doctrine\ORM\Proxy
         return parent::filterCollectionByfield($ArrayCollection, $field, $value);
     }
 
+    public function getCrudPermissions()
+    {
+        $this->__load();
+        return parent::getCrudPermissions();
+    }
+
+    public function getCrudPermission($permission_name)
+    {
+        $this->__load();
+        return parent::getCrudPermission($permission_name);
+    }
+
+    public function getRelationshipCrudPermissions($collection_property_name)
+    {
+        $this->__load();
+        return parent::getRelationshipCrudPermissions($collection_property_name);
+    }
+
+    public function getRelationshipTypeName($related_property_name)
+    {
+        $this->__load();
+        return parent::getRelationshipTypeName($related_property_name);
+    }
+
+    public function getRelationshipClass($related_property_name)
+    {
+        $this->__load();
+        return parent::getRelationshipClass($related_property_name);
+    }
+
+    public function getRelationshipClassCrudPermissions($related_property_name)
+    {
+        $this->__load();
+        return parent::getRelationshipClassCrudPermissions($related_property_name);
+    }
+
+    public function getCrudUrl()
+    {
+        $this->__load();
+        return parent::getCrudUrl();
+    }
+
+    public function getRelationshipCrudUrl($related_property_name)
+    {
+        $this->__load();
+        return parent::getRelationshipCrudUrl($related_property_name);
+    }
+
     public function toArray()
     {
         $this->__load();
         return parent::toArray();
     }
 
+    public function getClassName()
+    {
+        $this->__load();
+        return parent::getClassName();
+    }
+
+    public function getClass()
+    {
+        $this->__load();
+        return parent::getClass();
+    }
+
+    public function getEditForm()
+    {
+        $this->__load();
+        return parent::getEditForm();
+    }
+
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'first_name', 'middle_name', 'last_name', 'suffix', 'created', 'updated', 'Addresses', 'Documents', 'PhoneNumbers', 'EmailAddresses', 'title', 'Location', 'Company', 'Leads', 'TimeClockEntries', 'Account');
+        return array('__isInitialized__', 'id', 'first_name', 'middle_name', 'last_name', 'suffix', 'created', 'updated', 'Documents', 'Contacts', 'title', 'Location', 'Company', 'Addresses', 'FaxNumbers', 'PhoneNumbers', 'EmailAddresses', 'Leads', 'TimeClockEntries', 'Account');
     }
 
     public function __clone()
