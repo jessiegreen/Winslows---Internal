@@ -111,6 +111,12 @@ class Inventory extends \Entities\Company\Inventory implements \Doctrine\ORM\Pro
         return parent::populate($array);
     }
 
+    public function filterCollectionByfield(\Doctrine\Common\Collections\ArrayCollection $ArrayCollection, $field, $value)
+    {
+        $this->__load();
+        return parent::filterCollectionByfield($ArrayCollection, $field, $value);
+    }
+
     public function toArray()
     {
         $this->__load();
