@@ -20,12 +20,14 @@ class Employee extends PersonAbstract
     
     /**
      * @ManyToOne(targetEntity="\Entities\Company\Location", inversedBy="Employees")
+     * @Crud\Relationship\Permissions()
      * @var \Entities\Company\Location $Location
      */
     protected $Location;
     
     /**
      * @ManyToOne(targetEntity="\Entities\Company", inversedBy="Employees")
+     * @Crud\Relationship\Permissions()
      * @var \Entities\Company $Company
      */
     protected $Company;
@@ -80,6 +82,7 @@ class Employee extends PersonAbstract
     
     /**
      * @OneToOne(targetEntity="\Entities\Company\Employee\Account", mappedBy="Employee", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var \Entities\Company\Employee\Account $Account
      */
     protected $Account;
@@ -424,6 +427,6 @@ class Employee extends PersonAbstract
     
     public function toString()
     {
-	return $this->getFullName()." - ".$this->getLocation()->getName()." - ".$this->getTitle();
+	return $this->getFullName()." - ".($this->getLocation() ? $this->getLocation()->getName() : "")." - ".$this->getTitle();
     }
 }

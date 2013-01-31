@@ -5,6 +5,8 @@ namespace Entities\Company\Inventory;
 /** 
  * @Entity (repositoryClass="Repositories\Company\Inventory\Item") 
  * @Table(name="company_inventory_items") 
+ * @Crud\Entity\Url(value="inventory-item")
+ * @Crud\Entity\Permissions(view={"Admin", "Manager"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  * @HasLifecycleCallbacks
  */
 class Item extends \Dataservice_Doctrine_Entity

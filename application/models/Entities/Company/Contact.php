@@ -6,6 +6,8 @@ use \Doctrine\Common\Collections\ArrayCollection;
 /** 
  * @Entity(repositoryClass="Repositories\Company\Contact") 
  * @Table(name="company_contacts") 
+ * @Crud\Entity\Url(value="contact")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
 class Contact extends \Dataservice_Doctrine_Entity
 {
@@ -29,7 +31,8 @@ class Contact extends \Dataservice_Doctrine_Entity
     protected $datetime;
     
     /**
-     * @ManytoMany(targetEntity="\Entities\Company\Person\PersonAbstract", mappedBy="Contacts", cascade={"persist"})
+     * @ManytoMany(targetEntity="\Entities\Company\Person\PersonAbstract", inversedBy="Contacts", cascade={"persist"})
+     * @JoinTable(name="company_contact_person_joins")
      * @var array $People
      * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @OrderBy({"first_name" = "ASC"})

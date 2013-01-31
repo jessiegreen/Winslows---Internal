@@ -1,11 +1,13 @@
 <?php
-
 namespace Entities\Company\Supplier\Product\Configurable;
+
 use Doctrine\Common\Collections\ArrayCollection;
 
 /** 
  * @Entity (repositoryClass="Repositories\Company\Supplier\Product\Configurable\Instance") 
  * @Table(name="company_supplier_product_configurable_instances") 
+ * @Crud\Entity\Url(value="supplier-product-configurable-instance")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
 class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstract implements \Interfaces\Company\Supplier\Product\Instance\InstanceAbstract
 {    

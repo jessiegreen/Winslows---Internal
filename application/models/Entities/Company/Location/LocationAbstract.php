@@ -54,6 +54,7 @@ class LocationAbstract extends \Dataservice_Doctrine_Entity
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="\Entities\Company\Inventory\Item", mappedBy="Location", cascade={"persist"})
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var ArrayCollection $InventoryItems
      */
     protected $InventoryItems;

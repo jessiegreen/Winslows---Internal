@@ -6,6 +6,8 @@ namespace Entities\Company\Website\Role;
  * @Entity (repositoryClass="Repositories\Company\Website\Role\Privilege") 
  * @Table(name="company_website_role_privileges") 
  * @HasLifecycleCallbacks
+ * @Crud\Entity\Url(value="website-role-privilege")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
 class Privilege extends \Dataservice_Doctrine_Entity
 {

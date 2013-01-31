@@ -37,7 +37,7 @@ abstract class MediumAbstract extends \Dataservice_Doctrine_Entity
      * @OneToMany(targetEntity="\Entities\Company\Contact", mappedBy="Medium", cascade={"persist", "remove"}, orphanRemoval=true)
      * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var ArrayCollection $Contacts
-     * @OrderBy({"date_time" = "DESC"})
+     * @OrderBy({"datetime" = "ASC"})
      */
     protected $Contacts;
     

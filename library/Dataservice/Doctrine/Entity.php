@@ -191,6 +191,18 @@ class Dataservice_Doctrine_Entity
      */
     public function getClass()
     {
-	return get_called_class();
+	return str_replace("Proxies\__CG__\\", "", get_called_class());
+    }
+    
+    /**
+     * @return \Dataservice_Form
+     */
+    public function getEditForm()
+    {
+	$FormClass  = "\\".str_replace("Entities", "Forms", $this->getClass());
+
+	$Form	    = new $FormClass($this, array("method" => "post"));
+	
+	return $Form;
     }
 }

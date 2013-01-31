@@ -60,7 +60,7 @@ abstract class PersonAbstract extends \Dataservice_Doctrine_Entity
      * @ManytoMany(targetEntity="\Entities\Company\Contact", mappedBy="People", cascade={"persist"})
      * @var array $Contacts
      * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
-     * @OrderBy({"date_time" = "DESC"})
+     * @OrderBy({"datetime" = "ASC"})
      */
     protected $Contacts;
 

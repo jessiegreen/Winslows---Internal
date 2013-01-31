@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @Entity (repositoryClass="Repositories\Company\RtoProvider\Program") 
  * @Table(name="company_rtoprovider_programs")
  * @HasLifecycleCallbacks
+ * @Crud\Entity\Url(value="rto-provider-program")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
 class Program extends \Dataservice_Doctrine_Entity
 {

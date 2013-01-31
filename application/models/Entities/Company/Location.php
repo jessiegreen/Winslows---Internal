@@ -1,6 +1,6 @@
 <?php
-
 namespace Entities\Company;
+
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -14,6 +14,7 @@ class Location extends \Entities\Company\Location\LocationAbstract
 {
     /** 
      * @ManyToOne(targetEntity="\Entities\Company", inversedBy="Locations")
+     * @Crud\Relationship\Permissions()
      * @var \Entities\Company
      */     
     protected $Company;

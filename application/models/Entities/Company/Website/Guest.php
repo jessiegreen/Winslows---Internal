@@ -7,6 +7,8 @@ use Entities\Company\Person\PersonAbstract as PersonAbstract;
 /** 
  * @Entity (repositoryClass="Repositories\Company\Website\Guest") 
  * @Table(name="company_website_guests") 
+ * @Crud\Entity\Url(value="website-guest")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
 class Guest extends PersonAbstract
 {

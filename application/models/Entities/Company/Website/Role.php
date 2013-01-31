@@ -6,6 +6,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 /** 
  * @Entity (repositoryClass="Repositories\Company\Website\Role") 
  * @Table(name="company_website_roles")
+ * @Crud\Entity\Url(value="website-role")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
 class Role extends \Dataservice_Doctrine_Entity
 {

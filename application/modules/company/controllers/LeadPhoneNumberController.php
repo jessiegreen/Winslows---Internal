@@ -1,54 +1,61 @@
 <?php
-
-/**
- * 
- * @author jessie
- *
- */
-
 class Company_LeadPhoneNumberController extends Dataservice_Controller_Action
 {    
     public function editAction()
     {
-	/* @var $PhoneNumber \Entities\Company\Person\PhoneNumber */
-	$PhoneNumber	= $this->getEntityFromParamFields("Person\PhoneNumber", array("id"));
-	$form		= new Forms\Company\Person\PhoneNumber(array("method" => "post"), $PhoneNumber);
+	/* @var $PhoneNumber \Entities\Company\Lead\PhoneNumber */
+	$PhoneNumber	= $this->getEntityFromParamFields("Company\Lead\PhoneNumber", array("id"));
+	$lead_id	= $this->_getParam("lead_id");
 	
-	$form->addCancelButton($this->_History->getPreviousUrl());
+	if($lead_id)
+	{
+	    $Lead = $this->_em->find("Entities\Company\Lead", $lead_id);
+		    
+	    if(!$Lead)
+	    {
+		$this->_FlashMessenger->addErrorMessage("Could not get lead Id.");
+		$this->_History->goBack();
+	    }
+	    
+	    $PhoneNumber->setLead($Lead);
+	}
+		
+	$form = new Forms\Company\Lead\PhoneNumber($PhoneNumber, array("method" => "post"));
+	
+	$form->addElement("button", "cancel", 
+		array("onclick" => "location='".$this->_History->getPreviousUrl(1)."'")
+		);
 	
 	if($this->isPostAndValid($form))
 	{
 	    try 
 	    {
-		$data	= $this->_params["person_phonenumber"];
+		$data	= $this->_params["company_lead_phone_number"];
 		
 		$PhoneNumber->populate($data);
 		$PhoneNumber->setAreaCode($data["phone_number"]["area"]);
 		$PhoneNumber->setNum1($data["phone_number"]["prefix"]);
 		$PhoneNumber->setNum2($data["phone_number"]["line"]);
 		
-		if(!$PhoneNumber->getId()){
-		    /* @var $Person \Entities\Company\Person\PersonAbstract */
-		    $Lead = $this->_em->find("Entities\Company\Lead", $this->_params["lead_id"]);
+		$Lead = $this->_em->find("Entities\Company\Lead", $data["lead_id"]);
 		    
-		    if(!$Lead)
-		    {
-			$this->_FlashMessenger->addErrorMessage("Could not get Lead");
-			$this->_History->goBack();
-		    }
-
-		    $Lead->addPhoneNumber($PhoneNumber);
-		    
-		    $this->_em->persist($Lead);
+		if(!$Lead)
+		{
+		    $this->_FlashMessenger->addErrorMessage("Can not add phone number. No Lead with that Id");
+		    $this->_History->goBack();
 		}
-		else $this->_em->persist($PhoneNumber);
+
+		$PhoneNumber->setLead($Lead);
+		
+		$this->_em->persist($PhoneNumber);
 
 		$this->_em->flush();
 
-		$message = "Person Phone Number saved";
+		$message = "Lead Phone Number saved";
+		
 		$this->_FlashMessenger->addSuccessMessage($message);
 
-	    }
+	    } 
 	    catch (Exception $exc)
 	    {
 		$this->_FlashMessenger->addErrorMessage($exc->getMessage());
@@ -58,8 +65,8 @@ class Company_LeadPhoneNumberController extends Dataservice_Controller_Action
 	    $this->_History->goBack();
 	}
 	
-	$this->view->form	    = $form;
-	$this->view->PhoneNumber    = $PhoneNumber;
+	$this->view->form	  = $form;
+	$this->view->PhoneNumber  = $PhoneNumber;
     }
 }
 

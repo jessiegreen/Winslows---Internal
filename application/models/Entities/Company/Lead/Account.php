@@ -4,6 +4,8 @@ namespace Entities\Company\Lead;
 /** 
  * @Entity (repositoryClass="Repositories\Company\Lead\Account") 
  * @Table(name="company_lead_accounts") 
+ * @Crud\Entity\Url(value="lead-account")
+ * @Crud\Entity\Permissions(view={"Admin", "Manager"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
 class Account extends \Entities\Company\Website\Account\AccountAbstract
 {

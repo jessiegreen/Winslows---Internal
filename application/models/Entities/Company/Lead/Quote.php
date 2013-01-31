@@ -1,14 +1,4 @@
 <?php
-/**
- * Name:
- * Location:
- *
- * Description for class (if any)...
- *
- * @author     Jessie Green <jessie.winslows@gmail.com>
- * @copyright  2012 Winslows inc.
- * @version    Release: @package_version@
- */
 namespace Entities\Company\Lead;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -16,6 +6,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 /** 
  * @Entity (repositoryClass="Repositories\Company\Lead\Quote") 
  * @Table(name="company_lead_quotes") 
+ * @Crud\Entity\Url(value="lead-quote")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
 
 class Quote extends Quote\QuoteAbstract

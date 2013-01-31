@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @Entity (repositoryClass="Repositories\Company\Website\Menu") 
  * @Table(name="company_website_menus") 
  * @HasLifecycleCallbacks
+ * @Crud\Entity\Url(value="website-menu")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
 class Menu extends \Dataservice_Doctrine_Entity
 {

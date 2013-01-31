@@ -1,5 +1,4 @@
 <?php
-
 class Company_LeadController extends Dataservice_Controller_Action
 {
     public function init()
@@ -11,8 +10,22 @@ class Company_LeadController extends Dataservice_Controller_Action
     
     public function editAction()
     {
-	$Lead = $this->getEntityFromParamFields("Company\Lead", array("id"));
-
+	$Lead	    = $this->getEntityFromParamFields("Company\Lead", array("id"));
+	$company_id = $this->_getParam("company_id");
+	
+	if($company_id)
+	{
+	    $Company = $this->_em->find("Entities\Company", $company_id);
+	    
+	    if(!$Company)
+	    {
+		$this->_FlashMessenger->addErrorMessage("Could not get company");
+		$this->_History->goBack();
+	    }
+	    
+	    $Lead->setCompany($Company);
+	}
+	
 	$form = new \Forms\Company\Lead(array("method" => "post"), $Lead);
 	
 	$form->addCancelButton($this->_History->getPreviousUrl());
@@ -25,6 +38,8 @@ class Company_LeadController extends Dataservice_Controller_Action
 		$Employee	= $this->_em->find("Entities\Company\Employee", $lead_data["employee"]);
 		
 		$Lead->setEmployee($Employee);
+		$Lead->setCompany($Company);
+		
 		$Lead->populate($lead_data);
 		
 		$this->_em->persist($Lead);

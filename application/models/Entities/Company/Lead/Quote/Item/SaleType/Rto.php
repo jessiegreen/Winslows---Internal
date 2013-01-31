@@ -4,6 +4,8 @@ namespace Entities\Company\Lead\Quote\Item\SaleType;
 /** 
  * @Entity (repositoryClass="Repositories\Company\Lead\Quote\Item\SaleType\Rto") 
  * @Table(name="company_lead_quote_item_saletype_rtos") 
+ * @Crud\Entity\Url(value="lead-quote-item-sale-type-rto")
+ * @Crud\Entity\Permissions(view={"Admin", "Manager"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
 class Rto extends \Entities\Company\Lead\Quote\Item\SaleType\SaleTypeAbstract
 {

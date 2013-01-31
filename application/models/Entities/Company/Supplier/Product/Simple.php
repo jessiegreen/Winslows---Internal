@@ -1,18 +1,11 @@
 <?php
-/**
- * Name:
- * Location:
- *
- * @author     Jessie Green <jessie.winslows@gmail.com>
- * @copyright  2012 Winslows inc.
- * @version    Release: @package_version@
- */
-
 namespace Entities\Company\Supplier\Product;
 
 /** 
  * @Entity (repositoryClass="Repositories\Company\Supplier\Product\Simple") 
  * @Table(name="company_supplier_product_simples") 
+ * @Crud\Entity\Url(value="supplier-product-simple")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
 class Simple extends ProductAbstract
 {

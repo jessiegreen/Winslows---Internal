@@ -6,6 +6,8 @@ namespace Entities\Company\Supplier\Product\Configurable\Option\Parameter;
  * @Entity (repositoryClass="Repositories\Company\Supplier\Product\Configurable\Option\Parameter\Value") 
  * @Table(name="company_supplier_product_configurable_option_parameter_values") 
  * @HasLifecycleCallbacks
+ * @Crud\Entity\Url(value="supplier-product-configurable-instance-option-parameter-value")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
 class Value extends \Dataservice_Doctrine_Entity
 {

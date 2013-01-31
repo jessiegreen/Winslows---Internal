@@ -1,12 +1,14 @@
 <?php
-
 namespace Entities\Company\Supplier\Product\Configurable\Instance;
+
 use Doctrine\Common\Collections\ArrayCollection;
 
 /** 
  * @Entity (repositoryClass="Repositories\Company\Supplier\Product\Configurable\Instance\Option") 
  * @Table(name="company_supplier_product_configurable_instance_options") 
  * @HasLifecycleCallbacks
+ * @Crud\Entity\Url(value="supplier-product-configurable-instance-option")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
 class Option extends \Dataservice_Doctrine_Entity
 {

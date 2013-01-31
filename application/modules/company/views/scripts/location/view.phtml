@@ -2,7 +2,6 @@
 use Dataservice\Html\CRUD;
 
 echo($this->flashMessages()); 
-echo CRUD\Nav::factory("Company", "/index/view/id/".$this->Location->getCompany()->getId())->getHtml();
 echo CRUD\Header::factory("Location - View")->getHtml();
 
 /* @var $Location \Entities\Company\Location */
@@ -20,16 +19,10 @@ $Tabs->addEntityViewTab("Information", $Location)
 		    ->addRelationshipView($Location, "Address")
 		    ->addRelationshipView($Location, "PhoneNumber")
 	)
+	->addRelationshipViewTab($Location, "Company")
 	->addRelationshipViewTab($Location, "Employees")
+	->addRelationshipViewTab($Location, "InventoryItems")
 	->render();
-//$Tabs->addEntityViewTab("Information", $Location)
-//    ->addTab(
-//	CRUD\Tabs\Tab::factory(("Contact Info"))
-//	    ->addRelationshipContent(CRUD\Content\Relationship\OneToOne::factory($Location, "Address")
-//	    ->addRelationshipContent(CRUD\EntityView::factory($Location->getPhoneNumber()))
-//    )
-//    ->addCollectionListTab("Employees", $Location, "Employees")
-//    ->render();
 
 $crudBody->end();
 

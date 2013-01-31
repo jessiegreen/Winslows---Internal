@@ -6,6 +6,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 /** 
  * @Entity (repositoryClass="Repositories\Company\Website\Menu\Item") 
  * @Table(name="company_website_menu_items") 
+ * @Crud\Entity\Url(value="website-menu-item")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
 
 class Item extends \Dataservice_Doctrine_Entity

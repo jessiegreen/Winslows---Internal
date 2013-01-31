@@ -10,47 +10,67 @@ class Company_LeadEmailAddressController extends Dataservice_Controller_Action
 {    
     public function editAction()
     {
-	/* @var $EmailAddress \Entities\Company\Person\EmailAddress */
-	$EmailAddress	= $this->getEntityFromParamFields("Person\EmailAddress", array("id"));
-	$form		= new Forms\Company\Person\EmailAddress(array("method" => "post"), $EmailAddress);
+	/* @var $EmailAddress \Entities\Company\Lead\EmailAddress */
+	$EmailAddress	= $this->getEntityFromParamFields("Company\Lead\EmailAddress", array("id"));
+	$lead_id	= $this->_getParam("lead_id");
 	
-	$form->addCancelButton($this->_History->getPreviousUrl());
+	if($lead_id)
+	{
+	    $Lead = $this->_em->find("Entities\Company\Lead", $lead_id);
+		    
+	    if(!$Lead)
+	    {
+		$this->_FlashMessenger->addErrorMessage("Could not get lead Id.");
+		$this->_History->goBack();
+	    }
+	    
+	    $EmailAddress->setLead($Lead);
+	}
+		
+	$form = new Forms\Company\Lead\EmailAddress($EmailAddress, array("method" => "post"));
+	
+	$form->addElement("button", "cancel", 
+		array("onclick" => "location='".$this->_History->getPreviousUrl(1)."'")
+		);
 	
 	if($this->isPostAndValid($form))
 	{
 	    try 
 	    {
-		$data	= $this->_params["person_emailaddress"];
+		$data = $this->_params["company_lead_email_address"];
 		
 		$EmailAddress->populate($data);
 		
-		if(!$EmailAddress->getId())
-		{
-		    /* @var $Person \Entities\Company\Person\PersonAbstract */
-		    $Person = $this->_em->find("Entities\Company\Person\PersonAbstract", $this->_params["person_id"]);
+		$Lead = $this->_em->find("Entities\Company\Lead", $data["lead_id"]);
 		    
-		    if(!$Person)
-			throw new Exception("Can not add email address. No Person with that Id");
-
-		    $Person->addEmailAddress($EmailAddress);
-		    $this->_em->persist($Person);
+		if(!$Lead)
+		{
+		    $this->_FlashMessenger->addErrorMessage("Can not add email address. No Lead with that Id");
+		    $this->_History->goBack();
 		}
-		else $this->_em->persist($EmailAddress);
+
+		$EmailAddress->setLead($Lead);
+		
+		$this->_em->persist($EmailAddress);
 
 		$this->_em->flush();
 
-		$message = "Person Email Address saved";
+		$message = "Lead Email Address saved";
+		
 		$this->_FlashMessenger->addSuccessMessage($message);
 
-	    } catch (Exception $exc) {
+	    } 
+	    catch (Exception $exc)
+	    {
 		$this->_FlashMessenger->addErrorMessage($exc->getMessage());
-		$this->_History->goBack(1);
+		$this->_History->goBack();
 	    }
-	    $this->_History->goBack(1);
+	    
+	    $this->_History->goBack();
 	}
 	
-	$this->view->form		= $form;
-	$this->view->EmailAddress = $EmailAddress;
+	$this->view->form	  = $form;
+	$this->view->EmailAddress  = $EmailAddress;
     }
 }
 

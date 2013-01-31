@@ -5,6 +5,8 @@ namespace Entities\Company\RtoProvider;
 /**
  * @Entity (repositoryClass="Repositories\Company\RtoProvider\Application") 
  * @Table(name="company_rtoprovider_applications")
+ * @Crud\Entity\Url(value="rto-provider-application")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  * @HasLifecycleCallbacks
  */
 class Application extends \Dataservice_Doctrine_Entity

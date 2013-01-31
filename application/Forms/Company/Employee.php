@@ -1,11 +1,11 @@
 <?php
 namespace Forms\Company;
 
-class Employee extends \Zend_Form
+class Employee extends \Dataservice_Form
 {    
     private $_Employee;
     
-    public function __construct($options = null, \Entities\Company\Employee $Employee = null) 
+    public function __construct(\Entities\Company\Employee $Employee, $options = null) 
     {
 	$this->_Employee = $Employee;
 	
@@ -14,7 +14,7 @@ class Employee extends \Zend_Form
     
     public function init($options = array())
     {	
-	$form = new Employee\Subform($options, $this->_Employee);
+	$form = new Employee\Subform($this->_Employee, $options);
 	
         $this->addSubForm($form, "company_employee");
 

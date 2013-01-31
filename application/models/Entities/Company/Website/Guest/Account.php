@@ -4,6 +4,8 @@ namespace Entities\Company\Website\Guest;
 /** 
  * @Entity (repositoryClass="Repositories\Company\Website\Guest\Account") 
  * @Table(name="company_website_guest_accounts") 
+ * @Crud\Entity\Url(value="website-guest-account")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
 class Account extends \Entities\Company\Website\Account\AccountAbstract
 {
