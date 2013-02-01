@@ -1,30 +1,16 @@
 <?php
-
-/**
- * 
- * @author jessie
- *
- */
-
 class Company_DealerLocationController extends Dataservice_Controller_Action
 {    
     public function init()
     {
-	$this->view->headScript()->appendFile("/javascript/company/dealer/location.js");
+	$this->_EntityClass = "Entities\Company\Dealer\Location";
+	
 	parent::init();
     }
     
     public function viewAction()
     {
-	$Location = $this->getEntityFromParamFields("Company\Dealer\Location", array("id"));
-	
-	if(!$Location->getId())
-	{
-	    $this->_FlashMessenger->addErrorMessage("Could not get Location");
-	    $this->_History->goBack();
-	}
-	
-	$this->view->Location	= $Location;
+	$this->_entityRequired();
     }
     
     public function editAction()
@@ -72,4 +58,3 @@ class Company_DealerLocationController extends Dataservice_Controller_Action
 	$this->view->Location	= $Location;
     }
 }
-

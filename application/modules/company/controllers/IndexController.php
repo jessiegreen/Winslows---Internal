@@ -3,7 +3,8 @@ class Company_IndexController extends Dataservice_Controller_Action
 {    
     public function init()
     {
-	$this->view->headScript()->appendFile("/javascript/company.js");
+	$this->_EntityClass = "Entities\Company";
+	
 	parent::init();
     }
     
