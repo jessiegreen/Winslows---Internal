@@ -7,7 +7,7 @@ class Subform extends \Forms\Company\Supplier\Product\Subform
 {    
     private $_Configurable;
     
-    public function __construct($options = null, Configurable $Configurable = null) 
+    public function __construct(Configurable $Configurable, $options = null) 
     {
 	$this->_Configurable = $Configurable;
 	
@@ -19,10 +19,11 @@ class Subform extends \Forms\Company\Supplier\Product\Subform
 	$this->addElement('text', 'class_name', array(
             'required'	    => true,
             'label'	    => 'Class Name:',
-	    'belongsTo'	    => 'company_product_supplier_configurable',
 	    'value'	    => $this->_Configurable ? $this->_Configurable->getClassName() : ""
         ));
 
 	parent::init($options);
+	
+	$this->setElementsBelongTo("company_supplier_product_configurable");
     }
 }

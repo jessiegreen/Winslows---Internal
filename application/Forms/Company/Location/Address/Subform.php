@@ -1,22 +1,14 @@
 <?php
 namespace Forms\Company\Location\Address;
-/**
- * Name:
- * Location:
- *
- * Description for class (if any)...
- *
- * @author     Jessie Green <jessie.winslows@gmail.com>
- * @copyright  2012 Winslows inc.
- * @version    Release: @package_version@
- */
+
 class Subform extends \Forms\Company\Address\Subform
 {    
     private $_Address;
     
-    public function __construct($options = null, \Entities\Company\Location\Address $Address = null)
+    public function __construct(\Entities\Company\Location\Address $Address, $options = null)
     {
 	$this->_Address = $Address;
+	
 	parent::__construct($options, $this->_Address);
     }
     
@@ -25,5 +17,3 @@ class Subform extends \Forms\Company\Address\Subform
 	parent::init($options);
     }
 }
-
-?>

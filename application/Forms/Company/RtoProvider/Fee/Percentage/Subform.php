@@ -19,8 +19,9 @@ class Subform extends \Forms\Company\RtoProvider\Fee\Subform
 	$this->addElement('text', 'percentage', array(
             'required'	    => true,
             'label'	    => 'Percentage:',
-	    'belongsTo'	    => 'company_rto_provider_fee_percentage',
 	    'value'	    => $this->_Percentage ? $this->_Percentage->getPercentage() : ""
         ));
+	
+	$this->setElementsBelongTo('company_rto_provider_fee_percentage');
     }
 }

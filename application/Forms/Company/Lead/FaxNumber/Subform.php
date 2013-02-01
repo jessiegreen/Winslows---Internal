@@ -17,10 +17,11 @@ class Subform extends \Forms\Company\FaxNumber\Subform
 	$this->addElement('hidden', 'lead_id', array(
             'required'	    => true,
             'label'	    => '',
-	    'belongsTo'	    => "company_lead_fax_number",
 	    'value'	    => $this->_FaxNumber && $this->_FaxNumber->getLead() ? $this->_FaxNumber->getLead()->getId() : ""
         ));
 	
 	parent::init($options);
+	
+	$this->setElementsBelongTo("company_lead_fax_number");
     }
 }

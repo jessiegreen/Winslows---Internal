@@ -7,9 +7,9 @@ class Subform extends \Zend_Form_SubForm
 {
     private $_AddressAbstract;
     
-    public function __construct($options = null, AddressAbstract $AddressAbstract = null) 
+    public function __construct(AddressAbstract $AddressAbstract, $options = null) 
     {
-	$this->_AddressAbstract	    = $AddressAbstract;
+	$this->_AddressAbstract = $AddressAbstract;
 	
 	parent::__construct($options);
     }
@@ -19,7 +19,6 @@ class Subform extends \Zend_Form_SubForm
 	$this->addElement('text', 'name', array(
             'required'	    => true,
             'label'	    => 'Address Name:',
-	    'belongsTo'	    => "address",
 	    'description'   => '(Ex. Home)',
 	    'value'	    => $this->_AddressAbstract ? $this->_AddressAbstract->getName() : ""
         ));
@@ -27,28 +26,24 @@ class Subform extends \Zend_Form_SubForm
         $this->addElement('text', 'address_1', array(
             'required'	    => true,
             'label'	    => 'Address Line 1:',
-	    'belongsTo'	    => $this->_belongs_to,
 	    'value'	    => $this->_AddressAbstract ? $this->_AddressAbstract->getAddress1() : ""
         ));
 	
 	$this->addElement('text', 'address_2', array(
             'required'	    => false,
             'label'	    => 'Address Line 2:',
-	    'belongsTo'	    => $this->_belongs_to,
 	    'value'	    => $this->_AddressAbstract ? $this->_AddressAbstract->getAddress2() : ""
         ));
 	
 	$this->addElement('text', 'county', array(
             'required'	    => false,
             'label'	    => 'County:',
-	    'belongsTo'	    => $this->_belongs_to,
 	    'value'	    => $this->_AddressAbstract ? $this->_AddressAbstract->getCounty() : ""
         ));
 
         $this->addElement('text', 'city', array(
             'required'	    => true,
             'label'	    => 'City:',
-	    'belongsTo'	    => $this->_belongs_to,
 	    'value'	    => $this->_AddressAbstract ? $this->_AddressAbstract->getCity() : ""
         ));
 	
@@ -56,14 +51,12 @@ class Subform extends \Zend_Form_SubForm
             'required'	    => true,
             'label'	    => 'State:',
 	    'size'	    => '2',
-	    'belongsTo'	    => $this->_belongs_to,
 	    'value'	    => $this->_AddressAbstract ? $this->_AddressAbstract->getState() : ""
         ));
 	
 	$this->addElement(new \Dataservice_Form_Element_StateSelect("state", array(
             'required'	    => true,
             'label'	    => 'State:',
-	    'belongsTo'	    => $this->_belongs_to,
 	    'value'	    => $this->_AddressAbstract ? $this->_AddressAbstract->getState() : ""
         )));
 	
@@ -71,7 +64,6 @@ class Subform extends \Zend_Form_SubForm
             'required'	    => true,
             'label'	    => 'Zip:',
 	    'size'	    => '5',
-	    'belongsTo'	    => $this->_belongs_to,
 	    'value'	    => $this->_AddressAbstract ? $this->_AddressAbstract->getZip1() : ""
         ));
 	
@@ -79,7 +71,6 @@ class Subform extends \Zend_Form_SubForm
             'required'	    => false,
             'label'	    => 'Zip Extension:',
 	    'size'	    => '5',
-	    'belongsTo'	    => $this->_belongs_to,
 	    'value'	    => $this->_AddressAbstract ? $this->_AddressAbstract->getZip2() : ""
         ));
 	
@@ -92,9 +83,10 @@ class Subform extends \Zend_Form_SubForm
 		'required'	=> true,
 		'label'		=> 'Reset Lat Long?:',
 		'multioptions'	=> array("no", "yes"),
-		'belongsTo'	=> $this->_belongs_to,
 		'value'		=> 0
 	    ));
 	}
+	
+	$this->setElementsBelongTo("company_address");
     }
 }

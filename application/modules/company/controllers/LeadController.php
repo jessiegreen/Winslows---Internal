@@ -1,77 +1,11 @@
 <?php
-class Company_LeadController extends Dataservice_Controller_Action
+class Company_LeadController extends Dataservice_Controller_Crud_Action
 {
     public function init()
     {
-	$this->view->headScript()->appendFile("/javascript/company/lead.js");
+	$this->_EntityClass = "Entities\Company\Lead";
 	
 	parent::init();
-    }
-    
-    public function editAction()
-    {
-	$Lead	    = $this->getEntityFromParamFields("Company\Lead", array("id"));
-	$company_id = $this->_getParam("company_id");
-	
-	if($company_id)
-	{
-	    $Company = $this->_em->find("Entities\Company", $company_id);
-	    
-	    if(!$Company)
-	    {
-		$this->_FlashMessenger->addErrorMessage("Could not get company");
-		$this->_History->goBack();
-	    }
-	    
-	    $Lead->setCompany($Company);
-	}
-	
-	$form = new \Forms\Company\Lead(array("method" => "post"), $Lead);
-	
-	$form->addCancelButton($this->_History->getPreviousUrl());
-	
-	if($this->isPostAndValid($form))
-	{
-	    try 
-	    {
-		$lead_data	= $this->_params["company_lead"];
-		$Employee	= $this->_em->find("Entities\Company\Employee", $lead_data["employee"]);
-		
-		$Lead->setEmployee($Employee);
-		$Lead->setCompany($Company);
-		
-		$Lead->populate($lead_data);
-		
-		$this->_em->persist($Lead);
-		$this->_em->flush();
-
-		$message = "Lead '".htmlspecialchars($Lead->getFullName())."' saved";
-		
-		$this->_FlashMessenger->addSuccessMessage($message);
-		$this->_History->goBack();		
-	    } 
-	    catch (Exception $exc)
-	    {
-		$this->_FlashMessenger->addErrorMessage($exc->getMessage());
-		$this->_History->goBack();
-	    }
-	}
-	
-	$this->view->form	= $form;
-	$this->view->Lead	= $Lead;
-    }
-    
-    public function viewAction()
-    {	
-	$Lead = $this->getEntityFromParamFields("Company\Lead", array("id"));
-	
-	if(!$Lead->getId())
-	{
-	    $this->_FlashMessenger->addErrorMessage("Could not get Lead");
-	    $this->_History->goBack();
-	}
-	
-	$this->view->Lead = $Lead;
     }
     
     public function viewSalesAction()

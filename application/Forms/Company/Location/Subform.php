@@ -1,11 +1,11 @@
 <?php
 namespace Forms\Company\Location;
 
-class Subform extends \Forms\Company\Location\Subform
+class Subform extends \Zend_Form_SubForm
 {
     private $_Location;
     
-    public function __construct($options = null, \Entities\Company\Location $Location = null)
+    public function __construct(\Entities\Company\Location $Location, $options = null)
     {
 	$this->_Location = $Location;
 	
@@ -24,5 +24,7 @@ class Subform extends \Forms\Company\Location\Subform
         )));
 	
 	parent::init();
+	
+	$this->setElementsBelongTo("company_location");
     }
 }

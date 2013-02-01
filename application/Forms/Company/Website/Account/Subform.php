@@ -6,7 +6,7 @@ class Subform extends \Zend_Form_SubForm
     private $_Account;
     private $_safe;
     
-    public function __construct($options = null, \Entities\Company\Website\Account\AccountAbstract $Account = null, $safe = true)
+    public function __construct(\Entities\Company\Website\Account\AccountAbstract $Account, $options = null, $safe = true)
     {
 	$this->_Account	    = $Account;
 	$this->_safe	    = $safe;
@@ -19,7 +19,6 @@ class Subform extends \Zend_Form_SubForm
         $this->addElement(new \Dataservice_Form_Element_Company_Website_Select("website_id", array(
             'required'	    => true,
             'label'	    => 'Website:',
-	    'belongsTo'	    => 'website_account',
 	    'value'	    => $this->_Account && $this->_Account->getWebsite() ? $this->_Account->getWebsite()->getId() : ""
         )));
         
@@ -28,7 +27,6 @@ class Subform extends \Zend_Form_SubForm
 	    $this->addElement('text', 'username', array(
 		'required'	    => true,
 		'label'		    => 'Username:',
-		'belongsTo'	    => 'website_account',
 		'value'		    => $this->_Account ? $this->_Account->getUsername() : ""
 	    ));
 	}
@@ -37,15 +35,16 @@ class Subform extends \Zend_Form_SubForm
 	    $this->addElement('text', 'username', array(
 		'required'	    => true,
 		'label'		    => 'Username:',
-		'belongsTo'	    => 'website_account',
 		'value'		    => $this->_Account ? $this->_Account->getUsername() : ""
 	    ));
 
 	    $this->addElement('password', 'password', array(
 		'required'	    => true,
 		'label'		    => 'Password:',
-		'belongsTo'	    => 'website_account'
 	    ));
 	}
+	
+	
+	$this->setElementsBelongTo("company_website_account");
     }
 }

@@ -17,7 +17,6 @@ class Subform extends \Zend_Form_SubForm
 	$this->addElement(new \Dataservice_Form_Element_Company_Supplier_ProductRadio("product_id", array(
             'required'	    => false,
             'label'	    => 'Product:',
-	    'belongsTo'	    => 'company_supplier_product_purpose',
 	    'value'	    => $this->_Purpose && $this->_Purpose->getProduct() ? 
 				$this->_Purpose->getProduct()->getId() : 
 				""
@@ -26,8 +25,9 @@ class Subform extends \Zend_Form_SubForm
 	$this->addElement('text', 'name', array(
             'required'	    => true,
             'label'	    => 'Name:',
-	    'belongsTo'	    => 'company_supplier_product_purpose',
 	    'value'	    => $this->_Purpose ? $this->_Purpose->getName() : ""
         ));
+	
+	$this->setElementsBelongTo('company_supplier_product_purpose');
     }
 }

@@ -5,16 +5,16 @@ class Address extends \Zend_Form
 {    
     private $_Address;
     
-    public function __construct($options = null, \Entities\Company\Supplier\Address $Address = null) 
+    public function __construct(\Entities\Company\Supplier\Address $Address, $options = null) 
     {
 	$this->_Address = $Address;
 	
-	parent::__construct($options, $this->_Address);
+	parent::__construct($options);
     }
     
     public function init($options = array())
     {
-	$form = new Address\Subform($options, $this->_Address);
+	$form = new Address\Subform($this->_Address, $options);
 	
 	$this->addSubForm($form, "company_supplier_address");
 

@@ -5,7 +5,7 @@ class Menu extends \Zend_Form
 {
     private $_Menu;
     
-    public function __construct($options = null, \Entities\Company\Website\Menu $Menu = null) 
+    public function __construct(\Entities\Company\Website\Menu $Menu, $options = null) 
     {
 	$this->_Menu = $Menu;
 	
@@ -14,7 +14,7 @@ class Menu extends \Zend_Form
     
     public function init($options = array())
     {
-	$form = new Menu\Subform($options, $this->_Menu);
+	$form = new Menu\Subform($this->_Menu, $options);
 	
 	$this->addSubForm($form, "website_menu");
 

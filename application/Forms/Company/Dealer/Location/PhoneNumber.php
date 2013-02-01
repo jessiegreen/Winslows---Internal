@@ -1,20 +1,11 @@
 <?php
 namespace Forms\Company\Dealer\Location;
-/**
- * Name:
- * Location:
- *
- * Description for class (if any)...
- *
- * @author     Jessie Green <jessie.winslows@gmail.com>
- * @copyright  2012 Winslows inc.
- * @version    Release: @package_version@
- */
+
 class PhoneNumber extends \Dataservice_Form
 {    
     private $_PhoneNumber;
     
-    public function __construct($options = null, \Entities\Company\Location\PhoneNumber $PhoneNumber = null)
+    public function __construct(\Entities\Company\Location\PhoneNumber $PhoneNumber, $options = null)
     {
 	$this->_PhoneNumber = $PhoneNumber;
 	
@@ -23,7 +14,7 @@ class PhoneNumber extends \Dataservice_Form
     
     public function init($options = array())
     {
-	$form = new PhoneNumber\Subform($options, $this->_PhoneNumber);
+	$form = new PhoneNumber\Subform($this->_PhoneNumber, $options);
 	
 	$this->addSubForm($form, "company_dealer_location_phonenumber");
 	

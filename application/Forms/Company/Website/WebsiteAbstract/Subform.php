@@ -17,14 +17,12 @@ class Subform extends \Zend_Form_SubForm
 	$this->addElement('text', 'name', array(
             'required'	    => true,
             'label'	    => 'Name:',
-	    'belongsTo'	    => 'website',
 	    'value'	    => $this->_Website ? $this->_Website->getName() : ""
         ));
 	
 	$this->addElement('select', 'type', array(
             'required'	    => true,
             'label'	    => 'Type:',
-	    'belongsTo'	    => 'website',
 	    'value'	    => $this->_Website ? $this->_Website->getType() : "",
 	    'multioptions'  => $this->_Website->getTypeOptions()
         ));
@@ -32,23 +30,22 @@ class Subform extends \Zend_Form_SubForm
 	$this->addElement('text', 'url', array(
             'required'	    => true,
             'label'	    => 'URL:',
-	    'belongsTo'	    => 'website',
 	    'value'	    => $this->_Website ? $this->_Website->getUrl() : ""
         ));
 	
 	$this->addElement('text', 'name_index', array(
             'required'	    => true,
             'label'	    => 'Name Index:',
-	    'belongsTo'	    => 'website',
 	    'value'	    => $this->_Website ? $this->_Website->getNameIndex() : ""
         ));
 	
 	$this->addElement('radio', 'guest_allowed', array(
             'required'	    => true,
             'label'	    => 'Guest Allowed:',
-	    'belongsTo'	    => 'website',
 	    'value'	    => $this->_Website ? $this->_Website->getGuestAllowed() : 0,
 	    'multioptions'  => array("no", "yes")
         ));
+	
+	$this->setElementsBelongTo("company_website");
     }
 }

@@ -10,7 +10,7 @@ class Company_DealerLocationController extends Dataservice_Controller_Action
     
     public function viewAction()
     {
-	$this->_entityRequired();
+	$this->_setEntityRequired();
     }
     
     public function editAction()

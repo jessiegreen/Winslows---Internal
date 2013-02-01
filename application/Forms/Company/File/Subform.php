@@ -17,7 +17,6 @@ class Subform extends \Zend_Form_SubForm
 	$this->addElement('text', 'name', array(
             'required'	    => false,
             'label'	    => 'Name:',
-	    'belongsTo'	    => 'file',
 	    'value'	    => $this->_File ? $this->_File->getName() : ""
         ));
 	
@@ -26,14 +25,14 @@ class Subform extends \Zend_Form_SubForm
 	    'cols'	    => 75,
 	    'rows'	    => 10,
             'label'	    => 'Description:',
-	    'belongsTo'	    => 'file',
 	    'value'	    => $this->_File ? $this->_File->getDescription() : ""
         ));
 	
 	$this->addElement('file', 'file', array(
             'required'	    => true,
-            'label'	    => 'File:',
-	    'belongsTo'	    => 'file'
+            'label'	    => 'File:'
         ));
+	
+	$this->setElementsBelongTo("company_file");
     }
 }

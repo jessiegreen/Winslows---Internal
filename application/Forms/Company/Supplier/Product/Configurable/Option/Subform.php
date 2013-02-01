@@ -19,7 +19,6 @@ class Subform extends \Zend_Form_SubForm
 	$this->addElement(new \Dataservice_Form_Element_Company_Supplier_Product_Configurable_Option_CategorySelect("category_id", array(
 		'label'		=> 'Category:',
 		'required'	=> true,
-		'belongsTo'	=> 'company_supplier_product_configurable_option',
 		'value'		=> $this->_Option && $this->_Option->getCategory() && $this->_Option->getCategory()->getId()
 				    ? $this->_Option->getCategory()->getId() 
 				    : ""
@@ -28,14 +27,12 @@ class Subform extends \Zend_Form_SubForm
 	$this->addElement('text', 'name', array(
             'required'	    => true,
             'label'	    => 'Name:',
-	    'belongsTo'	    => 'company_supplier_product_configurable_option',
 	    'value'	    => $this->_Option ? $this->_Option->getName() : ""
         ));
 	
 	$this->addElement('text', 'index_string', array(
             'required'	    => true,
             'label'	    => 'Name Index:',
-	    'belongsTo'	    => 'company_supplier_product_configurable_option',
 	    'value'	    => $this->_Option ? $this->_Option->getIndex() : ""
         ));
 	
@@ -44,7 +41,6 @@ class Subform extends \Zend_Form_SubForm
 	    'maxlength'	    => 2,
 	    'size'	    => 2,
             'label'	    => 'Code:',
-	    'belongsTo'	    => 'company_supplier_product_configurable_option',
 	    'value'	    => $this->_Option ? $this->_Option->getCode() : ""
         ));
 	
@@ -53,7 +49,6 @@ class Subform extends \Zend_Form_SubForm
 	    'maxlength'	    => 4,
 	    'size'	    => 4,
             'label'	    => 'Max Count:',
-	    'belongsTo'	    => 'company_supplier_product_configurable_option',
 	    'value'	    => $this->_Option ? $this->_Option->getMaxCount() : "",
 	    'validators'    => array("digits")
         ));
@@ -63,16 +58,16 @@ class Subform extends \Zend_Form_SubForm
             'label'	    => 'Description:',
 	    'cols'	    => 50,
 	    'rows'	    => 8,
-	    'belongsTo'	    => 'company_supplier_product_configurable_option',
 	    'value'	    => $this->_Option ? $this->_Option->getDescription() : ""
         ));
 	
 	$this->addElement('select', 'required', array(
             'required'	    => true,
             'label'	    => 'Required:',
-	    'belongsTo'	    => 'company_supplier_product_configurable_option',
 	    'multioptions'  => array(0 => "false", 1 => "true"),
 	    'value'	    => $this->_Option ? $this->_Option->isRequired() : ""
         ));
+	
+	$this->setElementsBelongTo("company_supplier_product_configurable_option");
     }
 }

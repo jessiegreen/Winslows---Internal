@@ -24,5 +24,7 @@ class Subform extends \Forms\Company\File\Image\Subform
         )));
 	
 	parent::init();
+	
+	$this->setElementsBelongTo("company_supplier_product_file_image");
     }
 }

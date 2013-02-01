@@ -5,7 +5,7 @@ class Subform extends \Zend_Form_SubForm
 {
     private $_EmailAddress;
     
-    public function __construct($options = null, \Entities\Company\EmailAddress\EmailAddressAbstract $Emailaddress = null)
+    public function __construct(\Entities\Company\EmailAddress\EmailAddressAbstract $Emailaddress, $options = null)
     {
 	$this->_EmailAddress = $Emailaddress;
 	
@@ -28,7 +28,6 @@ class Subform extends \Zend_Form_SubForm
             'required'	    => true,
             'label'	    => 'Type:',
 	    'multioptions'  => $type_options,
-	    'belongsTo'	    => $this->_belongs_to,
 	    'value'	    => $this->_EmailAddress ? $this->_EmailAddress->getType() : ""
         ));
 	
@@ -36,8 +35,9 @@ class Subform extends \Zend_Form_SubForm
             'required'	    => true,
             'label'	    => 'Address:',
 	    'validators'    => array('EmailAddress'),
-	    'belongsTo'	    => $this->_belongs_to,
 	    'value'	    => $this->_EmailAddress ? $this->_EmailAddress->getAddress() : ""
         ));
+	
+	$this->setElementsBelongTo("company_email_address");
     }
 }

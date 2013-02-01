@@ -17,10 +17,11 @@ class Subform extends \Forms\Company\PhoneNumber\Subform
 	$this->addElement(new \Dataservice_Form_Element_Company_Employee_Select("employee_id", array(
             'required'	    => true,
             'label'	    => 'Employee:',
-	    'belongsTo'	    => 'company_employee_phone_number',
 	    'value'	    => $this->_PhoneNumber && $this->_PhoneNumber->getEmployee() ? $this->_PhoneNumber->getEmployee()->getId() : ""
         )));
 	
 	parent::init($options);
+	
+	$this->setElementsBelongTo('company_employee_phone_number');
     }
 }

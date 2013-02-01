@@ -1,25 +1,10 @@
 <?php
-/**
- * Description of Action
- *
- * @author jgreen
- */
 class Dataservice_Controller_Action extends Zend_Controller_Action
 {
     /**
      * @var \Entities\Company\Website
      */
     protected $_Website;
-    
-    /**
-     * @var \Dataservice_Doctrine_Entity 
-     */
-    protected $_Entity = null;
-    
-    /**
-     * @var type 
-     */
-    protected $_EntityClass;
     
     /**
      *  @var \Doctrine\ORM\EntityManager $_em 
@@ -39,14 +24,19 @@ class Dataservice_Controller_Action extends Zend_Controller_Action
     public function init()
     {
 	$this->_setEntityManager();
-	$this->_setEntity();
 	$this->_setFlashMessenger();
 	$this->_setHistory();
 	$this->_setCurrentWebsite();
 	$this->_loadJsAndCss();	
-	$this->_setViewProperties();
 	
 	parent::init();
+    }
+    
+    public function postDispatch()
+    {
+	$this->_setViewProperties();
+	
+	parent::postDispatch();
     }
     
     public function isPostAndValid(Zend_Form $form, $params = null)
@@ -69,54 +59,7 @@ class Dataservice_Controller_Action extends Zend_Controller_Action
 	return false;
     }
     
-    protected function _CheckRequiredEntityExists(\Dataservice_Doctrine_Entity $Entity)
-    {
-	if(!$Entity->getId())
-	{
-	    $this->_FlashMessenger->addErrorMessage("Could not get ".$Entity->getClassName());
-	    $this->_History->goBack();
-	}
-    } 
     
-    protected function _setEntity()
-    {
-	$entity_id  = $this->_getParam("id");
-	
-	if($entity_id)
-	{
-	    $this->_Entity = $this->_em->find($this->_EntityClass, $entity_id);
-	    
-	    if(!$this->_Entity)
-		$this->_Entity = new $this->_EntityClass();
-	}
-    }
-    
-    protected function _entityRequired()
-    {
-	if(!$this->_Entity || !$this->_Entity->getId())
-	{
-	    $this->_FlashMessenger->addErrorMessage("Could not get required entity");
-	    $this->_History->goBack();
-	}
-    }
-    
-    protected function _deleteEntity()
-    {
-	$this->_entityRequired();
-	
-	try 
-	{
-	    $this->_em->remove($this->_Entity);
-	    $this->_em->flush();
-	    $this->_FlashMessenger->addSuccessMessage("Deleted ".$this->_Entity->getClassName());
-	} 
-	catch (Exception $exc) 
-	{
-	    $this->_FlashMessenger->addErrorMessage("Error deleting ".$this->_Entity->getClassName().": ". $exc->getMessage());
-	}
-
-	$this->_History->goBack();
-    }
     
     protected function _setCurrentWebsite()
     {
@@ -157,13 +100,7 @@ class Dataservice_Controller_Action extends Zend_Controller_Action
     
     protected function _setViewProperties()
     {
-	$Entity = $this->_Entity;
 	
-	if($Entity)
-	{
-	    $EntityClassName		    = $Entity->getClassName();
-	    $this->view->$EntityClassName   = $Entity;
-	}
     }
     
     /**

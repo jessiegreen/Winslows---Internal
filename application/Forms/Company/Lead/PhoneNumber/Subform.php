@@ -17,10 +17,11 @@ class Subform extends \Forms\Company\PhoneNumber\Subform
 	$this->addElement('hidden', 'lead_id', array(
             'required'	    => true,
             'label'	    => '',
-	    'belongsTo'	    => "company_lead_phone_number",
 	    'value'	    => $this->_PhoneNumber && $this->_PhoneNumber->getLead() ? $this->_PhoneNumber->getLead()->getId() : ""
         ));
 	
 	parent::init($options);
+	
+	$this->setElementsBelongTo("company_lead_phone_number");
     }
 }

@@ -5,7 +5,7 @@ class Lead extends \Dataservice_Form
 {    
     private $_Lead;
     
-    public function __construct($options = null, \Entities\Company\Lead $Lead = null)
+    public function __construct(\Entities\Company\Lead $Lead, $options = null)
     {
 	$this->_Lead = $Lead;
 	
@@ -14,7 +14,7 @@ class Lead extends \Dataservice_Form
     
     public function init($options = array())
     {
-	$form = new Lead\Subform($options, $this->_Lead);
+	$form = new Lead\Subform($this->_Lead, $options);
 	
 	$this->addSubForm($form, "company_lead");
 	

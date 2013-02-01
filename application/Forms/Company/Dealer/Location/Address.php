@@ -1,20 +1,11 @@
 <?php
 namespace Forms\Company\Dealer\Location;
-/**
- * Name:
- * Location:
- *
- * Description for class (if any)...
- *
- * @author     Jessie Green <jessie.winslows@gmail.com>
- * @copyright  2012 Winslows inc.
- * @version    Release: @package_version@
- */
+
 class Address extends \Dataservice_Form
 {    
     private $_Address;
     
-    public function __construct($options = null, \Entities\Company\Location\Address $Address = null)
+    public function __construct(\Entities\Company\Location\Address $Address, $options = null)
     {
 	$this->_Address = $Address;
 	
@@ -23,7 +14,7 @@ class Address extends \Dataservice_Form
     
     public function init($options = array())
     {
-	$form = new Address\Subform($options, $this->_Address);
+	$form = new Address\Subform($this->_Address, $options);
 	
 	$this->addSubForm($form, "company_dealer_location_address");
 

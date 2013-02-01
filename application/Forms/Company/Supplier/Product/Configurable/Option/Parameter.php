@@ -5,16 +5,16 @@ class Parameter extends \Zend_Form
 {    
     private $_Parameter;
     
-    public function __construct($options = null, \Entities\Company\Supplier\Product\Configurable\Option\Parameter $Parameter = null)
+    public function __construct(\Entities\Company\Supplier\Product\Configurable\Option\Parameter $Parameter, $options = null)
     {
 	$this->_Parameter = $Parameter;
 	
-	parent::__construct($options, $this->_Parameter);
+	parent::__construct($options);
     }
     
     public function init($options = array())
     {	
-        $form = new Parameter\Subform($options, $this->_Parameter);
+        $form = new Parameter\Subform($this->_Parameter, $options);
 	
 	$this->addSubForm($form, "company_supplier_product_configurable_option_parameter");
 	

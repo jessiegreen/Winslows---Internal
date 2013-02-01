@@ -5,7 +5,7 @@ class Subform extends \Zend_Form_SubForm
 {
     private $_PhoneNumber;
     
-    public function __construct($options = null, \Entities\Company\PhoneNumber\PhoneNumberAbstract $PhoneNumber = null)
+    public function __construct(\Entities\Company\PhoneNumber\PhoneNumberAbstract $PhoneNumber, $options = null)
     {
 	$this->_PhoneNumber = $PhoneNumber;
 	
@@ -28,7 +28,6 @@ class Subform extends \Zend_Form_SubForm
             'required'	    => true,
             'label'	    => 'Type:',
 	    'multioptions'  => $type_options,
-	    'belongsTo'	    => "phone",
 	    'value'	    => $this->_PhoneNumber ? $this->_PhoneNumber->getType() : ""
         ));
 	
@@ -40,7 +39,6 @@ class Subform extends \Zend_Form_SubForm
 		),
 		'value'		=> $this->_PhoneNumber ? $this->_PhoneNumber->getAreaCode()."-".$this->_PhoneNumber->getNum1()."-".$this->_PhoneNumber->getNum2() : "",
 		'required'	=> true,
-		'belongsTo'	=> "phone",
 		'class'		=> 'phonenumber'
 	));
 	
@@ -52,8 +50,9 @@ class Subform extends \Zend_Form_SubForm
             'label'	    => 'Extension:',
 	    'size'	    => 7,
 	    'maxlength'	    => 7,
-	    'belongsTo'	    => "phone",
 	    'value'	    => $this->_PhoneNumber ? $this->_PhoneNumber->getExtension() : ""
         ));
+	
+	$this->setElementsBelongTo("company_phone_number");
     }
 }

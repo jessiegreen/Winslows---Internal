@@ -1,21 +1,12 @@
 <?php
 namespace Forms\Company\Employee;
-/**
- * Name:
- * Location:
- *
- * Description for class (if any)...
- *
- * @author     Jessie Green <jessie.winslows@gmail.com>
- * @copyright  2012 Winslows inc.
- * @version    Release: @package_version@
- */
+
 class Account extends \Dataservice_Form
 {
     private $_Account;
     private $_safe;
     
-    public function __construct($options = null, \Entities\Company\Website\Account\AccountAbstract $Account = null, $safe = true)
+    public function __construct(\Entities\Company\Website\Account\AccountAbstract $Account, $options = null, $safe = true)
     {
 	$this->_Account	    = $Account;
 	$this->_safe	    = $safe;
@@ -25,7 +16,7 @@ class Account extends \Dataservice_Form
     
     public function init($options = array())
     {
-	$form = new Account\Subform($options, $this->_Account, $this->_safe);
+	$form = new Account\Subform($this->_Account, $options, $this->_safe);
 	
 	$this->addSubForm($form, "company_employee_account");
 	

@@ -17,10 +17,11 @@ class Subform extends \Forms\Company\Website\SubForm
 	$this->addElement(new \Dataservice_Form_Element_CompanySelect("company_id", array(
             'required'	    => true,
             'label'	    => 'Company:',
-	    'belongsTo'	    => 'company_website',
 	    'value'	    => $this->_Website && $this->_Website->getCompany() ? $this->_Website->getCompany()->getId() : ""
         )));
 	
 	parent::init();
+	
+	$this->setElementsBelongTo("company_website");
     }
 }

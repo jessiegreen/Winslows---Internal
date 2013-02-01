@@ -5,7 +5,7 @@ class Subform extends \Zend_Form_SubForm
 {
     private $_Location;
     
-    public function __construct($options = null, \Entities\Company\Location\LocationAbstract $Location = null)
+    public function __construct(\Entities\Company\Location\LocationAbstract $Location, $options = null)
     {
 	$this->_Location = $Location;
 	
@@ -27,7 +27,6 @@ class Subform extends \Zend_Form_SubForm
 	$this->addElement('text', 'name', array(
             'required'	    => true,
             'label'	    => 'Name:',
-	    'belongsTo'	    => 'location',
 	    'value'	    => $this->_Location ? $this->_Location->getName() : ""
         ));
 	
@@ -35,8 +34,9 @@ class Subform extends \Zend_Form_SubForm
             'required'	    => true,
             'label'	    => 'Type:',
 	    'multioptions'  => $type_options,
-	    'belongsTo'	    => "location",
 	    'value'	    => $this->_Location ? $this->_Location->getType() : ""
         ));
+	
+	$this->setElementsBelongTo("company_location");
     }
 }

@@ -5,7 +5,7 @@ class RtoProvider extends \Dataservice_Form
 {    
     private $_RtoProvider;
     
-    public function __construct($options = null, \Entities\Company\RtoProvider $RtoProvider = null)
+    public function __construct(\Entities\Company\RtoProvider $RtoProvider, $options = null)
     {
 	$this->_RtoProvider = $RtoProvider;
 	
@@ -14,7 +14,7 @@ class RtoProvider extends \Dataservice_Form
     
     public function init($options = array())
     {	
-        $form = new RtoProvider\Subform($options, $this->_RtoProvider);
+        $form = new RtoProvider\Subform($this->_RtoProvider, $options);
 	
 	$this->addSubForm($form, "company_rto_provider");
 	

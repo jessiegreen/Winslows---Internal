@@ -148,4 +148,9 @@ class Entity extends \Dataservice_Service_ServiceAbstract
 	
 	return $reader->getClassAnnotation($classReflection, $annotation);
     }
+    
+    public function find($entityClass, $id)
+    {
+	return $this->_em->find($entityClass, $id);
+    }
 }

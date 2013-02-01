@@ -1,15 +1,6 @@
 <?php
 namespace Forms\Company\Lead\Quote\Item;
-/**
- * Name:
- * Location:
- *
- * Description for class (if any)...
- *
- * @author     Jessie Green <jessie.winslows@gmail.com>
- * @copyright  2012 Winslows inc.
- * @version    Release: @package_version@
- */
+
 class Subform extends \Zend_Form_SubForm
 {    
     private $_Item;
@@ -30,8 +21,7 @@ class Subform extends \Zend_Form_SubForm
 		    "label"	=> "Name",
 		    "description" => "Customer friendly name for the Item. (Optional)",
 		    "required"	=> false,
-		    "value"	=> $this->_Item ? $this->_Item->getName() : "",
-		    "belongsTo" => "company_lead_quote_item",
+		    "value"	=> $this->_Item ? $this->_Item->getName() : ""
 		)
 	    );
 	
@@ -39,7 +29,6 @@ class Subform extends \Zend_Form_SubForm
 	{
 	    $this->addElement(new \Dataservice_Form_Element_Company_Supplier_ProductRadio("product_id", array(
 		'label'	    => 'Product:',
-		'belongsTo' => 'company_lead_quote_item',
 		'value'	    => $this->_Item && $this->_Item->getInstance() && $this->_Item->getInstance()->getProduct()
 				    ? $this->_Item->getInstance()->getProduct()->getId() 
 				    : ""
@@ -54,7 +43,6 @@ class Subform extends \Zend_Form_SubForm
 		    "required"	=> true,
 		    "value"	=> $this->_Item && $this->_Item->getInstance() && $this->_Item->getInstance()->getProduct()
 				    ? $this->_Item->getInstance()->getProduct()->getId() : "",
-		    "belongsTo" => "company_lead_quote_item",
 		    'decorators' => array('ViewHelper')
 		)
 	    );
@@ -62,7 +50,6 @@ class Subform extends \Zend_Form_SubForm
 	
 	$this->addElement(new \Dataservice_Form_Element_Company_Lead_Quote_Item_SaleTypeSelect("sale_type_id", array(
 		'label'		=> 'Sale Type:',
-		'belongsTo'	=> 'company_lead_quote_item',
 		'validators'	=> array(new \Dataservice_Validate_Company_Lead_Quote_Item_SaleType()),
 		'value'		=> $this->_Item && $this->_Item->getSaleType() && $this->_Item->getSaleType()->getId()
 				    ? $this->_Item->getSaleType()->getId() 
@@ -81,11 +68,12 @@ class Subform extends \Zend_Form_SubForm
 		    "label"	    => "Quantity:",
 		    "required"	    => true,
 		    "value"	    => $this->_Item ? $this->_Item->getQuantity() : 0,
-		    "multioptions"  => $options,
-		    "belongsTo"	    => "company_lead_quote_item",
+		    "multioptions"  => $options
 		)
 	    );
 	
 	parent::init();
+	
+	$this->setElementsBelongTo("company_lead_quote_item");
     }
 }

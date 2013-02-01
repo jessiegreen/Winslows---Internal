@@ -17,12 +17,13 @@ class Subform extends \Forms\Company\File\Image\Subform
 	$this->addElement(new \Dataservice_Form_Element_Company_Supplier_Product_CategorySelect("category_id", array(
             'required'	    => false,
             'label'	    => 'Category:',
-	    'belongsTo'	    => 'company_supplier_product_category_file_image',
 	    'value'	    => $this->_Image && $this->_Image->getCategory() ? 
 				$this->_Image->getCategory()->getId() : 
 				""
         )));
 	
 	parent::init();
+	
+	$this->setElementsBelongTo("company_supplier_product_category_file_image");
     }
 }

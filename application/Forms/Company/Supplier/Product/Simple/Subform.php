@@ -17,10 +17,11 @@ class Subform extends \Forms\Company\Supplier\Product\Subform
 	$this->addElement('text', 'price', array(
             'required'	    => true,
             'label'	    => 'Price:',
-	    'belongsTo'	    => 'simpleproduct',
 	    'value'	    => $this->_Simple ? $this->_Simple->getPrice() : ""
         ));
 	
 	parent::init($options);
+	
+	$this->setElementsBelongTo("company_supplier_product_simple");
     }
 }

@@ -5,7 +5,7 @@ class Privilege extends \Zend_Form
 {
     private $_Privilege;
     
-    public function __construct($options = null, \Entities\Privilege $Privilege = null)
+    public function __construct(\Entities\Privilege $Privilege, $options = null)
     {
 	$this->_Privilege = $Privilege;
 	
@@ -18,7 +18,6 @@ class Privilege extends \Zend_Form
 	{
 	    $id = $this->addElement('hidden', 'id', array(
 		'required'  => true,
-		'belongsTo' => 'privilege',
 		'value'	    => $this->_Privilege ? $this->_Privilege->getId() : ""
 	    ));
 	}
@@ -26,7 +25,6 @@ class Privilege extends \Zend_Form
 	$this->addElement('text', 'name', array(
             'required'	    => true,
             'label'	    => 'Name:',
-	    'belongsTo'	    => 'privilege',
 	    'value'	    => $this->_Privilege ? $this->_Privilege->getName() : ""
         ));
 	
@@ -34,5 +32,6 @@ class Privilege extends \Zend_Form
             'ignore'   => true,
         ));
 
+	$this->setElementsBelongTo("company_website_role_privilege");
     }
 }

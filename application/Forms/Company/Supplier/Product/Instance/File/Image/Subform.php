@@ -16,10 +16,11 @@ class Subform extends \Forms\Company\File\Image\Subform
     {
 	$this->addElement('hidden', 'instance_id', array(
             'required'	    => true,
-	    'belongsTo'	    => 'company_supplier_product_instance_file_image',
 	    'value'	    => $this->_Image ? $this->_Image->getInstance()->getId() : ""
         ));
 	
 	parent::init();
+	
+	$this->setElementsBelongTo("company_supplier_product_instance_file_image");
     }
 }

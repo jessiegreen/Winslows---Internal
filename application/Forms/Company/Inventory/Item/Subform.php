@@ -18,7 +18,6 @@ class Subform extends \Zend_Form_SubForm
 		$this->_Item->getInventory()->getCompany(),
 		"location_id", array(
 		    'label'	    => 'Location:',
-		    'belongsTo'	    => 'company_inventory_item',
 		    'value'	    => $this->_Item && $this->_Item->getLocation() ? $this->_Item->getLocation() : ""
 		)));
 	
@@ -34,11 +33,12 @@ class Subform extends \Zend_Form_SubForm
 		    "label"	    => "Quantity:",
 		    "required"	    => true,
 		    "value"	    => $this->_Item ? $this->_Item->getQuantity() : 0,
-		    "multioptions"  => $options,
-		    "belongsTo"	    => "quote",
+		    "multioptions"  => $options
 		)
 	    );
 	
 	parent::init();
+	
+	$this->setElementsBelongTo("company_inventory_item");
     }
 }

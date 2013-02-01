@@ -9,7 +9,7 @@ class Employee extends \Dataservice_Form
     {
 	$this->_Employee = $Employee;
 	
-	parent::__construct($options, $this->_Employee);
+	parent::__construct($options);
     }
     
     public function init($options = array())

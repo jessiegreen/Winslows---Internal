@@ -286,4 +286,17 @@ class Lead extends PersonAbstract
     {
 	return parent::toString()." - ".$this->getEmployee()->getFullName();
     }
+    
+    public function populate(array $array)
+    {
+	$Company = $this->_getEntityFromArray($array, "Entities\Company", "company_id");
+	
+	if($Company)$this->setCompany($Company);
+	
+	$Employee = $this->_getEntityFromArray($array, "Entities\Company\Employee", "employee_id");
+	
+	if($Employee)$this->setEmployee($Employee);
+	
+	parent::populate($array);
+    }
 }

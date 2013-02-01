@@ -5,7 +5,7 @@ class Subform extends \Zend_Form_SubForm
 {
     private $_FaxNumber;
     
-    public function __construct($options = null, \Entities\Company\FaxNumber\FaxNumberAbstract $FaxNumber = null)
+    public function __construct(\Entities\Company\FaxNumber\FaxNumberAbstract $FaxNumber, $options = null)
     {
 	$this->_FaxNumber = $FaxNumber;
 	
@@ -27,5 +27,7 @@ class Subform extends \Zend_Form_SubForm
 	));
 	
 	$this->addElement($fax_number);
+	
+	$this->setElementsBelongTo("company_fax_number");
     }
 }

@@ -1,28 +1,20 @@
 <?php
 namespace Forms\Company\Lead;
-/**
- * Name:
- * Quote:
- *
- * Description for class (if any)...
- *
- * @author     Jessie Green <jessie.winslows@gmail.com>
- * @copyright  2012 Winslows inc.
- * @version    Release: @package_version@
- */
+
 class Quote extends \Dataservice_Form
 {    
     private $_Quote;
     
-    public function __construct($options = null, \Entities\Company\Lead\Quote $Quote = null)
+    public function __construct(\Entities\Company\Lead\Quote $Quote, $options = null)
     {
 	$this->_Quote = $Quote;
+	
 	parent::__construct($options, $this->_Quote);
     }
     
     public function init($options = array())
     {	
-        $form = new Quote\Subform($options, $this->_Quote);
+        $form = new Quote\Subform($this->_Quote, $options);
 	
 	$this->addSubForm($form, "company_lead_quote");
 	

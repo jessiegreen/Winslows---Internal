@@ -17,10 +17,11 @@ class Subform extends \Forms\Company\EmailAddress\Subform
 	$this->addElement('hidden', 'lead_id', array(
             'required'	    => true,
             'label'	    => '',
-	    'belongsTo'	    => "company_lead_email_address",
 	    'value'	    => $this->_EmailAddress && $this->_EmailAddress->getLead() ? $this->_EmailAddress->getLead()->getId() : ""
         ));
 	
 	parent::init($options);
+	
+	$this->setElementsBelongTo("company_lead_email_address");
     }
 }

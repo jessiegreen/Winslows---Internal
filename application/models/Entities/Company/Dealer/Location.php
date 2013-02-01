@@ -1,5 +1,4 @@
 <?php
-
 namespace Entities\Company\Dealer;
 
 /**
@@ -31,5 +30,14 @@ class Location extends \Entities\Company\Location\LocationAbstract
     public function setDealer(\Entities\Company\Dealer $Dealer)
     {
 	$this->Dealer = $Dealer;
+    }
+    
+    public function populate(array $array)
+    {
+	$Dealer = $this->_getEntityFromArray($array, "Entities\Company\Dealer", "dealer_id");
+	
+	if($Dealer)$this->setDealer($Dealer);
+	
+	parent::populate($array);
     }
 }

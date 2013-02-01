@@ -5,7 +5,7 @@ class Company extends \Dataservice_Form
 {    
     private $_Company;
     
-    public function __construct($options = null, \Entities\Company $Company = null)
+    public function __construct(\Entities\Company $Company, $options = null)
     {
 	$this->_Company = $Company;
 	
@@ -14,7 +14,7 @@ class Company extends \Dataservice_Form
     
     public function init($options = array())
     {	
-        $form = new Company\Subform($options, $this->_Company);
+        $form = new Company\Subform($this->_Company, $options);
 	
 	$this->addSubForm($form, "company");
 	

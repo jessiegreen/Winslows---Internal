@@ -10,5 +10,7 @@ class Subform extends \Forms\Company\RtoProvider\Fee\Subform
 	$this->_Range = $Range;
 	
 	parent::__construct($Range, $options);
+	
+	$this->setElementsBelongTo("company_rto_provider_fee_range");
     }
 }

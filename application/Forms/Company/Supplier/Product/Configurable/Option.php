@@ -5,7 +5,7 @@ class Option extends \Dataservice_Form
 {    
     private $_Option;
     
-    public function __construct($options = null, \Entities\Company\Supplier\Product\Configurable\Option $Option = null)
+    public function __construct(\Entities\Company\Supplier\Product\Configurable\Option $Option, $options = null)
     {
 	$this->_Option = $Option;
 	
@@ -14,7 +14,7 @@ class Option extends \Dataservice_Form
     
     public function init($options = array())
     {	
-        $form = new Option\Subform($options, $this->_Option);
+        $form = new Option\Subform($this->_Option, $options);
 	
 	$this->addSubForm($form, "company_supplier_product_configurable_option");
 	

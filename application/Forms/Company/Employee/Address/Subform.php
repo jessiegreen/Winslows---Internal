@@ -17,10 +17,11 @@ class Subform extends \Forms\Company\Address\Subform
 	$this->addElement(new \Dataservice_Form_Element_Company_Employee_Select("employee_id", array(
             'required'	    => true,
             'label'	    => 'Employee:',
-	    'belongsTo'	    => 'company_employee_address',
 	    'value'	    => $this->_Address && $this->_Address->getEmployee() ? $this->_Address->getEmployee()->getId() : ""
         )));
 	
 	parent::init($options);
+	
+	$this->setElementsBelongTo('company_employee_address');
     }
 }

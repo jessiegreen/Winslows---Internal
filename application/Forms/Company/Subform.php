@@ -5,7 +5,7 @@ class Subform extends \Zend_Form_SubForm
 {
     private $_Company;
     
-    public function __construct($options = null, \Entities\Company $Company = null)
+    public function __construct(\Entities\Company $Company, $options = null)
     {
 	$this->_Company = $Company;
 	
@@ -17,31 +17,29 @@ class Subform extends \Zend_Form_SubForm
 	$this->addElement('text', 'name', array(
             'required'	    => true,
             'label'	    => 'Name:',
-	    'belongsTo'	    => 'company',
 	    'value'	    => $this->_Company ? $this->_Company->getName() : ""
         ));
 	
 	$this->addElement('text', 'dba', array(
             'required'	    => true,
             'label'	    => 'DBA:',
-	    'belongsTo'	    => 'company',
 	    'value'	    => $this->_Company ? $this->_Company->getDba() : ""
         ));
 	
 	$this->addElement('text', 'name_index', array(
             'required'	    => true,
             'label'	    => 'Name Index:',
-	    'belongsTo'	    => 'company',
 	    'value'	    => $this->_Company ? $this->_Company->getNameIndex() : ""
         ));
 	
 	$this->addElement('textarea', 'description', array(
             'required'	    => false,
             'label'	    => 'Description:',
-	    'belongsTo'	    => 'company',
 	    'rows'	    => '10',
 	    'cols'	    => '35',
 	    'value'	    => $this->_Company ? $this->_Company->getDescription() : ""
         ));
+	
+	$this->setElementsBelongTo("company");
     }
 }

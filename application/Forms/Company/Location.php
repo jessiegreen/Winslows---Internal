@@ -5,7 +5,7 @@ class Location extends \Zend_Form
 {    
     private $_Location;
     
-    public function __construct($options = null, \Entities\Company\Location $Location = null)
+    public function __construct(\Entities\Company\Location $Location, $options = null)
     {
 	$this->_Location = $Location;
 	
@@ -14,7 +14,7 @@ class Location extends \Zend_Form
     
     public function init($options = array())
     {	
-        $form = new Location\Subform($options, $this->_Location);
+        $form = new Location\Subform($this->_Location, $options);
 	
 	$this->addSubForm($form, "company_location");
 	

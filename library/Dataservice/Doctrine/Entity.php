@@ -61,6 +61,25 @@ class Dataservice_Doctrine_Entity
 	}
     }
     
+    /**
+     * @param array $array
+     * @param \Doctrine\ORM\EntityManager $em
+     * @param type $entityClass
+     * @param type $idIndex
+     * @return null
+     */
+    protected function _getEntityFromArray($array, $entityClass, $idIndex)
+    {
+	$id = isset($array[$idIndex]) && $array[$idIndex] ? $array[$idIndex] : null;
+	
+	if($id)
+	{
+	    return \Services\Company\Entity::factory()->find($entityClass, $id);
+	}
+	
+	return null;
+    }
+    
     public function filterCollectionByfield(\Doctrine\Common\Collections\ArrayCollection $ArrayCollection, $field, $value)
     {
 	$method = "get".ucfirst(strtolower($field));
@@ -199,10 +218,22 @@ class Dataservice_Doctrine_Entity
      */
     public function getEditForm()
     {
-	$FormClass  = "\\".str_replace("Entities", "Forms", $this->getClass());
-
+	$FormClass  = $this->getEditFormClass();
 	$Form	    = new $FormClass($this, array("method" => "post"));
 	
 	return $Form;
+    }
+    
+    public function getEditFormClass()
+    {
+	return "\\".str_replace("Entities", "Forms", $this->getClass());
+    }
+    
+    public function getEditSubform()
+    {
+	$SubformClass	= $this->getEditFormClass()."\\Subform";
+	$Subform	= new $SubformClass($this);
+	
+	return $Subform;
     }
 }

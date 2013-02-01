@@ -1,6 +1,6 @@
 <?php
-
 namespace Entities\Company;
+
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -180,5 +180,14 @@ class Dealer extends \Dataservice_Doctrine_Entity
     public function toString()
     {
 	return $this->getName();
+    }
+    
+    public function populate(array $array)
+    {
+	$Company = $this->_getEntityFromArray($array, "Entities\Company", "company_id");
+	
+	if($Company)$this->setCompany($Company);
+	
+	parent::populate($array);
     }
 }

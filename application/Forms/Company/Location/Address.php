@@ -5,7 +5,7 @@ class Address extends \Zend_Form
 {    
     private $_Address;
     
-    public function __construct($options = null, \Entities\Company\Location\Address $Address = null)
+    public function __construct(\Entities\Company\Location\Address $Address, $options = null)
     {
 	$this->_Address = $Address;
 	
