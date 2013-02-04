@@ -1,5 +1,4 @@
 <?php
-
 namespace Entities\Company\RtoProvider;
 
 use Doctrine\Common\Collections\ArrayCollection;

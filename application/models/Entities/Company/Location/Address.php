@@ -10,25 +10,35 @@ namespace Entities\Company\Location;
 class Address extends \Entities\Company\Address\AddressAbstract
 {
     /** 
-     * @OneToOne(targetEntity="\Entities\Company\Location\LocationAbstract", inversedBy="Address")
-     * @var \Entities\Company\Location\LocationAbstract $Location 
+     * @OneToOne(targetEntity="\Entities\Company\Location", inversedBy="Address")
+     * @Crud\Relationship\Permissions()
+     * @var \Entities\Company\Location $Location 
      */     
     protected $Location;
     
     /**
      * Add Location to address.
-     * @param \Entities\Company\Location\LocationAbstract $Location
+     * @param \Entities\Company\Location $Location
      */
-    public function setLocation(\Entities\Company\Location\LocationAbstract $Location)
+    public function setLocation(\Entities\Company\Location $Location)
     {
         $this->Location = $Location;
     }
     
     /**
-     * @return \Entities\Company\Location\LocationAbstract
+     * @return \Entities\Company\Location
      */
     public function getLocation()
     {
 	return $this->Location;
+    }
+    
+    public function populate(array $array)
+    {
+	$Location = $this->_getEntityFromArray($array, "Entities\Company\Dealer\Location", "location_id");
+	
+	if($Location)$this->setLocation($Location);
+	
+	parent::populate($array);
     }
 }

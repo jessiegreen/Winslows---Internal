@@ -1,12 +1,12 @@
 <?php
 namespace Entities\Company\Lead;
+
 /** 
  * @Entity (repositoryClass="Repositories\Company\Lead\EmailAddress") 
  * @Crud\Entity\Url(value="lead-email-address")
  * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  * @Table(name="company_lead_email_addresses") 
  */
-
 class EmailAddress extends \Entities\Company\EmailAddress\EmailAddressAbstract
 {
     /** 

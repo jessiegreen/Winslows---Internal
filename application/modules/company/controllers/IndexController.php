@@ -9,5 +9,15 @@ class Company_IndexController extends Dataservice_Controller_Crud_Action
 	
 	$this->view->Account = $this->_Website->getCurrentUserAccount(\Zend_Auth::getInstance());
     }
+    
+    public function viewAction()
+    {
+	if(!$this->_getParam("id") && !$this->_Entity->getId())
+	{
+	    $this->_Entity = $this->_Website->getCompany();
+	}
+	
+	parent::viewAction();
+    }
 }
 

@@ -5,11 +5,11 @@ class Address extends \Dataservice_Form
 {    
     private $_Address;
     
-    public function __construct(\Entities\Company\Location\Address $Address, $options = null)
+    public function __construct(\Entities\Company\Dealer\Location\Address $Address, $options = null)
     {
 	$this->_Address = $Address;
 	
-	parent::__construct($options, $this->_Address);
+	parent::__construct($this->_Address, $options);
     }
     
     public function init($options = array())

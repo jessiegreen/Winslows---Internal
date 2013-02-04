@@ -13,14 +13,17 @@ use \Doctrine\Common\Collections\ArrayCollection;
  *			"company_employee_address" = "\Entities\Company\Employee\Address", 
  *			"company_supplier_address" = "\Entities\Company\Supplier\Address", 
  *			"company_location_address" = "\Entities\Company\Location\Address",
+ *			"company_dealer_location_address" = "\Entities\Company\Dealer\Location\Address",
  *			"company_lead_emailaddress" = "\Entities\Company\Lead\EmailAddress",
  *			"company_employee_emailaddress" = "\Entities\Company\Employee\EmailAddress",
  *			"company_lead_faxnumber" = "\Entities\Company\Lead\FaxNumber",
  *			"company_employee_faxnumber" = "\Entities\Company\Employee\FaxNumber",
  *			"company_location_faxnumber" = "\Entities\Company\Location\FaxNumber",
+ *			"company_dealer_location_faxnumber" = "\Entities\Company\Dealer\Location\FaxNumber",
  *			"company_lead_phonenumber" = "\Entities\Company\Lead\PhoneNumber", 
  *			"company_employee_phonenumber" = "\Entities\Company\Employee\PhoneNumber", 
- *			"company_location_phonenumber" = "\Entities\Company\Location\PhoneNumber"
+ *			"company_location_phonenumber" = "\Entities\Company\Location\PhoneNumber",
+ *			"company_dealer_location_phonenumber" = "\Entities\Company\Dealer\Location\PhoneNumber"
  *		    })
  * @HasLifecycleCallbacks
  */

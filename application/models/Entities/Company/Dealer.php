@@ -45,6 +45,7 @@ class Dealer extends \Dataservice_Doctrine_Entity
     
     /** 
      * @ManyToOne(targetEntity="\Entities\Company", inversedBy="Dealers")
+     * @Crud\Relationship\Permissions()
      * @var \Entities\Company $Company
      */  
     protected $Company;
@@ -53,6 +54,7 @@ class Dealer extends \Dataservice_Doctrine_Entity
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="\Entities\Company\Dealer\Location", mappedBy="Dealer", cascade={"persist"})
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var ArrayCollection $Locations
      */
     protected $Locations;

@@ -1,5 +1,5 @@
 <?php
-namespace Forms\Company\Location;
+namespace Forms\Company\Location\LocationAbstract;
 
 class Subform extends \Zend_Form_SubForm
 {

@@ -20,6 +20,27 @@ class Location extends \Entities\Company\Location\LocationAbstract
     protected $Company;
     
     /**
+     * @OneToOne(targetEntity="\Entities\Company\Location\Address", mappedBy="Location", cascade={"persist"}, orphanRemoval=true)
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
+     * @var Entities\Company\Location\Address $Address
+     */
+    protected $Address;
+    
+    /**
+     * @OneToOne(targetEntity="\Entities\Company\Location\PhoneNumber", mappedBy="Location", cascade={"persist"}, orphanRemoval=true)
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
+     * @var \Entities\Company\Location\PhoneNumber $PhoneNumber
+     */
+    protected $PhoneNumber;
+    
+    /**
+     * @OneToOne(targetEntity="\Entities\Company\Location\FaxNumber", mappedBy="Location", cascade={"persist"}, orphanRemoval=true)
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
+     * @var \Entities\Company\Location\FaxNumber $FaxNumber
+     */
+    protected $FaxNumber;
+    
+    /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="\Entities\Company\Employee", mappedBy="Location", cascade={"persist"})
@@ -57,6 +78,7 @@ class Location extends \Entities\Company\Location\LocationAbstract
     public function addEmployee(\Entities\Company\Employee $Employee)
     {
 	$Employee->setLocation($this);
+	
         $this->Employees[] = $Employee;
     }
     
@@ -66,5 +88,59 @@ class Location extends \Entities\Company\Location\LocationAbstract
     public function getEmployees()
     {
 	return $this->Employees;
+    }
+    
+    /**
+     * @param \Entities\Company\Location\PhoneNumber $PhoneNumber
+     */
+    public function setPhoneNumber(\Entities\Company\Location\PhoneNumber $PhoneNumber)
+    {
+	$PhoneNumber->setLocation($this);
+	
+        $this->PhoneNumber = $PhoneNumber;
+    }
+    
+    /**
+     * @return \Entities\Company\Location\PhoneNumber
+     */
+    public function getPhoneNumber()
+    {
+        return $this->PhoneNumber;
+    }
+    
+    /**
+     * @param \Entities\Company\Location\FaxNumber $FaxNumber
+     */
+    public function setFaxNumber(\Entities\Company\Location\FaxNumber $FaxNumber)
+    {
+	$FaxNumber->setLocation($this);
+	
+        $this->FaxNumber = $FaxNumber;
+    }
+    
+    /**
+     * @return \Entities\Company\Location\FaxNumber
+     */
+    public function getFaxNumber()
+    {
+        return $this->FaxNumber;
+    }
+
+    /**
+     * @param \Entities\Company\Location\Address $Address
+     */
+    public function setAddress(\Entities\Company\Location\Address $Address)
+    {
+	$Address->setLocation($this);
+	
+        $this->Address = $Address;
+    }
+    
+    /**
+     * @return \Entities\Company\Location\Address
+     */
+    public function getAddress()
+    {
+        return $this->Address;
     }
 }

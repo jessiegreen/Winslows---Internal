@@ -44,7 +44,7 @@ class Dataservice_Controller_Crud_Action extends Dataservice_Controller_Action
 	}
     }
     
-    protected function _setEntityRequired()
+    protected function _requireEntity()
     {
 	if(!$this->_Entity || !$this->_Entity->getId())
 	{
@@ -55,7 +55,7 @@ class Dataservice_Controller_Crud_Action extends Dataservice_Controller_Action
     
     protected function _deleteEntity()
     {
-	$this->_setEntityRequired();
+	$this->_requireEntity();
 	
 	try 
 	{
@@ -86,7 +86,7 @@ class Dataservice_Controller_Crud_Action extends Dataservice_Controller_Action
     
     public function viewAction()
     {
-	$this->_setEntityRequired();
+	$this->_requireEntity();
     }
     
     public function editAction()

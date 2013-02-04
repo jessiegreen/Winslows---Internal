@@ -9,7 +9,6 @@ echo CRUD\Header::factory("Company - View")->getHtml();
 $Company	= $this->Company;
 
 CRUD\Body::factory()->start();
-
 CRUD\Tabs::factory()
 	->addEntityViewTab("Information", $Company)
 	->addRelationshipViewTab($Company, "Leads")

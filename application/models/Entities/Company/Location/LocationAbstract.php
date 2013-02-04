@@ -35,20 +35,6 @@ class LocationAbstract extends \Dataservice_Doctrine_Entity
      * @var string $type
      */
     protected $type;
-
-    /**
-     * @OneToOne(targetEntity="\Entities\Company\Location\Address", mappedBy="Location", cascade={"persist"}, orphanRemoval=true)
-     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
-     * @var Entities\Company\Location\Address $Address
-     */
-    protected $Address;
-    
-    /**
-     * @OneToOne(targetEntity="\Entities\Company\Location\PhoneNumber", mappedBy="Location", cascade={"persist"}, orphanRemoval=true)
-     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
-     * @var \Entities\Company\Location\PhoneNumber $PhoneNumber
-     */
-    protected $PhoneNumber;
     
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
@@ -103,40 +89,6 @@ class LocationAbstract extends \Dataservice_Doctrine_Entity
     public function setName($name)
     {
         $this->name = $name;
-    }
-    
-    /**
-     * @param \Entities\Company\Location\PhoneNumber $PhoneNumber
-     */
-    public function setPhoneNumber(\Entities\Company\Location\PhoneNumber $PhoneNumber)
-    {
-	$PhoneNumber->setLocation($this);
-        $this->PhoneNumber = $PhoneNumber;
-    }
-    
-    /**
-     * @return \Entities\Company\Location\PhoneNumber
-     */
-    public function getPhoneNumber()
-    {
-        return $this->PhoneNumber;
-    }
-
-    /**
-     * @param \Entities\Company\Location\Address $Address
-     */
-    public function setAddress(\Entities\Company\Location\Address $Address)
-    {
-	$Address->setLocation($this);
-        $this->Address = $Address;
-    }
-    
-    /**
-     * @return \Entities\Company\Location\Address
-     */
-    public function getAddress()
-    {
-        return $this->Address;
     }
     
     /**

@@ -59,8 +59,6 @@ class Dataservice_Controller_Action extends Zend_Controller_Action
 	return false;
     }
     
-    
-    
     protected function _setCurrentWebsite()
     {
 	$this->_Website	= Services\Company\Website::factory()->getCurrentWebsite();

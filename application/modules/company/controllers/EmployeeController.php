@@ -15,7 +15,7 @@ class Company_EmployeeController extends Dataservice_Controller_Crud_Action
     
     public function clockPunchAction()
     {
-	$this->_setEntityRequired();
+	$this->_requireEntity();
 	
 	try
 	{

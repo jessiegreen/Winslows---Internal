@@ -9,7 +9,6 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @Crud\Entity\Url(value="lead-quote")
  * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
-
 class Quote extends Quote\QuoteAbstract
 {    
     /** 

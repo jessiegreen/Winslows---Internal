@@ -211,7 +211,7 @@ abstract class AddressAbstract extends \Entities\Company\Contact\MediumAbstract
      */
     public function setLatitude($latitude = null)
     {
-	if(!$latitude)
+	if(!$latitude && $this->toString())
 	{
 	    $array = \Dataservice\Map::getLatLongFromAddress($this->toString());
 	    
@@ -243,7 +243,7 @@ abstract class AddressAbstract extends \Entities\Company\Contact\MediumAbstract
      */
     public function setLongitude($longitude = null)
     {
-	if(!$longitude)
+	if($this->toString() && !$longitude)
 	{
 	    $array = \Dataservice\Map::getLatLongFromAddress($this->toString());
 	    

@@ -1,5 +1,6 @@
 <?php
 namespace Entities\Company\RtoProvider\Fee;
+
 /** 
  * @Entity (repositoryClass="Repositories\Company\RtoProvider\Fee\Range") 
  * @Table(name="company_rtoprovider_fee_ranges") 

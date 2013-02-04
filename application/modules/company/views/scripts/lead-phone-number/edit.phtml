@@ -1,10 +1,1 @@
-<?php echo($this->flashMessages()); ?>
-<h1 class="header1">
-    Lead Phone Number - 
-    <?php echo $this->PhoneNumber->getId() ? "Edit" : "Add";?>
-</h1>
-<div class="padded_frame" style="padding-top: 0;padding-left: 0;">
-    <?php
-    echo $this->form;
-    ?>
-</div>
+<?php $this->CRUD_Edit("Lead Phone Number", $this->PhoneNumber);

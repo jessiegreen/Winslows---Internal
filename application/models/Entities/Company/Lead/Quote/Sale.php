@@ -3,6 +3,8 @@ namespace Entities\Company\Lead\Quote;
 
 /** 
  * @Entity (repositoryClass="Repositories\Company\Lead\Quote\Sale") 
+ * @Crud\Entity\Url(value="lead-quote-sale")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  * @Table(name="company_lead_quote_sales") 
  */
 class Sale extends \Entities\Company\Sale\SaleAbstract

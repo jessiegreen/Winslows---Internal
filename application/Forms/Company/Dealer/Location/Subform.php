@@ -1,7 +1,7 @@
 <?php
 namespace Forms\Company\Dealer\Location;
 
-class Subform extends \Forms\Company\Location\Subform
+class Subform extends \Forms\Company\Location\LocationAbstract\Subform
 {
     private $_Location;
     
@@ -9,7 +9,7 @@ class Subform extends \Forms\Company\Location\Subform
     {
 	$this->_Location = $Location;
 	
-	parent::__construct($options, $Location);
+	parent::__construct($Location, $options);
     }
     
     public function init()
