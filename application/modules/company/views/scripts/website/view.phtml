@@ -1,171 +1,49 @@
 <?php 
+use Dataservice\Html\CRUD;
+
 echo($this->flashMessages()); 
-echo "<div>";
-echo \Dataservice\Html\Anchor::backAnchorIcon("Company - view", "/index/view/id/".$this->Website->getCompany()->getId());
-echo "</div>";
-?>
-<h1 class="header1">Website - View</h1>
-<?php
-/* @var $Menu \Entities\Company\Website\WebsiteAbstract */
-$Website    = $this->Website;
-$website_id = $Website->getId();
-?>
-<div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
-    <h3 class="no_space" style="color: #2000EE;">
-	Info
-	<?php
-	echo \Dataservice\Html\Anchor::anchorIcon(
-		"pencil.png", 
+
+echo CRUD\Header::factory("Website - View")->getHtml();
+
+$Website = $this->Website;
+
+CRUD\Body::factory()->start();
+
+$Tabs = CRUD\Tabs::factory();
+
+$Tabs->addEntityViewTab("Information", $Website)
+    ->addRelationshipViewTab($Website, "Company")
+    ->addRelationshipViewTab($Website, "Menus");
+
+$Tab = CRUD\Tabs\Tab::factory("Resources");
+
+$relationshipContent = CRUD\Content\Relationship\OneToMany::factory($Website, "Resources");
+
+$relationshipContent->addHtmlHeaderContent($relationshipContent->relationshipClassName);
+$relationshipContent->addHtmlHeaderContent(
+	\Dataservice\Html\Anchor::manageIcon(
 		"", 
-		"/website/edit/id/".$website_id,
-		"margin-left:5px;",
-		"Edit Website"
-		);
-	?>
-    </h3>
-    <div>
-	<label>Name:</label> <?php echo $Website->getName(); ?> &nbsp;&nbsp;&nbsp;
-    </div>
-</div>
-<div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">
-    <div id="accordion">
-	<h3>
-	    <a href="#">Menus</a>
-	    <?php 
-	    echo \Dataservice\Html\Button::buttonBlue(
-		    "add.png", 
-		    "Add Menu", 
-		    "menu_add", 
-		    "float:right;margin-right:5px;"
-		    );
-	    ?>
-	</h3>
-	<div>
-	    <ul>
-	    <?php
-	    /* @var $Menu \Entities\Company\Website\Menu */
-	    if($Website->getMenus()->count() > 0)
-	    {
-		foreach ($Website->getMenus() as $Menu)
-		{
-		    ?>
-		    <li>
-			<?php
-			echo \Dataservice\Html\Anchor::anchorIcon(
-				"bullet_go.png", 
-				"", 
-				"/website-menu/view/id/".$Menu->getId(),
-				"margin-left:5px;"
-				);
-			echo $Menu->getName();
-			?>
-		    </li>
-		    <?php
-		}
-	    }
-	    else echo "<li>No Menus</li>";
-	    ?>
-	    </ul>
-	</div>
-	<hr />
-	<h3>
-	    <a href="#">Resources</a>
-	    <?php 
-	    echo \Dataservice\Html\Button::buttonBlue(
-		    "wrench.png", 
-		    "Build", 
-		    "resources_build", 
-		    "float:right;margin-right:5px;"
-		    );
-	    echo \Dataservice\Html\Button::buttonBlue(
-		    "database_refresh.png", 
-		    "Clean", 
-		    "resources_clean", 
-		    "float:right;margin-right:5px;"
-		    );
-	    ?>
-	</h3>
-	<div>
-	    <ul>
-	    <?php
-	    /* @var $Resource \Entities\Company\Website\Resource */
-	    if($Website->getResources()->count() > 0)
-	    {
-		foreach ($Website->getResources() as $Resource)
-		{
-		    ?>
-		    <li>
-			<?php
-			echo \Dataservice\Html\Anchor::anchorIcon(
-				"bullet_go.png", 
-				"", 
-				"/website-resource/view/id/".$Resource->getId(),
-				"margin-left:5px;"
-				);
-			echo $Resource->getName();
-			?>
-		    </li>
-		    <?php
-		}
-	    }
-	    else echo "<li>No Resources</li>";
-	    ?>
-	    </ul>
-	</div>
-	<hr />
-    </div>
-</div>
-<div class="padded_frame" style="width: 415px;float: right;padding-top: 0px;">
-    <h3><a href="#">Documents</a></h3>
-    <div>Put Documents here</div>
-    <hr />
-    <h3>
-	<a href="#">Roles</a>
-	<?php 
-	echo \Dataservice\Html\Button::buttonBlue(
-		"add.png", 
-		"Add Role", 
-		"role_add", 
-		"float:right;margin-right:5px;"
-		);
-	?>
-    </h3>
-    <div>
-	<ul>
-	<?php
-	/* @var $Role \Entities\Company\Website\Role */
-	if($Website->getRoles()->count() > 0)
-	{
-	    foreach ($Website->getRoles() as $Role)
-	    {
-		?>
-		<li>
-		    <?php
-		    echo \Dataservice\Html\Anchor::anchorIcon(
-			    "bullet_go.png", 
-			    "", 
-			    "/website-role/view/id/".$Role->getId(),
-			    "margin-left:5px;"
-			    );
-		    echo $Role->getName();
-		    if($Website->getAdminRole() == $Role)echo " **ADMIN**";
-		    if($Website->getGuestRole() == $Role)echo " **GUEST**";
-		    ?>
-		</li>
-		<?php
-	    }
-	}
-	else echo "<li>No Roles</li>";
-	?>
-	</ul>
-    </div>
-    <hr />
-</div>
-<div style="clear: both;"><input type="hidden" id="website_id" value="<?php echo $website_id;?>" /></div>
-<script type="text/javascript">
-    Website = new Website();
-    Website.AddMenuOnclickBind($("#menu_add"));
-    Website.AddRoleOnclickBind($("#role_add"));
-    Website.CleanResourcesOnclickBind($("#resources_clean"));
-    Website.BuildResourcesOnclickBind($("#resources_build"));
-</script>
+		"/website/build-resources/id/".$relationshipContent->parentEntity->getId(), 
+		"Build Resources"
+		)
+	);
+$relationshipContent->addHtmlHeaderContent(
+	\Dataservice\Html\Anchor::trashIcon(
+		"", 
+		"/website/build-resources/id/".$relationshipContent->parentEntity->getId(), 
+		true,
+		"Build Resources"
+		)
+	);
+$relationshipContent->buildRelationshipBodyHtml();
+
+$Tab->addContent($relationshipContent->getHtml());
+
+$Tabs->addTab($Tab);
+
+$Tabs->addRelationshipViewTab($Website, "Roles")
+    ->render();
+
+CRUD\Body::factory()->end();
+
+echo CRUD\Tabs::factory()->getJS();

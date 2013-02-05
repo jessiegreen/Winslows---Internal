@@ -217,4 +217,9 @@ class Menu extends \Dataservice_Doctrine_Entity
 	    return $HtmlMenu;
 	}
     }
+    
+    public function toString()
+    {
+	return $this->getName();
+    }
 }

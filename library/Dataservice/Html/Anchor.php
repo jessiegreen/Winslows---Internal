@@ -67,6 +67,26 @@ class Anchor
      * @param string $id
      * @return string
      */
+    public static function trashIcon($text, $href, $confirm = true, $title = "", $id = "")
+    {
+	return self::anchorIcon(
+		"bin_empty.png", 
+		$text, 
+		$href, 
+		"", 
+		$title, 
+		$id, 
+		$confirm ? "if(!confirm('Are you sure you want to trash this?'))return false;" : ""
+	    );
+    }
+    
+    /**
+     * @param string $text
+     * @param string $href
+     * @param string $title
+     * @param string $id
+     * @return string
+     */
     public static function viewIcon($text, $href, $title = "", $id = "")
     {
 	return self::anchorIcon("bullet_go.png", $text, $href, "", $title, $id);

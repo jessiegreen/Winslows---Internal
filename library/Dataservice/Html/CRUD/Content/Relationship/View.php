@@ -24,7 +24,7 @@ class View
     
     public function getHTML()
     {
-	return $this->relationshipObject->getHtml();
+	return $this->relationshipObject->build()->getHtml();
     }
     
     public function render()

@@ -32,6 +32,7 @@ class Role extends \Dataservice_Doctrine_Entity
     
     /**
      * @OneToMany(targetEntity="\Entities\Company\Website\Role\Privilege", mappedBy="Role", cascade={"persist"}, orphanRemoval=true)
+     * @Crud\Relationship\Permissions()
      * @var ArrayCollection Privileges
      */
     protected $Privileges;

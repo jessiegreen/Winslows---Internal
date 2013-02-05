@@ -25,46 +25,60 @@ class ManyToMany extends RelationshipAbstract
 	return $this;
     }
     
-    public function getHtml()
+    public function buildRelationshipHeaderHtml()
     {
-	$Anchor	    = new \Dataservice\Html\Anchor;
-	$html	    = '<h4>';
-	$html	    .= $this->relationshipPropertyName;
-	$Account    = \Services\Company\Website::factory()->getCurrentWebsite()->getCurrentUserAccount(\Zend_Auth::getInstance());
+	$this->addHtmlHeaderContent($this->relationshipPropertyName);
 	
-	if($Account->hasRoleByRoleNames($this->relationshipPermissions->add))
-	    $html .= $Anchor->manageIcon(
+	if($this->currentUserAccount->hasRoleByRoleNames($this->relationshipPermissions->add))
+	    $this->addHtmlHeaderContent(
+		    $this->anchorObject->manageIcon(
 			"", 
 			"/".$this->parentClassUrl."/manage-".strtolower($this->relationshipPropertyName).
 			    "/id/".$this->parentEntity->getId(), 
 			"Manage ".$this->relationshipPropertyName
-		    );
-	$html .= '</h4>';
-	$html .= '<ul>';
+		    )
+		);
+	
+	return $this;
+    }
+    
+    public function buildRelationshipBodyHtml()
+    {
+	$this->addHtmlBodyContent('<ul>');
 
-	if(!count($this->relationshipCollection))$html .= "<li>No ".$this->relationshipPropertyName."</li>";
+	if(!count($this->relationshipCollection))
+	    $this->addHtmlBodyContent("<li>No ".$this->relationshipPropertyName."</li>");
 	else
 	    /* @var $Entity \Dataservice_Doctrine_Entity */
 	    foreach ($this->relationshipCollection as $Entity)
 	    {
-		$html .= "<li>";
+		$this->addHtmlBodyContent("<li>");
 		
-		if($Account->hasRoleByRoleNames($Entity->getCrudPermission("view")))
-		    $html .= $Anchor->viewIcon("", "/".$Entity->getCrudUrl()."/view/id/".$Entity->getId(), "View ".$this->relationshipClassName);
+		if($this->currentUserAccount->hasRoleByRoleNames($Entity->getCrudPermission("view")))
+		    $this->addHtmlBodyContent(
+			    $this->anchorObject->viewIcon(
+				    "", 
+				    "/".$Entity->getCrudUrl()."/view/id/".$Entity->getId(), 
+				    "View ".$this->relationshipClassName
+				    )
+			);
 		
-		if($Account->hasRoleByRoleNames($this->relationshipPermissions->remove))
-		    $html .= $Anchor->deleteIcon("", "/".$this->relationshipClassUrl."/delete/id/".$Entity->getId(), true, "Delete ".$this->relationshipClassName);
+		if($this->currentUserAccount->hasRoleByRoleNames($this->relationshipPermissions->remove))
+		    $this->addHtmlBodyContent(
+			    $this->anchorObject->deleteIcon(
+				    "", 
+				    "/".$this->relationshipClassUrl."/delete/id/".$Entity->getId(), 
+				    true, 
+				    "Delete ".$this->relationshipClassName
+				    )
+			);
 		
-		$html .= htmlspecialchars($Entity->toString());
-		$html .= "</li>";
+		$this->addHtmlBodyContent(htmlspecialchars($Entity->toString()));
+		$this->addHtmlBodyContent("</li>");
 	    }
-	$html .= "</ul>";
 	    
-	return $html;
-    }
-    
-    public function renderHtml()
-    {
-	echo $this->returnHtml();
+	$this->addHtmlBodyContent("</ul>");
+	    
+	return $this;
     }
 }

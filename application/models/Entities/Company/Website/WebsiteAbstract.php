@@ -52,24 +52,28 @@ class WebsiteAbstract extends \Dataservice_Doctrine_Entity
     
     /**
      * @OneToMany(targetEntity="\Entities\Company\Website\Account\AccountAbstract", mappedBy="Website", cascade={"persist"})
+     * @Crud\Relationship\Permissions()
      * @var ArrayCollection $Accounts
      */
     protected $Accounts;
     
     /**
      * @OneToMany(targetEntity="\Entities\Company\Website\Resource", mappedBy="Website", cascade={"persist"})
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var ArrayCollection $Resources
      */
     protected $Resources;
     
     /**
      * @OneToMany(targetEntity="\Entities\Company\Website\Menu", mappedBy="Website", cascade={"persist"})
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var ArrayCollection $Menus
      */
     protected $Menus;
     
     /**
      * @OneToMany(targetEntity="\Entities\Company\Website\Role", mappedBy="Website", cascade={"persist"})
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @OrderBy({"name" = "ASC"})
      * @var ArrayCollection $Roles
      */
@@ -77,12 +81,14 @@ class WebsiteAbstract extends \Dataservice_Doctrine_Entity
     
     /**
      * @OneToOne(targetEntity="\Entities\Company\Website\Role")
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var \Entities\Company\Website\Role $AdminRole
      */
     protected $AdminRole;
     
     /**
      * @OneToOne(targetEntity="\Entities\Company\Website\Role")
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var \Entities\Company\Website\Role $GuestRole
      */
     protected $GuestRole;

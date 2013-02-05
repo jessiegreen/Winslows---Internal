@@ -1,9 +1,9 @@
 <?php
-class Company_WebsiteResourceController extends Dataservice_Controller_Action
+class Company_WebsiteResourceController extends Dataservice_Controller_Crud_Action
 {
-    public function init()
+    public function init() 
     {
-	$this->view->headScript()->appendFile("/javascript/company/website/resource/resource.js");
+	$this->_EntityClass = "Entities\Company\Website\Resource";
 	
 	parent::init();
     }
@@ -16,7 +16,7 @@ class Company_WebsiteResourceController extends Dataservice_Controller_Action
 	
 	/* @var $Website \Entities\Company\Website\WebsiteAbstract */ 
 	if($website_id)$Website = $this->_em->getRepository ("Entities\Company\Website")->find ($website_id);
-	else $this->_FlashMessenger->addErrorMessage("Could not build resources. Company id not sent");
+	else $this->_FlashMessenger->addErrorMessage("Could not build resources. Website id not sent");
 	
 	if(!$Website->getId())
 	{
@@ -45,11 +45,6 @@ class Company_WebsiteResourceController extends Dataservice_Controller_Action
 	{
 	    $this->_FlashMessenger->addErrorMessage($exc->getMessage());
 	}
-    }
-    
-    public function viewAllAction()
-    {	
-	$this->view->Resources	= $this->_em->getRepository("Entities\Company\Website\Resource")->findAll();
     }
     
     public function manageRolesAction()
@@ -99,34 +94,4 @@ class Company_WebsiteResourceController extends Dataservice_Controller_Action
 	
 	$this->view->form = $form;
     }
-    
-    public function viewAction()
-    {
-	$Resource   = $this->getEntityFromParamFields("Company\Website\Resource", array("id"));
-	
-	if(!$Resource->getId())
-	{
-	    $this->_FlashMessenger->addErrorMessage("Could not get resource");
-	    $this->_History->goBack();
-	}
-	
-	$this->view->Resource = $Resource;
-    }
-    
-    /**
-     * @return Entities\Company\Website\Resource
-     */
-    private function _getResource()
-    {
-	return $this->getEntityFromParamFields("Company\Website\Resource", array("id"));
-    }
-    
-    private function _CheckRequiredResourceExists(Entities\Company\Website\Resource $Resource)
-    {
-	if(!$Resource->getId())
-	{
-	    $this->_FlashMessenger->addErrorMessage("Could not get Resource");
-	    $this->_History->goBack();
-	}
-    } 
 }

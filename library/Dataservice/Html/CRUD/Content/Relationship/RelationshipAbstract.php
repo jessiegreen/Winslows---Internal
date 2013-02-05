@@ -6,27 +6,35 @@ class RelationshipAbstract
     /**
      * @var \Dataservice_Doctrine_Entity 
      */
-    protected $parentEntity;
+    public $parentEntity;
     
-    protected $parentClass;
+    public $parentClass;
     
-    protected $parentClassName;
+    public $parentClassName;
     
-    protected $parentClassPermissions;
+    public $parentClassPermissions;
     
-    protected $parentClassUrl;
+    public $parentClassUrl;
     
-    protected $relationshipPermissions;
+    public $relationshipPermissions;
     
-    protected $relationshipPropertyName;
+    public $relationshipPropertyName;
     
-    protected $relationshipClass;
+    public $relationshipClass;
     
-    protected $relationshipClassName;
+    public $relationshipClassName;
     
-    protected $relationshipClassPermissions;
+    public $relationshipClassPermissions;
     
-    protected $relationshipClassUrl;
+    public $relationshipClassUrl;
+    
+    public $htmlHeaderContent = "";
+    
+    public $htmlBodyContent = "";
+    
+    public $anchorObject;
+    
+    public $currentUserAccount;
     
     public function __construct(\Dataservice_Doctrine_Entity $parentEntity, $relationshipPropertyName)
     {
@@ -41,5 +49,47 @@ class RelationshipAbstract
 	$this->relationshipClassName	    = end(explode('\\', $this->relationshipClass));
 	$this->relationshipClassUrl	    = $parentEntity->getRelationshipCrudUrl($relationshipPropertyName);
 	$this->relationshipClassPermissions = $this->parentEntity->getRelationshipClassCrudPermissions($relationshipPropertyName);
+	$this->anchorObject		    = new \Dataservice\Html\Anchor;
+	$this->currentUserAccount	    = \Services\Company\Website::factory()
+						->getCurrentWebsite()
+						->getCurrentUserAccount(\Zend_Auth::getInstance());
+    }
+    
+    public function build()
+    {
+	$this->buildRelationshipHeaderHtml();
+	$this->buildRelationshipBodyHtml();
+	
+	return $this;
+    }
+    
+    public function gethtmlHeader()
+    {
+	return "<h4>".$this->htmlHeaderContent."</h4>";
+    }
+    
+    public function addHtmlHeaderContent($content)
+    {
+	$this->htmlHeaderContent .= $content;
+    }
+    
+    public function gethtmlBody()
+    {
+	return $this->htmlBodyContent;
+    }
+    
+    public function addHtmlBodyContent($content)
+    {
+	$this->htmlBodyContent .= $content;
+    }
+    
+    public function getHtml()
+    {
+	return $this->gethtmlHeader().$this->gethtmlBody();
+    }
+    
+    public function render()
+    {
+	echo $this->getHtml();
     }
 }

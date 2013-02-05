@@ -11,6 +11,7 @@ class Website extends \Entities\Company\Website\WebsiteAbstract
 {
     /** 
      * @ManyToOne(targetEntity="\Entities\Company", inversedBy="Websites")
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var \Entities\Company
      */     
     protected $Company;
