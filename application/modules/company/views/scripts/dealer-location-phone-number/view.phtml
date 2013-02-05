@@ -3,19 +3,16 @@ use Dataservice\Html\CRUD;
 
 echo($this->flashMessages()); 
 
-echo CRUD\Header::factory("Dealer Location - View")->getHtml();
+echo CRUD\Header::factory("Dealer Location Phone Number - View")->getHtml();
 
-/* @var $Location \Entities\Company\Dealer\Location */
-$Location	= $this->Location;
+$PhoneNumber = $this->PhoneNumber;
 
 CRUD\Body::factory()->start();
 
 CRUD\Tabs::factory()
-	->addEntityViewTab("Information", $Location)
-	->addRelationshipViewTab($Location, "Dealer")
-	->addRelationshipViewTab($Location, "Address")
-	->addRelationshipViewTab($Location, "PhoneNumber")
-	->addRelationshipViewTab($Location, "FaxNumber")
+	->addEntityViewTab("Information", $PhoneNumber)
+	->addRelationshipViewTab($PhoneNumber, "Location")
+	->addRelationshipViewTab($PhoneNumber, "Contacts")
 	->render();
 
 CRUD\Body::factory()->end();

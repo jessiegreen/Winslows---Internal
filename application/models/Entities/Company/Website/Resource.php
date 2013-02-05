@@ -202,4 +202,9 @@ class Resource extends \Dataservice_Doctrine_Entity
     {
         $this->routeName = $routeName;
     }
+    
+    public function toString()
+    {
+	return $this->getName();
+    }
 }

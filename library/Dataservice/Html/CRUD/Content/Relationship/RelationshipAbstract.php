@@ -14,6 +14,8 @@ class RelationshipAbstract
     
     protected $parentClassPermissions;
     
+    protected $parentClassUrl;
+    
     protected $relationshipPermissions;
     
     protected $relationshipPropertyName;
@@ -32,6 +34,7 @@ class RelationshipAbstract
 	$this->parentClass		    = get_class($parentEntity);
 	$this->parentClassName		    = end(explode('\\', $this->parentClass));
 	$this->parentClassPermissions	    = $this->parentEntity->getCrudPermissions();
+	$this->parentClassUrl		    = $parentEntity->getCrudUrl();
 	$this->relationshipPermissions	    = $this->parentEntity->getRelationshipCrudPermissions($relationshipPropertyName);
 	$this->relationshipPropertyName	    = $relationshipPropertyName;
 	$this->relationshipClass	    = $this->parentEntity->getRelationshipClass($this->relationshipPropertyName);

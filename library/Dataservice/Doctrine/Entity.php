@@ -108,7 +108,7 @@ class Dataservice_Doctrine_Entity
     public function getCrudPermission($permission_name)
     {
 	return \Services\Company\Entity::factory()
-		->getEntityCrudPermissions($this->getClass(), $permission_name);
+		->getEntityCrudPermission($this->getClass(), $permission_name);
     }
     
     /**

@@ -11,6 +11,7 @@ class Address extends \Entities\Company\Address\AddressAbstract
 {
     /** 
      * @ManyToOne(targetEntity="\Entities\Company\Employee", inversedBy="Addresses")
+     * @Crud\Relationship\Permissions()
      * @var \Entities\Company\Employee
      */     
     protected $Employee;
@@ -29,5 +30,14 @@ class Address extends \Entities\Company\Address\AddressAbstract
     public function getEmployee()
     {
 	return $this->Employee;
+    }
+    
+    public function populate(array $array)
+    {
+	$Employee = $this->_getEntityFromArray($array, "Entities\Company\Employee", "employee_id");
+	
+	if($Employee)$this->setEmployee($Employee);
+	
+	parent::populate($array);
     }
 }

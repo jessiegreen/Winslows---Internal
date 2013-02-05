@@ -1,93 +1,21 @@
 <?php 
+use Dataservice\Html\CRUD;
+
 echo($this->flashMessages()); 
-echo "<div>";
-echo \Dataservice\Html\Anchor::backAnchorIcon("Employee - view", "/employee/view/id/".$this->Account->getEmployee()->getId());
-echo "</div>";
-?>
-<h1 class="header1">Employee Account - View</h1>
-<?php
-/* @var $Menu \Entities\Company\Website\WebsiteAbstract */
-$Account    = $this->Account;
-$account_id = $Account->getId();
-?>
-<div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
-    <h3 class="no_space" style="color: #2000EE;">
-	Info
-	<?php
-	echo \Dataservice\Html\Anchor::anchorIcon(
-		"pencil.png", 
-		"", 
-		"/employee-account/edit/id/".
-		    $Account->getId(), 
-		"margin-left:5px;",
-		"Edit Username"
-		);
-	echo \Dataservice\Html\Anchor::anchorIcon(
-		"lock_edit.png", 
-		"", 
-		"/employee-account/edit/pwd/1/id/".
-		    $Account->getId(), 
-		"margin-left:5px;",
-		"Reset Password"
-		);
-	?>
-    </h3>
-    <div>
-	<label>Website:</label> <?php echo $Account->getWebsite()->getName(); ?> &nbsp;&nbsp;&nbsp;
-	<label>Name:</label> <?php echo $Account->getUsername(); ?> &nbsp;&nbsp;&nbsp;
-	<label>Password:</label> ********* &nbsp;&nbsp;&nbsp;
-    </div>
-</div>
-<div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">
-    <div id="accordion">
-	<h3>
-	    <a href="#">Roles</a>
-	    <?php 
-	    echo \Dataservice\Html\Button::buttonBlue(
-		    "text_list_bullets.png", 
-		    "Manage Roles", 
-		    "roles_manage", 
-		    "float:right;margin-right:5px;"
-		    );
-	    ?>
-	</h3>
-	<div>
-	    <ul>
-	    <?php
-	    /* @var $Role \Entities\Company\Website\Role */
-	    if($Account->getRoles()->count() > 0)
-	    {
-		foreach ($Account->getRoles() as $Role)
-		{
-		    ?>
-		    <li>
-			<?php
-			echo \Dataservice\Html\Anchor::anchorIcon(
-				"bullet_go.png", 
-				"", 
-				"/website-role/view/id/".$Role->getId(),
-				"margin-left:5px;"
-				);
-			echo $Role->getName();
-			?>
-		    </li>
-		    <?php
-		}
-	    }
-	    else echo "<li>No Roles</li>";
-	    ?>
-	    </ul>
-	</div>
-	<hr />
-    </div>
-</div>
-<div class="padded_frame" style="width: 415px;float: right;padding-top: 0px;">
-    <h3><a href="#">Documents</a></h3>
-    <div>Put Documents here</div>
-    <hr />
-</div>
-<div style="clear: both;"><input type="hidden" id="account_id" value="<?php echo $account_id;?>" /></div>
-<script type="text/javascript">
-    Company_Employee_Account = new Company_Employee_Account();
-    Company_Employee_Account.ManageRolesOnclickBind($("#roles_manage"));
-</script>
+
+echo CRUD\Header::factory("Employee Account - View")->getHtml();
+
+$Account = $this->Account;
+
+CRUD\Body::factory()->start();
+
+CRUD\Tabs::factory()
+	->addEntityViewTab("Information", $Account)
+	->addRelationshipViewTab($Account, "Employee")
+	->addRelationshipViewTab($Account, "Website")
+	->addRelationshipViewTab($Account, "Roles")
+	->render();
+
+CRUD\Body::factory()->end();
+
+echo CRUD\Tabs::factory()->getJS();

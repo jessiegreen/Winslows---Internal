@@ -11,6 +11,7 @@ class Account extends \Entities\Company\Website\Account\AccountAbstract
 {
     /**
      * @OneToOne(targetEntity="\Entities\Company\Employee", inversedBy="Account", cascade={"persist"})
+     * @Crud\Relationship\Permissions()
      * @var \Entities\Company\Employee $Employee
      */
     protected $Employee;

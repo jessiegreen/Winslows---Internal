@@ -55,6 +55,18 @@ class Anchor
      * @param string $id
      * @return string
      */
+    public static function manageIcon($text, $href, $title = "", $id = "")
+    {
+	return self::anchorIcon("text_list_bullets.png", $text, $href, "", $title, $id);
+    }
+    
+    /**
+     * @param string $text
+     * @param string $href
+     * @param string $title
+     * @param string $id
+     * @return string
+     */
     public static function viewIcon($text, $href, $title = "", $id = "")
     {
 	return self::anchorIcon("bullet_go.png", $text, $href, "", $title, $id);

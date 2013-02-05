@@ -38,18 +38,21 @@ class Role extends \Dataservice_Doctrine_Entity
     
     /**
      * @ManytoMany(targetEntity="\Entities\Company\Website\Resource", mappedBy="Roles", cascade={"persist, remove"})
+     * @Crud\Relationship\Permissions()
      * @var ArrayCollection $Resources
      */
     protected $Resources;
     
     /**
      * @ManyToMany(targetEntity="\Entities\Company\Website\Account\AccountAbstract", mappedBy="Roles", cascade={"persist"})
+     * @Crud\Relationship\Permissions()
      * @var ArrayCollection Accounts
      */
     protected $Accounts;
     
     /**
-     * @ManyToOne(targetEntity="\Entities\Company\Website\WebsiteAbstract", inversedBy="Resources")
+     * @ManyToOne(targetEntity="\Entities\Company\Website", inversedBy="Resources")
+     * @Crud\Relationship\Permissions()
      * @var \Entities\Company\Website
      */
     protected $Website;
@@ -183,5 +186,19 @@ class Role extends \Dataservice_Doctrine_Entity
     public function setDescription($description)
     {
         $this->description = $description;
+    }
+    
+    public function toString()
+    {
+	return $this->getName();
+    }
+    
+    public function populate(array $array)
+    {
+	$Website = $this->_getEntityFromArray($array, "Entities\Company\Website", "website_id");
+	
+	if($Website)$this->setWebsite($Website);
+	
+	parent::populate($array);
     }
 }

@@ -12,7 +12,7 @@ class ManyToOne extends RelationshipAbstract
      */
     public static function factory(\Dataservice_Doctrine_Entity $parentEntity, $relationshipPropertyName)
     {
-	return new OneToOne($parentEntity, $relationshipPropertyName);
+	return new ManyToOne($parentEntity, $relationshipPropertyName);
     }
     
     /**

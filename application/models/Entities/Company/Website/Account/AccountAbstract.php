@@ -13,6 +13,8 @@ use Doctrine\Common\Collections\ArrayCollection as ArrayCollection;
  *			"company_website_guest_account" = "\Entities\Company\Website\Guest\Account"
  *		    })
  * @HasLifecycleCallbacks
+ * @Crud\Entity\Url(value="")
+ * @Crud\Entity\Permissions()
  */
 abstract class AccountAbstract extends \Dataservice_Doctrine_Entity implements \Interfaces\Company\Website\Account
 {
@@ -46,14 +48,16 @@ abstract class AccountAbstract extends \Dataservice_Doctrine_Entity implements \
     protected $salt;
     
     /**
-     * @ManyToOne(targetEntity="\Entities\Company\Website\WebsiteAbstract", inversedBy="Accounts")
-     * @var \Entities\Company\Website\WebsiteAbstract
+     * @ManyToOne(targetEntity="\Entities\Company\Website", inversedBy="Accounts")
+     * @Crud\Relationship\Permissions()
+     * @var \Entities\Company\Website
      */
     protected $Website;
     
     /**
      * @ManytoMany(targetEntity="\Entities\Company\Website\Role", cascade={"persist"})
      * @JoinTable(name="company_website_account_role_joins")
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var ArrayCollection $Roles
      */
     protected $Roles;
@@ -138,15 +142,15 @@ abstract class AccountAbstract extends \Dataservice_Doctrine_Entity implements \
     }
     
     /**
-     * @param \Entities\Company\Website\WebsiteAbstract $Website
+     * @param \Entities\Company\Website $Website
      */
-    public function setWebsite(\Entities\Company\Website\WebsiteAbstract $Website)
+    public function setWebsite(\Entities\Company\Website $Website)
     {
 	$this->Website = $Website;
     }
     
     /**
-     * @return \Entities\Company\Website\WebsiteAbstract
+     * @return \Entities\Company\Website
      */
     public function getWebsite()
     {
