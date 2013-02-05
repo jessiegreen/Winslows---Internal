@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @Entity (repositoryClass="Repositories\Company\Website\Resource") 
  * @Table(name="company_website_resources") 
  * @Crud\Entity\Url(value="website-resource")
- * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
+ * @Crud\Entity\Permissions(view={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
 class Resource extends \Dataservice_Doctrine_Entity
 {
@@ -51,12 +51,14 @@ class Resource extends \Dataservice_Doctrine_Entity
     /**
      * @ManytoMany(targetEntity="\Entities\Company\Website\Role", inversedBy="Resources", cascade={"persist, remove"})
      * @JoinTable(name="company_website_role_resource_joins")
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var ArrayCollection $Roles
      */
     protected $Roles;
     
     /**
      * @ManyToOne(targetEntity="\Entities\Company\Website\WebsiteAbstract", inversedBy="Resources")
+     * @Crud\Relationship\Permissions()
      * @var \Entities\Company\Website
      */
     protected $Website;

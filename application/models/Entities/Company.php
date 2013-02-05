@@ -113,12 +113,14 @@ class Company extends \Dataservice_Doctrine_Entity
     
     /**
      * @OneToOne(targetEntity="\Entities\Company\Inventory", mappedBy="Company", cascade={"persist"}, orphanRemoval=true)
+     * @Crud\Relationship\Permissions()
      * @var \Entities\Company\Inventory $Inventory
      */
     protected $Inventory;
     
     /**
      * @OneToOne(targetEntity="\Entities\Company\TimeClock", mappedBy="Company", cascade={"persist"}, orphanRemoval=true)
+     * @Crud\Relationship\Permissions()
      * @var \Entities\Company\TimeClock $TimeClock
      */
     protected $TimeClock;

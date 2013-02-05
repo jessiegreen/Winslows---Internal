@@ -1,0 +1,20 @@
+<?php 
+use Dataservice\Html\CRUD;
+
+echo($this->flashMessages()); 
+
+echo CRUD\Header::factory("Lead Phone Number - View")->getHtml();
+
+$PhoneNumber = $this->PhoneNumber;
+
+CRUD\Body::factory()->start();
+
+CRUD\Tabs::factory()
+	->addEntityViewTab("Information", $PhoneNumber)
+	->addRelationshipViewTab($PhoneNumber, "Lead")
+	->addRelationshipViewTab($PhoneNumber, "Contacts")
+	->render();
+
+CRUD\Body::factory()->end();
+
+echo CRUD\Tabs::factory()->getJS();

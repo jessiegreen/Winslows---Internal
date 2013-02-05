@@ -1,7 +1,7 @@
 <?php
 namespace Forms\Company\Website;
 
-class Subform extends \Forms\Company\Website\SubForm
+class Subform extends \Forms\Company\Website\WebsiteAbstract\Subform
 {
     private $_Website;
     

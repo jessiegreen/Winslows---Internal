@@ -1,5 +1,5 @@
 <?php
-namespace Forms\Company\Website;
+namespace Forms\Company\Website\WebsiteAbstract;
 
 class Subform extends \Zend_Form_SubForm
 {

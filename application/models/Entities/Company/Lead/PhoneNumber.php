@@ -11,6 +11,7 @@ class PhoneNumber extends \Entities\Company\PhoneNumber\PhoneNumberAbstract
 {
     /** 
      * @ManyToOne(targetEntity="\Entities\Company\Lead", inversedBy="PhoneNumbers")
+     * @Crud\Relationship\Permissions()
      * @var \Entities\Company\Lead
      */     
     protected $Lead;

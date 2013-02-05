@@ -143,4 +143,13 @@ class Location extends \Entities\Company\Location\LocationAbstract
     {
         return $this->Address;
     }
+    
+    public function populate(array $array)
+    {
+	$Company = $this->_getEntityFromArray($array, "Entities\Company", "company_id");
+	
+	if($Company)$this->setCompany($Company);
+	
+	parent::populate($array);
+    }
 }

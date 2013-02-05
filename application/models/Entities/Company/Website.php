@@ -39,4 +39,13 @@ class Website extends \Entities\Company\Website\WebsiteAbstract
     {
 	return $this->getName();
     }
+    
+    public function populate(array $array)
+    {
+	$Company = $this->_getEntityFromArray($array, "Entities\Company", "company_id");
+	
+	if($Company)$this->setCompany($Company);
+	
+	parent::populate($array);
+    }
 }

@@ -11,6 +11,7 @@ class FaxNumber extends \Entities\Company\FaxNumber\FaxNumberAbstract
 {
     /** 
      * @ManyToOne(targetEntity="\Entities\Company\Lead", inversedBy="FaxNumbers")
+     * @Crud\Relationship\Permissions()
      * @var \Entities\Company\Lead
      */     
     protected $Lead;

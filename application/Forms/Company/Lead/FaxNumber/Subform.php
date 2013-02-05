@@ -9,7 +9,7 @@ class Subform extends \Forms\Company\FaxNumber\Subform
     {
 	$this->_FaxNumber = $FaxNumber;
 	
-	parent::__construct($options, $this->_FaxNumber);
+	parent::__construct($this->_FaxNumber, $options);
     }
     
     public function init($options = array())

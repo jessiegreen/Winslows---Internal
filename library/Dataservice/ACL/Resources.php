@@ -93,6 +93,7 @@ class Dataservice_ACL_Resources
 			    if(!$existing)
 			    {
 				$resource = new \Entities\Company\Website\Resource;
+				
 				$resource->setName(ucwords($strModuleName.' | '.$strControllerName . " - " . $strActionName));
 				$resource->setModule($strModuleName);
 				$resource->setController($strControllerName);

@@ -11,6 +11,7 @@ class Address extends \Entities\Company\Address\AddressAbstract
 {
     /** 
      * @ManyToOne(targetEntity="\Entities\Company\Lead", inversedBy="Addresses")
+     * @Crud\Relationship\Permissions()
      * @var \Entities\Company\Lead
      */     
     protected $Lead;

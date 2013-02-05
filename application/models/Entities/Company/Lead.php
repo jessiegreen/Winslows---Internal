@@ -14,6 +14,7 @@ class Lead extends PersonAbstract
 {
     /** 
      * @ManyToOne(targetEntity="\Entities\Company\Employee", inversedBy="Leads")
+     * @Crud\Relationship\Permissions()
      * @var \Entities\Company\Employee $Employee
      */     
     protected $Employee;
@@ -86,7 +87,6 @@ class Lead extends PersonAbstract
 	$this->FaxNumbers	= new ArrayCollection();
 	$this->PhoneNumbers	= new ArrayCollection();
 	$this->EmailAddresses	= new ArrayCollection();
-	$this->Contacts		= new ArrayCollection();
 	$this->Quotes		= new ArrayCollection();
 	$this->Applications	= new ArrayCollection();
 	
@@ -163,24 +163,6 @@ class Lead extends PersonAbstract
     public function getEmailAddresses()
     {
 	return $this->EmailAddresses;
-    }
-    
-    /**
-     * @param \Entities\Company\Lead\Contact $Contact
-     */
-    public function AddContact(Lead\Contact $Contact)
-    {
-	$Contact->setLead($this);
-	
-	$this->Contacts[] = $Contact;
-    }
-    
-    /**
-     * @return array
-     */
-    public function getContacts()
-    {
-	return $this->Contacts;
     }
     
     /**

@@ -9,7 +9,7 @@ class Subform extends \Forms\Company\Address\Subform
     {
 	$this->_Address = $Address;
 	
-	parent::__construct($options, $this->_Address);
+	parent::__construct($this->_Address, $options);
     }
     
     public function init($options = array())

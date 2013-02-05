@@ -13,6 +13,8 @@ $crudBody->start();
 $Tabs = CRUD\Tabs::factory();
 
 $Tabs->addEntityViewTab("Information", $Lead)
+    ->addRelationshipViewTab($Lead, "Company")
+    ->addRelationshipViewTab($Lead, "Employee")
     ->addTab(
 	CRUD\Tabs\Tab::factory(("Contact Info"))
 	    ->addRelationshipView($Lead, "PhoneNumbers")
@@ -20,7 +22,6 @@ $Tabs->addEntityViewTab("Information", $Lead)
 	    ->addRelationshipView($Lead, "Addresses")
 	    ->addRelationshipView($Lead, "EmailAddresses")
     )
-    ->addRelationshipViewTab($Lead, "Company")
     ->addRelationshipViewTab($Lead, "Quotes")
     ->addRelationshipViewTab($Lead, "Applications")
     ->addRelationshipViewTab($Lead, "Account")

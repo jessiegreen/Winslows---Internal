@@ -8,11 +8,6 @@ class Company_EmployeeController extends Dataservice_Controller_Crud_Action
 	parent::init();
     }
     
-    public function editAction()
-    {
-	
-    }
-    
     public function clockPunchAction()
     {
 	$this->_requireEntity();

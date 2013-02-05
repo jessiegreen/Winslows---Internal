@@ -1,11 +1,4 @@
 <?php
-
-/**
- * 
- * @author jessie
- *
- */
-
 class Company_InventoryController extends Dataservice_Controller_Action
 {    
     public function init()

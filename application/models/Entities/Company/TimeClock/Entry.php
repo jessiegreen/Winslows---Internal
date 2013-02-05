@@ -31,12 +31,14 @@ class Entry extends \Dataservice_Doctrine_Entity
     
     /** 
      * @ManyToOne(targetEntity="\Entities\Company\TimeClock", inversedBy="Entries", cascade="persist")
+     * @Crud\Relationship\Permissions()
      * @var \Entities\Company\TimeClock $TimeClock
      */
     protected $TimeClock;
     
     /** 
      * @ManyToOne(targetEntity="\Entities\Company\Employee", inversedBy="TimeClockEntries", cascade="persist")
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var \Entities\Company\Employee $Employee
      */
     protected $Employee;
@@ -111,5 +113,33 @@ class Entry extends \Dataservice_Doctrine_Entity
     public function getIpAddress()
     {
 	return $this->ip_address;
+    }
+    
+    public function toString()
+    {
+	return $this->getEmployee()->getFirstName()." ".$this->getEmployee()->getLastName()." - ".
+		$this->getDateTime()->format("Y-m-d H:i");
+    }
+    
+    public function populate(array $array)
+    {
+	$Employee = $this->_getEntityFromArray($array, "Entities\Company\Employee", "employee_id");
+	
+	if($Employee)
+	{
+	    $this->setEmployee($Employee);
+	    
+	    $this->setTimeClock($Employee->getCompany()->getTimeClock());
+	}	
+	
+	if(isset($array["date_time_value"]))
+	{
+	    $DateTime = \DateTime::createFromFormat("Y-m-d H:i:s", $array["date_time_value"]);
+
+	    if($DateTime)
+		$this->setDateTime($DateTime);
+	}
+	
+	parent::populate($array);
     }
 }

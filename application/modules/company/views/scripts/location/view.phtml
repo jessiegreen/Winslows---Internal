@@ -14,12 +14,12 @@ $crudBody->start();
 $Tabs = CRUD\Tabs::factory();
 
 $Tabs->addEntityViewTab("Information", $Location)
+	->addRelationshipViewTab($Location, "Company")
 	->addTab(
 		CRUD\Tabs\Tab::factory("Contact Info")
 		    ->addRelationshipView($Location, "Address")
 		    ->addRelationshipView($Location, "PhoneNumber")
 	)
-	->addRelationshipViewTab($Location, "Company")
 	->addRelationshipViewTab($Location, "Employees")
 	->addRelationshipViewTab($Location, "InventoryItems")
 	->render();

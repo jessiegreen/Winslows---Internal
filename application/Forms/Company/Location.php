@@ -1,7 +1,7 @@
 <?php
 namespace Forms\Company;
 
-class Location extends \Zend_Form
+class Location extends \Dataservice_Form
 {    
     private $_Location;
     

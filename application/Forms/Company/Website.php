@@ -1,7 +1,7 @@
 <?php
 namespace Forms\Company;
 
-class Website extends \Zend_Form
+class Website extends \Dataservice_Form
 {    
     private $_Website;
     

@@ -7,54 +7,14 @@ class Company_WebsiteResourceController extends Dataservice_Controller_Crud_Acti
 	
 	parent::init();
     }
-
-    public function buildAction()
-    {
-	/* @var $em \Doctrine\ORM\EntityManager */
-	$objResources	= new Dataservice_ACL_Resources;
-	$website_id	= $this->getRequest()->getParam("website_id");
-	
-	/* @var $Website \Entities\Company\Website\WebsiteAbstract */ 
-	if($website_id)$Website = $this->_em->getRepository ("Entities\Company\Website")->find ($website_id);
-	else $this->_FlashMessenger->addErrorMessage("Could not build resources. Website id not sent");
-	
-	if(!$Website->getId())
-	{
-	    $this->_FlashMessenger->addErrorMessage("Could not build resources. Could not get company");
-	    $this->_History->goBack();
-	}	
-	
-	$Default_Role  = $Website->isGuestAllowed() ? $Website->getGuestRole() : $Website->getAdminRole();
-	    
-	$objResources->buildAllArrays($Website->getNameIndex());
-	$objResources->writeToDB($this->_em, $Website, $Default_Role);
-	
-	$this->_FlashMessenger->addSuccessMessage("Resources built");
-	$this->_History->goBack();
-    }
-    
-    public function cleanAction()
-    {
-	try 
-	{
-	    /* @var $em \Doctrine\ORM\EntityManager */
-	    $objResources	= new Dataservice_ACL_Resources;
-	    $this->view->result = $objResources->cleanDB($this->_em);
-	} 
-	catch (Exception $exc) 
-	{
-	    $this->_FlashMessenger->addErrorMessage($exc->getMessage());
-	}
-    }
     
     public function manageRolesAction()
     {	
-	/* @var $Resource Entities\Company\Website\Resource */
-	$Resource = $this->_getResource();
+	$this->_requireEntity();
 	
-	$this->_CheckRequiredResourceExists($Resource);
+	$form = new Forms\Company\Website\Resource\ManageRoles($this->_Entity);
 	
-	$form = new Forms\Company\Website\Resource\ManageRoles($Resource);
+	$form->addCancelButton($this->_History->getPreviousUrl());
 	
 	if($this->isPostAndValid($form))
 	{
@@ -62,11 +22,11 @@ class Company_WebsiteResourceController extends Dataservice_Controller_Crud_Acti
 	    {
 		$data = $this->getRequest()->getParam("website_resource_manage_roles");
 	    
-		$Resource->getRoles()->clear();
+		$this->_Entity->getRoles()->clear();
 		
 		if(isset($data["role_id"]) && is_array($data["role_id"]) && count($data["role_id"]))
 		{
-		    $Website = $Resource->getWebsite();
+		    $Website = $this->_Entity->getWebsite();
 
 		    foreach($data["role_id"] as $role_id)
 		    {
@@ -74,12 +34,12 @@ class Company_WebsiteResourceController extends Dataservice_Controller_Crud_Acti
 			
 			if($Role)
 			{
-			    $Resource->addRole($Role);
+			    $this->_Entity->addRole($Role);
 			}
 		    }
 		}
 
-		$this->_em->persist($Resource);
+		$this->_em->persist($this->_Entity);
 		$this->_em->flush();
 		
 		$this->_FlashMessenger->addSuccessMessage("Roles saved.");

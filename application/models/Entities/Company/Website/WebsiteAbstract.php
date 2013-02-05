@@ -10,6 +10,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @DiscriminatorColumn(name="discr", type="string")
  * @DiscriminatorMap({"company_website" = "\Entities\Company\Website"})
  * @HasLifecycleCallbacks
+ * @Crud\Entity\Url(value="website")
+ * @Crud\Entity\Permissions(view={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
 class WebsiteAbstract extends \Dataservice_Doctrine_Entity
 {

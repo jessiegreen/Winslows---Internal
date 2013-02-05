@@ -1,0 +1,20 @@
+<?php 
+use Dataservice\Html\CRUD;
+
+echo($this->flashMessages()); 
+
+echo CRUD\Header::factory("Lead Address - View")->getHtml();
+
+$Address = $this->Address;
+
+CRUD\Body::factory()->start();
+
+CRUD\Tabs::factory()
+	->addEntityViewTab("Information", $Address)
+	->addRelationshipViewTab($Address, "Lead")
+	->addRelationshipViewTab($Address, "Contacts")
+	->render();
+
+CRUD\Body::factory()->end();
+
+echo CRUD\Tabs::factory()->getJS();

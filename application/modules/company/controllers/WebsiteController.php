@@ -16,7 +16,6 @@ class Company_WebsiteController extends Dataservice_Controller_Crud_Action
 	$objResources	= new Dataservice_ACL_Resources;
 	
 	$this->_requireEntity();
-	
 	$Default_Role  = $this->_Entity->isGuestAllowed() ? $this->_Entity->getGuestRole() : $this->_Entity->getAdminRole();
 	    
 	$objResources->buildAllArrays($this->_Entity->getNameIndex());

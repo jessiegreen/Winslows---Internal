@@ -6,7 +6,7 @@ namespace Entities\Company;
  * @Table(name="company_timeclocks")
  * @HasLifecycleCallbacks
  * @Crud\Entity\Url(value="time-clock")
- * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
+ * @Crud\Entity\Permissions(view={"Admin"}, create={"Admin"})
  */
 class TimeClock extends \Dataservice_Doctrine_Entity
 {
@@ -19,6 +19,7 @@ class TimeClock extends \Dataservice_Doctrine_Entity
     
     /**
      * @OneToOne(targetEntity="\Entities\Company", inversedBy="TimeClock", cascade={"persist"})
+     * @Crud\Relationship\Permissions()
      * @var \Entities\Company $Company
      */
     protected $Company;
@@ -27,6 +28,7 @@ class TimeClock extends \Dataservice_Doctrine_Entity
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="\Entities\Company\TimeClock\Entry", mappedBy="TimeClock", cascade={"persist"})
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var \Doctrine\Common\Collections\ArrayCollection $Entries
      */
     protected $Entries;
@@ -68,5 +70,10 @@ class TimeClock extends \Dataservice_Doctrine_Entity
     public function getEntries()
     {
 	return $this->Entries;
+    }
+    
+    public function toString()
+    {
+	return $this->getCompany()->getName();
     }
 }

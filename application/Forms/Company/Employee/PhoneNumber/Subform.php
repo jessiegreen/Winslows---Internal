@@ -9,7 +9,7 @@ class Subform extends \Forms\Company\PhoneNumber\Subform
     {
 	$this->_PhoneNumber = $PhoneNumber;
 	
-	parent::__construct($options, $this->_PhoneNumber);
+	parent::__construct($this->_PhoneNumber, $options);
     }
     
     public function init($options = array())

@@ -1,0 +1,20 @@
+<?php 
+use Dataservice\Html\CRUD;
+
+echo($this->flashMessages()); 
+
+echo CRUD\Header::factory("Time Clock Entry - View")->getHtml();
+
+$Entry = $this->Entry;
+
+CRUD\Body::factory()->start();
+
+CRUD\Tabs::factory()
+	->addEntityViewTab("Information", $Entry)
+	->addRelationshipViewTab($Entry, "Employee")
+	->addRelationshipViewTab($Entry, "TimeClock")
+	->render();
+
+CRUD\Body::factory()->end();
+
+echo CRUD\Tabs::factory()->getJS();

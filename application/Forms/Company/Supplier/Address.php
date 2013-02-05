@@ -1,7 +1,7 @@
 <?php
 namespace Forms\Company\Supplier;
 
-class Address extends \Zend_Form
+class Address extends \Dataservice_Form
 {    
     private $_Address;
     

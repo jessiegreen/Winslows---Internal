@@ -429,4 +429,13 @@ class Employee extends PersonAbstract
     {
 	return $this->getFullName()." - ".($this->getLocation() ? $this->getLocation()->getName() : "")." - ".$this->getTitle();
     }
+    
+    public function populate(array $array)
+    {
+	$Company = $this->_getEntityFromArray($array, "Entities\Company", "company_id");
+	
+	if($Company)$this->setCompany($Company);
+	
+	parent::populate($array);
+    }
 }

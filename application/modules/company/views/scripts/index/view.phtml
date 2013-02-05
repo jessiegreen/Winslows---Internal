@@ -18,6 +18,8 @@ CRUD\Tabs::factory()
 	->addRelationshipViewTab($Company, "RtoProviders")
 	->addRelationshipViewTab($Company, "Dealers")
 	->addRelationshipViewTab($Company, "Websites")
+	->addRelationshipViewTab($Company, "TimeClock")
+	->addRelationshipViewTab($Company, "Inventory")
 	->render();
 
 CRUD\Body::factory()->end();
