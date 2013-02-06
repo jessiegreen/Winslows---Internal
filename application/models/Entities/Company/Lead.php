@@ -281,4 +281,9 @@ class Lead extends PersonAbstract
 	
 	parent::populate($array);
     }
+    
+    public function getDescriminator()
+    {
+	return self::TYPE_Lead;
+    }
 }

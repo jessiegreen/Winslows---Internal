@@ -17,6 +17,10 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 abstract class PersonAbstract extends \Dataservice_Doctrine_Entity
 {
+    const TYPE_Employee	    = "Employee";
+    const TYPE_Lead	    = "Lead";
+    const TYPE_Guest	    = "Guest";
+    
     /**
      * @Id @Column(type="integer")
      * @GeneratedValue(strategy="AUTO")
@@ -173,5 +177,26 @@ abstract class PersonAbstract extends \Dataservice_Doctrine_Entity
     public function toString()
     {
 	return $this->getFullName();
+    }
+    
+    /**
+     * @param \Entities\Company\ContactLog\Contact $Contact
+     */
+    public function addContact(\Entities\Company\ContactLog\Contact $Contact)
+    {
+	$this->Contacts[] = $Contact;
+    }
+    
+    /**
+     * @return ArrayCollection
+     */
+    public function getContacts()
+    {
+	return $this->Contacts;
+    }
+    
+    public function getDescriminator()
+    {
+	return "";
     }
 }

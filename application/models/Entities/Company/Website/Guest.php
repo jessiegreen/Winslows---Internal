@@ -35,4 +35,9 @@ class Guest extends PersonAbstract
     {
 	return $this->Account;
     }
+    
+    public function getDescriminator()
+    {
+	return self::TYPE_Guest;
+    }
 }

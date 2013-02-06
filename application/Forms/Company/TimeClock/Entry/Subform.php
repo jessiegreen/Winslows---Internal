@@ -23,6 +23,7 @@ class Subform extends \Zend_Form_SubForm
 	$this->addElement('text', 'date_time_value', array(
             'required'	    => true,
             'label'	    => 'Date/Time:',
+	    'class'	    => 'ui-date-time-picker',
 	    'value'	    => $this->_Entry->getDateTime() ? $this->_Entry->getDateTime()->format("Y-m-d H:i:s") : ""
         ));
 	

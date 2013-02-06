@@ -62,7 +62,7 @@ class Contact extends \Dataservice_Doctrine_Entity
     /**
      * @param \Entities\Company\Person\Person\Abstract $Party
      */
-    public function addPerson(Person $Person)
+    public function addPerson(\Entities\Company\Person\PersonAbstract $Person)
     {
 	$Person->addContact($this);
 	
@@ -122,7 +122,7 @@ class Contact extends \Dataservice_Doctrine_Entity
      */
     public function getDescription()
     {
-        return $this->Description;
+        return $this->description;
     }
 
     /**
@@ -147,5 +147,25 @@ class Contact extends \Dataservice_Doctrine_Entity
     public function setDateTime(\DateTime $DateTime)
     {
         $this->datetime = $DateTime;
+    }
+    
+    public function populate(array $array)
+    {
+	if(isset($array["people"]))
+	{
+	    $people = json_decode($array["people"]);
+	    
+	    foreach($people as $key => $person)
+	    {
+		$PersonAbstract = \Services\Company\Entity::factory()->find("Entities\Company\Person\PersonAbstract", $key);
+		
+		if($PersonAbstract && $PersonAbstract->getId())
+		{
+		    $this->addPerson($PersonAbstract);
+		}
+	    }
+	}
+	
+	parent::populate($array);
     }
 }

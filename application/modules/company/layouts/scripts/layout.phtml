@@ -14,6 +14,7 @@
     
     echo $this->headMeta();
     $this->headScript()->prependFile('/javascript/common.js');
+    $this->headScript()->prependFile("/javascript/jquery/jquery-ui.datetimepicker.js");
     $this->headScript()->prependFile("/javascript/jquery/jquery-ui.min.js");
     $this->headScript()->prependFile('/javascript/jquery/jquery.js');
     $this->headScript()->appendFile('/javascript/company/layout.js');
@@ -29,6 +30,13 @@
     <script language="JavaScript" type="text/javascript">
 	l = new company_layout;
 	l.nav_menu($("ul.sf-menu"));
+	
+	$(document).ready(function() {
+	    $('.ui-date-time-picker').datetimepicker({
+		dateFormat: "yy-mm-dd",
+		timeFormat: "HH:mm:00"
+	    });
+	});
     </script>
 </head>
 <body>
