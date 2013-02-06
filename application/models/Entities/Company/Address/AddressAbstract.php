@@ -5,7 +5,7 @@ namespace Entities\Company\Address;
  * @Entity (repositoryClass="Repositories\Company\Address\AddressAbstract") 
  * @Table(name="company_address_addressabstracts") 
  */
-abstract class AddressAbstract extends \Entities\Company\Contact\MediumAbstract
+abstract class AddressAbstract extends \Entities\Company\ContactLog\Contact\MediumAbstract
 {
     /** 
      * @Column(type="string", length=255) 

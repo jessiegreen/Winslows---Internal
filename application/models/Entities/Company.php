@@ -113,17 +113,24 @@ class Company extends \Dataservice_Doctrine_Entity
     
     /**
      * @OneToOne(targetEntity="\Entities\Company\Inventory", mappedBy="Company", cascade={"persist"}, orphanRemoval=true)
-     * @Crud\Relationship\Permissions()
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var \Entities\Company\Inventory $Inventory
      */
     protected $Inventory;
     
     /**
      * @OneToOne(targetEntity="\Entities\Company\TimeClock", mappedBy="Company", cascade={"persist"}, orphanRemoval=true)
-     * @Crud\Relationship\Permissions()
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var \Entities\Company\TimeClock $TimeClock
      */
     protected $TimeClock;
+    
+    /**
+     * @OneToOne(targetEntity="\Entities\Company\ContactLog", mappedBy="Company", cascade={"persist"}, orphanRemoval=true)
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
+     * @var \Entities\Company\ContactLog $ContactLog
+     */
+    protected $ContactLog;
     
     public function __construct()
     {
@@ -144,6 +151,7 @@ class Company extends \Dataservice_Doctrine_Entity
     public function addLocation(Company\Location $Location)
     {
 	$Location->setCompany($this);
+	
         $this->Locations[] = $Location;
     }
     
@@ -363,6 +371,24 @@ class Company extends \Dataservice_Doctrine_Entity
     public function getTimeClock()
     {
 	return $this->TimeClock;
+    }
+    
+    /**
+     * @param \Entities\Company\ContactLog $ContactLog
+     */
+    public function setContactLog(Company\ContactLog $ContactLog)
+    {
+	$ContactLog->setCompany($this);
+	
+	$this->ContactLog = $ContactLog;
+    }
+    
+    /**
+     * @return Company\ContactLog
+     */
+    public function getContactLog()
+    {
+	return $this->ContactLog;
     }
 
     /**

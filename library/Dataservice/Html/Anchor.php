@@ -18,9 +18,13 @@ class Anchor
      */
     public static function anchorIcon($icon, $text, $href, $style = "", $title = "", $id = "", $onclick = "")
     {
-	return '<a href="'.$href.'" title="'.$title.'" style="border:none;'.$style.'" id="'.$id.'" onclick="'.$onclick.'">'.
+	$preset_style	= "border:none;font-weight:500;text-decoration:none;font-size:12px;color:gray;";
+	
+	$span_style	= $text ? "border:solid 1px #E9E9E9;padding:2px;padding-left:4px;border-left:none;border-right:none;margin-left:-7px;" : "";
+	
+	return '<a href="'.$href.'" title="'.$title.'" style="'.$preset_style.$style.'" id="'.$id.'" onclick="'.$onclick.'">'.
 		    '<img src="'.self::$_icon_url.'/'.$icon.'"/ style="margin-right:5px;margin-left:5px;vertical-align:bottom;">'.
-		    $text.
+		    '<span style="'.$span_style.'">'.$text.'</span>'.
 		'</a>';
     }
     

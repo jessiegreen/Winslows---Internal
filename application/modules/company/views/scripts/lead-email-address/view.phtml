@@ -11,7 +11,7 @@ CRUD\Body::factory()->start();
 
 CRUD\Tabs::factory()
 	->addEntityViewTab("Information", $EmailAddress)
-	->addRelationshipViewTab($EmailAddress, "Employee")
+	->addRelationshipViewTab($EmailAddress, "Lead")
 	->addRelationshipViewTab($EmailAddress, "Contacts")
 	->render();
 

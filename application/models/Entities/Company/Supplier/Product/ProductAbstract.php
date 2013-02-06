@@ -13,6 +13,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  *			"company_supplier_product_simple" = "\Entities\Company\Supplier\Product\Simple"
  *			})
  * @HasLifecycleCallbacks
+ * @Crud\Entity\Url()
+ * @Crud\Entity\Permissions()
  */
 class ProductAbstract extends \Dataservice_Doctrine_Entity
 {
@@ -47,12 +49,14 @@ class ProductAbstract extends \Dataservice_Doctrine_Entity
     
     /** 
      * @ManyToOne(targetEntity="\Entities\Company\Supplier", inversedBy="Products")
+     * @Crud\Relationship\Permissions()
      * @var \Entities\Company\Supplier $Supplier
      */     
     protected $Supplier;
     
     /**
      * @ManytoMany(targetEntity="\Entities\Company\Supplier\Product\Category", mappedBy="Products", cascade={"persist"})
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var array $Categories
      */
     protected $Categories;
@@ -60,6 +64,7 @@ class ProductAbstract extends \Dataservice_Doctrine_Entity
     /**
      * @ManytoMany(targetEntity="\Entities\Company\RtoProvider\Program", inversedBy="Products", cascade={"persist"})
      * @JoinTable(name="company_supplier_product_program_joins")
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var ArrayCollection $Programs
      */
     protected $Programs;
@@ -67,6 +72,7 @@ class ProductAbstract extends \Dataservice_Doctrine_Entity
     /**
      * @ManytoMany(targetEntity="\Entities\Company\Supplier\Product\DeliveryType\DeliveryTypeAbstract", inversedBy="Products", cascade={"persist"})
      * @JoinTable(name="company_supplier_product_productabstract_deliverytype_joins")
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var ArrayCollection $DeliveryTypes
      */
     private $DeliveryTypes;
@@ -75,12 +81,14 @@ class ProductAbstract extends \Dataservice_Doctrine_Entity
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="\Entities\Company\Supplier\Product\Purpose", mappedBy="Product", cascade={"persist"})
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var array $Purposes
      */
     protected $Purposes;
     
     /**
      * @OnetoMany(targetEntity="\Entities\Company\Supplier\Product\File\Image", cascade={"persist", "remove"}, mappedBy="Product", orphanRemoval=true)
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var ArrayCollection $Images
      */
     private $Images;
@@ -320,5 +328,10 @@ class ProductAbstract extends \Dataservice_Doctrine_Entity
 	}
 	
 	return false;
+    }
+    
+    public function toString()
+    {
+	return $this->getDescriminator()." - ".$this->getName();
     }
 }

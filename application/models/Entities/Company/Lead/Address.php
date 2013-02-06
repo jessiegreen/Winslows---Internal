@@ -31,4 +31,13 @@ class Address extends \Entities\Company\Address\AddressAbstract
     {
 	return $this->Lead;
     }
+    
+    public function populate(array $array)
+    {
+	$Lead = $this->_getEntityFromArray($array, "Entities\Company\Lead", "lead_id");
+	
+	if($Lead)$this->setLead($Lead);
+	
+	parent::populate($array);
+    }
 }

@@ -5,7 +5,7 @@ namespace Entities\Company\FaxNumber;
  * @Entity (repositoryClass="Repositories\Company\FaxNumber\FaxNumberAbstract") 
  * @Table(name="company_faxnumber_faxnumberabstracts") 
  */
-abstract class FaxNumberAbstract extends \Entities\Company\Contact\MediumAbstract
+abstract class FaxNumberAbstract extends \Entities\Company\ContactLog\Contact\MediumAbstract
 {
     /** 
      * @Column(type="integer", length=3) 

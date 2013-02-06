@@ -1,0 +1,21 @@
+<?php 
+use Dataservice\Html\CRUD;
+
+echo($this->flashMessages()); 
+
+echo CRUD\Header::factory("Contact Log Contact - View")->getHtml();
+
+$Contact = $this->Contact;
+
+CRUD\Body::factory()->start();
+
+CRUD\Tabs::factory()
+	->addEntityViewTab("Information", $Contact)
+	->addRelationshipViewTab($Contact, "ContactLog")
+	->addRelationshipViewTab($Contact, "People")
+	->addRelationshipViewTab($Contact, "Medium")
+	->render();
+
+CRUD\Body::factory()->end();
+
+echo CRUD\Tabs::factory()->getJS();

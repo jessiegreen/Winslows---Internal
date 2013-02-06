@@ -57,7 +57,7 @@ abstract class PersonAbstract extends \Dataservice_Doctrine_Entity
     protected $Documents;
     
     /**
-     * @ManytoMany(targetEntity="\Entities\Company\Contact", mappedBy="People", cascade={"persist"})
+     * @ManytoMany(targetEntity="\Entities\Company\ContactLog\Contact", mappedBy="People", cascade={"persist"})
      * @var array $Contacts
      * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @OrderBy({"datetime" = "ASC"})
@@ -78,6 +78,7 @@ abstract class PersonAbstract extends \Dataservice_Doctrine_Entity
     public function addDocument(Document $Document)
     {
 	$Document->setPerson($this);
+	
         $this->Documents[] = $Document;
     }
     

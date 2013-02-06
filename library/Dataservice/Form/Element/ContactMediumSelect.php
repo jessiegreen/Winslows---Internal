@@ -24,7 +24,7 @@ class Dataservice_Form_Element_ContactMediumSelect extends Zend_Form_Element_Sel
     
     public function init()
     {
-	$Contact = !$this->_Contact ? new \Entities\Company\Contact() : $this->_Contact;
+	$Contact = !$this->_Contact ? new \Entities\Company\ContactLog\Contact() : $this->_Contact;
 	$array	 = array();
 	
 	foreach($this->_Lead->getEmployee()->getLocation()->getCompany()->getLocations() as $Location){

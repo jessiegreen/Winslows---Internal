@@ -1,152 +1,49 @@
 <?php 
+use Dataservice\Html\CRUD;
+
 echo($this->flashMessages()); 
-echo "<div>";
-echo \Dataservice\Html\Anchor::backAnchorIcon("Company - View", "/index/view/id/".Services\Company\Website::factory()->getCurrentWebsite()->getCompany()->getId());
-echo "</div>";
-?>
-<h1 class="header1">Supplier - View</h1>
-<?php
-/* @var $Supplier \Entities\Company\Supplier */
-$Supplier	= $this->Supplier;
-$supplier_id	= $Supplier->getId();
-$Companies	= $Supplier->getCompanies();
-$Products	= $Supplier->getProducts();
-$Addresses	= $Supplier->getAddresses();
-?>
-<div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
-    <h3 class="no_space" style="color: #2000EE;">
-	Info
-	<?php
-	echo \Dataservice\Html\Anchor::anchorIcon(
-		"pencil.png", 
-		"", 
-		"/supplier/edit/id/".$supplier_id,
-		"margin-left:5px;"
-		);
-	?>
-    </h4>
-    <div>
-	Name: <?php echo $Supplier->getName(); ?> &nbsp;&nbsp;&nbsp;
-    </div>
-</div>
-<div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">
-    <div id="accordion">
-	<h3>
-	    <a href="#">Companies</a>
-	    <?php echo \Dataservice\Html\Button::buttonBlue("add.png", "Add Company", "company_add", "float:right;width:110px;");?>
-	</h3>
-	<div>
-	    <?php
-	    /* @var $Company \Entities\Company */
-	    if(count($Companies)>0)
-	    {
-		foreach ($Companies as $Company)
-		{
-		    ?>
-		    <div style="padding: 3px;margin-bottom: 3px;">
-			<?php 
-			echo $Company->getName();
-			echo \Dataservice\Html\Anchor::anchorIcon(
-				"bullet_go.png", 
-				"", 
-				"/index/view/id/".$Company->getId(),
-				"margin-left:5px;"
-				);
-			?>
-		    </div>
-		    <?php
-		}
-	    }
-	    else echo "No Companies";
-	    ?>
-	</div>
-	<hr />
-	<h3>
-	    <a href="#">Address</a>
-	    <?php echo \Dataservice\Html\Button::buttonBlue("add.png", "Add Address", "address_add", "float:right;width:110px;");?>
-	</h3>
-	<div>
-	    <?php
-	    /* @var $Address \Entities\Company\Address */
-	    foreach ($Addresses as $Address) {
-		?>
-		<h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
-		    <?php 
-		    echo $Address->getName();
-		    echo \Dataservice\Html\Anchor::anchorIcon(
-			    "pencil.png", 
-			    "", 
-			    "/supplier-address/edit/supplier_id/".$supplier_id."/id/".$Address->getId(),
-			    "margin-left:5px;"
-			    );
-		    ?>
-		</h4>
-		<label>Address 1:</label>
-		<div style="display: inline;"><?php echo $Address->getAddress1(); ?></div><br />
-		<label>Address 2:</label>
-		<div style="display: inline;"><?php echo $Address->getAddress2(); ?></div><br />
-		<label>City/ST/Zip:</label>
-		<div style="display: inline;">
-		    <?php 
-		    echo $Address->getCity().", ".
-			    $Address->getState()." ".
-			    $Address->getZip1()."-".
-			    $Address->getZip2(); ?>
-		</div>
-		<?php
-	    }
-	    ?>
-	</div>
-	<hr />
-    </div>
-</div>
-<div class="padded_frame" style="width: 415px;float: right;padding-top: 0px;">
-    <h3>
-	<a href="#">Products</a>
-	<?php 
-	    echo \Dataservice\Html\Button::buttonBlue(
-		    "add.png", 
-		    "Add Configurable", 
-		    "product_add_configurable", 
-		    "float:right;margin-left:5px;"
-		    );
-	    echo \Dataservice\Html\Button::buttonBlue("add.png", "Add Simple", "product_add_simple", "float:right;");
-	?>
-    </h3>
-    <div>
-	<?php
-	/* @var $Product \Entities\Company\Supplier\Product\ProductAbstract */
-	if(count($Products)>0)
-	{
-	    foreach ($Products as $Product)
-	    {
-		?>
-		<div style="padding: 3px;margin-bottom: 3px;">
-		    <?php 
-		    echo $Product->getName();
-		    echo \Dataservice\Html\Anchor::anchorIcon(
-			    "bullet_go.png", 
-			    "", 
-			    "/supplier-product/view/id/".$Product->getId(),
-			    "margin-left:5px;"
-			    );
-		    ?>
-		</div>
-		<?php
-	    }
-	}
-	else echo "No Products";
-	?>
-    </div>
-    <hr />
-    <h3><a href="#">Documents</a></h3>
-    <div>Put Documents here</div>
-</div>
-<div style="clear: both;"><input type="hidden" id="supplier_id" value="<?php echo $supplier_id;?>" /></div>
-<script type="text/javascript">
-    Supplier = new Supplier();
-    Supplier.AddAddressOnclickBind($("#address_add"));
-    Supplier.AddCompanyOnclickBind($("#company_add"));
-    Supplier.AddProductConfigurableOnclickBind($("#product_add_configurable"));
-    Supplier.AddProductSimpleOnclickBind($("#product_add_simple"));
-</script>
+
+echo CRUD\Header::factory("Supplier - View")->getHtml();
+
+$Supplier   = $this->Supplier;
+$Tabs	    = CRUD\Tabs::factory();
+
+CRUD\Body::factory()->start();
+
+$Tabs->addEntityViewTab("Information", $Supplier)
+	->addRelationshipViewTab($Supplier, "Company")
+	->addTab(
+	    CRUD\Tabs\Tab::factory(("Contact Info"))
+		->addRelationshipView($Supplier, "Addresses")
+	);
+
+$Tab = CRUD\Tabs\Tab::factory("Products");
+
+$relationshipContent = CRUD\Content\Relationship\OneToMany::factory($Supplier, "Products");
+
+$relationshipContent->addHtmlHeaderContent($relationshipContent->relationshipPropertyName);
+$relationshipContent->addHtmlHeaderContent(
+	\Dataservice\Html\Anchor::addIcon(
+		"Configurable", 
+		"/supplier-product-configurable/edit/id/0/supplier_id/".$relationshipContent->parentEntity->getId(), 
+		"Add Configurable Product"
+		)
+	);
+$relationshipContent->addHtmlHeaderContent(
+	\Dataservice\Html\Anchor::addIcon(
+		"Simple", 
+		"/supplier-product-simple/edit/id/0/supplier_id/".$relationshipContent->parentEntity->getId(), 
+		"Add Simple Product"
+		)
+	);
+$relationshipContent->buildRelationshipBodyHtml();
+
+$Tab->addContent($relationshipContent->getHtml());
+
+$Tabs->addTab($Tab);
+
+$Tabs->render();
+
+CRUD\Body::factory()->end();
+
+echo CRUD\Tabs::factory()->getJS();

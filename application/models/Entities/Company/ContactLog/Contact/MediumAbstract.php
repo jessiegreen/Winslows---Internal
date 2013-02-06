@@ -1,11 +1,11 @@
 <?php
-namespace Entities\Company\Contact;
+namespace Entities\Company\ContactLog\Contact;
 
 use \Doctrine\Common\Collections\ArrayCollection;
 
 /** 
- * @Entity (repositoryClass="Repositories\Company\Contact\MediumAbstract") 
- * @Table(name="company_contact_mediumabstracts") 
+ * @Entity (repositoryClass="Repositories\Company\ContactLog\Contact\MediumAbstract") 
+ * @Table(name="company_contactlog_contact_mediumabstracts") 
  * @InheritanceType("JOINED")
  * @DiscriminatorColumn(name="discr", type="string")
  * @DiscriminatorMap({
@@ -37,7 +37,7 @@ abstract class MediumAbstract extends \Dataservice_Doctrine_Entity
     protected $id;
     
     /**
-     * @OneToMany(targetEntity="\Entities\Company\Contact", mappedBy="Medium", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @OneToMany(targetEntity="\Entities\Company\ContactLog\Contact", mappedBy="Medium", cascade={"persist", "remove"}, orphanRemoval=true)
      * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var ArrayCollection $Contacts
      * @OrderBy({"datetime" = "ASC"})
@@ -52,9 +52,9 @@ abstract class MediumAbstract extends \Dataservice_Doctrine_Entity
     }
     
     /**
-     * @param \Entities\Company\Contact $Contact
+     * @param \Entities\Company\ContactLog\Contact $Contact
      */
-    public function addContact(\Entities\Company\Contact $Contact)
+    public function addContact(\Entities\Company\ContactLog\Contact $Contact)
     {
 	$Contact->setMedium($this);
 	

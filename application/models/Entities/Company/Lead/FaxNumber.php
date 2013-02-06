@@ -31,4 +31,25 @@ class FaxNumber extends \Entities\Company\FaxNumber\FaxNumberAbstract
     {
 	return $this->Lead;
     }
+    
+    public function populate(array $array)
+    {
+	$Lead = $this->_getEntityFromArray($array, "Entities\Company\Lead", "lead_id");
+	
+	if($Lead)$this->setLead($Lead);
+	
+	if(isset($array["fax_number"]))
+	{
+	    if(isset($array["fax_number"]["area"]))
+		$this->setAreaCode($array["fax_number"]["area"]);
+	    
+	    if(isset($array["fax_number"]["prefix"]))
+		$this->setNum1($array["fax_number"]["prefix"]);
+	    
+	    if(isset($array["fax_number"]["line"]))
+		$this->setNum2($array["fax_number"]["line"]);
+	}
+	
+	parent::populate($array);
+    }
 }

@@ -53,7 +53,7 @@ class OneToMany extends RelationshipAbstract
 	    {
 		$this->addHtmlBodyContent("<li>");
 		
-		if($this->currentUserAccount->hasRoleByRoleNames($this->relationshipClassPermissions->view))
+		if($this->currentUserAccount->hasRoleByRoleNames($Entity->getCrudPermission("view")))
 		    $this->addHtmlBodyContent(
 			    $this->anchorObject->viewIcon(
 				    "", 
@@ -61,7 +61,7 @@ class OneToMany extends RelationshipAbstract
 				    "View ".$this->relationshipClassName)
 			    );
 		
-		if($this->currentUserAccount->hasRoleByRoleNames($this->relationshipPermissions->remove))
+		if($this->currentUserAccount->hasRoleByRoleNames($Entity->getCrudPermission("delete")))
 		    $this->addHtmlBodyContent(
 			    $this->anchorObject->deleteIcon(
 				    "", 

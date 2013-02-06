@@ -31,4 +31,25 @@ class PhoneNumber extends \Entities\Company\PhoneNumber\PhoneNumberAbstract
     {
 	return $this->Lead;
     }
+    
+    public function populate(array $array)
+    {
+	$Lead = $this->_getEntityFromArray($array, "Entities\Company\Lead", "lead_id");
+	
+	if($Lead)$this->setLead($Lead);
+	
+	if(isset($array["phone_number"]))
+	{
+	    if(isset($array["phone_number"]["area"]))
+		$this->setAreaCode($array["phone_number"]["area"]);
+	    
+	    if(isset($array["phone_number"]["prefix"]))
+		$this->setNum1($array["phone_number"]["prefix"]);
+	    
+	    if(isset($array["phone_number"]["line"]))
+		$this->setNum2($array["phone_number"]["line"]);
+	}
+	
+	parent::populate($array);
+    }
 }
