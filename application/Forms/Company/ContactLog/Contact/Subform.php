@@ -14,13 +14,22 @@ class Subform extends \Zend_Form_SubForm
     
     public function init()
     {
-//	$this->addElement(new \Dataservice_Form_Element_Company_DealerSelect("dealer_id", array(
-//            'required'	    => true,
-//            'label'	    => 'Dealer:',
-//	    'value'	    => $this->_Contact && $this->_Contact->getDealer() ? 
-//				$this->_Contact->getDealer()->getId() : 
-//				""
-//        )));
+	$this->addElement('hidden', 'contactlog_id', array(
+            'required'	    => true,
+	    'value'	    => $this->_Contact->getContactLog() ? $this->_Contact->getContactLog()->getId() : ""
+        ));
+	
+	$this->addElement(
+	    new \Dataservice\Form\Element\Company\Employee\Lead\AutoComplete(
+		'function(event,ui) { C = new Company_Contact_Log_Contact_Edit();C.FormAddPerson(ui.item.id, ui.item.label); }',
+		"people_picker", 
+		array(
+		    'required'	    => true,
+		    'label'	    => 'People:',
+		    'value'	    => ""
+		)
+	    )
+	);
 	
 	$people = array();
 	
@@ -30,13 +39,6 @@ class Subform extends \Zend_Form_SubForm
 	}
 	
 	$people_json = json_encode($people);
-	
-	$this->addElement('text', 'people_picker', array(
-            'required'	    => true,
-            'label'	    => 'People:',
-	    'ignore'	    => true,
-	    'value'	    => ""
-        ));
 	
 	$this->addElement('hidden', 'people', array(
             'required'	    => true,

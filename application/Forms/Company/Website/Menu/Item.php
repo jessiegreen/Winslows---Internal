@@ -1,7 +1,7 @@
 <?php
 namespace Forms\Company\Website\Menu;
 
-class Item extends \Zend_Form
+class Item extends \Dataservice_Form
 {
     private $_MenuItem;
     

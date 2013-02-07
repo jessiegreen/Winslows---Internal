@@ -341,4 +341,18 @@ class Item extends \Dataservice_Doctrine_Entity
 	
 	return $params;
     }
+    
+    public function populate(array $array)
+    {
+	$Menu = $this->_getEntityFromArray($array, "Entities\Company\Website\Menu", "menu_id");
+	
+	if($Menu)$this->setMenu($Menu);
+	
+	parent::populate($array);
+    }
+    
+    public function toString()
+    {
+	return $this->getLabel();
+    }
 }

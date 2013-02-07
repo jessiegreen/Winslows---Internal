@@ -14,6 +14,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  * *			"company_website_guest" = "\Entities\Company\Website\Guest"
  *		    })
  * @HasLifecycleCallbacks
+ * @Crud\Entity\Url()
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
 abstract class PersonAbstract extends \Dataservice_Doctrine_Entity
 {

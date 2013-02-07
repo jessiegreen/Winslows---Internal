@@ -1,81 +1,20 @@
 <?php 
+use Dataservice\Html\CRUD;
+
 echo($this->flashMessages()); 
-echo "<div>";
-echo \Dataservice\Html\Anchor::backAnchorIcon("Website - view", "/website/view/id/".$this->Menu->getWebsite()->getId());
-echo "</div>";
-?>
-<h1 class="header1">Menu - View</h1>
-<?php
-/* @var $Menu \Entities\Company\Website\Menu */
-$Menu	    = $this->Menu;
-$menu_id    = $Menu->getId();
-?>
-<div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
-    <h3 class="no_space" style="color: #2000EE;">
-	Info
-	<?php
-	echo \Dataservice\Html\Anchor::anchorIcon(
-		"pencil.png", 
-		"", 
-		"/website-menu/edit/id/".$menu_id,
-		"margin-left:5px;"
-		);
-	?>
-    </h3>
-    <div>
-	<label>Name:</label> <?php echo $Menu->getName(); ?> &nbsp;&nbsp;&nbsp;
-    </div>
-</div>
-<div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">
-    <div id="accordion">
-	<h3>
-	    <a href="#">Website</a>
-	</h3>
-	<div>
-	    <h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
-		<?php 
-		echo $Menu->getWebsite()->getName();
-		echo \Dataservice\Html\Anchor::anchorIcon("bullet_go.png", "", "/website/view/id/".$Menu->getWebsite()->getId(), "margin-left:3px", "View Website");
-		?>
-	    </h4>
-<!--	    <label>Lead:</label>
-	    <div style="display: inline;"></div>-->
-	</div>
-	<hr />
-	<h3>
-	    <a href="#">Items</a>
-	    <?php
-	    echo \Dataservice\Html\Button::buttonBlue(
-		    "add.png", 
-		    "Add Top Item", 
-		    "menuitem_add", 
-		    "float:right;margin-right:5px;"
-		    );
-	    ?>
-	</h3>
-	<div style="width:350px;">
-	    <ol style="margin-left: auto;margin-right: auto;">
-		<?php
-		/* @var $MenuItem \Entities\Company\Website\Menu\Item */
-		foreach($Menu->getParentItems() as $MenuItem)
-		{
-		    $this->Maintenance_Menuitem($MenuItem, true);
-		}
-		?>
-	    </ol>
-	</div>
-	<hr />
-    </div>
-</div>
-<div class="padded_frame" style="width: 415px;float: right;padding-top: 0px;">
-    <h3><a href="#">Documents</a></h3>
-    <div>Put Documents here</div>
-</div>
-<div style="clear: both;"><input type="hidden" id="menu_id" value="<?php echo $menu_id;?>" /></div>
-<script type="text/javascript">
-    Website_Menu = new Website_Menu();
-    Website_Menu.AddOnclickBind($("#menuitem_add"));
-    Website_Menu.EditOnclickBind($(".menuitem_edit"));
-    Website_Menu.AddChildOnclickBind($(".child_add"));
-    Website_Menu.RemoveOnclickBind($(".menuitem_remove"));
-</script>
+
+echo CRUD\Header::factory("Time Clock - View")->getHtml();
+
+$Menu = $this->Menu;
+
+CRUD\Body::factory()->start();
+
+CRUD\Tabs::factory()
+	->addEntityViewTab("Information", $Menu)
+	->addRelationshipViewTab($Menu, "Website")
+	->addRelationshipViewTab($Menu, "Items")
+	->render();
+
+CRUD\Body::factory()->end();
+
+echo CRUD\Tabs::factory()->getJS();

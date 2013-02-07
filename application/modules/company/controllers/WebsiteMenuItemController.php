@@ -1,85 +1,11 @@
 <?php
-class Company_WebsiteMenuItemController extends Dataservice_Controller_Action
+class Company_WebsiteMenuItemController extends Dataservice_Controller_Crud_Action
 {    
-    public function editAction()
-    {	
-	/* @var $MenuItem \Entities\Company\Website\Menu\Item */
-	$MenuItem   = $this->getEntityFromParamFields("Company\Website\Menu\Item", array("id"));
-	$parent_id  = $this->getRequest()->getParam("parent_id", null);
-	$menu_id    = $this->getRequest()->getParam("menu_id", null);
+    public function init()
+    {
+	$this->_EntityClass = "Entities\Company\Website\Menu\Item";
 	
-	if(!$MenuItem->getId())
-	{
-	    if($parent_id)
-	    {
-		$ParentMenuItem = $this->_em->getRepository("Entities\Company\Website\Menu\Item")->findOneById($parent_id);
-	    
-		if($ParentMenuItem)
-		{
-		    $MenuItem->setParent($ParentMenuItem);
-		    $MenuItem->setMenu($ParentMenuItem->getMenu());
-		}
-	    }
-	    elseif($menu_id)
-	    {
-		$Menu = $this->_em->getRepository("Entities\Company\Website\Menu")->findOneById($menu_id);
-
-		if($Menu)
-		{
-		    $MenuItem->setMenu($Menu);
-		}
-	    }
-	}
-	
-	$form	    = new Forms\Company\Website\Menu\Item(array("method" => "post"), $MenuItem);
-	$form->addElement("button", "cancel", 
-		array("onclick" => "location='".$this->_History->getPreviousUrl(1)."'")
-		);
-	
-	if($this->isPostAndValid($form))
-	{
-	    try 
-	    {
-		$menuitem_data	= $this->_params["website_menu_item"];
-		/* @var $Menu \Entities\Company\Website\Menu */
-		$Menu		= $this->_em->find("Entities\Company\Website\Menu", $menuitem_data["menu_id"]);
-		
-		$MenuItem->populate($menuitem_data);
-		
-		if($menuitem_data["parent_id"])
-		{
-		    $Parent = $this->_em->find("Entities\Company\Website\Menu\Item", $menuitem_data["parent_id"]);
-		    
-		    if($Parent)
-		    {
-			$MenuItem->setParent($Parent);
-			$MenuItem->setMenu($Parent->getMenu());
-		    }
-		}
-		elseif($menuitem_data["menu_id"])
-		{
-		    $Menu = $this->_em->find("Entities\Company\Website\Menu", $menuitem_data["menu_id"]);
-		    
-		    if($Menu)
-		    {
-			$MenuItem->setMenu($Menu);
-		    }
-		}
-		
-		$MenuItem->setMenu($Menu);
-		$this->_em->persist($MenuItem);
-		$this->_em->flush();
-		$this->_FlashMessenger->addSuccessMessage("Menu Item '".$MenuItem->getLabel()."' Added/Edited");
-	    } 
-	    catch (Exception $exc)
-	    {
-		$this->_FlashMessenger->addErrorMessage($exc->getMessage());
-	    }
-	    
-	    $this->_History->goBack();
-	}
-	
-	$this->view->form = $form;
+	parent::init();
     }
 
     public function removeAction()

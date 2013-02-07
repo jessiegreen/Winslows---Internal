@@ -26,6 +26,8 @@ use \Doctrine\Common\Collections\ArrayCollection;
  *			"company_dealer_location_phonenumber" = "\Entities\Company\Dealer\Location\PhoneNumber"
  *		    })
  * @HasLifecycleCallbacks
+ * @Crud\Entity\Url(value="")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
 abstract class MediumAbstract extends \Dataservice_Doctrine_Entity
 {

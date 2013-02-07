@@ -87,12 +87,12 @@ class Employee extends \Dataservice_Service_ServiceAbstract
 			p3_.num2 AS num2,
 			a4_.address_1 AS address_1
 		FROM company_leads l1_ 
-		INNER JOIN person_personabstracts p0_ ON l1_.id = p0_.id 
+		INNER JOIN company_person_personabstracts p0_ ON l1_.id = p0_.id 
 		LEFT JOIN company_leads c2_ ON l1_.id = c2_.id 
-		LEFT JOIN person_phonenumbers p6_ ON p0_.id = p6_.person_id 
-		LEFT JOIN phonenumber_phonenumberabstracts p3_ ON p3_.id = p6_.id 
-		LEFT JOIN person_addresses p5_ ON p0_.id = p5_.person_id 
-		LEFT JOIN address_addressabstracts a4_ ON p5_.id = a4_.id 
+		LEFT JOIN company_lead_phone_numbers p6_ ON p0_.id = p6_.lead_id 
+		LEFT JOIN company_phone_number_phonenumberabstracts p3_ ON p3_.id = p6_.id 
+		LEFT JOIN company_lead_addresses p5_ ON p0_.id = p5_.lead_id 
+		LEFT JOIN company_address_addressabstracts a4_ ON p5_.id = a4_.id 
 		WHERE 
 		    CONCAT(CONCAT(IFNULL(p0_.first_name,''), ' ', IFNULL(p0_.last_name,'')), ' ' , CONCAT(IFNULL(p3_.area_code,''), ' ', IFNULL(p3_.num1,''), ' ', IFNULL(p3_.num2,'')), ' ', IFNULL(a4_.address_1,''))
 		    LIKE :term  

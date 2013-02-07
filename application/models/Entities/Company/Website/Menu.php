@@ -36,12 +36,14 @@ class Menu extends \Dataservice_Doctrine_Entity
      *
      * @OneToMany(targetEntity="\Entities\Company\Website\Menu\Item", mappedBy="Menu", cascade={"persist"}, orphanRemoval=true)
      * @OrderBy({"sort_order" = "ASC"})
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var ArrayCollection $Items
      */
     protected $Items;
     
     /**
      * @ManyToOne(targetEntity="\Entities\Company\Website\WebsiteAbstract", inversedBy="Menus")
+     * @Crud\Relationship\Permissions()
      * @var \Entities\Company\Website\WebsiteAbstract
      */
     protected $Website;
@@ -216,6 +218,15 @@ class Menu extends \Dataservice_Doctrine_Entity
 	    
 	    return $HtmlMenu;
 	}
+    }
+    
+    public function populate(array $array)
+    {
+	$Website = $this->_getEntityFromArray($array, "Entities\Company\Website", "website_id");
+	
+	if($Website)$this->setWebsite($Website);
+	
+	parent::populate($array);
     }
     
     public function toString()

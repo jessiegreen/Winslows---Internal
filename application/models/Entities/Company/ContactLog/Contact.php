@@ -42,6 +42,8 @@ class Contact extends \Dataservice_Doctrine_Entity
     /** 
      * @ManyToOne(targetEntity="\Entities\Company\ContactLog\Contact\MediumAbstract", inversedBy="Contacts")
      * @var \Entities\Contact\Medium
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
+     * @OrderBy({"first_name" = "ASC"})
      */
     protected $Medium;
     
@@ -151,6 +153,10 @@ class Contact extends \Dataservice_Doctrine_Entity
     
     public function populate(array $array)
     {
+	$ContactLog = $this->_getEntityFromArray($array, "Entities\Company\ContactLog", "contactlog_id");
+	
+	if($ContactLog)$this->setContactLog($ContactLog);
+	
 	if(isset($array["people"]))
 	{
 	    $people = json_decode($array["people"]);
@@ -161,11 +167,25 @@ class Contact extends \Dataservice_Doctrine_Entity
 		
 		if($PersonAbstract && $PersonAbstract->getId())
 		{
-		    $this->addPerson($PersonAbstract);
+		    if(!$this->getPeople()->contains($PersonAbstract))
+			$this->addPerson($PersonAbstract);
 		}
 	    }
 	}
 	
+	if(isset($array["date_time_value"]))
+	{
+	    $DateTime = \DateTime::createFromFormat("Y-m-d H:i:s", $array["date_time_value"]);
+
+	    if($DateTime)
+		$this->setDateTime($DateTime);
+	}
+	
 	parent::populate($array);
+    }
+    
+    public function toString()
+    {
+	return $this->getDateTime()->format("Y-m-d H:i:s");
     }
 }
