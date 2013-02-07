@@ -7,5 +7,5 @@ $Location = $this->Location;
     <td><h3><?php echo $Location->getName();?></h3></td>
     <td style="text-align: center;"><?php echo property_exists($Location, "distance") ? number_format($Location->distance)."m" : "";?></td>
     <td><?php echo $Location->getAddress()->toString();?></td>
-    <td style="text-align: center;"><?php echo $Location->getPhoneNumber()->getNumberDisplay();?></td>
+    <td style="text-align: center;"><?php echo $Location->getPhoneNumber() ? $Location->getPhoneNumber()->getNumberDisplay() : "";?></td>
 </tr>

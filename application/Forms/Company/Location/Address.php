@@ -1,7 +1,7 @@
 <?php
 namespace Forms\Company\Location;
 
-class Address extends \Zend_Form
+class Address extends \Dataservice_Form
 {    
     private $_Address;
     
@@ -9,12 +9,12 @@ class Address extends \Zend_Form
     {
 	$this->_Address = $Address;
 	
-	parent::__construct($options, $this->_Address);
+	parent::__construct($options);
     }
     
     public function init($options = array())
     {
-	$form = new Address\Subform($options, $this->_Address);
+	$form = new Address\Subform($this->_Address, $options);
 	
 	$this->addSubForm($form, "company_location_address");
 

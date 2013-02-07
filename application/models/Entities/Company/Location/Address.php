@@ -35,7 +35,7 @@ class Address extends \Entities\Company\Address\AddressAbstract
     
     public function populate(array $array)
     {
-	$Location = $this->_getEntityFromArray($array, "Entities\Company\Dealer\Location", "location_id");
+	$Location = $this->_getEntityFromArray($array, "Entities\Company\Location", "location_id");
 	
 	if($Location)$this->setLocation($Location);
 	
