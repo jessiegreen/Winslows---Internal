@@ -277,7 +277,13 @@ class Lead extends PersonAbstract
 	
 	$Employee = $this->_getEntityFromArray($array, "Entities\Company\Employee", "employee_id");
 	
-	if($Employee)$this->setEmployee($Employee);
+	if($Employee)
+	{
+	    $this->setEmployee($Employee);
+	    
+	    if(!$this->Company)
+		$this->setCompany($Employee->getCompany());
+	}
 	
 	parent::populate($array);
     }

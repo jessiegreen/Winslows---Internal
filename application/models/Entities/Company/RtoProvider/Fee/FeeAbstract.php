@@ -14,6 +14,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  *			"company_rtoprovider_fee_percentage" = "\Entities\Company\RtoProvider\Fee\Percentage",
  *		    })
  * @HasLifecycleCallbacks
+ * @Crud\Entity\Url()
+ * @Crud\Entity\Permissions()
  */
 class FeeAbstract extends \Dataservice_Doctrine_Entity implements \Interfaces\Company\RtoProvider\Fee
 {
@@ -42,12 +44,14 @@ class FeeAbstract extends \Dataservice_Doctrine_Entity implements \Interfaces\Co
     
     /** 
      * @ManyToOne(targetEntity="\Entities\Company\RtoProvider", inversedBy="Fees")
+     * @Crud\Relationship\Permissions()
      * @var \Entities\Company\RtoProvider $RtoProvider
      */  
     protected $RtoProvider;
     
     /**
      * @ManytoMany(targetEntity="\Entities\Company\RtoProvider\Program", inversedBy="Fees", cascade={"persist"})
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @JoinTable(name="company_rtoprovider_program_fee_joins")
      * @var ArrayCollection $Programs
      */
@@ -161,5 +165,20 @@ class FeeAbstract extends \Dataservice_Doctrine_Entity implements \Interfaces\Co
     public function getUrlKey()
     {
 	return strtolower($this->getDescriminator());
+    }
+    
+    public function toString()
+    {
+	return $this->getDescriminator()." - ".$this->getName();
+    }
+    
+    public function populate(array $array)
+    {
+	$RtoProvider = $this->_getEntityFromArray($array, "Entities\Company\RtoProvider", "rtoprovider_id");
+	
+	if($RtoProvider && $RtoProvider->getId())
+	    $this->setRtoProvider($RtoProvider);
+	
+	parent::populate($array);
     }
 }

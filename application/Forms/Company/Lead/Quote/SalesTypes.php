@@ -1,16 +1,7 @@
 <?php
 namespace Forms\Company\Lead\Quote;
-/**
- * Name:
- * Location:
- *
- * Description for class (if any)...
- *
- * @author     Jessie Green <jessie.winslows@gmail.com>
- * @copyright  2012 Winslows inc.
- * @version    Release: @package_version@
- */
-class SalesTypes extends \Zend_Form
+
+class SalesTypes extends \Dataservice_Form
 {    
     /* @var $Quote \Entities\Company\Lead\Quote */
     private $Quote;

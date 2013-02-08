@@ -1,7 +1,7 @@
 <?php
 namespace Forms\Role;
 
-class Privilege extends \Zend_Form
+class Privilege extends \Dataservice_Form
 {
     private $_Privilege;
     

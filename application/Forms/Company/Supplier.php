@@ -1,7 +1,7 @@
 <?php
 namespace Forms\Company;
 
-class Supplier extends \Zend_Form
+class Supplier extends \Dataservice_Form
 {    
     private $_Supplier;
     

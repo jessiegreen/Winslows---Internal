@@ -1,7 +1,7 @@
 <?php
 namespace Forms\Company\Location;
 
-class PhoneNumber extends \Zend_Form
+class PhoneNumber extends \Dataservice_Form
 {    
     private $_PhoneNumber;
     
@@ -16,7 +16,7 @@ class PhoneNumber extends \Zend_Form
     {
 	$form = new PhoneNumber\Subform($this->_PhoneNumber, $options);
 	
-	$this->addSubForm($form, "company_location_phonenumber");
+	$this->addSubForm($form, "company_location_phone_number");
 	
 	$this->addElement('submit', 'submit', array(
             'ignore'	    => true,

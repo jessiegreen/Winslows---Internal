@@ -148,7 +148,8 @@ class Location extends \Entities\Company\Location\LocationAbstract
     {
 	$Company = $this->_getEntityFromArray($array, "Entities\Company", "company_id");
 	
-	if($Company)$this->setCompany($Company);
+	if($Company && $Company->getId())
+	    $this->setCompany($Company);
 	
 	parent::populate($array);
     }

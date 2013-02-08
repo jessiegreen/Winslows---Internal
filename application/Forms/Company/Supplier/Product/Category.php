@@ -1,7 +1,7 @@
 <?php
 namespace Forms\Company\Supplier\Product;
 
-class Category extends \Zend_Form
+class Category extends \Dataservice_Form
 {    
     private $_Category;
     

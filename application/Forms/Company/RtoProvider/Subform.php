@@ -38,6 +38,12 @@ class Subform extends \Zend_Form_SubForm
 	    'value'	    => $this->_RtoProvider ? $this->_RtoProvider->getNameIndex() : ""
         ));
 	
+	$this->addElement('text', 'minimum_points', array(
+            'required'	    => true,
+            'label'	    => 'Minimum Points:',
+	    'value'	    => $this->_RtoProvider ? $this->_RtoProvider->getMinimumPoints() : ""
+        ));
+	
 	$this->addElement('textarea', 'description', array(
             'required'	    => false,
             'label'	    => 'Description:',

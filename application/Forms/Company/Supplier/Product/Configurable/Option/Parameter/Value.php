@@ -1,7 +1,7 @@
 <?php
 namespace Forms\Company\Supplier\Product\Configurable\Option\Parameter;
 
-class Value extends \Zend_Form
+class Value extends \Dataservice_Form
 {    
     private $_Value;
     

@@ -1,32 +1,15 @@
 <?php
-class Company_InventoryController extends Dataservice_Controller_Action
+class Company_InventoryController extends Dataservice_Controller_Crud_Action
 {    
-    public function init()
+    public function init() 
     {
-	$this->view->headScript()->appendFile("/javascript/company/inventory.js");
+	$this->_EntityClass = "Entities\Company\Inventory";
 	
 	parent::init();
     }
     
-    public function viewAction()
-    {
-	$Inventory = $this->getEntityFromParamFields("Company\Inventory", array("id"));
-	
-	if(!$Inventory->getId())
-	{
-	    $this->_FlashMessenger->addErrorMessage("Could not get Inventory");
-	    $this->_History->goBack();
-	}
-	
-	$this->view->Inventory	= $Inventory;
-    }
-    
     public function addItemAction()
-    {
-	$Inventory = $this->_getInventory();
-	
-	$this->_CheckRequiredInventoryExists($Inventory);
-	
+    {	
 	$product_id = $this->getRequest()->getParam("product_id");
 	
 	if($product_id)
@@ -57,7 +40,7 @@ class Company_InventoryController extends Dataservice_Controller_Action
 		    $InventoryItem->setQuantity(1);
 		    $Inventory->addItem($InventoryItem);
 
-		    $this->_em->persist($Inventory);
+		    $this->_em->persist($this->_Entity);
 		    $this->_em->flush();
 		    
 		    $this->_redirect("/inventory-item/view/id/".$InventoryItem->getId());
@@ -70,22 +53,5 @@ class Company_InventoryController extends Dataservice_Controller_Action
 	    }
 	}
     }
-    
-    /**
-     * @return Entities\Company\Inventory
-     */
-    private function _getInventory()
-    {
-	return $this->getEntityFromParamFields("Company\Inventory", array("id"));
-    }
-    
-    private function _CheckRequiredInventoryExists(Entities\Company\Inventory $Inventory)
-    {
-	if(!$Inventory->getId())
-	{
-	    $this->_FlashMessenger->addErrorMessage("Could not get Inventory");
-	    $this->_History->goBack();
-	}
-    } 
 }
 

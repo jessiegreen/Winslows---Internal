@@ -11,4 +11,15 @@ class Subform extends \Forms\Company\PhoneNumber\Subform
 	
 	parent::__construct($this->_PhoneNumber, $options);
     }
+    
+    public function init()
+    {
+	$this->addElement('hidden', 'location_id', array(
+            'required'	    => true,
+            'label'	    => '',
+	    'value'	    => $this->_PhoneNumber && $this->_PhoneNumber->getLocation() ? $this->_PhoneNumber->getLocation()->getId() : ""
+        ));
+	
+	parent::init();
+    }
 }

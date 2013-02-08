@@ -37,6 +37,7 @@ class Value extends \Dataservice_Doctrine_Entity
     
     /** 
      * @ManyToOne(targetEntity="\Entities\Company\RtoProvider\Fee\Range", inversedBy="Fees")
+     * @Crud\Relationship\Permissions()
      * @var \Entities\Company\RtoProvider\Fee\Range $Range
      */  
     protected $Range;
@@ -116,5 +117,20 @@ class Value extends \Dataservice_Doctrine_Entity
     public function isInRange($number)
     {
 	return ($number > $this->getLow() && $number < $this->getHigh());
+    }
+    
+    public function toString()
+    {
+	return $this->getLow()." - ".$this->getHigh()." : ".$this->getValue();
+    }
+    
+    public function populate(array $array)
+    {
+	$Range = $this->_getEntityFromArray($array, "Entities\Company\RtoProvider\Fee\Range", "range_id");
+	
+	if($Range && $Range->getId())
+	    $this->setRange($Range);
+	
+	parent::populate($array);
     }
 }

@@ -97,4 +97,91 @@ class PaymentGateway extends \Dataservice_Doctrine_Entity
 	
 	$this->Payments[] = $Payment;
     }
+    
+    /**
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param type $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getDba()
+    {
+        return $this->dba;
+    }
+
+    /**
+     * @param string $dba
+     */
+    public function setDba($dba)
+    {
+        $this->dba = $dba;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getNameIndex()
+    {
+        return $this->name_index;
+    }
+
+    /**
+     * @param string $name_index
+     */
+    public function setNameIndex($name_index)
+    {
+        $this->name_index = $name_index;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+    
+    public function toString()
+    {
+	return $this->getName();
+    }
+    
+    public function populate(array $array)
+    {
+	$Company = $this->_getEntityFromArray($array, "Entities\Company", "company_id");
+	
+	if($Company && $Company->getId())
+	    $this->setCompany($Company);
+	
+	parent::populate($array);
+    }
 }

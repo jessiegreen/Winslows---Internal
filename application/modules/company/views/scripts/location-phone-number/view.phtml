@@ -1,0 +1,22 @@
+<?php 
+use Dataservice\Html\CRUD;
+
+echo($this->flashMessages()); 
+echo CRUD\Header::factory("Location Phone Number - View")->getHtml();
+
+$PhoneNumber = $this->PhoneNumber;
+
+$crudBody = new CRUD\Body();
+
+$crudBody->start();
+
+$Tabs = CRUD\Tabs::factory();
+
+$Tabs->addEntityViewTab("Information", $PhoneNumber)
+	->addRelationshipViewTab($PhoneNumber, "Location")
+	->addRelationshipViewTab($PhoneNumber, "Contacts")
+	->render();
+
+$crudBody->end();
+
+echo $Tabs->getJS();

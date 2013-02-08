@@ -13,6 +13,7 @@ class Range extends FeeAbstract
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="\Entities\Company\RtoProvider\Fee\Range\Value", mappedBy="Range", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var \Doctrine\Common\Collections\ArrayCollection $Values
      */
     protected $Values;

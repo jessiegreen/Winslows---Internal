@@ -51,6 +51,7 @@ class RtoProvider extends \Dataservice_Doctrine_Entity
     
     /** 
      * @ManyToOne(targetEntity="\Entities\Company", inversedBy="RtoProviders")
+     * @Crud\Relationship\Permissions()
      * @var \Entities\Company $Company
      */  
     protected $Company;
@@ -59,6 +60,7 @@ class RtoProvider extends \Dataservice_Doctrine_Entity
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="\Entities\Company\RtoProvider\Application", mappedBy="RtoProvider", cascade={"persist"})
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var ArrayCollection $Applications
      */
     protected $Applications;
@@ -67,6 +69,7 @@ class RtoProvider extends \Dataservice_Doctrine_Entity
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="\Entities\Company\RtoProvider\Fee\FeeAbstract", mappedBy="RtoProvider", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var \Doctrine\Common\Collections\ArrayCollection $Fees
      */
     protected $Fees;
@@ -75,6 +78,7 @@ class RtoProvider extends \Dataservice_Doctrine_Entity
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="\Entities\Company\RtoProvider\Program", mappedBy="RtoProvider", cascade={"persist"})
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var ArrayCollection $Programs
      */
     protected $Programs;
@@ -324,5 +328,15 @@ class RtoProvider extends \Dataservice_Doctrine_Entity
     public function toString()
     {
 	return $this->getName();
+    }
+    
+    public function populate(array $array)
+    {
+	$Company = $this->_getEntityFromArray($array, "Entities\Company", "company_id");
+	
+	if($Company && $Company->getId())
+	    $this->setCompany ($Company);
+	
+	parent::populate($array);
     }
 }

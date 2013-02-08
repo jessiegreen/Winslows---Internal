@@ -1,0 +1,22 @@
+<?php 
+use Dataservice\Html\CRUD;
+
+echo($this->flashMessages()); 
+echo CRUD\Header::factory("Location Fax Number - View")->getHtml();
+
+$FaxNumber = $this->FaxNumber;
+
+$crudBody = new CRUD\Body();
+
+$crudBody->start();
+
+$Tabs = CRUD\Tabs::factory();
+
+$Tabs->addEntityViewTab("Information", $FaxNumber)
+	->addRelationshipViewTab($FaxNumber, "Location")
+	->addRelationshipViewTab($FaxNumber, "Contacts")
+	->render();
+
+$crudBody->end();
+
+echo $Tabs->getJS();

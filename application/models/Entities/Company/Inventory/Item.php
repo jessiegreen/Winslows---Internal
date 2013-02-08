@@ -127,4 +127,14 @@ class Item extends \Dataservice_Doctrine_Entity
 	
 	return false;
     }
+    
+    public function populate(array $array) 
+    {
+	$Inventory = $this->_getEntityFromArray($array, "Entities\Inventory", "inventory_id");
+	
+	if($Inventory && $Inventory->getId())
+	    $this->setInventory($Inventory);
+	
+	parent::populate($array);
+    }
 }

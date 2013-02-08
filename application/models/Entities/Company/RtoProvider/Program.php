@@ -45,24 +45,28 @@ class Program extends \Dataservice_Doctrine_Entity
     
     /** 
      * @ManyToOne(targetEntity="\Entities\Company\RtoProvider", inversedBy="Programs")
+     * @Crud\Relationship\Permissions()
      * @var \Entities\Company\RtoProvider
      */  
     protected $RtoProvider;
     
     /**
      * @ManytoMany(targetEntity="\Entities\Company\Supplier\Product\ProductAbstract", mappedBy="Programs", cascade={"ALL"})
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var ArrayCollection $Products
      */
     protected $Products;
     
     /**
      * @ManytoMany(targetEntity="\Entities\Company\RtoProvider\Fee\FeeAbstract", mappedBy="Programs", cascade={"ALL"})
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var ArrayCollection $Fees
      */
     protected $Fees;
     
     /**
      * @OneToOne(targetEntity="\Entities\Company\Lead\Quote\Item\SaleType\Rto", inversedBy="Program", cascade={"persist", "remove"})
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var \Entities\Company\Lead\Quote\Item\SaleType\Rto $RtoSaleType
      */
     protected $RtoSaleType;
@@ -239,5 +243,20 @@ class Program extends \Dataservice_Doctrine_Entity
     public function setNameIndex($name_index)
     {
         $this->name_index = $name_index;
+    }
+    
+    public function toString()
+    {
+	return $this->getName();
+    }
+    
+    public function populate(array $array)
+    {
+	$RtoProvider = $this->_getEntityFromArray($array, "Entities\Company\RtoProvider", "rtoprovider_id");
+	
+	if($RtoProvider && $RtoProvider->getId())
+	    $this->setRtoProvider($RtoProvider);
+	
+	parent::populate($array);
     }
 }

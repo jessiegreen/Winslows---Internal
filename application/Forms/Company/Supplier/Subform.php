@@ -14,6 +14,11 @@ class Subform extends \Zend_Form_SubForm
     
     public function init()
     {		
+	$this->addElement('hidden', 'company_id', array(
+            'required'	    => true,
+	    'value'	    => $this->_Supplier && $this->_Supplier->getCompany() ? $this->_Supplier->getCompany()->getId() : ""
+        ));
+	
 	$this->addElement('text', 'name', array(
             'required'	    => true,
             'label'	    => 'Name:',

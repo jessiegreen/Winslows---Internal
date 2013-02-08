@@ -1,120 +1,47 @@
 <?php 
+use Dataservice\Html\CRUD;
+
 echo($this->flashMessages()); 
-echo "<div>";
-echo \Dataservice\Html\Anchor::backAnchorIcon("Company - View", "/index/view/id/".$this->RtoProvider->getCompany()->getId());
-echo "</div>";
-?>
-<h1 class="header1">RTO Provider - View</h1>
-<?php
-/* @var $RtoProvider \Entities\Company\RtoProvider */
-$RtoProvider	    = $this->RtoProvider;
-$rto_provider_id    = $RtoProvider->getId();
-$Programs	    = $RtoProvider->getPrograms();
-$Fees		    = $RtoProvider->getFees();
-?>
-<div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
-    <h4 class="no_space" style="color: #2000EE;">
-	Info
-	<?php
-	echo \Dataservice\Html\Anchor::anchorIcon(
-		"pencil.png", 
-		"", 
-		"/rto-provider/edit/id/".$rto_provider_id,
-		"margin-left:5px;"
-		);
-	?>
-    </h4>
-    <div>
-	Name: <?php echo $RtoProvider->getName(); ?> &nbsp;&nbsp;&nbsp; 
-	DBA: <?php echo $RtoProvider->getDba(); ?> <br /> 
-	Description: <span class="small"><?php echo $RtoProvider->getDescription(); ?></span>
-    </div>
-</div>
-<div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">
-    <div id="accordion">
-	<h3>
-	    <a href="#">Programs</a>
-	    <?php
-		echo \Dataservice\Html\Button::buttonBlue(
-			"add.png", 
-			"Add Program", 
-			"program_add", 
-			"float:right;margin-left:5px;"
-			);
-	    ?>
-	</h3>
-	<div>
-	    <?php
-	    /* @var $Program \Entities\Company\RtoProvider\Program */
-	    foreach ($Programs as $Program)
-	    {
-		?>
-		<div style="padding: 3px;margin-bottom: 3px;">
-		    <?php 
-		    echo $Program->getName();
-		    echo \Dataservice\Html\Anchor::anchorIcon(
-			    "bullet_go.png", 
-			    "", 
-			    "/rto-provider-program/view/id/".$Program->getId(),
-			    "margin-left:5px;"
-			    );
-		    ?>
-		</div>
-		<?php
-	    }
-	    ?>
-	</div>
-	<hr />
-    </div>
-</div>
-<div class="padded_frame" style="width: 415px;float: right;padding-top: 0px;">
-    <h3>
-	<a href="#">Fees</a>
-	<?php
-	    echo \Dataservice\Html\Button::buttonBlue(
-		    "add.png", 
-		    "Add Range Fee", 
-		    "range_fee_add", 
-		    "float:right;margin-left:5px;"
-		    );
-	    echo \Dataservice\Html\Button::buttonBlue(
-		    "add.png", 
-		    "Add Percentage Fee", 
-		    "percentage_fee_add", 
-		    "float:right;margin-left:5px;"
-		    );
-	?>
-    </h3>
-    <div>
-	<?php
-	/* @var $Fee Entities\Company\RtoProvider\Fee\FeeAbstract */
-	foreach ($Fees as $Fee)
-	{
-	    ?>
-	    <div style="padding: 3px;margin-bottom: 3px;">
-		<?php 
-		echo $Fee->getName();
-		echo \Dataservice\Html\Anchor::anchorIcon(
-			"bullet_go.png", 
-			"", 
-			"/rto-provider-fee-".$Fee->getUrlKey()."/view/id/".$Fee->getId(),
-			"margin-left:5px;"
-			);
-		?>
-	    </div>
-	    <?php
-	}
-	?>
-    </div>
-    <hr />
-    <h3><a href="#">Documents</a></h3>
-    <div>Put Documents here</div>
-    <hr />
-</div>
-<div style="clear: both;"><input type="hidden" id="rto_provider_id" value="<?php echo $rto_provider_id;?>" /></div>
-<script type="text/javascript">
-    RtoProvider = new RtoProvider();
-    RtoProvider.AddProgramOnclickBind($("#program_add"));
-    RtoProvider.AddPercentageFeeOnclickBind($("#percentage_fee_add"));
-    RtoProvider.AddRangeFeeOnclickBind($("#range_fee_add"));
-</script>
+
+echo CRUD\Header::factory("Rto Provider - View")->getHtml();
+
+$RtoProvider	= $this->RtoProvider;
+$Tabs		= CRUD\Tabs::factory();
+
+CRUD\Body::factory()->start();
+
+$Tabs->addEntityViewTab("Information", $RtoProvider)
+	->addRelationshipViewTab($RtoProvider, "Company")
+	->addRelationshipViewTab($RtoProvider, "Programs")
+	->addRelationshipViewTab($RtoProvider, "Applications");
+
+$Tab = CRUD\Tabs\Tab::factory("Fees");
+
+$relationshipContent = CRUD\Content\Relationship\OneToMany::factory($RtoProvider, "Fees");
+
+$relationshipContent->addHtmlHeaderContent($relationshipContent->relationshipPropertyName);
+$relationshipContent->addHtmlHeaderContent(
+	\Dataservice\Html\Anchor::addIcon(
+		"Percentage", 
+		"/rto-provider-fee-percentage/edit/id/0/rtoprovider_id/".$relationshipContent->parentEntity->getId(), 
+		"Add Percentage Fee"
+		)
+	);
+$relationshipContent->addHtmlHeaderContent(
+	\Dataservice\Html\Anchor::addIcon(
+		"Range", 
+		"/rto-provider-fee-range/edit/id/0/rtoprovider_id/".$relationshipContent->parentEntity->getId(), 
+		"Add Range Fee"
+		)
+	);
+$relationshipContent->buildRelationshipBodyHtml();
+
+$Tab->addContent($relationshipContent->getHtml());
+
+$Tabs->addTab($Tab);
+
+$Tabs->render();
+
+CRUD\Body::factory()->end();
+
+echo CRUD\Tabs::factory()->getJS();

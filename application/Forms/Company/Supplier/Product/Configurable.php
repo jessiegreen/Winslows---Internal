@@ -1,7 +1,7 @@
 <?php
 namespace Forms\Company\Supplier\Product;
 
-class Configurable extends \Zend_Form
+class Configurable extends \Dataservice_Form
 {    
     private $_Configurable;
     

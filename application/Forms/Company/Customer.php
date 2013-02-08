@@ -1,7 +1,7 @@
 <?php
 namespace Forms\Company;
 
-class Customer extends \Zend_Form
+class Customer extends \Dataservice_Form
 {    
     private $_Customer;
     

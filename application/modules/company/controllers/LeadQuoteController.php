@@ -1,21 +1,12 @@
 <?php
 
-class Company_LeadQuoteController extends Dataservice_Controller_Action
+class Company_LeadQuoteController extends Dataservice_Controller_Crud_Action
 {    
     public function init()
     {
-	$this->view->headScript()->appendFile("/javascript/company/lead/quote.js");
+	$this->_EntityClass = "Entities\Company\Lead\Quote";
 	
 	parent::init();
-    }
-    
-    public function viewAction()
-    {
-	$Quote = $this->_getQuote();
-	
-	$this->_CheckRequiredQuoteExists($Quote);
-	
-	$this->view->Quote = $Quote;
     }
     
     public function viewSalesAction()
@@ -32,53 +23,6 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
 	}
 	
 	$this->view->Quote = $Quote;
-    }
-    
-    public function editAction()
-    {
-	$Quote	    = $this->_getQuote();
-	$lead_id    = $this->getRequest()->getParam("lead_id");
-	
-	if(!$Quote->getId())
-	{
-	    if($lead_id)
-	    {
-		$Lead = $this->_em->getRepository("Entities\Company\Lead")->find($lead_id);
-		
-		if($Lead)
-		    $Quote->setLead($Lead);
-	    }
-	}
-	
-	$form = new Forms\Company\Lead\Quote(array("method" => "post"), $Quote);
-	
-	$form->addCancelButton($this->_History->getPreviousUrl(1));
-	
-	if($this->isPostAndValid($form))
-	{
-	    try 
-	    {
-		$quote_data = $this->_params["company_lead_quote"];
-		$Lead	    = $this->_em->find("Entities\Company\Lead", $quote_data["lead_id"]);
-		
-		if($Lead)$Quote->setLead($Lead);
-		
-		$Quote->populate($quote_data);
-		$this->_em->persist($Quote);
-		$this->_em->flush();
-		
-		$this->_FlashMessenger->addSuccessMessage("Quote saved");
-	    } 
-	    catch (Exception $exc) 
-	    {
-		$this->_FlashMessenger->addErrorMessage($exc->getMessage());
-	    }
-	    
-	    $this->_History->goBack();
-	}
-	
-	$this->view->form	= $form;
-	$this->view->Quote	= $Quote;
     }
     
     public function addInventoryItemAction()
@@ -263,23 +207,6 @@ class Company_LeadQuoteController extends Dataservice_Controller_Action
 	$Quote		= $this->_getQuote();
 	
 	$this->_CheckRequiredQuoteExists($Quote);
-    }
-    
-    /**
-     * @return \Entities\Company\Lead\Quote
-     */
-    private function _getQuote()
-    {
-	return $this->getEntityFromParamFields("Company\Lead\Quote", array("id"));
-    }
-    
-    private function _CheckRequiredQuoteExists(\Entities\Company\Lead\Quote $Quote)
-    {
-	if(!$Quote->getId())
-	{
-	    $this->_FlashMessenger->addErrorMessage("Could not get Quote");
-	    $this->_History->goBack();
-	}
     }
     
     /**

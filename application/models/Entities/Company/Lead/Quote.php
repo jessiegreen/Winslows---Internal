@@ -179,4 +179,14 @@ class Quote extends Quote\QuoteAbstract
     {
 	return $this->getCreated()->format("m-d-Y")." - ".$this->getItems()->count()." Items"." - ".$this->getTotal()->getDisplayPrice();
     }
+    
+    public function populate(array $array) 
+    {
+	$Lead = $this->_getEntityFromArray($array, "Entities\Company\Lead", "lead_id");
+	
+	if($Lead && $Lead->getId())
+	    $this->setLead($Lead);
+	
+	parent::populate($array);
+    }
 }

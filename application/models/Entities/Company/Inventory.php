@@ -89,4 +89,14 @@ class Inventory extends \Dataservice_Doctrine_Entity
     {
 	return $this->getCompany()->getName()." Inventory";
     }
+    
+    public function populate(array $array) 
+    {
+	$Company = $this->_getEntityFromArray($array, "Entities\Company", "company_id");
+	
+	if($Company && $Company->getId())
+	    $this->setCompany($Company);
+	
+	parent::populate($array);
+    }
 }
