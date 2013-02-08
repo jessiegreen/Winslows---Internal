@@ -51,8 +51,8 @@ class FeeAbstract extends \Dataservice_Doctrine_Entity implements \Interfaces\Co
     
     /**
      * @ManytoMany(targetEntity="\Entities\Company\RtoProvider\Program", inversedBy="Fees", cascade={"persist"})
-     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @JoinTable(name="company_rtoprovider_program_fee_joins")
+     * @Crud\Relationship\Permissions()
      * @var ArrayCollection $Programs
      */
     protected $Programs;

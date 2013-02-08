@@ -1,0 +1,21 @@
+<?php 
+use Dataservice\Html\CRUD;
+
+echo($this->flashMessages()); 
+echo CRUD\Header::factory("Rto Provider Fee Range Value - View")->getHtml();
+
+$Value = $this->Value;
+
+$crudBody = new CRUD\Body();
+
+$crudBody->start();
+
+$Tabs = CRUD\Tabs::factory();
+
+$Tabs->addEntityViewTab("Information", $Value)
+	->addRelationshipViewTab($Value, "Range")
+	->render();
+
+$crudBody->end();
+
+echo $Tabs->getJS();
