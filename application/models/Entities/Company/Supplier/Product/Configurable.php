@@ -112,6 +112,18 @@ class Configurable extends ProductAbstract
     }
     
     /**
+     * @return \Entities\Company\Supplier\Product\Configurable\Instance
+     */
+    public function createInstance()
+    {
+	$Instance = new Configurable\Instance($this);
+	
+	$Instance->setNote("Created by Product");
+	
+	return $Instance;
+    }
+    
+    /**
      * @return string
      */
     public function getDescriminator() 

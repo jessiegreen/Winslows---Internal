@@ -1,25 +1,32 @@
 <?php
 
-class Company_SupplierProductConfigurableInstanceController extends Dataservice_Controller_Action
+class Company_SupplierProductConfigurableInstanceController extends Dataservice_Controller_Crud_Action
 {     
+    public function init() 
+    {
+	$this->_EntityClass = "Entities\Company\Supplier\Product\Configurable\Instance";
+	
+	parent::init();
+    }
+    
     public function manualsaveajaxAction()
     {
 	$this->_helper->layout->setLayout("blank");
 	$this->_helper->viewRenderer->setNoRender(true);
 	
+	
 	$return			    = array();
 	$return["success"]	    = true;
 	$return["error_message"]    = "";
 	$error_message		    = array();
-	$Instance		    = $this->_getInstance();
-	
-	$this->_CheckRequiredInstanceExists($Instance);
 	
 	if($this->getRequest()->isPost())
 	{	    
+	    $this->_requireEntity();
+	    
 	    $data = $this->getRequest()->getPost();
 	    
-	    $Instance->getOptions()->clear();
+	    $this->_Entity->getOptions()->clear();
 	    
 	    foreach($data as $option_array)
 	    {
@@ -57,12 +64,12 @@ class Company_SupplierProductConfigurableInstanceController extends Dataservice_
 			}	
 		    }
 		}
-		$Instance->addOption($Option);
+		$this->_Entity->addOption($Option);
 	    }
 	    
 	    try 
 	    {
-		$Instance->validate();
+		$this->_Entity->validate();
 	    } 
 	    catch (Exception $exc)
 	    {
@@ -76,8 +83,8 @@ class Company_SupplierProductConfigurableInstanceController extends Dataservice_
 	    else{
 		try 
 		{		    
-		    $Instance->setNote($Instance->getNote()." **".date("Y-m-d H:i:s")." Modified");
-		    $this->_em->persist($Instance);
+		    $this->_Entity->setNote($this->_Entity->getNote()." **".date("Y-m-d H:i:s")." Modified");
+		    $this->_em->persist($this->_Entity);
 		    $this->_em->flush();
 		} 
 		catch (Exception $exc) 
@@ -94,21 +101,19 @@ class Company_SupplierProductConfigurableInstanceController extends Dataservice_
 	echo json_encode($return);
     }
     
-    public function manualAction()
+    public function manageOptionsAction()
     {	
 	$this->view->headScript()->appendFile("/javascript/company/supplier/product/configurable/instance/manual.js");
 	
-	$Instance	= $this->_getInstance();
-	$data		= array();
+	$this->_requireEntity();
 	
-	$this->_CheckRequiredInstanceExists($Instance);
-	
+	$data	    = array();
 	$left	    = array();
 	$required   = array();
 	
 	#--Build Left Options Array and required array
 	/* @var $Option \Entities\Company\Supplier\Product\Configurable\Option */
-	foreach ($Instance->getProduct()->getOptionsOrderedByCategory() as $Option)
+	foreach ($this->_Entity->getProduct()->getOptionsOrderedByCategory() as $Option)
 	{
 	    $Category = $Option->getCategory();
 	    
@@ -133,7 +138,7 @@ class Company_SupplierProductConfigurableInstanceController extends Dataservice_
 	
 	#--Build Existing Array
 	/* @var $Option \Entities\Company\Supplier\Product\Configurable\Instance\Option */
-	foreach ($Instance->getOptions() as $Option)
+	foreach ($this->_Entity->getOptions() as $Option)
 	{
 	    $ConfigurableOption			= $Option->getOption();
 	    $Category				= $ConfigurableOption->getCategory(); 
@@ -154,7 +159,6 @@ class Company_SupplierProductConfigurableInstanceController extends Dataservice_
 	
 	$data["existing"] = $existing;
 	
-	$this->view->Instance	= $Instance;
 	$this->view->data	= $data;
 	$this->view->return_url	= $this->_History->getPreviousUrl();
     }
@@ -163,14 +167,11 @@ class Company_SupplierProductConfigurableInstanceController extends Dataservice_
     {
 	$this->_helper->layout->setLayout("blank");
 	
-	$Instance = $this->_getInstance();
-
-	$this->_CheckRequiredInstanceExists($Instance);
+	$this->_requireEntity();
 	
 	$this->view->form	= new Forms\Company\Lead\Quote\AddProduct2(
 					array("id" => "quote_addproduct2", "name" => "quote_addproduct2")
 				    );
-	$this->view->Instance	= $Instance;
     }
     
     public function getoptionformAction()
@@ -186,25 +187,10 @@ class Company_SupplierProductConfigurableInstanceController extends Dataservice_
 	
 	$form->removeDecorator('form');
 	
-	echo $form; exit;
-    }
-    
-    /**
-     * @return Entities\Company\Supplier\Product\Configurable\Instance
-     */
-    private function _getInstance()
-    {
-	return $this->getEntityFromParamFields("Company\Supplier\Product\Configurable\Instance", array("id"));
-    }
-    
-    private function _CheckRequiredInstanceExists(\Entities\Company\Supplier\Product\Configurable\Instance $Instance)
-    {
-	if(!$Instance->getId())
-	{
-	    $this->_FlashMessenger->addErrorMessage("Could not get Instance");
-	    $this->_History->goBack();
-	}
-    }    
+	echo $form; 
+	
+	exit;
+    }  
     
     /**
      * @return Entities\Company\Supplier\Product\Configurable\Option
@@ -212,6 +198,7 @@ class Company_SupplierProductConfigurableInstanceController extends Dataservice_
     private function _getConfigurableOption()
     {
 	$id = $this->getRequest()->getParam("configurable_option_id", 0);
+	
 	return $this->_em->find("Entities\Company\Supplier\Product\Configurable\Option", $id);
     }
     
@@ -230,16 +217,8 @@ class Company_SupplierProductConfigurableInstanceController extends Dataservice_
     private function _getOption()
     {
 	$id = $this->getRequest()->getParam("option_id", 0);
+	
 	return $this->_em->find("Entities\Company\Supplier\Product\Configurable\Instance\Option", $id);
-    }
-    
-    private function _CheckRequiredOptionExists(Entities\Company\Supplier\Product\Configurable\Instance\Option $Option)
-    {
-	if(!$Option->getId())
-	{
-	    $this->_FlashMessenger->addErrorMessage("Could not get Option");
-	    $this->_History->goBack();
-	}
     }
 }
 

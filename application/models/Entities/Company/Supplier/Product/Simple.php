@@ -36,9 +36,22 @@ class Simple extends ProductAbstract
     }
     
     /**
+     * @return \Entities\Company\Supplier\Product\Simple\Instance
+     */
+    public function createInstance()
+    {
+	$Instance = new Simple\Instance($this);
+	
+	$Instance->setNote("Created by Product");
+	
+	return $Instance;
+    }
+    
+    /**
      * @return string
      */
-    public function getDescriminator() {
+    public function getDescriminator()
+    {
 	return parent::TYPE_Simple;
     }
 }

@@ -16,7 +16,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @Crud\Entity\Url()
  * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
-class ProductAbstract extends \Dataservice_Doctrine_Entity
+abstract class ProductAbstract extends \Dataservice_Doctrine_Entity implements \Interfaces\Company\Supplier\Product
 {
     const TYPE_Configurable = "Configurable";
     const TYPE_Simple	    = "Simple";

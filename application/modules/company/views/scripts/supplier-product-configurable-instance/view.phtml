@@ -1,0 +1,41 @@
+<?php 
+use Dataservice\Html\CRUD;
+
+echo($this->flashMessages()); 
+
+echo CRUD\Header::factory("Configurable Product Instance - View")->getHtml();
+
+$Instance = $this->Instance;
+$Tabs		= CRUD\Tabs::factory();
+
+CRUD\Body::factory()->start();
+
+$Tabs->addEntityViewTab("Information", $Instance)
+	->addRelationshipViewTab($Instance, "Product")
+	->addRelationshipViewTab($Instance, "InventoryItem")
+	->addRelationshipViewTab($Instance, "QuoteItem");
+
+$Tab = CRUD\Tabs\Tab::factory("Options");
+
+$relationshipContent = CRUD\Content\Relationship\OneToMany::factory($Instance, "Options");
+
+$relationshipContent->addHtmlHeaderContent($relationshipContent->relationshipPropertyName);
+$relationshipContent->addHtmlHeaderContent(
+	\Dataservice\Html\Anchor::manageIcon(
+		"Edit", 
+		"/".$relationshipContent->parentClassUrl."/manage-options/id/".$relationshipContent->parentEntity->getId(), 
+		"Edit Options"
+		)
+	);
+
+$relationshipContent->buildRelationshipBodyHtml();
+
+$Tab->addContent($relationshipContent->getHtml());
+
+$Tabs->addTab($Tab);
+
+$Tabs->render();
+
+CRUD\Body::factory()->end();
+
+echo CRUD\Tabs::factory()->getJS();

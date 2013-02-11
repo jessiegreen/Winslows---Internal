@@ -49,10 +49,17 @@ class Dataservice_Controller_Crud_Action extends Dataservice_Controller_Action
     
     protected function _requireEntity()
     {
+	$message = "Could not get required entity";
+	
 	if(!$this->_Entity || !$this->_Entity->getId())
 	{
-	    $this->_FlashMessenger->addErrorMessage("Could not get required entity");
-	    $this->_History->goBack();
+	    if($this->getRequest()->isXMLHttpRequest())
+		throw new \Exception($message);
+	    else
+	    {
+		$this->_FlashMessenger->addErrorMessage();
+		$this->_History->goBack();
+	    }
 	}
     }
     

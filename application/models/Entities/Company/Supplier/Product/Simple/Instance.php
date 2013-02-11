@@ -6,7 +6,7 @@ namespace Entities\Company\Supplier\Product\Simple;
  * @Entity (repositoryClass="Repositories\Company\Supplier\Product\Simple\Instance") 
  * @Table(name="company_supplier_product_simple_instances") 
  */
-class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstract implements \Interfaces\Company\Supplier\Product\Instance\InstanceAbstract 
+class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstract 
 {    
     public function __construct(\Entities\Company\Supplier\Product\Simple $SimpleProduct)
     {

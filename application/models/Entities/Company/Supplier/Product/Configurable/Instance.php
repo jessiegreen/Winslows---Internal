@@ -9,10 +9,11 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @Crud\Entity\Url(value="supplier-product-configurable-instance")
  * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
-class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstract implements \Interfaces\Company\Supplier\Product\Instance\InstanceAbstract
+class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstract
 {    
     /**
      * @OnetoMany(targetEntity="\Entities\Company\Supplier\Product\Configurable\Instance\Option", cascade={"persist", "remove"}, mappedBy="Instance", orphanRemoval=true)
+     * @Crud\Relationship\Permissions()
      * @var ArrayCollection $Options
      */
     private $Options;

@@ -19,6 +19,7 @@ class Inventory extends \Dataservice_Doctrine_Entity
     
     /**
      * @OneToOne(targetEntity="\Entities\Company", inversedBy="Inventory", cascade={"persist"})
+     * @Crud\Relationship\Permissions()
      * @var \Entities\Company $Company
      */
     protected $Company;
@@ -27,6 +28,7 @@ class Inventory extends \Dataservice_Doctrine_Entity
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="\Entities\Company\Inventory\Item", mappedBy="Inventory", cascade={"persist"})
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var \Doctrine\Common\Collections\ArrayCollection $Items
      */
     protected $Items;

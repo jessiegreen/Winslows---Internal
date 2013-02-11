@@ -14,8 +14,10 @@ use Doctrine\Common\Collections\ArrayCollection;
  *			"company_supplier_product_simple_instance" = "\Entities\Company\Supplier\Product\Simple\Instance",
  *		    })
  * @HasLifecycleCallbacks
+ * @Crud\Entity\Url("supplier-product-instance")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
-class InstanceAbstract extends \Dataservice_Doctrine_Entity
+abstract class InstanceAbstract extends \Dataservice_Doctrine_Entity implements \Interfaces\Company\Supplier\Product\Instance\InstanceAbstract
 {
     /**
      * @Id @Column(type="integer")
@@ -32,12 +34,28 @@ class InstanceAbstract extends \Dataservice_Doctrine_Entity
     
     /**
      * @ManyToOne(targetEntity="\Entities\Company\Supplier\Product\ProductAbstract")
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var \Entities\Company\Supplier\Product\ProductAbstract $Product
      */
     protected $Product;
     
     /**
+     * @OneToOne(targetEntity="\Entities\Company\Inventory\Item", mappedBy="Instance", cascade={"persist"}, orphanRemoval=true)
+     * @Crud\Relationship\Permissions()
+     * @var \Entities\Company\Inventory\Item $InventoryItem
+     */
+    protected $InventoryItem;
+    
+    /**
+     * @OneToOne(targetEntity="\Entities\Company\Lead\Quote\Item", mappedBy="Instance", cascade={"persist"}, orphanRemoval=true)
+     * @Crud\Relationship\Permissions()
+     * @var \Entities\Company\Lead\Quote\Item $QuoteItem
+     */
+    protected $QuoteItem;
+    
+    /**
      * @OnetoMany(targetEntity="\Entities\Company\Supplier\Product\Instance\File\Image", cascade={"persist", "remove"}, mappedBy="Instance", orphanRemoval=true)
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var ArrayCollection $Images
      */
     private $Images;
@@ -56,6 +74,38 @@ class InstanceAbstract extends \Dataservice_Doctrine_Entity
     public function getProduct()
     {
 	return $this->Product;
+    }
+    
+    /**
+     * @param \Entities\Company\Inventory\Item $Item
+     */
+    public function setInventoryItem(\Entities\Company\Inventory\Item $Item)
+    {
+	$this->InventoryItem = $Item;
+    }
+    
+    /**
+     * @return \Entities\Company\Inventory\Item
+     */
+    public function getInventoryItem()
+    {
+	return $this->InventoryItem;
+    }
+    
+    /**
+     * @param \Entities\Company\Lead\Quote\Item $Item
+     */
+    public function setQuoteItem(\Entities\Company\Lead\Quote\Item $Item)
+    {
+	$this->QuoteItem = $Item;
+    }
+    
+    /**
+     * @return \Entities\Company\Lead\Quote\Item
+     */
+    public function getQuoteItem()
+    {
+	return $this->QuoteItem;
     }
     
     /**
@@ -114,5 +164,10 @@ class InstanceAbstract extends \Dataservice_Doctrine_Entity
     public function getDeliveryTypes()
     {
 	return $this->getProduct()->getDeliveryTypes();
+    }
+    
+    public function toString()
+    {
+	return $this->getProduct()->getName()." - ".$this->getPriceSafe()->getDisplayPrice();
     }
 }

@@ -53,7 +53,7 @@ class Company_LeadQuoteSaleTransactionPaymentController extends Dataservice_Cont
 	{
 	    try
 	    {
-		$data	    = $this->_getParam("company_lead_quote_sale_payment_transaction_payment_creditcard"]);
+		$data = $this->_getParam("company_lead_quote_sale_payment_transaction_payment_creditcard");
 		
 		require_once 'AuthorizeNet/AuthorizeNet.php'; // Make sure this path is correct.
 		

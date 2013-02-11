@@ -5,6 +5,7 @@
     min-height: 250px;
 }
 </style>
+<?php Dataservice\Html\CRUD\Header::factory("Configurable Product Instance - Manage Options")->render();?>
 <div class="padded_frame">
 <?php
 $Instance   = $this->Instance;
@@ -17,7 +18,6 @@ $Product    = $Instance->getProduct();
 </div>
 <form id="configurable_instance_edit" method="post" name="configurable_instance_edit">
 <div>
-    <h4>Manual Edit</h4>
     <h2>
 	<?php echo $Product->getName();?>
 	<input type="submit" value="Save" style="float: right" />

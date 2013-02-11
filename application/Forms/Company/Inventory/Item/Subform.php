@@ -14,6 +14,15 @@ class Subform extends \Zend_Form_SubForm
     
     public function init() 
     {
+	if(!$this->_Item->getInstance())
+	{
+	    $this->addElement(new \Dataservice_Form_Element_ProductSelect(
+		"product_id", array(
+		    'label'	    => 'Product:',
+		    'value'	    => ""
+		)));
+	}
+	
 	$this->addElement(new \Dataservice_Form_Element_Company_AllLocationSelect(
 		$this->_Item->getInventory()->getCompany(),
 		"location_id", array(

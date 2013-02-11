@@ -24,19 +24,22 @@ class Item extends \Dataservice_Doctrine_Entity
     protected $quantity;
     
     /**
-     * @OneToOne(targetEntity="\Entities\Company\Supplier\Product\Instance\InstanceAbstract", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @OneToOne(targetEntity="\Entities\Company\Supplier\Product\Instance\InstanceAbstract", inversedBy="InventoryItem", cascade={"persist"}, orphanRemoval=true)
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var \Entities\Company\Supplier\Product\Instance\InstanceAbstract $Instance
      */
     protected $Instance;
     
     /** 
      * @ManyToOne(targetEntity="\Entities\Company\Inventory", cascade="persist")
+     * @Crud\Relationship\Permissions()
      * @var \Entities\Company\Inventory $Inventory
      */     
     protected $Inventory;
     
     /**
      * @ManyToOne(targetEntity="\Entities\Company\Location\LocationAbstract", inversedBy="InventoryItems")
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var \Entities\Company\Location\LocationAbstract $Location
      */
     protected $Location;
@@ -46,6 +49,8 @@ class Item extends \Dataservice_Doctrine_Entity
      */
     public function setInstance(\Entities\Company\Supplier\Product\Instance\InstanceAbstract $Instance)
     {
+	$Instance->setInventoryItem($this);
+	
 	$this->Instance = $Instance;
     }
     
@@ -130,11 +135,38 @@ class Item extends \Dataservice_Doctrine_Entity
     
     public function populate(array $array) 
     {
-	$Inventory = $this->_getEntityFromArray($array, "Entities\Inventory", "inventory_id");
+	$Inventory = $this->_getEntityFromArray($array, "Entities\Company\Inventory", "inventory_id");
 	
 	if($Inventory && $Inventory->getId())
 	    $this->setInventory($Inventory);
 	
+	$Location = $this->_getEntityFromArray($array, "Entities\Company\Location\LocationAbstract", "location_id");
+	
+	if($Location && $Location->getId())
+	    $this->setLocation($Location);
+	
+	if(!$this->getInstance())
+	{
+	    /* @var $Product Entities\Company\Supplier\Product\ProductAbstract */
+	    $Product = $this->_getEntityFromArray($array, "Entities\Company\Supplier\Product\ProductAbstract", "product_id");
+	
+	    if($Product && $Product->getId())
+	    {
+		$this->setInstance($Product->createInstance());
+	    }
+	}
+	
 	parent::populate($array);
+    }
+    
+    public function toString() 
+    {
+	$string = $this->getQuantity()." - ";
+	
+	$string .= $this->getInstance() ? $this->getInstance()->getProduct()->getName() : " *No product instance* ";
+	
+	if($this->getLocation())$string .= " - ".$this->getLocation()->getName();
+	
+	return $string;
     }
 }

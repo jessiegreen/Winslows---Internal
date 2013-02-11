@@ -42,7 +42,7 @@ class Item extends \Dataservice_Doctrine_Entity
     protected $Quote;
     
     /**
-     * @OneToOne(targetEntity="\Entities\Company\Supplier\Product\Instance\InstanceAbstract", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @OneToOne(targetEntity="\Entities\Company\Supplier\Product\Instance\InstanceAbstract", inversedBy="QuoteItem", cascade={"persist"}, orphanRemoval=true)
      * @var \Entities\Company\Supplier\Product\Instance\InstanceAbstract $Instance
      */
     protected $Instance;

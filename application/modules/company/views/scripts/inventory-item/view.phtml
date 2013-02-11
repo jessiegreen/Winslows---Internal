@@ -1,139 +1,18 @@
 <?php 
+use Dataservice\Html\CRUD;
+
 echo($this->flashMessages()); 
-echo "<div>";
-echo \Dataservice\Html\Anchor::backAnchorIcon("Inventory - View", "/inventory/view/id/".$this->Item->getInventory()->getId());
-echo "</div>";
-?>
-<h1 class="header1">Item Item - View</h1>
-<?php
-/* @var $Item \Entities\Company\Inventory\Item */
-$Item		= $this->Item;
-$item_id	= $Item->getId();
-$Instance	= $Item->getInstance();
-$Images		= $Instance->getImages();
-$Product	= $Instance->getProduct();
-?>
-<div class="blue_frame bg_blue_fade" style="margin: 20px;margin-bottom: 0px;padding: 5px;">
-    <h4 class="no_space" style="color: #2000EE;">
-	Info
-	<?php
-	echo \Dataservice\Html\Anchor::anchorIcon(
-		"pencil.png", 
-		"", 
-		"/inventory-item/edit/id/".$Item->getId(),
-		"margin-left:5px;"
-		);
-	?>
-    </h4>
-    <div>
-	Quantity: <?php echo $Item->getQuantity(); ?> &nbsp;&nbsp;&nbsp;
-	Location: <?php echo $Item->getLocation() ? $Item->getLocation()->getName() : "*Not Set*" ?> &nbsp;&nbsp;&nbsp;
-    </div>
-</div>
-<div class="padded_frame" style="width: 415px;float: left;padding-top: 0px;">
-    <div id="accordion">
-	<h3>
-	    <a href="#">Product</a>
-	    <?php
-	    if($Product->getDescriminator() == "Configurable")
-	    {
-		echo \Dataservice\Html\Button::buttonBlue(
-			"pencil.png", 
-			"Builder", 
-			"product_builder", 
-			"float:right;width:80px;margin-left:5px;"
-			);
-		echo \Dataservice\Html\Button::buttonBlue(
-			"pencil.png", 
-			"Manual", 
-			"product_manual", 
-			"float:right;width:80px;margin-left:5px;"
-			);
-	    }
-	    ?>
-	</h3>
-	<div>
-	    <?php
-	    /* @var $InstancePrice Dataservice_Price */
-	    $InstancePrice = $Instance->getPriceSafe();
-	    ?>
-	    <h4 class="no_space bg_blue_fade blue_frame" style="padding: 3px;margin-bottom: 3px;">
-		<?php 
-		echo $Instance->getProduct()->getName();
-		?>
-	    </h4>
-	    <label>Price Each:</label>
-	    <div style="display: inline;"><?php echo $InstancePrice->getDisplayPrice(); ?></div>
-	    <br />
-	    <br />
-	    <?php
-	    if($Product->getDescriminator() == "Configurable")
-	    {
-		?>
-		<label>Price Details:</label>
-		<div style="display: inline;">
-		    <?php echo $InstancePrice->getDisplayDetails();?>
-		</div>
-		<br />
-		<label>Options:</label>
-		<div style="display: inline;">
-		    <?php echo $Instance->getOptionsDisplay();?>
-		</div>
-		<?php
-	    }
-	    ?>
-	</div>
-	<hr />
-    </div>
-</div>
-<div class="padded_frame" style="width: 415px;float: right;padding-top: 0px;">
-    <h3><a href="#">Documents</a></h3>
-    <div>Put Documents here</div>
-    <hr>
-    <h3>
-	<a href="#">Images</a>
-	<?php 
-	echo \Dataservice\Html\Button::buttonBlue(
-		"add.png",
-		"Add Image",
-		"image_add",
-		"float:right;margin-right:5px;"
-		);
-	?>
-    </h3>
-    <div>
-	<ul>
-	<?php
-	/* @var $Image \Entities\Company\Supplier\Product\File\Image */
-	if(count($Images) > 0)
-	{
-	    foreach ($Images as $Image)
-	    {
-		?>
-		<li>
-		    <?php
-//		    echo \Dataservice\Html\Anchor::anchorIcon(
-//			    "bullet_go.png", 
-//			    "", 
-//			    "/supplier-product-file-image/edit/id/".$Image->getId(),
-//			    "margin-left:5px;"
-//			    );
-//		    echo $Image->getName();
-		    echo \Services\Company\File\Image::factory()->getHtmlThumbImg($Image);
-		    ?>
-		</li>
-		<?php
-	    }
-	}
-	else echo "<li>No Images</li>";
-	?>
-	</ul>
-    </div>
-</div>
-<div style="clear: both;"><input type="hidden" id="item_id" value="<?php echo $item_id;?>" /></div>
-<script type="text/javascript">
-    Company_Inventory_Item = new Company_Inventory_Item;
-    Company_Inventory_Item.ProductBuilderOnclickBind($("#product_builder"), "<?php echo $Instance->getId();?>");
-    Company_Inventory_Item.ProductManualOnclickBind($("#product_manual"), "<?php echo $Instance->getId();?>");
-    Company_Inventory_Item.ImageAddOnclickBind($("#image_add"), "<?php echo $Instance->getId();?>");
-</script>
+
+echo CRUD\Header::factory("Company Inventory Item - View")->getHtml();
+
+$Item = $this->Item;
+
+CRUD\Body::factory()->start();
+CRUD\Tabs::factory()
+	->addEntityViewTab("Information", $Item)
+	->addRelationshipViewTab($Item, "Instance")
+	->render();
+
+CRUD\Body::factory()->end();
+
+echo CRUD\Tabs::factory()->getJS();
