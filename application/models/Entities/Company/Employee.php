@@ -268,6 +268,15 @@ class Employee extends PersonAbstract
     }
     
     /**
+     * @param \DateTime $StartDate
+     * @return \DateInterval
+     */
+    public function getWeeksTimeClockTotalTime(\DateTime $StartDate)
+    {
+	return $this->getTimeClockTotalTime($this->getWeeksTimeClockEntries($StartDate));
+    }
+    
+    /**
      * @return \DateInterval
      */
     public function getTodaysTimeClockTotalTime()

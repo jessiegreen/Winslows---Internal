@@ -209,8 +209,31 @@ class Inflector
     public static function underscore($word)
     {
         return  strtolower(preg_replace('/[^A-Z^a-z^0-9]+/','_',
-        preg_replace('/([a-zd])([A-Z])/','1_2',
-        preg_replace('/([A-Z]+)([A-Z][a-z])/','1_2',$word))));
+	    preg_replace('/([a-zd])([A-Z])/','\1_\2',
+	    preg_replace('/([A-Z]+)([A-Z][a-z])/','\1_\2',$word))));
+    }
+
+    // }}}
+    // {{{ underscore()
+
+    /**
+    * Converts a word "into-it-s-dashed-version"
+    *
+    * Convert any "CamelCased" or "ordinary Word" into an
+    * "dashed-word".
+    *
+    * This can be really useful for creating friendly URLs.
+    *
+    * @access public
+    * @static
+    * @param    string    $word    Word to dash
+    * @return string Underscored word
+    */
+    public static function dash($word)
+    {
+        return  strtolower(preg_replace('/[^A-Z^a-z^0-9]+/','-',
+	    preg_replace('/([a-zd])([A-Z])/','\1-\2',
+	    preg_replace('/([A-Z]+)([A-Z][a-z])/','\1-\2',$word))));
     }
 
     // }}}

@@ -57,6 +57,7 @@ class Option extends \Dataservice_Doctrine_Entity
     
     /**
      * @ManyToOne(targetEntity="\Entities\Company\Supplier\Product\Configurable\Option\Category", inversedBy="Options")
+     * @Crud\Relationship\Permissions()
      * @var Option\Category $Category 
      */
     private $Category;
@@ -66,6 +67,7 @@ class Option extends \Dataservice_Doctrine_Entity
      *
      * @OneToMany(targetEntity="\Entities\Company\Supplier\Product\Configurable\Option\Parameter", mappedBy="Option", cascade={"persist"}, orphanRemoval=true)
      * @OrderBy({"sort_order" = "ASC", "name" = "ASC"})
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var ArrayCollection $Parameters
      */
     private $Parameters;
@@ -73,6 +75,7 @@ class Option extends \Dataservice_Doctrine_Entity
     /**
      * @ManytoMany(targetEntity="\Entities\Company\Supplier\Product\Configurable", inversedBy="Options", cascade={"persist"})
      * @JoinTable(name="company_supplier_product_configurable_option_joins")
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var ArrayCollection $ConfigurableProducts
      */
     private $ConfigurableProducts;
@@ -310,5 +313,10 @@ class Option extends \Dataservice_Doctrine_Entity
 	    if($Parameter->isRequired())$return[] = $Parameter;
 	}
 	return $return;
+    }
+    
+    public function toString()
+    {
+	return $this->getName();
     }
 }

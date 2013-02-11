@@ -11,6 +11,7 @@ class Image extends \Entities\Company\File\Image\ImageAbstract
 {
     /** 
      * @ManyToOne(targetEntity="\Entities\Company\Supplier\Product\Category", inversedBy="Images")
+     * @Crud\Relationship\Permissions()
      * @var \Entities\Company\Supplier\Product\Category $Product
      */     
     protected $Category;
@@ -29,5 +30,15 @@ class Image extends \Entities\Company\File\Image\ImageAbstract
     public function getCategory()
     {
 	return $this->Category;
+    }
+    
+    public function populate(array $array)
+    {
+	$Category = $this->_getEntityFromArray($array, "Entities\Company\Supplier\Product\Category", "category_id");
+
+	if($Category && $Category->getId())
+	    $this->setCategory($Category);
+	
+	parent::populate($array);
     }
 }

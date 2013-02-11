@@ -112,7 +112,12 @@ class Entity extends \Dataservice_Service_ServiceAbstract
      */
     public function getEntityCrudPermission($entityClass, $permission_name)
     {
-	return $this->getEntityCrudPermissions($entityClass)->$permission_name;
+	$Permissions = $this->getEntityCrudPermissions($entityClass);
+	
+	if(!is_object($Permissions))
+	    	    throw new \Exception($entityClass." does not have permissions");
+	
+	return $Permissions->$permission_name;
     }
     
     /**

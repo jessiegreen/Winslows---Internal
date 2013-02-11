@@ -21,5 +21,3 @@ class Dataservice_Service_ServiceAbstract
 	return new $class;
     }    
 }
-
-?>

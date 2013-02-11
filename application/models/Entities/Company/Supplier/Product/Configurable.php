@@ -11,12 +11,13 @@ class Configurable extends ProductAbstract
 {
     /** 
      * @Column(type="string", length=255) 
-     * @var string $class_name
+     * @var string $configurator_class_name
      */
-    protected $class_name;
+    protected $configurator_class_name;
     
     /**
      * @ManytoMany(targetEntity="\Entities\Company\Supplier\Product\Configurable\Option", mappedBy="ConfigurableProducts", cascade={"ALL"})
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var array $Options
      */
     protected $Options;
@@ -72,6 +73,7 @@ class Configurable extends ProductAbstract
     public function removeOption(Configurable\Option $Option)
     {
 	$Option->removeConfigurableProduct($this);
+	
 	$this->getOptions()->removeElement($Option);
     }
     
@@ -96,17 +98,17 @@ class Configurable extends ProductAbstract
     /**
      * @return string
      */
-    public function getClassName()
+    public function getConfiguratorClassName()
     {
-        return $this->class_name;
+        return $this->configurator_class_name;
     }
 
     /**
-     * @param string $class_name
+     * @param string $configurator_class_name
      */
-    public function setClassName($class_name)
+    public function setConfiguratorClassName($configurator_class_name)
     {
-        $this->class_name = $class_name;
+        $this->configurator_class_name = $configurator_class_name;
     }
     
     /**

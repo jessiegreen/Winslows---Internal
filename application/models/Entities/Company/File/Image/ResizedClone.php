@@ -3,11 +3,14 @@ namespace Entities\Company\File\Image;
 /** 
  * @Entity (repositoryClass="Repositories\Company\File\Image\ResizedClone") 
  * @Table(name="company_file_image_resizedclones")
+ * @Crud\Entity\Url(value="file-image-resized-clone")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
 class ResizedClone extends ImageBaseAbstract
 {
     /** 
      * @ManyToOne(targetEntity="\Entities\Company\File\Image\ImageAbstract", inversedBy="ResizedClones")
+     * @Crud\Relationship\Permissions()
      * @var \Entities\Company\File\Image\ImageAbstract $Image 
      */  
     protected $Image;

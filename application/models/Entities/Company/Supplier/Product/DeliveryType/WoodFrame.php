@@ -4,6 +4,8 @@ namespace Entities\Company\Supplier\Product\DeliveryType;
 /** 
  * @Entity (repositoryClass="Repositories\Company\Supplier\DeliveryType\WoodFrame") 
  * @Table(name="company_supplier_product_deliverytype_woodframes") 
+ * @Crud\Entity\Url(value="supplier-product-delivery-type-wood-frame")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
 
 class WoodFrame extends DeliveryTypeAbstract

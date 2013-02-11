@@ -15,6 +15,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  *			"company_supplier_product_deliverytype_ups" = "\Entities\Company\Supplier\Product\DeliveryType\UPS"
  *			})
  * @HasLifecycleCallbacks
+ * @Crud\Entity\Url()
+ * @Crud\Entity\Permissions()
  */
 abstract class DeliveryTypeAbstract extends \Dataservice_Doctrine_Entity implements \Interfaces\Company\Supplier\Product\DeliveryType
 {
@@ -62,6 +64,7 @@ abstract class DeliveryTypeAbstract extends \Dataservice_Doctrine_Entity impleme
     
     /**
      * @ManytoMany(targetEntity="\Entities\Company\Supplier\Product\ProductAbstract", mappedBy="DeliveryTypes", cascade={"persist"})
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var ArrayCollection $Products
      */
     protected $Products;
@@ -70,6 +73,7 @@ abstract class DeliveryTypeAbstract extends \Dataservice_Doctrine_Entity impleme
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="\Entities\Company\Lead\Quote\Item\Delivery", mappedBy="DeliveryType", cascade={"persist"})
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var ArrayCollection $Deliveries
      */
     private $Deliveries;
@@ -229,5 +233,10 @@ abstract class DeliveryTypeAbstract extends \Dataservice_Doctrine_Entity impleme
     protected function _getLeadAddresses(\Entities\Company\Lead\Quote\Item $Item)
     {
 	return $Item->getQuote()->getLead()->getAddresses();
+    }
+    
+    public function toString()
+    {
+	return $this->getName();
     }
 }

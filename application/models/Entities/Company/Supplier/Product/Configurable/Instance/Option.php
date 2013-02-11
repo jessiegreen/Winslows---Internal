@@ -21,12 +21,14 @@ class Option extends \Dataservice_Doctrine_Entity
         
     /**
      * @ManyToOne(targetEntity="\Entities\Company\Supplier\Product\Configurable\Option", cascade={"persist"})
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var \Entities\Company\Supplier\Product\Configurable\Option $Option
      */
     private $Option;
     
     /**
      * @ManyToOne(targetEntity="\Entities\Company\Supplier\Product\Configurable\Instance", cascade={"persist"})
+     * @Crud\Relationship\Permissions()
      * @var \Entities\Company\Supplier\Product\Configurable\Instance $Instance
      */
     private $Instance;
@@ -34,6 +36,7 @@ class Option extends \Dataservice_Doctrine_Entity
     /**
      * @ManytoMany(targetEntity="\Entities\Company\Supplier\Product\Configurable\Option\Parameter\Value", cascade={"persist"})
      * @JoinTable(name="company_supplier_product_configurable_instance_option_joins")
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var ArrayCollection $Values
      */
     private $Values;
@@ -141,5 +144,10 @@ class Option extends \Dataservice_Doctrine_Entity
 	}
 	
 	return $Clone;
+    }
+    
+    public function toString()
+    {
+	return $this->getOption()->getName();
     }
 }

@@ -28,7 +28,7 @@ abstract class PricerAbstract extends \Dataservice_Service_ServiceAbstract imple
      */
     public function __construct(\Entities\Company\Supplier\Product\Configurable\Instance $Instance)
     {
-	$class_name	    = $Instance->getProduct()->getClassName();
+	$class_name	    = $Instance->getProduct()->getConfiguratorClassName();
 	$instance_ns	    = "\Services\Company\Supplier\Product\Configurable\Instance\\".$class_name;
 	$data_class	    = $instance_ns."\Pricer\Data";
 	$mapper_class	    = $instance_ns."\Mapper";

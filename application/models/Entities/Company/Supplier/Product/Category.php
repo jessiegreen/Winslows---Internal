@@ -40,6 +40,7 @@ class Category extends \Dataservice_Doctrine_Entity
     /**
      * @ManyToOne(targetEntity="\Entities\Company\Supplier\Product\Category", inversedBy="children")
      * @JoinColumn(name="parent", referencedColumnName="id")
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var $parent null | Category
      */
     protected $parent;
@@ -48,6 +49,7 @@ class Category extends \Dataservice_Doctrine_Entity
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="\Entities\Company\Supplier\Product\Category", mappedBy="parent", cascade={"persist"}, orphanRemoval=true)
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var ArrayCollection $children
      */
     protected $children;
@@ -55,12 +57,14 @@ class Category extends \Dataservice_Doctrine_Entity
     /**
      * @ManytoMany(targetEntity="\Entities\Company\Supplier\Product\ProductAbstract", inversedBy="Categories", cascade={"persist"})
      * @JoinTable(name="company_supplier_product_productabstract_category_joins")
+     * @Crud\Relationship\Permissions()
      * @var ArrayCollection $Products
      */
     private $Products;
     
     /**
      * @OnetoMany(targetEntity="\Entities\Company\Supplier\Product\Category\File\Image", cascade={"persist", "remove"}, mappedBy="Category", orphanRemoval=true)
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var ArrayCollection $Images
      */
     private $Images;
@@ -234,5 +238,20 @@ class Category extends \Dataservice_Doctrine_Entity
 	}
 	
 	return $string;
+    }
+    
+    public function toString()
+    {
+	return $this->getName();
+    }
+    
+    public function populate(array $array)
+    {
+	$Product = $this->_getEntityFromArray($array, "Entities\Company\Supplier\Product\ProductAbstract", "product_id");
+	
+	if($Product && $Product->getId())
+	    $this->setProduct($Product);
+	
+	parent::populate($array);
     }
 }

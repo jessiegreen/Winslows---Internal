@@ -1,0 +1,27 @@
+<?php 
+use Dataservice\Html\CRUD;
+
+echo($this->flashMessages()); 
+echo CRUD\Header::factory("Supplier Configurable - View")->getHtml();
+
+$Entity = $this->Entity;
+
+$crudBody = new CRUD\Body();
+
+$crudBody->start();
+
+$Tabs = CRUD\Tabs::factory();
+
+$Tabs->addEntityViewTab("Information", $Entity)
+	->addRelationshipViewTab($Entity, "Supplier")
+	->addRelationshipViewTab($Entity, "Programs")
+	->addRelationshipViewTab($Entity, "Options")
+	->addRelationshipViewTab($Entity, "DeliveryTypes")
+	->addRelationshipViewTab($Entity, "Categories")
+	->addRelationshipViewTab($Entity, "Purposes")
+	->addRelationshipViewTab($Entity, "Images")
+	->render();
+
+$crudBody->end();
+
+echo $Tabs->getJS();

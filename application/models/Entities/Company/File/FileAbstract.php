@@ -286,4 +286,9 @@ abstract class FileAbstract extends \Dataservice_Doctrine_Entity
     {
 	$this->validateUpload();
     }
+    
+    public function toString()
+    {
+	return $this->getName()." - ".$this->getOriginalFileName().".".$this->getExtension();
+    }
 }

@@ -1,0 +1,22 @@
+<?php 
+use Dataservice\Html\CRUD;
+
+echo($this->flashMessages()); 
+echo CRUD\Header::factory("Supplier Address - View")->getHtml();
+
+$Address = $this->Address;
+
+$crudBody = new CRUD\Body();
+
+$crudBody->start();
+
+$Tabs = CRUD\Tabs::factory();
+
+$Tabs->addEntityViewTab("Information", $Address)
+	->addRelationshipViewTab($Address, "Supplier")
+	->addRelationshipViewTab($Address, "Contacts")
+	->render();
+
+$crudBody->end();
+
+echo $Tabs->getJS();

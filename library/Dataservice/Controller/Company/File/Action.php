@@ -1,12 +1,5 @@
 <?php
-
-/**
- * 
- * @author jessie
- *
- */
-
-class Dataservice_Controller_Action_File extends Dataservice_Controller_Action
+class Dataservice_Controller_Company_File_Action extends Dataservice_Controller_Crud_Action
 {    
     public function viewAction()
     {
@@ -15,12 +8,11 @@ class Dataservice_Controller_Action_File extends Dataservice_Controller_Action
 	    $this->_helper->layout->disableLayout();
 	    $this->_helper->viewRenderer->setNoRender(true);
 	    $this->_History->doNotTrack();
-
-	    $File	= $this->_em->getRepository("Entities\Company\File\FileAbstract")->find($this->getRequest()->getParam("id", 0));
+	    
 	    $finfo	= finfo_open(FILEINFO_MIME_TYPE);
-	    $file_path  = $File->getFullPath();
+	    $file_path  = $this->_Entity->getFullPath();
 
-	    if($File)
+	    if($this->_Entity)
 	    {
 		header("Content-length: ". filesize($file_path));
 		header("Content-type: ". finfo_file($finfo, $file_path));

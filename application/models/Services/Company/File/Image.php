@@ -4,27 +4,11 @@ namespace Services\Company\File;
 class Image extends \Dataservice_Service_ServiceAbstract
 {   
     /**
-     * @param \Entities\Company\File\Image\ImageAbstract $Image
-     * @param string $width
-     * @param string $height
-     * @return string
+     * @return Image
      */
-    public function getHtmlImg(\Entities\Company\File\Image\ImageAbstract $Image, $width, $height)
+    public static function factory()
     {
-	$Image = $Image->getWidth() == $width && $Image->getHeight() == $height ? 
-		    $Image : 
-		    $this->getResized($Image, $width, $height, $this->_em);
-	
-	return '<img title="'.htmlspecialchars($Image->getName()).'" src="/file/view/id/'.$Image->getId().'/nohist/1" />';
-    }
-    
-    /**
-     * @param \Entities\Company\File\Image\ImageAbstract $Image
-     * @return string
-     */
-    public function getHtmlThumbImg(\Entities\Company\File\Image\ImageAbstract $Image)
-    {
-	return $this->getHtmlImg($Image, 100, 100);
+	return parent::factory();
     }
     
     /**

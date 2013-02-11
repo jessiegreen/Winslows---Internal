@@ -59,7 +59,7 @@ class OneToOne extends RelationshipAbstract
 		$this->addHtmlBodyContent(
 			$this->anchorObject->viewIcon(
 				"", 
-				"/".$this->relationshipClassUrl."/view/id/".$this->relationshipEntity->getId(), 
+				"/".$this->relationshipEntity->getCrudUrl()."/view/id/".$this->relationshipEntity->getId(), 
 				"View ".$this->relationshipClassName
 				)
 		    );
@@ -68,7 +68,7 @@ class OneToOne extends RelationshipAbstract
 		$this->addHtmlBodyContent(
 			$this->anchorObject->deleteIcon(
 				"", 
-				"/".$this->relationshipClassUrl."/delete/id/".$this->relationshipEntity->getId(), 
+				"/".$this->relationshipEntity->getCrudUrl()."/delete/id/".$this->relationshipEntity->getId(), 
 				true, 
 				"Delete ".$this->relationshipClassName
 				)

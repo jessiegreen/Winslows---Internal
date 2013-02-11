@@ -1,5 +1,5 @@
 <?php
-class Company_FileController extends Dataservice_Controller_Company_File_Action
+class Company_FileImageResizedCloneController extends \Dataservice_Controller_Crud_Action
 {
     public function init()
     {

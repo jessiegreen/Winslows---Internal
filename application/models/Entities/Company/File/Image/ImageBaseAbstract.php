@@ -59,6 +59,36 @@ abstract class ImageBaseAbstract extends \Entities\Company\File\FileAbstract
 	return \Zend_Registry::get('config')->dataService->fileStore->imageStore;
     }
     
+    /**
+     * @return \Dataservice\Html\Image
+     */
+    public function getHtmlImage()
+    {
+	return \Dataservice\Html\Image::factory()
+		->setSource("/file/view/id/".$this->getId()."/nohist/1")
+		->setTitle($this->getDescription());
+    }
+    
+    /**
+     * @return string
+     */
+    public function getHtml()
+    {
+	return $this->getHtmlImage()->getHtml();
+    }
+    
+    /**
+     * @return void
+     */
+    public function render()
+    {
+	$this->getHtmlImage()->render();
+    }
+
+    /**
+     * @param string $temp_full_path
+     * @return void
+     */
     public function uploadFile($temp_full_path)
     {
 	parent::uploadFile($temp_full_path);
@@ -68,5 +98,13 @@ abstract class ImageBaseAbstract extends \Entities\Company\File\FileAbstract
 	$this->setWidth($image_size[0]);
 	
 	$this->setHeight($image_size[1]);
+    }
+    
+    /**
+     * @return string
+     */
+    public function toString()
+    {
+	return $this->getName()." - ".$this->getOriginalFileName().".".$this->getExtension()." - ".$this->getWidth()."X".$this->getHeight();
     }
 }

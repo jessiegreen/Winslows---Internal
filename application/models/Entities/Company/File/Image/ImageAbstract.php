@@ -5,6 +5,8 @@ use Doctrine\Common\Collections\ArrayCollection as ArrayCollection;
 /** 
  * @Entity (repositoryClass="Repositories\Company\File\Image\ImageAbstract") 
  * @Table(name="company_file_image_imageabstracts")
+ * @Crud\Entity\Url(value="")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
  abstract class ImageAbstract extends ImageBaseAbstract
 {        
@@ -12,6 +14,7 @@ use Doctrine\Common\Collections\ArrayCollection as ArrayCollection;
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="\Entities\Company\File\Image\ResizedClone", mappedBy="Image", cascade={"persist", "remove"})
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var ArrayCollection $ResizedClones
      */
     protected $ResizedClones;
@@ -37,4 +40,25 @@ use Doctrine\Common\Collections\ArrayCollection as ArrayCollection;
     {
 	return $this->ResizedClones;
     }   
+    
+    /**
+     * @param \Entities\Company\File\Image\ImageAbstract $Image
+     * @param string $width
+     * @param string $height
+     * @return ImageBaseAbstract
+     */
+    public function getSize(\Entities\Company\File\Image\ImageAbstract $Image, $width, $height)
+    {
+	return $this->getWidth() == $width && $this->getHeight() == $height ? 
+		    $this : 
+		    \Services\Company\File\Image::factory()->getResized($Image, $width, $height);
+    }
+    
+    /**
+     * @return ImageBaseAbstract
+     */
+    public function getThumb()
+    {
+	return $this->getSize($this, 100, 100);
+    }
 }

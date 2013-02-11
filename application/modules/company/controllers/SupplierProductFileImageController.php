@@ -1,48 +1,18 @@
 <?php
-
-/**
- * 
- * @author jessie
- *
- */
-
-class Company_SupplierProductFileImageController extends Dataservice_Controller_Action
+class Company_SupplierProductFileImageController extends Dataservice_Controller_Crud_Action
 {    
     public function init()
     {
-	//$this->view->headScript()->appendFile("/javascript/company/supplier/product/file/image.js");
+	$this->_EntityClass = "Entities\Company\Supplier\Product\File\Image";
 	
 	parent::init();
     }
     
     public function editAction()
-    {
-	/* @var $Image \Entities\Company\Supplier\Product\File\Image */
-	$Image	    = $this->getEntityFromParamFields('Company\Supplier\Product\File\Image', array("id"));
-	$product_id = $this->getRequest()->getParam("product_id"); 
+    {	
+	$this->_Entity->populate($this->_getAllParams());
 	
-	if(!$Image->getId())
-	{	    
-	    if($product_id)
-	    {
-		$Product = $this->_em->getRepository("Entities\Company\Supplier\Product\ProductAbstract")->find($product_id);
-		
-		if(!$Product)
-		{
-		    $this->_FlashMessenger->addErrorMessage("Could not get Product.");
-		    $this->_History->goBack();
-		}
-		
-		$Image->setProduct($Product);
-	    } 
-	    else
-	    {
-		$this->_FlashMessenger->addErrorMessage("Could not get Product Id.");
-		$this->_History->goBack();
-	    }
-	}
-	
-	$form = new Forms\Company\Supplier\Product\File\Image($Image, array("method" => "post"));
+	$form = new Forms\Company\Supplier\Product\File\Image($this->_Entity, array("method" => "post"));
 	
 	$form->addCancelButton($this->_History->getPreviousUrl());
 	
@@ -50,31 +20,20 @@ class Company_SupplierProductFileImageController extends Dataservice_Controller_
 	{
 	    try 
 	    {
-		$data	    = $this->_params["company_supplier_product_file_image"];
+		$data	    = $this->_getParam("company_supplier_product_file_image");
 		$info_array = $_FILES["file"];
 		
-		$Image->setFileParamsFromArray($info_array);
-		$Image->setWidth("");
-		$Image->setHeight("");
-		$Image->populate($data);
+		$this->_Entity->setFileParamsFromArray($info_array);
+		$this->_Entity->setWidth("");
+		$this->_Entity->setHeight("");
+		$this->_Entity->populate($data);
 		
-		/* @var $Product Entities\Company\Supplier\Product\ProductAbstract */
-		$Product = $this->_em->getRepository("Entities\Company\Supplier\Product\ProductAbstract")->find($data["product_id"]);
-		
-		if(!$Product)
-		{
-		    $this->_FlashMessenger->addErrorMessage("Could not get Product.");
-		    $this->_History->goBack();
-		}
-		
-		$Image->setProduct($Product);
-		
-		$this->_em->persist($Image);
+		$this->_em->persist($this->_Entity);
 		$this->_em->flush();
 		
-		$Image->uploadFile($info_array["tmp_name"]);
+		$this->_Entity->uploadFile($info_array["tmp_name"]);
 		
-		$this->_em->persist($Image);
+		$this->_em->persist($this->_Entity);
 		$this->_em->flush();
 
 		$message = "Image saved";
@@ -91,17 +50,7 @@ class Company_SupplierProductFileImageController extends Dataservice_Controller_
 	}
 	
 	$this->view->form	= $form;
-	$this->view->Image	= $Image;
-    }
-    
-    /**
-     * @return \Entities\Company\Supplier\Product\ProductAbstract
-     */
-    private function _getProduct()
-    {
-	$id = $this->getRequest()->getParam("product_id", 0);
-	
-	return $this->_em->find("Entities\Company\Supplier\Product\ProductAbstract", $id);
+	$this->view->Image	= $this->_Entity;
     }
 }
 

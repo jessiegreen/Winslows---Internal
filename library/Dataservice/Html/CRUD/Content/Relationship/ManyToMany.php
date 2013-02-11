@@ -33,7 +33,7 @@ class ManyToMany extends RelationshipAbstract
 	    $this->addHtmlHeaderContent(
 		    $this->anchorObject->manageIcon(
 			"", 
-			"/".$this->parentClassUrl."/manage-".strtolower($this->relationshipPropertyName).
+			"/".$this->parentClassUrl."/manage-".strtolower(\Dataservice\Inflector::dash($this->relationshipPropertyName)).
 			    "/id/".$this->parentEntity->getId(), 
 			"Manage ".$this->relationshipPropertyName
 		    )

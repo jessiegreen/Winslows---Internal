@@ -1,0 +1,21 @@
+<?php 
+use Dataservice\Html\CRUD;
+
+echo($this->flashMessages()); 
+echo CRUD\Header::factory("Supplier Product Purpose - View")->getHtml();
+
+$Purpose = $this->Purpose;
+
+$crudBody = new CRUD\Body();
+
+$crudBody->start();
+
+$Tabs = CRUD\Tabs::factory();
+
+$Tabs->addEntityViewTab("Information", $Purpose)
+	->addRelationshipViewTab($Purpose, "Product")
+	->render();
+
+$crudBody->end();
+
+echo $Tabs->getJS();

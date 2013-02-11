@@ -16,10 +16,10 @@ class Subform extends \Forms\Company\Supplier\Product\Subform
     
     public function init($options = array())
     {
-	$this->addElement('text', 'class_name', array(
+	$this->addElement('text', 'configurator_class_name', array(
             'required'	    => true,
             'label'	    => 'Class Name:',
-	    'value'	    => $this->_Configurable ? $this->_Configurable->getClassName() : ""
+	    'value'	    => $this->_Configurable ? $this->_Configurable->getConfiguratorClassName() : ""
         ));
 
 	parent::init($options);

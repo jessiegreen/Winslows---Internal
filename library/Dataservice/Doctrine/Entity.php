@@ -54,7 +54,7 @@ class Dataservice_Doctrine_Entity
     {
 	foreach ($array as $key => $value) 
 	{
-	    if(property_exists($this, $key))
+	    if(property_exists($this, $key) && $key != "id")
 	    {
 		$this->$key = $value;
 	    }

@@ -14,7 +14,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *			})
  * @HasLifecycleCallbacks
  * @Crud\Entity\Url()
- * @Crud\Entity\Permissions()
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
 class ProductAbstract extends \Dataservice_Doctrine_Entity
 {

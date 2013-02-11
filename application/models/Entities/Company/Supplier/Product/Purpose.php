@@ -26,6 +26,7 @@ class Purpose extends \Dataservice_Doctrine_Entity
     
     /** 
      * @ManyToOne(targetEntity="ProductAbstract", inversedBy="Purposes")
+     * @Crud\Relationship\Permissions()
      * @var ProductAbstract
      */     
     protected $Product;
@@ -68,5 +69,29 @@ class Purpose extends \Dataservice_Doctrine_Entity
     public function setName($name)
     {
         $this->name = $name;
+    }
+    
+    public function toString()
+    {
+	return $this->getName();
+    }
+    
+    public function populate(array $array)
+    {
+	$types = array("configurable_id", "simple_id");
+	
+	foreach($types as $type)
+	{
+	    $Product = $this->_getEntityFromArray($array, "Entities\Company\Supplier\Product\ProductAbstract", $type);
+
+	    if($Product && $Product->getId())
+	    {
+		$this->setProduct($Product);
+		
+		break;
+	    }
+	}
+	
+	parent::populate($array);
     }
 }

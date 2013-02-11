@@ -4,6 +4,8 @@ namespace Entities\Company\Supplier\Product\DeliveryType;
 /** 
  * @Entity (repositoryClass="Repositories\Company\Supplier\DeliveryType\LocationPickup") 
  * @Table(name="company_supplier_product_deliverytype_locationpickups") 
+ * @Crud\Entity\Url(value="supplier-product-delivery-type-location-pickup")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
 
 class LocationPickup extends DeliveryTypeAbstract

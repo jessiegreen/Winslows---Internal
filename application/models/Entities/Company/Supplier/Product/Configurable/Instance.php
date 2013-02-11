@@ -147,7 +147,7 @@ class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstr
      */
     public function validate()
     {
-	$class		    = "\Services\Company\Supplier\Product\Configurable\Instance\\".$this->Product->getClassName()."\Validator";
+	$class		    = "\Services\Company\Supplier\Product\Configurable\Instance\\".$this->Product->getConfiguratorClassName()."\Validator";
 	$this->Validator    = new $class($this);
 	
 	$this->Validator->validate();
@@ -159,7 +159,7 @@ class Instance extends \Entities\Company\Supplier\Product\Instance\InstanceAbstr
      */
     public function getPrice()
     {
-	$class		= "\Services\Company\Supplier\Product\Configurable\Instance\\".$this->Product->getClassName()."\Pricer";
+	$class		= "\Services\Company\Supplier\Product\Configurable\Instance\\".$this->Product->getConfiguratorClassName()."\Pricer";
 	$this->Pricer	= new $class($this);
 	
 	return $this->Pricer->price();

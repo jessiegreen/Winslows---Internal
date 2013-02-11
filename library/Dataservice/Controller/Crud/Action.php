@@ -16,6 +16,9 @@ class Dataservice_Controller_Crud_Action extends Dataservice_Controller_Action
 	parent::init();
 	
 	$this->_setEntity();
+	
+	$this->view->headTitle()->append($this->_Entity->getClassName()." >> ".
+		Dataservice\Inflector::humanize($this->getRequest()->getActionName(), "All"));
     }
     
     protected function _CheckRequiredEntityExists(\Dataservice_Doctrine_Entity $Entity)
@@ -81,6 +84,7 @@ class Dataservice_Controller_Crud_Action extends Dataservice_Controller_Action
 	{
 	    $EntityClassName		    = $Entity->getClassName();
 	    $this->view->$EntityClassName   = $Entity;
+	    $this->view->Entity		    = $Entity;
 	}
     } 
     
