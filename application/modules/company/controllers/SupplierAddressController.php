@@ -15,14 +15,14 @@ class Company_SupplierAddressController extends Dataservice_Controller_Action
 	{
 	    try 
 	    {
-		$data	= $this->_params["company_supplier_address"];
+		$data	= $this->_getParam("company_supplier_address");
 		
 		$Address->populate($data);
 		
 		if(!$Address->getId())
 		{
 		    /* @var $Supplier \Entities\Company\Supplier */
-		    $Supplier = $this->_em->find("Entities\Company\Supplier", $this->_params["supplier_id"]);
+		    $Supplier = $this->_em->find("Entities\Company\Supplier", $this->_getParam("supplier_id"));
 		    
 		    if(!$Supplier)
 			throw new Exception("Can not add address. No Supplier with that Id");

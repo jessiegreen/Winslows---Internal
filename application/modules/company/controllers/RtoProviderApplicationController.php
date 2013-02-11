@@ -68,7 +68,7 @@ class Company_RtoProviderApplicationController extends Dataservice_Controller_Ac
 	{
 	    try 
 	    {
-		$data = $this->_params["company_rto_provider_application"];
+		$data = $this->_getParam("company_rto_provider_application");
 
 		$Application->populate($data);
 		

@@ -65,7 +65,7 @@ class Company_SupplierProductConfigurableOptionParameterController extends Datas
 	{
 	    try 
 	    {
-		$data	= $this->_params["company_supplier_product_configurable_option_parameter"];
+		$data	= $this->_getParam("company_supplier_product_configurable_option_parameter");
 		$Option = $this->_em->find(
 				"Entities\Company\Supplier\Product\Configurable\Option", 
 				$data["option_id"]

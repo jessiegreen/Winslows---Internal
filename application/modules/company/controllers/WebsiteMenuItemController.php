@@ -13,8 +13,8 @@ class Company_WebsiteMenuItemController extends Dataservice_Controller_Crud_Acti
 	$this->_helper->viewRenderer->setNoRender(true);
 	$this->_helper->layout->disableLayout();
 	
-	$menu_id	= isset($this->_params["menu_id"]) ? $this->_params["menu_id"] : null;
-	$menuitem_id	= isset($this->_params["menuitem_id"]) ? $this->_params["menuitem_id"] : null;
+	$menu_id	= $this->_getParam("menu_id");
+	$menuitem_id	= $this->_getParam("menuitem_id");
 	
 	if($menuitem_id)
 	{

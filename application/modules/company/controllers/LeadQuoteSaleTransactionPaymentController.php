@@ -16,7 +16,7 @@ class Company_LeadQuoteSaleTransactionPaymentController extends Dataservice_Cont
 	{
 	    try
 	    {
-		$data = $this->_params["company_lead_quote_sale_payment_transaction_payment_cash"];
+		$data = $this->_getParam("company_lead_quote_sale_payment_transaction_payment_cash");
 		$Cash = new Entities\Company\Sale\Transaction\Payment\Cash();
 
 		$Cash->populate($data);
@@ -53,7 +53,7 @@ class Company_LeadQuoteSaleTransactionPaymentController extends Dataservice_Cont
 	{
 	    try
 	    {
-		$data	    = $this->_params["company_lead_quote_sale_payment_transaction_payment_creditcard"];
+		$data	    = $this->_getParam("company_lead_quote_sale_payment_transaction_payment_creditcard"]);
 		
 		require_once 'AuthorizeNet/AuthorizeNet.php'; // Make sure this path is correct.
 		
@@ -113,7 +113,7 @@ class Company_LeadQuoteSaleTransactionPaymentController extends Dataservice_Cont
 	{
 	    try
 	    {
-		$data	= $this->_params["company_lead_quote_sale_payment_transaction_payment_check"];
+		$data	= $this->_getParam("company_lead_quote_sale_payment_transaction_payment_check");
 		$Check	= new Entities\Company\Sale\Transaction\Payment\Check();
 
 		$Check->populate($data);

@@ -54,7 +54,7 @@ class Company_SupplierProductConfigurableOptionParameterValueController extends 
 	{
 	    try 
 	    {
-		$data	= $this->_params["company_supplier_product_configurable_option_parameter_value"];
+		$data	= $this->_getParam("company_supplier_product_configurable_option_parameter_value");
 
 		$Value->populate($data);
 		

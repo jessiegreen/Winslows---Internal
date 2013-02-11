@@ -20,7 +20,7 @@ class Company_RtoProviderProgramController extends Dataservice_Controller_Crud_A
 	{
 	    try 
 	    {
-		$data		= $this->_params["company_rto_provider_program_manageproducts"];
+		$data			= $this->_getParam("company_rto_provider_program_manageproducts");
 		$products		= $data["products_checks"];
 		$current_products	= array();
 
@@ -48,7 +48,7 @@ class Company_RtoProviderProgramController extends Dataservice_Controller_Crud_A
 		$this->_FlashMessenger->addSuccessMessage("Product saved.");
 		$this->_History->goBack();
 	    }
-	    catch (Exception $exc)
+	    catch (\Exception $exc)
 	    {
 		$this->_FlashMessenger->addErrorMessage($exc->getMessage());
 		$this->_History->goBack();
@@ -70,7 +70,7 @@ class Company_RtoProviderProgramController extends Dataservice_Controller_Crud_A
 	{
 	    try 
 	    {
-		$data		= $this->_params["company_rto_provider_program_managefees"];
+		$data		= $this->_getParam("company_rto_provider_program_managefees");
 		$fees		= $data["fees_checks"];
 		$current_fees	= array();
 

@@ -64,7 +64,7 @@ class ProductAbstract extends \Dataservice_Doctrine_Entity
     /**
      * @ManytoMany(targetEntity="\Entities\Company\RtoProvider\Program", inversedBy="Products", cascade={"persist"})
      * @JoinTable(name="company_supplier_product_program_joins")
-     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
+     * @Crud\Relationship\Permissions()
      * @var ArrayCollection $Programs
      */
     protected $Programs;

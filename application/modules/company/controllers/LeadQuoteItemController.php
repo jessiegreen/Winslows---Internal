@@ -37,7 +37,7 @@ class Company_LeadQuoteItemController extends Dataservice_Controller_Action
 	{
 	    try 
 	    {
-		$item_data  = $this->_params["company_lead_quote_item"];
+		$item_data  = $this->_getParam("company_lead_quote_item");
 
 		if(!$Item->getInstance())
 		{

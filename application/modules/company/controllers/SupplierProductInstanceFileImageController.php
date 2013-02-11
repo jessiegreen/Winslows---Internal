@@ -43,7 +43,7 @@ class Company_SupplierProductInstanceFileImageController extends Dataservice_Con
 	{
 	    try 
 	    {
-		$data	    = $this->_params["company_supplier_product_instance_file_image"];
+		$data	    = $this->_getParam("company_supplier_product_instance_file_image");
 		$info_array = $_FILES["file"];
 		
 		$Image->setFileParamsFromArray($info_array);

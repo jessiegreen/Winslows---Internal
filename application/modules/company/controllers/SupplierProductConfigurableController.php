@@ -20,7 +20,7 @@ class Company_SupplierProductConfigurableController extends Dataservice_Controll
 	{
 	    try 
 	    {
-		$data	    = $this->_params["company_supplier_product_configurable_manageoptions"];
+		$data	    = $this->_getParam("company_supplier_product_configurable_manageoptions");
 		$options    = $data["configurable_manageoptions"];
 
 		foreach ($this->_Entity->getOptions() as $Option)
