@@ -1,5 +1,4 @@
 <?php
-
 namespace Entities\Company\Location;
 
 use Doctrine\Common\Collections\ArrayCollection as ArrayCollection;
@@ -14,6 +13,8 @@ use Doctrine\Common\Collections\ArrayCollection as ArrayCollection;
  *			"company_dealer_location" = "\Entities\Company\Dealer\Location"
  *		    })
  * @HasLifecycleCallbacks
+ * @Crud\Entity\Url(value="")
+ * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  */
 class LocationAbstract extends \Dataservice_Doctrine_Entity
 {

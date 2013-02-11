@@ -1,23 +1,15 @@
 <?php
 namespace Forms\Company\Lead\Quote;
-/**
- * Name:
- * Location:
- *
- * Description for class (if any)...
- *
- * @author     Jessie Green <jessie.winslows@gmail.com>
- * @copyright  2012 Winslows inc.
- * @version    Release: @package_version@
- */
+
 class Subform extends QuoteAbstract\Subform
 {
     private $_Quote; 
     
-    public function __construct($options = null, \Entities\Company\Lead\Quote $Quote = null) 
+    public function __construct(\Entities\Company\Lead\Quote $Quote, $options = null) 
     {
 	$this->_Quote = $Quote;
-	parent::__construct($options);
+	
+	parent::__construct($this->_Quote, $options);
     }
     
     public function init() 

@@ -10,6 +10,8 @@ $Item = $this->Item;
 CRUD\Body::factory()->start();
 CRUD\Tabs::factory()
 	->addEntityViewTab("Information", $Item)
+	->addRelationshipViewTab($Item, "Inventory")
+	->addRelationshipViewTab($Item, "Location")
 	->addRelationshipViewTab($Item, "Instance")
 	->render();
 

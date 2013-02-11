@@ -13,15 +13,10 @@ class Lead extends \Dataservice_Service_ServiceAbstract
 	    
     public function getAllAllowedLeads()
     {
-	$Employee   = \Services\Auth::factory()->getIdentityPerson();
-	$AdminRole  = \Services\Company\Employee\Role::factory()->getAdminRole();
-	
-	if($Employee->hasRole($AdminRole) || $Employee->hasRole('Sales Manager'))
-	{
-	    return $this->_em->getRepository("Entities\Company\Lead")->findBy(array(), array("last_name" => "ASC", "first_name" => "ASC"));
-	}
+	$Website    = \Services\Company\Website::factory()->getCurrentWebsite();
+	$Employee   = $Website->getCurrentUserAccount(\Zend_Auth::getInstance())->getPerson();
 	
 	/* @var $Employee \Entities\Company\Employee */
-	return $Employee->getLeads();
+	return $Employee->getAllAllowedLeads();
     }
 }

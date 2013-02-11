@@ -25,10 +25,13 @@ class Subform extends \Zend_Form_SubForm
 	
 	$this->addElement(new \Dataservice_Form_Element_Company_AllLocationSelect(
 		$this->_Item->getInventory()->getCompany(),
-		"location_id", array(
+		"location_id", 
+		array(
 		    'label'	    => 'Location:',
-		    'value'	    => $this->_Item && $this->_Item->getLocation() ? $this->_Item->getLocation() : ""
-		)));
+		    'value'	    => $this->_Item && $this->_Item->getLocation() ? $this->_Item->getLocation()->getId() : ""
+		)
+	    )
+	);
 	
 	foreach(range(1, 50) as $i)
 	{
