@@ -7,7 +7,7 @@ use Entities\Company\Person\PersonAbstract as PersonAbstract;
 /** 
  * @Entity (repositoryClass="Repositories\Company\Employee") 
  * @Crud\Entity\Url(value="employee")
- * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
+ * @Crud\Entity\Permissions(view={"Admin", "Employee"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  * @Table(name="company_employees") 
  */
 class Employee extends PersonAbstract

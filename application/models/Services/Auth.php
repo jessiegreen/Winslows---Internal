@@ -6,7 +6,7 @@ class Auth extends \Dataservice_Service_ServiceAbstract
     /**
      * @return Auth
      */
-    public function factory()
+    public static function factory()
     {
 	return parent::factory();
     }

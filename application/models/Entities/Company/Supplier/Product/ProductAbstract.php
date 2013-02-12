@@ -92,6 +92,14 @@ abstract class ProductAbstract extends \Dataservice_Doctrine_Entity implements \
      * @var ArrayCollection $Images
      */
     private $Images;
+    
+    /**
+     * @ManytoMany(targetEntity="\Entities\Company\Website", inversedBy="Products", cascade={"persist"})
+     * @JoinTable(name="company_supplier_product_website_joins")
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
+     * @var ArrayCollection $Websites
+     */
+    protected $Websites;
 
     public function __construct()
     {
@@ -101,6 +109,7 @@ abstract class ProductAbstract extends \Dataservice_Doctrine_Entity implements \
 	$this->DeliveryTypes	= new ArrayCollection();
 	$this->Purposes		= new ArrayCollection();
 	$this->Images		= new ArrayCollection();
+	$this->Websites		= new ArrayCollection();
 	
 	parent::__construct();
     }
@@ -169,6 +178,31 @@ abstract class ProductAbstract extends \Dataservice_Doctrine_Entity implements \
     public function getPrograms()
     {
 	return $this->Programs;
+    }
+    
+    /**
+     * @param \Entities\Company\Website $Website
+     */
+    public function addWebsite(\Entities\Company\Website $Website)
+    {
+	if(!$this->Websites->contains($Website))
+	    $this->Websites[] = $Website;
+    }
+    
+    /**
+     * @param \Entities\Company\Website $Website
+     */
+    public function removeWebsite(\Entities\Company\Website $Website)
+    {
+	$this->Websites->removeElement($Website);
+    }
+    
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getWebsites()
+    {
+	return $this->Websites;
     }
     
     /**

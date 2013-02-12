@@ -49,4 +49,16 @@ class Account extends \Entities\Company\Website\Account\AccountAbstract
     {
 	return $this->getWebsite()->getName()." - ".$this->getUsername();
     }
+    
+    public function populate(array $array)
+    {
+	$Employee = $this->_getEntityFromArray($array, "Entities\Company\Employee", "employee_id");
+	
+	if($Employee && $Employee->getId())
+	{
+	    $this->setEmployee($Employee);
+	}
+	
+	parent::populate($array);
+    }
 }

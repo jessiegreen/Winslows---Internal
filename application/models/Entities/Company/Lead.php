@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /** 
  * @Entity (repositoryClass="Repositories\Company\Lead") 
  * @Crud\Entity\Url(value="lead")
- * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
+ * @Crud\Entity\Permissions(view={"Admin", "Sales"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
  * @Table(name="company_leads") 
  */
 class Lead extends PersonAbstract

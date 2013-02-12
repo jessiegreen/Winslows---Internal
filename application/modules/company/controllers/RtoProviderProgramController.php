@@ -45,14 +45,15 @@ class Company_RtoProviderProgramController extends Dataservice_Controller_Crud_A
 
 		$this->_em->persist($this->_Entity);
 		$this->_em->flush();
+		
 		$this->_FlashMessenger->addSuccessMessage("Product saved.");
-		$this->_History->goBack();
 	    }
 	    catch (\Exception $exc)
 	    {
 		$this->_FlashMessenger->addErrorMessage($exc->getMessage());
-		$this->_History->goBack();
 	    }
+	    
+	    $this->_History->goBack();
 	}
 	
 	$this->view->form = $form;

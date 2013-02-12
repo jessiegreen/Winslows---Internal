@@ -1,6 +1,8 @@
 <?php
 namespace Entities\Company;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /** 
  * @Entity (repositoryClass="Repositories\Company\Website") 
  * @Crud\Entity\Url(value="website")
@@ -17,6 +19,20 @@ class Website extends \Entities\Company\Website\WebsiteAbstract
     protected $Company;
     
     /**
+     * @ManytoMany(targetEntity="\Entities\Company\Supplier\Product\ProductAbstract", mappedBy="Websites", cascade={"persist"})
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
+     * @var ArrayCollection $Products
+     */
+    protected $Products;
+    
+    public function __construct()
+    {
+	$this->Products = new ArrayCollection();
+	
+	parent::__construct();
+    }
+    
+    /**
      * @return \Entities\Company
      */
     public function getCompany()
@@ -30,6 +46,37 @@ class Website extends \Entities\Company\Website\WebsiteAbstract
     public function setCompany(\Entities\Company $Company)
     {
 	$this->Company = $Company;
+    }
+    
+    /**
+     * @return ArrayCollection
+     */
+    public function getProducts()
+    {
+	return $this->Products;
+    }
+    
+    /**
+     * @param \Entities\Company\Supplier\Product\ProductAbstract $Product
+     */
+    public function addProduct(\Entities\Company\Supplier\Product\ProductAbstract $Product)
+    {
+	if(!$this->getProducts()->contains($Product))
+	{
+	    $Product->addWebsite($this);
+	    
+	    $this->Products[] = $Product;
+	}
+    }
+    
+    /**
+     * @param \Entities\Company\Supplier\Product\ProductAbstract $Product
+     */
+    public function removeProduct(\Entities\Company\Supplier\Product\ProductAbstract $Product)
+    {
+	$Product->removeWebsite($this);
+	
+	$this->getProducts()->removeElement($Product);
     }
     
     /**

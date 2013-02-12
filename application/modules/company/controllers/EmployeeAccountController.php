@@ -8,6 +8,39 @@ class Company_EmployeeAccountController extends Dataservice_Controller_Crud_Acti
 	parent::init();
     }
     
+    public function changePasswordAction()
+    {
+	$this->_requireEntity();
+	
+	$form = new \Forms\Company\Employee\Account\ChangePassword($this->_Entity);
+	
+	$form->addCancelButton($this->_History->getPreviousUrl());
+	
+	if($this->isPostAndValid($form))
+	{
+	    try 
+	    {
+		$post_data  = $this->_request->getPost();
+		$data	    = $post_data["company_employee_account_change_password"];
+
+		$this->_Entity->populate($data);
+
+		$this->_em->persist($this->_Entity);
+		$this->_em->flush();
+	    
+		$this->_FlashMessenger->addSuccessMessage("Employee Password Changed");
+	    } 
+	    catch (Exception $exc) 
+	    {
+		$this->_FlashMessenger->addErrorMessage($exc->getMessage());
+	    }
+	    
+	    $this->_History->goBack();
+	}
+	
+	$this->view->form = $form;
+    }
+    
     public function manageRolesAction()
     {
 	$this->_requireEntity();

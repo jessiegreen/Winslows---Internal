@@ -97,4 +97,59 @@ class Dataservice_Controller_Company_Supplier_Product_ProductAbstract_Action ext
 	
 	$this->view->form = $form;
     }
+    
+    public function manageWebsitesAction()
+    {
+	$this->_requireEntity();
+	
+	$form = new Forms\Company\Supplier\Product\ManageWebsites($this->_Entity, array("method" => "post"));
+
+	$form->addCancelButton($this->_History->getPreviousUrl());
+
+	if($this->isPostAndValid($form))
+	{
+	    try 
+	    {
+		$post_data		= $this->_request->getPost();
+		$data			= $post_data["company_supplier_product_manage_websites"];
+		$websites		= $data["websites"];
+		$current_websites	= array();
+
+		foreach ($this->_Entity->getWebsites() as $Website)
+		{
+		    if(!in_array($Website->getId(), $websites))
+		    {
+			$Website->removeProduct($this->_Entity);
+			$this->_em->persist($Website);
+		    }
+
+		    $current_websites[] = $Website->getId();
+		}
+
+		foreach ($websites as $value) 
+		{
+		    if(!in_array($value, $current_websites))
+		    {
+			$Website = $this->_em->find("\Entities\Company\Website", $value);
+
+			$Website->addProduct($this->_Entity);
+			    
+			$this->_em->persist($Website);
+		    }
+		}
+
+		$this->_em->flush();
+
+		$this->_FlashMessenger->addSuccessMessage("Product websites saved.");
+		$this->_History->goBack();
+	    }
+	    catch (Exception $exc)
+	    {
+		$this->_FlashMessenger->addErrorMessage($exc->getMessage());
+		$this->_History->goBack();
+	    }
+	}
+	
+	$this->view->form = $form;
+    }
 }

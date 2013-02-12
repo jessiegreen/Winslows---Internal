@@ -319,4 +319,18 @@ abstract class AccountAbstract extends \Dataservice_Doctrine_Entity implements \
     {
 	return null;
     }
+    
+    public function populate(array $array) 
+    {
+	$Website = $this->_getEntityFromArray($array, "Entities\Company\Website", "website_id");
+	
+	if($Website)$this->setWebsite($Website);
+	
+	parent::populate($array);
+	
+	if(isset($array["password"]) && $array["password"])
+	{
+	    $this->setPassword($array["password"]);
+	}
+    }
 }

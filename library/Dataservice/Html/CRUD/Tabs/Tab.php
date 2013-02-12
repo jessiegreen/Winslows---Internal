@@ -46,9 +46,11 @@ class Tab
 	return $this;
     }
     
-    public function addEntityView(\Dataservice\Html\CRUD\EntityView $View)
+    public function addEntityView(\Dataservice_Doctrine_Entity $Entity)
     {
-	$this->content_html .= $View->getHtml();
+	$EntityView = \Dataservice\Html\CRUD\EntityView::factory($Entity);
+	
+	$this->content_html .= $EntityView->build()->getHtml();
 	
 	return $this;
     }

@@ -21,29 +21,25 @@ class Subform extends \Zend_Form_SubForm
             'label'	    => 'Website:',
 	    'value'	    => $this->_Account && $this->_Account->getWebsite() ? $this->_Account->getWebsite()->getId() : ""
         )));
-        
-	if($this->_safe)
+	
+	$this->addElement('text', 'username', array(
+	    'required'	    => true,
+	    'label'		    => 'Username:',
+	    'value'		    => $this->_Account ? $this->_Account->getUsername() : ""
+	));
+	
+	if(!$this->_Account->getPassword())
 	{
-	    $this->addElement('text', 'username', array(
-		'required'	    => true,
-		'label'		    => 'Username:',
-		'value'		    => $this->_Account ? $this->_Account->getUsername() : ""
-	    ));
-	}
-	else
-	{
-	    $this->addElement('text', 'username', array(
-		'required'	    => true,
-		'label'		    => 'Username:',
-		'value'		    => $this->_Account ? $this->_Account->getUsername() : ""
-	    ));
-
 	    $this->addElement('password', 'password', array(
 		'required'	    => true,
 		'label'		    => 'Password:',
+		'validators'	=> array(array('StringLength', false, array(4,15)))
 	    ));
-	}
 	
+	    $pwd = $this->getElement("password");
+
+	    $pwd->addErrorMessage('Please choose a password between 4-15 characters');
+	}
 	
 	$this->setElementsBelongTo("company_website_account");
     }

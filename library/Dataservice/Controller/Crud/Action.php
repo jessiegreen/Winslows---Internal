@@ -57,7 +57,7 @@ class Dataservice_Controller_Crud_Action extends Dataservice_Controller_Action
 		throw new \Exception($message);
 	    else
 	    {
-		$this->_FlashMessenger->addErrorMessage();
+		$this->_FlashMessenger->addErrorMessage($message);
 		$this->_History->goBack();
 	    }
 	}

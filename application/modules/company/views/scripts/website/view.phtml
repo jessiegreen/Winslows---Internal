@@ -42,6 +42,7 @@ $Tab->addContent($relationshipContent->getHtml());
 $Tabs->addTab($Tab);
 
 $Tabs->addRelationshipViewTab($Website, "Roles")
+    ->addRelationshipViewTab($Website, "Products")
     ->render();
 
 CRUD\Body::factory()->end();

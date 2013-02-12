@@ -46,7 +46,7 @@ class Tabs
      */
     public function addEntityViewTab($label, \Dataservice_Doctrine_Entity $Entity)
     {
-	$this->addTab(Tabs\Tab::factory($label)->addEntityView(EntityView::factory($Entity)));
+	$this->addTab(Tabs\Tab::factory($label)->addEntityView($Entity));
 	
 	return $this;
     }

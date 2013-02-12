@@ -5,12 +5,30 @@ echo($this->flashMessages());
 
 echo CRUD\Header::factory("Employee Account - View")->getHtml();
 
-$Account = $this->Account;
+$Account    = $this->Account;
+$Tabs	    = CRUD\Tabs::factory();
 
 CRUD\Body::factory()->start();
 
-CRUD\Tabs::factory()
-	->addEntityViewTab("Information", $Account)
+$Tab = CRUD\Tabs\Tab::factory("Information");
+
+$EntityView = CRUD\EntityView::factory($Account);
+
+$EntityView->buildBody()
+	    ->addHeaderHtml($Account->getClassName())
+	    ->addHeaderHtml(
+		Dataservice\Html\Anchor::anchorIcon(
+		    "lock.png", 
+		    "Change Password", 
+		    "/employee-account/change-password/id/".$Account->getId(), 
+		    "", 
+		    "Change Account Password"
+		)
+	    );
+
+$Tab->addContent($EntityView->getHtml());
+
+$Tabs->addTab($Tab)
 	->addRelationshipViewTab($Account, "Employee")
 	->addRelationshipViewTab($Account, "Website")
 	->addRelationshipViewTab($Account, "Roles")

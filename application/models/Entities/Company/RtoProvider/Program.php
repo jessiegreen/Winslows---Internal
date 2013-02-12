@@ -51,7 +51,7 @@ class Program extends \Dataservice_Doctrine_Entity
     protected $RtoProvider;
     
     /**
-     * @ManytoMany(targetEntity="\Entities\Company\Supplier\Product\ProductAbstract", mappedBy="Programs", cascade={"ALL"})
+     * @ManytoMany(targetEntity="\Entities\Company\Supplier\Product\ProductAbstract", mappedBy="Programs", cascade={"persist"})
      * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var ArrayCollection $Products
      */
@@ -138,6 +138,9 @@ class Program extends \Dataservice_Doctrine_Entity
 	}
     }
     
+    /**
+     * @param \Entities\Company\Supplier\Product\ProductAbstract $Product
+     */
     public function removeProduct(\Entities\Company\Supplier\Product\ProductAbstract $Product)
     {
 	$Product->removeProgram($this);

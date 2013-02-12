@@ -63,6 +63,7 @@ class WebsiteAbstract extends \Dataservice_Doctrine_Entity
      * @OneToMany(targetEntity="\Entities\Company\Website\Resource", mappedBy="Website", cascade={"persist"})
      * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var ArrayCollection $Resources
+     * @OrderBy({"name" = "ASC"})
      */
     protected $Resources;
     

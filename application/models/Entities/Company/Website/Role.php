@@ -39,7 +39,7 @@ class Role extends \Dataservice_Doctrine_Entity
     
     /**
      * @ManytoMany(targetEntity="\Entities\Company\Website\Resource", mappedBy="Roles", cascade={"persist, remove"})
-     * @Crud\Relationship\Permissions()
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var ArrayCollection $Resources
      */
     protected $Resources;
