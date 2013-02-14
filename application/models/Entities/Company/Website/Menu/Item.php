@@ -76,12 +76,14 @@ class Item extends \Dataservice_Doctrine_Entity
     
     /** 
      * @ManyToOne(targetEntity="\Entities\Company\Website\Menu", inversedBy="Items")
+     * @Crud\Relationship\Permissions()
      * @var \Entities\Company\Website\Menu $Menu
      */     
     protected $Menu;
     
     /**
      * @ManyToOne(targetEntity="\Entities\Company\Website\Menu\Item", inversedBy="children")
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @JoinColumn(name="parent", referencedColumnName="id")
      * @var $parent null | Item
      */
@@ -91,6 +93,7 @@ class Item extends \Dataservice_Doctrine_Entity
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @OneToMany(targetEntity="Item", mappedBy="parent", cascade={"persist"}, orphanRemoval=true)
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var ArrayCollection $children
      */
     private $children;

@@ -1,0 +1,21 @@
+<?php 
+use Dataservice\Html\CRUD;
+
+echo($this->flashMessages()); 
+
+echo CRUD\Header::factory("Website Menu Item - View")->getHtml();
+
+$Item = $this->Item;
+
+CRUD\Body::factory()->start();
+
+CRUD\Tabs::factory()
+	->addEntityViewTab("Information", $Item)
+	->addRelationshipViewTab($Item, "Menu")
+	->addRelationshipViewTab($Item, "parent")
+	->addRelationshipViewTab($Item, "children")
+	->render();
+
+CRUD\Body::factory()->end();
+
+echo CRUD\Tabs::factory()->getJS();

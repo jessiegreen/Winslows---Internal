@@ -42,16 +42,15 @@ use Doctrine\Common\Collections\ArrayCollection as ArrayCollection;
     }   
     
     /**
-     * @param \Entities\Company\File\Image\ImageAbstract $Image
      * @param string $width
      * @param string $height
      * @return ImageBaseAbstract
      */
-    public function getSize(\Entities\Company\File\Image\ImageAbstract $Image, $width, $height)
+    public function getSize($width, $height)
     {
 	return $this->getWidth() == $width && $this->getHeight() == $height ? 
 		    $this : 
-		    \Services\Company\File\Image::factory()->getResized($Image, $width, $height);
+		    \Services\Company\File\Image::factory()->getResized($this, $width, $height);
     }
     
     /**

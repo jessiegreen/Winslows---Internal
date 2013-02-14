@@ -75,6 +75,20 @@ class Website extends \Entities\Company\Website\WebsiteAbstract
     }
     
     /**
+     * @param string $index
+     * @return \Entities\Company\Catalog
+     */
+    public function getCatalogByIndex($index)
+    {
+	return $this->getCatalogs()->filter(
+		    function ($Catalog) use ($index)
+		    {
+			return $Catalog->getNameIndex() == $index;
+		    }
+		)->first();
+    }
+    
+    /**
      * @return string
      */
     public function toString()
