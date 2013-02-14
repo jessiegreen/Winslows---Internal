@@ -112,6 +112,16 @@ class Company extends \Dataservice_Doctrine_Entity
     private $Dealers;
     
     /**
+     * Bidirectional - One-To-Many (INVERSE SIDE)
+     *
+     * @OneToMany(targetEntity="\Entities\Company\Catalog", mappedBy="Company", cascade={"persist"})
+     * @var ArrayCollection $Catalogs
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
+     * @OrderBy({"name" = "ASC"})
+     */
+    private $Catalogs;
+    
+    /**
      * @OneToOne(targetEntity="\Entities\Company\Inventory", mappedBy="Company", cascade={"persist"}, orphanRemoval=true)
      * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
      * @var \Entities\Company\Inventory $Inventory
@@ -140,6 +150,7 @@ class Company extends \Dataservice_Doctrine_Entity
 	$this->RtoProviders = new ArrayCollection();
 	$this->Leads	    = new ArrayCollection();
 	$this->Dealers	    = new ArrayCollection();
+	$this->Catalogs	    = new ArrayCollection();
 	
 	parent::__construct();
     }
@@ -230,6 +241,24 @@ class Company extends \Dataservice_Doctrine_Entity
     public function getDealers()
     {
       return $this->Dealers;
+    }
+    
+    /**
+     * @param \Entities\Company\Catalog $Catalog
+     */
+    public function addCatalog(Company\Catalog $Catalog)
+    {
+	$Catalog->setCompany($this);
+	
+        $this->Catalogs[] = $Catalog;
+    }
+    
+    /**
+     * @return array
+     */
+    public function getCatalogs()
+    {
+      return $this->Catalogs;
     }
     
     /**

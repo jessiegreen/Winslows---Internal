@@ -1,5 +1,5 @@
 <?php
-namespace Forms\Company\Supplier\Product\ManageWebsites;
+namespace Forms\Company\Supplier\Product\ManageCatalogs;
 
 use Entities\Company\Supplier\Product\ProductAbstract as Product;
 
@@ -20,18 +20,18 @@ class Subform extends \Zend_Form_SubForm
 	
 	if($this->_Product)
 	{
-	    foreach($this->_Product->getWebsites() as $Website)
+	    foreach($this->_Product->getCatalogs() as $Catalog)
 	    {
-		$values[] = $Website->getId();
+		$values[] = $Catalog->getId();
 	    }
 	}
 	
-	$this->addElement(new \Dataservice_Form_Element_Company_Website_MultiCheckbox("websites", array(
+	$this->addElement(new \Dataservice_Form_Element_Company_Catalog_MultiCheckbox("catalogs", array(
             'required'	    => false,
-            'label'	    => 'Websites:',
+            'label'	    => 'Catalogs:',
 	    'value'	    => $values
         )));
 	
-	$this->setElementsBelongTo("company_supplier_product_manage_websites");
+	$this->setElementsBelongTo("company_supplier_product_manage_catalogs");
     }
 }

@@ -1,9 +1,9 @@
 <?php
-class Company_RtoProviderProgramController extends Dataservice_Controller_Crud_Action
+class Company_CatalogController extends Dataservice_Controller_Crud_Action
 {    
-    public function init()
+    public function init() 
     {
-	$this->_EntityClass = "Entities\Company\RtoProvider\Program";
+	$this->_EntityClass = "Entities\Company\Catalog";
 	
 	parent::init();
     }
@@ -12,7 +12,7 @@ class Company_RtoProviderProgramController extends Dataservice_Controller_Crud_A
     {
 	$this->_requireEntity();
 	
-	$form = new Forms\Company\RtoProvider\Program\ManageProducts($this->_Entity, array("method" => "post"));
+	$form = new Forms\Company\Catalog\ManageProducts($this->_Entity, array("method" => "post"));
 
 	$form->addCancelButton($this->_History->getPreviousUrl());
 
@@ -20,8 +20,8 @@ class Company_RtoProviderProgramController extends Dataservice_Controller_Crud_A
 	{
 	    try 
 	    {
-		$data			= $this->_getParam("company_rto_provider_program_manageproducts");
-		$products		= $data["products_checks"];
+		$data			= $this->_getParam("company_catalog_manage_products");
+		$products		= $data["products"];
 		$current_products	= array();
 
 		foreach ($this->_Entity->getProducts() as $Product)
@@ -47,7 +47,7 @@ class Company_RtoProviderProgramController extends Dataservice_Controller_Crud_A
 		$this->_em->persist($this->_Entity);
 		$this->_em->flush();
 		
-		$this->_FlashMessenger->addSuccessMessage("Product saved.");
+		$this->_FlashMessenger->addSuccessMessage("Products saved.");
 	    }
 	    catch (\Exception $exc)
 	    {
@@ -60,11 +60,11 @@ class Company_RtoProviderProgramController extends Dataservice_Controller_Crud_A
 	$this->view->form = $form;
     }
     
-    public function manageFeesAction()
+    public function manageWebsitesAction()
     {
 	$this->_requireEntity();
 	
-	$form = new Forms\Company\RtoProvider\Program\ManageFees($this->_Entity, array("method" => "post"));
+	$form = new Forms\Company\Catalog\ManageWebsites($this->_Entity, array("method" => "post"));
 
 	$form->addCancelButton($this->_History->getPreviousUrl());
 
@@ -72,41 +72,41 @@ class Company_RtoProviderProgramController extends Dataservice_Controller_Crud_A
 	{
 	    try 
 	    {
-		$data		= $this->_getParam("company_rto_provider_program_managefees");
-		$fees		= $data["fees_checks"];
-		$current_fees	= array();
+		$data			= $this->_getParam("company_catalog_manage_websites");
+		$websites		= $data["websites"];
+		$current_websites	= array();
 
-		foreach ($this->_Entity->getFees() as $Fee)
+		foreach ($this->_Entity->getWebsites() as $Website)
 		{
-		    if(!in_array($Fee->getId(), $fees))
+		    if(!in_array($Website->getId(), $websites))
 		    {
-			$this->_Entity->removeFee($Fee);
+			$this->_Entity->removeWebsite($Website);
 		    }
 
-		    $current_fees[] = $Fee->getId();
+		    $current_websites[] = $Website->getId();
 		}
 
-		foreach ($fees as $fee) 
+		foreach ($websites as $website) 
 		{
-		    if(!in_array($fee, $current_fees))
+		    if(!in_array($website, $current_websites))
 		    {
-			$Fee = $this->_em->find("\Entities\Company\RtoProvider\Fee\FeeAbstract", $fee);
+			$Website = $this->_em->find("\Entities\Company\Website", $website);
 			
-			$this->_Entity->addFee($Fee);
+			$this->_Entity->addWebsite($Website);
 		    }
 		}
 
 		$this->_em->persist($this->_Entity);
 		$this->_em->flush();
 		
-		$this->_FlashMessenger->addSuccessMessage("Fees saved.");
-		$this->_History->goBack();
+		$this->_FlashMessenger->addSuccessMessage("Websites saved.");
 	    }
-	    catch (Exception $exc)
+	    catch (\Exception $exc)
 	    {
 		$this->_FlashMessenger->addErrorMessage($exc->getMessage());
-		$this->_History->goBack();
 	    }
+	    
+	    $this->_History->goBack();
 	}
 	
 	$this->view->form = $form;

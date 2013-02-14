@@ -24,7 +24,7 @@ class Subform extends \Zend_Form_SubForm
 	    }
 	}
 	
-	$this->addElement(new \Dataservice_Form_Element_Company_RtoProvider_Program_ProductsMultiCheckbox("products_checks", array(
+	$this->addElement(new \Dataservice_Form_Element_Company_Supplier_Product_MultiCheckbox("products_checks", array(
             'required'	    => false,
             'label'	    => 'Products:',
 	    'belongsTo'	    => 'company_rto_provider_manageproducts',

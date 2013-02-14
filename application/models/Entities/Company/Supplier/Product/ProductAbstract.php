@@ -94,12 +94,12 @@ abstract class ProductAbstract extends \Dataservice_Doctrine_Entity implements \
     private $Images;
     
     /**
-     * @ManytoMany(targetEntity="\Entities\Company\Website", inversedBy="Products", cascade={"persist"})
-     * @JoinTable(name="company_supplier_product_website_joins")
+     * @ManytoMany(targetEntity="\Entities\Company\Catalog", inversedBy="Products", cascade={"persist"})
+     * @JoinTable(name="company_supplier_product_catalog_joins")
      * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
-     * @var ArrayCollection $Websites
+     * @var ArrayCollection $Catalogs
      */
-    protected $Websites;
+    protected $Catalogs;
 
     public function __construct()
     {
@@ -109,7 +109,7 @@ abstract class ProductAbstract extends \Dataservice_Doctrine_Entity implements \
 	$this->DeliveryTypes	= new ArrayCollection();
 	$this->Purposes		= new ArrayCollection();
 	$this->Images		= new ArrayCollection();
-	$this->Websites		= new ArrayCollection();
+	$this->Catalogs		= new ArrayCollection();
 	
 	parent::__construct();
     }
@@ -181,28 +181,28 @@ abstract class ProductAbstract extends \Dataservice_Doctrine_Entity implements \
     }
     
     /**
-     * @param \Entities\Company\Website $Website
+     * @param \Entities\Company\Website $Catalog
      */
-    public function addWebsite(\Entities\Company\Website $Website)
+    public function addCatalog(\Entities\Company\Catalog $Catalog)
     {
-	if(!$this->Websites->contains($Website))
-	    $this->Websites[] = $Website;
+	if(!$this->Catalogs->contains($Catalog))
+	    $this->Catalogs[] = $Catalog;
     }
     
     /**
-     * @param \Entities\Company\Website $Website
+     * @param \Entities\Company\Catalog $Catalog
      */
-    public function removeWebsite(\Entities\Company\Website $Website)
+    public function removeCatalog(\Entities\Company\Catalog $Catalog)
     {
-	$this->Websites->removeElement($Website);
+	$this->Catalogs->removeElement($Catalog);
     }
     
     /**
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
-    public function getWebsites()
+    public function getCatalogs()
     {
-	return $this->Websites;
+	return $this->Catalogs;
     }
     
     /**
@@ -351,6 +351,7 @@ abstract class ProductAbstract extends \Dataservice_Doctrine_Entity implements \
 	    return true;
 	else
 	{
+	    //TODO: Fix this...By Program?
 	    $indexes_array = array();
 	    /* @var $RtoProvider \Entities\Company\RtoProvider */ 
 	    foreach ($this->getRtoProviders() as $RtoProvider)
@@ -366,6 +367,6 @@ abstract class ProductAbstract extends \Dataservice_Doctrine_Entity implements \
     
     public function toString()
     {
-	return $this->getDescriminator()." - ".$this->getName();
+	return $this->getDescriminator()." >> ".$this->getName();
     }
 }

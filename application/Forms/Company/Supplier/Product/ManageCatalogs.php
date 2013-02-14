@@ -1,7 +1,7 @@
 <?php
 namespace Forms\Company\Supplier\Product;
 
-class ManageWebsites extends \Dataservice_Form
+class ManageCatalogs extends \Dataservice_Form
 {
     private $_Product;
     
@@ -14,9 +14,9 @@ class ManageWebsites extends \Dataservice_Form
     
     public function init($options = array())
     {	
-        $form = new ManageWebsites\Subform($this->_Product, $options);
+        $form = new ManageCatalogs\Subform($this->_Product, $options);
 	
-	$this->addSubForm($form, "company_supplier_product_manage_websites");
+	$this->addSubForm($form, "company_supplier_product_manage_catalogs");
 	
 	$this->addElement('submit', 'submit', array(
             'ignore'   => true,

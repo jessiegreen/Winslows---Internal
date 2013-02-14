@@ -224,25 +224,23 @@ class Category extends \Dataservice_Doctrine_Entity
     {
 	$string = "";
 	
-	return $this->_prependParentString($string, $this);
-    }
-    
-    private function _prependParentString($string, Category $Category)
-    {
-	$string = $Category->getName().(!$string ? "" : " - ").$string;
+	$Category = $this;
 	
-	if($Category->getParent())
+	while ($Category->getParent())
 	{
-	    $TempCategory   = $Category->getParent();
-	    $string	    = $this->_prependParentString($string, $TempCategory);
+	    $string = $Category->getParent()->getName()." >> ";
+	    
+	    $Category = $Category->getParent();
 	}
+	
+	$string .= $this->getName();
 	
 	return $string;
     }
     
     public function toString()
     {
-	return $this->getName();
+	return $this->getNameWithParentsString();
     }
     
     public function populate(array $array)

@@ -15,7 +15,7 @@ $Tabs = CRUD\Tabs::factory();
 
 $Tabs->addTab(
 	    CRUD\Tabs\Tab::factory("Information")
-		->addEntityView(CRUD\EntityView::factory($Image))
+		->addEntityView($Image)
 		->addContent($Image->getThumb()->getHtmlImage()->setStyle("margin:25px;")->getHtml())
 	)
 	->addRelationshipViewTab($Image, "Product")

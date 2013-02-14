@@ -98,11 +98,11 @@ class Dataservice_Controller_Company_Supplier_Product_ProductAbstract_Action ext
 	$this->view->form = $form;
     }
     
-    public function manageWebsitesAction()
+    public function manageCatalogsAction()
     {
 	$this->_requireEntity();
 	
-	$form = new Forms\Company\Supplier\Product\ManageWebsites($this->_Entity, array("method" => "post"));
+	$form = new Forms\Company\Supplier\Product\ManageCatalogs($this->_Entity, array("method" => "post"));
 
 	$form->addCancelButton($this->_History->getPreviousUrl());
 
@@ -111,36 +111,36 @@ class Dataservice_Controller_Company_Supplier_Product_ProductAbstract_Action ext
 	    try 
 	    {
 		$post_data		= $this->_request->getPost();
-		$data			= $post_data["company_supplier_product_manage_websites"];
-		$websites		= $data["websites"];
-		$current_websites	= array();
+		$data			= $post_data["company_supplier_product_manage_catalogs"];
+		$catalogs		= $data["catalogs"];
+		$current_catalogs	= array();
 
-		foreach ($this->_Entity->getWebsites() as $Website)
+		foreach ($this->_Entity->getCatalogs() as $Catalog)
 		{
-		    if(!in_array($Website->getId(), $websites))
+		    if(!in_array($Catalog->getId(), $catalogs))
 		    {
-			$Website->removeProduct($this->_Entity);
-			$this->_em->persist($Website);
+			$Catalog->removeProduct($this->_Entity);
+			$this->_em->persist($Catalog);
 		    }
 
-		    $current_websites[] = $Website->getId();
+		    $current_catalogs[] = $Catalog->getId();
 		}
 
-		foreach ($websites as $value) 
+		foreach ($catalogs as $value) 
 		{
-		    if(!in_array($value, $current_websites))
+		    if(!in_array($value, $current_catalogs))
 		    {
-			$Website = $this->_em->find("\Entities\Company\Website", $value);
+			$Catalog = $this->_em->find("\Entities\Company\Catalog", $value);
 
-			$Website->addProduct($this->_Entity);
+			$Catalog->addProduct($this->_Entity);
 			    
-			$this->_em->persist($Website);
+			$this->_em->persist($Catalog);
 		    }
 		}
 
 		$this->_em->flush();
 
-		$this->_FlashMessenger->addSuccessMessage("Product websites saved.");
+		$this->_FlashMessenger->addSuccessMessage("Product catalogs saved.");
 		$this->_History->goBack();
 	    }
 	    catch (Exception $exc)

@@ -1,17 +1,21 @@
 #Dev - winslowsinc - Non Https non-www to www
 RewriteCond %{HTTPS} !=on
+RewriteCond %{HTTP_HOST} !^company.winslowsinc.local$ [NC]
 RewriteCond %{HTTP_HOST} ^winslowsinc.local$ [NC]
 RewriteRule ^(.*)$ http://www.winslowsinc.local/$1 [R=301,L]
 #Dev - winslowsinc - Https non-www to www
 RewriteCond %{HTTP_HOST} ^winslowsinc.local$ [NC]
-RewriteRule ^(.*)$ http://www.winslowsinc.local/$1 [R=301,L]
+RewriteCond %{HTTP_HOST} !^company.winslowsinc.local$ [NC]
+RewriteRule ^(.*)$ https://www.winslowsinc.local/$1 [R=301,L]
 
 #Live - winslowsinc - Non Https non-www to www
 RewriteCond %{HTTPS} !=on
 RewriteCond %{HTTP_HOST} ^winslowsinc.com$ [NC]
+RewriteCond %{HTTP_HOST} !^company.winslowsinc.com$ [NC]
 RewriteRule ^(.*)$ http://www.winslowsinc.com/$1 [R=301,L]
 #Live - winslowsinc - Https non-www to www
 RewriteCond %{HTTP_HOST} ^winslowsinc.com$ [NC]
+RewriteCond %{HTTP_HOST} !^company.winslowsinc.com$ [NC]
 RewriteRule ^(.*)$ https://www.winslowsinc.com/$1 [R=301,L]
 
 #Dev - texwincarports - Non Https non-www to www

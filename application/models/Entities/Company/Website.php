@@ -19,15 +19,16 @@ class Website extends \Entities\Company\Website\WebsiteAbstract
     protected $Company;
     
     /**
-     * @ManytoMany(targetEntity="\Entities\Company\Supplier\Product\ProductAbstract", mappedBy="Websites", cascade={"persist"})
+     * @ManytoMany(targetEntity="\Entities\Company\Catalog", inversedBy="Websites", cascade={"persist"})
+     * @JoinTable(name="company_website_catalog_joins")
      * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
-     * @var ArrayCollection $Products
+     * @var ArrayCollection $Catalogs
      */
-    protected $Products;
+    protected $Catalogs;
     
     public function __construct()
     {
-	$this->Products = new ArrayCollection();
+	$this->Catalogs = new ArrayCollection();
 	
 	parent::__construct();
     }
@@ -49,34 +50,28 @@ class Website extends \Entities\Company\Website\WebsiteAbstract
     }
     
     /**
-     * @return ArrayCollection
+     * @param \Entities\Company\Website $Catalog
      */
-    public function getProducts()
+    public function addCatalog(\Entities\Company\Catalog $Catalog)
     {
-	return $this->Products;
+	if(!$this->Catalogs->contains($Catalog))
+	    $this->Catalogs[] = $Catalog;
     }
     
     /**
-     * @param \Entities\Company\Supplier\Product\ProductAbstract $Product
+     * @param \Entities\Company\Catalog $Catalog
      */
-    public function addProduct(\Entities\Company\Supplier\Product\ProductAbstract $Product)
+    public function removeCatalog(\Entities\Company\Catalog $Catalog)
     {
-	if(!$this->getProducts()->contains($Product))
-	{
-	    $Product->addWebsite($this);
-	    
-	    $this->Products[] = $Product;
-	}
+	$this->Catalogs->removeElement($Catalog);
     }
     
     /**
-     * @param \Entities\Company\Supplier\Product\ProductAbstract $Product
+     * @return \Doctrine\Common\Collections\ArrayCollection
      */
-    public function removeProduct(\Entities\Company\Supplier\Product\ProductAbstract $Product)
+    public function getCatalogs()
     {
-	$Product->removeWebsite($this);
-	
-	$this->getProducts()->removeElement($Product);
+	return $this->Catalogs;
     }
     
     /**

@@ -1,11 +1,13 @@
 <?php
 namespace Entities\Company;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * @Entity (repositoryClass="Repositories\Company\Catalog") 
  * @Crud\Entity\Url(value="catalog")
  * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
- * @Table(name="company_catalog")
+ * @Table(name="company_catalogs")
  * @HasLifecycleCallbacks
  */
 class Catalog extends \Dataservice_Doctrine_Entity
@@ -17,21 +19,46 @@ class Catalog extends \Dataservice_Doctrine_Entity
      */
     protected $id;
     
-    /**
-     * @OneToOne(targetEntity="\Entities\Company", inversedBy="Inventory", cascade={"persist"})
+    /** 
+     * @Column(type="string", length=255) 
+     * @var string $name
+     */
+    protected $name;
+    
+    /** 
+     * @Column(type="string", length=255) 
+     * @var string $name_index
+     */
+    protected $name_index;
+    
+    /** 
+     * @ManyToOne(targetEntity="\Entities\Company", inversedBy="Catalogs")
      * @Crud\Relationship\Permissions()
      * @var \Entities\Company $Company
-     */
+     */     
     protected $Company;
     
     /**
-     * Bidirectional - One-To-Many (INVERSE SIDE)
-     *
-     * @OneToMany(targetEntity="\Entities\Company\Inventory\Item", mappedBy="Inventory", cascade={"persist"})
+     * @ManytoMany(targetEntity="\Entities\Company\Supplier\Product\ProductAbstract", mappedBy="Catalogs", cascade={"persist"})
      * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
-     * @var \Doctrine\Common\Collections\ArrayCollection $Items
+     * @var ArrayCollection $Products
      */
-    protected $Items;
+    protected $Products;
+    
+    /**
+     * @ManytoMany(targetEntity="\Entities\Company\Website", mappedBy="Catalogs", cascade={"persist"})
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
+     * @var ArrayCollection $Websites
+     */
+    protected $Websites;
+    
+    public function __construct()
+    {
+	$this->Products = new ArrayCollection();
+	$this->Websites = new ArrayCollection();
+	
+	parent::__construct();
+    }
     
     /**
      * @return integer
@@ -39,6 +66,38 @@ class Catalog extends \Dataservice_Doctrine_Entity
     public function getId()
     {
 	return $this->id;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getNameIndex()
+    {
+        return $this->name_index;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setNameIndex($name_index)
+    {
+        $this->name_index = $name_index;
     }
     
     /**
@@ -57,31 +116,66 @@ class Catalog extends \Dataservice_Doctrine_Entity
 	$this->Company = $Company;
     }
     
-    public function addItem(Inventory\Item $Item)
+    /**
+     * @return ArrayCollection
+     */
+    public function getProducts()
     {
-	$Item->setInventory($this);
-	
-	$this->Items->add($Item);
+	return $this->Products;
     }
     
     /**
-     * @return \Doctrine\Common\Collections\ArrayCollection
+     * @param \Entities\Company\Supplier\Product\ProductAbstract $Product
      */
-    public function getItems()
+    public function addProduct(\Entities\Company\Supplier\Product\ProductAbstract $Product)
     {
-	return $this->Items;
+	if(!$this->getProducts()->contains($Product))
+	{
+	    $Product->addCatalog($this);
+	    
+	    $this->Products[] = $Product;
+	}
     }
     
-    public function getItemsByProduct()
+    /**
+     * @param \Entities\Company\Supplier\Product\ProductAbstract $Product
+     */
+    public function removeProduct(\Entities\Company\Supplier\Product\ProductAbstract $Product)
     {
-	$items = array();
+	$Product->removeCatalog($this);
 	
-	foreach ($this->getItems() as $Item)
+	$this->getProducts()->removeElement($Product);
+    }
+    
+    /**
+     * @return ArrayCollection
+     */
+    public function getWebsites()
+    {
+	return $this->Websites;
+    }
+    
+    /**
+     * @param \Entities\Company\Website $Website
+     */
+    public function addWebsite(\Entities\Company\Website $Website)
+    {
+	if(!$this->getWebsites()->contains($Website))
 	{
-	    $items[$Item->getInstance()->getProduct()->getId()][] = $Item;
+	    $Website->addCatalog($this);
+	    
+	    $this->Websites[] = $Website;
 	}
+    }
+    
+    /**
+     * @param \Entities\Company\Supplier\Website $Website
+     */
+    public function removeWebsite(\Entities\Company\Website $Website)
+    {
+	$Website->removeCatalog($this);
 	
-	return $items;
+	$this->getWebsites()->removeElement($Website);
     }
     
     /**
@@ -89,7 +183,7 @@ class Catalog extends \Dataservice_Doctrine_Entity
      */
     public function toString()
     {
-	return $this->getCompany()->getName()." Inventory";
+	return $this->getName()." Catalog";
     }
     
     public function populate(array $array) 

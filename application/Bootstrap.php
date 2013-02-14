@@ -33,6 +33,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	$host_name  = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : "doctrine";
 	$name_index = getenv('WEBSITE_NAME_INDEX');
 	
+	if(!$name_index)header("location: http://winslowsinc.com");
+	
 	$module		= $name_index;
 	$router		= $this->bootstrap('frontController')
 					->getResource('frontController')
