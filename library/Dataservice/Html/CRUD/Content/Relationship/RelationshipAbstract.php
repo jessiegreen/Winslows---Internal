@@ -68,9 +68,15 @@ class RelationshipAbstract
 	return "<h4>".$this->htmlHeaderContent."</h4>";
     }
     
+    /**
+     * @param string $content
+     * @return \Dataservice\Html\CRUD\Content\Relationship\RelationshipAbstract
+     */
     public function addHtmlHeaderContent($content)
     {
 	$this->htmlHeaderContent .= $content;
+	
+	return $this;
     }
     
     public function gethtmlBody()
@@ -78,9 +84,15 @@ class RelationshipAbstract
 	return $this->htmlBodyContent;
     }
     
+    /**
+     * @param string $content
+     * @return \Dataservice\Html\CRUD\Content\Relationship\RelationshipAbstract
+     */
     public function addHtmlBodyContent($content)
     {
 	$this->htmlBodyContent .= $content;
+	
+	return $this;
     }
     
     public function getHtml()

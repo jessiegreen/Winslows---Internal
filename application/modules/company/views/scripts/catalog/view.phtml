@@ -12,6 +12,7 @@ CRUD\Body::factory()->start();
 CRUD\Tabs::factory()
 	->addEntityViewTab("Information", $Catalog)
 	->addRelationshipViewTab($Catalog, "Company")
+	->addRelationshipViewTab($Catalog, "Categories")
 	->addRelationshipViewTab($Catalog, "Products")
 	->addRelationshipViewTab($Catalog, "Websites")
 	->render();

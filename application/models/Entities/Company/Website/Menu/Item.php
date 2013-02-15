@@ -127,6 +127,7 @@ class Item extends \Dataservice_Doctrine_Entity
     public function AddChild(Item $Item)
     {
 	$Item->setParent($this);
+	
 	$this->children[] = $Item;
     }
     

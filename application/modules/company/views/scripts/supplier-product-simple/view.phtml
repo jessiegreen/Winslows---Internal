@@ -18,7 +18,23 @@ $Tabs->addEntityViewTab("Information", $Entity)
 	->addRelationshipViewTab($Entity, "DeliveryTypes")
 	->addRelationshipViewTab($Entity, "Categories")
 	->addRelationshipViewTab($Entity, "Purposes")
-	->addRelationshipViewTab($Entity, "Images")
+	->addTab(
+	    CRUD\Tabs\Tab::factory("Images")
+		->addRelationshipView($Entity, "Images")
+		->addContent(
+		    CRUD\Content\Relationship\OneToOne::factory($Entity, "DefaultImage")
+			->buildRelationshipBodyHtml()
+			->addHtmlHeaderContent(
+			    "Default Image ".
+			    Dataservice\Html\Anchor::manageIcon(
+				    "Set Default", 
+				    "/supplier-product-simple/set-default-image/id/".$Entity->getId(), 
+				    "Set Default"
+			    )
+			)
+			->getHtml()
+		)
+	)
 	->addRelationshipViewTab($Entity, "Catalogs")
 	->render();
 

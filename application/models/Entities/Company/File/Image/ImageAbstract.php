@@ -58,6 +58,6 @@ use Doctrine\Common\Collections\ArrayCollection as ArrayCollection;
      */
     public function getThumb()
     {
-	return $this->getSize($this, 100, 100);
+	return $this->getSize(100, 100);
     }
 }

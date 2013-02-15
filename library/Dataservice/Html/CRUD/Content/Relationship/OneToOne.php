@@ -50,7 +50,9 @@ class OneToOne extends RelationshipAbstract
 	$this->addHtmlBodyContent('<ul>');
 
 	if(!count($this->relationshipEntity))
-	    $this->addHtmlBodyContent("<li>No ".$this->relationshipPropertyName." set.</li>");
+	    $this->addHtmlBodyContent(
+		    "<li>No ".\Dataservice\Inflector::titleize ($this->relationshipPropertyName)." set.</li>"
+		);
 	else
 	{
 	    $this->addHtmlBodyContent("<li>");

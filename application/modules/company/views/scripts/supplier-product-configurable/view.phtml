@@ -4,13 +4,11 @@ use Dataservice\Html\CRUD;
 echo($this->flashMessages()); 
 echo CRUD\Header::factory("Supplier Configurable - View")->getHtml();
 
-$Entity = $this->Entity;
-
-$crudBody = new CRUD\Body();
+$Entity	    = $this->Entity;
+$crudBody   = new CRUD\Body();
+$Tabs	    = CRUD\Tabs::factory();
 
 $crudBody->start();
-
-$Tabs = CRUD\Tabs::factory();
 
 $Tabs->addEntityViewTab("Information", $Entity)
 	->addRelationshipViewTab($Entity, "Supplier")
@@ -19,7 +17,23 @@ $Tabs->addEntityViewTab("Information", $Entity)
 	->addRelationshipViewTab($Entity, "DeliveryTypes")
 	->addRelationshipViewTab($Entity, "Categories")
 	->addRelationshipViewTab($Entity, "Purposes")
-	->addRelationshipViewTab($Entity, "Images")
+	->addTab(
+	    CRUD\Tabs\Tab::factory("Images")
+		->addRelationshipView($Entity, "Images")
+		->addContent(
+		    CRUD\Content\Relationship\OneToOne::factory($Entity, "DefaultImage")
+			->buildRelationshipBodyHtml()
+			->addHtmlHeaderContent(
+			    "Default Image ".
+			    Dataservice\Html\Anchor::manageIcon(
+				    "Set Default", 
+				    "/supplier-product-configurable/set-default-image/id/".$Entity->getId(), 
+				    "Set Default"
+			    )
+			)
+			->getHtml()
+		)
+	)
 	->addRelationshipViewTab($Entity, "Catalogs")
 	->render();
 

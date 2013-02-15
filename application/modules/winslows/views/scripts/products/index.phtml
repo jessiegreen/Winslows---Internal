@@ -1,7 +1,7 @@
 <?php
 foreach ($this->Catalog->getProducts() as $Product)
 {
-    $Image = $Product->getImages()->first();
+    $Image = $Product->getDefaultImageOrFirst();
     
     $image = $Image ? 
 		$Image->getSize("248", "180")->getHtml() : 

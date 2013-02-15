@@ -52,52 +52,22 @@ class Catalog extends \Dataservice_Doctrine_Entity
      */
     protected $Websites;
     
+    /**
+     * Bidirectional - One-To-Many (INVERSE SIDE)
+     *
+     * @OneToMany(targetEntity="\Entities\Company\Catalog\Category", mappedBy="Catalog", cascade={"persist"})
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
+     * @OrderBy({"index_string" = "ASC"})
+     * @var ArrayCollection $Categories
+     */
+    protected $Categories;
+    
     public function __construct()
     {
 	$this->Products = new ArrayCollection();
 	$this->Websites = new ArrayCollection();
 	
 	parent::__construct();
-    }
-    
-    /**
-     * @return integer
-     */
-    public function getId()
-    {
-	return $this->id;
-    }
-    
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-    
-    /**
-     * @return string
-     */
-    public function getNameIndex()
-    {
-        return $this->name_index;
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setNameIndex($name_index)
-    {
-        $this->name_index = $name_index;
     }
     
     /**
@@ -176,6 +146,64 @@ class Catalog extends \Dataservice_Doctrine_Entity
 	$Website->removeCatalog($this);
 	
 	$this->getWebsites()->removeElement($Website);
+    }
+    
+    /**
+     * @param Catalog\Category $Category
+     */
+    public function addCategory(Catalog\Category $Category)
+    {
+	$Category->setCatalog($this);
+	
+        $this->Categories[] = $Category;
+    }
+    
+    /**
+     * @return ArrayCollection
+     */
+    public function getCategories()
+    {
+	return $this->Categories;
+    }
+    
+    /**
+     * @return integer
+     */
+    public function getId()
+    {
+	return $this->id;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getNameIndex()
+    {
+        return $this->name_index;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setNameIndex($name_index)
+    {
+        $this->name_index = $name_index;
     }
     
     /**

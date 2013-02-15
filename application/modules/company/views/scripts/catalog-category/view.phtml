@@ -1,0 +1,23 @@
+<?php 
+use Dataservice\Html\CRUD;
+
+echo($this->flashMessages()); 
+
+echo CRUD\Header::factory("Catalog Category - View")->getHtml();
+
+$Category = $this->Category;
+
+CRUD\Body::factory()->start();
+
+CRUD\Tabs::factory()
+	->addEntityViewTab("Information", $Category)
+	->addRelationshipViewTab($Category, "Catalog")
+	->addRelationshipViewTab($Category, "parent")
+	->addRelationshipViewTab($Category, "children")
+	->addRelationshipViewTab($Category, "Products")
+	->addRelationshipViewTab($Category, "Images")
+	->render();
+
+CRUD\Body::factory()->end();
+
+echo CRUD\Tabs::factory()->getJS();

@@ -1,0 +1,27 @@
+<?php 
+use Dataservice\Html\CRUD;
+
+echo($this->flashMessages()); 
+echo CRUD\Header::factory("Supplier Product Category Image - View")->getHtml();
+
+/* @var $Image Entities\Company\File\Image\ImageAbstract */
+$Image = $this->Image;
+
+$crudBody = new CRUD\Body();
+
+$crudBody->start();
+
+$Tabs = CRUD\Tabs::factory();
+
+$Tabs->addTab(
+	    CRUD\Tabs\Tab::factory("Information")
+		->addEntityView($Image)
+		->addContent($Image->getThumb()->getHtmlImage()->setStyle("margin:25px;")->getHtml())
+	)
+	->addRelationshipViewTab($Image, "Category")
+	->addRelationshipViewTab($Image, "ResizedClones")
+	->render();
+
+$crudBody->end();
+
+echo $Tabs->getJS();

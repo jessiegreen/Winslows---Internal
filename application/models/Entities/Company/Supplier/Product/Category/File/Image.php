@@ -2,7 +2,7 @@
 namespace Entities\Company\Supplier\Product\Category\File;
 
 /** 
- * @Entity (repositoryClass="Repositories\Company\Supplier\Product\File\Image") 
+ * @Entity (repositoryClass="Repositories\Company\Supplier\Product\Category\File\Image") 
  * @Table(name="company_supplier_product_category_file_images") 
  * @Crud\Entity\Url(value="supplier-product-category-file-image")
  * @Crud\Entity\Permissions(view={"Admin"}, edit={"Admin"}, create={"Admin"}, delete={"Admin"})
@@ -12,12 +12,12 @@ class Image extends \Entities\Company\File\Image\ImageAbstract
     /** 
      * @ManyToOne(targetEntity="\Entities\Company\Supplier\Product\Category", inversedBy="Images")
      * @Crud\Relationship\Permissions()
-     * @var \Entities\Company\Supplier\Product\Category $Product
+     * @var \Entities\Company\Supplier\Product\Category $Category
      */     
     protected $Category;
     
     /**
-     * @param \Entities\Company\Supplier\Product\ProductAbstract $Product
+     * @param \Entities\Company\Supplier\Product\ProductAbstract $Category
      */
     public function setCategory(\Entities\Company\Supplier\Product\Category $Category)
     {

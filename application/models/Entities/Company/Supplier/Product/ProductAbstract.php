@@ -94,6 +94,13 @@ abstract class ProductAbstract extends \Dataservice_Doctrine_Entity implements \
     private $Images;
     
     /**
+     * @OneToOne(targetEntity="\Entities\Company\Supplier\Product\File\Image", cascade={"persist"}, orphanRemoval=true)
+     * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
+     * @var \Entities\Company\Supplier\Product\File\Image $DefaultImage
+     */
+    protected $DefaultImage;
+    
+    /**
      * @ManytoMany(targetEntity="\Entities\Company\Catalog", inversedBy="Products", cascade={"persist"})
      * @JoinTable(name="company_supplier_product_catalog_joins")
      * @Crud\Relationship\Permissions(add={"Admin"}, remove={"Admin"})
@@ -229,6 +236,30 @@ abstract class ProductAbstract extends \Dataservice_Doctrine_Entity implements \
     public function getImages()
     {
 	return $this->Images;
+    }
+    
+    /**
+     * @param \Entities\Company\Supplier\Product\File\Image $Image
+     */
+    public function setDefaultImage(File\Image $Image)
+    {
+	$this->DefaultImage = $Image;
+    }
+    
+    /**
+     * @return \Entities\Company\Supplier\Product\File\Image
+     */
+    public function getDefaultImage()
+    {
+	return $this->DefaultImage;
+    }
+    
+    /**
+     * @return \Entities\Company\Supplier\Product\File\Image
+     */
+    public function getDefaultImageOrFirst()
+    {
+	return $this->getDefaultImage() ? $this->getDefaultImage() : $this->getImages()->first();
     }
     
     /**

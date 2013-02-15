@@ -152,4 +152,37 @@ class Dataservice_Controller_Company_Supplier_Product_ProductAbstract_Action ext
 	
 	$this->view->form = $form;
     }
+    
+    public function setDefaultImageAction()
+    {
+	$this->_requireEntity();
+	
+	$form = new Forms\Company\Supplier\Product\SetDefaultImage($this->_Entity, array("method" => "post"));
+	
+	$form->addCancelButton($this->_History->getPreviousUrl());
+	
+	if($this->isPostAndValid($form))
+	{
+	    $post	= $this->_request->getPost();
+	    $data	= $post["company_supplier_product_set_default_image"];
+	    $image_id	= $data["default_image"];
+	    
+	    $Image = $this->_em->find("Entities\Company\Supplier\Product\File\Image", $image_id);
+	    
+	    if($Image)
+	    {
+		$this->_Entity->setDefaultImage($Image);
+		
+		$this->_em->persist($this->_Entity);
+		$this->_em->flush();
+		
+		$this->_FlashMessenger->addSuccessMessage("Default Image Set");
+	    }
+	    else $this->_FlashMessenger->addErrorMessage ("Could not get Image");
+	    
+	    $this->_History->goBack();
+	}
+	
+	$this->view->form = $form;
+    }
 }

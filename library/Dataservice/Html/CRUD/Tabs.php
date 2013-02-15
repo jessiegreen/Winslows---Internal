@@ -33,7 +33,7 @@ class Tabs
      */
     public function addRelationshipViewTab(\Dataservice_Doctrine_Entity $Entity, $relationshipPropertyName)
     {
-	$this->addTab(Tabs\Tab::factory($relationshipPropertyName)
+	$this->addTab(Tabs\Tab::factory(\Dataservice\Inflector::titleize($relationshipPropertyName))
 		->addRelationshipView($Entity, $relationshipPropertyName));
 	
 	return $this;
