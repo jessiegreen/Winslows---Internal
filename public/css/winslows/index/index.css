@@ -79,11 +79,12 @@
 .slideshow-slide-container
 {
     height: 91px;
-    width: 91px;
-    margin: 2px;
+    width: 130px;
+    margin: 4px;
     margin-left: 3px;
     float: left;
     position: relative;
+    text-align: center;
 }
 
 .slideshow-slide-container h3
@@ -100,10 +101,10 @@
     background-color: #515151;
     z-index: 800;
     position: absolute;
-    top: 71px;
-    width: 84px;
+    top: 63px;
+    width: 124px;
     font-size: 8pt;
-    height: 15px;
+    height: 25px;
     font-family: Kalinga;
     padding: 3px;
     padding-bottom: 0;
@@ -137,7 +138,7 @@
 
 #product-slider-container
 {
-    height: 94px;
+    height: 98px;
     width: 960px;
     border-top: solid 2px #dad8d8;
     border-bottom: solid 2px #dad8d8;
@@ -150,7 +151,7 @@
     position: absolute;
     left: 0;
     width: 10000px;
-    height: 94px;
+    height: 98px;
 }
 
 #product-slider img

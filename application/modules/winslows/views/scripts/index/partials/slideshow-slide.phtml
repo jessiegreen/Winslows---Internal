@@ -1,8 +1,10 @@
 <div class="slideshow-slide-container">
-    <img class="slideshow-slide-image" src="/img/winslows/index/index/slides/<?php echo $this->slide_image;?>" title="<?php echo $this->slide_title;?>" />
+    <?php 
+    echo $this->Category->getImages()->first()->getSize("130", "90")->getHtmlImage()->setClass("slideshow-slide-image")->getHtml();
+    ?>
     <div id="product-slider-image-titles">
         <h3>
-            <?php echo $this->slide_title;?>
+            <?php echo $this->Category->getName();?>
         </h3>
     </div>
 </div>

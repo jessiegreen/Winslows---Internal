@@ -1,13 +1,20 @@
 <?php
-foreach ($this->Catalog->getProducts() as $Product)
+echo "<div style='width:340px;text-align:center;color:#0046AD'>";
+echo "<h3>Product Categories</h3>";
+foreach ($this->Catalog->getTopCategories() as $Category)
 {
-    $Image = $Product->getDefaultImageOrFirst();
+    $Image = $Category->getImages()->first();
     
     $image = $Image ? 
-		$Image->getSize("248", "180")->getHtml() : 
-		"<div style='width:248px;height:180px;vertical-align:center;text-align:center'>no image</div>";
+		$Image->getSize("150", "100")->getHtml() : 
+		"<div style='width:150px;height:100px;vertical-align:center;text-align:center'>no image</div>";
     
-    echo "<div style='float:left;margin:8px;width:248px;'>".$image.$Product->getName()."</div>";
+    echo "<div style='float:left;margin:8px;width:150px;'>";
+    echo "<a href='/category/view/index/'>";
+    echo $image;
+	echo "<div style='height:30px;'>";
+	    echo $Category->getName()."</div></div>";
 }
 
 echo "<div style='clear:both'></div>";
+echo "</div>";

@@ -24,7 +24,7 @@
     <div id="product-slider-container">
         <div id="product-slider">
             <?php 
-                echo $this->partialLoop("index/partials/slideshow-slide.phtml", $this->slides); 
+                echo $this->partialLoop()->setObjectKey("Category")->partialLoop("index/partials/slideshow-slide.phtml", $this->Categories); 
             ?>
         </div>
     </div>
@@ -49,6 +49,6 @@
     Slider  = new Winslows_Index_Index_Slider();
     Banner  = new Winslows_Index_Index_Banner();
     
-    Slider.init(<?php echo count($this->slides);?>);
+    Slider.init(<?php echo count($this->Categories);?>);
     Banner.init(<?php echo json_encode($this->Winslows_Index_Banner()); ?>);
 </script>

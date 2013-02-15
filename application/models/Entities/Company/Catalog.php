@@ -167,6 +167,19 @@ class Catalog extends \Dataservice_Doctrine_Entity
     }
     
     /**
+     * @return array 
+     */
+    public function getTopCategories()
+    {
+	return $this->getCategories()->filter(
+		    function($Category){
+			if(!$Category->getParent())
+			    return true;
+		    }
+		);
+    }
+    
+    /**
      * @return integer
      */
     public function getId()

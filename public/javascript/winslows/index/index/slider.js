@@ -9,7 +9,7 @@ function Winslows_Index_Index_Slider()
 
 Winslows_Index_Index_Slider.prototype.init = function(count)
 {
-    var width           = (parseInt(count) - 10) * 96;
+    var width           = (parseInt(count) - 7) * 135;
     this_var            = this;
     
     this.swap_arrows(width);
@@ -17,7 +17,7 @@ Winslows_Index_Index_Slider.prototype.init = function(count)
     $(".product-slider-left-arrow").hover(
         function()
         {
-            speed = ((parseInt($("#product-slider").css("left"))*-1) * 4);
+            speed = ((parseInt($("#product-slider").css("left"))+960) * 4);
             
             this_var.left_arrow.show();
             this_var.left_arrow_red.hide();
