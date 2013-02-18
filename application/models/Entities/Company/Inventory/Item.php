@@ -118,6 +118,9 @@ class Item extends \Dataservice_Doctrine_Entity
 	return $this->quantity;
     }
     
+    /**
+     * @return \Entities\Company\Supplier\Product\Instance\File\Image
+     */
     public function getImage()
     {
 	$InstanceImages = $this->getInstance()->getImages();

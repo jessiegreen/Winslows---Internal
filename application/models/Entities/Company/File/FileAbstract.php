@@ -59,6 +59,12 @@ abstract class FileAbstract extends \Dataservice_Doctrine_Entity
      * @var string $description
      */
     protected $description;
+    
+    /** 
+     * @Column(type="integer", length=1) 
+     * @var string $is_public
+     */
+    protected $is_public = 0;
 
     /**
      * @var integer
@@ -137,7 +143,15 @@ abstract class FileAbstract extends \Dataservice_Doctrine_Entity
      */
     public function getFullPath()
     {
-	return $this->getFileStoreDirectoryFromConfig()."/".$this->getId().".".$this->getExtension();
+	return $this->getDirectory()."/".$this->getId().".".$this->getExtension();
+    }
+    
+    /**
+     * @return string
+     */
+    public function getFullRealPath()
+    {
+	return realpath($this->getDirectoryRealPath()."/".$this->getId().".".$this->getExtension());
     }
     
     /**
@@ -173,11 +187,57 @@ abstract class FileAbstract extends \Dataservice_Doctrine_Entity
     }
     
     /**
+     * @param integer $is_public
+     */
+    public function setIsPublic($is_public)
+    {
+	$this->is_public = $is_public;
+    }
+    
+    /**
+     * @return integer
+     */
+    public function getIsPublic()
+    {
+	return $this->is_public;
+    }
+    
+    /**
+     * @return bool
+     */
+    public function isPublic()
+    {
+	return $this->is_public == 1 ? true : false;
+    }
+    
+    /**
      * @return integer
      */
     public function getDirectory()
     {
 	return $this->getFileStoreDirectoryFromConfig();
+    }
+    
+    public function getDirectoryRealPath()
+    {
+	return realpath($this->getDirectory());
+    }
+    
+    /**
+     * @return string
+     */
+    public function getSourceUrl()
+    {
+	return $this->isPublic() ? 
+		$this->getDirectory()."/".$this->getId().".".$this->getExtension() : 
+		sprintf($this->getSourceUrlPrivateFromConfig(), $this->getId());
+    }
+    
+    public function getSourceUrlPrivateFromConfig()
+    {
+	$config = $this->getConfig();
+	
+	return $config->src_url->private;
     }
     
     /**
@@ -257,7 +317,9 @@ abstract class FileAbstract extends \Dataservice_Doctrine_Entity
     {
 	$config = $this->getConfig();
 	
-	return realpath($config->path);
+	$path_type = $this->isPublic() ? "public" : "private";
+	
+	return $config->path->$path_type;
     }
     
     /**

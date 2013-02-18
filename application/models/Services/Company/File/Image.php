@@ -35,6 +35,7 @@ class Image extends \Dataservice_Service_ServiceAbstract
 	$ResizedClone->setExtension($Image->getExtension());
 	$ResizedClone->setFileType($Image->getFileType());
 	$ResizedClone->setOriginalFileName($Image->getOriginalFileName()."-".$width."X".$height);
+	$ResizedClone->setIsPublic($Image->getIsPublic());
 	$ResizedClone->setHeight($height);
 	$ResizedClone->setWidth($width);
 	$ResizedClone->setFileSize(0);
@@ -103,12 +104,14 @@ class Image extends \Dataservice_Service_ServiceAbstract
      */
     private function _copyAndResizeFile($width, $height, \Entities\Company\File\Image\ResizedClone $ResizedClone, $crop = true)
     {	
-	copy($ResizedClone->getImage()->getFullPath(), $ResizedClone->getFullPath());
+	echo $ResizedClone->getImage()->getFullRealPath()."-".$ResizedClone->getFullRealPath();
+	exit;
+	copy($ResizedClone->getImage()->getFullRealPath(), $ResizedClone->getFullRealPath());
 	
 	$filter = new \Dataservice_Filter_ImageSize();
 	
 	$filter->setOutputPathBuilder(
-	    new \Dataservice_Filter_ImageSize_PathBuilder_Standard($ResizedClone->getDirectory())
+	    new \Dataservice_Filter_ImageSize_PathBuilder_Standard($ResizedClone->getDirectoryRealPath())
 	);
 	
 	
@@ -120,7 +123,7 @@ class Image extends \Dataservice_Service_ServiceAbstract
 	
 	if($crop == true)
 	    $filter->getConfig()->setStrategy(new \Dataservice_Filter_ImageSize_Strategy_Crop());
-		
-	return $filter->filter($ResizedClone->getFullPath());
+		exit;
+	return $filter->filter($ResizedClone->getFullRealPath());
     }
 }

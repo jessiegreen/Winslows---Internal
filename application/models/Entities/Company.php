@@ -258,7 +258,23 @@ class Company extends \Dataservice_Doctrine_Entity
      */
     public function getCatalogs()
     {
-      return $this->Catalogs;
+	return $this->Catalogs;
+    }
+    
+    /**
+     * @param type $index
+     * @return Company\Catalog\Category
+     */
+    public function getCatalogCategoryByIndex($index)
+    {
+	foreach($this->getCatalogs() as $Catalog)
+	{
+	    /* @var $Catalog Entities\Company\Catalog */
+	    if($Catalog->getCategoryByIndex($index))
+		return $Catalog->getCategoryByIndex($index);
+	}
+	
+	return null;
     }
     
     /**

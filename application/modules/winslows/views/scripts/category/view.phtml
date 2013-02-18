@@ -1,0 +1,36 @@
+<?php
+$displayed = array();
+echo "<h1 class='header1'>".$this->Category->getName()."</h2>";
+
+?>
+<div style="float:left">
+    <h3>Subcategories</h3>
+    <?php
+    foreach($this->Category->getChildren() as $Category)
+	echo "<br />".$Category->getName();
+    ?>
+</div>
+<div style="float: right">
+    <h3>Products</h3>
+    <?php
+    displayProducts($this->Category, $displayed);
+    ?>
+</div>
+<?php
+
+function displayProducts($Category, $displayed)
+{
+    foreach($Category->getProducts() as $Product)
+    {
+	if(!in_array($Product->getId(), $displayed))
+	    echo "<br />".$Product->getName();
+	
+	$displayed[] = $Product->getId();
+    }
+    
+    if($Category->getChildren())
+    {
+	foreach($Category->getChildren() as $Child)
+	    displayProducts($Child, $displayed);
+    }
+}

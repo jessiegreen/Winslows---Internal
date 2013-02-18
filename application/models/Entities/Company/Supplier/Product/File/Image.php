@@ -9,6 +9,8 @@ namespace Entities\Company\Supplier\Product\File;
  */
 class Image extends \Entities\Company\File\Image\ImageAbstract
 {
+    protected $is_public = 1;
+    
     /** 
      * @ManyToOne(targetEntity="\Entities\Company\Supplier\Product\ProductAbstract", inversedBy="Images")
      * @Crud\Relationship\Permissions()

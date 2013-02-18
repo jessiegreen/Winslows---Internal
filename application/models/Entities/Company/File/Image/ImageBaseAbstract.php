@@ -65,7 +65,7 @@ abstract class ImageBaseAbstract extends \Entities\Company\File\FileAbstract
     public function getHtmlImage()
     {
 	return \Dataservice\Html\Image::factory()
-		->setSource("/file/view/id/".$this->getId()."/nohist/1")
+		->setSource($this->getSourceUrl())
 		->setTitle($this->getDescription());
     }
     
