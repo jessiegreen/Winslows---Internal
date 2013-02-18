@@ -151,7 +151,7 @@ abstract class FileAbstract extends \Dataservice_Doctrine_Entity
      */
     public function getFullRealPath()
     {
-	return realpath($this->getDirectoryRealPath()."/".$this->getId().".".$this->getExtension());
+	return $this->getDirectoryRealPath()."/".$this->getId().".".$this->getExtension();
     }
     
     /**
@@ -229,7 +229,7 @@ abstract class FileAbstract extends \Dataservice_Doctrine_Entity
     public function getSourceUrl()
     {
 	return $this->isPublic() ? 
-		$this->getDirectory()."/".$this->getId().".".$this->getExtension() : 
+		$this->getSourceUrlPublicFromConfig()."/".$this->getId().".".$this->getExtension() : 
 		sprintf($this->getSourceUrlPrivateFromConfig(), $this->getId());
     }
     
@@ -238,6 +238,13 @@ abstract class FileAbstract extends \Dataservice_Doctrine_Entity
 	$config = $this->getConfig();
 	
 	return $config->src_url->private;
+    }
+    
+    public function getSourceUrlPublicFromConfig()
+    {
+	$config = $this->getConfig();
+	
+	return $config->src_url->public;
     }
     
     /**

@@ -37,6 +37,12 @@ abstract class ProductAbstract extends \Dataservice_Doctrine_Entity implements \
     
     /** 
      * @Column(type="string", length=255) 
+     * @var string $name_index
+     */
+    protected $name_index;
+    
+    /** 
+     * @Column(type="string", length=255) 
      * @var string $part_number
      */
     protected $part_number;
@@ -334,6 +340,22 @@ abstract class ProductAbstract extends \Dataservice_Doctrine_Entity implements \
     public function setName($name)
     {
         $this->name = $name;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getNameIndex()
+    {
+        return $this->name_index;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setNameIndex($name_index)
+    {
+        $this->name_index = $name_index;
     }
     
     /**

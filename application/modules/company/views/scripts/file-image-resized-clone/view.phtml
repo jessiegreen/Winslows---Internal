@@ -9,15 +9,15 @@ $ResizedClone = $this->ResizedClone;
 
 CRUD\Body::factory()->start();
 
-$Tabs = CRUD\Tabs::factory();
-
-$Tabs->addTab(
+CRUD\Tabs::factory()
+	->addTab(
 	    CRUD\Tabs\Tab::factory("Information")
-		->addEntityView(CRUD\EntityView::factory($ResizedClone))
+		->addEntityView($ResizedClone)
 		->addContent($ResizedClone->getHtmlImage()->setStyle("margin:25px;width:100px;")->getHtml())
 	)
 	->addRelationshipViewTab($ResizedClone, "Image")
 	->render();
+
 CRUD\Body::factory()->end();
 
 echo CRUD\Tabs::factory()->getJS();

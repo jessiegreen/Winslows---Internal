@@ -1,21 +1,46 @@
 <?php
 echo($this->flashMessages()); 
-echo "<div style='width:340px;text-align:center;color:#0046AD'>";
-echo "<h3>Product Categories</h3>";
-foreach ($this->Catalog->getTopCategories() as $Category)
-{
-    $Image = $Category->getImages()->first();
-    
-    $image = $Image ? 
-		$Image->getSize("150", "100")->getHtml() : 
-		"<div style='width:150px;height:100px;vertical-align:center;text-align:center'>no image</div>";
-    
-    echo "<div style='float:left;margin:8px;width:150px;'>";
-    echo "<a href='/category/".$Category->getIndex()."'>";
-    echo $image;
-	echo "<div style='height:30px;'>";
-	    echo $Category->getName()."</div></div>";
-}
+echo "<div style='width:340px;text-align:center;color:#0046AD;float:left'>";
+    echo "<h3>Product Categories</h3>";
+    foreach ($this->Catalog->getTopCategories() as $Category)
+    {
+	$Image = $Category->getImages()->first();
 
+	$image = $Image ? 
+		    $Image->getSize("150", "100")->getHtml() : 
+		    "<div style='width:150px;height:100px;vertical-align:center;text-align:center'>no image</div>";
+
+	echo "<div style='float:left;margin:8px;width:150px;'>";
+	    echo "<a href='/category/".$Category->getIndex()."'>";
+		echo $image;
+	    echo "<div style='height:30px;'>";
+		echo $Category->getName();
+	    echo "</div>";
+	    echo "</a>";
+	echo "</div>";
+    }
 echo "<div style='clear:both'></div>";
 echo "</div>";
+echo "<div style='width:540px;text-align:center;color:#0046AD;float:right'>";
+    echo "<h3>Products</h3>";
+    /* @var $Product \Entities\Company\Supplier\Product\ProductAbstract */
+    foreach ($this->Catalog->getProducts() as $Product)
+    {
+	$Image = $Product->getDefaultImageOrFirst();
+
+	$image = $Image ? 
+		    $Image->getSize("150", "100")->getHtml() : 
+		    "<div style='width:150px;height:100px;vertical-align:center;text-align:center'>no image</div>";
+
+	echo "<div style='float:left;margin:8px;width:150px;'>";
+	    echo "<a href='/product/".$Product->getNameIndex()."'>";
+		echo $image;
+	    echo "<div style='height:30px;'>";
+		echo $Product->getName();
+	    echo "</div>";
+	    echo "</a>";
+	echo "</div>";
+    }
+echo "<div style='clear:both'></div>";
+echo "</div>";
+echo "<div style='clear:both'></div>";

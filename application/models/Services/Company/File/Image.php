@@ -104,8 +104,6 @@ class Image extends \Dataservice_Service_ServiceAbstract
      */
     private function _copyAndResizeFile($width, $height, \Entities\Company\File\Image\ResizedClone $ResizedClone, $crop = true)
     {	
-	echo $ResizedClone->getImage()->getFullRealPath()."-".$ResizedClone->getFullRealPath();
-	exit;
 	copy($ResizedClone->getImage()->getFullRealPath(), $ResizedClone->getFullRealPath());
 	
 	$filter = new \Dataservice_Filter_ImageSize();
@@ -123,7 +121,7 @@ class Image extends \Dataservice_Service_ServiceAbstract
 	
 	if($crop == true)
 	    $filter->getConfig()->setStrategy(new \Dataservice_Filter_ImageSize_Strategy_Crop());
-		exit;
+	
 	return $filter->filter($ResizedClone->getFullRealPath());
     }
 }
