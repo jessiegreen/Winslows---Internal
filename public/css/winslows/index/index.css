@@ -89,8 +89,8 @@
 
 .slideshow-slide-container h3
 {
-    background-color: #515151;
-    color: #FFF;
+    /*background-color: #515151;*/
+    color: #0046AD;
     z-index: 900;
     padding: 0;
     margin: 0;
@@ -98,16 +98,30 @@
 
 #product-slider-image-titles
 {
-    background-color: #515151;
+    background-image: url("/img/winslows/index/index/slides/slide_label_bg_2.png");
+    /*background-color: #515151;*/
     z-index: 800;
     position: absolute;
     top: 63px;
     width: 124px;
-    font-size: 8pt;
+    font-size: 9pt;
     height: 25px;
     font-family: Kalinga;
     padding: 3px;
     padding-bottom: 0;
+    color: #FFF;
+    /*text-shadow: .5px .5px #fff;*/
+}
+
+#product-slider-image-titles .slide_label_short
+{
+    margin-top: 3px;
+    font-size: 14pt;
+}
+
+#product-slider-image-titles .slide_label_long
+{
+    font-size: 9pt;
 }
 
 .product-slider-left-arrow
@@ -129,6 +143,8 @@
 #slider-arrow-container
 {
     position: relative;
+    margin-top: 20px;
+    margin-bottom: 15px;
 }
 
 .slideshow-slide-image
@@ -206,12 +222,17 @@
 {
     height: 220px;
     background-image: url("/img/winslows/layout/barn_test.png");
+    background-position: center;
+    background-size: 300px;
     background-repeat: no-repeat;
     width: 350px;
     margin-left: 50px;
 }
 
-
+#testimonial-link-label
+{
+    margin-top: 15px;
+}
 
 #important-links-icons-container
 {

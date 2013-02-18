@@ -57,6 +57,24 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 			    )
 		    )
 	    );
+	
+	if($name_index == "winslows")
+	{
+	    $hostnameRoute	= new Zend_Controller_Router_Route_Hostname(
+						$host_name, 
+						array('module' => $module)
+					    );
+	    $router
+		->addRoute(
+			"winslows_category", 
+			$hostnameRoute->chain(
+				new Zend_Controller_Router_Route(
+					'category/:category_index',
+					array('controller' => 'category', 'action' => 'view')
+				)
+			)
+		);
+	}
     }
     
     protected function _initDefineConstants()

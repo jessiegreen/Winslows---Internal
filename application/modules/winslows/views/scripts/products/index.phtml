@@ -10,7 +10,7 @@ foreach ($this->Catalog->getTopCategories() as $Category)
 		"<div style='width:150px;height:100px;vertical-align:center;text-align:center'>no image</div>";
     
     echo "<div style='float:left;margin:8px;width:150px;'>";
-    echo "<a href='/category/view/index/'>";
+    echo "<a href='/category/".$Category->getIndex()."'>";
     echo $image;
 	echo "<div style='height:30px;'>";
 	    echo $Category->getName()."</div></div>";

@@ -1,10 +1,17 @@
 <div class="slideshow-slide-container">
-    <?php 
-    echo $this->Category->getImages()->first()->getSize("130", "90")->getHtmlImage()->setClass("slideshow-slide-image")->getHtml();
-    ?>
-    <div id="product-slider-image-titles">
-        <h3>
-            <?php echo $this->Category->getName();?>
-        </h3>
-    </div>
+    <a href="/category/<?php echo $this->Category->getIndex();?>">
+	<?php 
+	echo $this->Category->getImages()->first()->getSize("130", "90")->getHtmlImage()->setClass("slideshow-slide-image")->getHtml();
+	?>
+	<div id="product-slider-image-titles">
+	    <?php
+	    $class = strlen($this->Category->getName()) < 12 ? "slide_label_short" : "slide_label_long";
+	    ?>
+	    <h3 class="<?php echo $class;?>">
+		<?php 
+		echo $this->Category->getName();
+		?>
+	    </h3>
+	</div>
+    </a>
 </div>
