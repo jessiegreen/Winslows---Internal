@@ -9,21 +9,21 @@
 #gallery-main-container
 {
     margin: auto;
-    height: 435px;
+/*    height: 435px;*/
     width: 960px;
 }
 
 #gallery-header-container-left
 {
     width: 476px;
-    height: 40px;
+/*    height: 40px;*/
     float: left;
 }
 
 #gallery-header-container-right
 {
     width: 476px;
-    height: 40px;
+/*    height: 40px;*/
     float: right;
 }
 
@@ -34,7 +34,8 @@
     color:#0046AD; 
     font-size: 14pt;
     text-decoration: underline;
-    padding-left: 27px;
+    padding-left: 5px;
+    padding-top: 10px;
 }
 
 #gallery-header-content-right h1
@@ -46,13 +47,15 @@
     text-decoration: underline;
     float: right;
     padding-right: 30px;
+    padding-top: 10px;
 }
 
 #gallery-left-navigation
 {
-    width: 200px;
-    height: 388px;
+    width: 145px;
+/*    height: 388px;*/
     float: left;
+    padding-top: 10px;
 }
 
 #gallery-left-navigation a
@@ -66,6 +69,7 @@
 #gallery-left-navigation ul
 {
     width: 115px; 
+    padding-left: 5;
 }
 
 #gallery-left-navigation h3
@@ -75,6 +79,7 @@
     color:#0046AD; 
     font-size: 10pt;
 }
+
 #gallery-left-navigation li
 {
     width: 110px;
@@ -86,22 +91,67 @@
 
 #gallery-library-container
 {
-      width: 595px;
-      height: 388px;
+      width:800px;
+/*      height: 700px;*/
       float: right;
-      margin-right: 50px;
-      overflow: scroll;
+      margin-right: 10px;
+/*      border: solid #cc33ff 1px;*/
+}
+
+.div-img
+  {
+  margin:2px;
+/*  border:1px solid #0000ff;*/
+/*  height:auto;*/
+  width:auto;
+  float:left;
+  text-align:center;
+  }
+  
+.div-img-img
+  {
+  display:inline;
+  margin:3px;
+/*  border:1px solid #ffffff;*/
+  }
+  
+.div-img a:hover img
+  {
+/*  border:1px solid #0000ff;*/
+  opacity:0.4;
+  filter:alpha(opacity=40); /* For IE8 and earlier */
+  }
+  
+.div-desc
+  {
+  text-align:center;
+  font-weight:normal;
+  width:120px;
+  margin:2px;
+  }
+  
+.grid_element
+{
+  display: inline-block;
+  width: 240px;
+/*  height:200px;*/
+  zoom: 1;         /* for IE */
+  display*:inline; /* for IE */
+  padding: 3px;
 }
 
 #gallery-background-container
 {
     background-image:url('/img/winslows/layout/body_bg_grad.png');
     background-repeat: repeat-x;
-    height: 438px;
+    min-height: 700px;
     width: 960px;
     background-position:bottom;
+   
 }
-root { 
+
+root
+{ 
     display: block;
 }
 

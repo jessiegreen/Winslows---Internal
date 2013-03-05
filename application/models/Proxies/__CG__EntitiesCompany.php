@@ -78,6 +78,24 @@ class Company extends \Entities\Company implements \Doctrine\ORM\Proxy\Proxy
         return parent::getDealers();
     }
 
+    public function addCatalog(\Entities\Company\Catalog $Catalog)
+    {
+        $this->__load();
+        return parent::addCatalog($Catalog);
+    }
+
+    public function getCatalogs()
+    {
+        $this->__load();
+        return parent::getCatalogs();
+    }
+
+    public function getCatalogCategoryByIndex($index)
+    {
+        $this->__load();
+        return parent::getCatalogCategoryByIndex($index);
+    }
+
     public function getWebsites()
     {
         $this->__load();
@@ -172,6 +190,18 @@ class Company extends \Entities\Company implements \Doctrine\ORM\Proxy\Proxy
     {
         $this->__load();
         return parent::getTimeClock();
+    }
+
+    public function setContactLog(\Entities\Company\ContactLog $ContactLog)
+    {
+        $this->__load();
+        return parent::setContactLog($ContactLog);
+    }
+
+    public function getContactLog()
+    {
+        $this->__load();
+        return parent::getContactLog();
     }
 
     public function getId()
@@ -345,10 +375,22 @@ class Company extends \Entities\Company implements \Doctrine\ORM\Proxy\Proxy
         return parent::getEditForm();
     }
 
+    public function getEditFormClass()
+    {
+        $this->__load();
+        return parent::getEditFormClass();
+    }
+
+    public function getEditSubform()
+    {
+        $this->__load();
+        return parent::getEditSubform();
+    }
+
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'name', 'dba', 'name_index', 'description', 'created', 'updated', 'Locations', 'Suppliers', 'RtoProviders', 'Websites', 'Employees', 'Leads', 'Dealers', 'Inventory', 'TimeClock');
+        return array('__isInitialized__', 'id', 'name', 'dba', 'name_index', 'description', 'created', 'updated', 'Locations', 'Suppliers', 'RtoProviders', 'Websites', 'Employees', 'Leads', 'Dealers', 'Catalogs', 'Inventory', 'TimeClock', 'ContactLog');
     }
 
     public function __clone()

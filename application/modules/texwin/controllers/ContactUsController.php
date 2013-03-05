@@ -73,7 +73,6 @@ class Texwin_ContactUsController extends Dataservice_Controller_Action
 		$mail->setBodyHtml($form_display);
 		$mail->setFrom('donotreply@texwin.com', 'Texwin - Contact');
 //		$mail->addTo('winslowssales@gmail.com', 'Mike Winslow');
-		$mail->addTo('jessie.ims@gmail.com', 'Mike Winslow');
 		$mail->setSubject('ATTN: Texwin - New Web Contact');
 		$mail->send();
 
