@@ -83,7 +83,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	
 	define('BASE_URL', "");
 	
-	define('PUBLIC_PATH', realpath(APPLICATION_PATH."/../public"));
+	define('PUBLIC_PATH', realpath(APPLICATION_PATH."/../public_html"));
     }
 
     protected function _initDoctrine() 

@@ -1,0 +1,22 @@
+/* 
+    Document   : index
+    Created on : Jul 16, 2011, 6:55:10 PM
+    Author     : Jessie
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+.options_text{
+    float: left;
+    margin: 5px;
+    margin-left: 20px;
+    letter-spacing: 2px;
+    text-align: center;
+    font-size: 30px;
+    font-style: italic;
+    color: #FFF;
+}

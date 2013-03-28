@@ -1,0 +1,217 @@
+/* 
+    Document   : admin
+    Created on : Jan 29, 2011, 12:51:36 PM
+    Author     : Jessie
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+body{
+    height:100%;
+    background-color: silver;
+}
+
+html, body {
+	height:100%;/* needed to base 100% height on something known*/
+}
+
+a:hover{
+    color: lightblue;
+}
+
+.admin_main_container{
+    width:1000px;
+    background-color: #FFF;
+    border:solid 1px gray;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0px;
+}
+
+* html .admin_main_container {
+	height:100%
+}
+
+.admin_main_container:after {/* thank you Erik J - instead of using display table for ie8*/
+	clear:both;
+	display:block;
+	height:1%;
+	content:" ";
+}
+
+.admin_main_header{
+    width:100%;
+    color: #FFF;
+    background-color: silver;
+    margin-top: 0px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: solid 1px gray;
+}
+
+.admin_main_header2{
+    border-bottom: solid 1px gray;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.admin_main_header2_left_span{
+    background-color: #FFF;
+    color: blue;
+    margin-left: 25px;
+}
+.admin_main_header h4{
+    margin-top: 0px;
+    margin-bottom: 0px;
+    text-align: center;
+}
+
+.admin_left_panel{
+    width: 200px;
+    padding: 5px;
+    border-right: solid 1px gray;
+    border-bottom: solid 1px gray;
+}
+
+.admin_left_panel_header{
+    width: 100%;
+    background-color: silver;
+    border-bottom: solid 1px gray;
+    border-top: solid 1px gray;
+    color: blue;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 5px;
+}
+
+.admin_page_header{
+    width: 100%;
+    border-bottom: dotted 1px gray;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 700;
+    color: blue;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.admin_menu{
+    width: 100%;
+    background-color: silver;
+    color: #0052CC;
+    font-weight: 600;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    border-bottom: solid 1px gray;
+}
+
+.admin_content{
+    width: 100%;
+    padding: 25px;
+}
+
+.admin_table_scroll{
+    overflow: scroll;
+    height: 350px;
+    margin: 0px;
+    padding: 0px;
+    width:950px;
+    border: solid 1px gray;
+}
+
+.admin_table{
+    font-size: 10pt;
+    min-width:933px;
+    margin: 0px;
+}
+
+.admin_row_link:hover{
+    background-color: yellow;
+    cursor: pointer;
+}
+
+.admin_table th{
+    border: solid 1px gray;
+    background-color: silver;
+    color: #0052CC;
+    text-align: left;
+}
+
+.admin_table td{
+    border: solid 1px gray;
+}
+
+.admin_products_sub_table{
+    width:100%;
+    margin:0px;
+}
+
+.admin_products_categories_row{
+    
+}
+
+#link:hover{
+    color:green;
+    cursor:pointer;
+}
+
+.admin_products_subcategories_row{
+}
+
+.admin_products_subcategories_row:hover{
+    cursor:pointer;
+}
+
+.admin_products_item_options_row{
+    background-color: lightgray;
+}
+
+.admin_products_item_images_row{
+    background-color: #EEEEEE;
+}
+
+.admin_products_items_row{
+   
+}
+
+.admin_products_items_row:hover{
+   
+}
+
+.admin_products_buttons_row{
+     
+}
+
+.admin_manage_row:hover{
+    
+}
+
+.admin_manageoptions_header{
+    width:950px;
+    border:solid 1px gray;
+    margin-top: 15px;
+    text-align:center;
+    background-color: silver;
+}
+
+.admin_manageoptions_option{
+    margin:25px;
+    border:solid 1px gray;
+    float:left;
+    padding:15px;
+    background-color: silver;
+}
+
+.admin_manageoptions_option ul{
+    padding-left:10px;
+    list-style: circle;
+}
+
+.admin_small_button{
+    height: 22px;font-size: 11px;
+}
+

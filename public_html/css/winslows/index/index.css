@@ -1,0 +1,284 @@
+#virtual_tours_links
+{
+    top: 10px;
+    position: relative;
+    padding-left: 165px;
+    margin-left: 60px;
+    
+}
+
+/*#virtual_tours_image
+{
+    margin-top: 34px;
+    height: 230px;
+    width: 960px;
+    z-index: 1;
+}*/
+
+#body-information-container
+{
+    position: relative;
+    clear: both;
+    height: 228px;
+    background-image:url('/img/winslows/layout/body_bg_grad.png');
+    background-repeat: repeat-x;
+}
+
+#body-information-container #info-left
+{
+    margin-left: 85px; 
+    height: 221px;
+    width: 392px;
+    float: left;
+    background-image:url('/img/winslows/index/index/info_left.png');
+    background-repeat: no-repeat;
+    background-position: bottom;
+}
+
+#info-left-label
+{
+    margin-top: 8px;
+    margin-left: 60px;
+}
+
+#info-right-label
+{
+    margin-top: 8px;
+    margin-left: 6px;
+}
+
+#body-information-container #info-right
+{
+    margin-right: 85px;
+    height: 221px;
+    width: 296px;
+    float: right;
+    background-image:url('/img/winslows/index/index/info_right.png');
+    background-repeat: no-repeat;
+    background-position: bottom;
+}
+
+#winslows-header-slideshow
+{
+    height: 233px;
+    border-bottom: solid 2px #D90000;
+    margin-top: -2px;
+    width: 960px;
+    background-image: url("/img/winslows/index/index/slideshow_bg_grad.png");
+    position: relative;
+}
+
+#winslows-header-slideshow img 
+{
+    position: absolute;
+    left: 25px;
+    bottom: 0;
+    z-index: 100;
+}
+
+.slideshow-slide-container
+{
+    height: 91px;
+    width: 130px;
+    margin: 4px;
+    margin-left: 3px;
+    float: left;
+    position: relative;
+    text-align: center;
+}
+
+.slideshow-slide-container h3
+{
+    /*background-color: #515151;*/
+    color: #0046AD;
+    z-index: 900;
+    padding: 0;
+    margin: 0;
+}
+
+#product-slider-image-titles
+{
+    background-image: url("/img/winslows/index/index/slides/slide_label_bg_2.png");
+    /*background-color: #515151;*/
+    z-index: 800;
+    position: absolute;
+    top: 63px;
+    width: 124px;
+    font-size: 9pt;
+    height: 25px;
+    font-family: Kalinga;
+    padding: 3px;
+    padding-bottom: 0;
+    color: #FFF;
+    /*text-shadow: .5px .5px #fff;*/
+}
+
+#product-slider-image-titles .slide_label_short
+{
+    margin-top: 3px;
+    font-size: 14pt;
+}
+
+#product-slider-image-titles .slide_label_long
+{
+    font-size: 9pt;
+}
+
+.product-slider-left-arrow
+{
+    z-index: 900;
+    position: absolute;
+    left: -10px;
+    top: 20px;  
+}
+
+.product-slider-right-arrow
+{
+    z-index: 900;
+    position: absolute;
+    left: 927px;
+    top: 20px;  
+}
+
+#slider-arrow-container
+{
+    position: relative;
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+
+.slideshow-slide-image
+{
+    z-index: 100;
+}
+
+#product-slider-container
+{
+    height: 98px;
+    width: 960px;
+    border-top: solid 2px #dad8d8;
+    border-bottom: solid 2px #dad8d8;
+    overflow: hidden;
+    position: relative;
+}
+
+#product-slider
+{
+    position: absolute;
+    left: 0;
+    width: 10000px;
+    height: 98px;
+}
+
+#product-slider img
+{
+}
+
+#bullets-container
+{
+    position: absolute;
+    left: 850px;
+    top: 200px;
+    width: 150px;
+    height: 20px;
+    z-index: 900;
+}
+
+.banner-bullets
+{
+    cursor: pointer;
+}
+
+.bullet-unselected
+{
+    width: 19px;
+    height: 19px;
+    background-image: url("/img/winslows/index/index/banner/banner_button_on.png");
+    float: left;
+    margin-left: 2px;
+}
+
+.bullet-selected
+{
+    width: 19px;
+    height: 19px;
+    background-image: url("/img/winslows/index/index/banner/banner_button_off.png");
+    float: left;
+    margin-left: 2px;
+        
+}
+
+#important-links-container
+{
+    font-family: arial;
+    font-size: 20px;
+    position: relative;
+    clear: both;
+/*    height: 240px;*/
+    margin: 15px;
+}
+
+#important-links-container-left
+{
+    height: 220px;
+    background-image: url("/img/winslows/layout/barn_test.png");
+    background-position: center;
+    background-size: 300px;
+    background-repeat: no-repeat;
+    width: 350px;
+    margin-left: 50px;
+}
+
+#testimonial-link-label
+{
+    margin-top: 15px;
+}
+
+#important-links-icons-container
+{
+    position: absolute;
+    right:0px;
+    top:0px;
+    width: 500px;
+    padding: 10px;
+    margin: 0;
+    text-align: center;
+}
+
+#important-links-icons-container div
+{
+    width: 125px;
+    padding: 0;
+    margin: 0;
+    float: left;
+}
+
+#important-links-icons-container div:hover
+{
+    background-color: #FDFDFD;
+}
+
+#important-links-container img
+{
+    vertical-align: bottom;
+    margin-bottom: 8px;
+}
+
+#important-links-container h3
+{
+    color: #0046AD;
+    font-size: 12pt;
+    padding: 0;
+    margin: 0;
+    font-weight: 100;
+    margin-bottom: 8px;    
+}
+
+#important-links-container a
+{
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
+}
